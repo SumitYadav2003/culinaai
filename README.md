@@ -2,9 +2,9 @@
 
 ## Project title: *[Insert your project title here]*
 
-### Student name: *[Insert your name here]*
+### Student name: *Sumit Yadav*
 
-### Student email: *[Insert your university email address here]*
+### Student email: *sny2@student.le.ac.uk*
 
 ### Project description: 
 *[Add your project description here, these will typically be around 100-150 words long]*
