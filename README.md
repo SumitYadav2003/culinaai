@@ -30,7 +30,6 @@ Optional:
 - Add a weekly meal planning feature using saved or generated recipes.
 - Provide approximate nutritional information for generated recipes.
 - Generate a shopping list from the ingredients required for a selected recipe.
-- [Optional requirement *n*]
 
 
 ## Information about this repository
