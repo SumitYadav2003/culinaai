@@ -33,4 +33,4 @@ Optional:
 
 
 ## Information about this repository
-This repository will be used individually to develop and document the CulinaAI dissertation project. The main software artefacts will be organised into separate folders, with backend API code stored in /backend, frontend user interface code stored in /frontend, database schema or migration files stored in /database, testing files stored in /tests, and supporting documentation stored in /docs. Working features will be committed regularly to GitLab with clear commit messages so that project progress can be tracked throughout development.
+This repository will be used individually to develop and document the CulinaAI dissertation project. The main software artefacts will be organised into separate folders, with backend API code stored in '/backend', frontend user interface code stored in '/frontend', database schema or migration files stored in '/database', testing files stored in '/tests', and supporting documentation stored in '/docs'. Working features will be committed regularly to GitLab with clear commit messages so that project progress can be tracked throughout development.
