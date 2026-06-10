@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}CulinaAI | Home{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h1 class="display-5 fw-bold">CulinaAI</h1>
+
+        <p class="lead mt-3">
+            An AI-assisted recipe generation and meal personalisation system.
+        </p>
+
+        <p class="text-muted">
+            Generate personalised recipes based on ingredients, dietary preferences,
+            allergies, cuisine choices, meal type, cooking time and difficulty level.
+        </p>
+
+        <div class="mt-4">
+            <a href="#" class="btn btn-primary btn-lg me-2">Get Started</a>
+            <a href="#" class="btn btn-outline-secondary btn-lg">Login</a>
+        </div>
+    </div>
+</section>
+
+<section class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Personalised Recipes</h5>
+                    <p class="card-text">
+                        Create recipe ideas using your available ingredients and preferences.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Dietary Preferences</h5>
+                    <p class="card-text">
+                        Include dietary choices, allergies and restrictions when generating recipes.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Saved Recipes</h5>
+                    <p class="card-text">
+                        Save generated recipes and access favourites through your account.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

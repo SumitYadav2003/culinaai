@@ -1,0 +1,12 @@
+body {
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
