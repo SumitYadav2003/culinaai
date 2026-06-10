@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}CulinaAI | Sign Up{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-overlay"></div>
+
+    <div class="container auth-container">
+        <div class="row align-items-center justify-content-center g-5">
+            <div class="col-lg-6">
+                <div class="auth-copy">
+                    <span class="hero-badge">
+                        <i class="bi bi-person-plus"></i>
+                        Join CulinaAI
+                    </span>
+
+                    <h1>
+                        Start your personalised AI cooking journey.
+                    </h1>
+
+                    <p>
+                        Create your account to generate, save and favourite personalised recipes
+                        based on ingredients, dietary needs, cuisine choices and cooking preferences.
+                    </p>
+
+                    <div class="auth-benefits">
+                        <div>
+                            <i class="bi bi-magic"></i>
+                            AI-powered recipe generation
+                        </div>
+                        <div>
+                            <i class="bi bi-heart-fill"></i>
+                            Save favourite recipe ideas
+                        </div>
+                        <div>
+                            <i class="bi bi-shield-check"></i>
+                            Support for diet and allergy preferences
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="auth-card">
+                    <div class="auth-card-header">
+                        <div class="auth-icon">
+                            <i class="bi bi-stars"></i>
+                        </div>
+                        <h2>Create Account</h2>
+                        <p>Sign up to access your CulinaAI dashboard.</p>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} auth-alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="auth-label">Username</label>
+                            {{ form.username }}
+                            {% for error in form.username.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="auth-label">Email Address</label>
+                            {{ form.email }}
+                            {% for error in form.email.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="auth-label">Password</label>
+                            {{ form.password1 }}
+                            {% for error in form.password1.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="auth-label">Confirm Password</label>
+                            {{ form.password2 }}
+                            {% for error in form.password2.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit" class="btn auth-submit">
+                            <i class="bi bi-person-check"></i>
+                            Create My Account
+                        </button>
+                    </form>
+
+                    <div class="auth-switch">
+                        Already have an account?
+                        <a href="#">Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
