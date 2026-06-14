@@ -51,13 +51,7 @@
                         <p>Sign up to access your CulinaAI dashboard.</p>
                     </div>
 
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} auth-alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+                    
 
                     <form method="post" novalidate>
                         {% csrf_token %}

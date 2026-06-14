@@ -1,8 +1,8 @@
-from django.contrib.auth import login
 from django.contrib import messages
+from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render
 
-from .forms import SignUpForm
+from .forms import LoginForm, SignUpForm
 
 
 def signup_view(request):
@@ -20,3 +20,25 @@ def signup_view(request):
         form = SignUpForm()
 
     return render(request, "accounts/signup.html", {"form": form})
+
+
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("dashboard")
+
+        messages.error(request, "Invalid username or password.")
+    else:
+        form = LoginForm()
+
+    return render(request, "accounts/login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect("home")

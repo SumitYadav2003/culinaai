@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}CulinaAI | Login{% endblock %}
+
+{% block content %}
+<section class="auth-section login-auth-section">
+    <div class="auth-overlay"></div>
+
+    <div class="container auth-container">
+        <div class="row align-items-center justify-content-center g-5">
+            <div class="col-lg-6">
+                <div class="auth-copy">
+                    <span class="hero-badge">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Welcome Back
+                    </span>
+
+                    <h1>
+                        Continue your AI-powered cooking experience.
+                    </h1>
+
+                    <p>
+                        Login to access your dashboard, generate personalised recipes,
+                        manage saved meals and continue building your favourite recipe collection.
+                    </p>
+
+                    <div class="auth-benefits">
+                        <div>
+                            <i class="bi bi-speedometer2"></i>
+                            Access your personal dashboard
+                        </div>
+                        <div>
+                            <i class="bi bi-bookmark-heart"></i>
+                            View saved and favourite recipes
+                        </div>
+                        <div>
+                            <i class="bi bi-stars"></i>
+                            Continue generating AI meal ideas
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="auth-card">
+                    <div class="auth-card-header">
+                        <div class="auth-icon">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <h2>Login</h2>
+                        <p>Access your CulinaAI account.</p>
+                    </div>
+
+                   
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="auth-label">Username</label>
+                            {{ form.username }}
+                            {% for error in form.username.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="auth-label">Password</label>
+                            {{ form.password }}
+                            {% for error in form.password.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <div class="auth-error mb-3">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <button type="submit" class="btn auth-submit">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Login to Dashboard
+                        </button>
+                    </form>
+
+                    <div class="auth-switch">
+                        New to CulinaAI?
+                        <a href="{% url 'signup' %}">Create an account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

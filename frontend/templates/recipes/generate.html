@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Generate Recipe{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="recipe-generate-section">
+    <div class="recipe-generate-overlay"></div>
+
+    <div class="container recipe-generate-container">
+        <div class="row align-items-start g-5">
+
+            <!-- Left Intro Panel -->
+            <div class="col-lg-5">
+                <div class="generate-intro-card">
+                    <span class="hero-badge">
+                        <i class="bi bi-magic"></i>
+                        AI Recipe Generator
+                    </span>
+
+                    <h1>
+                        Turn your ingredients into a personalised recipe.
+                    </h1>
+
+                    <p>
+                        Enter your ingredients, choose food preferences and let CulinaAI prepare
+                        a structured recipe idea based on your cooking needs.
+                    </p>
+
+                    <div class="generate-benefits">
+                        <div>
+                            <i class="bi bi-basket2"></i>
+                            Use ingredients you already have
+                        </div>
+                        <div>
+                            <i class="bi bi-shield-check"></i>
+                            Include allergies and dietary restrictions
+                        </div>
+                        <div>
+                            <i class="bi bi-clock-history"></i>
+                            Control cooking time and difficulty
+                        </div>
+                        <div>
+                            <i class="bi bi-bookmark-heart"></i>
+                            Save generated recipes later
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Panel -->
+            <div class="col-lg-7">
+                <div class="recipe-form-card">
+                    <div class="recipe-form-header">
+                        <div class="generate-page-icon-wrap">
+    <img src="{% static 'images/generate-recipe-icon.png' %}" alt="Generate Recipe Icon" class="generate-page-icon">
+</div>
+
+                        <div>
+                            <span class="panel-label">Personalise Your Meal</span>
+                            <h2>Generate Recipe</h2>
+                            <p>
+                                Fill in your food preferences below. AI generation will be connected in the next stage.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <label class="recipe-label">{{ form.ingredients.label }}</label>
+                            {{ form.ingredients }}
+                            {% for error in form.ingredients.errors %}
+                                <div class="auth-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="recipe-label">Cuisine</label>
+                                {{ form.cuisine }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="recipe-label">Meal Type</label>
+                                {{ form.meal_type }}
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="recipe-label">Diet Preferences</label>
+                            <div class="recipe-checkbox-grid">
+                                {{ form.diet_preferences }}
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="recipe-label">{{ form.allergies.label }}</label>
+                            {{ form.allergies }}
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6">
+                                <label class="recipe-label">{{ form.cooking_time_minutes.label }} <span>minutes</span></label>
+                                {{ form.cooking_time_minutes }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="recipe-label">Difficulty</label>
+                                {{ form.difficulty }}
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="recipe-label">{{ form.additional_notes.label }}</label>
+                            {{ form.additional_notes }}
+                        </div>
+
+                        <button type="submit" class="btn recipe-generate-btn">
+                            <i class="bi bi-magic"></i>
+                            Preview Recipe Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if generation_preview %}
+            <div class="generation-preview-card">
+                <span class="section-label">
+                    <i class="bi bi-eye"></i>
+                    Request Preview
+                </span>
+
+                <h3>Your recipe request is ready for AI generation.</h3>
+
+                <p>
+                    This preview confirms the form is working. In the next stage, this request will be sent
+                    to the AI recipe generation service.
+                </p>
+
+                <div class="preview-grid">
+                    <div>
+                        <strong>Ingredients</strong>
+                        <span>{{ preview_data.ingredients }}</span>
+                    </div>
+
+                    <div>
+                        <strong>Cuisine</strong>
+                        <span>{{ preview_data.cuisine|default:"Any cuisine" }}</span>
+                    </div>
+
+                    <div>
+                        <strong>Meal Type</strong>
+                        <span>{{ preview_data.meal_type|default:"Any meal type" }}</span>
+                    </div>
+
+                    <div>
+                        <strong>Cooking Time</strong>
+                        <span>{{ preview_data.cooking_time_minutes }} minutes</span>
+                    </div>
+
+                    <div>
+                        <strong>Difficulty</strong>
+                        <span>{{ preview_data.difficulty|title }}</span>
+                    </div>
+
+                    <div>
+                        <strong>Allergies</strong>
+                        <span>{{ preview_data.allergies|default:"None provided" }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
