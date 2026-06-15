@@ -70,7 +70,7 @@
                         </div>
                     </div>
 
-                    <form method="post" novalidate>
+                    <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" novalidate>
                         {% csrf_token %}
 
                         <div class="mb-4">
@@ -106,16 +106,45 @@
                         </div>
 
                         <div class="row g-3 mt-1">
-                            <div class="col-md-6">
-                                <label class="recipe-label">{{ form.cooking_time_minutes.label }} <span>minutes</span></label>
-                                {{ form.cooking_time_minutes }}
-                            </div>
+    <div class="col-md-4">
+        <label class="recipe-label">{{ form.cooking_time_minutes.label }} <span>minutes</span></label>
+        {{ form.cooking_time_minutes }}
+    </div>
 
-                            <div class="col-md-6">
-                                <label class="recipe-label">Difficulty</label>
-                                {{ form.difficulty }}
-                            </div>
-                        </div>
+    <div class="col-md-4">
+        <label class="recipe-label">{{ form.servings.label }}</label>
+        {{ form.servings }}
+    </div>
+
+    <div class="col-md-4">
+        <label class="recipe-label">Difficulty</label>
+        {{ form.difficulty }}
+    </div>
+</div>
+
+<div class="row g-3 mt-1">
+    <div class="col-md-4">
+        <label class="recipe-label">{{ form.spice_level.label }}</label>
+        {{ form.spice_level }}
+    </div>
+
+    <div class="col-md-4">
+        <label class="recipe-label">{{ form.budget_level.label }}</label>
+        {{ form.budget_level }}
+    </div>
+
+    <div class="col-md-4">
+        <label class="recipe-label">{{ form.nutrition_goal.label }}</label>
+        {{ form.nutrition_goal }}
+    </div>
+</div>
+
+<div class="mt-4">
+    <label class="recipe-label">{{ form.cooking_equipment.label }}</label>
+    <div class="recipe-checkbox-grid">
+        {{ form.cooking_equipment }}
+    </div>
+</div>
 
                         <div class="mt-4">
                             <label class="recipe-label">{{ form.additional_notes.label }}</label>
@@ -132,50 +161,107 @@
         </div>
 
         {% if generation_preview %}
-            <div class="generation-preview-card">
+            <div id="recipe-preview" class="generation-preview-card">
                 <span class="section-label">
                     <i class="bi bi-eye"></i>
                     Request Preview
                 </span>
 
                 <h3>Your recipe request is ready for AI generation.</h3>
+                <div class="ai-summary-card">
+    <div class="ai-summary-icon">
+        <i class="bi bi-cpu"></i>
+    </div>
 
-                <p>
-                    This preview confirms the form is working. In the next stage, this request will be sent
-                    to the AI recipe generation service.
-                </p>
+    <div>
+        <h5>AI Personalisation Summary</h5>
+        <p>
+            CulinaAI will analyse your ingredients, cuisine, meal type, diet preferences,
+            allergies, cooking time, servings, spice level, budget, nutrition goal and
+            available equipment to create a personalised recipe recommendation.
+        </p>
+    </div>
+</div>
 
-                <div class="preview-grid">
-                    <div>
-                        <strong>Ingredients</strong>
-                        <span>{{ preview_data.ingredients }}</span>
-                    </div>
 
-                    <div>
-                        <strong>Cuisine</strong>
-                        <span>{{ preview_data.cuisine|default:"Any cuisine" }}</span>
-                    </div>
+<div class="preview-grid">
+    <div>
+        <strong>Ingredients</strong>
+        <span>{{ preview_data.ingredients }}</span>
+    </div>
 
-                    <div>
-                        <strong>Meal Type</strong>
-                        <span>{{ preview_data.meal_type|default:"Any meal type" }}</span>
-                    </div>
+    <div>
+        <strong>Cuisine</strong>
+        <span>{{ preview_data.cuisine|default:"Any cuisine" }}</span>
+    </div>
 
-                    <div>
-                        <strong>Cooking Time</strong>
-                        <span>{{ preview_data.cooking_time_minutes }} minutes</span>
-                    </div>
+    <div>
+        <strong>Meal Type</strong>
+        <span>{{ preview_data.meal_type|default:"Any meal type" }}</span>
+    </div>
 
-                    <div>
-                        <strong>Difficulty</strong>
-                        <span>{{ preview_data.difficulty|title }}</span>
-                    </div>
+    <div>
+        <strong>Diet Preferences</strong>
+        <span>
+            {% for diet in preview_data.diet_preferences %}
+                {{ diet }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                No specific diet preference
+            {% endfor %}
+        </span>
+    </div>
 
-                    <div>
-                        <strong>Allergies</strong>
-                        <span>{{ preview_data.allergies|default:"None provided" }}</span>
-                    </div>
-                </div>
+    <div>
+        <strong>Allergies</strong>
+        <span>{{ preview_data.allergies|default:"None provided" }}</span>
+    </div>
+
+    <div>
+        <strong>Cooking Time</strong>
+        <span>{{ preview_data.cooking_time_minutes }} minutes</span>
+    </div>
+
+    <div>
+        <strong>Servings</strong>
+        <span>{{ preview_data.servings }} servings</span>
+    </div>
+
+    <div>
+        <strong>Difficulty</strong>
+        <span>{{ preview_data.difficulty|title }}</span>
+    </div>
+
+    <div>
+        <strong>Spice Level</strong>
+        <span>{{ preview_data.spice_level }}</span>
+    </div>
+
+    <div>
+        <strong>Budget Level</strong>
+        <span>{{ preview_data.budget_level }}</span>
+    </div>
+
+    <div>
+        <strong>Nutrition Goal</strong>
+        <span>{{ preview_data.nutrition_goal }}</span>
+    </div>
+
+    <div>
+        <strong>Cooking Equipment</strong>
+        <span>
+            {% for equipment in preview_data.cooking_equipment %}
+                {{ equipment }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                No equipment selected
+            {% endfor %}
+        </span>
+    </div>
+
+    <div>
+        <strong>Additional Notes</strong>
+        <span>{{ preview_data.additional_notes }}</span>
+    </div>
+</div>
             </div>
         {% endif %}
     </div>
