@@ -28,6 +28,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-development-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
 ALLOWED_HOSTS = []
 
 
