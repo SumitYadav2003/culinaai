@@ -33,6 +33,89 @@
             </a>
         </div>
 
+
+<div class="saved-recipes-filter-card">
+    <form method="get" action="{% url 'saved_recipes' %}" class="saved-recipes-filter-form">
+        <div class="filter-field filter-search-field">
+            <label for="recipe-search">
+                <i class="bi bi-search"></i>
+                Search recipe
+            </label>
+
+            <input
+                type="text"
+                id="recipe-search"
+                name="q"
+                value="{{ search_query }}"
+                placeholder="Search by recipe title..."
+            >
+        </div>
+
+        <div class="filter-field">
+            <label for="recipe-cuisine">
+                <i class="bi bi-globe2"></i>
+                Cuisine
+            </label>
+
+            <select id="recipe-cuisine" name="cuisine">
+                <option value="">All cuisines</option>
+
+                {% for cuisine in cuisines %}
+                    <option value="{{ cuisine.id }}" {% if selected_cuisine == cuisine.id|stringformat:"s" %}selected{% endif %}>
+                        {{ cuisine.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="recipe-meal-type">
+                <i class="bi bi-egg-fried"></i>
+                Meal type
+            </label>
+
+            <select id="recipe-meal-type" name="meal_type">
+                <option value="">All meal types</option>
+
+                {% for meal_type in meal_types %}
+                    <option value="{{ meal_type.id }}" {% if selected_meal_type == meal_type.id|stringformat:"s" %}selected{% endif %}>
+                        {{ meal_type.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="recipe-difficulty">
+                <i class="bi bi-bar-chart"></i>
+                Difficulty
+            </label>
+
+            <select id="recipe-difficulty" name="difficulty">
+                <option value="">All difficulties</option>
+
+                {% for value, label in difficulty_choices %}
+                    <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn saved-filter-btn">
+                <i class="bi bi-funnel"></i>
+                Apply Filters
+            </button>
+
+            <a href="{% url 'saved_recipes' %}" class="btn saved-reset-btn">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Reset
+            </a>
+        </div>
+    </form>
+</div>
+
         {% if recipes %}
             <div class="row g-4 saved-recipes-grid">
                 {% for recipe in recipes %}
@@ -75,7 +158,7 @@
                             </div>
 
                             <div class="saved-recipe-footer">
-                                <a href="#" class="btn saved-recipe-view-btn">
+                                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn saved-recipe-view-btn">
                                     <i class="bi bi-eye"></i>
                                     View Recipe
                                 </a>

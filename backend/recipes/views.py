@@ -174,21 +174,43 @@ def save_generated_recipe_view(request):
 @login_required
 def saved_recipes_view(request):
     """
-    Displays all recipes saved by the logged-in user.
+    Displays saved recipes for the logged-in user with search and filter support.
     """
 
     recipes = Recipe.objects.filter(
         user=request.user,
         is_saved=True,
-    ).order_by("-created_at")
+    ).select_related("cuisine", "meal_type").order_by("-created_at")
 
-    return render(
-        request,
-        "recipes/saved_recipes.html",
-        {
-            "recipes": recipes,
-        },
-    )
+    search_query = request.GET.get("q", "").strip()
+    cuisine_id = request.GET.get("cuisine", "").strip()
+    meal_type_id = request.GET.get("meal_type", "").strip()
+    difficulty = request.GET.get("difficulty", "").strip()
+
+    if search_query:
+        recipes = recipes.filter(title__icontains=search_query)
+
+    if cuisine_id:
+        recipes = recipes.filter(cuisine_id=cuisine_id)
+
+    if meal_type_id:
+        recipes = recipes.filter(meal_type_id=meal_type_id)
+
+    if difficulty:
+        recipes = recipes.filter(difficulty=difficulty)
+
+    context = {
+        "recipes": recipes,
+        "cuisines": Cuisine.objects.all().order_by("name"),
+        "meal_types": MealType.objects.all().order_by("name"),
+        "difficulty_choices": Recipe.DIFFICULTY_CHOICES,
+        "search_query": search_query,
+        "selected_cuisine": cuisine_id,
+        "selected_meal_type": meal_type_id,
+        "selected_difficulty": difficulty,
+    }
+
+    return render(request, "recipes/saved_recipes.html", context)
 
 
 
