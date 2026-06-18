@@ -21,8 +21,8 @@
                     </h1>
 
                     <p>
-                        Manage your personalised AI recipes, saved meals, favourites and cooking preferences
-                        from one beautiful food-tech dashboard.
+                        Your personalised cooking space is ready. Generate AI recipes, save your favourite meals,
+                        revisit your recipe library, and manage your CulinaAI cooking journey from one dashboard.
                     </p>
 
                     <div class="dashboard-hero-actions">
@@ -31,9 +31,9 @@
                             Generate Recipe
                         </a>
 
-                        <a href="{% url 'home' %}" class="btn btn-hero-secondary">
-                            <i class="bi bi-house"></i>
-                            Back to Home
+                        <a href="{% url 'saved_recipes' %}" class="btn btn-hero-secondary">
+                            <i class="bi bi-bookmark-heart"></i>
+                            View Saved Recipes
                         </a>
                     </div>
                 </div>
@@ -63,8 +63,9 @@
                     <div class="stat-icon orange">
                         <i class="bi bi-journal-richtext"></i>
                     </div>
+
                     <div>
-                        <h3>0</h3>
+                        <h3>{{ saved_recipes_count|default:"0" }}</h3>
                         <p>Saved Recipes</p>
                     </div>
                 </div>
@@ -75,8 +76,9 @@
                     <div class="stat-icon gold">
                         <i class="bi bi-heart-fill"></i>
                     </div>
+
                     <div>
-                        <h3>0</h3>
+                        <h3>{{ favourite_recipes_count|default:"0" }}</h3>
                         <p>Favourites</p>
                     </div>
                 </div>
@@ -87,8 +89,9 @@
                     <div class="stat-icon green">
                         <i class="bi bi-stars"></i>
                     </div>
+
                     <div>
-                        <h3>0</h3>
+                        <h3>{{ ai_generations_count|default:"0" }}</h3>
                         <p>AI Generations</p>
                     </div>
                 </div>
@@ -99,8 +102,9 @@
                     <div class="stat-icon brown">
                         <i class="bi bi-chat-square-heart"></i>
                     </div>
+
                     <div>
-                        <h3>0</h3>
+                        <h3>{{ feedback_count|default:"0" }}</h3>
                         <p>Feedback Given</p>
                     </div>
                 </div>
@@ -118,6 +122,7 @@
                             <span class="panel-label">Quick Actions</span>
                             <h4>Start Cooking Smarter</h4>
                         </div>
+
                         <i class="bi bi-lightning-charge-fill panel-header-icon"></i>
                     </div>
 
@@ -126,10 +131,12 @@
                             <div class="quick-icon">
                                 <i class="bi bi-magic"></i>
                             </div>
+
                             <div>
                                 <h6>Generate New Recipe</h6>
-                                <p>Create a recipe from ingredients and preferences.</p>
+                                <p>Create a personalised AI recipe from your ingredients and preferences.</p>
                             </div>
+
                             <i class="bi bi-arrow-right-short quick-arrow"></i>
                         </a>
 
@@ -137,21 +144,25 @@
                             <div class="quick-icon">
                                 <i class="bi bi-bookmark-heart"></i>
                             </div>
+
                             <div>
                                 <h6>View Saved Recipes</h6>
-                                <p>Access your stored personalised meals.</p>
+                                <p>Access your stored AI-generated meals and full recipe details.</p>
                             </div>
+
                             <i class="bi bi-arrow-right-short quick-arrow"></i>
                         </a>
 
-                        <a href="#" class="quick-action-card">
+                        <a href="{% url 'favourite_recipes' %}" class="quick-action-card">
                             <div class="quick-icon">
                                 <i class="bi bi-heart-fill"></i>
                             </div>
+
                             <div>
                                 <h6>Open Favourites</h6>
-                                <p>Return to your favourite generated meals.</p>
+                                <p>Return to the recipes you liked most and want to cook again.</p>
                             </div>
+
                             <i class="bi bi-arrow-right-short quick-arrow"></i>
                         </a>
                     </div>
@@ -166,26 +177,52 @@
                             <span class="panel-label">Recent Activity</span>
                             <h4>Your Recent Recipe Ideas</h4>
                         </div>
+
                         <i class="bi bi-clock-history panel-header-icon"></i>
                     </div>
 
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <i class="bi bi-egg-fried"></i>
+                    {% if recent_recipes %}
+                        <div class="dashboard-recent-list">
+                            {% for recipe in recent_recipes %}
+                                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="quick-action-card">
+                                    <div class="quick-icon">
+                                        <i class="bi bi-egg-fried"></i>
+                                    </div>
+
+                                    <div>
+                                        <h6>{{ recipe.title }}</h6>
+                                        <p>
+                                            {{ recipe.cuisine.name|default:"Personalised recipe" }}
+                                            {% if recipe.meal_type %}
+                                                · {{ recipe.meal_type.name }}
+                                            {% endif %}
+                                            · Saved {{ recipe.created_at|date:"d M Y" }}
+                                        </p>
+                                    </div>
+
+                                    <i class="bi bi-arrow-right-short quick-arrow"></i>
+                                </a>
+                            {% endfor %}
                         </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="bi bi-egg-fried"></i>
+                            </div>
 
-                        <h5>No recipes generated yet</h5>
+                            <h5>No recent recipes yet</h5>
 
-                        <p>
-                            Your recent AI-generated recipes will appear here once the recipe generation
-                            feature is connected.
-                        </p>
+                            <p>
+                                Once you generate and save recipes, your latest cooking ideas will appear here
+                                for quick access.
+                            </p>
 
-                        <a href="{% url 'generate_recipe' %}" class="btn btn-showcase">
-                            <i class="bi bi-magic"></i>
-                            Generate First Recipe
-                        </a>
-                    </div>
+                            <a href="{% url 'generate_recipe' %}" class="btn btn-showcase">
+                                <i class="bi bi-magic"></i>
+                                Generate First Recipe
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -195,19 +232,30 @@
             <div>
                 <span class="section-label">
                     <i class="bi bi-robot"></i>
-                    Coming Next
+                    CulinaAI Progress
                 </span>
-                <h3>AI-powered recipe generation will connect here.</h3>
+
+                <h3>Your AI recipe workspace is taking shape.</h3>
+
                 <p>
-                    The next project stage will allow users to enter ingredients, choose dietary preferences,
-                    select cuisine and generate personalised recipe suggestions.
+                    Recipe generation, saving, saved recipe details and favourites are now part of the core flow.
+                    Next stages include search and filtering, ratings, feedback, email sharing, meal planning,
+                    shopping lists and smarter personalisation.
                 </p>
             </div>
 
             <div class="food-strip-icons">
-                <span><i class="bi bi-basket2"></i></span>
-                <span><i class="bi bi-stars"></i></span>
-                <span><i class="bi bi-cup-hot"></i></span>
+                <span title="Saved Recipes">
+                    <i class="bi bi-bookmark-heart"></i>
+                </span>
+
+                <span title="AI Generation">
+                    <i class="bi bi-stars"></i>
+                </span>
+
+                <span title="Favourite Recipes">
+                    <i class="bi bi-heart-fill"></i>
+                </span>
             </div>
         </div>
 

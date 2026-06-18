@@ -1,0 +1,145 @@
+{% extends "base.html" %} {% load static %} {% block title %}CulinaAI | {{
+recipe.title }}{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="recipe-detail-section">
+  <div class="container">
+    <div class="recipe-detail-hero">
+      <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
+        <i class="bi bi-arrow-left"></i>
+        Back to Saved Recipes
+      </a>
+
+      <div class="recipe-detail-header">
+    <div class="recipe-detail-title-area">
+        <span class="section-label">
+            <i class="bi bi-journal-richtext"></i>
+            Saved AI Recipe
+        </span>
+
+        <h1>{{ recipe.title }}</h1>
+
+        <p>
+            {% if recipe.description and recipe.description != "None provided" %}
+                {{ recipe.description }}
+            {% else %}
+                A personalised AI-generated recipe saved in your CulinaAI library.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="recipe-detail-control-panel">
+        <div class="recipe-detail-actions">
+            <div class="recipe-detail-badge">
+                <i class="bi bi-stars"></i>
+                CulinaAI Generated
+            </div>
+
+            <form method="post" action="{% url 'toggle_favourite_recipe' recipe.id %}" class="recipe-favourite-form">
+                {% csrf_token %}
+
+                {% if is_favourite %}
+                    <button type="submit" class="btn recipe-favourite-btn active">
+                        <i class="bi bi-heart-fill"></i>
+                        Remove Favourite
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn recipe-favourite-btn">
+                        <i class="bi bi-heart"></i>
+                        Add to Favourites
+                    </button>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="recipe-detail-meta">
+            <span>
+                <i class="bi bi-clock"></i>
+                {{ recipe.cooking_time_minutes }} minutes
+            </span>
+
+            <span>
+                <i class="bi bi-bar-chart"></i>
+                {{ recipe.difficulty|title }}
+            </span>
+
+            {% if recipe.cuisine %}
+                <span>
+                    <i class="bi bi-globe2"></i>
+                    {{ recipe.cuisine.name }}
+                </span>
+            {% endif %}
+
+            {% if recipe.meal_type %}
+                <span>
+                    <i class="bi bi-egg-fried"></i>
+                    {{ recipe.meal_type.name }}
+                </span>
+            {% endif %}
+
+            <span>
+                <i class="bi bi-calendar-check"></i>
+                Saved {{ recipe.created_at|date:"d M Y" }}
+            </span>
+        </div>
+    </div>
+</div>
+
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="recipe-detail-side-card">
+          <h3>
+            <i class="bi bi-basket2"></i>
+            Ingredients Used
+          </h3>
+
+          <p>{{ recipe.ingredients_text }}</p>
+        </div>
+
+        <div class="recipe-detail-side-card">
+          <h3>
+            <i class="bi bi-shield-check"></i>
+            Allergy Notes
+          </h3>
+
+          <p>{{ recipe.allergy_notes|default:"No allergy notes provided." }}</p>
+        </div>
+
+        <div class="recipe-detail-side-card">
+          <h3>
+            <i class="bi bi-tags"></i>
+            Diet Preferences
+          </h3>
+
+          <div class="recipe-detail-tags">
+            {% for diet in recipe.diet_preferences.all %}
+            <span>{{ diet.name }}</span>
+            {% empty %}
+            <span>No diet preference</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="recipe-detail-main-card">
+          <div class="recipe-detail-main-header">
+            <span class="section-label">
+              <i class="bi bi-robot"></i>
+              Full AI Recipe
+            </span>
+
+            <h2>Cooking instructions and chef guidance</h2>
+          </div>
+
+          <div class="recipe-detail-text">
+            {{ recipe.instructions_text|linebreaks }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .ai_service import generate_ai_recipe
 from .forms import RecipeGenerationForm
-from .models import Cuisine, DietPreference, MealType, Recipe
+from .models import Cuisine, DietPreference, FavouriteRecipe, MealType, Recipe
 
 
 def extract_recipe_title(recipe_text):
@@ -187,5 +187,107 @@ def saved_recipes_view(request):
         "recipes/saved_recipes.html",
         {
             "recipes": recipes,
+        },
+    )
+
+
+
+
+
+
+
+
+
+
+@login_required
+def saved_recipe_detail_view(request, recipe_id):
+    """
+    Displays one saved recipe in full detail for the logged-in user.
+    """
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    is_favourite = FavouriteRecipe.objects.filter(
+        user=request.user,
+        recipe=recipe,
+    ).exists()
+
+    return render(
+        request,
+        "recipes/saved_recipe_detail.html",
+        {
+            "recipe": recipe,
+            "is_favourite": is_favourite,
+        },
+    )
+
+
+
+
+
+
+
+
+@login_required
+def toggle_favourite_recipe_view(request, recipe_id):
+    """
+    Adds or removes a saved recipe from the user's favourites.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    favourite, created = FavouriteRecipe.objects.get_or_create(
+        user=request.user,
+        recipe=recipe,
+    )
+
+    if created:
+        messages.success(request, "Recipe added to favourites.")
+    else:
+        favourite.delete()
+        messages.info(request, "Recipe removed from favourites.")
+
+    return redirect("saved_recipe_detail", recipe_id=recipe.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def favourite_recipes_view(request):
+    """
+    Displays all favourite recipes for the logged-in user.
+    """
+
+    favourite_recipes = FavouriteRecipe.objects.filter(
+        user=request.user,
+    ).select_related("recipe").order_by("-created_at")
+
+    return render(
+        request,
+        "recipes/favourite_recipes.html",
+        {
+            "favourite_recipes": favourite_recipes,
         },
     )
