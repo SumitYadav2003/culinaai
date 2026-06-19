@@ -4,8 +4,16 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .ai_service import generate_ai_recipe
-from .forms import RecipeGenerationForm
-from .models import Cuisine, DietPreference, FavouriteRecipe, MealType, Recipe
+from .forms import RecipeFeedbackForm, RecipeGenerationForm
+from .models import (
+    Cuisine,
+    DietPreference,
+    FavouriteRecipe,
+    MealType,
+    Recipe,
+    RecipeFeedback,
+    RecipeRating,
+)
 
 
 def extract_recipe_title(recipe_text):
@@ -219,8 +227,6 @@ def saved_recipes_view(request):
 
 
 
-
-
 @login_required
 def saved_recipe_detail_view(request, recipe_id):
     """
@@ -239,12 +245,31 @@ def saved_recipe_detail_view(request, recipe_id):
         recipe=recipe,
     ).exists()
 
+    user_rating = RecipeRating.objects.filter(
+        user=request.user,
+        recipe=recipe,
+    ).first()
+
+    user_feedback_items = RecipeFeedback.objects.filter(
+        user=request.user,
+        recipe=recipe,
+    ).order_by("-id")[:5]
+
+    feedback_form = RecipeFeedbackForm(
+        initial={
+            "rating": str(user_rating.rating) if user_rating else "5",
+        }
+    )
+
     return render(
         request,
         "recipes/saved_recipe_detail.html",
         {
             "recipe": recipe,
             "is_favourite": is_favourite,
+            "feedback_form": feedback_form,
+            "user_rating": user_rating,
+            "user_feedback_items": user_feedback_items,
         },
     )
 
@@ -313,3 +338,61 @@ def favourite_recipes_view(request):
             "favourite_recipes": favourite_recipes,
         },
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def submit_recipe_feedback_view(request, recipe_id):
+    """
+    Saves or updates a user's rating and optional feedback comment for a saved recipe.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    form = RecipeFeedbackForm(request.POST)
+
+    if form.is_valid():
+        rating_value = int(form.cleaned_data["rating"])
+        comment = form.cleaned_data.get("comment", "").strip()
+
+        RecipeRating.objects.update_or_create(
+            user=request.user,
+            recipe=recipe,
+            defaults={
+                "rating": rating_value,
+            },
+        )
+
+        if comment:
+            RecipeFeedback.objects.create(
+                user=request.user,
+                recipe=recipe,
+                comment=comment,
+            )
+
+        messages.success(request, "Thank you. Your rating and feedback have been saved.")
+    else:
+        messages.error(request, "Please check your rating and feedback before submitting.")
+
+    return redirect("saved_recipe_detail", recipe_id=recipe.id)

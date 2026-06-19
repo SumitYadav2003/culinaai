@@ -1540,3 +1540,301 @@ textarea.recipe-input {
         width: 100%;
     }
 }
+
+
+
+
+
+
+/* Recipe Feedback Section */
+
+.recipe-feedback-card {
+    margin-top: 34px;
+    padding: 34px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 34px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 66px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(18px);
+}
+
+.recipe-feedback-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 26px;
+}
+
+.recipe-feedback-header h2 {
+    margin: 12px 0 10px;
+    color: var(--culina-dark);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    font-weight: 950;
+    letter-spacing: -0.04em;
+}
+
+.recipe-feedback-header p {
+    max-width: 720px;
+    margin: 0;
+    color: var(--culina-muted);
+    line-height: 1.75;
+}
+
+.current-rating-badge {
+    min-height: 46px;
+    padding: 11px 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #92400e;
+    font-weight: 950;
+    white-space: nowrap;
+    background: rgba(245, 158, 11, 0.14);
+}
+
+.current-rating-badge i {
+    color: #f59e0b;
+}
+
+.recipe-feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feedback-form-grid {
+    display: grid;
+    grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.feedback-rating-field,
+.feedback-comment-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.feedback-rating-field label,
+.feedback-comment-field label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--culina-dark);
+    font-size: 0.86rem;
+    font-weight: 950;
+}
+
+.feedback-rating-field select,
+.feedback-comment-field textarea {
+    width: 100%;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 20px;
+    color: var(--culina-dark);
+    font-weight: 750;
+    background: rgba(255, 255, 255, 0.95);
+    outline: none;
+    transition: var(--transition);
+}
+
+.feedback-rating-field select {
+    min-height: 54px;
+    padding: 12px 14px;
+}
+
+.feedback-comment-field textarea {
+    min-height: 130px;
+    padding: 14px 16px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.feedback-rating-field select:focus,
+.feedback-comment-field textarea:focus {
+    border-color: rgba(22, 163, 74, 0.45);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
+}
+
+.recipe-feedback-submit-btn {
+    align-self: flex-end;
+    min-height: 50px;
+    padding: 12px 19px;
+    border: 0;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--culina-white);
+    font-weight: 950;
+    background: linear-gradient(135deg, var(--culina-green), #0f8f43);
+    box-shadow: 0 17px 40px rgba(22, 163, 74, 0.24);
+    transition: var(--transition);
+}
+
+.recipe-feedback-submit-btn:hover {
+    color: var(--culina-white);
+    transform: translateY(-3px);
+    box-shadow: 0 23px 54px rgba(22, 163, 74, 0.34);
+}
+
+@media (max-width: 767px) {
+    .recipe-feedback-header {
+        flex-direction: column;
+    }
+
+    .feedback-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recipe-feedback-submit-btn {
+        width: 100%;
+        align-self: stretch;
+    }
+}
+
+@media (max-width: 575px) {
+    .recipe-feedback-card {
+        padding: 24px;
+        border-radius: 28px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Feedback History */
+
+.feedback-history {
+    margin-top: 30px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.feedback-history-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 22px;
+    margin-bottom: 20px;
+}
+
+.feedback-history-header h3 {
+    margin: 0 0 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--culina-dark);
+    font-size: 1.35rem;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+}
+
+.feedback-history-header h3 i {
+    color: var(--culina-green);
+}
+
+.feedback-history-header p {
+    margin: 0;
+    color: var(--culina-muted);
+    line-height: 1.65;
+}
+
+.feedback-history-count {
+    min-height: 38px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #166534;
+    font-size: 0.8rem;
+    font-weight: 950;
+    white-space: nowrap;
+    background: rgba(22, 163, 74, 0.1);
+}
+
+.feedback-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feedback-history-item {
+    padding: 18px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 24px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 242, 0.92));
+    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.06);
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    transition: var(--transition);
+}
+
+.feedback-history-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 54px rgba(15, 23, 42, 0.1);
+}
+
+.feedback-history-icon {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    color: var(--culina-white);
+    background: linear-gradient(135deg, var(--culina-green), #0f8f43);
+    box-shadow: 0 14px 30px rgba(22, 163, 74, 0.22);
+}
+
+.feedback-history-content {
+    flex: 1;
+}
+
+.feedback-history-content span {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: var(--culina-orange);
+    font-size: 0.78rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.feedback-history-content p {
+    margin: 0;
+    color: var(--culina-dark);
+    font-size: 0.98rem;
+    line-height: 1.75;
+    font-weight: 650;
+}
+
+@media (max-width: 575px) {
+    .feedback-history-header {
+        flex-direction: column;
+    }
+
+    .feedback-history-item {
+        padding: 16px;
+    }
+
+    .feedback-history-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+}

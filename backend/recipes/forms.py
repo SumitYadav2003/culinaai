@@ -180,3 +180,42 @@ class RecipeGenerationForm(forms.Form):
             }
         ),
     )
+
+
+
+
+
+
+
+
+
+
+#Feedback form
+class RecipeFeedbackForm(forms.Form):
+    rating = forms.ChoiceField(
+        label="Recipe rating",
+        choices=[
+            ("5", "5 - Excellent"),
+            ("4", "4 - Good"),
+            ("3", "3 - Okay"),
+            ("2", "2 - Needs improvement"),
+            ("1", "1 - Poor"),
+        ],
+        widget=forms.Select(
+            attrs={
+                "class": "recipe-input",
+            }
+        ),
+    )
+
+    comment = forms.CharField(
+        label="Feedback comment",
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "recipe-input",
+                "rows": 4,
+                "placeholder": "What did you like or what could be improved?",
+            }
+        ),
+    )
