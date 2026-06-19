@@ -2,9 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.core.mail import send_mail
 
 from .ai_service import generate_ai_recipe
-from .forms import RecipeFeedbackForm, RecipeGenerationForm
+from .forms import RecipeEmailForm, RecipeFeedbackForm, RecipeGenerationForm
 from .models import (
     Cuisine,
     DietPreference,
@@ -261,6 +262,8 @@ def saved_recipe_detail_view(request, recipe_id):
         }
     )
 
+    email_form = RecipeEmailForm()
+
     return render(
         request,
         "recipes/saved_recipe_detail.html",
@@ -268,11 +271,11 @@ def saved_recipe_detail_view(request, recipe_id):
             "recipe": recipe,
             "is_favourite": is_favourite,
             "feedback_form": feedback_form,
+            "email_form": email_form,
             "user_rating": user_rating,
             "user_feedback_items": user_feedback_items,
         },
     )
-
 
 
 
@@ -394,5 +397,73 @@ def submit_recipe_feedback_view(request, recipe_id):
         messages.success(request, "Thank you. Your rating and feedback have been saved.")
     else:
         messages.error(request, "Please check your rating and feedback before submitting.")
+
+    return redirect("saved_recipe_detail", recipe_id=recipe.id)
+
+
+
+
+
+
+
+
+
+@login_required
+def send_recipe_email_view(request, recipe_id):
+    """
+    Sends a saved recipe to a user-provided email address.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    form = RecipeEmailForm(request.POST)
+
+    if form.is_valid():
+        recipient_email = form.cleaned_data["recipient_email"]
+        optional_message = form.cleaned_data.get("message", "").strip()
+
+        subject = f"CulinaAI Recipe: {recipe.title}"
+
+        email_body = f"""
+Hello,
+
+{request.user.username} has shared a CulinaAI recipe with you.
+
+{optional_message}
+
+Recipe: {recipe.title}
+
+Ingredients:
+{recipe.ingredients_text}
+
+Allergy and safety notes:
+{recipe.allergy_notes or "No allergy notes provided. Please check ingredients manually before cooking."}
+
+Recipe instructions:
+{recipe.instructions_text}
+
+Enjoy cooking,
+CulinaAI
+"""
+
+        send_mail(
+            subject=subject,
+            message=email_body,
+            from_email=None,
+            recipient_list=[recipient_email],
+            fail_silently=False,
+        )
+
+        messages.success(request, f"Recipe sent successfully to {recipient_email}.")
+    else:
+        messages.error(request, "Please enter a valid email address before sending.")
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)

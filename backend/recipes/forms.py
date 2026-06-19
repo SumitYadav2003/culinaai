@@ -219,3 +219,35 @@ class RecipeFeedbackForm(forms.Form):
             }
         ),
     )
+
+
+
+
+
+
+
+
+
+# Email Form
+class RecipeEmailForm(forms.Form):
+    recipient_email = forms.EmailField(
+        label="Recipient email address",
+        widget=forms.EmailInput(
+            attrs={
+                "class": "recipe-input",
+                "placeholder": "Enter email address...",
+            }
+        ),
+    )
+
+    message = forms.CharField(
+        label="Optional message",
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "recipe-input",
+                "rows": 3,
+                "placeholder": "Add a short note before sending this recipe...",
+            }
+        ),
+    )

@@ -4,7 +4,12 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+<!--
+    Cache-busting query string:
+    This forces the browser to load the latest recipes.css after major UI changes.
+    It is useful during development when Chrome keeps showing old CSS.
+-->
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-detail-email-premium-1">
 {% endblock %}
 
 {% block content %}
@@ -12,12 +17,26 @@
 <section class="recipe-detail-section">
     <div class="container">
 
+        <!--
+            Saved Recipe Detail Hero
+            Purpose:
+            - Shows the saved recipe title, description, favourite action,
+              recipe metadata, ingredients, allergy notes, diet tags and
+              full AI-generated cooking instructions.
+        -->
         <div class="recipe-detail-hero">
+
+            <!-- Back navigation to the saved recipe library. -->
             <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
                 <i class="bi bi-arrow-left"></i>
                 Back to Saved Recipes
             </a>
 
+            <!--
+                Recipe Header
+                Left side: recipe title and description.
+                Right side: AI badge, favourite button and recipe metadata.
+            -->
             <div class="recipe-detail-header">
                 <div class="recipe-detail-title-area">
                     <span class="section-label">
@@ -36,6 +55,11 @@
                     </p>
                 </div>
 
+                <!--
+                    Recipe Control Panel
+                    This panel contains actions and metadata. The favourite form uses POST
+                    because it creates or deletes a FavouriteRecipe record in the database.
+                -->
                 <div class="recipe-detail-control-panel">
                     <div class="recipe-detail-actions">
                         <div class="recipe-detail-badge">
@@ -60,6 +84,7 @@
                         </form>
                     </div>
 
+                    <!-- Recipe metadata badges. -->
                     <div class="recipe-detail-meta">
                         <span>
                             <i class="bi bi-clock"></i>
@@ -93,9 +118,15 @@
                 </div>
             </div>
 
-            <div class="row g-4">
+            <!--
+                Main Recipe Content Grid
+                Left column: supporting recipe data.
+                Right column: full AI-generated recipe instructions.
+            -->
+            <div class="row g-4 recipe-detail-content-row">
                 <div class="col-lg-4">
 
+                    <!-- Ingredients used to generate and save the recipe. -->
                     <div class="recipe-detail-side-card">
                         <h3>
                             <i class="bi bi-basket2"></i>
@@ -105,6 +136,11 @@
                         <p>{{ recipe.ingredients_text|linebreaksbr }}</p>
                     </div>
 
+                    <!--
+                        Allergy and safety notes:
+                        - Warning box if the recipe contains allergy notes.
+                        - Safe reminder box if no notes were provided.
+                    -->
                     <div class="recipe-detail-side-card">
                         <h3>
                             <i class="bi bi-shield-exclamation"></i>
@@ -132,6 +168,7 @@
                         {% endif %}
                     </div>
 
+                    <!-- Diet preference tags linked to the recipe. -->
                     <div class="recipe-detail-side-card">
                         <h3>
                             <i class="bi bi-tags"></i>
@@ -152,10 +189,11 @@
                             {% endfor %}
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-lg-8">
+
+                    <!-- Full AI-generated recipe text. -->
                     <div class="recipe-detail-main-card">
                         <div class="recipe-detail-main-header">
                             <span class="section-label">
@@ -174,6 +212,12 @@
             </div>
         </div>
 
+        <!--
+            Feedback Section
+            Purpose:
+            - Allows the user to submit a rating and optional written feedback.
+            - Shows the user's latest feedback history for this recipe.
+        -->
         <div class="recipe-feedback-card">
             <div class="recipe-feedback-header">
                 <div>
@@ -264,6 +308,109 @@
                 </div>
             {% endif %}
         </div>
+
+        <!--
+            Premium Email Recipe Section
+            Purpose:
+            - Sends the saved recipe to a real email address.
+            - Uses Django's email view and SMTP credentials stored securely in .env.
+            - Designed with a unique ID so this section is not affected by old email CSS.
+        -->
+        <section id="culina-email-share" class="culina-email-share" aria-labelledby="culina-email-title">
+            <div class="culina-email-copy">
+                <span class="section-label">
+                    <i class="bi bi-envelope-paper-heart"></i>
+                    Email Recipe
+                </span>
+
+                <h2 id="culina-email-title">Send this recipe beautifully.</h2>
+
+                <p class="culina-email-lead">
+                    Share this saved CulinaAI recipe with yourself, a friend, family member,
+                    or supervisor. The email includes ingredients, allergy notes and the full
+                    AI-generated cooking guidance.
+                </p>
+
+                <div class="culina-email-highlights">
+                    <article class="culina-email-highlight">
+                        <span>
+                            <i class="bi bi-send-check"></i>
+                        </span>
+
+                        <div>
+                            <h3>Real delivery</h3>
+                            <p>Sent through your configured Gmail SMTP account.</p>
+                        </div>
+                    </article>
+
+                    <article class="culina-email-highlight">
+                        <span>
+                            <i class="bi bi-journal-richtext"></i>
+                        </span>
+
+                        <div>
+                            <h3>Complete recipe</h3>
+                            <p>Ingredients, safety notes and cooking instructions are included.</p>
+                        </div>
+                    </article>
+
+                    <article class="culina-email-highlight">
+                        <span>
+                            <i class="bi bi-shield-lock"></i>
+                        </span>
+
+                        <div>
+                            <h3>Secure setup</h3>
+                            <p>Email credentials stay private inside your local environment file.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <div class="culina-email-panel">
+                <div class="culina-email-panel-header">
+                    <div class="culina-email-panel-icon">
+                        <i class="bi bi-envelope-open-heart"></i>
+                    </div>
+
+                    <div>
+                        <h3>Email this recipe</h3>
+                        <p>Enter a recipient email and add an optional message.</p>
+                    </div>
+                </div>
+
+                <form method="post" action="{% url 'send_recipe_email' recipe.id %}" class="culina-email-form">
+                    {% csrf_token %}
+
+                    <div class="culina-email-field">
+                        <label for="{{ email_form.recipient_email.id_for_label }}">
+                            <i class="bi bi-envelope"></i>
+                            Recipient email
+                        </label>
+
+                        {{ email_form.recipient_email }}
+
+                        <small>Use your own email or any valid recipient email address.</small>
+                    </div>
+
+                    <div class="culina-email-field">
+                        <label for="{{ email_form.message.id_for_label }}">
+                            <i class="bi bi-chat-left-heart"></i>
+                            Optional message
+                        </label>
+
+                        {{ email_form.message }}
+
+                        <small>Add a short personal note before sending the recipe.</small>
+                    </div>
+
+                    <button type="submit" class="btn culina-email-submit">
+                        <i class="bi bi-send-fill"></i>
+                        Send Recipe Email
+                    </button>
+                </form>
+            </div>
+        </section>
 
     </div>
 </section>

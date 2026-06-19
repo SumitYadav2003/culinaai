@@ -2060,3 +2060,301 @@ textarea.recipe-input {
         justify-content: center;
     }
 }
+
+
+
+/* =========================================================
+   CULINAAI PREMIUM EMAIL SHARE SECTION
+   Purpose:
+   - Final, clean styling for the recipe email sharing section.
+   - Uses the unique #culina-email-share ID so old email styles cannot override it.
+   - Keep all future email-share styling inside this block.
+   ========================================================= */
+
+#culina-email-share.culina-email-share {
+    margin-top: 38px;
+    padding: 38px;
+    border-radius: 38px;
+    border: 1px solid rgba(31, 26, 23, 0.08);
+    background:
+        radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.16), transparent 34%),
+        radial-gradient(circle at 100% 100%, rgba(22, 163, 74, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 249, 240, 0.96));
+    box-shadow: 0 30px 90px rgba(31, 26, 23, 0.12);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 470px);
+    gap: 34px;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+/* Left content column */
+
+#culina-email-share .culina-email-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#culina-email-share .culina-email-copy h2 {
+    margin: 18px 0 14px;
+    color: var(--culina-dark);
+    font-size: clamp(2.25rem, 4vw, 3.7rem);
+    font-weight: 950;
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+}
+
+#culina-email-share .culina-email-lead {
+    max-width: 760px;
+    margin: 0 0 26px;
+    color: var(--culina-muted);
+    font-size: 1.05rem;
+    line-height: 1.82;
+    font-weight: 650;
+}
+
+#culina-email-share .culina-email-highlights {
+    display: grid;
+    gap: 14px;
+}
+
+#culina-email-share .culina-email-highlight {
+    padding: 16px;
+    border: 1px solid rgba(31, 26, 23, 0.07);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.74);
+    box-shadow: 0 16px 42px rgba(31, 26, 23, 0.055);
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 14px;
+    align-items: start;
+    transition: var(--transition);
+}
+
+#culina-email-share .culina-email-highlight:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 58px rgba(31, 26, 23, 0.10);
+}
+
+#culina-email-share .culina-email-highlight > span {
+    width: 50px;
+    height: 50px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    color: var(--culina-white);
+    font-size: 1.15rem;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    box-shadow: 0 14px 32px rgba(249, 115, 22, 0.28);
+}
+
+#culina-email-share .culina-email-highlight h3 {
+    margin: 1px 0 5px;
+    color: var(--culina-dark);
+    font-size: 1rem;
+    font-weight: 950;
+    letter-spacing: -0.02em;
+}
+
+#culina-email-share .culina-email-highlight p {
+    margin: 0;
+    color: var(--culina-muted);
+    font-size: 0.94rem;
+    line-height: 1.6;
+    font-weight: 650;
+}
+
+/* Right form panel */
+
+#culina-email-share .culina-email-panel {
+    min-width: 0;
+    padding: 30px;
+    border-radius: 32px;
+    border: 1px solid rgba(31, 26, 23, 0.08);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.96));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.82),
+        0 24px 70px rgba(31, 26, 23, 0.10);
+}
+
+#culina-email-share .culina-email-panel-header {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+#culina-email-share .culina-email-panel-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 21px;
+    display: grid;
+    place-items: center;
+    color: var(--culina-white);
+    font-size: 1.38rem;
+    background: linear-gradient(135deg, var(--culina-green), #0f8f43);
+    box-shadow: 0 16px 36px rgba(22, 163, 74, 0.28);
+}
+
+#culina-email-share .culina-email-panel-header h3 {
+    margin: 0 0 5px;
+    color: var(--culina-dark);
+    font-size: 1.42rem;
+    font-weight: 950;
+    letter-spacing: -0.035em;
+}
+
+#culina-email-share .culina-email-panel-header p {
+    margin: 0;
+    color: var(--culina-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    font-weight: 650;
+}
+
+#culina-email-share .culina-email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+#culina-email-share .culina-email-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#culina-email-share .culina-email-field label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--culina-dark);
+    font-size: 0.9rem;
+    font-weight: 950;
+}
+
+#culina-email-share .culina-email-field label i {
+    color: var(--culina-orange-dark);
+}
+
+#culina-email-share .culina-email-field input,
+#culina-email-share .culina-email-field textarea {
+    width: 100%;
+    border: 1px solid rgba(31, 26, 23, 0.11);
+    border-radius: 20px;
+    color: var(--culina-dark);
+    font-size: 1rem;
+    font-weight: 750;
+    background: rgba(255, 255, 255, 0.96);
+    outline: none;
+    box-shadow: 0 10px 24px rgba(31, 26, 23, 0.04);
+    transition: var(--transition);
+}
+
+#culina-email-share .culina-email-field input {
+    min-height: 56px;
+    padding: 13px 16px;
+}
+
+#culina-email-share .culina-email-field textarea {
+    min-height: 132px;
+    padding: 15px 16px;
+    resize: vertical;
+    line-height: 1.65;
+}
+
+#culina-email-share .culina-email-field input::placeholder,
+#culina-email-share .culina-email-field textarea::placeholder {
+    color: rgba(91, 80, 72, 0.72);
+}
+
+#culina-email-share .culina-email-field input:focus,
+#culina-email-share .culina-email-field textarea:focus {
+    border-color: rgba(22, 163, 74, 0.52);
+    background: var(--culina-white);
+    box-shadow:
+        0 0 0 4px rgba(22, 163, 74, 0.11),
+        0 16px 34px rgba(31, 26, 23, 0.06);
+}
+
+#culina-email-share .culina-email-field small {
+    color: var(--culina-muted);
+    font-size: 0.84rem;
+    line-height: 1.5;
+    font-weight: 650;
+}
+
+#culina-email-share .culina-email-submit {
+    width: 100%;
+    min-height: 58px;
+    margin-top: 4px;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--culina-white);
+    font-size: 1rem;
+    font-weight: 950;
+    background: linear-gradient(135deg, var(--culina-orange), #ea580c);
+    box-shadow: 0 18px 46px rgba(249, 115, 22, 0.30);
+    transition: var(--transition);
+}
+
+#culina-email-share .culina-email-submit:hover {
+    color: var(--culina-white);
+    transform: translateY(-3px);
+    box-shadow: 0 28px 64px rgba(249, 115, 22, 0.40);
+}
+
+/* Responsive behaviour for the premium email section */
+
+@media (max-width: 1199px) {
+    #culina-email-share.culina-email-share {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    #culina-email-share.culina-email-share {
+        padding: 26px;
+        border-radius: 30px;
+    }
+
+    #culina-email-share .culina-email-panel {
+        padding: 24px;
+        border-radius: 28px;
+    }
+
+    #culina-email-share .culina-email-copy h2 {
+        font-size: clamp(2rem, 9vw, 2.8rem);
+    }
+}
+
+@media (max-width: 575px) {
+    #culina-email-share.culina-email-share {
+        padding: 22px;
+        border-radius: 26px;
+    }
+
+    #culina-email-share .culina-email-highlight {
+        grid-template-columns: 44px 1fr;
+    }
+
+    #culina-email-share .culina-email-highlight > span {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+    }
+
+    #culina-email-share .culina-email-panel-header {
+        grid-template-columns: 1fr;
+    }
+}
+

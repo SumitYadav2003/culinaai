@@ -6,10 +6,10 @@ from .views import (
     save_generated_recipe_view,
     saved_recipe_detail_view,
     saved_recipes_view,
+    send_recipe_email_view,
     submit_recipe_feedback_view,
     toggle_favourite_recipe_view,
 )
-
 
 urlpatterns = [
     path("generate/", generate_recipe_view, name="generate_recipe"),
@@ -19,4 +19,5 @@ urlpatterns = [
     path("favourite/<int:recipe_id>/", toggle_favourite_recipe_view, name="toggle_favourite_recipe"),
     path("favourites/", favourite_recipes_view, name="favourite_recipes"),
     path("feedback/<int:recipe_id>/", submit_recipe_feedback_view, name="submit_recipe_feedback"),
+    path("email/<int:recipe_id>/", send_recipe_email_view, name="send_recipe_email"),
 ]
