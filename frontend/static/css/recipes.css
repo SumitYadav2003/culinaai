@@ -1838,3 +1838,225 @@ textarea.recipe-input {
         flex-basis: 40px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* Allergy and Dietary Warning Improvements */
+
+.recipe-warning-box,
+.recipe-safe-box {
+    margin-top: 14px;
+    padding: 18px;
+    border-radius: 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    line-height: 1.65;
+}
+
+.recipe-warning-box {
+    border: 1px solid rgba(239, 68, 68, 0.18);
+    background:
+        linear-gradient(135deg, rgba(254, 242, 242, 0.98), rgba(255, 247, 237, 0.94));
+    box-shadow: 0 16px 40px rgba(239, 68, 68, 0.08);
+}
+
+.recipe-safe-box {
+    border: 1px solid rgba(22, 163, 74, 0.16);
+    background:
+        linear-gradient(135deg, rgba(240, 253, 244, 0.98), rgba(247, 251, 245, 0.94));
+    box-shadow: 0 16px 40px rgba(22, 163, 74, 0.08);
+}
+
+.recipe-warning-box > i,
+.recipe-safe-box > i {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    color: var(--culina-white);
+    font-size: 1.05rem;
+}
+
+.recipe-warning-box > i {
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    box-shadow: 0 12px 28px rgba(239, 68, 68, 0.22);
+}
+
+.recipe-safe-box > i {
+    background: linear-gradient(135deg, var(--culina-green), #0f8f43);
+    box-shadow: 0 12px 28px rgba(22, 163, 74, 0.22);
+}
+
+.recipe-warning-box strong,
+.recipe-safe-box strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--culina-dark);
+    font-size: 0.95rem;
+    font-weight: 950;
+}
+
+.recipe-warning-box p,
+.recipe-safe-box p {
+    margin: 0;
+    color: var(--culina-muted);
+    font-size: 0.95rem;
+}
+
+.recipe-detail-tags span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.recipe-detail-tags span i {
+    font-size: 0.95rem;
+}
+
+@media (max-width: 575px) {
+    .recipe-warning-box,
+    .recipe-safe-box {
+        padding: 16px;
+    }
+
+    .recipe-warning-box > i,
+    .recipe-safe-box > i {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+}
+
+
+
+
+/* Final recipe detail layout overflow fix */
+
+.recipe-detail-section {
+    overflow-x: hidden;
+}
+
+.recipe-detail-section .container {
+    max-width: 1320px;
+}
+
+.recipe-detail-hero {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.recipe-detail-header {
+    width: 100%;
+    max-width: 100%;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 460px) !important;
+    gap: 36px !important;
+    align-items: start;
+    box-sizing: border-box;
+}
+
+.recipe-detail-title-area {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.recipe-detail-title-area h1 {
+    max-width: 100%;
+    font-size: clamp(3rem, 5.2vw, 5.8rem);
+    line-height: 1.03;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+.recipe-detail-control-panel {
+    width: 100%;
+    max-width: 460px !important;
+    justify-self: end;
+    padding-top: 24px !important;
+    box-sizing: border-box;
+}
+
+.recipe-detail-control-panel .recipe-detail-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.recipe-detail-control-panel .recipe-detail-badge,
+.recipe-detail-control-panel .recipe-favourite-btn {
+    min-height: 52px;
+    padding: 12px 18px;
+}
+
+.recipe-detail-control-panel .recipe-favourite-btn {
+    min-width: 180px;
+}
+
+.recipe-detail-control-panel .recipe-detail-meta {
+    width: 100%;
+    max-width: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.recipe-detail-hero .row {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media (max-width: 1199px) {
+    .recipe-detail-header {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+
+    .recipe-detail-control-panel {
+        max-width: 100% !important;
+        justify-self: start;
+        align-items: flex-start;
+        padding-top: 0 !important;
+    }
+
+    .recipe-detail-control-panel .recipe-detail-actions,
+    .recipe-detail-control-panel .recipe-detail-meta {
+        justify-content: flex-start;
+    }
+
+    .recipe-detail-title-area h1 {
+        font-size: clamp(2.7rem, 8vw, 4.8rem);
+    }
+}
+
+@media (max-width: 575px) {
+    .recipe-detail-title-area h1 {
+        font-size: clamp(2.25rem, 13vw, 3.4rem);
+    }
+
+    .recipe-detail-control-panel .recipe-detail-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .recipe-detail-control-panel .recipe-detail-badge,
+    .recipe-detail-control-panel .recipe-favourite-btn,
+    .recipe-favourite-form {
+        width: 100%;
+        justify-content: center;
+    }
+}

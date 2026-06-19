@@ -1,238 +1,271 @@
-{% extends "base.html" %} {% load static %} {% block title %}CulinaAI | {{
-recipe.title }}{% endblock %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}" />
-{% endblock %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+{% endblock %}
+
+{% block content %}
 
 <section class="recipe-detail-section">
-  <div class="container">
-    <div class="recipe-detail-hero">
-      <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
-        <i class="bi bi-arrow-left"></i>
-        Back to Saved Recipes
-      </a>
+    <div class="container">
 
-      <div class="recipe-detail-header">
-    <div class="recipe-detail-title-area">
-        <span class="section-label">
-            <i class="bi bi-journal-richtext"></i>
-            Saved AI Recipe
-        </span>
+        <div class="recipe-detail-hero">
+            <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
+                <i class="bi bi-arrow-left"></i>
+                Back to Saved Recipes
+            </a>
 
-        <h1>{{ recipe.title }}</h1>
+            <div class="recipe-detail-header">
+                <div class="recipe-detail-title-area">
+                    <span class="section-label">
+                        <i class="bi bi-journal-richtext"></i>
+                        Saved AI Recipe
+                    </span>
 
-        <p>
-            {% if recipe.description and recipe.description != "None provided" %}
-                {{ recipe.description }}
-            {% else %}
-                A personalised AI-generated recipe saved in your CulinaAI library.
-            {% endif %}
-        </p>
-    </div>
+                    <h1>{{ recipe.title }}</h1>
 
-    <div class="recipe-detail-control-panel">
-        <div class="recipe-detail-actions">
-            <div class="recipe-detail-badge">
-                <i class="bi bi-stars"></i>
-                CulinaAI Generated
-            </div>
+                    <p>
+                        {% if recipe.description and recipe.description != "None provided" %}
+                            {{ recipe.description }}
+                        {% else %}
+                            A personalised AI-generated recipe saved in your CulinaAI library.
+                        {% endif %}
+                    </p>
+                </div>
 
-            <form method="post" action="{% url 'toggle_favourite_recipe' recipe.id %}" class="recipe-favourite-form">
-                {% csrf_token %}
+                <div class="recipe-detail-control-panel">
+                    <div class="recipe-detail-actions">
+                        <div class="recipe-detail-badge">
+                            <i class="bi bi-stars"></i>
+                            CulinaAI Generated
+                        </div>
 
-                {% if is_favourite %}
-                    <button type="submit" class="btn recipe-favourite-btn active">
-                        <i class="bi bi-heart-fill"></i>
-                        Remove Favourite
-                    </button>
-                {% else %}
-                    <button type="submit" class="btn recipe-favourite-btn">
-                        <i class="bi bi-heart"></i>
-                        Add to Favourites
-                    </button>
-                {% endif %}
-            </form>
-        </div>
+                        <form method="post" action="{% url 'toggle_favourite_recipe' recipe.id %}" class="recipe-favourite-form">
+                            {% csrf_token %}
 
-        <div class="recipe-detail-meta">
-            <span>
-                <i class="bi bi-clock"></i>
-                {{ recipe.cooking_time_minutes }} minutes
-            </span>
-
-            <span>
-                <i class="bi bi-bar-chart"></i>
-                {{ recipe.difficulty|title }}
-            </span>
-
-            {% if recipe.cuisine %}
-                <span>
-                    <i class="bi bi-globe2"></i>
-                    {{ recipe.cuisine.name }}
-                </span>
-            {% endif %}
-
-            {% if recipe.meal_type %}
-                <span>
-                    <i class="bi bi-egg-fried"></i>
-                    {{ recipe.meal_type.name }}
-                </span>
-            {% endif %}
-
-            <span>
-                <i class="bi bi-calendar-check"></i>
-                Saved {{ recipe.created_at|date:"d M Y" }}
-            </span>
-        </div>
-    </div>
-</div>
-
-    <div class="row g-4">
-      <div class="col-lg-4">
-        <div class="recipe-detail-side-card">
-          <h3>
-            <i class="bi bi-basket2"></i>
-            Ingredients Used
-          </h3>
-
-          <p>{{ recipe.ingredients_text }}</p>
-        </div>
-
-        <div class="recipe-detail-side-card">
-          <h3>
-            <i class="bi bi-shield-check"></i>
-            Allergy Notes
-          </h3>
-
-          <p>{{ recipe.allergy_notes|default:"No allergy notes provided." }}</p>
-        </div>
-
-        <div class="recipe-detail-side-card">
-          <h3>
-            <i class="bi bi-tags"></i>
-            Diet Preferences
-          </h3>
-
-          <div class="recipe-detail-tags">
-            {% for diet in recipe.diet_preferences.all %}
-            <span>{{ diet.name }}</span>
-            {% empty %}
-            <span>No diet preference</span>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-8">
-        <div class="recipe-detail-main-card">
-          <div class="recipe-detail-main-header">
-            <span class="section-label">
-              <i class="bi bi-robot"></i>
-              Full AI Recipe
-            </span>
-
-            <h2>Cooking instructions and chef guidance</h2>
-          </div>
-
-          <div class="recipe-detail-text">
-            {{ recipe.instructions_text|linebreaks }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="recipe-feedback-card">
-    <div class="recipe-feedback-header">
-        <div>
-            <span class="section-label">
-                <i class="bi bi-chat-square-heart"></i>
-                Recipe Feedback
-            </span>
-
-            <h2>Rate this recipe</h2>
-
-            <p>
-                Your feedback helps improve your CulinaAI recipe experience and gives useful evidence
-                for recipe quality evaluation.
-            </p>
-        </div>
-
-        {% if user_rating %}
-            <div class="current-rating-badge">
-                <i class="bi bi-star-fill"></i>
-                Your rating: {{ user_rating.rating }}/5
-            </div>
-        {% endif %}
-    </div>
-
-    <form method="post" action="{% url 'submit_recipe_feedback' recipe.id %}" class="recipe-feedback-form">
-        {% csrf_token %}
-
-        <div class="feedback-form-grid">
-            <div class="feedback-rating-field">
-                <label for="{{ feedback_form.rating.id_for_label }}">
-                    <i class="bi bi-star"></i>
-                    Rating
-                </label>
-
-                {{ feedback_form.rating }}
-            </div>
-
-            <div class="feedback-comment-field">
-                <label for="{{ feedback_form.comment.id_for_label }}">
-                    <i class="bi bi-pencil-square"></i>
-                    Feedback comment
-                </label>
-
-                {{ feedback_form.comment }}
-            </div>
-        </div>
-
-        <button type="submit" class="btn recipe-feedback-submit-btn">
-            <i class="bi bi-send"></i>
-            Submit Feedback
-        </button>
-    </form>
-
-    {% if user_feedback_items %}
-    <div class="feedback-history">
-        <div class="feedback-history-header">
-            <div>
-                <h3>
-                    <i class="bi bi-chat-left-text"></i>
-                    Your feedback history
-                </h3>
-
-                <p>
-                    Your latest comments for this recipe are saved here for review.
-                </p>
-            </div>
-
-            <span class="feedback-history-count">
-                {{ user_feedback_items|length }} recent
-            </span>
-        </div>
-
-        <div class="feedback-history-list">
-            {% for feedback in user_feedback_items %}
-                <div class="feedback-history-item">
-                    <div class="feedback-history-icon">
-                        <i class="bi bi-chat-heart"></i>
+                            {% if is_favourite %}
+                                <button type="submit" class="btn recipe-favourite-btn active">
+                                    <i class="bi bi-heart-fill"></i>
+                                    Remove Favourite
+                                </button>
+                            {% else %}
+                                <button type="submit" class="btn recipe-favourite-btn">
+                                    <i class="bi bi-heart"></i>
+                                    Add to Favourites
+                                </button>
+                            {% endif %}
+                        </form>
                     </div>
 
-                    <div class="feedback-history-content">
-                        <span>Feedback {{ forloop.counter }}</span>
+                    <div class="recipe-detail-meta">
+                        <span>
+                            <i class="bi bi-clock"></i>
+                            {{ recipe.cooking_time_minutes }} minutes
+                        </span>
 
-                        <p>
-                            {{ feedback.comment }}
-                        </p>
+                        <span>
+                            <i class="bi bi-bar-chart"></i>
+                            {{ recipe.difficulty|title }}
+                        </span>
+
+                        {% if recipe.cuisine %}
+                            <span>
+                                <i class="bi bi-globe2"></i>
+                                {{ recipe.cuisine.name }}
+                            </span>
+                        {% endif %}
+
+                        {% if recipe.meal_type %}
+                            <span>
+                                <i class="bi bi-egg-fried"></i>
+                                {{ recipe.meal_type.name }}
+                            </span>
+                        {% endif %}
+
+                        <span>
+                            <i class="bi bi-calendar-check"></i>
+                            Saved {{ recipe.created_at|date:"d M Y" }}
+                        </span>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4">
+
+                    <div class="recipe-detail-side-card">
+                        <h3>
+                            <i class="bi bi-basket2"></i>
+                            Ingredients Used
+                        </h3>
+
+                        <p>{{ recipe.ingredients_text|linebreaksbr }}</p>
+                    </div>
+
+                    <div class="recipe-detail-side-card">
+                        <h3>
+                            <i class="bi bi-shield-exclamation"></i>
+                            Allergy & Safety Notes
+                        </h3>
+
+                        {% if recipe.allergy_notes %}
+                            <div class="recipe-warning-box">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                <div>
+                                    <strong>Review before cooking</strong>
+                                    <p>{{ recipe.allergy_notes|linebreaksbr }}</p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="recipe-safe-box">
+                                <i class="bi bi-shield-check"></i>
+
+                                <div>
+                                    <strong>No allergy notes provided</strong>
+                                    <p>Please still check all ingredients manually before cooking.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="recipe-detail-side-card">
+                        <h3>
+                            <i class="bi bi-tags"></i>
+                            Diet Preferences
+                        </h3>
+
+                        <div class="recipe-detail-tags">
+                            {% for diet in recipe.diet_preferences.all %}
+                                <span>
+                                    <i class="bi bi-check2-circle"></i>
+                                    {{ diet.name }}
+                                </span>
+                            {% empty %}
+                                <span>
+                                    <i class="bi bi-info-circle"></i>
+                                    No diet preference
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="recipe-detail-main-card">
+                        <div class="recipe-detail-main-header">
+                            <span class="section-label">
+                                <i class="bi bi-robot"></i>
+                                Full AI Recipe
+                            </span>
+
+                            <h2>Cooking instructions and chef guidance</h2>
+                        </div>
+
+                        <div class="recipe-detail-text">
+                            {{ recipe.instructions_text|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="recipe-feedback-card">
+            <div class="recipe-feedback-header">
+                <div>
+                    <span class="section-label">
+                        <i class="bi bi-chat-square-heart"></i>
+                        Recipe Feedback
+                    </span>
+
+                    <h2>Rate this recipe</h2>
+
+                    <p>
+                        Your feedback helps improve your CulinaAI recipe experience and gives useful evidence
+                        for recipe quality evaluation.
+                    </p>
+                </div>
+
+                {% if user_rating %}
+                    <div class="current-rating-badge">
+                        <i class="bi bi-star-fill"></i>
+                        Your rating: {{ user_rating.rating }}/5
+                    </div>
+                {% endif %}
+            </div>
+
+            <form method="post" action="{% url 'submit_recipe_feedback' recipe.id %}" class="recipe-feedback-form">
+                {% csrf_token %}
+
+                <div class="feedback-form-grid">
+                    <div class="feedback-rating-field">
+                        <label for="{{ feedback_form.rating.id_for_label }}">
+                            <i class="bi bi-star"></i>
+                            Rating
+                        </label>
+
+                        {{ feedback_form.rating }}
+                    </div>
+
+                    <div class="feedback-comment-field">
+                        <label for="{{ feedback_form.comment.id_for_label }}">
+                            <i class="bi bi-pencil-square"></i>
+                            Feedback comment
+                        </label>
+
+                        {{ feedback_form.comment }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn recipe-feedback-submit-btn">
+                    <i class="bi bi-send"></i>
+                    Submit Feedback
+                </button>
+            </form>
+
+            {% if user_feedback_items %}
+                <div class="feedback-history">
+                    <div class="feedback-history-header">
+                        <div>
+                            <h3>
+                                <i class="bi bi-chat-left-text"></i>
+                                Your feedback history
+                            </h3>
+
+                            <p>
+                                Your latest comments for this recipe are saved here for review.
+                            </p>
+                        </div>
+
+                        <span class="feedback-history-count">
+                            {{ user_feedback_items|length }} recent
+                        </span>
+                    </div>
+
+                    <div class="feedback-history-list">
+                        {% for feedback in user_feedback_items %}
+                            <div class="feedback-history-item">
+                                <div class="feedback-history-icon">
+                                    <i class="bi bi-chat-heart"></i>
+                                </div>
+
+                                <div class="feedback-history-content">
+                                    <span>Feedback {{ forloop.counter }}</span>
+
+                                    <p>{{ feedback.comment }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
     </div>
-{% endif %}
-</div>
 </section>
 
 {% endblock %}
