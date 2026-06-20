@@ -3459,3 +3459,504 @@ textarea.recipe-input {
         justify-content: center !important;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   DELETE SAVED RECIPE
+   Purpose:
+   - Styles the delete action and confirmation page.
+   - Uses clear warning colours for destructive actions.
+   ========================================================= */
+
+.recipe-delete-btn {
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #b91c1c !important;
+    background: rgba(254, 226, 226, 0.92) !important;
+    border: 1px solid rgba(239, 68, 68, 0.18) !important;
+    font-size: 0.9rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    transition: var(--transition) !important;
+}
+
+.recipe-delete-btn:hover {
+    color: #ffffff !important;
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(220, 38, 38, 0.22) !important;
+}
+
+.delete-recipe-section {
+    min-height: 82vh !important;
+    padding: 86px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    background:
+        radial-gradient(circle at top left, rgba(239, 68, 68, 0.10), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.10), transparent 32%),
+        linear-gradient(135deg, #fff7ed 0%, #fff1f2 100%) !important;
+}
+
+.delete-recipe-card {
+    max-width: 760px !important;
+    margin: 0 auto !important;
+    padding: 42px !important;
+    border-radius: 34px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(239, 68, 68, 0.14) !important;
+    box-shadow: 0 28px 80px rgba(127, 29, 29, 0.12) !important;
+}
+
+.delete-warning-icon {
+    width: 82px !important;
+    height: 82px !important;
+    margin: 0 auto 18px !important;
+    border-radius: 26px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #dc2626, #f97316) !important;
+    box-shadow: 0 22px 48px rgba(220, 38, 38, 0.24) !important;
+    font-size: 2rem !important;
+}
+
+.delete-recipe-card h1 {
+    max-width: 640px !important;
+    margin: 12px auto 12px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.055em !important;
+    line-height: 1.05 !important;
+}
+
+.delete-recipe-card > p {
+    max-width: 620px !important;
+    margin: 0 auto 24px !important;
+    color: var(--culina-muted) !important;
+    font-weight: 700 !important;
+    line-height: 1.75 !important;
+}
+
+.delete-recipe-preview {
+    margin: 24px 0 !important;
+    padding: 22px !important;
+    border-radius: 24px !important;
+    text-align: left !important;
+    background: #fff7ed !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+}
+
+.delete-recipe-preview span {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: #9a3412 !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.11em !important;
+}
+
+.delete-recipe-preview h2 {
+    margin: 0 0 6px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.35rem !important;
+    font-weight: 950 !important;
+    line-height: 1.35 !important;
+}
+
+.delete-recipe-preview p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 700 !important;
+}
+
+.delete-context-warning {
+    margin-bottom: 24px !important;
+    padding: 16px !important;
+    border-radius: 20px !important;
+    display: flex !important;
+    gap: 12px !important;
+    text-align: left !important;
+    color: #92400e !important;
+    background: rgba(254, 243, 199, 0.92) !important;
+    border: 1px solid rgba(245, 158, 11, 0.20) !important;
+}
+
+.delete-context-warning p {
+    margin: 0 !important;
+    font-weight: 750 !important;
+    line-height: 1.65 !important;
+}
+
+.delete-recipe-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 14px !important;
+}
+
+.delete-cancel-btn,
+.delete-confirm-btn {
+    min-height: 52px !important;
+    padding: 13px 20px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    font-weight: 950 !important;
+    transition: var(--transition) !important;
+}
+
+.delete-cancel-btn {
+    color: var(--culina-dark) !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(148, 163, 184, 0.28) !important;
+}
+
+.delete-confirm-btn {
+    color: #ffffff !important;
+    background: #dc2626 !important;
+    border: 1px solid #dc2626 !important;
+    box-shadow: 0 18px 42px rgba(220, 38, 38, 0.24) !important;
+}
+
+.delete-cancel-btn:hover,
+.delete-confirm-btn:hover {
+    transform: translateY(-2px) !important;
+}
+
+.delete-cancel-btn:hover {
+    color: var(--culina-dark) !important;
+    background: #f8fafc !important;
+}
+
+.delete-confirm-btn:hover {
+    color: #ffffff !important;
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   PREMIUM DELETE RECIPE MODAL OVERRIDE
+   Purpose:
+   - Replaces the plain Bootstrap-style delete popup with a polished,
+     production-ready confirmation modal.
+   - Keeps deletion on the same page and uses the existing modal HTML.
+   ========================================================= */
+
+.culina-delete-modal .modal-dialog {
+    max-width: 560px !important;
+}
+
+.culina-delete-modal .modal-content,
+.culina-delete-modal-content {
+    overflow: hidden !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 34px !important;
+    background: #ffffff !important;
+    box-shadow: 0 36px 110px rgba(15, 23, 42, 0.34) !important;
+}
+
+/* Premium dark top panel */
+.culina-delete-modal-content::before {
+    content: "" !important;
+    display: block !important;
+    height: 138px !important;
+    background:
+        radial-gradient(circle at 18% 20%, rgba(249, 115, 22, 0.35), transparent 30%),
+        linear-gradient(135deg, #111827 0%, #1f2937 58%, #2b1810 100%) !important;
+}
+
+/* Floating warning icon */
+.culina-delete-modal-icon {
+    position: relative !important;
+    z-index: 3 !important;
+    width: 82px !important;
+    height: 82px !important;
+    margin: -104px auto 18px !important;
+    border-radius: 28px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ef4444, #f97316) !important;
+    border: 5px solid #ffffff !important;
+    box-shadow:
+        0 24px 48px rgba(220, 38, 38, 0.28),
+        0 0 0 10px rgba(254, 226, 226, 0.60) !important;
+    font-size: 1.9rem !important;
+}
+
+/* Header */
+.culina-delete-modal-header {
+    position: relative !important;
+    padding: 0 34px 10px !important;
+    border: 0 !important;
+    text-align: center !important;
+    display: block !important;
+}
+
+.culina-delete-modal-header > div {
+    width: 100% !important;
+}
+
+.culina-delete-modal-header .section-label {
+    margin: 0 auto 12px !important;
+    width: fit-content !important;
+    padding: 9px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #b91c1c !important;
+    background: rgba(254, 226, 226, 0.88) !important;
+    border: 1px solid rgba(239, 68, 68, 0.16) !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.10em !important;
+}
+
+.culina-delete-modal-header h2 {
+    margin: 0 !important;
+    color: #111827 !important;
+    font-size: clamp(2rem, 4vw, 2.65rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.055em !important;
+}
+
+/* Close button */
+.culina-modal-close {
+    position: absolute !important;
+    top: -116px !important;
+    right: 20px !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 999px !important;
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    opacity: 1 !important;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22) !important;
+}
+
+.culina-modal-close:hover {
+    transform: scale(1.05) !important;
+}
+
+/* Body */
+.culina-delete-modal-body {
+    padding: 8px 34px 24px !important;
+    text-align: center !important;
+    border: 0 !important;
+}
+
+.culina-delete-modal-body > p {
+    max-width: 460px !important;
+    margin: 0 auto 22px !important;
+    color: #4b5563 !important;
+    font-size: 0.98rem !important;
+    font-weight: 650 !important;
+    line-height: 1.75 !important;
+}
+
+/* Recipe preview */
+.culina-delete-modal-preview {
+    padding: 18px 20px !important;
+    border-radius: 24px !important;
+    text-align: left !important;
+    background:
+        linear-gradient(135deg, rgba(255, 247, 237, 0.96), rgba(255, 255, 255, 0.96)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78) !important;
+}
+
+.culina-delete-modal-preview span {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+    color: #ea580c !important;
+    font-size: 0.72rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.11em !important;
+}
+
+.culina-delete-modal-preview span::before {
+    content: "\F1C7" !important;
+    font-family: "bootstrap-icons" !important;
+    color: #f97316 !important;
+}
+
+.culina-delete-modal-preview h3 {
+    margin: 0 0 8px !important;
+    color: #111827 !important;
+    font-size: 1.25rem !important;
+    font-weight: 950 !important;
+    line-height: 1.32 !important;
+    letter-spacing: -0.025em !important;
+}
+
+.culina-delete-modal-preview p {
+    margin: 0 !important;
+    color: #6b7280 !important;
+    font-size: 0.9rem !important;
+    font-weight: 720 !important;
+}
+
+/* Footer */
+.culina-delete-modal-footer {
+    padding: 0 34px 34px !important;
+    border: 0 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1.2fr !important;
+    gap: 12px !important;
+}
+
+.culina-delete-modal-footer form {
+    margin: 0 !important;
+}
+
+.culina-delete-modal-footer .delete-cancel-btn,
+.culina-delete-modal-footer .delete-confirm-btn {
+    width: 100% !important;
+    min-height: 52px !important;
+    padding: 12px 18px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    font-size: 0.95rem !important;
+    font-weight: 950 !important;
+    transition: all 0.22s ease !important;
+}
+
+.culina-delete-modal-footer .delete-cancel-btn {
+    color: #111827 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(148, 163, 184, 0.32) !important;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06) !important;
+}
+
+.culina-delete-modal-footer .delete-confirm-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+    border: 1px solid #dc2626 !important;
+    box-shadow: 0 18px 42px rgba(220, 38, 38, 0.26) !important;
+}
+
+.culina-delete-modal-footer .delete-cancel-btn:hover,
+.culina-delete-modal-footer .delete-confirm-btn:hover {
+    transform: translateY(-2px) !important;
+}
+
+.culina-delete-modal-footer .delete-cancel-btn:hover {
+    background: #f9fafb !important;
+}
+
+.culina-delete-modal-footer .delete-confirm-btn:hover {
+    background: linear-gradient(135deg, #b91c1c, #dc2626) !important;
+}
+
+/* Dark overlay behind modal */
+.modal-backdrop.show {
+    opacity: 0.68 !important;
+}
+
+/* Mobile cleanup */
+@media (max-width: 575px) {
+    .culina-delete-modal .modal-dialog {
+        margin: 14px !important;
+    }
+
+    .culina-delete-modal-footer {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-delete-modal-header,
+    .culina-delete-modal-body,
+    .culina-delete-modal-footer {
+        padding-left: 22px !important;
+        padding-right: 22px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   DELETE MODAL SPACING FIX
+   Purpose:
+   - Adds proper breathing space between the floating warning icon
+     and the "Delete Saved Recipe" badge.
+   - Prevents visual overlap in the delete confirmation popup.
+   ========================================================= */
+
+.culina-delete-modal-icon {
+    margin: -96px auto 28px !important;
+}
+
+.culina-delete-modal-header {
+    padding-top: 6px !important;
+}
+
+.culina-delete-modal-header .section-label {
+    margin-top: 0 !important;
+    margin-bottom: 16px !important;
+}
+
+
+
+
+
+
+
+
+

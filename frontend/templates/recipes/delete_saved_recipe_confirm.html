@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Delete Recipe{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=delete-recipe-confirm-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="delete-recipe-section">
+    <div class="container">
+
+        <!--
+            Delete Recipe Confirmation Page
+            Purpose:
+            - Protects users from accidental recipe deletion.
+            - Explains what will happen before the recipe is removed.
+            - Uses POST for the final destructive action.
+        -->
+        <div class="delete-recipe-card">
+
+            <div class="delete-warning-icon">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+
+            <span class="section-label">
+                <i class="bi bi-trash3"></i>
+                Delete Saved Recipe
+            </span>
+
+            <h1>Are you sure you want to delete this recipe?</h1>
+
+            <p>
+                You are about to permanently remove this recipe from your saved recipe library.
+                This action cannot be undone.
+            </p>
+
+            <div class="delete-recipe-preview">
+                <div>
+                    <span>Recipe selected</span>
+                    <h2>{{ recipe.title }}</h2>
+
+                    <p>
+                        Saved on {{ recipe.created_at|date:"d M Y" }}
+                        {% if recipe.cuisine %}
+                            · {{ recipe.cuisine.name }}
+                        {% endif %}
+                        {% if recipe.meal_type %}
+                            · {{ recipe.meal_type.name }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            {% if modified_versions_count > 0 %}
+                <div class="delete-context-warning">
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    <p>
+                        This recipe has {{ modified_versions_count }} modified version{% if modified_versions_count != 1 %}s{% endif %}
+                        linked to it. Deleting this recipe will remove the original source link for those modified versions.
+                    </p>
+                </div>
+            {% endif %}
+
+            <div class="delete-recipe-actions">
+                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn delete-cancel-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Cancel
+                </a>
+
+                <form method="post" action="{% url 'delete_saved_recipe' recipe.id %}">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn delete-confirm-btn">
+                        <i class="bi bi-trash3-fill"></i>
+                        Yes, Delete Recipe
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

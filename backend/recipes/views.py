@@ -666,3 +666,78 @@ def save_modified_recipe_view(request, recipe_id):
 
     messages.success(request, "Modified recipe saved successfully as a new saved recipe.")
     return redirect("saved_recipe_detail", recipe_id=new_recipe.id)
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def delete_saved_recipe_confirm_view(request, recipe_id):
+    """
+    Shows a confirmation page before deleting a saved recipe.
+
+    Why we use a confirmation page:
+    - Deleting a saved recipe is a destructive action.
+    - The user should clearly understand what will be removed.
+    - This prevents accidental deletion from the recipe library.
+    """
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    # Count modified versions created from this recipe.
+    # This gives the user extra context before deletion.
+    modified_versions_count = recipe.modified_versions.filter(
+        user=request.user,
+        is_saved=True,
+    ).count()
+
+    context = {
+        "recipe": recipe,
+        "modified_versions_count": modified_versions_count,
+    }
+
+    return render(request, "recipes/delete_saved_recipe_confirm.html", context)
+
+
+@login_required
+def delete_saved_recipe_view(request, recipe_id):
+    """
+    Deletes a saved recipe from the logged-in user's recipe library.
+
+    Security:
+    - The recipe must belong to the logged-in user.
+    - The recipe must be saved.
+    - Deletion only happens through POST, never through a normal link click.
+    """
+
+    if request.method != "POST":
+        return redirect("delete_saved_recipe_confirm", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    recipe_title = recipe.title
+    recipe.delete()
+
+    messages.success(
+        request,
+        f'"{recipe_title}" was deleted from your saved recipes.',
+    )
+
+    return redirect("saved_recipes")

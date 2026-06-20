@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-detail-save-modified-final-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-delete-modal-final-1">
 {% endblock %}
 
 {% block content %}
@@ -14,8 +14,10 @@
 
         <!--
             Saved Recipe Detail Hero
-            Shows the saved recipe title, metadata, ingredients, allergy notes,
-            diet tags and full AI-generated cooking instructions.
+            Purpose:
+            - Shows saved recipe information.
+            - Provides favourite and delete actions.
+            - Displays the full AI-generated recipe.
         -->
         <div class="recipe-detail-hero">
 
@@ -64,6 +66,18 @@
                                 </button>
                             {% endif %}
                         </form>
+
+                        <!--
+                            Delete Recipe Action
+                            Purpose:
+                            - Opens a Bootstrap confirmation modal.
+                            - The recipe is only deleted after the user confirms inside the popup.
+                            - This keeps the user on the same page instead of sending them to another page.
+                        -->
+                        <button type="button" class="btn recipe-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal">
+                            <i class="bi bi-trash3"></i>
+                            Delete Recipe
+                        </button>
                     </div>
 
                     <div class="recipe-detail-meta">
@@ -179,16 +193,13 @@
             </div>
         </div>
 
-
-
-                {% if is_modified_version %}
+        {% if is_modified_version %}
             {% if original_recipe %}
                 <!--
                     Original vs Modified Recipe Comparison
                     Purpose:
-                    - Appears only for recipes that were created by modifying another recipe.
-                    - Helps the user understand what changed from the original version.
-                    - Makes the AI modification feature look more professional and explainable.
+                    - Appears only for recipes created by modifying another recipe.
+                    - Helps users understand what changed from the original version.
                 -->
                 <section class="culina-comparison-section" aria-labelledby="culina-comparison-title">
                     <div class="culina-comparison-header">
@@ -429,10 +440,6 @@
                     </span>
                 </div>
 
-                <!--
-                    Workflow cards fill the left side so the section does not look empty
-                    when the modified recipe preview appears on the right.
-                -->
                 <div class="culina-modify-workflow">
                     <div class="culina-modify-workflow-card">
                         <div class="culina-modify-workflow-icon">
@@ -469,10 +476,6 @@
                 </div>
 
                 {% if modified_recipe_preview %}
-                    <!--
-                        AI Modification Visual
-                        Appears only after an AI modified recipe preview is generated.
-                    -->
                     <div class="culina-modify-visual">
                         <div class="culina-modify-visual-orbit">
                             <span class="orbit-dot orbit-dot-one"></span>
@@ -559,11 +562,6 @@
                             {{ modified_recipe_preview.modified_recipe_text|linebreaks }}
                         </div>
 
-                        <!--
-                            Save Modified Recipe Button
-                            Saves the AI-modified preview as a new saved recipe.
-                            The original recipe remains unchanged.
-                        -->
                         <form method="post" action="{% url 'save_modified_recipe' recipe.id %}" class="culina-save-modified-form">
                             {% csrf_token %}
 
@@ -673,6 +671,79 @@
                 </form>
             </div>
         </section>
+
+        <!--
+            Delete Recipe Confirmation Modal
+            Purpose:
+            - Keeps deletion on the same page.
+            - Looks more professional than redirecting to a separate confirmation page.
+            - Uses POST for the final destructive action.
+        -->
+        <div class="modal fade culina-delete-modal" id="deleteRecipeModal" tabindex="-1" aria-labelledby="deleteRecipeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content culina-delete-modal-content">
+
+                    <div class="culina-delete-modal-icon">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+
+                    <div class="modal-header culina-delete-modal-header">
+                        <div>
+                            <span class="section-label">
+                                <i class="bi bi-trash3"></i>
+                                Delete Saved Recipe
+                            </span>
+
+                            <h2 class="modal-title" id="deleteRecipeModalLabel">
+                                Delete this recipe?
+                            </h2>
+                        </div>
+
+                        <button type="button" class="btn-close culina-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body culina-delete-modal-body">
+                        <p>
+                            You are about to permanently remove this saved recipe from your recipe library.
+                            This action cannot be undone.
+                        </p>
+
+                        <div class="culina-delete-modal-preview">
+                            <span>Selected recipe</span>
+
+                            <h3>{{ recipe.title }}</h3>
+
+                            <p>
+                                Saved {{ recipe.created_at|date:"d M Y" }}
+                                {% if recipe.cuisine %}
+                                    · {{ recipe.cuisine.name }}
+                                {% endif %}
+                                {% if recipe.meal_type %}
+                                    · {{ recipe.meal_type.name }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer culina-delete-modal-footer">
+                        <button type="button" class="btn delete-cancel-btn" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i>
+                            Cancel
+                        </button>
+
+                        <form method="post" action="{% url 'delete_saved_recipe' recipe.id %}">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn delete-confirm-btn">
+                                <i class="bi bi-trash3-fill"></i>
+                                Yes, Delete Recipe
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </div>
 </section>
