@@ -31,6 +31,7 @@
 - Admin deep inspection for AI prompt, response, source recipe and modification type
 - Delete saved recipe with same-page confirmation modal
 - Search and filter favourite recipes
+- Improved dashboard quick launch actions for recipe workflow
 
 ## Strong Dissertation Evidence
 
