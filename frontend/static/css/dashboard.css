@@ -1,0 +1,1393 @@
+/* =========================================================
+   CULINAAI PREMIUM ANALYTICS DASHBOARD
+   Purpose:
+   - Production-ready dashboard UI for CulinaAI.
+   - Fixes hero/card overlap.
+   - Uses a premium dark + cream + orange + green food-tech theme.
+   - Keeps the waving AI robot but makes it more polished and professional.
+   ========================================================= */
+
+/* Page background */
+.culina-command-center {
+    min-height: 100vh;
+
+    /*
+       Extra top padding separates the dashboard from the navbar.
+       This prevents the command center hero from visually touching or overlapping
+       the navigation area.
+    */
+    padding: 76px 0 72px;
+
+    background:
+        radial-gradient(circle at 8% 4%, rgba(249, 115, 22, 0.10), transparent 26%),
+        radial-gradient(circle at 90% 12%, rgba(22, 163, 74, 0.08), transparent 24%),
+        linear-gradient(135deg, #fff8ef 0%, #f8fafc 48%, #f3fbf5 100%);
+}
+
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+
+.command-hero {
+    position: relative;
+    margin-top: 12px;
+    margin-bottom: 26px;
+    padding: 30px;
+    border-radius: 34px;
+    color: #ffffff;
+    background:
+        linear-gradient(135deg, rgba(8, 13, 18, 0.98), rgba(18, 24, 31, 0.97)),
+        radial-gradient(circle at 82% 16%, rgba(249, 115, 22, 0.28), transparent 32%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 90px rgba(15, 23, 42, 0.22);
+    overflow: hidden;
+}
+
+.command-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 42px 42px;
+    opacity: 0.38;
+    pointer-events: none;
+}
+
+.command-hero::after {
+    content: "";
+    position: absolute;
+    right: -140px;
+    bottom: -160px;
+    width: 420px;
+    height: 420px;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.18);
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+/*
+   Fix overlap:
+   - Left content can shrink safely.
+   - Right AI module has a controlled width.
+*/
+.command-hero-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
+    gap: 28px;
+    align-items: stretch;
+}
+
+.command-hero-copy {
+    min-width: 0;
+    padding: 28px 12px 28px 10px;
+}
+
+.command-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 9px 14px;
+    border-radius: 999px;
+    color: #fed7aa;
+    background: rgba(255, 247, 237, 0.08);
+    border: 1px solid rgba(253, 186, 116, 0.22);
+    font-size: 0.74rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.command-eyebrow i {
+    color: #fb923c;
+}
+
+.command-hero h1 {
+    max-width: 760px;
+    margin: 18px 0 16px;
+    color: #ffffff;
+    font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+    line-height: 1.03;
+    font-weight: 1000;
+    letter-spacing: -0.065em;
+}
+
+.command-hero h1 span {
+    display: block;
+    color: #ffb86b;
+}
+
+.command-hero p {
+    max-width: 720px;
+    margin: 0;
+    color: rgba(248, 250, 252, 0.82);
+    font-size: 1rem;
+    font-weight: 620;
+    line-height: 1.78;
+}
+
+.command-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.command-primary-btn,
+.command-secondary-btn {
+    min-height: 52px;
+    padding: 13px 21px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 950;
+    transition: all 0.24s ease;
+}
+
+.command-primary-btn {
+    color: #111827 !important;
+    background: linear-gradient(135deg, #ff7a1a, #ffb703);
+    border: 0;
+    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.28);
+}
+
+.command-secondary-btn {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.command-primary-btn:hover,
+.command-secondary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 48px rgba(15, 23, 42, 0.22);
+}
+
+/* =========================================================
+   AI ASSISTANT / WAVING ROBOT CARD
+   ========================================================= */
+
+.command-robot-card {
+    position: relative;
+    min-height: 100%;
+    padding: 22px;
+    border-radius: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        radial-gradient(circle at top right, rgba(255, 183, 3, 0.12), transparent 36%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 250, 244, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    overflow: hidden;
+}
+
+.command-robot-card::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border-radius: 22px;
+    border: 1px solid rgba(249, 115, 22, 0.08);
+    pointer-events: none;
+}
+
+.robot-speech {
+    position: relative;
+    z-index: 2;
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 247, 237, 0.82);
+    border: 1px solid rgba(249, 115, 22, 0.13);
+}
+
+.robot-speech span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    color: #ea580c;
+    font-size: 0.72rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+}
+
+.robot-speech span::before {
+    content: "✦";
+    color: #f97316;
+}
+
+.robot-speech p {
+    margin: 0;
+    color: #1f2937;
+    font-size: 0.98rem;
+    font-weight: 850;
+    line-height: 1.55;
+}
+
+/*
+   Professional friendly robot:
+   - Kept because you wanted the robot greeting.
+   - Less childish than before: cleaner shapes, smaller size, controlled animation.
+*/
+.culina-robot {
+    position: relative;
+    z-index: 2;
+    width: 182px;
+    height: 202px;
+    margin: 20px auto 14px;
+    animation: premiumRobotFloat 3.8s ease-in-out infinite;
+}
+
+.robot-antenna {
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    width: 4px;
+    height: 22px;
+    border-radius: 999px;
+    background: #f97316;
+    transform: translateX(-50%);
+}
+
+.robot-antenna::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 18px rgba(34, 197, 94, 0.58);
+    transform: translateX(-50%);
+}
+
+.robot-head {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    width: 128px;
+    height: 92px;
+    border-radius: 34px;
+    background: linear-gradient(145deg, #f8fafc, #fff7ed);
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    box-shadow:
+        0 22px 44px rgba(15, 23, 42, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.96);
+    transform: translateX(-50%);
+}
+
+.robot-head::before {
+    content: "";
+    position: absolute;
+    inset: 20px 24px 30px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #07111f, #111827);
+    box-shadow: inset 0 0 18px rgba(34, 197, 94, 0.08);
+}
+
+.robot-eye {
+    position: absolute;
+    z-index: 2;
+    top: 42px;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 16px rgba(52, 211, 153, 0.68);
+    animation: premiumRobotBlink 4.8s infinite;
+}
+
+.robot-eye-left {
+    left: 45px;
+}
+
+.robot-eye-right {
+    right: 45px;
+}
+
+.robot-smile {
+    position: absolute;
+    z-index: 2;
+    top: 61px;
+    left: 50%;
+    width: 28px;
+    height: 13px;
+    border-bottom: 3px solid #34d399;
+    border-radius: 0 0 999px 999px;
+    transform: translateX(-50%);
+}
+
+.robot-body {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    width: 104px;
+    height: 78px;
+    border-radius: 28px;
+    background: linear-gradient(145deg, #111827, #263241);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 24px 44px rgba(15, 23, 42, 0.22);
+    transform: translateX(-50%);
+}
+
+.robot-core {
+    position: absolute;
+    inset: 19px 32px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    color: #111827;
+    background: linear-gradient(135deg, #ffb703, #fb923c);
+    box-shadow: 0 0 24px rgba(249, 115, 22, 0.38);
+}
+
+.robot-arm {
+    position: absolute;
+    top: 118px;
+    width: 18px;
+    height: 58px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #f8fafc, #e5e7eb);
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+
+.robot-arm-left {
+    left: 22px;
+    transform: rotate(21deg);
+}
+
+.robot-arm-right {
+    right: 16px;
+    transform-origin: top center;
+    animation: premiumRobotWave 1.6s ease-in-out infinite;
+}
+
+.robot-status-strip {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 10px;
+}
+
+.robot-status-strip span {
+    padding: 12px 13px;
+    border-radius: 17px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #374151;
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid rgba(120, 113, 108, 0.11);
+    font-size: 0.83rem;
+    font-weight: 820;
+}
+
+.robot-status-strip .bi-circle-fill {
+    color: #22c55e;
+    font-size: 0.56rem;
+}
+
+.robot-status-strip .bi-shield-check {
+    color: #f97316;
+}
+
+@keyframes premiumRobotFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes premiumRobotWave {
+    0%, 100% {
+        transform: rotate(-12deg);
+    }
+
+    50% {
+        transform: rotate(-46deg);
+    }
+}
+
+@keyframes premiumRobotBlink {
+    0%, 92%, 100% {
+        transform: scaleY(1);
+    }
+
+    95% {
+        transform: scaleY(0.16);
+    }
+}
+
+/* =========================================================
+   PROFILE AND ANALYTICS
+   ========================================================= */
+
+.command-overview-grid {
+    display: grid;
+    grid-template-columns: 310px minmax(0, 1fr);
+    gap: 22px;
+    margin-bottom: 22px;
+}
+
+.command-profile-card,
+.analytics-card,
+.command-panel,
+.command-intelligence-panel {
+    border: 1px solid rgba(120, 113, 108, 0.13);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 18px 52px rgba(15, 23, 42, 0.075);
+    backdrop-filter: blur(14px);
+}
+
+.command-profile-card {
+    position: relative;
+    overflow: hidden;
+    padding: 26px;
+    border-radius: 28px;
+    text-align: center;
+}
+
+.profile-glow {
+    position: absolute;
+    right: -55px;
+    top: -55px;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: rgba(249, 115, 22, 0.13);
+    filter: blur(8px);
+}
+
+.command-avatar {
+    position: relative;
+    z-index: 2;
+    width: 94px;
+    height: 94px;
+    margin: 0 auto 16px;
+    border-radius: 30px;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle at 25% 18%, rgba(255, 255, 255, 0.18), transparent 34%),
+        linear-gradient(135deg, #111827, #f97316);
+    box-shadow: 0 22px 44px rgba(249, 115, 22, 0.18);
+}
+
+.command-avatar span {
+    color: #ffffff;
+    font-size: 2.35rem;
+    font-weight: 1000;
+}
+
+.command-profile-card h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 1.55rem;
+    font-weight: 1000;
+    letter-spacing: -0.04em;
+}
+
+.command-profile-card p {
+    margin: 6px 0 16px;
+    color: #6b7280;
+    font-weight: 680;
+}
+
+.command-profile-pill {
+    width: fit-content;
+    margin: 0 auto 18px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #166534;
+    background: rgba(220, 252, 231, 0.9);
+    font-size: 0.84rem;
+    font-weight: 900;
+}
+
+.profile-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.profile-mini-grid div {
+    padding: 15px;
+    border-radius: 20px;
+    background: #fffaf3;
+    border: 1px solid rgba(249, 115, 22, 0.11);
+}
+
+.profile-mini-grid strong {
+    display: block;
+    color: #111827;
+    font-size: 1.42rem;
+    font-weight: 1000;
+}
+
+.profile-mini-grid span {
+    color: #6b7280;
+    font-size: 0.76rem;
+    font-weight: 850;
+}
+
+.command-analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.analytics-card {
+    min-height: 166px;
+    padding: 20px;
+    border-radius: 24px;
+    transition: all 0.22s ease;
+}
+
+.analytics-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 58px rgba(15, 23, 42, 0.12);
+}
+
+.analytics-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-size: 1.22rem;
+}
+
+.analytics-card-orange .analytics-icon {
+    background: linear-gradient(135deg, #f97316, #ffb703);
+}
+
+.analytics-card-pink .analytics-icon {
+    background: linear-gradient(135deg, #e11d48, #fb7185);
+}
+
+.analytics-card-green .analytics-icon {
+    background: linear-gradient(135deg, #16a34a, #34d399);
+}
+
+.analytics-card-blue .analytics-icon {
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+}
+
+.analytics-card-purple .analytics-icon {
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+}
+
+.analytics-card-dark .analytics-icon {
+    background: linear-gradient(135deg, #111827, #374151);
+}
+
+.analytics-card span {
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+}
+
+.analytics-card h3 {
+    margin: 5px 0 4px;
+    color: #111827;
+    font-size: 2.05rem;
+    font-weight: 1000;
+    letter-spacing: -0.05em;
+}
+
+.analytics-card p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.88rem;
+    font-weight: 640;
+    line-height: 1.56;
+}
+
+/* =========================================================
+   MAIN PANELS
+   ========================================================= */
+
+.command-main-grid {
+    display: grid;
+    grid-template-columns: minmax(330px, 0.82fr) minmax(0, 1.18fr);
+    gap: 22px;
+    margin-bottom: 22px;
+}
+
+.command-panel {
+    padding: 24px;
+    border-radius: 28px;
+}
+
+.command-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.command-panel-header span {
+    display: block;
+    margin-bottom: 5px;
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.command-panel-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 1.42rem;
+    font-weight: 1000;
+    letter-spacing: -0.04em;
+}
+
+.command-panel-header > i {
+    width: 44px;
+    height: 44px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    color: #ea580c;
+    background: rgba(255, 237, 213, 0.9);
+}
+
+.command-action-list,
+.command-timeline {
+    display: grid;
+    gap: 12px;
+}
+
+.command-action-card,
+.timeline-item {
+    padding: 16px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
+    text-decoration: none;
+    background: #fffaf3;
+    border: 1px solid rgba(249, 115, 22, 0.10);
+    transition: all 0.2s ease;
+}
+
+.command-action-card:hover,
+.timeline-item:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+}
+
+.command-action-icon,
+.timeline-dot {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #f97316, #16a34a);
+}
+
+.command-action-card h3,
+.timeline-content h3 {
+    margin: 0 0 4px;
+    color: #111827;
+    font-size: 0.98rem;
+    font-weight: 950;
+    line-height: 1.35;
+}
+
+.command-action-card p,
+.timeline-content p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.86rem;
+    font-weight: 640;
+    line-height: 1.55;
+}
+
+.command-action-arrow,
+.timeline-arrow {
+    color: #9ca3af;
+    font-size: 1.7rem;
+}
+
+.timeline-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 5px;
+}
+
+.timeline-topline small {
+    color: #9ca3af;
+    font-size: 0.74rem;
+    font-weight: 780;
+}
+
+.timeline-badge {
+    width: fit-content;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.timeline-badge.modified {
+    color: #166534;
+    background: rgba(220, 252, 231, 0.92);
+}
+
+.timeline-badge.original {
+    color: #9a3412;
+    background: rgba(255, 237, 213, 0.92);
+}
+
+.command-empty-state {
+    padding: 32px 18px;
+    text-align: center;
+}
+
+.empty-orbit {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 16px;
+    border-radius: 24px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #f97316, #16a34a);
+}
+
+.command-empty-state h3 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-weight: 1000;
+}
+
+.command-empty-state p {
+    max-width: 520px;
+    margin: 0 auto 18px;
+    color: #6b7280;
+    font-weight: 640;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   INTELLIGENCE PANEL
+   ========================================================= */
+
+.command-intelligence-panel {
+    padding: 28px;
+    border-radius: 30px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+    gap: 24px;
+    align-items: center;
+}
+
+.intelligence-copy .command-eyebrow {
+    color: #9a3412;
+    background: rgba(255, 237, 213, 0.85);
+    border-color: rgba(249, 115, 22, 0.14);
+}
+
+.intelligence-copy h2 {
+    max-width: 680px;
+    margin: 13px 0 10px;
+    color: #111827;
+    font-size: clamp(1.7rem, 3vw, 2.55rem);
+    font-weight: 1000;
+    line-height: 1.06;
+    letter-spacing: -0.052em;
+}
+
+.intelligence-copy p {
+    margin: 0;
+    color: #6b7280;
+    font-weight: 640;
+    line-height: 1.78;
+}
+
+.intelligence-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.intelligence-chip {
+    padding: 10px 13px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #111827;
+    background: #fffaf3;
+    border: 1px solid rgba(249, 115, 22, 0.10);
+    font-size: 0.84rem;
+    font-weight: 850;
+}
+
+.intelligence-chip i {
+    color: #16a34a;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 1199px) {
+    .command-hero-content,
+    .command-overview-grid,
+    .command-main-grid,
+    .command-intelligence-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .command-analytics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .intelligence-grid {
+        justify-content: flex-start;
+    }
+
+    .command-robot-card {
+        max-width: 460px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .culina-command-center {
+        padding: 30px 0 52px;
+    }
+
+    .command-hero,
+    .command-profile-card,
+    .command-panel,
+    .command-intelligence-panel {
+        border-radius: 24px;
+        padding: 22px;
+    }
+
+    .command-hero-copy {
+        padding: 8px 0;
+    }
+
+    .command-analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .command-hero-actions {
+        display: grid;
+    }
+
+    .command-primary-btn,
+    .command-secondary-btn {
+        width: 100%;
+    }
+
+    .command-action-card,
+    .timeline-item {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .command-action-arrow,
+    .timeline-arrow {
+        display: none;
+    }
+}
+
+
+
+
+
+
+/* =========================================================
+   DASHBOARD PROFESSIONAL POLISH OVERRIDES
+   Purpose:
+   - Removes mixed orange/green icon gradients.
+   - Uses one consistent CulinaAI brand icon colour.
+   - Keeps the dashboard more professional and less noisy.
+   ========================================================= */
+
+.analytics-icon,
+.command-action-icon,
+.timeline-dot,
+.empty-orbit {
+    background: #f97316 !important;
+    color: #ffffff !important;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22) !important;
+}
+
+/* Keep status/validation icons green because they communicate success/state. */
+.command-profile-pill i,
+.intelligence-chip i,
+.robot-status-strip .bi-circle-fill {
+    color: #16a34a !important;
+}
+
+/* Make the dashboard hero breathe more under the navbar on all screen sizes. */
+.command-hero {
+    margin-top: 12px !important;
+}
+
+/* Cleaner user dashboard: no admin-style visual treatment leaks into cards. */
+.command-action-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(249, 115, 22, 0.10) !important;
+}
+
+.command-action-card:hover {
+    border-color: rgba(249, 115, 22, 0.22) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   TASTE INTELLIGENCE AND AI JOURNEY
+   Purpose:
+   - Adds meaningful non-repetitive dashboard insights.
+   - Shows taste profile, latest AI refinement and evaluation signal.
+   ========================================================= */
+
+.taste-intelligence-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 1.1fr) minmax(300px, 0.95fr) minmax(300px, 0.95fr);
+    gap: 22px;
+    margin-bottom: 22px;
+}
+
+.taste-profile-card,
+.ai-journey-card,
+.evaluation-signal-card {
+    min-height: 360px;
+    padding: 24px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(249, 115, 22, 0.11);
+    box-shadow: 0 18px 52px rgba(15, 23, 42, 0.075);
+    transition: all 0.24s ease;
+}
+
+.taste-profile-card:hover,
+.ai-journey-card:hover,
+.evaluation-signal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 68px rgba(15, 23, 42, 0.12);
+}
+
+.taste-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.taste-card-header span {
+    display: block;
+    margin-bottom: 5px;
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.taste-card-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 1.35rem;
+    font-weight: 1000;
+    letter-spacing: -0.04em;
+}
+
+.taste-card-header > i {
+    width: 44px;
+    height: 44px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: #f97316;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22);
+}
+
+/* Taste profile */
+
+.taste-profile-main {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.taste-score-ring {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background:
+        conic-gradient(#f97316 var(--taste-score), #f3f4f6 0);
+    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.14);
+}
+
+.taste-score-ring > div {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    background: #ffffff;
+    border: 1px solid rgba(249, 115, 22, 0.10);
+}
+
+.taste-score-ring strong {
+    color: #111827;
+    font-size: 2rem;
+    font-weight: 1000;
+    line-height: 1;
+}
+
+.taste-score-ring span {
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.taste-profile-copy h3 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-size: 1.15rem;
+    font-weight: 1000;
+    letter-spacing: -0.03em;
+}
+
+.taste-profile-copy p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.92rem;
+    font-weight: 640;
+    line-height: 1.68;
+}
+
+.taste-profile-copy strong {
+    color: #111827;
+}
+
+.taste-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.taste-mini-card {
+    padding: 15px;
+    border-radius: 20px;
+    background: #fffaf3;
+    border: 1px solid rgba(249, 115, 22, 0.10);
+}
+
+.taste-mini-card span {
+    display: block;
+    margin-bottom: 6px;
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+}
+
+.taste-mini-card strong {
+    display: block;
+    color: #111827;
+    font-size: 1.04rem;
+    font-weight: 1000;
+    line-height: 1.3;
+}
+
+.taste-mini-card small {
+    display: block;
+    margin-top: 4px;
+    color: #6b7280;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+/* AI journey */
+
+.journey-feature-link {
+    padding: 16px;
+    border-radius: 22px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    background: #fffaf3;
+    border: 1px solid rgba(249, 115, 22, 0.11);
+    transition: all 0.22s ease;
+}
+
+.journey-feature-link:hover {
+    color: inherit;
+    transform: translateX(4px);
+    background: #ffffff;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+}
+
+.journey-feature-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 17px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: #f97316;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.20);
+}
+
+.journey-feature-link span {
+    color: #ea580c;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+}
+
+.journey-feature-link h3 {
+    margin: 4px 0;
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 1000;
+    line-height: 1.35;
+}
+
+.journey-feature-link p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.86rem;
+    font-weight: 640;
+    line-height: 1.48;
+}
+
+.journey-feature-link > i {
+    color: #9ca3af;
+    font-size: 1.6rem;
+}
+
+.journey-empty-box {
+    padding: 22px;
+    border-radius: 22px;
+    text-align: center;
+    background: #fffaf3;
+    border: 1px dashed rgba(249, 115, 22, 0.24);
+}
+
+.journey-empty-box > i {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 12px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: #f97316;
+    font-size: 1.5rem;
+}
+
+.journey-empty-box h3 {
+    margin: 0 0 7px;
+    color: #111827;
+    font-size: 1.08rem;
+    font-weight: 1000;
+}
+
+.journey-empty-box p {
+    margin: 0 0 14px;
+    color: #6b7280;
+    font-size: 0.88rem;
+    font-weight: 640;
+    line-height: 1.6;
+}
+
+.journey-empty-box a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ea580c;
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 950;
+}
+
+.journey-note {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 18px;
+    display: flex;
+    gap: 10px;
+    background: rgba(240, 253, 244, 0.82);
+    border: 1px solid rgba(22, 163, 74, 0.12);
+}
+
+.journey-note i {
+    color: #16a34a;
+    margin-top: 3px;
+}
+
+.journey-note p {
+    margin: 0;
+    color: #374151;
+    font-size: 0.84rem;
+    font-weight: 660;
+    line-height: 1.6;
+}
+
+/* Evaluation signal */
+
+.latest-feedback-box,
+.smart-next-step-box {
+    padding: 16px;
+    border-radius: 22px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px;
+    background: #fffaf3;
+    border: 1px solid rgba(249, 115, 22, 0.10);
+}
+
+.smart-next-step-box {
+    margin-top: 14px;
+    background: #111827;
+    border-color: rgba(17, 24, 39, 0.08);
+}
+
+.latest-feedback-icon,
+.smart-next-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: #f97316;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.20);
+}
+
+.latest-feedback-box span,
+.smart-next-step-box span {
+    color: #ea580c;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+}
+
+.latest-feedback-box h3,
+.smart-next-step-box h3 {
+    margin: 4px 0;
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 1000;
+    line-height: 1.35;
+}
+
+.latest-feedback-box p,
+.smart-next-step-box p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.86rem;
+    font-weight: 640;
+    line-height: 1.55;
+}
+
+.smart-next-step-box span {
+    color: #fdba74;
+}
+
+.smart-next-step-box h3 {
+    color: #ffffff;
+}
+
+.smart-next-step-box p {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.empty-feedback-box {
+    border-style: dashed;
+}
+
+@media (max-width: 1199px) {
+    .taste-intelligence-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .taste-profile-card,
+    .ai-journey-card,
+    .evaluation-signal-card {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .taste-profile-main {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .taste-mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
