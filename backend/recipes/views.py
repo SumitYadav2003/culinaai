@@ -1,11 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.core.mail import send_mail
 
-from .ai_service import generate_ai_recipe
-from .forms import RecipeEmailForm, RecipeFeedbackForm, RecipeGenerationForm
+from .ai_service import generate_ai_recipe, modify_ai_recipe
+from .forms import (
+    RecipeEmailForm,
+    RecipeFeedbackForm,
+    RecipeGenerationForm,
+    RecipeModifyForm,
+)
 from .models import (
     Cuisine,
     DietPreference,
@@ -20,7 +25,12 @@ from .models import (
 def extract_recipe_title(recipe_text):
     """
     Extracts a clean recipe title from the AI-generated recipe text.
-    Falls back to a default title if no clear title is found.
+
+    Why this helper exists:
+    - OpenAI returns a full recipe block, not just a title.
+    - We need a short title to store in the Recipe model.
+    - If the AI response contains "RECIPE TITLE:", we use that.
+    - If not, we fall back to the first non-empty line.
     """
 
     if not recipe_text:
@@ -52,12 +62,24 @@ def extract_recipe_title(recipe_text):
 
 @login_required
 def generate_recipe_view(request):
+    """
+    Handles the AI recipe generation page.
+
+    What this view does:
+    - Shows the recipe generation form.
+    - Validates user preferences.
+    - Sends valid preferences to OpenAI.
+    - Stores the generated recipe result in the session.
+    - Redirects back to the same page so the user can preview and save the result.
+    """
+
     if request.method == "POST":
         form = RecipeGenerationForm(request.POST)
 
         if form.is_valid():
             cleaned_data = form.cleaned_data
 
+            # Convert choice values into human-readable labels for the AI prompt.
             spice_choices = dict(form.fields["spice_level"].choices)
             budget_choices = dict(form.fields["budget_level"].choices)
             nutrition_choices = dict(form.fields["nutrition_goal"].choices)
@@ -68,6 +90,8 @@ def generate_recipe_view(request):
                 for equipment in cleaned_data.get("cooking_equipment", [])
             ]
 
+            # This dictionary becomes the user's recipe request summary.
+            # It is stored in the session so it can be used for saving later.
             preview_data = {
                 "ingredients": cleaned_data.get("ingredients"),
                 "cuisine": cleaned_data.get("cuisine").name if cleaned_data.get("cuisine") else "Any cuisine",
@@ -107,6 +131,7 @@ def generate_recipe_view(request):
     else:
         form = RecipeGenerationForm()
 
+    # Pop preview data so the preview does not keep showing forever after refreshes.
     preview_data = request.session.pop("recipe_preview_data", None)
     ai_recipe_result = request.session.pop("ai_recipe_result", None)
 
@@ -179,7 +204,6 @@ def save_generated_recipe_view(request):
     return redirect("saved_recipes")
 
 
-
 @login_required
 def saved_recipes_view(request):
     """
@@ -222,16 +246,22 @@ def saved_recipes_view(request):
     return render(request, "recipes/saved_recipes.html", context)
 
 
-
-
-
-
-
-
 @login_required
 def saved_recipe_detail_view(request, recipe_id):
     """
     Displays one saved recipe in full detail for the logged-in user.
+
+    This view prepares all data needed by the saved recipe detail page:
+    - Favourite status
+    - Rating form
+    - Feedback history
+    - Email sharing form
+    - Modify recipe form
+    - Modified recipe preview from the session
+
+    Security:
+    - The recipe is filtered by request.user.
+    - This prevents a user from opening another user's recipe by editing the URL.
     """
 
     recipe = get_object_or_404(
@@ -263,6 +293,22 @@ def saved_recipe_detail_view(request, recipe_id):
     )
 
     email_form = RecipeEmailForm()
+    modify_form = RecipeModifyForm()
+
+        # Read the latest modified recipe preview from the session.
+    # We use pop() instead of get() because the preview should appear only once.
+    # This makes the page behave like a real website:
+    # - after AI modification, show the preview
+    # - after refresh, remove the old preview
+    modified_recipe_preview = request.session.pop("modified_recipe_preview", None)
+
+    if modified_recipe_preview:
+        preview_recipe_id = modified_recipe_preview.get("recipe_id")
+
+        # Only show the preview on the same recipe that was modified.
+        # If the user opens another saved recipe, do not show an old preview there.
+        if preview_recipe_id != recipe.id:
+            modified_recipe_preview = None
 
     return render(
         request,
@@ -272,56 +318,12 @@ def saved_recipe_detail_view(request, recipe_id):
             "is_favourite": is_favourite,
             "feedback_form": feedback_form,
             "email_form": email_form,
+            "modify_form": modify_form,
+            "modified_recipe_preview": modified_recipe_preview,
             "user_rating": user_rating,
             "user_feedback_items": user_feedback_items,
         },
     )
-
-
-
-
-
-
-
-@login_required
-def toggle_favourite_recipe_view(request, recipe_id):
-    """
-    Adds or removes a saved recipe from the user's favourites.
-    """
-
-    if request.method != "POST":
-        return redirect("saved_recipe_detail", recipe_id=recipe_id)
-
-    recipe = get_object_or_404(
-        Recipe,
-        id=recipe_id,
-        user=request.user,
-        is_saved=True,
-    )
-
-    favourite, created = FavouriteRecipe.objects.get_or_create(
-        user=request.user,
-        recipe=recipe,
-    )
-
-    if created:
-        messages.success(request, "Recipe added to favourites.")
-    else:
-        favourite.delete()
-        messages.info(request, "Recipe removed from favourites.")
-
-    return redirect("saved_recipe_detail", recipe_id=recipe.id)
-
-
-
-
-
-
-
-
-
-
-
 
 
 @login_required
@@ -341,20 +343,6 @@ def favourite_recipes_view(request):
             "favourite_recipes": favourite_recipes,
         },
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @login_required
@@ -399,13 +387,6 @@ def submit_recipe_feedback_view(request, recipe_id):
         messages.error(request, "Please check your rating and feedback before submitting.")
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
-
-
-
-
-
-
-
 
 
 @login_required
@@ -466,4 +447,106 @@ CulinaAI
     else:
         messages.error(request, "Please enter a valid email address before sending.")
 
+    return redirect("saved_recipe_detail", recipe_id=recipe.id)
+
+
+@login_required
+def toggle_favourite_recipe_view(request, recipe_id):
+    """
+    Adds or removes a saved recipe from the logged-in user's favourites.
+
+    Why this view exists:
+    - The saved recipe detail page has an "Add to Favourites" / "Remove Favourite" button.
+    - That button sends a POST request to this view.
+    - If the recipe is not already favourited, we create a FavouriteRecipe record.
+    - If the recipe is already favourited, we delete that FavouriteRecipe record.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    favourite, created = FavouriteRecipe.objects.get_or_create(
+        user=request.user,
+        recipe=recipe,
+    )
+
+    if created:
+        messages.success(request, "Recipe added to favourites.")
+    else:
+        favourite.delete()
+        messages.info(request, "Recipe removed from favourites.")
+
+    return redirect("saved_recipe_detail", recipe_id=recipe.id)
+
+
+@login_required
+def modify_saved_recipe_view(request, recipe_id):
+    """
+    Handles AI-powered modification requests for an existing saved recipe.
+
+    What happens in this view:
+    - Confirms the request is a POST request.
+    - Confirms the recipe belongs to the logged-in user.
+    - Validates the recipe modification form.
+    - Calls OpenAI only after the user intentionally submits the form.
+    - Stores the modified recipe preview in the session.
+    - Redirects back to the saved recipe detail page for display.
+
+    Important:
+    - The modified recipe is not saved automatically.
+    - The user will review the modified result first.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    form = RecipeModifyForm(request.POST)
+
+    if form.is_valid():
+        modification_type = form.cleaned_data["modification_type"]
+        custom_instruction = form.cleaned_data.get("custom_instruction", "").strip()
+
+        try:
+            ai_result = modify_ai_recipe(
+                recipe=recipe,
+                modification_type=modification_type,
+                custom_instruction=custom_instruction,
+            )
+
+            request.session["modified_recipe_preview"] = {
+                "recipe_id": recipe.id,
+                "modification_type": modification_type,
+                "custom_instruction": custom_instruction,
+                "prompt": ai_result.get("prompt", ""),
+                "modified_recipe_text": ai_result.get("modified_recipe_text", ""),
+            }
+
+            messages.success(
+                request,
+                "AI modification generated successfully. Review the modified recipe below.",
+            )
+
+        except Exception:
+            messages.error(
+                request,
+                "AI modification failed. Please check your OpenAI API key, billing credits, or connection.",
+            )
+
+        return redirect("saved_recipe_detail", recipe_id=recipe.id)
+
+    messages.error(request, "Please check the recipe modification form and try again.")
     return redirect("saved_recipe_detail", recipe_id=recipe.id)

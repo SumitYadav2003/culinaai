@@ -251,3 +251,48 @@ class RecipeEmailForm(forms.Form):
             }
         ),
     )
+
+
+
+
+
+
+
+class RecipeModifyForm(forms.Form):
+    """
+    Form used on the saved recipe detail page to request an AI-powered
+    modification of an existing saved recipe.
+
+    The user chooses a modification type and can optionally add a custom
+    instruction. The actual OpenAI call will be handled later in the view.
+    """
+
+    modification_type = forms.ChoiceField(
+        label="Modification type",
+        choices=[
+            ("healthier", "Make it healthier"),
+            ("cheaper", "Make it cheaper"),
+            ("quicker", "Make it quicker"),
+            ("vegetarian", "Make it vegetarian"),
+            ("spicier", "Make it spicier"),
+            ("simpler", "Make it simpler"),
+            ("custom", "Custom instruction"),
+        ],
+        widget=forms.Select(
+            attrs={
+                "class": "recipe-input",
+            }
+        ),
+    )
+
+    custom_instruction = forms.CharField(
+        label="Custom instruction",
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "recipe-input",
+                "rows": 3,
+                "placeholder": "Example: Make this recipe high-protein but keep it under 20 minutes...",
+            }
+        ),
+    )

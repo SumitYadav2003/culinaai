@@ -88,3 +88,126 @@ def generate_ai_recipe(preferences):
         "prompt": prompt,
         "recipe_text": response.output_text,
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+def build_recipe_modification_prompt(recipe, modification_type, custom_instruction=""):
+    """
+    Builds a structured OpenAI prompt for modifying an existing saved recipe.
+
+    Why this function exists:
+    - The original recipe already exists in the database.
+    - The user chooses how they want the recipe changed.
+    - We give OpenAI the original recipe and clear modification instructions.
+    - OpenAI should return a complete modified recipe, not just small notes.
+
+    Parameters:
+    - recipe: The saved Recipe model instance.
+    - modification_type: The selected modification option from RecipeModifyForm.
+    - custom_instruction: Optional user-written instruction for extra control.
+    """
+
+    modification_labels = {
+        "healthier": "Make the recipe healthier while keeping it tasty and practical.",
+        "cheaper": "Make the recipe more budget-friendly using affordable ingredients.",
+        "quicker": "Make the recipe quicker to cook while keeping the result realistic.",
+        "vegetarian": "Convert the recipe into a vegetarian-friendly version.",
+        "spicier": "Make the recipe spicier while keeping the flavours balanced.",
+        "simpler": "Make the recipe simpler with fewer steps and easier ingredients.",
+        "custom": "Follow the custom instruction provided by the user.",
+    }
+
+    selected_instruction = modification_labels.get(
+        modification_type,
+        "Improve the recipe based on the user's request.",
+    )
+
+    return f"""
+You are CulinaAI, an AI recipe assistant.
+
+Your task is to modify an existing saved recipe based on the user's request.
+
+Modification request:
+{selected_instruction}
+
+Custom user instruction:
+{custom_instruction if custom_instruction else "No custom instruction provided."}
+
+Original recipe title:
+{recipe.title}
+
+Original ingredients:
+{recipe.ingredients_text}
+
+Original allergy notes:
+{recipe.allergy_notes if recipe.allergy_notes else "No allergy notes provided."}
+
+Original recipe instructions:
+{recipe.instructions_text}
+
+Return the modified recipe using this exact structure:
+
+MODIFIED RECIPE TITLE:
+A clear title for the modified recipe.
+
+WHAT CHANGED:
+Briefly explain what changed from the original recipe.
+
+INGREDIENTS:
+List the updated ingredients clearly.
+
+INSTRUCTIONS:
+Give step-by-step cooking instructions.
+
+ALLERGY AND DIET NOTES:
+Mention any important allergy, diet, or safety notes.
+
+CHEF TIPS:
+Give practical tips to improve the final result.
+
+STORAGE ADVICE:
+Explain how to store leftovers safely.
+"""
+
+
+def modify_ai_recipe(recipe, modification_type, custom_instruction=""):
+    """
+    Sends an existing saved recipe to OpenAI and returns a modified version.
+
+    Important:
+    - This function is ready for the real OpenAI call.
+    - It should only be triggered when the user intentionally submits the modify form.
+    - We do not run this function during normal system checks, so it does not spend API credit.
+    """
+
+    if not settings.OPENAI_API_KEY:
+        raise ValueError("OpenAI API key is missing. Please check your .env file.")
+
+    prompt = build_recipe_modification_prompt(
+        recipe=recipe,
+        modification_type=modification_type,
+        custom_instruction=custom_instruction,
+    )
+
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input=prompt,
+        max_output_tokens=1200,
+    )
+
+    return {
+        "prompt": prompt,
+        "modified_recipe_text": response.output_text,
+    }

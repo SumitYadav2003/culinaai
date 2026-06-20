@@ -2358,3 +2358,830 @@ textarea.recipe-input {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   MODIFY RECIPE SECTION
+   Purpose:
+   - Premium UI for the future AI-powered recipe modification feature.
+   - The button is intentionally disabled until the backend OpenAI modify view
+     is connected in the next implementation step.
+   ========================================================= */
+
+.culina-modify-recipe {
+    margin-top: 34px;
+    padding: 34px;
+    border-radius: 34px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.15), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.13), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 248, 239, 0.94));
+    box-shadow: 0 26px 72px rgba(15, 23, 42, 0.09);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 430px;
+    gap: 30px;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.culina-modify-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.culina-modify-copy h2 {
+    margin: 14px 0 14px;
+    color: var(--culina-dark);
+    font-size: clamp(2rem, 4vw, 3.15rem);
+    font-weight: 950;
+    line-height: 1.05;
+    letter-spacing: -0.055em;
+}
+
+.culina-modify-lead {
+    max-width: 780px;
+    margin: 0 0 22px;
+    color: var(--culina-muted);
+    font-size: 1.03rem;
+    line-height: 1.8;
+}
+
+.culina-modify-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.culina-modify-options span {
+    min-height: 42px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--culina-dark);
+    font-size: 0.86rem;
+    font-weight: 950;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(249, 115, 22, 0.13);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+}
+
+.culina-modify-options i {
+    color: var(--culina-orange);
+}
+
+.culina-modify-panel {
+    min-width: 0;
+    padding: 26px;
+    border-radius: 28px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 22px 58px rgba(15, 23, 42, 0.08);
+}
+
+.culina-modify-panel-header {
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.culina-modify-panel-icon {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    border-radius: 19px;
+    display: grid;
+    place-items: center;
+    color: var(--culina-white);
+    font-size: 1.22rem;
+    background: linear-gradient(135deg, var(--culina-orange), #ea580c);
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.25);
+}
+
+.culina-modify-panel-header h3 {
+    margin: 0 0 4px;
+    color: var(--culina-dark);
+    font-size: 1.28rem;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+}
+
+.culina-modify-panel-header p {
+    margin: 0;
+    color: var(--culina-muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+}
+
+.culina-modify-form {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.culina-modify-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.culina-modify-field label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--culina-dark);
+    font-size: 0.9rem;
+    font-weight: 950;
+}
+
+.culina-modify-field label i {
+    color: var(--culina-orange);
+}
+
+.culina-modify-field select,
+.culina-modify-field textarea {
+    width: 100%;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 20px;
+    color: var(--culina-dark);
+    font-size: 1rem;
+    font-weight: 750;
+    background: rgba(255, 255, 255, 0.96);
+    outline: none;
+    transition: var(--transition);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.culina-modify-field select {
+    min-height: 56px;
+    padding: 13px 16px;
+}
+
+.culina-modify-field textarea {
+    min-height: 125px;
+    padding: 15px 16px;
+    resize: vertical;
+    line-height: 1.65;
+}
+
+.culina-modify-field select:focus,
+.culina-modify-field textarea:focus {
+    border-color: rgba(249, 115, 22, 0.5);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.culina-modify-field small {
+    color: var(--culina-muted);
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.culina-modify-submit {
+    width: 100%;
+    min-height: 56px;
+    margin-top: 4px;
+    padding: 13px 18px;
+    border: 0;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1rem;
+    font-weight: 950;
+    background: linear-gradient(135deg, #64748b, #334155);
+    box-shadow: 0 18px 44px rgba(51, 65, 85, 0.22);
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+@media (max-width: 1199px) {
+    .culina-modify-recipe {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-modify-recipe {
+        padding: 22px;
+        border-radius: 28px;
+    }
+
+    .culina-modify-panel {
+        padding: 22px;
+        border-radius: 26px;
+    }
+
+    .culina-modify-panel-header {
+        align-items: flex-start;
+    }
+
+    .culina-modify-copy h2 {
+        font-size: 2rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   MODIFIED RECIPE PREVIEW
+   Purpose:
+   - Displays the AI-generated modified recipe result inside the Modify Recipe card.
+   - The preview is visually separated so the user can review it before saving.
+   ========================================================= */
+
+.culina-modified-preview {
+    margin-top: 22px;
+    padding: 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(22, 163, 74, 0.16);
+    background:
+        linear-gradient(135deg, rgba(240, 253, 244, 0.96), rgba(255, 255, 255, 0.94));
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+}
+
+.culina-modified-preview-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.culina-modified-preview-header span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--culina-dark);
+    font-size: 0.9rem;
+    font-weight: 950;
+}
+
+.culina-modified-preview-header span i {
+    color: var(--culina-green);
+}
+
+.culina-modified-preview-header small {
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: #166534;
+    font-size: 0.74rem;
+    font-weight: 950;
+    background: rgba(22, 163, 74, 0.1);
+    white-space: nowrap;
+}
+
+.culina-modified-preview-text {
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 18px;
+    border-radius: 20px;
+    color: var(--culina-dark);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    font-size: 0.96rem;
+    line-height: 1.8;
+    font-weight: 650;
+}
+
+.culina-modified-preview-text p {
+    margin-bottom: 14px;
+}
+
+.culina-modified-preview-text p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 575px) {
+    .culina-modified-preview-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .culina-modified-preview-text {
+        max-height: 360px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FINAL MODIFY RECIPE PREMIUM LAYOUT FIX
+   Purpose:
+   - Fixes the large empty space above the Modify Recipe text.
+   - Top-aligns the left content with the right AI form panel.
+   - Makes the section look more like a real premium web product.
+   - Improves the AI modified preview display after generation.
+   ========================================================= */
+
+.culina-modify-recipe {
+    align-items: flex-start !important;
+    gap: 34px !important;
+    padding: 38px !important;
+    background:
+        radial-gradient(circle at 8% 12%, rgba(249, 115, 22, 0.16), transparent 30%),
+        radial-gradient(circle at 92% 8%, rgba(22, 163, 74, 0.12), transparent 28%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.96)) !important;
+}
+
+/* Left side must start from the top, not center vertically */
+.culina-modify-copy {
+    justify-content: flex-start !important;
+    padding-top: 22px !important;
+}
+
+/* Make label cleaner and more premium */
+.culina-modify-copy .section-label {
+    width: fit-content !important;
+    box-shadow: 0 12px 28px rgba(249, 115, 22, 0.12) !important;
+}
+
+/* Strong premium title without dropping too low */
+.culina-modify-copy h2 {
+    max-width: 760px !important;
+    margin-top: 18px !important;
+    margin-bottom: 16px !important;
+    font-size: clamp(2.4rem, 4.4vw, 4rem) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.065em !important;
+}
+
+/* Better paragraph width and spacing */
+.culina-modify-lead {
+    max-width: 760px !important;
+    margin-bottom: 24px !important;
+    font-size: 1.04rem !important;
+    line-height: 1.8 !important;
+}
+
+/* Make option chips look more polished */
+.culina-modify-options {
+    margin-top: 8px !important;
+    gap: 12px !important;
+}
+
+.culina-modify-options span {
+    min-height: 46px !important;
+    padding: 11px 16px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06) !important;
+    transition: var(--transition) !important;
+}
+
+.culina-modify-options span:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 20px 44px rgba(15, 23, 42, 0.1) !important;
+}
+
+/* Right panel should look like a proper app card */
+.culina-modify-panel {
+    align-self: flex-start !important;
+    border-radius: 32px !important;
+    padding: 28px !important;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 250, 245, 0.95)) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 26px 72px rgba(15, 23, 42, 0.1) !important;
+}
+
+/* Improve the modify submit button now that it is active */
+.culina-modify-submit {
+    color: var(--culina-white) !important;
+    background: linear-gradient(135deg, var(--culina-orange), #ea580c) !important;
+    box-shadow: 0 18px 44px rgba(249, 115, 22, 0.28) !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    transition: var(--transition) !important;
+}
+
+.culina-modify-submit:hover {
+    color: var(--culina-white) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 26px 60px rgba(249, 115, 22, 0.38) !important;
+}
+
+/* Make the AI preview look like a clean generated result */
+.culina-modified-preview {
+    margin-top: 26px !important;
+    padding: 22px !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(22, 163, 74, 0.18) !important;
+    background:
+        radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 32%),
+        linear-gradient(135deg, rgba(240, 253, 244, 0.98), rgba(255, 255, 255, 0.96)) !important;
+    box-shadow: 0 22px 58px rgba(15, 23, 42, 0.09) !important;
+}
+
+/* Header inside generated preview */
+.culina-modified-preview-header {
+    padding-bottom: 14px !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.07) !important;
+    margin-bottom: 16px !important;
+}
+
+.culina-modified-preview-header span {
+    font-size: 0.95rem !important;
+}
+
+.culina-modified-preview-header small {
+    background: rgba(22, 163, 74, 0.13) !important;
+}
+
+/* Make text readable and premium */
+.culina-modified-preview-text {
+    max-height: 520px !important;
+    padding: 22px !important;
+    border-radius: 22px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(15, 23, 42, 0.07) !important;
+    color: var(--culina-dark) !important;
+    font-size: 0.98rem !important;
+    line-height: 1.9 !important;
+    font-weight: 650 !important;
+}
+
+/* Slightly better paragraph rhythm */
+.culina-modified-preview-text p {
+    margin-bottom: 16px !important;
+}
+
+/* Responsive fix */
+@media (max-width: 1199px) {
+    .culina-modify-copy {
+        padding-top: 0 !important;
+    }
+
+    .culina-modify-copy h2 {
+        font-size: clamp(2.2rem, 7vw, 3.4rem) !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-modify-recipe {
+        padding: 24px !important;
+        border-radius: 28px !important;
+    }
+
+    .culina-modify-copy h2 {
+        font-size: 2.1rem !important;
+        line-height: 1.05 !important;
+    }
+
+    .culina-modify-panel {
+        padding: 22px !important;
+    }
+
+    .culina-modified-preview-text {
+        max-height: 390px !important;
+        padding: 18px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   MODIFY RECIPE LEFT-SIDE WORKFLOW FILLER
+   Purpose:
+   - Fills the empty space on the left side of the Modify Recipe section.
+   - Makes the section feel balanced when the AI modified preview is shown.
+   - Adds a premium product-style explanation of the modification process.
+   ========================================================= */
+
+.culina-modify-workflow {
+    margin-top: 30px !important;
+    display: grid !important;
+    gap: 16px !important;
+    max-width: 760px !important;
+}
+
+.culina-modify-workflow-card {
+    padding: 18px !important;
+    border-radius: 26px !important;
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 248, 239, 0.84)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.12) !important;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06) !important;
+    transition: var(--transition) !important;
+}
+
+.culina-modify-workflow-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 26px 58px rgba(15, 23, 42, 0.1) !important;
+}
+
+.culina-modify-workflow-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-white) !important;
+    font-size: 1.15rem !important;
+    background: linear-gradient(135deg, var(--culina-orange), #ea580c) !important;
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.25) !important;
+}
+
+.culina-modify-workflow-card h3 {
+    margin: 0 0 6px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.culina-modify-workflow-card p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.94rem !important;
+    line-height: 1.65 !important;
+}
+
+@media (max-width: 1199px) {
+    .culina-modify-workflow {
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-modify-workflow-card {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-modify-workflow-icon {
+        width: 48px !important;
+        height: 48px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   AI MODIFICATION VISUAL CARD
+   Purpose:
+   - Fills the left blank space after an AI modified recipe is generated.
+   - Uses CSS-only animation to create a premium AI product feel.
+   - Appears only when modified_recipe_preview exists in the template.
+   ========================================================= */
+
+.culina-modify-visual {
+    margin-top: 28px !important;
+    padding: 28px !important;
+    border-radius: 32px !important;
+    display: grid !important;
+    grid-template-columns: 210px minmax(0, 1fr) !important;
+    gap: 28px !important;
+    align-items: center !important;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(249, 115, 22, 0.18), transparent 34%),
+        radial-gradient(circle at 80% 80%, rgba(22, 163, 74, 0.16), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 239, 0.9)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 26px 70px rgba(15, 23, 42, 0.08) !important;
+    overflow: hidden !important;
+}
+
+.culina-modify-visual-orbit {
+    position: relative !important;
+    width: 190px !important;
+    height: 190px !important;
+    border-radius: 50% !important;
+    display: grid !important;
+    place-items: center !important;
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 237, 213, 0.62)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+    box-shadow:
+        inset 0 0 40px rgba(249, 115, 22, 0.08),
+        0 20px 50px rgba(249, 115, 22, 0.12) !important;
+}
+
+.culina-modify-visual-orbit::before,
+.culina-modify-visual-orbit::after {
+    content: "" !important;
+    position: absolute !important;
+    border-radius: 50% !important;
+    border: 1px dashed rgba(249, 115, 22, 0.28) !important;
+}
+
+.culina-modify-visual-orbit::before {
+    inset: 26px !important;
+    animation: culinaOrbitSpin 12s linear infinite !important;
+}
+
+.culina-modify-visual-orbit::after {
+    inset: 52px !important;
+    border-color: rgba(22, 163, 74, 0.28) !important;
+    animation: culinaOrbitSpinReverse 9s linear infinite !important;
+}
+
+.culina-modify-visual-core {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 78px !important;
+    height: 78px !important;
+    border-radius: 26px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-white) !important;
+    font-size: 1.9rem !important;
+    background: linear-gradient(135deg, var(--culina-orange), #ea580c) !important;
+    box-shadow: 0 22px 50px rgba(249, 115, 22, 0.34) !important;
+    animation: culinaCorePulse 2.4s ease-in-out infinite !important;
+}
+
+.orbit-dot {
+    position: absolute !important;
+    z-index: 3 !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: var(--culina-green) !important;
+    box-shadow: 0 0 0 8px rgba(22, 163, 74, 0.12) !important;
+}
+
+.orbit-dot-one {
+    top: 24px !important;
+    right: 44px !important;
+}
+
+.orbit-dot-two {
+    left: 26px !important;
+    bottom: 54px !important;
+    background: var(--culina-orange) !important;
+    box-shadow: 0 0 0 8px rgba(249, 115, 22, 0.12) !important;
+}
+
+.orbit-dot-three {
+    right: 24px !important;
+    bottom: 38px !important;
+    background: #facc15 !important;
+    box-shadow: 0 0 0 8px rgba(250, 204, 21, 0.16) !important;
+}
+
+.culina-modify-visual-content {
+    min-width: 0 !important;
+}
+
+.culina-modify-visual-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: fit-content !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    color: #166534 !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    background: rgba(22, 163, 74, 0.11) !important;
+}
+
+.culina-modify-visual-content h3 {
+    margin: 14px 0 10px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(1.6rem, 3vw, 2.4rem) !important;
+    font-weight: 950 !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+}
+
+.culina-modify-visual-content p {
+    margin: 0 !important;
+    max-width: 560px !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.98rem !important;
+    line-height: 1.75 !important;
+}
+
+@keyframes culinaOrbitSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes culinaOrbitSpinReverse {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes culinaCorePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 22px 50px rgba(249, 115, 22, 0.34);
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 28px 70px rgba(249, 115, 22, 0.46);
+    }
+}
+
+@media (max-width: 991px) {
+    .culina-modify-visual {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-modify-visual-orbit {
+        margin: 0 auto !important;
+    }
+
+    .culina-modify-visual-content {
+        text-align: center !important;
+    }
+
+    .culina-modify-visual-badge {
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-modify-visual {
+        padding: 22px !important;
+        border-radius: 26px !important;
+    }
+
+    .culina-modify-visual-orbit {
+        width: 160px !important;
+        height: 160px !important;
+    }
+
+    .culina-modify-visual-core {
+        width: 68px !important;
+        height: 68px !important;
+        border-radius: 22px !important;
+    }
+}

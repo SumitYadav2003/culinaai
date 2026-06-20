@@ -4,12 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<!--
-    Cache-busting query string:
-    This forces the browser to load the latest recipes.css after major UI changes.
-    It is useful during development when Chrome keeps showing old CSS.
--->
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-detail-email-premium-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-detail-ai-visual-fixed-1">
 {% endblock %}
 
 {% block content %}
@@ -19,24 +14,16 @@
 
         <!--
             Saved Recipe Detail Hero
-            Purpose:
-            - Shows the saved recipe title, description, favourite action,
-              recipe metadata, ingredients, allergy notes, diet tags and
-              full AI-generated cooking instructions.
+            Shows the saved recipe title, metadata, ingredients, allergy notes,
+            diet tags and full AI-generated cooking instructions.
         -->
         <div class="recipe-detail-hero">
 
-            <!-- Back navigation to the saved recipe library. -->
             <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
                 <i class="bi bi-arrow-left"></i>
                 Back to Saved Recipes
             </a>
 
-            <!--
-                Recipe Header
-                Left side: recipe title and description.
-                Right side: AI badge, favourite button and recipe metadata.
-            -->
             <div class="recipe-detail-header">
                 <div class="recipe-detail-title-area">
                     <span class="section-label">
@@ -47,7 +34,7 @@
                     <h1>{{ recipe.title }}</h1>
 
                     <p>
-                        {% if recipe.description and recipe.description != "None provided" %}
+                        {% if recipe.description %}
                             {{ recipe.description }}
                         {% else %}
                             A personalised AI-generated recipe saved in your CulinaAI library.
@@ -55,11 +42,6 @@
                     </p>
                 </div>
 
-                <!--
-                    Recipe Control Panel
-                    This panel contains actions and metadata. The favourite form uses POST
-                    because it creates or deletes a FavouriteRecipe record in the database.
-                -->
                 <div class="recipe-detail-control-panel">
                     <div class="recipe-detail-actions">
                         <div class="recipe-detail-badge">
@@ -84,7 +66,6 @@
                         </form>
                     </div>
 
-                    <!-- Recipe metadata badges. -->
                     <div class="recipe-detail-meta">
                         <span>
                             <i class="bi bi-clock"></i>
@@ -118,15 +99,9 @@
                 </div>
             </div>
 
-            <!--
-                Main Recipe Content Grid
-                Left column: supporting recipe data.
-                Right column: full AI-generated recipe instructions.
-            -->
             <div class="row g-4 recipe-detail-content-row">
                 <div class="col-lg-4">
 
-                    <!-- Ingredients used to generate and save the recipe. -->
                     <div class="recipe-detail-side-card">
                         <h3>
                             <i class="bi bi-basket2"></i>
@@ -136,11 +111,6 @@
                         <p>{{ recipe.ingredients_text|linebreaksbr }}</p>
                     </div>
 
-                    <!--
-                        Allergy and safety notes:
-                        - Warning box if the recipe contains allergy notes.
-                        - Safe reminder box if no notes were provided.
-                    -->
                     <div class="recipe-detail-side-card">
                         <h3>
                             <i class="bi bi-shield-exclamation"></i>
@@ -168,7 +138,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Diet preference tags linked to the recipe. -->
                     <div class="recipe-detail-side-card">
                         <h3>
                             <i class="bi bi-tags"></i>
@@ -192,8 +161,6 @@
                 </div>
 
                 <div class="col-lg-8">
-
-                    <!-- Full AI-generated recipe text. -->
                     <div class="recipe-detail-main-card">
                         <div class="recipe-detail-main-header">
                             <span class="section-label">
@@ -212,12 +179,7 @@
             </div>
         </div>
 
-        <!--
-            Feedback Section
-            Purpose:
-            - Allows the user to submit a rating and optional written feedback.
-            - Shows the user's latest feedback history for this recipe.
-        -->
+        <!-- Feedback Section -->
         <div class="recipe-feedback-card">
             <div class="recipe-feedback-header">
                 <div>
@@ -280,9 +242,7 @@
                                 Your feedback history
                             </h3>
 
-                            <p>
-                                Your latest comments for this recipe are saved here for review.
-                            </p>
+                            <p>Your latest comments for this recipe are saved here for review.</p>
                         </div>
 
                         <span class="feedback-history-count">
@@ -299,7 +259,6 @@
 
                                 <div class="feedback-history-content">
                                     <span>Feedback {{ forloop.counter }}</span>
-
                                     <p>{{ feedback.comment }}</p>
                                 </div>
                             </div>
@@ -309,13 +268,177 @@
             {% endif %}
         </div>
 
-        <!--
-            Premium Email Recipe Section
-            Purpose:
-            - Sends the saved recipe to a real email address.
-            - Uses Django's email view and SMTP credentials stored securely in .env.
-            - Designed with a unique ID so this section is not affected by old email CSS.
-        -->
+        <!-- Modify Recipe Section -->
+        <section id="culina-modify-recipe" class="culina-modify-recipe" aria-labelledby="culina-modify-title">
+            <div class="culina-modify-copy">
+                <span class="section-label">
+                    <i class="bi bi-magic"></i>
+                    Modify Recipe
+                </span>
+
+                <h2 id="culina-modify-title">Adjust this recipe to fit your needs.</h2>
+
+                <p class="culina-modify-lead">
+                    Choose how you want CulinaAI to improve this saved recipe. You can make it healthier,
+                    cheaper, quicker, vegetarian, spicier, simpler, or write your own custom instruction.
+                </p>
+
+                <div class="culina-modify-options">
+                    <span>
+                        <i class="bi bi-heart-pulse"></i>
+                        Healthier
+                    </span>
+
+                    <span>
+                        <i class="bi bi-cash-coin"></i>
+                        Cheaper
+                    </span>
+
+                    <span>
+                        <i class="bi bi-stopwatch"></i>
+                        Quicker
+                    </span>
+
+                    <span>
+                        <i class="bi bi-flower1"></i>
+                        Vegetarian
+                    </span>
+                </div>
+
+                <!--
+                    Workflow cards fill the left side so the section does not look empty
+                    when the modified recipe preview appears on the right.
+                -->
+                <div class="culina-modify-workflow">
+                    <div class="culina-modify-workflow-card">
+                        <div class="culina-modify-workflow-icon">
+                            <i class="bi bi-ui-checks-grid"></i>
+                        </div>
+
+                        <div>
+                            <h3>Choose the change</h3>
+                            <p>Select a quick option like healthier, cheaper, quicker, or vegetarian.</p>
+                        </div>
+                    </div>
+
+                    <div class="culina-modify-workflow-card">
+                        <div class="culina-modify-workflow-icon">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+
+                        <div>
+                            <h3>CulinaAI rewrites it</h3>
+                            <p>The recipe is regenerated with updated ingredients, instructions and notes.</p>
+                        </div>
+                    </div>
+
+                    <div class="culina-modify-workflow-card">
+                        <div class="culina-modify-workflow-icon">
+                            <i class="bi bi-journal-check"></i>
+                        </div>
+
+                        <div>
+                            <h3>Review before saving</h3>
+                            <p>You can review the modified version before we add the save option next.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if modified_recipe_preview %}
+                    <!--
+                        AI Modification Visual
+                        Appears only after an AI modified recipe preview is generated.
+                    -->
+                    <div class="culina-modify-visual">
+                        <div class="culina-modify-visual-orbit">
+                            <span class="orbit-dot orbit-dot-one"></span>
+                            <span class="orbit-dot orbit-dot-two"></span>
+                            <span class="orbit-dot orbit-dot-three"></span>
+
+                            <div class="culina-modify-visual-core">
+                                <i class="bi bi-stars"></i>
+                            </div>
+                        </div>
+
+                        <div class="culina-modify-visual-content">
+                            <span class="culina-modify-visual-badge">
+                                AI modification generated
+                            </span>
+
+                            <h3>Your upgraded recipe is ready to review.</h3>
+
+                            <p>
+                                CulinaAI has rewritten this recipe based on your selected change.
+                                Review the modified version on the right before we add the save option next.
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="culina-modify-panel">
+                <div class="culina-modify-panel-header">
+                    <div class="culina-modify-panel-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <div>
+                        <h3>Modify with AI</h3>
+                        <p>Select a change type and optionally add a custom instruction.</p>
+                    </div>
+                </div>
+
+                <form method="post" action="{% url 'modify_saved_recipe' recipe.id %}" class="culina-modify-form">
+                    {% csrf_token %}
+
+                    <div class="culina-modify-field">
+                        <label for="{{ modify_form.modification_type.id_for_label }}">
+                            <i class="bi bi-sliders"></i>
+                            Modification type
+                        </label>
+
+                        {{ modify_form.modification_type }}
+
+                        <small>Choose the main way you want this recipe adjusted.</small>
+                    </div>
+
+                    <div class="culina-modify-field">
+                        <label for="{{ modify_form.custom_instruction.id_for_label }}">
+                            <i class="bi bi-pencil-square"></i>
+                            Custom instruction
+                        </label>
+
+                        {{ modify_form.custom_instruction }}
+
+                        <small>Optional: add a specific instruction for the AI modification.</small>
+                    </div>
+
+                    <button type="submit" class="btn culina-modify-submit">
+                        <i class="bi bi-stars"></i>
+                        Request Recipe Modification
+                    </button>
+                </form>
+
+                {% if modified_recipe_preview %}
+                    <div class="culina-modified-preview">
+                        <div class="culina-modified-preview-header">
+                            <span>
+                                <i class="bi bi-sparkles"></i>
+                                AI Modified Preview
+                            </span>
+
+                            <small>Review before saving</small>
+                        </div>
+
+                        <div class="culina-modified-preview-text">
+                            {{ modified_recipe_preview.modified_recipe_text|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Premium Email Recipe Section -->
         <section id="culina-email-share" class="culina-email-share" aria-labelledby="culina-email-title">
             <div class="culina-email-copy">
                 <span class="section-label">
