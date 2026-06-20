@@ -10,6 +10,7 @@ from .views import (
     submit_recipe_feedback_view,
     toggle_favourite_recipe_view,
     modify_saved_recipe_view,
+    save_modified_recipe_view,
 )
 
 urlpatterns = [
@@ -22,4 +23,5 @@ urlpatterns = [
     path("feedback/<int:recipe_id>/", submit_recipe_feedback_view, name="submit_recipe_feedback"),
     path("email/<int:recipe_id>/", send_recipe_email_view, name="send_recipe_email"),
     path("modify/<int:recipe_id>/", modify_saved_recipe_view, name="modify_saved_recipe"),
+    path("save-modified/<int:recipe_id>/", save_modified_recipe_view, name="save_modified_recipe"),
 ]

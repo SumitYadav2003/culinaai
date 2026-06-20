@@ -295,21 +295,30 @@ def saved_recipe_detail_view(request, recipe_id):
     email_form = RecipeEmailForm()
     modify_form = RecipeModifyForm()
 
-        # Read the latest modified recipe preview from the session.
-    # We use pop() instead of get() because the preview should appear only once.
-    # This makes the page behave like a real website:
-    # - after AI modification, show the preview
-    # - after refresh, remove the old preview
-    modified_recipe_preview = request.session.pop("modified_recipe_preview", None)
+    # Read the latest modified recipe preview from the session.
+    #
+    # Important behaviour:
+    # - After AI modification, the preview should appear once.
+    # - If the user refreshes the page, the old preview should disappear.
+    # - The preview still needs to stay in the session long enough for the
+    #   next step, where the user can click "Save Modified Recipe".
+    modified_recipe_preview = request.session.get("modified_recipe_preview")
+    preview_already_displayed = request.session.get(
+        "modified_recipe_preview_displayed",
+        False,
+    )
 
     if modified_recipe_preview:
         preview_recipe_id = modified_recipe_preview.get("recipe_id")
 
-        # Only show the preview on the same recipe that was modified.
-        # If the user opens another saved recipe, do not show an old preview there.
         if preview_recipe_id != recipe.id:
             modified_recipe_preview = None
-
+        elif preview_already_displayed:
+            request.session.pop("modified_recipe_preview", None)
+            request.session.pop("modified_recipe_preview_displayed", None)
+            modified_recipe_preview = None
+        else:
+            request.session["modified_recipe_preview_displayed"] = True
     return render(
         request,
         "recipes/saved_recipe_detail.html",
@@ -322,6 +331,8 @@ def saved_recipe_detail_view(request, recipe_id):
             "modified_recipe_preview": modified_recipe_preview,
             "user_rating": user_rating,
             "user_feedback_items": user_feedback_items,
+            "original_recipe": recipe.original_recipe,
+            "is_modified_version": recipe.is_modified_version,
         },
     )
 
@@ -535,6 +546,10 @@ def modify_saved_recipe_view(request, recipe_id):
                 "modified_recipe_text": ai_result.get("modified_recipe_text", ""),
             }
 
+            # This flag lets the detail page show the preview once.
+            # If the user refreshes after seeing it, the preview is cleared.
+            request.session["modified_recipe_preview_displayed"] = False
+
             messages.success(
                 request,
                 "AI modification generated successfully. Review the modified recipe below.",
@@ -546,7 +561,108 @@ def modify_saved_recipe_view(request, recipe_id):
                 "AI modification failed. Please check your OpenAI API key, billing credits, or connection.",
             )
 
-        return redirect("saved_recipe_detail", recipe_id=recipe.id)
+        return redirect(f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modified-preview")
 
     messages.error(request, "Please check the recipe modification form and try again.")
-    return redirect("saved_recipe_detail", recipe_id=recipe.id)
+    return redirect(f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def save_modified_recipe_view(request, recipe_id):
+    """
+    Saves the AI-modified recipe preview as a new saved recipe.
+
+    Why this creates a new recipe instead of overwriting:
+    - The original saved recipe should remain unchanged.
+    - The modified recipe is a new version generated from the original.
+    - This gives the user both versions in their saved recipe library.
+
+    Session dependency:
+    - modify_saved_recipe_view stores the modified recipe text in the session.
+    - This view reads that session data and saves it into PostgreSQL.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    original_recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    modified_preview = request.session.get("modified_recipe_preview")
+
+    if not modified_preview:
+        messages.error(request, "No modified recipe preview found to save.")
+        return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
+
+    if modified_preview.get("recipe_id") != original_recipe.id:
+        messages.error(request, "This modified recipe preview does not match the current recipe.")
+        return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
+
+    modified_recipe_text = modified_preview.get("modified_recipe_text", "").strip()
+    modification_type = modified_preview.get("modification_type", "")
+    custom_instruction = modified_preview.get("custom_instruction", "")
+    modification_prompt = modified_preview.get("prompt", "")
+
+    if not modified_recipe_text:
+        messages.error(request, "Modified recipe text is empty and cannot be saved.")
+        return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
+
+    new_recipe = Recipe.objects.create(
+        user=request.user,
+        title=extract_recipe_title(modified_recipe_text),
+        description=f"Modified version of: {original_recipe.title}",
+        cuisine=original_recipe.cuisine,
+        meal_type=original_recipe.meal_type,
+
+        # Store the original recipe relationship.
+        # This allows the modified recipe detail page to compare:
+        # Original Recipe vs Modified Recipe.
+        original_recipe=original_recipe,
+
+        # Store how the recipe was modified.
+        # This makes the page more explainable and professional.
+        modification_type=modification_type,
+        modification_instruction=custom_instruction,
+
+        ingredients_text=original_recipe.ingredients_text,
+        instructions_text=modified_recipe_text,
+        cooking_time_minutes=original_recipe.cooking_time_minutes,
+        difficulty=original_recipe.difficulty,
+        allergy_notes=original_recipe.allergy_notes,
+        ai_prompt=modification_prompt,
+        ai_response=modified_recipe_text,
+        is_ai_generated=True,
+        is_saved=True,
+    )
+
+    # Copy diet preferences from the original recipe to the modified recipe.
+    # This keeps the modified version organised consistently in the database.
+    for diet in original_recipe.diet_preferences.all():
+        new_recipe.diet_preferences.add(diet)
+
+    # Clear the preview from session after saving so it does not get saved twice.
+    request.session.pop("modified_recipe_preview", None)
+    request.session.pop("modified_recipe_preview_displayed", None)
+
+    messages.success(request, "Modified recipe saved successfully as a new saved recipe.")
+    return redirect("saved_recipe_detail", recipe_id=new_recipe.id)

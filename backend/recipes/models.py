@@ -52,11 +52,46 @@ class Recipe(models.Model):
         ("hard", "Hard"),
     ]
 
+    MODIFICATION_TYPE_CHOICES = [
+        ("healthier", "Healthier"),
+        ("cheaper", "Cheaper"),
+        ("quicker", "Quicker"),
+        ("vegetarian", "Vegetarian"),
+        ("spicier", "Spicier"),
+        ("simpler", "Simpler"),
+        ("custom", "Custom"),
+    ]
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="recipes",
     )
+
+    # Links a modified recipe back to the original recipe.
+    # Normal AI-generated recipes will keep this empty.
+    # Modified recipes will use this field for comparison:
+    # Original Recipe vs Modified Recipe.
+    original_recipe = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="modified_versions",
+    )
+
+    # Stores what type of modification the user requested.
+    # Example: healthier, cheaper, quicker, vegetarian, spicier, simpler, custom.
+    modification_type = models.CharField(
+        max_length=50,
+        choices=MODIFICATION_TYPE_CHOICES,
+        blank=True,
+    )
+
+    # Stores the optional custom instruction entered by the user.
+    # This helps explain why the modified recipe was created.
+    modification_instruction = models.TextField(blank=True)
+
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
 
@@ -104,6 +139,16 @@ class Recipe(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def is_modified_version(self):
+        """
+        Returns True when this recipe was created from another saved recipe.
+
+        This is useful in templates because we can show the comparison section
+        only for modified recipes.
+        """
+        return self.original_recipe_id is not None
 
     class Meta:
         ordering = ["-created_at"]

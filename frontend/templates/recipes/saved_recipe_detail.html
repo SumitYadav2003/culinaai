@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-detail-ai-visual-fixed-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-detail-save-modified-final-1">
 {% endblock %}
 
 {% block content %}
@@ -179,6 +179,130 @@
             </div>
         </div>
 
+
+
+                {% if is_modified_version %}
+            {% if original_recipe %}
+                <!--
+                    Original vs Modified Recipe Comparison
+                    Purpose:
+                    - Appears only for recipes that were created by modifying another recipe.
+                    - Helps the user understand what changed from the original version.
+                    - Makes the AI modification feature look more professional and explainable.
+                -->
+                <section class="culina-comparison-section" aria-labelledby="culina-comparison-title">
+                    <div class="culina-comparison-header">
+                        <div>
+                            <span class="section-label">
+                                <i class="bi bi-columns-gap"></i>
+                                Recipe Comparison
+                            </span>
+
+                            <h2 id="culina-comparison-title">Original vs Modified Recipe</h2>
+
+                            <p>
+                                This recipe was created from an earlier saved recipe. Compare both versions
+                                to understand what CulinaAI changed during the modification.
+                            </p>
+                        </div>
+
+                        <div class="culina-comparison-badge">
+                            <i class="bi bi-magic"></i>
+
+                            {% if recipe.modification_type %}
+                                {{ recipe.get_modification_type_display }} version
+                            {% else %}
+                                Modified version
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="culina-comparison-source-card">
+                        <div>
+                            <span>Modified from</span>
+                            <h3>{{ original_recipe.title }}</h3>
+
+                            {% if recipe.modification_instruction %}
+                                <p>
+                                    <strong>User instruction:</strong>
+                                    {{ recipe.modification_instruction }}
+                                </p>
+                            {% else %}
+                                <p>
+                                    This version was generated using the selected modification type.
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <a href="{% url 'saved_recipe_detail' original_recipe.id %}" class="culina-comparison-source-link">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            View Original Recipe
+                        </a>
+                    </div>
+
+                    <div class="culina-comparison-grid">
+                        <article class="culina-comparison-card culina-comparison-original">
+                            <div class="culina-comparison-card-header">
+                                <span>
+                                    <i class="bi bi-journal-text"></i>
+                                    Original Recipe
+                                </span>
+
+                                <small>{{ original_recipe.created_at|date:"d M Y" }}</small>
+                            </div>
+
+                            <h3>{{ original_recipe.title }}</h3>
+
+                            <div class="culina-comparison-meta">
+                                <span>
+                                    <i class="bi bi-clock"></i>
+                                    {{ original_recipe.cooking_time_minutes }} min
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-bar-chart"></i>
+                                    {{ original_recipe.difficulty|title }}
+                                </span>
+                            </div>
+
+                            <div class="culina-comparison-content">
+                                {{ original_recipe.instructions_text|linebreaks }}
+                            </div>
+                        </article>
+
+                        <article class="culina-comparison-card culina-comparison-modified">
+                            <div class="culina-comparison-card-header">
+                                <span>
+                                    <i class="bi bi-stars"></i>
+                                    Modified Recipe
+                                </span>
+
+                                <small>{{ recipe.created_at|date:"d M Y" }}</small>
+                            </div>
+
+                            <h3>{{ recipe.title }}</h3>
+
+                            <div class="culina-comparison-meta">
+                                <span>
+                                    <i class="bi bi-clock"></i>
+                                    {{ recipe.cooking_time_minutes }} min
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-bar-chart"></i>
+                                    {{ recipe.difficulty|title }}
+                                </span>
+                            </div>
+
+                            <div class="culina-comparison-content">
+                                {{ recipe.instructions_text|linebreaks }}
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            {% endif %}
+        {% endif %}
+
         <!-- Feedback Section -->
         <div class="recipe-feedback-card">
             <div class="recipe-feedback-header">
@@ -339,7 +463,7 @@
 
                         <div>
                             <h3>Review before saving</h3>
-                            <p>You can review the modified version before we add the save option next.</p>
+                            <p>You can review the modified version before saving it as a new recipe.</p>
                         </div>
                     </div>
                 </div>
@@ -369,7 +493,8 @@
 
                             <p>
                                 CulinaAI has rewritten this recipe based on your selected change.
-                                Review the modified version on the right before we add the save option next.
+                                Review the modified version on the right and save it as a new recipe
+                                if you want to keep it.
                             </p>
                         </div>
                     </div>
@@ -420,7 +545,7 @@
                 </form>
 
                 {% if modified_recipe_preview %}
-                    <div class="culina-modified-preview">
+                    <div id="culina-modified-preview" class="culina-modified-preview">
                         <div class="culina-modified-preview-header">
                             <span>
                                 <i class="bi bi-sparkles"></i>
@@ -433,6 +558,20 @@
                         <div class="culina-modified-preview-text">
                             {{ modified_recipe_preview.modified_recipe_text|linebreaks }}
                         </div>
+
+                        <!--
+                            Save Modified Recipe Button
+                            Saves the AI-modified preview as a new saved recipe.
+                            The original recipe remains unchanged.
+                        -->
+                        <form method="post" action="{% url 'save_modified_recipe' recipe.id %}" class="culina-save-modified-form">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn culina-save-modified-btn">
+                                <i class="bi bi-bookmark-check-fill"></i>
+                                Save Modified Recipe
+                            </button>
+                        </form>
                     </div>
                 {% endif %}
             </div>
