@@ -4,13 +4,12 @@
 {% block title %}CulinaAI | Command Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=culina-command-center-1">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=culina-command-center-quick-launch-final-1">
 {% endblock %}
 
 {% block content %}
 
 <section class="culina-command-center">
-
     <!--
         CulinaAI Command Center Dashboard
         Purpose:
@@ -18,14 +17,13 @@
         - Uses visual cards, an animated robot assistant, profile panel, quick actions,
           recent activity, and project-progress style insights.
         - This template stays focused on HTML structure only.
-          Styling and animations will live inside frontend/static/css/dashboard.css.
+        - Styling and animations live inside frontend/static/css/dashboard.css.
     -->
     <div class="container">
 
         <!-- Top Hero / AI Assistant Greeting -->
         <div class="command-hero">
             <div class="command-hero-content">
-
                 <div class="command-hero-copy">
                     <span class="command-eyebrow">
                         <i class="bi bi-cpu-fill"></i>
@@ -38,8 +36,9 @@
                     </h1>
 
                     <p>
-                        Track your saved meals, favourite dishes, AI-generated recipes, feedback history,
-                        and personalised cooking progress from one intelligent dashboard.
+                        Track your saved meals, favourite dishes, AI-generated recipes,
+                        feedback history, and personalised cooking progress from one
+                        intelligent dashboard.
                     </p>
 
                     <div class="command-hero-actions">
@@ -58,13 +57,13 @@
                 <div class="command-robot-card">
                     <div class="robot-speech">
                         <span>AI Assistant</span>
-                        <p>Welcome back, {{ user.username }}. Ready to cook smarter today?</p>
+
+                        <p>
+                            Welcome back, {{ user.username }}. Ready to cook smarter today?
+                        </p>
                     </div>
 
-                    <!--
-                        Animated robot built with HTML/CSS.
-                        No external animation library is needed.
-                    -->
+                    <!-- Animated robot built with HTML/CSS. -->
                     <div class="culina-robot" aria-label="Animated CulinaAI robot assistant">
                         <div class="robot-antenna"></div>
 
@@ -140,7 +139,6 @@
 
             <!-- Analytics Cards -->
             <div class="command-analytics-grid">
-
                 <article class="analytics-card analytics-card-orange">
                     <div class="analytics-icon">
                         <i class="bi bi-journal-richtext"></i>
@@ -212,7 +210,6 @@
                         <p>Your recipe satisfaction score across rated meals.</p>
                     </div>
                 </article>
-
             </div>
         </div>
 
@@ -237,9 +234,11 @@
                             <i class="bi bi-magic"></i>
                         </div>
 
-                        <div>
+                        <div class="command-action-copy">
                             <h3>Generate New Recipe</h3>
-                            <p>Create a personalised recipe from ingredients, diet needs and preferences.</p>
+                            <p>
+                                Create a personalised recipe from ingredients, diet needs and preferences.
+                            </p>
                         </div>
 
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
@@ -250,9 +249,11 @@
                             <i class="bi bi-journal-bookmark-fill"></i>
                         </div>
 
-                        <div>
+                        <div class="command-action-copy">
                             <h3>Saved Recipe Library</h3>
-                            <p>Search, filter, view and manage your saved AI-generated recipes.</p>
+                            <p>
+                                Search, filter, view and manage your saved AI-generated recipes.
+                            </p>
                         </div>
 
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
@@ -263,15 +264,56 @@
                             <i class="bi bi-heart-fill"></i>
                         </div>
 
-                        <div>
+                        <div class="command-action-copy">
                             <h3>Favourite Recipes</h3>
-                            <p>Open the recipes you liked most and want to cook again.</p>
+                            <p>
+                                Open the recipes you liked most and want to cook again.
+                            </p>
                         </div>
 
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
                     </a>
 
+                    <!--
+                        Latest Modified Recipe Shortcut
+                        Purpose:
+                        - Reuses the existing Quick Launch design.
+                        - Avoids creating a duplicate dashboard shortcut section.
+                        - Sends the user to their latest modified recipe when available.
+                    -->
+                    {% if latest_modified_recipe %}
+                        <a href="{% url 'saved_recipe_detail' latest_modified_recipe.id %}" class="command-action-card">
+                            <div class="command-action-icon">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </div>
 
+                            <div class="command-action-copy">
+                                <h3>Latest Modified Recipe</h3>
+                                <p>
+                                    Continue from your latest AI-modified recipe:
+                                    {{ latest_modified_recipe.title|truncatechars:58 }}
+                                </p>
+                            </div>
+
+                            <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'saved_recipes' %}" class="command-action-card">
+                            <div class="command-action-icon">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </div>
+
+                            <div class="command-action-copy">
+                                <h3>Modify a Recipe</h3>
+                                <p>
+                                    Open a saved recipe and ask CulinaAI to make it healthier,
+                                    cheaper, quicker or simpler.
+                                </p>
+                            </div>
+
+                            <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </section>
 
@@ -339,8 +381,8 @@
                         <h3>No recipes yet</h3>
 
                         <p>
-                            Generate and save your first AI recipe to start building your personalised
-                            cooking intelligence dashboard.
+                            Generate and save your first AI recipe to start building your
+                            personalised cooking intelligence dashboard.
                         </p>
 
                         <a href="{% url 'generate_recipe' %}" class="btn command-primary-btn">
@@ -352,18 +394,7 @@
             </section>
         </div>
 
-        
-
-
-
-
-                <!--
-            Taste Intelligence and AI Journey
-            Purpose:
-            - Adds deeper dashboard value without repeating the basic statistic cards.
-            - Shows personal taste patterns, latest AI refinement and evaluation activity.
-            - Uses real data prepared in backend/dashboard/views.py.
-        -->
+        <!-- Taste Intelligence and AI Journey -->
         <section class="taste-intelligence-grid">
 
             <!-- Taste Profile Card -->
@@ -401,13 +432,17 @@
                     <div class="taste-mini-card">
                         <span>Top cuisine</span>
                         <strong>{{ top_cuisine_name }}</strong>
-                        <small>{{ top_cuisine_total }} saved recipe{% if top_cuisine_total != 1 %}s{% endif %}</small>
+                        <small>
+                            {{ top_cuisine_total }} saved recipe{% if top_cuisine_total != 1 %}s{% endif %}
+                        </small>
                     </div>
 
                     <div class="taste-mini-card">
                         <span>Top meal type</span>
                         <strong>{{ top_meal_type_name }}</strong>
-                        <small>{{ top_meal_type_total }} saved recipe{% if top_meal_type_total != 1 %}s{% endif %}</small>
+                        <small>
+                            {{ top_meal_type_total }} saved recipe{% if top_meal_type_total != 1 %}s{% endif %}
+                        </small>
                     </div>
                 </div>
             </article>
@@ -464,8 +499,8 @@
                     <i class="bi bi-info-circle"></i>
 
                     <p>
-                        Recipe refinement creates stronger dissertation evidence because it shows
-                        AI personalisation beyond one-time generation.
+                        Recipe refinement creates stronger dissertation evidence because it
+                        shows AI personalisation beyond one-time generation.
                     </p>
                 </div>
             </article>
@@ -502,7 +537,9 @@
                         <div>
                             <span>No feedback yet</span>
                             <h3>Evaluate your recipes</h3>
-                            <p>Rate and review saved recipes to build measurable project evidence.</p>
+                            <p>
+                                Rate and review saved recipes to build measurable project evidence.
+                            </p>
                         </div>
                     </div>
                 {% endif %}
@@ -519,11 +556,8 @@
                     </div>
                 </div>
             </article>
-
         </section>
 
-
- 
         <!-- Intelligence / Progress Panel -->
         <section class="command-intelligence-panel">
             <div class="intelligence-copy">
@@ -535,9 +569,10 @@
                 <h2>Your CulinaAI workspace is becoming smarter.</h2>
 
                 <p>
-                    The system now combines recipe generation, saved recipe management, favourites,
-                    feedback, email sharing, recipe modification, and original-vs-modified comparison.
-                    This creates strong evidence for personalisation, evaluation and explainable AI use.
+                    The system now combines recipe generation, saved recipe management,
+                    favourites, feedback, email sharing, recipe modification, and
+                    original-vs-modified comparison. This creates strong evidence for
+                    personalisation, evaluation and explainable AI use.
                 </p>
             </div>
 
