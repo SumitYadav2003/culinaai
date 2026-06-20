@@ -29,6 +29,7 @@
 - Recipe modification tracking in database
 - Clean Django Admin recipe management
 - Admin deep inspection for AI prompt, response, source recipe and modification type
+- Delete saved recipe with same-page confirmation modal
 
 ## Strong Dissertation Evidence
 
