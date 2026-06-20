@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.db.models import Q
 
 from .ai_service import generate_ai_recipe, modify_ai_recipe
 from .forms import (
@@ -336,24 +337,126 @@ def saved_recipe_detail_view(request, recipe_id):
         },
     )
 
-
 @login_required
 def favourite_recipes_view(request):
     """
     Displays all favourite recipes for the logged-in user.
+
+    This view also supports searching and filtering favourite recipes by:
+    - recipe title
+    - recipe description
+    - ingredients
+    - instructions
+    - cuisine
+    - meal type
+    - diet preference
+    - difficulty
+
+    The filtering is applied only to recipes favourited by the logged-in user.
     """
 
-    favourite_recipes = FavouriteRecipe.objects.filter(
-        user=request.user,
-    ).select_related("recipe").order_by("-created_at")
+    # Read search and filter values from the URL query string.
+    # Example:
+    # /recipes/favourites/?q=pasta&cuisine=1&difficulty=easy
+    search_query = request.GET.get("q", "").strip()
+    selected_cuisine = request.GET.get("cuisine", "").strip()
+    selected_meal_type = request.GET.get("meal_type", "").strip()
+    selected_difficulty = request.GET.get("difficulty", "").strip()
+
+    # Start with only the current user's favourite saved recipes.
+    # select_related improves performance for ForeignKey fields.
+    # prefetch_related improves performance for ManyToMany fields.
+    favourite_recipes = (
+        FavouriteRecipe.objects.filter(
+            user=request.user,
+            recipe__is_saved=True,
+        )
+        .select_related(
+            "recipe",
+            "recipe__cuisine",
+            "recipe__meal_type",
+        )
+        .prefetch_related(
+            "recipe__diet_preferences",
+        )
+        .order_by("-created_at")
+    )
+
+    # Search across useful recipe fields.
+    # Q objects allow OR-based searching across multiple columns.
+    if search_query:
+        favourite_recipes = favourite_recipes.filter(
+            Q(recipe__title__icontains=search_query)
+            | Q(recipe__description__icontains=search_query)
+            | Q(recipe__ingredients_text__icontains=search_query)
+            | Q(recipe__instructions_text__icontains=search_query)
+            | Q(recipe__cuisine__name__icontains=search_query)
+            | Q(recipe__meal_type__name__icontains=search_query)
+            | Q(recipe__diet_preferences__name__icontains=search_query)
+        )
+
+    # Filter by cuisine if selected.
+    if selected_cuisine:
+        favourite_recipes = favourite_recipes.filter(
+            recipe__cuisine_id=selected_cuisine,
+        )
+
+    # Filter by meal type if selected.
+    if selected_meal_type:
+        favourite_recipes = favourite_recipes.filter(
+            recipe__meal_type_id=selected_meal_type,
+        )
+
+    # Filter by difficulty if selected.
+    if selected_difficulty:
+        favourite_recipes = favourite_recipes.filter(
+            recipe__difficulty=selected_difficulty,
+        )
+
+    # distinct() prevents duplicate favourite rows when searching ManyToMany fields
+    # such as diet preferences.
+    favourite_recipes = favourite_recipes.distinct()
+
+    # Dropdown values for the filter form.
+    cuisines = Cuisine.objects.all().order_by("name")
+    meal_types = MealType.objects.all().order_by("name")
+
+    # Difficulty values used by the filter dropdown.
+    difficulties = [
+        ("easy", "Easy"),
+        ("medium", "Medium"),
+        ("hard", "Hard"),
+    ]
+
+    # Used by the template to show active filter state and clear-filter button.
+    has_active_filters = any(
+        [
+            search_query,
+            selected_cuisine,
+            selected_meal_type,
+            selected_difficulty,
+        ]
+    )
 
     return render(
         request,
         "recipes/favourite_recipes.html",
         {
             "favourite_recipes": favourite_recipes,
+            "cuisines": cuisines,
+            "meal_types": meal_types,
+            "difficulties": difficulties,
+            "search_query": search_query,
+            "selected_cuisine": selected_cuisine,
+            "selected_meal_type": selected_meal_type,
+            "selected_difficulty": selected_difficulty,
+            "has_active_filters": has_active_filters,
         },
     )
+
+
+
+
 
 
 @login_required

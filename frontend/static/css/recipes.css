@@ -3960,3 +3960,776 @@ textarea.recipe-input {
 
 
 
+
+
+
+
+
+
+
+/* =========================================================
+   FAVOURITE RECIPE FILTER PAGE
+   Purpose:
+   - Styles the favourite recipes page.
+   - Reuses saved recipe layout while giving favourites their own identity.
+   ========================================================= */
+
+.favourite-recipes-section {
+    background:
+        radial-gradient(circle at top left, rgba(244, 63, 94, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.10), transparent 34%),
+        linear-gradient(135deg, #fff7ed 0%, #fff1f2 100%) !important;
+}
+
+.favourite-recipe-card {
+    border-color: rgba(244, 63, 94, 0.12) !important;
+}
+
+.favourite-recipe-card:hover {
+    box-shadow: 0 26px 70px rgba(190, 18, 60, 0.13) !important;
+}
+
+.favourite-recipe-icon {
+    background: linear-gradient(135deg, #f43f5e, #f97316) !important;
+}
+
+.saved-recipe-favourite-remove-btn {
+    min-height: 44px !important;
+    padding: 10px 15px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #be123c !important;
+    background: rgba(255, 228, 230, 0.92) !important;
+    border: 1px solid rgba(244, 63, 94, 0.16) !important;
+    font-size: 0.88rem !important;
+    font-weight: 900 !important;
+    transition: var(--transition) !important;
+}
+
+.saved-recipe-favourite-remove-btn:hover {
+    color: #ffffff !important;
+    background: #e11d48 !important;
+    border-color: #e11d48 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(225, 29, 72, 0.22) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FAVOURITE RECIPES PAGE - FULL VISUAL OVERRIDE
+   Purpose:
+   - Gives the favourites page its own visible premium design.
+   - Strong enough to override old saved recipe styles and browser cache.
+   ========================================================= */
+
+.favourite-recipes-section {
+    min-height: 100vh !important;
+    padding: 86px 0 !important;
+    background:
+        radial-gradient(circle at top left, rgba(244, 63, 94, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 28%),
+        linear-gradient(135deg, #fff7ed 0%, #fff1f2 45%, #ffffff 100%) !important;
+}
+
+/* Header */
+.favourite-recipes-section .saved-recipes-header {
+    margin-bottom: 28px !important;
+    padding: 34px !important;
+    border-radius: 34px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(244, 63, 94, 0.12) !important;
+    box-shadow: 0 24px 70px rgba(190, 18, 60, 0.10) !important;
+}
+
+.favourite-recipes-section .saved-recipes-header h1 {
+    color: #111827 !important;
+    font-size: clamp(2.3rem, 5vw, 4.2rem) !important;
+    font-weight: 1000 !important;
+    letter-spacing: -0.065em !important;
+}
+
+.favourite-recipes-section .section-label {
+    color: #be123c !important;
+    background: rgba(255, 228, 230, 0.90) !important;
+    border: 1px solid rgba(244, 63, 94, 0.14) !important;
+}
+
+/* Filter Panel */
+.favourite-recipes-section .recipe-filter-panel {
+    margin-bottom: 24px !important;
+    padding: 28px !important;
+    border-radius: 32px !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.88)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 24px 70px rgba(124, 45, 18, 0.10) !important;
+}
+
+.favourite-recipes-section .recipe-filter-form {
+    display: grid !important;
+    gap: 20px !important;
+}
+
+.favourite-recipes-section .recipe-filter-search label,
+.favourite-recipes-section .recipe-filter-field label {
+    margin-bottom: 9px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #7f1d1d !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.favourite-recipes-section .recipe-filter-search input,
+.favourite-recipes-section .recipe-filter-field select {
+    min-height: 54px !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(148, 163, 184, 0.26) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    color: #111827 !important;
+    font-weight: 750 !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04) !important;
+}
+
+.favourite-recipes-section .recipe-filter-search input:focus,
+.favourite-recipes-section .recipe-filter-field select:focus {
+    border-color: rgba(244, 63, 94, 0.42) !important;
+    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.12) !important;
+}
+
+.favourite-recipes-section .recipe-filter-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+}
+
+.favourite-recipes-section .recipe-filter-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+
+.favourite-recipes-section .recipe-filter-submit-btn {
+    min-height: 50px !important;
+    padding: 12px 20px !important;
+    border-radius: 999px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #e11d48, #f97316) !important;
+    border: 0 !important;
+    font-weight: 950 !important;
+    box-shadow: 0 18px 42px rgba(225, 29, 72, 0.22) !important;
+}
+
+.favourite-recipes-section .recipe-filter-clear-btn {
+    min-height: 50px !important;
+    padding: 12px 20px !important;
+    border-radius: 999px !important;
+    color: #be123c !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(244, 63, 94, 0.18) !important;
+    font-weight: 950 !important;
+}
+
+/* Results Summary */
+.favourite-recipes-section .recipe-results-summary {
+    margin-bottom: 24px !important;
+    padding: 16px 20px !important;
+    border-radius: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    border: 1px solid rgba(244, 63, 94, 0.10) !important;
+}
+
+.favourite-recipes-section .recipe-results-summary div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    color: #4b5563 !important;
+    font-weight: 850 !important;
+}
+
+.favourite-recipes-section .recipe-results-summary i {
+    color: #e11d48 !important;
+}
+
+.favourite-recipes-section .active-filter-pill {
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    color: #be123c !important;
+    background: rgba(255, 228, 230, 0.90) !important;
+    font-size: 0.8rem !important;
+    font-weight: 950 !important;
+}
+
+/* Favourite Cards */
+.favourite-recipes-section .saved-recipe-card,
+.favourite-recipe-card {
+    border-radius: 30px !important;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 247, 237, 0.86)) !important;
+    border: 1px solid rgba(244, 63, 94, 0.13) !important;
+    box-shadow: 0 22px 62px rgba(190, 18, 60, 0.10) !important;
+}
+
+.favourite-recipes-section .saved-recipe-card:hover,
+.favourite-recipe-card:hover {
+    transform: translateY(-7px) !important;
+    box-shadow: 0 30px 80px rgba(190, 18, 60, 0.16) !important;
+}
+
+.favourite-recipe-icon,
+.favourite-recipes-section .saved-recipe-icon {
+    background: linear-gradient(135deg, #e11d48, #f97316) !important;
+    box-shadow: 0 18px 38px rgba(225, 29, 72, 0.22) !important;
+}
+
+.favourite-recipes-section .saved-recipe-card-badge {
+    color: #be123c !important;
+    background: rgba(255, 228, 230, 0.92) !important;
+}
+
+.favourite-recipes-section .saved-recipe-tags span {
+    color: #9f1239 !important;
+    background: rgba(255, 228, 230, 0.70) !important;
+    border: 1px solid rgba(244, 63, 94, 0.12) !important;
+}
+
+/* Remove button */
+.saved-recipe-favourite-remove-btn {
+    min-height: 44px !important;
+    padding: 10px 15px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #be123c !important;
+    background: rgba(255, 228, 230, 0.96) !important;
+    border: 1px solid rgba(244, 63, 94, 0.16) !important;
+    font-size: 0.88rem !important;
+    font-weight: 950 !important;
+    transition: all 0.22s ease !important;
+}
+
+.saved-recipe-favourite-remove-btn:hover {
+    color: #ffffff !important;
+    background: #e11d48 !important;
+    border-color: #e11d48 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(225, 29, 72, 0.22) !important;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .favourite-recipes-section .recipe-filter-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FAVOURITE RECIPES PAGE - FINAL THEME FIX
+   Purpose:
+   - Removes pink styling from favourites page.
+   - Restores CulinaAI orange / cream / dark visual identity.
+   - Adds proper spacing below navbar.
+   - Fixes favourite card overlap and unwanted horizontal strip.
+   ========================================================= */
+
+.favourite-recipes-section {
+    min-height: 100vh !important;
+    padding: 128px 0 90px !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.10), transparent 32%),
+        linear-gradient(135deg, #fff7ed 0%, #fffbeb 52%, #ffffff 100%) !important;
+}
+
+/* Header spacing and theme */
+.favourite-recipes-section .saved-recipes-header {
+    margin-top: 0 !important;
+    margin-bottom: 32px !important;
+    padding: 42px !important;
+    border-radius: 34px !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.92)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 24px 70px rgba(124, 45, 18, 0.10) !important;
+}
+
+.favourite-recipes-section .saved-recipes-header h1 {
+    color: #111827 !important;
+    font-size: clamp(2.35rem, 5vw, 4.2rem) !important;
+    font-weight: 950 !important;
+    line-height: 1.03 !important;
+    letter-spacing: -0.065em !important;
+}
+
+.favourite-recipes-section .saved-recipes-header p {
+    max-width: 980px !important;
+    color: #4b5563 !important;
+    font-weight: 650 !important;
+    line-height: 1.75 !important;
+}
+
+.favourite-recipes-section .section-label {
+    color: #c2410c !important;
+    background: rgba(255, 237, 213, 0.94) !important;
+    border: 1px solid rgba(249, 115, 22, 0.20) !important;
+}
+
+.favourite-recipes-section .section-label i {
+    color: #f97316 !important;
+}
+
+/* Header buttons */
+.favourite-recipes-section .saved-recipes-header-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-top: 22px !important;
+}
+
+.favourite-recipes-section .saved-recipes-secondary-btn,
+.favourite-recipes-section .saved-recipes-primary-btn {
+    min-height: 48px !important;
+    padding: 12px 18px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.favourite-recipes-section .saved-recipes-secondary-btn {
+    color: #111827 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(148, 163, 184, 0.24) !important;
+}
+
+.favourite-recipes-section .saved-recipes-primary-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    border: 0 !important;
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.23) !important;
+}
+
+/* Filter panel */
+.favourite-recipes-section .recipe-filter-panel {
+    margin-bottom: 24px !important;
+    padding: 30px !important;
+    border-radius: 32px !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(255, 247, 237, 0.90)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 24px 70px rgba(124, 45, 18, 0.10) !important;
+}
+
+.favourite-recipes-section .recipe-filter-form {
+    display: grid !important;
+    gap: 20px !important;
+}
+
+.favourite-recipes-section .recipe-filter-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+}
+
+.favourite-recipes-section .recipe-filter-search label,
+.favourite-recipes-section .recipe-filter-field label {
+    margin-bottom: 9px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #7c2d12 !important;
+    font-size: 0.8rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.favourite-recipes-section .recipe-filter-search label i,
+.favourite-recipes-section .recipe-filter-field label i {
+    color: #f97316 !important;
+}
+
+.favourite-recipes-section .recipe-filter-search input,
+.favourite-recipes-section .recipe-filter-field select {
+    min-height: 54px !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(148, 163, 184, 0.26) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: #111827 !important;
+    font-weight: 760 !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04) !important;
+}
+
+.favourite-recipes-section .recipe-filter-search input:focus,
+.favourite-recipes-section .recipe-filter-field select:focus {
+    border-color: rgba(249, 115, 22, 0.50) !important;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.13) !important;
+}
+
+.favourite-recipes-section .recipe-filter-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+
+.favourite-recipes-section .recipe-filter-submit-btn,
+.favourite-recipes-section .recipe-filter-clear-btn {
+    min-height: 50px !important;
+    padding: 12px 20px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    font-weight: 950 !important;
+}
+
+.favourite-recipes-section .recipe-filter-submit-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    border: 0 !important;
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.22) !important;
+}
+
+.favourite-recipes-section .recipe-filter-clear-btn {
+    color: #9a3412 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(249, 115, 22, 0.22) !important;
+}
+
+/* Results summary */
+.favourite-recipes-section .recipe-results-summary {
+    margin-bottom: 24px !important;
+    padding: 16px 20px !important;
+    border-radius: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(249, 115, 22, 0.12) !important;
+}
+
+.favourite-recipes-section .recipe-results-summary div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    color: #4b5563 !important;
+    font-weight: 850 !important;
+}
+
+.favourite-recipes-section .recipe-results-summary i {
+    color: #f97316 !important;
+}
+
+.favourite-recipes-section .active-filter-pill {
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.92) !important;
+    font-size: 0.8rem !important;
+    font-weight: 950 !important;
+}
+
+/* Card grid */
+.favourite-recipes-section .saved-recipes-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)) !important;
+    gap: 24px !important;
+}
+
+/* Favourite card reset */
+.favourite-recipes-section .saved-recipe-card,
+.favourite-recipe-card {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 26px !important;
+    border-radius: 30px !important;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(255, 247, 237, 0.88)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 22px 62px rgba(124, 45, 18, 0.10) !important;
+}
+
+/* This fixes the unwanted big horizontal strip */
+.favourite-recipes-section .saved-recipe-card-top {
+    margin-bottom: 20px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* This fixes the heart icon expanding into a huge line */
+.favourite-recipes-section .saved-recipe-icon,
+.favourite-recipes-section .favourite-recipe-icon {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    max-width: 58px !important;
+    flex: 0 0 58px !important;
+    border-radius: 20px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    box-shadow: 0 18px 38px rgba(249, 115, 22, 0.24) !important;
+    font-size: 1.25rem !important;
+}
+
+/* This fixes the Favourite badge expanding into a horizontal bar */
+.favourite-recipes-section .saved-recipe-card-badge {
+    width: auto !important;
+    max-width: max-content !important;
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.94) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    font-size: 0.75rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.favourite-recipes-section .saved-recipe-card h2 {
+    margin: 0 0 12px !important;
+    color: #111827 !important;
+    font-size: 1.55rem !important;
+    font-weight: 950 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.035em !important;
+}
+
+.favourite-recipes-section .saved-recipe-card > p {
+    min-height: auto !important;
+    margin: 0 0 20px !important;
+    color: #6b7280 !important;
+    font-weight: 650 !important;
+    line-height: 1.7 !important;
+}
+
+/* Meta chips */
+.favourite-recipes-section .saved-recipe-meta {
+    margin-bottom: 18px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+.favourite-recipes-section .saved-recipe-meta span,
+.favourite-recipes-section .saved-recipe-tags span {
+    width: auto !important;
+    max-width: max-content !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: #7c2d12 !important;
+    background: rgba(255, 247, 237, 0.95) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    font-size: 0.84rem !important;
+    font-weight: 850 !important;
+}
+
+.favourite-recipes-section .saved-recipe-meta i,
+.favourite-recipes-section .saved-recipe-tags i {
+    color: #f97316 !important;
+}
+
+.favourite-recipes-section .saved-recipe-tags {
+    margin-bottom: 22px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+/* Footer buttons */
+.favourite-recipes-section .saved-recipe-card-footer {
+    margin-top: 4px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.favourite-recipes-section .saved-recipe-card-footer form {
+    margin: 0 !important;
+}
+
+.favourite-recipes-section .saved-recipe-view-btn,
+.favourite-recipes-section .saved-recipe-favourite-remove-btn {
+    min-height: 46px !important;
+    padding: 11px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    font-size: 0.9rem !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+}
+
+.favourite-recipes-section .saved-recipe-view-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border: 0 !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.20) !important;
+}
+
+.favourite-recipes-section .saved-recipe-favourite-remove-btn {
+    color: #9a3412 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(249, 115, 22, 0.20) !important;
+    box-shadow: 0 14px 32px rgba(124, 45, 18, 0.06) !important;
+}
+
+.favourite-recipes-section .saved-recipe-favourite-remove-btn:hover {
+    color: #ffffff !important;
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+}
+
+/* Date */
+.favourite-recipes-section .saved-recipe-date {
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid rgba(249, 115, 22, 0.12) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #6b7280 !important;
+    font-size: 0.86rem !important;
+    font-weight: 800 !important;
+}
+
+.favourite-recipes-section .saved-recipe-date i {
+    color: #f97316 !important;
+}
+
+/* Mobile */
+@media (max-width: 991px) {
+    .favourite-recipes-section {
+        padding-top: 110px !important;
+    }
+
+    .favourite-recipes-section .recipe-filter-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .favourite-recipes-section .saved-recipes-header {
+        padding: 30px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .favourite-recipes-section .saved-recipes-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .favourite-recipes-section .saved-recipe-card-footer {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .favourite-recipes-section .saved-recipe-view-btn,
+    .favourite-recipes-section .saved-recipe-favourite-remove-btn {
+        width: 100% !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FAVOURITE FILTER SCROLL POSITION
+   Purpose:
+   - After applying filters, the browser jumps to recipe results.
+   - scroll-margin-top keeps the fixed navbar from covering the result area.
+   ========================================================= */
+
+#favourite-results {
+    scroll-margin-top: 140px !important;
+}
+
+
+
+
+
+
+
