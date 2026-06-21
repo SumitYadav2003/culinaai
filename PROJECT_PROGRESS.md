@@ -32,6 +32,7 @@
 - Delete saved recipe with same-page confirmation modal
 - Search and filter favourite recipes
 - Improved dashboard quick launch actions for recipe workflow
+- Added saved recipe shopping list modal with copy and print support.
 
 ## Strong Dissertation Evidence
 
