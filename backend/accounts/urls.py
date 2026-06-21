@@ -1,13 +1,17 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
-from .views import login_view, logout_view, signup_view
+from .views import login_view, logout_view, profile_summary_view, signup_view
 
 
 urlpatterns = [
     path("signup/", signup_view, name="signup"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
+
+    # Profile Summary
+    # Professional account summary page for authenticated users.
+    path("profile/", profile_summary_view, name="profile_summary"),
 
     # Password Reset - Step 1
     # User enters their email address.

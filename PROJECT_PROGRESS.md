@@ -82,6 +82,11 @@
 * Password reset complete success page
 * Login page forgot password link
 * Password reset flow tested successfully with real email delivery
+- Professional user profile summary page
+- Account identity overview with username, email, joined date and last login
+- Personal recipe activity statistics on profile page
+- Recent saved recipe summary on profile page
+- Account security actions including password reset and logout
 
 ---
 
@@ -104,6 +109,8 @@
 * Clear separation of backend logic, templates, static files and database models
 * Evidence of authentication, authorisation and protected user routes
 * Evidence of optional feature development beyond the minimum requirements
+- Professional authenticated user profile area
+- User-specific account summary and activity statistics
 
 ---
 
@@ -132,6 +139,7 @@
 * Added recipe print/export view
 * Added saved recipe shopping list modal
 * Added password reset email flow
+- Added professional profile summary page
 
 ---
 

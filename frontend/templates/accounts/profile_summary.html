@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Profile Summary{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile_summary.css' %}?v=profile-summary-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-summary-section">
+    <div class="profile-summary-bg"></div>
+
+    <div class="container profile-summary-container">
+
+        <!-- Profile Hero -->
+        <div class="profile-hero-card">
+
+            <div class="profile-hero-left">
+                <div class="profile-avatar">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+
+                <div>
+                    <span class="profile-kicker">
+                        <i class="bi bi-person-badge"></i>
+                        CulinaAI Account
+                    </span>
+
+                    <h1>{{ user.username }}</h1>
+
+                    <p>
+                        Your personal CulinaAI profile summary, account details,
+                        recipe activity and security overview.
+                    </p>
+
+                    <div class="profile-identity-pills">
+                        <span>
+                            <i class="bi bi-envelope"></i>
+                            {{ user.email|default:"No email added" }}
+                        </span>
+
+                        <span>
+                            <i class="bi bi-shield-check"></i>
+                            Active account
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-hero-actions">
+                <a href="{% url 'dashboard' %}" class="profile-action-btn primary">
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+
+                <a href="{% url 'password_reset' %}" class="profile-action-btn secondary">
+                    <i class="bi bi-key"></i>
+                    Reset Password
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Main Grid -->
+        <div class="profile-main-grid">
+
+            <!-- Left Column -->
+            <div class="profile-left-column">
+
+                <!-- Account Details -->
+                <div class="profile-panel">
+                    <div class="profile-panel-header">
+                        <div>
+                            <span>Account Details</span>
+                            <h2>Your identity</h2>
+                        </div>
+                        <i class="bi bi-person-vcard"></i>
+                    </div>
+
+                    <div class="profile-detail-list">
+                        <div class="profile-detail-item">
+                            <span>Username</span>
+                            <strong>{{ user.username }}</strong>
+                        </div>
+
+                        <div class="profile-detail-item">
+                            <span>Email address</span>
+                            <strong>{{ user.email|default:"Not provided" }}</strong>
+                        </div>
+
+                        <div class="profile-detail-item">
+                            <span>Date joined</span>
+                            <strong>{{ user.date_joined|date:"d M Y" }}</strong>
+                        </div>
+
+                        <div class="profile-detail-item">
+                            <span>Last login</span>
+                            <strong>
+                                {% if user.last_login %}
+                                    {{ user.last_login|date:"d M Y, H:i" }}
+                                {% else %}
+                                    First login session
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Panel -->
+                <div class="profile-panel profile-security-panel">
+                    <div class="profile-panel-header">
+                        <div>
+                            <span>Security</span>
+                            <h2>Account protection</h2>
+                        </div>
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+
+                    <p>
+                        Keep your CulinaAI account protected by using a strong password
+                        and resetting it if you suspect unusual activity.
+                    </p>
+
+                    <div class="profile-security-actions">
+                        <a href="{% url 'password_reset' %}" class="profile-security-btn">
+                            <i class="bi bi-key-fill"></i>
+                            Reset password by email
+                        </a>
+
+                        <a href="{% url 'logout' %}" class="profile-security-btn logout">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout safely
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column -->
+            <div class="profile-right-column">
+
+                <!-- Stats -->
+                <div class="profile-stats-grid">
+
+                    <div class="profile-stat-card saved">
+                        <div class="profile-stat-icon">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                        </div>
+                        <span>Saved Recipes</span>
+                        <strong>{{ total_saved_recipes }}</strong>
+                    </div>
+
+                    <div class="profile-stat-card favourite">
+                        <div class="profile-stat-icon">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+                        <span>Favourites</span>
+                        <strong>{{ total_favourite_recipes }}</strong>
+                    </div>
+
+                    <div class="profile-stat-card rating">
+                        <div class="profile-stat-icon">
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <span>Ratings Given</span>
+                        <strong>{{ total_ratings }}</strong>
+                    </div>
+
+                    <div class="profile-stat-card feedback">
+                        <div class="profile-stat-icon">
+                            <i class="bi bi-chat-square-text-fill"></i>
+                        </div>
+                        <span>Feedback Sent</span>
+                        <strong>{{ total_feedback }}</strong>
+                    </div>
+
+                </div>
+
+                <!-- Recipe Activity -->
+                <div class="profile-panel profile-activity-panel">
+                    <div class="profile-panel-header">
+                        <div>
+                            <span>Recipe Activity</span>
+                            <h2>Your cooking journey</h2>
+                        </div>
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <div class="profile-recipe-breakdown">
+                        <div>
+                            <span>Original AI recipes</span>
+                            <strong>{{ original_recipe_count }}</strong>
+                        </div>
+
+                        <div>
+                            <span>Modified recipes</span>
+                            <strong>{{ modified_recipe_count }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="profile-progress-wrap">
+                        <div class="profile-progress-label">
+                            <span>Recipe personalisation progress</span>
+                            <strong>{{ total_saved_recipes }} saved</strong>
+                        </div>
+
+                        <div class="profile-progress-track">
+                            <div class="profile-progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Recipes -->
+                <div class="profile-panel profile-recent-panel">
+                    <div class="profile-panel-header">
+                        <div>
+                            <span>Recently Saved</span>
+                            <h2>Latest recipes</h2>
+                        </div>
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+
+                    {% if recent_recipes %}
+                        <div class="profile-recent-list">
+                            {% for recipe in recent_recipes %}
+                                <div class="profile-recent-item">
+                                    <div class="profile-recent-icon">
+                                        <i class="bi bi-egg-fried"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>{{ recipe.title }}</strong>
+                                        <span>
+                                            Saved on {{ recipe.created_at|date:"d M Y" }}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="profile-empty-state">
+                            <i class="bi bi-journal-plus"></i>
+                            <h3>No saved recipes yet</h3>
+                            <p>
+                                Generate and save your first AI recipe to start building
+                                your CulinaAI cooking profile.
+                            </p>
+                            <a href="{% url 'dashboard' %}" class="profile-empty-btn">
+                                Go to dashboard
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
