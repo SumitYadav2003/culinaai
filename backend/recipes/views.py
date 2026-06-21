@@ -844,3 +844,50 @@ def delete_saved_recipe_view(request, recipe_id):
     )
 
     return redirect("saved_recipes")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def print_saved_recipe_view(request, recipe_id):
+    """
+    Displays a clean print/export version of a saved recipe.
+
+    Purpose:
+    - Gives users a document-style recipe page.
+    - Removes dashboard controls, forms, delete buttons, feedback, and modify UI.
+    - Allows the browser print dialog to print or save the recipe as PDF.
+
+    Security:
+    - Only the logged-in owner can open their own saved recipe.
+    """
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    return render(
+        request,
+        "recipes/print_recipe.html",
+        {
+            "recipe": recipe,
+        },
+    )

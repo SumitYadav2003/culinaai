@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-delete-modal-final-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-print-export-fixed-1">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             Saved Recipe Detail Hero
             Purpose:
             - Shows saved recipe information.
-            - Provides favourite and delete actions.
+            - Provides favourite, print/export and delete actions.
             - Displays the full AI-generated recipe.
         -->
         <div class="recipe-detail-hero">
@@ -46,6 +46,7 @@
 
                 <div class="recipe-detail-control-panel">
                     <div class="recipe-detail-actions">
+
                         <div class="recipe-detail-badge">
                             <i class="bi bi-stars"></i>
                             CulinaAI Generated
@@ -68,11 +69,21 @@
                         </form>
 
                         <!--
+                            Print / Export Recipe Action
+                            Purpose:
+                            - Opens the clean PDF-style export page for this saved recipe.
+                            - Users can print the recipe or save it as PDF from the browser.
+                        -->
+                        <a href="{% url 'print_saved_recipe' recipe.id %}" class="btn recipe-print-export-btn">
+                            <i class="bi bi-printer"></i>
+                            Print / Export
+                        </a>
+
+                        <!--
                             Delete Recipe Action
                             Purpose:
                             - Opens a Bootstrap confirmation modal.
                             - The recipe is only deleted after the user confirms inside the popup.
-                            - This keeps the user on the same page instead of sending them to another page.
                         -->
                         <button type="button" class="btn recipe-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal">
                             <i class="bi bi-trash3"></i>
@@ -715,9 +726,11 @@
 
                             <p>
                                 Saved {{ recipe.created_at|date:"d M Y" }}
+
                                 {% if recipe.cuisine %}
                                     · {{ recipe.cuisine.name }}
                                 {% endif %}
+
                                 {% if recipe.meal_type %}
                                     · {{ recipe.meal_type.name }}
                                 {% endif %}

@@ -13,6 +13,7 @@ from .views import (
     save_modified_recipe_view,
     delete_saved_recipe_confirm_view,
     delete_saved_recipe_view,
+    print_saved_recipe_view,
 )
 
 urlpatterns = [
@@ -28,4 +29,9 @@ urlpatterns = [
     path("save-modified/<int:recipe_id>/", save_modified_recipe_view, name="save_modified_recipe"),
     path("delete/<int:recipe_id>/confirm/", delete_saved_recipe_confirm_view, name="delete_saved_recipe_confirm"),
     path("delete/<int:recipe_id>/", delete_saved_recipe_view, name="delete_saved_recipe"),
+    path(
+    "saved/<int:recipe_id>/print/",
+    print_saved_recipe_view,
+    name="print_saved_recipe",
+),
 ]

@@ -4733,3 +4733,72 @@ textarea.recipe-input {
 
 
 
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   RECIPE PRINT / EXPORT BUTTONS
+   Purpose:
+   - Styles print/export entry buttons on saved recipe detail
+     and favourite recipe cards.
+   - Actual print page styling lives in recipe_print.css.
+   ========================================================= */
+
+.recipe-print-export-btn {
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.20) !important;
+    font-size: 0.9rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    transition: var(--transition) !important;
+}
+
+.recipe-print-export-btn:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    border-color: transparent !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(249, 115, 22, 0.22) !important;
+}
+
+.favourite-print-export-btn {
+    min-height: 46px !important;
+    padding: 11px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+    font-size: 0.9rem !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+    transition: all 0.22s ease !important;
+}
+
+.favourite-print-export-btn:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    border-color: transparent !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.22) !important;
+}
+
+
+
