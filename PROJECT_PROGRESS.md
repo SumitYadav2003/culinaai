@@ -33,6 +33,7 @@
 - Search and filter favourite recipes
 - Improved dashboard quick launch actions for recipe workflow
 - Added saved recipe shopping list modal with copy and print support.
+- Added deployment-ready password reset by email using Django auth views, real SMTP email delivery, branded reset email templates, reset confirmation pages, and complete password update flow.
 
 ## Strong Dissertation Evidence
 

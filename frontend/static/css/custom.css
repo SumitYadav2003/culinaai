@@ -1968,3 +1968,220 @@ img {
 .footer-logo:hover .logo-image-wrap {
     transform: rotate(-6deg) scale(1.08);
 }
+
+
+
+
+
+
+
+/* =========================================================
+   LOGIN PAGE FINAL LAYOUT FIX
+   Purpose:
+   - Keeps the login page visible without unnecessary scrolling.
+   - Prevents navbar collision.
+   - Aligns the left hero content with the login form card.
+   - Keeps Forgot Password aligned with the password label.
+   ========================================================= */
+
+.auth-section.login-auth-section {
+    min-height: calc(100vh - 96px) !important;
+    padding-top: 96px !important;
+    padding-bottom: 34px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.auth-section.login-auth-section .auth-container,
+.auth-section.login-auth-section .auth-copy {
+    transform: none !important;
+}
+
+.auth-section.login-auth-section .auth-copy {
+    padding-top: 18px !important;
+}
+
+.auth-section.login-auth-section .hero-badge {
+    margin-top: 18px !important;
+    margin-bottom: 24px !important;
+    padding: 9px 20px !important;
+    font-size: 0.92rem !important;
+}
+
+.auth-section.login-auth-section .auth-copy h1 {
+    max-width: 760px !important;
+    font-size: clamp(2.95rem, 4.05vw, 4.45rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.055em !important;
+    margin-bottom: 22px !important;
+}
+
+.auth-section.login-auth-section .auth-copy p {
+    max-width: 760px !important;
+    font-size: 1rem !important;
+    line-height: 1.58 !important;
+    margin-bottom: 20px !important;
+}
+
+.auth-section.login-auth-section .auth-benefits {
+    max-width: 720px !important;
+    gap: 10px !important;
+}
+
+.auth-section.login-auth-section .auth-benefits div {
+    min-height: 62px !important;
+    padding: 14px 18px !important;
+    border-radius: 22px !important;
+    font-size: 0.95rem !important;
+}
+
+.auth-section.login-auth-section .auth-benefits i {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    font-size: 1rem !important;
+}
+
+.auth-section.login-auth-section .auth-card {
+    min-height: 565px !important;
+    padding: 34px 44px 38px !important;
+    border-radius: 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    transform: translateY(12px) !important;
+}
+
+.auth-section.login-auth-section .auth-card-header {
+    margin-bottom: 24px !important;
+}
+
+.auth-section.login-auth-section .auth-icon {
+    width: 68px !important;
+    height: 68px !important;
+    margin-bottom: 14px !important;
+}
+
+.auth-section.login-auth-section .auth-card-header h2 {
+    font-size: 2rem !important;
+    margin-bottom: 6px !important;
+}
+
+.auth-section.login-auth-section .auth-card-header p {
+    font-size: 0.98rem !important;
+    margin-bottom: 0 !important;
+}
+
+.auth-section.login-auth-section .mb-3,
+.auth-section.login-auth-section .mb-2 {
+    margin-bottom: 17px !important;
+}
+
+.auth-section.login-auth-section input,
+.auth-section.login-auth-section .form-control {
+    min-height: 56px !important;
+    padding-top: 11px !important;
+    padding-bottom: 11px !important;
+}
+
+.auth-password-row {
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.auth-password-row .auth-label {
+    margin: 0 !important;
+}
+
+.auth-forgot-link {
+    color: #f97316 !important;
+    font-size: 0.9rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+}
+
+.auth-forgot-link:hover {
+    color: #ea580c !important;
+    text-decoration: underline !important;
+}
+
+.auth-section.login-auth-section .auth-submit {
+    min-height: 56px !important;
+    margin-top: 22px !important;
+}
+
+.auth-section.login-auth-section .auth-switch {
+    margin-top: 22px !important;
+}
+
+@media (max-height: 760px) and (min-width: 992px) {
+    .auth-section.login-auth-section {
+        padding-top: 82px !important;
+        padding-bottom: 24px !important;
+    }
+
+    .auth-section.login-auth-section .auth-copy {
+        padding-top: 12px !important;
+    }
+
+    .auth-section.login-auth-section .hero-badge {
+        margin-top: 12px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .auth-section.login-auth-section .auth-copy h1 {
+        font-size: clamp(2.55rem, 3.7vw, 3.9rem) !important;
+        margin-bottom: 16px !important;
+    }
+
+    .auth-section.login-auth-section .auth-copy p {
+        font-size: 0.96rem !important;
+        line-height: 1.5 !important;
+        margin-bottom: 16px !important;
+    }
+
+    .auth-section.login-auth-section .auth-benefits div {
+        min-height: 56px !important;
+        padding: 12px 16px !important;
+    }
+
+    .auth-section.login-auth-section .auth-benefits i {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+    }
+
+.auth-section.login-auth-section .auth-card {
+    min-height: 530px !important;
+    padding: 30px 40px 34px !important;
+    transform: translateY(12px) !important;
+}
+
+    .auth-section.login-auth-section input,
+    .auth-section.login-auth-section .form-control {
+        min-height: 52px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .auth-section.login-auth-section {
+        min-height: auto !important;
+        padding-top: 115px !important;
+        padding-bottom: 70px !important;
+        display: block !important;
+    }
+
+    .auth-section.login-auth-section .auth-container,
+    .auth-section.login-auth-section .auth-copy,
+    .auth-section.login-auth-section .auth-card {
+        transform: none !important;
+    }
+
+    .auth-section.login-auth-section .auth-copy h1 {
+        font-size: clamp(2.5rem, 10vw, 3.4rem) !important;
+    }
+}
+

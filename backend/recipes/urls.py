@@ -34,4 +34,5 @@ urlpatterns = [
     print_saved_recipe_view,
     name="print_saved_recipe",
 ),
+
 ]

@@ -29,10 +29,12 @@
                             <i class="bi bi-speedometer2"></i>
                             Access your personal dashboard
                         </div>
+
                         <div>
                             <i class="bi bi-bookmark-heart"></i>
                             View saved and favourite recipes
                         </div>
+
                         <div>
                             <i class="bi bi-stars"></i>
                             Continue generating AI meal ideas
@@ -47,26 +49,36 @@
                         <div class="auth-icon">
                             <i class="bi bi-person-circle"></i>
                         </div>
+
                         <h2>Login</h2>
+
                         <p>Access your CulinaAI account.</p>
                     </div>
-
-                   
 
                     <form method="post" novalidate>
                         {% csrf_token %}
 
                         <div class="mb-3">
                             <label class="auth-label">Username</label>
+
                             {{ form.username }}
+
                             {% for error in form.username.errors %}
                                 <div class="auth-error">{{ error }}</div>
                             {% endfor %}
                         </div>
 
-                        <div class="mb-4">
-                            <label class="auth-label">Password</label>
+                        <div class="mb-2">
+                            <div class="auth-password-row">
+                                <label class="auth-label">Password</label>
+
+                                <a href="{% url 'password_reset' %}" class="auth-forgot-link">
+                                    Forgot password?
+                                </a>
+                            </div>
+
                             {{ form.password }}
+
                             {% for error in form.password.errors %}
                                 <div class="auth-error">{{ error }}</div>
                             {% endfor %}
@@ -78,7 +90,7 @@
                             {% endfor %}
                         {% endif %}
 
-                        <button type="submit" class="btn auth-submit">
+                        <button type="submit" class="btn auth-submit mt-4">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Login to Dashboard
                         </button>
