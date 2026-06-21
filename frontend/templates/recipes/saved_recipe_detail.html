@@ -5,6 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-print-export-fixed-1">
+<link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=shopping-modal-clean-1">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +17,7 @@
             Saved Recipe Detail Hero
             Purpose:
             - Shows saved recipe information.
-            - Provides favourite, print/export and delete actions.
+            - Provides favourite, shopping list, print/export and delete actions.
             - Displays the full AI-generated recipe.
         -->
         <div class="recipe-detail-hero">
@@ -67,6 +68,17 @@
                                 </button>
                             {% endif %}
                         </form>
+
+                        <!--
+                            Shopping List Action
+                            Purpose:
+                            - Opens a lightweight same-page modal.
+                            - Helps the user copy or print only the recipe ingredients.
+                        -->
+                        <button type="button" class="btn recipe-shopping-list-btn" data-bs-toggle="modal" data-bs-target="#shoppingListModal">
+                            <i class="bi bi-bag-check"></i>
+                            Shopping List
+                        </button>
 
                         <!--
                             Print / Export Recipe Action
@@ -684,6 +696,130 @@
         </section>
 
         <!--
+            Shopping List Modal
+            Purpose:
+            - Shows a lightweight ingredient list on the same page.
+            - Allows the user to copy or print ingredients without leaving the recipe.
+            - Uses separate CSS and JS files:
+              recipe_shopping.css and recipe_shopping.js
+        -->
+        <div class="modal fade culina-shopping-modal" id="shoppingListModal" tabindex="-1" aria-labelledby="shoppingListModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content culina-shopping-modal-content">
+
+                    <div class="modal-header culina-shopping-modal-header">
+                        <div class="culina-shopping-heading">
+                            <div class="culina-shopping-heading-icon">
+                                <i class="bi bi-bag-check-fill"></i>
+                            </div>
+
+                            <div>
+                                <span>Shopping List</span>
+
+                                <h2 id="shoppingListModalLabel">
+                                    Ingredients to buy
+                                </h2>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-close culina-shopping-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body culina-shopping-modal-body">
+                        <div class="culina-shopping-summary">
+                            <div>
+                                <h3 data-shopping-recipe-title>{{ recipe.title }}</h3>
+
+                                <p>
+                                    A quick ingredient list made from this saved recipe.
+                                    Copy it or print it for your grocery shopping.
+                                </p>
+                            </div>
+
+                            <div class="culina-shopping-count">
+                                <strong>{{ shopping_total_items }}</strong>
+                                <small>Items</small>
+                            </div>
+                        </div>
+
+                        {% if shopping_categories %}
+                            <div class="culina-shopping-list">
+                                {% for category in shopping_categories %}
+                                    {% for item in category.items %}
+                                        <div class="culina-shopping-simple-item">
+                                            <span class="culina-shopping-simple-icon">
+                                                <i class="bi bi-bag-check"></i>
+                                            </span>
+
+                                            <span class="culina-shopping-name" data-shopping-item-name>
+                                                {{ item.name }}
+                                            </span>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="culina-shopping-empty">
+                                <i class="bi bi-basket"></i>
+
+                                <h3>No ingredients found</h3>
+
+                                <p>
+                                    This saved recipe does not have ingredient text available.
+                                    Please check the recipe ingredients section.
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="modal-footer culina-shopping-modal-footer">
+                        <span class="culina-shopping-copy-feedback" data-shopping-copy-feedback></span>
+
+                        <button type="button" class="btn culina-shopping-copy-btn" data-shopping-copy-button>
+                            <i class="bi bi-copy"></i>
+                            Copy List
+                        </button>
+
+                        <button type="button" class="btn culina-shopping-print-btn" data-shopping-print-button>
+                            <i class="bi bi-printer"></i>
+                            Print List
+                        </button>
+
+                        <button type="button" class="btn culina-shopping-cancel-btn" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i>
+                            Close
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--
+            Print-only shopping list content.
+            Purpose:
+            - Hidden on screen.
+            - Visible only when the user clicks Print List.
+        -->
+        <div class="culina-shopping-print-area">
+            <h1>Shopping List</h1>
+
+            <p>{{ recipe.title }}</p>
+
+            {% if shopping_categories %}
+                <ul>
+                    {% for category in shopping_categories %}
+                        {% for item in category.items %}
+                            <li>{{ item.name }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No ingredients found.</p>
+            {% endif %}
+        </div>
+
+        <!--
             Delete Recipe Confirmation Modal
             Purpose:
             - Keeps deletion on the same page.
@@ -761,4 +897,8 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/recipe_shopping.js' %}?v=shopping-modal-1"></script>
 {% endblock %}

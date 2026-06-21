@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.db.models import Q
 
 from .ai_service import generate_ai_recipe, modify_ai_recipe
 from .forms import (
@@ -21,6 +21,7 @@ from .models import (
     RecipeFeedback,
     RecipeRating,
 )
+from .shopping_service import build_shopping_list_context
 
 
 def extract_recipe_title(recipe_text):
@@ -50,11 +51,13 @@ def extract_recipe_title(recipe_text):
 
             if index + 1 < len(lines):
                 next_line = lines[index + 1].strip()
+
                 if next_line:
                     return next_line[:200]
 
     for line in lines:
         clean_line = line.strip()
+
         if clean_line:
             return clean_line[:200]
 
@@ -95,8 +98,12 @@ def generate_recipe_view(request):
             # It is stored in the session so it can be used for saving later.
             preview_data = {
                 "ingredients": cleaned_data.get("ingredients"),
-                "cuisine": cleaned_data.get("cuisine").name if cleaned_data.get("cuisine") else "Any cuisine",
-                "meal_type": cleaned_data.get("meal_type").name if cleaned_data.get("meal_type") else "Any meal type",
+                "cuisine": cleaned_data.get("cuisine").name
+                if cleaned_data.get("cuisine")
+                else "Any cuisine",
+                "meal_type": cleaned_data.get("meal_type").name
+                if cleaned_data.get("meal_type")
+                else "Any meal type",
                 "diet_preferences": [
                     diet.name for diet in cleaned_data.get("diet_preferences", [])
                 ],
@@ -104,11 +111,21 @@ def generate_recipe_view(request):
                 "cooking_time_minutes": cleaned_data.get("cooking_time_minutes"),
                 "servings": cleaned_data.get("servings"),
                 "difficulty": cleaned_data.get("difficulty"),
-                "spice_level": spice_choices.get(cleaned_data.get("spice_level"), "Medium"),
-                "budget_level": budget_choices.get(cleaned_data.get("budget_level"), "Moderate Budget"),
-                "nutrition_goal": nutrition_choices.get(cleaned_data.get("nutrition_goal"), "Balanced"),
+                "spice_level": spice_choices.get(
+                    cleaned_data.get("spice_level"),
+                    "Medium",
+                ),
+                "budget_level": budget_choices.get(
+                    cleaned_data.get("budget_level"),
+                    "Moderate Budget",
+                ),
+                "nutrition_goal": nutrition_choices.get(
+                    cleaned_data.get("nutrition_goal"),
+                    "Balanced",
+                ),
                 "cooking_equipment": selected_equipment,
-                "additional_notes": cleaned_data.get("additional_notes") or "None provided",
+                "additional_notes": cleaned_data.get("additional_notes")
+                or "None provided",
             }
 
             request.session["recipe_preview_data"] = preview_data
@@ -118,8 +135,14 @@ def generate_recipe_view(request):
                 ai_result = generate_ai_recipe(preview_data)
 
                 request.session["ai_recipe_result"] = ai_result
-                request.session["latest_ai_recipe_text"] = ai_result.get("recipe_text", "")
-                request.session["latest_ai_recipe_prompt"] = ai_result.get("prompt", "")
+                request.session["latest_ai_recipe_text"] = ai_result.get(
+                    "recipe_text",
+                    "",
+                )
+                request.session["latest_ai_recipe_prompt"] = ai_result.get(
+                    "prompt",
+                    "",
+                )
 
             except Exception:
                 messages.error(
@@ -162,7 +185,10 @@ def save_generated_recipe_view(request):
     preferences = request.session.get("latest_recipe_preferences")
 
     if not recipe_text or not preferences:
-        messages.error(request, "No generated recipe found to save. Please generate a recipe first.")
+        messages.error(
+            request,
+            "No generated recipe found to save. Please generate a recipe first.",
+        )
         return redirect("generate_recipe")
 
     cuisine = None
@@ -198,6 +224,7 @@ def save_generated_recipe_view(request):
 
     for diet_name in diet_names:
         diet = DietPreference.objects.filter(name=diet_name).first()
+
         if diet:
             recipe.diet_preferences.add(diet)
 
@@ -211,10 +238,14 @@ def saved_recipes_view(request):
     Displays saved recipes for the logged-in user with search and filter support.
     """
 
-    recipes = Recipe.objects.filter(
-        user=request.user,
-        is_saved=True,
-    ).select_related("cuisine", "meal_type").order_by("-created_at")
+    recipes = (
+        Recipe.objects.filter(
+            user=request.user,
+            is_saved=True,
+        )
+        .select_related("cuisine", "meal_type")
+        .order_by("-created_at")
+    )
 
     search_query = request.GET.get("q", "").strip()
     cuisine_id = request.GET.get("cuisine", "").strip()
@@ -259,6 +290,7 @@ def saved_recipe_detail_view(request, recipe_id):
     - Email sharing form
     - Modify recipe form
     - Modified recipe preview from the session
+    - Shopping list modal context
 
     Security:
     - The recipe is filtered by request.user.
@@ -296,6 +328,12 @@ def saved_recipe_detail_view(request, recipe_id):
     email_form = RecipeEmailForm()
     modify_form = RecipeModifyForm()
 
+    # Build shopping-list context for the same-page modal.
+    #
+    # This uses backend/recipes/shopping_service.py so ingredient parsing
+    # stays separate from views.py.
+    shopping_context = build_shopping_list_context(recipe)
+
     # Read the latest modified recipe preview from the session.
     #
     # Important behaviour:
@@ -320,6 +358,7 @@ def saved_recipe_detail_view(request, recipe_id):
             modified_recipe_preview = None
         else:
             request.session["modified_recipe_preview_displayed"] = True
+
     return render(
         request,
         "recipes/saved_recipe_detail.html",
@@ -334,8 +373,14 @@ def saved_recipe_detail_view(request, recipe_id):
             "user_feedback_items": user_feedback_items,
             "original_recipe": recipe.original_recipe,
             "is_modified_version": recipe.is_modified_version,
+            "shopping_categories": shopping_context["shopping_categories"],
+            "shopping_total_items": shopping_context["shopping_total_items"],
+            "shopping_total_categories": shopping_context[
+                "shopping_total_categories"
+            ],
         },
     )
+
 
 @login_required
 def favourite_recipes_view(request):
@@ -355,17 +400,11 @@ def favourite_recipes_view(request):
     The filtering is applied only to recipes favourited by the logged-in user.
     """
 
-    # Read search and filter values from the URL query string.
-    # Example:
-    # /recipes/favourites/?q=pasta&cuisine=1&difficulty=easy
     search_query = request.GET.get("q", "").strip()
     selected_cuisine = request.GET.get("cuisine", "").strip()
     selected_meal_type = request.GET.get("meal_type", "").strip()
     selected_difficulty = request.GET.get("difficulty", "").strip()
 
-    # Start with only the current user's favourite saved recipes.
-    # select_related improves performance for ForeignKey fields.
-    # prefetch_related improves performance for ManyToMany fields.
     favourite_recipes = (
         FavouriteRecipe.objects.filter(
             user=request.user,
@@ -382,8 +421,6 @@ def favourite_recipes_view(request):
         .order_by("-created_at")
     )
 
-    # Search across useful recipe fields.
-    # Q objects allow OR-based searching across multiple columns.
     if search_query:
         favourite_recipes = favourite_recipes.filter(
             Q(recipe__title__icontains=search_query)
@@ -395,19 +432,16 @@ def favourite_recipes_view(request):
             | Q(recipe__diet_preferences__name__icontains=search_query)
         )
 
-    # Filter by cuisine if selected.
     if selected_cuisine:
         favourite_recipes = favourite_recipes.filter(
             recipe__cuisine_id=selected_cuisine,
         )
 
-    # Filter by meal type if selected.
     if selected_meal_type:
         favourite_recipes = favourite_recipes.filter(
             recipe__meal_type_id=selected_meal_type,
         )
 
-    # Filter by difficulty if selected.
     if selected_difficulty:
         favourite_recipes = favourite_recipes.filter(
             recipe__difficulty=selected_difficulty,
@@ -417,18 +451,15 @@ def favourite_recipes_view(request):
     # such as diet preferences.
     favourite_recipes = favourite_recipes.distinct()
 
-    # Dropdown values for the filter form.
     cuisines = Cuisine.objects.all().order_by("name")
     meal_types = MealType.objects.all().order_by("name")
 
-    # Difficulty values used by the filter dropdown.
     difficulties = [
         ("easy", "Easy"),
         ("medium", "Medium"),
         ("hard", "Hard"),
     ]
 
-    # Used by the template to show active filter state and clear-filter button.
     has_active_filters = any(
         [
             search_query,
@@ -453,10 +484,6 @@ def favourite_recipes_view(request):
             "has_active_filters": has_active_filters,
         },
     )
-
-
-
-
 
 
 @login_required
@@ -498,7 +525,10 @@ def submit_recipe_feedback_view(request, recipe_id):
 
         messages.success(request, "Thank you. Your rating and feedback have been saved.")
     else:
-        messages.error(request, "Please check your rating and feedback before submitting.")
+        messages.error(
+            request,
+            "Please check your rating and feedback before submitting.",
+        )
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
@@ -664,26 +694,14 @@ def modify_saved_recipe_view(request, recipe_id):
                 "AI modification failed. Please check your OpenAI API key, billing credits, or connection.",
             )
 
-        return redirect(f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modified-preview")
+        return redirect(
+            f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modified-preview"
+        )
 
     messages.error(request, "Please check the recipe modification form and try again.")
-    return redirect(f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return redirect(
+        f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe"
+    )
 
 
 @login_required
@@ -718,7 +736,10 @@ def save_modified_recipe_view(request, recipe_id):
         return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
 
     if modified_preview.get("recipe_id") != original_recipe.id:
-        messages.error(request, "This modified recipe preview does not match the current recipe.")
+        messages.error(
+            request,
+            "This modified recipe preview does not match the current recipe.",
+        )
         return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
 
     modified_recipe_text = modified_preview.get("modified_recipe_text", "").strip()
@@ -736,17 +757,9 @@ def save_modified_recipe_view(request, recipe_id):
         description=f"Modified version of: {original_recipe.title}",
         cuisine=original_recipe.cuisine,
         meal_type=original_recipe.meal_type,
-
-        # Store the original recipe relationship.
-        # This allows the modified recipe detail page to compare:
-        # Original Recipe vs Modified Recipe.
         original_recipe=original_recipe,
-
-        # Store how the recipe was modified.
-        # This makes the page more explainable and professional.
         modification_type=modification_type,
         modification_instruction=custom_instruction,
-
         ingredients_text=original_recipe.ingredients_text,
         instructions_text=modified_recipe_text,
         cooking_time_minutes=original_recipe.cooking_time_minutes,
@@ -771,25 +784,13 @@ def save_modified_recipe_view(request, recipe_id):
     return redirect("saved_recipe_detail", recipe_id=new_recipe.id)
 
 
-
-
-
-
-
-
-
-
-
-
 @login_required
 def delete_saved_recipe_confirm_view(request, recipe_id):
     """
     Shows a confirmation page before deleting a saved recipe.
 
-    Why we use a confirmation page:
-    - Deleting a saved recipe is a destructive action.
-    - The user should clearly understand what will be removed.
-    - This prevents accidental deletion from the recipe library.
+    This remains as a safe fallback route.
+    The main UI uses a same-page modal on saved_recipe_detail.html.
     """
 
     recipe = get_object_or_404(
@@ -799,8 +800,6 @@ def delete_saved_recipe_confirm_view(request, recipe_id):
         is_saved=True,
     )
 
-    # Count modified versions created from this recipe.
-    # This gives the user extra context before deletion.
     modified_versions_count = recipe.modified_versions.filter(
         user=request.user,
         is_saved=True,
@@ -844,23 +843,6 @@ def delete_saved_recipe_view(request, recipe_id):
     )
 
     return redirect("saved_recipes")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @login_required

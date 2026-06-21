@@ -1,0 +1,432 @@
+/* =========================================================
+   CULINAAI SAVED RECIPE SHOPPING MODAL
+   Purpose:
+   - Styles the lightweight shopping list modal on saved recipe detail page.
+   - Keeps shopping list styling separate from recipes.css.
+   - Provides print-only styling for the shopping checklist.
+   ========================================================= */
+
+/* Shopping button shown beside favourite / print / delete buttons */
+.recipe-shopping-list-btn {
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.96) !important;
+    border: 1px solid rgba(34, 197, 94, 0.20) !important;
+    font-size: 0.9rem !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    transition: all 0.22s ease !important;
+}
+
+.recipe-shopping-list-btn:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border-color: transparent !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(22, 163, 74, 0.22) !important;
+}
+
+/* Modal shell */
+.culina-shopping-modal .modal-dialog {
+    max-width: 760px;
+}
+
+.culina-shopping-modal-content {
+    overflow: hidden;
+    border: 0 !important;
+    border-radius: 34px !important;
+    background: #ffffff !important;
+    box-shadow: 0 34px 90px rgba(17, 24, 39, 0.24) !important;
+}
+
+/* Header */
+.culina-shopping-modal-header {
+    padding: 28px 30px 22px !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+    background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.18), transparent 34%),
+        linear-gradient(135deg, #f0fdf4, #fff7ed) !important;
+}
+
+.culina-shopping-heading {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.culina-shopping-heading-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    box-shadow: 0 18px 38px rgba(22, 163, 74, 0.24);
+    font-size: 1.45rem;
+}
+
+.culina-shopping-heading span {
+    color: #166534;
+    font-size: 0.76rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+}
+
+.culina-shopping-heading h2 {
+    margin: 4px 0 0;
+    color: #111827;
+    font-size: 1.65rem;
+    font-weight: 1000;
+    letter-spacing: -0.045em;
+}
+
+.culina-shopping-close {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 999px !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Body */
+.culina-shopping-modal-body {
+    padding: 28px 30px !important;
+}
+
+.culina-shopping-summary {
+    margin-bottom: 20px;
+    padding: 18px;
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    background: rgba(247, 254, 231, 0.8);
+    border: 1px solid rgba(34, 197, 94, 0.14);
+}
+
+.culina-shopping-summary h3 {
+    margin: 0 0 4px;
+    color: #111827;
+    font-size: 1.05rem;
+    font-weight: 950;
+}
+
+.culina-shopping-summary p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.culina-shopping-count {
+    min-width: 86px;
+    padding: 12px 14px;
+    border-radius: 20px;
+    text-align: center;
+    color: #166534;
+    background: #ffffff;
+    border: 1px solid rgba(34, 197, 94, 0.14);
+}
+
+.culina-shopping-count strong {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 1000;
+    line-height: 1;
+}
+
+.culina-shopping-count small {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Item list */
+.culina-shopping-list {
+    display: grid;
+    gap: 10px;
+}
+
+.culina-shopping-item {
+    cursor: pointer;
+    padding: 14px 15px;
+    border-radius: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #111827;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    transition: all 0.18s ease;
+}
+
+.culina-shopping-item:hover {
+    transform: translateX(3px);
+    border-color: rgba(34, 197, 94, 0.26);
+    box-shadow: 0 14px 30px rgba(20, 83, 45, 0.06);
+}
+
+.culina-shopping-item input {
+    display: none;
+}
+
+.culina-shopping-check {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    color: transparent;
+    background: #f9fafb;
+    border: 1px solid rgba(148, 163, 184, 0.34);
+    transition: all 0.18s ease;
+}
+
+.culina-shopping-item input:checked + .culina-shopping-check {
+    color: #ffffff;
+    background: #16a34a;
+    border-color: #16a34a;
+}
+
+.culina-shopping-item input:checked ~ .culina-shopping-name {
+    color: #9ca3af;
+    text-decoration: line-through;
+}
+
+.culina-shopping-name {
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+/* Empty state */
+.culina-shopping-empty {
+    padding: 32px 20px;
+    border-radius: 24px;
+    text-align: center;
+    background: rgba(249, 250, 251, 0.9);
+    border: 1px dashed rgba(148, 163, 184, 0.45);
+}
+
+.culina-shopping-empty i {
+    color: #16a34a;
+    font-size: 2rem;
+}
+
+.culina-shopping-empty h3 {
+    margin: 12px 0 8px;
+    color: #111827;
+    font-weight: 950;
+}
+
+.culina-shopping-empty p {
+    max-width: 460px;
+    margin: 0 auto;
+    color: #6b7280;
+    font-weight: 650;
+    line-height: 1.65;
+}
+
+/* Footer actions */
+.culina-shopping-modal-footer {
+    padding: 20px 30px 28px !important;
+    border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+    background: #ffffff !important;
+}
+
+.culina-shopping-copy-btn,
+.culina-shopping-print-btn,
+.culina-shopping-cancel-btn {
+    min-height: 46px !important;
+    padding: 11px 18px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-weight: 950 !important;
+    transition: all 0.2s ease !important;
+}
+
+.culina-shopping-copy-btn {
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.96) !important;
+    border: 1px solid rgba(34, 197, 94, 0.20) !important;
+}
+
+.culina-shopping-print-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border: 0 !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.22);
+}
+
+.culina-shopping-cancel-btn {
+    color: #374151 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(148, 163, 184, 0.25) !important;
+}
+
+.culina-shopping-copy-btn:hover,
+.culina-shopping-print-btn:hover,
+.culina-shopping-cancel-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Print-only shopping list area */
+.culina-shopping-print-area {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 575px) {
+    .culina-shopping-modal .modal-dialog {
+        margin: 12px;
+    }
+
+    .culina-shopping-modal-content {
+        border-radius: 26px !important;
+    }
+
+    .culina-shopping-modal-header,
+    .culina-shopping-modal-body,
+    .culina-shopping-modal-footer {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .culina-shopping-summary {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .culina-shopping-count {
+        width: 100%;
+    }
+
+    .culina-shopping-modal-footer {
+        flex-direction: column;
+    }
+
+    .culina-shopping-copy-btn,
+    .culina-shopping-print-btn,
+    .culina-shopping-cancel-btn {
+        width: 100%;
+    }
+}
+
+/* Print shopping list only */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+
+    .culina-shopping-print-area,
+    .culina-shopping-print-area * {
+        visibility: visible !important;
+    }
+
+    .culina-shopping-print-area {
+        display: block !important;
+        position: absolute !important;
+        inset: 0 auto auto 0 !important;
+        width: 100% !important;
+        padding: 28px !important;
+        color: #111827 !important;
+        background: #ffffff !important;
+        font-family: Arial, sans-serif !important;
+    }
+
+    .culina-shopping-print-area h1 {
+        margin: 0 0 6px !important;
+        font-size: 24pt !important;
+        line-height: 1.15 !important;
+    }
+
+    .culina-shopping-print-area p {
+        margin: 0 0 18px !important;
+        color: #555555 !important;
+        font-size: 11pt !important;
+    }
+
+    .culina-shopping-print-area ul {
+        margin: 0 !important;
+        padding-left: 22px !important;
+    }
+
+    .culina-shopping-print-area li {
+        margin-bottom: 8px !important;
+        font-size: 12pt !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   CLEAN SHOPPING LIST ITEM STYLE
+   Purpose:
+   - Removes checkbox-style behaviour from the shopping modal.
+   - Presents ingredients as a clean grocery list.
+   ========================================================= */
+
+.culina-shopping-simple-item {
+    padding: 14px 15px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #111827;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    transition: all 0.18s ease;
+}
+
+.culina-shopping-simple-item:hover {
+    transform: translateX(3px);
+    border-color: rgba(34, 197, 94, 0.26);
+    box-shadow: 0 14px 30px rgba(20, 83, 45, 0.06);
+}
+
+.culina-shopping-simple-icon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    color: #166534;
+    background: rgba(220, 252, 231, 0.96);
+    border: 1px solid rgba(34, 197, 94, 0.18);
+    font-size: 0.95rem;
+}
