@@ -1,0 +1,451 @@
+/* =========================================================
+   CULINAAI EDIT SAVED RECIPE PAGE
+   Purpose:
+   - Professional edit page for saved recipe title and personal notes.
+   - Keeps user customisation separate from AI-generated recipe content.
+   ========================================================= */
+
+.edit-recipe-section {
+    min-height: 100vh;
+    padding: 128px 0 84px;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 10% 12%, rgba(249, 115, 22, 0.24), transparent 34%),
+        radial-gradient(circle at 85% 18%, rgba(250, 204, 21, 0.22), transparent 30%),
+        radial-gradient(circle at 80% 82%, rgba(22, 163, 74, 0.16), transparent 34%),
+        linear-gradient(135deg, #fff7ed 0%, #fffbeb 45%, #f8fafc 100%);
+}
+
+.edit-recipe-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(31, 26, 23, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 26, 23, 0.035) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
+}
+
+.edit-recipe-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Hero */
+
+.edit-recipe-hero {
+    margin-bottom: 28px;
+    padding: 34px;
+    border-radius: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background:
+        linear-gradient(135deg, rgba(31, 26, 23, 0.96), rgba(48, 36, 29, 0.92)),
+        radial-gradient(circle at 18% 18%, rgba(249, 115, 22, 0.42), transparent 32%);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow: 0 34px 90px rgba(31, 26, 23, 0.24);
+    overflow: hidden;
+    position: relative;
+}
+
+.edit-recipe-hero::before {
+    content: "";
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    right: -120px;
+    top: -130px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(250, 204, 21, 0.44), transparent 68%);
+}
+
+.edit-recipe-hero > div,
+.edit-recipe-back-btn {
+    position: relative;
+    z-index: 2;
+}
+
+.edit-recipe-kicker {
+    width: fit-content;
+    margin-bottom: 14px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fed7aa;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 0.78rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+}
+
+.edit-recipe-hero h1 {
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    line-height: 1;
+    font-weight: 1000;
+    letter-spacing: -0.07em;
+}
+
+.edit-recipe-hero p {
+    max-width: 680px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.65;
+}
+
+.edit-recipe-back-btn {
+    min-height: 52px;
+    padding: 13px 20px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+    color: #1f1a17;
+    background: linear-gradient(135deg, #f97316, #facc15);
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.30);
+    text-decoration: none;
+    font-weight: 1000;
+    transition: all 0.25s ease;
+}
+
+.edit-recipe-back-btn:hover {
+    color: #1f1a17;
+    transform: translateY(-3px);
+    box-shadow: 0 24px 60px rgba(249, 115, 22, 0.42);
+}
+
+/* Grid */
+
+.edit-recipe-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.edit-recipe-form-card,
+.edit-recipe-side-card {
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+    border-radius: 34px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow: 0 24px 70px rgba(31, 26, 23, 0.10);
+    backdrop-filter: blur(18px);
+}
+
+.edit-recipe-form-card::before,
+.edit-recipe-side-card::before {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    right: -70px;
+    top: -80px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.14), transparent 70%);
+}
+
+.edit-recipe-card-header {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.edit-recipe-card-header span {
+    display: block;
+    margin-bottom: 6px;
+    color: #ea580c;
+    font-size: 0.76rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+}
+
+.edit-recipe-card-header h2 {
+    margin: 0;
+    color: #1f1a17;
+    font-size: 1.55rem;
+    font-weight: 1000;
+    letter-spacing: -0.045em;
+}
+
+.edit-recipe-card-header > i {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    color: #1f1a17;
+    background: linear-gradient(135deg, #ffedd5, #fef3c7);
+    font-size: 1.35rem;
+}
+
+/* Form */
+
+.edit-recipe-form {
+    position: relative;
+    z-index: 2;
+}
+
+.edit-recipe-field {
+    margin-bottom: 22px;
+}
+
+.edit-recipe-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #1f1a17;
+    font-size: 0.92rem;
+    font-weight: 1000;
+}
+
+.edit-recipe-input,
+.edit-recipe-form input,
+.edit-recipe-form textarea {
+    width: 100%;
+    border-radius: 20px !important;
+    border: 1px solid rgba(31, 26, 23, 0.11) !important;
+    background: rgba(255, 248, 239, 0.76) !important;
+    color: #1f1a17 !important;
+    font-size: 1rem !important;
+    font-weight: 750 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: all 0.25s ease !important;
+}
+
+.edit-recipe-form input {
+    min-height: 56px;
+    padding: 14px 16px;
+}
+
+.edit-recipe-form textarea {
+    min-height: 190px;
+    padding: 15px 16px;
+    resize: vertical;
+}
+
+.edit-recipe-input:focus,
+.edit-recipe-form input:focus,
+.edit-recipe-form textarea:focus {
+    border-color: #f97316 !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.14) !important;
+}
+
+.edit-recipe-help {
+    margin: 9px 0 0;
+    color: #6b625b;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.55;
+}
+
+.edit-recipe-error {
+    margin-top: 8px;
+    color: #dc2626;
+    font-size: 0.86rem;
+    font-weight: 850;
+}
+
+.edit-recipe-actions {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.edit-recipe-save-btn,
+.edit-recipe-cancel-btn {
+    min-height: 54px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 0;
+    text-decoration: none;
+    font-weight: 1000;
+    transition: all 0.25s ease;
+}
+
+.edit-recipe-save-btn {
+    color: #1f1a17;
+    background: linear-gradient(135deg, #f97316, #facc15);
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.28);
+}
+
+.edit-recipe-cancel-btn {
+    color: #1f1a17;
+    background: #ffffff;
+    border: 1px solid rgba(31, 26, 23, 0.09);
+}
+
+.edit-recipe-save-btn:hover,
+.edit-recipe-cancel-btn:hover {
+    transform: translateY(-3px);
+    color: #1f1a17;
+}
+
+/* Side card */
+
+.edit-recipe-side-card {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 247, 237, 0.86));
+}
+
+.edit-recipe-side-icon {
+    position: relative;
+    z-index: 2;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 18px;
+    border-radius: 24px;
+    display: grid;
+    place-items: center;
+    color: #1f1a17;
+    background: linear-gradient(135deg, #f97316, #facc15);
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.26);
+    font-size: 1.65rem;
+}
+
+.edit-recipe-side-card h2 {
+    position: relative;
+    z-index: 2;
+    margin: 0 0 10px;
+    color: #1f1a17;
+    font-size: 1.6rem;
+    font-weight: 1000;
+    letter-spacing: -0.045em;
+}
+
+.edit-recipe-side-card p {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    color: #6b625b;
+    font-size: 0.96rem;
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+.edit-recipe-tip-list {
+    position: relative;
+    z-index: 2;
+    margin-top: 22px;
+    display: grid;
+    gap: 12px;
+}
+
+.edit-recipe-tip-list div {
+    padding: 14px;
+    border-radius: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: #1f1a17;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(31, 26, 23, 0.06);
+    font-size: 0.9rem;
+    font-weight: 850;
+    line-height: 1.45;
+}
+
+.edit-recipe-tip-list i {
+    color: #16a34a;
+    margin-top: 2px;
+}
+
+.edit-recipe-original-box {
+    position: relative;
+    z-index: 2;
+    margin-top: 24px;
+    padding: 18px;
+    border-radius: 24px;
+    background: rgba(31, 26, 23, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.edit-recipe-original-box span {
+    display: block;
+    margin-bottom: 7px;
+    color: #facc15;
+    font-size: 0.76rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+}
+
+.edit-recipe-original-box strong {
+    display: block;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 950;
+    line-height: 1.45;
+}
+
+/* Responsive */
+
+@media (max-width: 991px) {
+    .edit-recipe-section {
+        padding-top: 115px;
+    }
+
+    .edit-recipe-hero {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .edit-recipe-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-recipe-back-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    .edit-recipe-section {
+        padding-top: 108px;
+        padding-bottom: 60px;
+    }
+
+    .edit-recipe-hero,
+    .edit-recipe-form-card,
+    .edit-recipe-side-card {
+        padding: 22px;
+        border-radius: 28px;
+    }
+
+    .edit-recipe-actions {
+        flex-direction: column;
+    }
+
+    .edit-recipe-save-btn,
+    .edit-recipe-cancel-btn {
+        width: 100%;
+    }
+}

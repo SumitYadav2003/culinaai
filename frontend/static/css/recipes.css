@@ -4802,3 +4802,96 @@ textarea.recipe-input {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SAVED RECIPE EDIT + PERSONAL NOTES
+   Purpose:
+   - Adds edit action styling.
+   - Displays personal user notes cleanly on saved recipe detail page.
+   ========================================================= */
+
+.recipe-edit-btn {
+    border: 0 !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    box-shadow: 0 16px 38px rgba(249, 115, 22, 0.26);
+    font-weight: 950 !important;
+    transition: all 0.25s ease !important;
+}
+
+.recipe-edit-btn:hover {
+    color: #1f1a17 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 22px 52px rgba(249, 115, 22, 0.38);
+}
+
+.recipe-personal-notes-card {
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.22), transparent 38%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.9)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+}
+
+.recipe-personal-notes-card h3 i {
+    color: #f97316;
+}
+
+.recipe-personal-notes-content {
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: 20px;
+    color: #1f1a17;
+    background: rgba(255, 255, 255, 0.78);
+    border-left: 4px solid #f97316;
+    font-size: 0.96rem;
+    font-weight: 720;
+    line-height: 1.7;
+}
+
+.recipe-notes-edit-link {
+    margin-top: 15px;
+    min-height: 42px;
+    padding: 10px 15px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #9a3412;
+    background: rgba(255, 237, 213, 0.95);
+    border: 1px solid rgba(249, 115, 22, 0.18);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 950;
+    transition: all 0.25s ease;
+}
+
+.recipe-notes-edit-link:hover {
+    color: #1f1a17;
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #f97316, #facc15);
+}

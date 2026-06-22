@@ -93,6 +93,7 @@ class Recipe(models.Model):
     modification_instruction = models.TextField(blank=True)
 
     title = models.CharField(max_length=200)
+    personal_notes = models.TextField(blank=True)
     description = models.TextField(blank=True)
 
     cuisine = models.ForeignKey(

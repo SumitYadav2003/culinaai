@@ -182,15 +182,6 @@ class RecipeGenerationForm(forms.Form):
     )
 
 
-
-
-
-
-
-
-
-
-#Feedback form
 class RecipeFeedbackForm(forms.Form):
     rating = forms.ChoiceField(
         label="Recipe rating",
@@ -221,14 +212,6 @@ class RecipeFeedbackForm(forms.Form):
     )
 
 
-
-
-
-
-
-
-
-# Email Form
 class RecipeEmailForm(forms.Form):
     recipient_email = forms.EmailField(
         label="Recipient email address",
@@ -253,18 +236,10 @@ class RecipeEmailForm(forms.Form):
     )
 
 
-
-
-
-
-
 class RecipeModifyForm(forms.Form):
     """
     Form used on the saved recipe detail page to request an AI-powered
     modification of an existing saved recipe.
-
-    The user chooses a modification type and can optionally add a custom
-    instruction. The actual OpenAI call will be handled later in the view.
     """
 
     modification_type = forms.ChoiceField(
@@ -296,3 +271,46 @@ class RecipeModifyForm(forms.Form):
             }
         ),
     )
+
+
+class SavedRecipeEditForm(forms.ModelForm):
+    """
+    Form used to edit only user-controlled saved recipe fields.
+
+    Important:
+    - Users can rename their saved recipe.
+    - Users can add personal cooking notes.
+    - AI prompt, AI response, ingredients and instructions remain protected.
+    """
+
+    class Meta:
+        model = Recipe
+        fields = ["title", "personal_notes"]
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    "class": "form-control edit-recipe-input",
+                    "placeholder": "Give this saved recipe a personal title",
+                    "maxlength": 255,
+                }
+            ),
+            "personal_notes": forms.Textarea(
+                attrs={
+                    "class": "form-control edit-recipe-input",
+                    "rows": 6,
+                    "placeholder": "Add your own cooking notes, adjustments, serving ideas, or reminders...",
+                }
+            ),
+        }
+        labels = {
+            "title": "Recipe title",
+            "personal_notes": "Personal notes",
+        }
+
+    def clean_title(self):
+        title = self.cleaned_data.get("title", "").strip()
+
+        if not title:
+            raise forms.ValidationError("Recipe title cannot be empty.")
+
+        return title

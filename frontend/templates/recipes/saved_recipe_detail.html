@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-print-export-fixed-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-edit-notes-1">
 <link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=shopping-modal-clean-1">
 {% endblock %}
 
@@ -13,13 +13,7 @@
 <section class="recipe-detail-section">
     <div class="container">
 
-        <!--
-            Saved Recipe Detail Hero
-            Purpose:
-            - Shows saved recipe information.
-            - Provides favourite, shopping list, print/export and delete actions.
-            - Displays the full AI-generated recipe.
-        -->
+        <!-- Saved Recipe Detail Hero -->
         <div class="recipe-detail-hero">
 
             <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
@@ -53,6 +47,11 @@
                             CulinaAI Generated
                         </div>
 
+                        <a href="{% url 'edit_saved_recipe' recipe.id %}" class="btn recipe-edit-btn">
+                            <i class="bi bi-pencil-square"></i>
+                            Edit Recipe
+                        </a>
+
                         <form method="post" action="{% url 'toggle_favourite_recipe' recipe.id %}" class="recipe-favourite-form">
                             {% csrf_token %}
 
@@ -69,34 +68,16 @@
                             {% endif %}
                         </form>
 
-                        <!--
-                            Shopping List Action
-                            Purpose:
-                            - Opens a lightweight same-page modal.
-                            - Helps the user copy or print only the recipe ingredients.
-                        -->
                         <button type="button" class="btn recipe-shopping-list-btn" data-bs-toggle="modal" data-bs-target="#shoppingListModal">
                             <i class="bi bi-bag-check"></i>
                             Shopping List
                         </button>
 
-                        <!--
-                            Print / Export Recipe Action
-                            Purpose:
-                            - Opens the clean PDF-style export page for this saved recipe.
-                            - Users can print the recipe or save it as PDF from the browser.
-                        -->
                         <a href="{% url 'print_saved_recipe' recipe.id %}" class="btn recipe-print-export-btn">
                             <i class="bi bi-printer"></i>
                             Print / Export
                         </a>
 
-                        <!--
-                            Delete Recipe Action
-                            Purpose:
-                            - Opens a Bootstrap confirmation modal.
-                            - The recipe is only deleted after the user confirms inside the popup.
-                        -->
                         <button type="button" class="btn recipe-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal">
                             <i class="bi bi-trash3"></i>
                             Delete Recipe
@@ -138,6 +119,24 @@
 
             <div class="row g-4 recipe-detail-content-row">
                 <div class="col-lg-4">
+
+                    {% if recipe.personal_notes %}
+                        <div class="recipe-detail-side-card recipe-personal-notes-card">
+                            <h3>
+                                <i class="bi bi-journal-bookmark-fill"></i>
+                                Personal Notes
+                            </h3>
+
+                            <div class="recipe-personal-notes-content">
+                                {{ recipe.personal_notes|linebreaksbr }}
+                            </div>
+
+                            <a href="{% url 'edit_saved_recipe' recipe.id %}" class="recipe-notes-edit-link">
+                                <i class="bi bi-pencil-square"></i>
+                                Update notes
+                            </a>
+                        </div>
+                    {% endif %}
 
                     <div class="recipe-detail-side-card">
                         <h3>
@@ -218,12 +217,6 @@
 
         {% if is_modified_version %}
             {% if original_recipe %}
-                <!--
-                    Original vs Modified Recipe Comparison
-                    Purpose:
-                    - Appears only for recipes created by modifying another recipe.
-                    - Helps users understand what changed from the original version.
-                -->
                 <section class="culina-comparison-section" aria-labelledby="culina-comparison-title">
                     <div class="culina-comparison-header">
                         <div>
@@ -695,14 +688,7 @@
             </div>
         </section>
 
-        <!--
-            Shopping List Modal
-            Purpose:
-            - Shows a lightweight ingredient list on the same page.
-            - Allows the user to copy or print ingredients without leaving the recipe.
-            - Uses separate CSS and JS files:
-              recipe_shopping.css and recipe_shopping.js
-        -->
+        <!-- Shopping List Modal -->
         <div class="modal fade culina-shopping-modal" id="shoppingListModal" tabindex="-1" aria-labelledby="shoppingListModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content culina-shopping-modal-content">
@@ -795,12 +781,7 @@
             </div>
         </div>
 
-        <!--
-            Print-only shopping list content.
-            Purpose:
-            - Hidden on screen.
-            - Visible only when the user clicks Print List.
-        -->
+        <!-- Print-only shopping list content -->
         <div class="culina-shopping-print-area">
             <h1>Shopping List</h1>
 
@@ -819,13 +800,7 @@
             {% endif %}
         </div>
 
-        <!--
-            Delete Recipe Confirmation Modal
-            Purpose:
-            - Keeps deletion on the same page.
-            - Looks more professional than redirecting to a separate confirmation page.
-            - Uses POST for the final destructive action.
-        -->
+        <!-- Delete Recipe Confirmation Modal -->
         <div class="modal fade culina-delete-modal" id="deleteRecipeModal" tabindex="-1" aria-labelledby="deleteRecipeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content culina-delete-modal-content">

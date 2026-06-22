@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Edit Saved Recipe{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_saved_recipe.css' %}?v=edit-saved-recipe-classic-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="edit-recipe-section">
+    <div class="edit-recipe-bg"></div>
+
+    <div class="container edit-recipe-container">
+
+        <div class="edit-recipe-hero">
+            <div>
+                <span class="edit-recipe-kicker">
+                    <i class="bi bi-pencil-square"></i>
+                    Personal Recipe Notes
+                </span>
+
+                <h1>Edit saved recipe</h1>
+
+                <p>
+                    Rename your saved recipe and add your own cooking notes,
+                    serving ideas, adjustments or reminders for next time.
+                </p>
+            </div>
+
+            <a href="{% url 'saved_recipe_detail' recipe.id %}" class="edit-recipe-back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to recipe
+            </a>
+        </div>
+
+        <div class="edit-recipe-grid">
+
+            <div class="edit-recipe-form-card">
+                <div class="edit-recipe-card-header">
+                    <div>
+                        <span>Edit Details</span>
+                        <h2>Your personal version</h2>
+                    </div>
+                    <i class="bi bi-journal-text"></i>
+                </div>
+
+                <form method="post" class="edit-recipe-form" novalidate>
+                    {% csrf_token %}
+
+                    <div class="edit-recipe-field">
+                        <label for="{{ form.title.id_for_label }}">
+                            Recipe title
+                        </label>
+
+                        {{ form.title }}
+
+                        {% for error in form.title.errors %}
+                            <div class="edit-recipe-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="edit-recipe-field">
+                        <label for="{{ form.personal_notes.id_for_label }}">
+                            Personal notes
+                        </label>
+
+                        {{ form.personal_notes }}
+
+                        <p class="edit-recipe-help">
+                            Example: “Use less chilli next time”, “Great for meal prep”,
+                            “Serve with Greek yoghurt”, or “Cook pasta for 2 minutes less”.
+                        </p>
+
+                        {% for error in form.personal_notes.errors %}
+                            <div class="edit-recipe-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="edit-recipe-error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="edit-recipe-actions">
+                        <button type="submit" class="edit-recipe-save-btn">
+                            <i class="bi bi-check2-circle"></i>
+                            Save changes
+                        </button>
+
+                        <a href="{% url 'saved_recipe_detail' recipe.id %}" class="edit-recipe-cancel-btn">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="edit-recipe-side-card">
+                <div class="edit-recipe-side-icon">
+                    <i class="bi bi-lightbulb-fill"></i>
+                </div>
+
+                <h2>Why add notes?</h2>
+
+                <p>
+                    AI can generate the recipe, but your personal notes make it truly yours.
+                    Save reminders, taste adjustments and serving ideas for future cooking.
+                </p>
+
+                <div class="edit-recipe-tip-list">
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Track changes you want to try next time.
+                    </div>
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Keep serving ideas and meal prep notes.
+                    </div>
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Make saved recipes easier to recognise.
+                    </div>
+                </div>
+
+                <div class="edit-recipe-original-box">
+                    <span>Current recipe</span>
+                    <strong>{{ recipe.title }}</strong>
+                </div>
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

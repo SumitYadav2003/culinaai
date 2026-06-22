@@ -87,6 +87,9 @@
 - Personal recipe activity statistics on profile page
 - Recent saved recipe summary on profile page
 - Account security actions including password reset and logout
+- Edit saved recipe title and personal notes
+- Personal notes displayed on saved recipe detail page
+- User-controlled recipe customisation without changing AI-generated instructions
 
 ---
 
@@ -111,7 +114,7 @@
 * Evidence of optional feature development beyond the minimum requirements
 - Professional authenticated user profile area
 - User-specific account summary and activity statistics
-
+- User-controlled saved recipe customisation through editable title and personal notes
 ---
 
 ## Technical and Architecture Evidence
