@@ -28,7 +28,7 @@
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="#ai-recipes" class="btn btn-hero-primary">
+                    <a href="{% if user.is_authenticated %}{% url 'generate_recipe' %}{% else %}{% url 'signup' %}{% endif %}" class="btn btn-hero-primary">
                         <i class="bi bi-magic"></i>
                         Generate My Recipe
                     </a>
@@ -277,7 +277,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="btn btn-showcase">
+                <a href="{% if user.is_authenticated %}{% url 'generate_recipe' %}{% else %}{% url 'signup' %}{% endif %}" class="btn btn-showcase">
                     <i class="bi bi-arrow-right-circle"></i>
                     Start Personalising
                 </a>
@@ -305,7 +305,7 @@
                 </div>
 
                 <div class="col-lg-4 text-lg-end">
-                    <a href="#" class="btn btn-cta">
+                    <a href="{% if user.is_authenticated %}{% url 'generate_recipe' %}{% else %}{% url 'signup' %}{% endif %}" class="btn btn-cta">
                         Get Started
                         <i class="bi bi-arrow-up-right"></i>
                     </a>

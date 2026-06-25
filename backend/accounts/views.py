@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 
@@ -9,14 +10,27 @@ from .forms import LoginForm, SignUpForm
 
 
 def signup_view(request):
+    """
+    Create a new user account.
+
+    After successful signup, the user is redirected to the login page.
+    The user is not automatically logged in after registration.
+    """
+
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
     if request.method == "POST":
         form = SignUpForm(request.POST)
 
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Your CulinaAI account has been created successfully.")
-            return redirect("dashboard")
+            form.save()
+
+            messages.success(
+                request,
+                "Your CulinaAI account has been created successfully. Please log in to continue.",
+            )
+            return redirect("login")
 
         messages.error(request, "Please correct the errors below.")
     else:
@@ -26,19 +40,46 @@ def signup_view(request):
 
 
 def login_view(request):
+    """
+    Log in an existing user.
+
+    Normal login redirects to dashboard.
+    If the user was redirected from a protected page, they are safely sent back there.
+    """
+
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
+    next_url = request.GET.get("next") or request.POST.get("next")
+
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
 
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+
+            if next_url and url_has_allowed_host_and_scheme(
+                url=next_url,
+                allowed_hosts={request.get_host()},
+                require_https=request.is_secure(),
+            ):
+                return redirect(next_url)
+
             return redirect("dashboard")
 
         messages.error(request, "Invalid username or password.")
     else:
         form = LoginForm()
 
-    return render(request, "accounts/login.html", {"form": form})
+    return render(
+        request,
+        "accounts/login.html",
+        {
+            "form": form,
+            "next": next_url,
+        },
+    )
 
 
 def logout_view(request):
