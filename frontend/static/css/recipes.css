@@ -4895,3 +4895,1369 @@ textarea.recipe-input {
     transform: translateY(-2px);
     background: linear-gradient(135deg, #f97316, #facc15);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   GENERATE RECIPE PAGE - COMPACT HORIZONTAL POLISH
+   Purpose:
+   - Makes the recipe generation form shorter and more professional.
+   - Uses a desktop grid layout while staying mobile-friendly.
+   - Paste this block at the very bottom of recipes.css.
+   ========================================================= */
+
+.recipe-generate-container {
+    max-width: 1500px !important;
+}
+
+.generate-intro-card-compact {
+    padding: 34px !important;
+}
+
+.generate-intro-card-compact h1 {
+    font-size: clamp(2.25rem, 4vw, 4rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -2px !important;
+}
+
+.generate-intro-card-compact p {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+}
+
+.recipe-form-card-compact {
+    padding: 34px !important;
+    border-radius: 34px !important;
+}
+
+.recipe-form-header-compact {
+    margin-bottom: 24px !important;
+}
+
+.recipe-form-header-compact h2 {
+    font-size: clamp(2rem, 3.2vw, 2.8rem) !important;
+}
+
+.recipe-form-header-compact p {
+    max-width: 760px !important;
+}
+
+.compact-generate-form {
+    display: grid !important;
+    gap: 22px !important;
+}
+
+.compact-form-section {
+    padding: 22px !important;
+    border-radius: 28px !important;
+    background:
+        linear-gradient(135deg, rgba(255, 248, 239, 0.72), rgba(255, 255, 255, 0.88)) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+    box-shadow: 0 16px 42px rgba(31, 26, 23, 0.05) !important;
+}
+
+.compact-section-title {
+    margin-bottom: 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    color: var(--culina-orange-dark) !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.compact-section-title i {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    box-shadow: 0 12px 26px rgba(249, 115, 22, 0.20) !important;
+}
+
+.compact-form-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    align-items: start !important;
+}
+
+.compact-form-grid-main {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.compact-field {
+    min-width: 0 !important;
+}
+
+.compact-field-full {
+    grid-column: 1 / -1 !important;
+}
+
+.compact-generate-form .recipe-label {
+    margin-bottom: 8px !important;
+    font-size: 0.93rem !important;
+}
+
+.compact-generate-form .recipe-input,
+.compact-generate-form select,
+.compact-generate-form input[type="number"],
+.compact-generate-form input[type="text"],
+.compact-generate-form textarea {
+    width: 100% !important;
+    min-height: 50px !important;
+    border-radius: 17px !important;
+}
+
+.compact-generate-form textarea.recipe-input {
+    min-height: 96px !important;
+}
+
+.compact-field-full textarea.recipe-input {
+    min-height: 100px !important;
+}
+
+.compact-preference-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    align-items: start !important;
+}
+
+.compact-preference-card {
+    min-width: 0 !important;
+    padding: 18px !important;
+    border-radius: 24px !important;
+    background: rgba(255, 255, 255, 0.72) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+}
+
+.compact-preference-card-wide {
+    grid-column: 1 / -1 !important;
+}
+
+.recipe-checkbox-grid-compact ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+.recipe-checkbox-grid-compact label {
+    min-height: 46px !important;
+    padding: 10px 12px !important;
+    border-radius: 15px !important;
+    font-size: 0.88rem !important;
+    font-weight: 850 !important;
+}
+
+.recipe-checkbox-grid-compact label:hover {
+    transform: translateY(-2px) !important;
+}
+
+.recipe-checkbox-grid-compact input {
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
+}
+
+.compact-generate-form .recipe-generate-btn {
+    margin-top: 2px !important;
+}
+
+#recipe-preview {
+    scroll-margin-top: 140px !important;
+}
+
+/* Medium laptop/tablet */
+@media (max-width: 1199px) {
+    .compact-form-grid,
+    .compact-form-grid-main {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .recipe-checkbox-grid-compact ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+    .generate-intro-card-compact {
+        position: relative !important;
+        top: auto !important;
+    }
+
+    .compact-form-grid,
+    .compact-form-grid-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .compact-preference-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .compact-preference-card-wide {
+        grid-column: auto !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+    .recipe-form-card-compact,
+    .compact-form-section {
+        padding: 22px !important;
+    }
+
+    .compact-form-grid,
+    .compact-form-grid-main,
+    .compact-preference-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .recipe-checkbox-grid-compact ul {
+        grid-template-columns: 1fr !important;
+    }
+
+    .recipe-checkbox-grid-compact label {
+        min-height: 48px !important;
+    }
+
+    .compact-section-title {
+        align-items: flex-start !important;
+        line-height: 1.4 !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   GENERATE RECIPE PAGE - TRUE HORIZONTAL FORM LAYOUT
+   Paste at the very bottom of recipes.css
+   ========================================================= */
+
+.recipe-generate-container {
+    max-width: 1540px !important;
+}
+
+.recipe-form-card {
+    padding: 34px !important;
+}
+
+.horizontal-generate-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+}
+
+.horizontal-form-section {
+    padding: 18px !important;
+    border-radius: 24px !important;
+    background: rgba(255, 248, 239, 0.58) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+}
+
+.horizontal-section-heading {
+    margin-bottom: 14px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    color: var(--culina-orange-dark) !important;
+    font-size: 0.8rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.horizontal-section-heading i {
+    color: var(--culina-orange) !important;
+}
+
+.horizontal-generate-form .recipe-label {
+    margin-bottom: 7px !important;
+    font-size: 0.92rem !important;
+}
+
+.horizontal-generate-form input,
+.horizontal-generate-form select,
+.horizontal-generate-form textarea {
+    width: 100% !important;
+    min-height: 50px !important;
+    border-radius: 17px !important;
+}
+
+.horizontal-generate-form textarea {
+    min-height: 82px !important;
+    resize: vertical !important;
+}
+
+.horizontal-generate-form textarea[name="ingredients"] {
+    min-height: 86px !important;
+}
+
+.horizontal-generate-form textarea[name="additional_notes"] {
+    min-height: 82px !important;
+}
+
+.horizontal-checkbox-grid ul {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.horizontal-equipment-grid ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.horizontal-checkbox-grid li {
+    margin: 0 !important;
+}
+
+.horizontal-checkbox-grid label {
+    min-height: 44px !important;
+    padding: 10px 12px !important;
+    border-radius: 15px !important;
+    font-size: 0.86rem !important;
+    font-weight: 850 !important;
+}
+
+.horizontal-checkbox-grid label:hover {
+    transform: translateY(-2px) !important;
+}
+
+.horizontal-checkbox-grid input {
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
+}
+
+.horizontal-generate-form .recipe-generate-btn {
+    margin-top: 4px !important;
+}
+
+@media (max-width: 1199px) {
+    .horizontal-equipment-grid ul {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .horizontal-checkbox-grid ul,
+    .horizontal-equipment-grid ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .horizontal-form-section {
+        padding: 16px !important;
+    }
+
+    .horizontal-checkbox-grid ul,
+    .horizontal-equipment-grid ul {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Left side animated AI workflow card */
+
+.generate-ai-flow-card {
+    margin-top: 28px !important;
+    padding: 22px !important;
+    border-radius: 26px !important;
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.18), transparent 36%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 22px 56px rgba(0, 0, 0, 0.18) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+.ai-flow-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin-bottom: 18px !important;
+}
+
+.ai-flow-icon {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    box-shadow: 0 16px 36px rgba(249, 115, 22, 0.30) !important;
+    animation: aiFlowPulse 2.4s ease-in-out infinite !important;
+}
+
+.ai-flow-header span {
+    display: block !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+    font-size: 0.75rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.ai-flow-header h3 {
+    margin: 3px 0 0 !important;
+    color: #ffffff !important;
+    font-size: 1.12rem !important;
+    font-weight: 950 !important;
+}
+
+.ai-flow-steps {
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.ai-flow-step {
+    min-height: 46px !important;
+    padding: 11px 13px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    color: rgba(255, 255, 255, 0.88) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    font-size: 0.92rem !important;
+    font-weight: 850 !important;
+}
+
+.ai-flow-step span {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 12px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-dark) !important;
+    background: rgba(250, 204, 21, 0.92) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+}
+
+.ai-flow-loading {
+    margin-top: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.ai-flow-loading span {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 999px !important;
+    background: var(--culina-gold) !important;
+    animation: aiDotBounce 1.2s ease-in-out infinite !important;
+}
+
+.ai-flow-loading span:nth-child(2) {
+    animation-delay: 0.18s !important;
+}
+
+.ai-flow-loading span:nth-child(3) {
+    animation-delay: 0.36s !important;
+}
+
+.ai-flow-loading p {
+    margin: 0 0 0 6px !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.84rem !important;
+    font-weight: 750 !important;
+}
+
+@keyframes aiFlowPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 16px 36px rgba(249, 115, 22, 0.30);
+    }
+
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 22px 50px rgba(249, 115, 22, 0.46);
+    }
+}
+
+@keyframes aiDotBounce {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: translateY(-5px);
+        opacity: 1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* =========================================================
+       GENERATE RECIPE PAGE - TRUE HORIZONTAL FORM LAYOUT
+       This CSS is kept here so this page updates immediately.
+       Later we can move it into recipes.css if needed.
+       ========================================================= */
+
+    .recipe-generate-container {
+        max-width: 1540px !important;
+    }
+
+    .generate-intro-card-horizontal {
+        padding: 34px !important;
+    }
+
+    .generate-intro-card-horizontal h1 {
+        font-size: clamp(2.3rem, 4vw, 4.2rem) !important;
+        line-height: 1.04 !important;
+        letter-spacing: -2px !important;
+    }
+
+    .generate-intro-card-horizontal p {
+        font-size: 1rem !important;
+        line-height: 1.7 !important;
+    }
+
+    .recipe-form-card-horizontal {
+        padding: 34px !important;
+        border-radius: 34px !important;
+    }
+
+    .recipe-form-header-horizontal {
+        margin-bottom: 24px !important;
+    }
+
+    .recipe-form-header-horizontal h2 {
+        font-size: clamp(2rem, 3.2vw, 2.8rem) !important;
+    }
+
+    .recipe-form-header-horizontal p {
+        max-width: 760px !important;
+    }
+
+    .culina-horizontal-generate-form {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px !important;
+    }
+
+    .horizontal-form-section {
+        padding: 18px !important;
+        border-radius: 24px !important;
+        background: rgba(255, 248, 239, 0.58) !important;
+        border: 1px solid rgba(31, 26, 23, 0.07) !important;
+        box-shadow: 0 16px 42px rgba(31, 26, 23, 0.05) !important;
+    }
+
+    .horizontal-section-heading {
+        margin-bottom: 14px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 9px !important;
+        color: var(--culina-orange-dark) !important;
+        font-size: 0.8rem !important;
+        font-weight: 950 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    .horizontal-section-heading i {
+        color: var(--culina-orange) !important;
+    }
+
+    .culina-horizontal-generate-form .recipe-label {
+        margin-bottom: 7px !important;
+        font-size: 0.92rem !important;
+    }
+
+    .culina-horizontal-generate-form input,
+    .culina-horizontal-generate-form select,
+    .culina-horizontal-generate-form textarea {
+        width: 100% !important;
+        min-height: 50px !important;
+        border-radius: 17px !important;
+    }
+
+    .culina-horizontal-generate-form textarea {
+        min-height: 82px !important;
+        resize: vertical !important;
+    }
+
+    .culina-horizontal-generate-form textarea[name="ingredients"] {
+        min-height: 92px !important;
+    }
+
+    .culina-horizontal-generate-form textarea[name="additional_notes"] {
+        min-height: 82px !important;
+    }
+
+    .horizontal-checkbox-grid ul {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .horizontal-equipment-grid ul {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+
+    .horizontal-checkbox-grid li {
+        margin: 0 !important;
+    }
+
+    .horizontal-checkbox-grid label {
+        min-height: 44px !important;
+        padding: 10px 12px !important;
+        border-radius: 15px !important;
+        font-size: 0.86rem !important;
+        font-weight: 850 !important;
+    }
+
+    .horizontal-checkbox-grid label:hover {
+        transform: translateY(-2px) !important;
+    }
+
+    .horizontal-checkbox-grid input {
+        width: 16px !important;
+        height: 16px !important;
+        flex: 0 0 16px !important;
+    }
+
+    .culina-horizontal-generate-form .recipe-generate-btn {
+        margin-top: 4px !important;
+    }
+
+    #recipe-preview {
+        scroll-margin-top: 140px !important;
+    }
+
+    @media (max-width: 1199px) {
+        .horizontal-equipment-grid ul {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .generate-intro-card-horizontal {
+            position: relative !important;
+            top: auto !important;
+        }
+
+        .horizontal-checkbox-grid ul,
+        .horizontal-equipment-grid ul {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .recipe-form-card-horizontal,
+        .horizontal-form-section {
+            padding: 20px !important;
+        }
+
+        .horizontal-checkbox-grid ul,
+        .horizontal-equipment-grid ul {
+            grid-template-columns: 1fr !important;
+        }
+
+        .horizontal-checkbox-grid label {
+            min-height: 48px !important;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   GENERATE RECIPE PAGE - LEFT SIDE AI FLOW + DEMO VIDEO CARD
+   Purpose:
+   - Adds animation cards to fill empty left-side space.
+   - Keeps CSS inside recipes.css only.
+   ========================================================= */
+
+.generate-ai-flow-card {
+    margin-top: 28px !important;
+    padding: 22px !important;
+    border-radius: 26px !important;
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.18), transparent 36%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 22px 56px rgba(0, 0, 0, 0.18) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+.ai-flow-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin-bottom: 18px !important;
+}
+
+.ai-flow-icon {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    box-shadow: 0 16px 36px rgba(249, 115, 22, 0.30) !important;
+    animation: aiFlowPulse 2.4s ease-in-out infinite !important;
+}
+
+.ai-flow-header span {
+    display: block !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+    font-size: 0.75rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.ai-flow-header h3 {
+    margin: 3px 0 0 !important;
+    color: #ffffff !important;
+    font-size: 1.12rem !important;
+    font-weight: 950 !important;
+}
+
+.ai-flow-steps {
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.ai-flow-step {
+    min-height: 46px !important;
+    padding: 11px 13px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    color: rgba(255, 255, 255, 0.88) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    font-size: 0.92rem !important;
+    font-weight: 850 !important;
+}
+
+.ai-flow-step span {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 12px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-dark) !important;
+    background: rgba(250, 204, 21, 0.92) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+}
+
+.ai-flow-loading {
+    margin-top: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.ai-flow-loading span {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 999px !important;
+    background: var(--culina-gold) !important;
+    animation: aiDotBounce 1.2s ease-in-out infinite !important;
+}
+
+.ai-flow-loading span:nth-child(2) {
+    animation-delay: 0.18s !important;
+}
+
+.ai-flow-loading span:nth-child(3) {
+    animation-delay: 0.36s !important;
+}
+
+.ai-flow-loading p {
+    margin: 0 0 0 6px !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.84rem !important;
+    font-weight: 750 !important;
+}
+
+/* Video-style demo card */
+
+.generate-demo-video-card {
+    margin-top: 24px !important;
+    padding: 18px !important;
+    border-radius: 26px !important;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(249, 115, 22, 0.20), transparent 32%),
+        radial-gradient(circle at 100% 90%, rgba(22, 163, 74, 0.18), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.07)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 24px 62px rgba(0, 0, 0, 0.20) !important;
+    backdrop-filter: blur(16px) !important;
+    overflow: hidden !important;
+}
+
+.demo-video-top {
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.demo-video-window-dots {
+    display: flex !important;
+    gap: 7px !important;
+}
+
+.demo-video-window-dots span {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.42) !important;
+}
+
+.demo-video-window-dots span:nth-child(1) {
+    background: #f97316 !important;
+}
+
+.demo-video-window-dots span:nth-child(2) {
+    background: #facc15 !important;
+}
+
+.demo-video-window-dots span:nth-child(3) {
+    background: #22c55e !important;
+}
+
+.demo-video-label {
+    padding: 7px 11px !important;
+    border-radius: 999px !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    font-size: 0.72rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.demo-video-screen {
+    position: relative !important;
+    min-height: 185px !important;
+    border-radius: 22px !important;
+    background:
+        linear-gradient(135deg, rgba(31, 26, 23, 0.82), rgba(31, 26, 23, 0.55)),
+        radial-gradient(circle at center, rgba(250, 204, 21, 0.22), transparent 45%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    overflow: hidden !important;
+}
+
+.demo-video-play {
+    position: absolute !important;
+    z-index: 3 !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 62px !important;
+    height: 62px !important;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 50% !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-dark) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26) !important;
+    animation: demoPlayPulse 2.2s ease-in-out infinite !important;
+}
+
+.demo-video-play i {
+    font-size: 1.8rem !important;
+    margin-left: 3px !important;
+}
+
+.demo-video-scan {
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(250, 204, 21, 0.18),
+        transparent
+    ) !important;
+    transform: translateX(-100%) !important;
+    animation: demoScanMove 3.2s ease-in-out infinite !important;
+}
+
+.demo-recipe-lines {
+    position: absolute !important;
+    left: 24px !important;
+    right: 24px !important;
+    bottom: 26px !important;
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.demo-recipe-lines span {
+    height: 10px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.72) !important;
+}
+
+.demo-recipe-lines .line-one {
+    width: 72% !important;
+}
+
+.demo-recipe-lines .line-two {
+    width: 54% !important;
+}
+
+.demo-recipe-lines .line-three {
+    width: 64% !important;
+}
+
+.demo-video-floating-pill {
+    position: absolute !important;
+    z-index: 4 !important;
+    min-height: 34px !important;
+    padding: 8px 11px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: #ffffff !important;
+    font-size: 0.76rem !important;
+    font-weight: 900 !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.demo-video-floating-pill i {
+    color: var(--culina-gold) !important;
+}
+
+.pill-one {
+    top: 18px !important;
+    left: 18px !important;
+    animation: demoFloat 3s ease-in-out infinite !important;
+}
+
+.pill-two {
+    top: 18px !important;
+    right: 18px !important;
+    animation: demoFloat 3s ease-in-out infinite 0.6s !important;
+}
+
+.demo-video-caption {
+    padding: 16px 4px 2px !important;
+}
+
+.demo-video-caption h3 {
+    margin: 0 0 7px !important;
+    color: #ffffff !important;
+    font-size: 1.08rem !important;
+    font-weight: 950 !important;
+}
+
+.demo-video-caption p {
+    margin: 0 !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.9rem !important;
+    line-height: 1.65 !important;
+    font-weight: 650 !important;
+}
+
+@keyframes aiFlowPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 16px 36px rgba(249, 115, 22, 0.30);
+    }
+
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 22px 50px rgba(249, 115, 22, 0.46);
+    }
+}
+
+@keyframes aiDotBounce {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: translateY(-5px);
+        opacity: 1;
+    }
+}
+
+@keyframes demoPlayPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
+
+@keyframes demoScanMove {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    55% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes demoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@media (max-width: 991px) {
+    .generate-demo-video-card {
+        margin-top: 22px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .demo-video-screen {
+        min-height: 170px !important;
+    }
+
+    .demo-video-floating-pill {
+        font-size: 0.7rem !important;
+    }
+
+    .pill-one,
+    .pill-two {
+        position: static !important;
+        margin: 12px 10px 0 !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   GENERATE RECIPE PAGE - AI COOKING ASSISTANT IMAGE CARD
+   Purpose:
+   - Adds the generated robot cooking assistant image.
+   - Adds subtle animation/glow without putting CSS in HTML.
+   ========================================================= */
+
+.generate-ai-image-card {
+    margin-top: 24px !important;
+    padding: 20px !important;
+    border-radius: 28px !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.20), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.16), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 24px 62px rgba(0, 0, 0, 0.22) !important;
+    backdrop-filter: blur(16px) !important;
+    overflow: hidden !important;
+}
+
+.ai-image-card-header {
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+}
+
+.ai-image-card-header span {
+    display: block !important;
+    color: rgba(255, 255, 255, 0.66) !important;
+    font-size: 0.74rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.ai-image-card-header h3 {
+    margin: 5px 0 0 !important;
+    color: #ffffff !important;
+    font-size: 1.15rem !important;
+    font-weight: 950 !important;
+    line-height: 1.25 !important;
+}
+
+.ai-image-badge {
+    flex: 0 0 auto !important;
+    min-height: 36px !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 14px 34px rgba(249, 115, 22, 0.28) !important;
+}
+
+.ai-image-frame {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    background: rgba(31, 26, 23, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 20px 52px rgba(0, 0, 0, 0.28) !important;
+}
+
+.ai-image-frame img {
+    width: 100% !important;
+    height: 255px !important;
+    display: block !important;
+    object-fit: cover !important;
+    border-radius: 22px !important;
+    transform: scale(1.02) !important;
+    animation: aiKitchenImageFloat 5s ease-in-out infinite !important;
+}
+
+.ai-image-glow {
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+        linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(250, 204, 21, 0.18) 45%,
+            transparent 70%
+        ) !important;
+    transform: translateX(-100%) !important;
+    animation: aiKitchenGlowMove 4s ease-in-out infinite !important;
+    pointer-events: none !important;
+}
+
+.generate-ai-image-card p {
+    margin: 16px 2px 0 !important;
+    color: rgba(255, 255, 255, 0.76) !important;
+    font-size: 0.92rem !important;
+    line-height: 1.65 !important;
+    font-weight: 650 !important;
+}
+
+@keyframes aiKitchenImageFloat {
+    0%, 100% {
+        transform: scale(1.02) translateY(0);
+    }
+
+    50% {
+        transform: scale(1.05) translateY(-4px);
+    }
+}
+
+@keyframes aiKitchenGlowMove {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    55% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@media (max-width: 991px) {
+    .ai-image-frame img {
+        height: 280px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .generate-ai-image-card {
+        padding: 18px !important;
+        border-radius: 24px !important;
+    }
+
+    .ai-image-card-header {
+        flex-direction: column !important;
+    }
+
+    .ai-image-frame img {
+        height: 220px !important;
+    }
+}

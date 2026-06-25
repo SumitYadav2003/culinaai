@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=generate-polish-v4">
 {% endblock %}
 
 {% block content %}
@@ -13,11 +13,11 @@
     <div class="recipe-generate-overlay"></div>
 
     <div class="container recipe-generate-container">
-        <div class="row align-items-start g-5">
+        <div class="row align-items-start g-4">
 
             <!-- Left Intro Panel -->
-            <div class="col-lg-5">
-                <div class="generate-intro-card">
+            <div class="col-lg-4">
+                <div class="generate-intro-card generate-intro-card-horizontal">
                     <span class="hero-badge">
                         <i class="bi bi-magic"></i>
                         AI Recipe Generator
@@ -50,103 +50,211 @@
                             Save generated recipes later
                         </div>
                     </div>
+
+                    <!-- AI Flow Animation Card -->
+                    <div class="generate-ai-flow-card">
+                        <div class="ai-flow-header">
+                            <div class="ai-flow-icon">
+                                <i class="bi bi-cpu"></i>
+                            </div>
+
+                            <div>
+                                <span>Live AI Flow</span>
+                                <h3>How CulinaAI thinks</h3>
+                            </div>
+                        </div>
+
+                        <div class="ai-flow-steps">
+                            <div class="ai-flow-step">
+                                <span>01</span>
+                                Reads your ingredients
+                            </div>
+
+                            <div class="ai-flow-step">
+                                <span>02</span>
+                                Checks diet and allergies
+                            </div>
+
+                            <div class="ai-flow-step">
+                                <span>03</span>
+                                Builds a recipe idea
+                            </div>
+                        </div>
+
+                        <div class="ai-flow-loading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <p>Preparing personalised suggestions...</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Cooking Assistant Image Card -->
+<div class="generate-ai-image-card">
+    <div class="ai-image-card-header">
+        <div>
+            <span>AI Kitchen Assistant</span>
+            <h3>Robot-assisted cooking experience</h3>
+        </div>
+
+        <div class="ai-image-badge">
+            <i class="bi bi-stars"></i>
+            CulinaAI
+        </div>
+    </div>
+
+    <div class="ai-image-frame">
+        <img src="{% static 'images/ai-cooking-assistants.png' %}" alt="Robot helping a woman cook with CulinaAI">
+        <div class="ai-image-glow"></div>
+    </div>
+
+    <p>
+        CulinaAI supports users by turning ingredients, preferences and cooking goals
+        into personalised recipe ideas.
+    </p>
+</div>
                 </div>
             </div>
 
             <!-- Form Panel -->
-            <div class="col-lg-7">
-                <div class="recipe-form-card">
-                    <div class="recipe-form-header">
+            <div class="col-lg-8">
+                <div class="recipe-form-card recipe-form-card-horizontal">
+                    <div class="recipe-form-header recipe-form-header-horizontal">
                         <div class="generate-page-icon-wrap">
-    <img src="{% static 'images/generate-recipe-icon.png' %}" alt="Generate Recipe Icon" class="generate-page-icon">
-</div>
+                            <img src="{% static 'images/generate-recipe-icon.png' %}" alt="Generate Recipe Icon" class="generate-page-icon">
+                        </div>
 
                         <div>
                             <span class="panel-label">Personalise Your Meal</span>
                             <h2>Generate Recipe</h2>
                             <p>
-                                Fill in your food preferences below. AI generation will be connected in the next stage.
+                                Fill in your food preferences below and preview your recipe request before AI generation.
                             </p>
                         </div>
                     </div>
 
-                    <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" novalidate>
+                    <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" class="culina-horizontal-generate-form" novalidate>
                         {% csrf_token %}
 
-                        <div class="mb-4">
-                            <label class="recipe-label">{{ form.ingredients.label }}</label>
-                            {{ form.ingredients }}
-                            {% for error in form.ingredients.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="recipe-label">Cuisine</label>
-                                {{ form.cuisine }}
+                        <!-- Row 1 -->
+                        <div class="horizontal-form-section">
+                            <div class="horizontal-section-heading">
+                                <i class="bi bi-basket2"></i>
+                                Main Recipe Details
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="recipe-label">Meal Type</label>
-                                {{ form.meal_type }}
+                            <div class="row g-3">
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">{{ form.ingredients.label }}</label>
+                                    {{ form.ingredients }}
+                                    {% for error in form.ingredients.errors %}
+                                        <div class="auth-error">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">Cuisine</label>
+                                    {{ form.cuisine }}
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">Meal Type</label>
+                                    {{ form.meal_type }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mt-4">
-                            <label class="recipe-label">Diet Preferences</label>
-                            <div class="recipe-checkbox-grid">
-                                {{ form.diet_preferences }}
+                        <!-- Row 2 -->
+                        <div class="horizontal-form-section">
+                            <div class="horizontal-section-heading">
+                                <i class="bi bi-clock-history"></i>
+                                Cooking Setup
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">{{ form.cooking_time_minutes.label }} <span>minutes</span></label>
+                                    {{ form.cooking_time_minutes }}
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">{{ form.servings.label }}</label>
+                                    {{ form.servings }}
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">Difficulty</label>
+                                    {{ form.difficulty }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mt-4">
-                            <label class="recipe-label">{{ form.allergies.label }}</label>
-                            {{ form.allergies }}
+                        <!-- Row 3 -->
+                        <div class="horizontal-form-section">
+                            <div class="horizontal-section-heading">
+                                <i class="bi bi-sliders"></i>
+                                Taste and Goal
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">{{ form.spice_level.label }}</label>
+                                    {{ form.spice_level }}
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">{{ form.budget_level.label }}</label>
+                                    {{ form.budget_level }}
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="recipe-label">{{ form.nutrition_goal.label }}</label>
+                                    {{ form.nutrition_goal }}
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row g-3 mt-1">
-    <div class="col-md-4">
-        <label class="recipe-label">{{ form.cooking_time_minutes.label }} <span>minutes</span></label>
-        {{ form.cooking_time_minutes }}
-    </div>
+                        <!-- Row 4 -->
+                        <div class="horizontal-form-section">
+                            <div class="horizontal-section-heading">
+                                <i class="bi bi-shield-check"></i>
+                                Diet and Safety Preferences
+                            </div>
 
-    <div class="col-md-4">
-        <label class="recipe-label">{{ form.servings.label }}</label>
-        {{ form.servings }}
-    </div>
+                            <div class="row g-3">
+                                <div class="col-lg-6">
+                                    <label class="recipe-label">Diet Preferences</label>
+                                    <div class="recipe-checkbox-grid horizontal-checkbox-grid">
+                                        {{ form.diet_preferences }}
+                                    </div>
+                                </div>
 
-    <div class="col-md-4">
-        <label class="recipe-label">Difficulty</label>
-        {{ form.difficulty }}
-    </div>
-</div>
+                                <div class="col-lg-6">
+                                    <label class="recipe-label">{{ form.allergies.label }}</label>
+                                    {{ form.allergies }}
+                                </div>
+                            </div>
+                        </div>
 
-<div class="row g-3 mt-1">
-    <div class="col-md-4">
-        <label class="recipe-label">{{ form.spice_level.label }}</label>
-        {{ form.spice_level }}
-    </div>
+                        <!-- Row 5 -->
+                        <div class="horizontal-form-section">
+                            <div class="horizontal-section-heading">
+                                <i class="bi bi-tools"></i>
+                                Available Kitchen Equipment
+                            </div>
 
-    <div class="col-md-4">
-        <label class="recipe-label">{{ form.budget_level.label }}</label>
-        {{ form.budget_level }}
-    </div>
+                            <div class="recipe-checkbox-grid horizontal-checkbox-grid horizontal-equipment-grid">
+                                {{ form.cooking_equipment }}
+                            </div>
+                        </div>
 
-    <div class="col-md-4">
-        <label class="recipe-label">{{ form.nutrition_goal.label }}</label>
-        {{ form.nutrition_goal }}
-    </div>
-</div>
+                        <!-- Row 6 -->
+                        <div class="horizontal-form-section">
+                            <div class="horizontal-section-heading">
+                                <i class="bi bi-pencil-square"></i>
+                                Additional Instructions
+                            </div>
 
-<div class="mt-4">
-    <label class="recipe-label">{{ form.cooking_equipment.label }}</label>
-    <div class="recipe-checkbox-grid">
-        {{ form.cooking_equipment }}
-    </div>
-</div>
-
-                        <div class="mt-4">
                             <label class="recipe-label">{{ form.additional_notes.label }}</label>
                             {{ form.additional_notes }}
                         </div>
@@ -168,131 +276,131 @@
                 </span>
 
                 <h3>Your recipe request is ready for AI generation.</h3>
+
                 <div class="ai-summary-card">
-    <div class="ai-summary-icon">
-        <i class="bi bi-cpu"></i>
-    </div>
+                    <div class="ai-summary-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
 
-    <div>
-        <h5>AI Personalisation Summary</h5>
-        <p>
-            CulinaAI will analyse your ingredients, cuisine, meal type, diet preferences,
-            allergies, cooking time, servings, spice level, budget, nutrition goal and
-            available equipment to create a personalised recipe recommendation.
-        </p>
-    </div>
-</div>
+                    <div>
+                        <h5>AI Personalisation Summary</h5>
+                        <p>
+                            CulinaAI will analyse your ingredients, cuisine, meal type, diet preferences,
+                            allergies, cooking time, servings, spice level, budget, nutrition goal and
+                            available equipment to create a personalised recipe recommendation.
+                        </p>
+                    </div>
+                </div>
 
+                <div class="preview-grid">
+                    <div>
+                        <strong>Ingredients</strong>
+                        <span>{{ preview_data.ingredients }}</span>
+                    </div>
 
-<div class="preview-grid">
-    <div>
-        <strong>Ingredients</strong>
-        <span>{{ preview_data.ingredients }}</span>
-    </div>
+                    <div>
+                        <strong>Cuisine</strong>
+                        <span>{{ preview_data.cuisine|default:"Any cuisine" }}</span>
+                    </div>
 
-    <div>
-        <strong>Cuisine</strong>
-        <span>{{ preview_data.cuisine|default:"Any cuisine" }}</span>
-    </div>
+                    <div>
+                        <strong>Meal Type</strong>
+                        <span>{{ preview_data.meal_type|default:"Any meal type" }}</span>
+                    </div>
 
-    <div>
-        <strong>Meal Type</strong>
-        <span>{{ preview_data.meal_type|default:"Any meal type" }}</span>
-    </div>
+                    <div>
+                        <strong>Diet Preferences</strong>
+                        <span>
+                            {% for diet in preview_data.diet_preferences %}
+                                {{ diet }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                No specific diet preference
+                            {% endfor %}
+                        </span>
+                    </div>
 
-    <div>
-        <strong>Diet Preferences</strong>
-        <span>
-            {% for diet in preview_data.diet_preferences %}
-                {{ diet }}{% if not forloop.last %}, {% endif %}
-            {% empty %}
-                No specific diet preference
-            {% endfor %}
-        </span>
-    </div>
+                    <div>
+                        <strong>Allergies</strong>
+                        <span>{{ preview_data.allergies|default:"None provided" }}</span>
+                    </div>
 
-    <div>
-        <strong>Allergies</strong>
-        <span>{{ preview_data.allergies|default:"None provided" }}</span>
-    </div>
+                    <div>
+                        <strong>Cooking Time</strong>
+                        <span>{{ preview_data.cooking_time_minutes }} minutes</span>
+                    </div>
 
-    <div>
-        <strong>Cooking Time</strong>
-        <span>{{ preview_data.cooking_time_minutes }} minutes</span>
-    </div>
+                    <div>
+                        <strong>Servings</strong>
+                        <span>{{ preview_data.servings }} servings</span>
+                    </div>
 
-    <div>
-        <strong>Servings</strong>
-        <span>{{ preview_data.servings }} servings</span>
-    </div>
+                    <div>
+                        <strong>Difficulty</strong>
+                        <span>{{ preview_data.difficulty|title }}</span>
+                    </div>
 
-    <div>
-        <strong>Difficulty</strong>
-        <span>{{ preview_data.difficulty|title }}</span>
-    </div>
+                    <div>
+                        <strong>Spice Level</strong>
+                        <span>{{ preview_data.spice_level }}</span>
+                    </div>
 
-    <div>
-        <strong>Spice Level</strong>
-        <span>{{ preview_data.spice_level }}</span>
-    </div>
+                    <div>
+                        <strong>Budget Level</strong>
+                        <span>{{ preview_data.budget_level }}</span>
+                    </div>
 
-    <div>
-        <strong>Budget Level</strong>
-        <span>{{ preview_data.budget_level }}</span>
-    </div>
+                    <div>
+                        <strong>Nutrition Goal</strong>
+                        <span>{{ preview_data.nutrition_goal }}</span>
+                    </div>
 
-    <div>
-        <strong>Nutrition Goal</strong>
-        <span>{{ preview_data.nutrition_goal }}</span>
-    </div>
+                    <div>
+                        <strong>Cooking Equipment</strong>
+                        <span>
+                            {% for equipment in preview_data.cooking_equipment %}
+                                {{ equipment }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                No equipment selected
+                            {% endfor %}
+                        </span>
+                    </div>
 
-    <div>
-        <strong>Cooking Equipment</strong>
-        <span>
-            {% for equipment in preview_data.cooking_equipment %}
-                {{ equipment }}{% if not forloop.last %}, {% endif %}
-            {% empty %}
-                No equipment selected
-            {% endfor %}
-        </span>
-    </div>
+                    <div>
+                        <strong>Additional Notes</strong>
+                        <span>{{ preview_data.additional_notes }}</span>
+                    </div>
+                </div>
 
-    <div>
-        <strong>Additional Notes</strong>
-        <span>{{ preview_data.additional_notes }}</span>
-    </div>
-</div>
+                {% if ai_recipe_result %}
+                    <div class="ai-recipe-result-card">
+                        <div class="ai-result-header">
+                            <div>
+                                <span class="section-label">
+                                    <i class="bi bi-robot"></i>
+                                    AI Generated Recipe
+                                </span>
+                                <h3>Your personalised recipe is ready.</h3>
+                            </div>
 
-{% if ai_recipe_result %}
-    <div class="ai-recipe-result-card">
-        <div class="ai-result-header">
-            <div>
-                <span class="section-label">
-                    <i class="bi bi-robot"></i>
-                    AI Generated Recipe
-                </span>
-                <h3>Your personalised recipe is ready.</h3>
-            </div>
+                            <div class="ai-result-badge">
+                                <i class="bi bi-stars"></i>
+                                Generated by CulinaAI
+                            </div>
 
-            <div class="ai-result-badge">
-                <i class="bi bi-stars"></i>
-                Generated by CulinaAI
-            </div>
+                            <form method="post" action="{% url 'save_generated_recipe' %}" class="save-recipe-form">
+                                {% csrf_token %}
+                                <button type="submit" class="btn save-recipe-btn">
+                                    <i class="bi bi-bookmark-heart"></i>
+                                    Save Recipe
+                                </button>
+                            </form>
+                        </div>
 
-            <form method="post" action="{% url 'save_generated_recipe' %}" class="save-recipe-form">
-    {% csrf_token %}
-    <button type="submit" class="btn save-recipe-btn">
-        <i class="bi bi-bookmark-heart"></i>
-        Save Recipe
-    </button>
-</form>
-        </div>
-
-        <div class="ai-recipe-text">
-            {{ ai_recipe_result.recipe_text|linebreaks }}
-        </div>
-    </div>
-{% endif %}
+                        <div class="ai-recipe-text">
+                            {{ ai_recipe_result.recipe_text|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
     </div>
