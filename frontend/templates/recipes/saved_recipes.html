@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Saved Recipes{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-validation-list-1">
 {% endblock %}
 
 {% block content %}
@@ -33,88 +33,87 @@
             </a>
         </div>
 
+        <div class="saved-recipes-filter-card">
+            <form method="get" action="{% url 'saved_recipes' %}" class="saved-recipes-filter-form">
+                <div class="filter-field filter-search-field">
+                    <label for="recipe-search">
+                        <i class="bi bi-search"></i>
+                        Search recipe
+                    </label>
 
-<div class="saved-recipes-filter-card">
-    <form method="get" action="{% url 'saved_recipes' %}" class="saved-recipes-filter-form">
-        <div class="filter-field filter-search-field">
-            <label for="recipe-search">
-                <i class="bi bi-search"></i>
-                Search recipe
-            </label>
+                    <input
+                        type="text"
+                        id="recipe-search"
+                        name="q"
+                        value="{{ search_query }}"
+                        placeholder="Search by recipe title..."
+                    >
+                </div>
 
-            <input
-                type="text"
-                id="recipe-search"
-                name="q"
-                value="{{ search_query }}"
-                placeholder="Search by recipe title..."
-            >
+                <div class="filter-field">
+                    <label for="recipe-cuisine">
+                        <i class="bi bi-globe2"></i>
+                        Cuisine
+                    </label>
+
+                    <select id="recipe-cuisine" name="cuisine">
+                        <option value="">All cuisines</option>
+
+                        {% for cuisine in cuisines %}
+                            <option value="{{ cuisine.id }}" {% if selected_cuisine == cuisine.id|stringformat:"s" %}selected{% endif %}>
+                                {{ cuisine.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-field">
+                    <label for="recipe-meal-type">
+                        <i class="bi bi-egg-fried"></i>
+                        Meal type
+                    </label>
+
+                    <select id="recipe-meal-type" name="meal_type">
+                        <option value="">All meal types</option>
+
+                        {% for meal_type in meal_types %}
+                            <option value="{{ meal_type.id }}" {% if selected_meal_type == meal_type.id|stringformat:"s" %}selected{% endif %}>
+                                {{ meal_type.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-field">
+                    <label for="recipe-difficulty">
+                        <i class="bi bi-bar-chart"></i>
+                        Difficulty
+                    </label>
+
+                    <select id="recipe-difficulty" name="difficulty">
+                        <option value="">All difficulties</option>
+
+                        {% for value, label in difficulty_choices %}
+                            <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn saved-filter-btn">
+                        <i class="bi bi-funnel"></i>
+                        Apply Filters
+                    </button>
+
+                    <a href="{% url 'saved_recipes' %}" class="btn saved-reset-btn">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Reset
+                    </a>
+                </div>
+            </form>
         </div>
-
-        <div class="filter-field">
-            <label for="recipe-cuisine">
-                <i class="bi bi-globe2"></i>
-                Cuisine
-            </label>
-
-            <select id="recipe-cuisine" name="cuisine">
-                <option value="">All cuisines</option>
-
-                {% for cuisine in cuisines %}
-                    <option value="{{ cuisine.id }}" {% if selected_cuisine == cuisine.id|stringformat:"s" %}selected{% endif %}>
-                        {{ cuisine.name }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="filter-field">
-            <label for="recipe-meal-type">
-                <i class="bi bi-egg-fried"></i>
-                Meal type
-            </label>
-
-            <select id="recipe-meal-type" name="meal_type">
-                <option value="">All meal types</option>
-
-                {% for meal_type in meal_types %}
-                    <option value="{{ meal_type.id }}" {% if selected_meal_type == meal_type.id|stringformat:"s" %}selected{% endif %}>
-                        {{ meal_type.name }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="filter-field">
-            <label for="recipe-difficulty">
-                <i class="bi bi-bar-chart"></i>
-                Difficulty
-            </label>
-
-            <select id="recipe-difficulty" name="difficulty">
-                <option value="">All difficulties</option>
-
-                {% for value, label in difficulty_choices %}
-                    <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>
-                        {{ label }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="filter-actions">
-            <button type="submit" class="btn saved-filter-btn">
-                <i class="bi bi-funnel"></i>
-                Apply Filters
-            </button>
-
-            <a href="{% url 'saved_recipes' %}" class="btn saved-reset-btn">
-                <i class="bi bi-arrow-counterclockwise"></i>
-                Reset
-            </a>
-        </div>
-    </form>
-</div>
 
         {% if recipes %}
             <div class="row g-4 saved-recipes-grid">
@@ -156,6 +155,66 @@
                                     </span>
                                 {% endif %}
                             </div>
+
+                            {% if recipe.validation_status %}
+                                <div class="saved-recipe-validation-strip">
+                                    <div class="saved-validation-main">
+                                        <div class="saved-validation-icon">
+                                            <i class="bi bi-shield-check"></i>
+                                        </div>
+
+                                        <div>
+                                            <span>CulinaAI Verified</span>
+
+                                            <h4>
+                                                {% if recipe.quality_score %}
+                                                    {{ recipe.quality_score }}/100
+                                                {% else %}
+                                                    Verified
+                                                {% endif %}
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="saved-validation-tags">
+                                        <span>
+                                            <i class="bi bi-check-circle"></i>
+                                            {{ recipe.validation_badge|default:recipe.validation_status }}
+                                        </span>
+
+                                        {% if recipe.validation_risk_level %}
+                                            <span>
+                                                <i class="bi bi-activity"></i>
+                                                Risk: {{ recipe.validation_risk_level }}
+                                            </span>
+                                        {% endif %}
+
+                                        {% if recipe.validation_attempts %}
+                                            <span>
+                                                <i class="bi bi-arrow-repeat"></i>
+                                                Attempts: {{ recipe.validation_attempts }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="saved-recipe-validation-strip saved-recipe-validation-missing">
+                                    <div class="saved-validation-main">
+                                        <div class="saved-validation-icon">
+                                            <i class="bi bi-info-circle"></i>
+                                        </div>
+
+                                        <div>
+                                            <span>Validation not stored</span>
+                                            <h4>Older Recipe</h4>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        Generate and save a new recipe to store CulinaAI verification evidence.
+                                    </p>
+                                </div>
+                            {% endif %}
 
                             <div class="saved-recipe-footer">
                                 <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn saved-recipe-view-btn">

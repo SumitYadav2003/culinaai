@@ -7438,3 +7438,141 @@ textarea.recipe-input {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SAVED RECIPES LIST - VALIDATION BADGE
+   Purpose:
+   - Shows stored CulinaAI validation evidence on saved recipe cards.
+   - Displays score, status, risk level and attempt count.
+   ========================================================= */
+
+.saved-recipe-validation-strip {
+    margin: 18px 0 22px !important;
+    padding: 16px !important;
+    border-radius: 24px !important;
+    background:
+        radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 36%),
+        linear-gradient(135deg, rgba(240, 253, 244, 0.98), rgba(255, 255, 255, 0.96)) !important;
+    border: 1px solid rgba(22, 163, 74, 0.18) !important;
+    box-shadow: 0 16px 40px rgba(22, 163, 74, 0.08) !important;
+}
+
+.saved-validation-main {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    margin-bottom: 13px !important;
+}
+
+.saved-validation-icon {
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.24) !important;
+}
+
+.saved-validation-main span {
+    display: block !important;
+    color: #166534 !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    margin-bottom: 3px !important;
+}
+
+.saved-validation-main h4 {
+    margin: 0 !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.35rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.04em !important;
+}
+
+.saved-validation-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 9px !important;
+}
+
+.saved-validation-tags span {
+    min-height: 34px !important;
+    padding: 8px 11px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.92) !important;
+    border: 1px solid rgba(22, 163, 74, 0.14) !important;
+    font-size: 0.78rem !important;
+    font-weight: 900 !important;
+}
+
+.saved-validation-tags span i {
+    color: #16a34a !important;
+}
+
+.saved-recipe-validation-missing {
+    background:
+        linear-gradient(135deg, rgba(248, 250, 252, 0.98), rgba(255, 247, 237, 0.92)) !important;
+    border-color: rgba(148, 163, 184, 0.18) !important;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
+}
+
+.saved-recipe-validation-missing .saved-validation-icon {
+    background: linear-gradient(135deg, #64748b, #334155) !important;
+    box-shadow: 0 16px 34px rgba(51, 65, 85, 0.18) !important;
+}
+
+.saved-recipe-validation-missing .saved-validation-main span {
+    color: #475569 !important;
+}
+
+.saved-recipe-validation-missing p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+    font-weight: 700 !important;
+}
+
+@media (max-width: 575px) {
+    .saved-recipe-validation-strip {
+        padding: 15px !important;
+    }
+
+    .saved-validation-tags span {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
