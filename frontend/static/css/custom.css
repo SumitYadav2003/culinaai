@@ -2185,3 +2185,282 @@ img {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   HOME PAGE - CLICKABLE PROCESS CARDS (POLISHED FINAL)
+   Purpose:
+   - Restores the card background/design after making cards clickable.
+   - Logged-out cards act as signup links.
+   - Logged-in cards act as direct navigation shortcuts.
+   ========================================================= */
+
+.process-grid {
+    align-items: stretch !important;
+}
+
+.process-card {
+    position: relative !important;
+    height: 100% !important;
+    min-height: 315px !important;
+    padding: 34px 26px 30px !important;
+    border-radius: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    color: var(--culina-dark) !important;
+    text-decoration: none !important;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.13), transparent 33%),
+        radial-gradient(circle at bottom left, rgba(22, 163, 74, 0.08), transparent 34%),
+        linear-gradient(180deg, var(--culina-cream), var(--culina-white)) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+    box-shadow: 0 16px 42px rgba(31, 26, 23, 0.07) !important;
+    transition:
+        transform 0.28s ease,
+        box-shadow 0.28s ease,
+        border-color 0.28s ease,
+        background 0.28s ease !important;
+}
+
+.process-card::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+        linear-gradient(135deg, rgba(249, 115, 22, 0.16), rgba(250, 204, 21, 0.08), rgba(22, 163, 74, 0.10)) !important;
+    opacity: 0 !important;
+    transition: opacity 0.28s ease !important;
+    pointer-events: none !important;
+}
+
+.process-card::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, var(--culina-orange), var(--culina-gold), var(--culina-green)) !important;
+    transform: scaleX(0) !important;
+    transform-origin: left !important;
+    transition: transform 0.28s ease !important;
+    pointer-events: none !important;
+}
+
+.process-card > * {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.process-action-card {
+    cursor: pointer !important;
+}
+
+.process-action-card:hover,
+.process-choice-card:hover {
+    color: var(--culina-dark) !important;
+    transform: translateY(-10px) !important;
+    border-color: rgba(249, 115, 22, 0.28) !important;
+    box-shadow: 0 28px 70px rgba(31, 26, 23, 0.14) !important;
+}
+
+.process-action-card:hover::before,
+.process-choice-card:hover::before {
+    opacity: 1 !important;
+}
+
+.process-action-card:hover::after,
+.process-choice-card:hover::after {
+    transform: scaleX(1) !important;
+}
+
+.process-icon {
+    width: 70px !important;
+    height: 70px !important;
+    margin-bottom: 26px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--culina-white) !important;
+    background: var(--culina-dark) !important;
+    font-size: 1.58rem !important;
+    box-shadow: 0 18px 38px rgba(31, 26, 23, 0.16) !important;
+    transition:
+        transform 0.28s ease,
+        background 0.28s ease,
+        color 0.28s ease,
+        box-shadow 0.28s ease !important;
+}
+
+.process-card:hover .process-icon {
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    transform: rotate(-7deg) scale(1.08) !important;
+    box-shadow: 0 20px 42px rgba(249, 115, 22, 0.30) !important;
+}
+
+.process-number {
+    position: absolute !important;
+    top: 24px !important;
+    right: 26px !important;
+    color: rgba(249, 115, 22, 0.27) !important;
+    font-size: 1.22rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.03em !important;
+    transition:
+        color 0.28s ease,
+        transform 0.28s ease !important;
+}
+
+.process-card:hover .process-number {
+    color: var(--culina-orange) !important;
+    transform: scale(1.12) !important;
+}
+
+.process-card h3 {
+    margin: 0 0 13px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.35rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.18 !important;
+    transition: color 0.28s ease !important;
+}
+
+.process-card:hover h3 {
+    color: var(--culina-orange-dark) !important;
+}
+
+.process-card p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.98rem !important;
+    line-height: 1.72 !important;
+    font-weight: 650 !important;
+}
+
+.process-card-action {
+    margin-top: auto !important;
+    padding-top: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    color: var(--culina-orange-dark) !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+}
+
+.process-card-action i {
+    font-size: 1rem !important;
+    transition: transform 0.22s ease !important;
+}
+
+.process-action-card:hover .process-card-action i {
+    transform: translateX(6px) !important;
+}
+
+.process-choice-card {
+    cursor: default !important;
+}
+
+.process-choice-actions {
+    margin-top: auto !important;
+    padding-top: 22px !important;
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.process-choice-btn {
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 11px 15px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    text-decoration: none !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.18) !important;
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        filter 0.22s ease !important;
+}
+
+.process-choice-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-3px) !important;
+    filter: brightness(1.04) !important;
+    box-shadow: 0 20px 42px rgba(22, 163, 74, 0.28) !important;
+}
+
+.process-choice-btn-alt {
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold)) !important;
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.18) !important;
+}
+
+.process-choice-btn-alt:hover {
+    color: var(--culina-dark) !important;
+    box-shadow: 0 20px 42px rgba(249, 115, 22, 0.28) !important;
+}
+
+@media (max-width: 991px) {
+    .process-card {
+        min-height: 290px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .process-card {
+        min-height: auto !important;
+        padding: 30px 22px 26px !important;
+        border-radius: 26px !important;
+    }
+
+    .process-icon {
+        width: 64px !important;
+        height: 64px !important;
+        margin-bottom: 22px !important;
+    }
+
+    .process-card-action,
+    .process-choice-actions {
+        padding-top: 18px !important;
+    }
+
+    .process-choice-btn {
+        min-height: 44px !important;
+    }
+}
+
