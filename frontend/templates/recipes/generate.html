@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=generate-polish-v4">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=generate-validation-v1">
 {% endblock %}
 
 {% block content %}
@@ -90,29 +90,29 @@
                     </div>
 
                     <!-- AI Cooking Assistant Image Card -->
-<div class="generate-ai-image-card">
-    <div class="ai-image-card-header">
-        <div>
-            <span>AI Kitchen Assistant</span>
-            <h3>Robot-assisted cooking experience</h3>
-        </div>
+                    <div class="generate-ai-image-card">
+                        <div class="ai-image-card-header">
+                            <div>
+                                <span>AI Kitchen Assistant</span>
+                                <h3>Robot-assisted cooking experience</h3>
+                            </div>
 
-        <div class="ai-image-badge">
-            <i class="bi bi-stars"></i>
-            CulinaAI
-        </div>
-    </div>
+                            <div class="ai-image-badge">
+                                <i class="bi bi-stars"></i>
+                                CulinaAI
+                            </div>
+                        </div>
 
-    <div class="ai-image-frame">
-        <img src="{% static 'images/ai-cooking-assistants.png' %}" alt="Robot helping a woman cook with CulinaAI">
-        <div class="ai-image-glow"></div>
-    </div>
+                        <div class="ai-image-frame">
+                            <img src="{% static 'images/ai-cooking-assistants.png' %}" alt="Robot helping a woman cook with CulinaAI">
+                            <div class="ai-image-glow"></div>
+                        </div>
 
-    <p>
-        CulinaAI supports users by turning ingredients, preferences and cooking goals
-        into personalised recipe ideas.
-    </p>
-</div>
+                        <p>
+                            CulinaAI supports users by turning ingredients, preferences and cooking goals
+                            into personalised recipe ideas.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -394,6 +394,241 @@
                                     Save Recipe
                                 </button>
                             </form>
+                        </div>
+
+                        {% with validation=ai_recipe_result.validation_report %}
+                            {% if validation %}
+                                <div class="culina-validation-dashboard">
+
+                                    <div class="validation-dashboard-header">
+                                        <div>
+                                            <span class="validation-mini-label">
+                                                <i class="bi bi-shield-lock"></i>
+                                                CulinaAI Verification Engine
+                                            </span>
+
+                                            <h3>Constraint-Based Recipe Validation</h3>
+
+                                            <p>
+                                                This recipe was checked against your selected ingredients, diet,
+                                                allergies, cooking time, difficulty, equipment and output structure
+                                                before being shown as the final result.
+                                            </p>
+                                        </div>
+
+                                        <div class="validation-status-pill
+                                            {% if validation.hard_fail %}
+                                                validation-status-danger
+                                            {% elif validation.score >= 90 %}
+                                                validation-status-excellent
+                                            {% elif validation.score >= 85 %}
+                                                validation-status-success
+                                            {% elif validation.score >= 75 %}
+                                                validation-status-warning
+                                            {% else %}
+                                                validation-status-danger
+                                            {% endif %}
+                                        ">
+                                            <i class="bi bi-patch-check-fill"></i>
+                                            {{ validation.badge }}
+                                        </div>
+                                    </div>
+
+                                    <div class="validation-score-layout">
+                                        <div class="validation-score-card
+                                            {% if validation.hard_fail %}
+                                                score-danger
+                                            {% elif validation.score >= 90 %}
+                                                score-excellent
+                                            {% elif validation.score >= 85 %}
+                                                score-success
+                                            {% elif validation.score >= 75 %}
+                                                score-warning
+                                            {% else %}
+                                                score-danger
+                                            {% endif %}
+                                        ">
+                                            <div class="score-ring">
+                                                <span>{{ validation.score }}</span>
+                                                <small>/100</small>
+                                            </div>
+
+                                            <h4>{{ validation.status }}</h4>
+
+                                            <p>
+                                                Risk Level:
+                                                <strong>{{ validation.risk_level }}</strong>
+                                            </p>
+                                        </div>
+
+                                        <div class="validation-metric-grid">
+                                            <div class="validation-metric-card">
+                                                <span>Target Score</span>
+                                                <strong>{{ validation.target_score }}/100</strong>
+                                                <small>Required benchmark</small>
+                                            </div>
+
+                                            <div class="validation-metric-card">
+                                                <span>Checks Passed</span>
+                                                <strong>{{ validation.passed_count }}</strong>
+                                                <small>{{ validation.failed_count }} warning/failure item(s)</small>
+                                            </div>
+
+                                            <div class="validation-metric-card">
+                                                <span>Correction Attempts</span>
+                                                <strong>{{ ai_recipe_result.validation_attempt_history|length }}</strong>
+                                                <small>Auto-regeneration pipeline</small>
+                                            </div>
+
+                                            <div class="validation-metric-card">
+                                                <span>Validation Mode</span>
+                                                <strong>Strict</strong>
+                                                <small>Safety-first checking</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% if ai_recipe_result.validation_attempt_history %}
+                                        <div class="validation-attempts-panel">
+                                            <div class="validation-subheading">
+                                                <i class="bi bi-arrow-repeat"></i>
+                                                Generation and Correction History
+                                            </div>
+
+                                            <div class="validation-attempt-timeline">
+                                                {% for attempt in ai_recipe_result.validation_attempt_history %}
+                                                    <div class="validation-attempt-item
+                                                        {% if attempt.hard_fail %}
+                                                            attempt-danger
+                                                        {% elif attempt.score >= 85 %}
+                                                            attempt-success
+                                                        {% else %}
+                                                            attempt-warning
+                                                        {% endif %}
+                                                    ">
+                                                        <div class="attempt-number">
+                                                            {{ attempt.attempt_number }}
+                                                        </div>
+
+                                                        <div class="attempt-content">
+                                                            <div>
+                                                                <strong>Attempt {{ attempt.attempt_number }}</strong>
+                                                                <span>{{ attempt.status }}</span>
+                                                            </div>
+
+                                                            <p>
+                                                                Score: {{ attempt.score }}/100 |
+                                                                Risk: {{ attempt.risk_level }}
+                                                            </p>
+
+                                                            {% if attempt.failed_checks %}
+                                                                <small>
+                                                                    Issues:
+                                                                    {% for failed_check in attempt.failed_checks %}
+                                                                        {{ failed_check }}{% if not forloop.last %}, {% endif %}
+                                                                    {% endfor %}
+                                                                </small>
+                                                            {% else %}
+                                                                <small>No validation issues detected.</small>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="validation-checks-panel">
+                                        <div class="validation-subheading">
+                                            <i class="bi bi-list-check"></i>
+                                            Detailed Validation Breakdown
+                                        </div>
+
+                                        <div class="validation-check-grid">
+                                            {% for check in validation.checks %}
+                                                <div class="validation-check-card
+                                                    {% if check.passed %}
+                                                        check-passed
+                                                    {% else %}
+                                                        check-failed
+                                                    {% endif %}
+                                                ">
+                                                    <div class="check-icon">
+                                                        {% if check.passed %}
+                                                            <i class="bi bi-check-circle-fill"></i>
+                                                        {% else %}
+                                                            <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="check-content">
+                                                        <div class="check-title-row">
+                                                            <h5>{{ check.name }}</h5>
+                                                            <span>{{ check.score }}/{{ check.max_score }}</span>
+                                                        </div>
+
+                                                        <small>{{ check.category }} • {{ check.severity|title }}</small>
+
+                                                        <p>{{ check.message }}</p>
+
+                                                        {% if check.details.conflicting_terms %}
+                                                            <div class="check-detail-warning">
+                                                                <strong>Conflicting terms:</strong>
+                                                                {% for term in check.details.conflicting_terms %}
+                                                                    {{ term }}{% if not forloop.last %}, {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% endif %}
+
+                                                        {% if check.details.missing_ingredients %}
+                                                            <div class="check-detail-note">
+                                                                <strong>Missing ingredients:</strong>
+                                                                {% for ingredient in check.details.missing_ingredients %}
+                                                                    {{ ingredient }}{% if not forloop.last %}, {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% endif %}
+
+                                                        {% if check.details.unavailable_equipment_found %}
+                                                            <div class="check-detail-warning">
+                                                                <strong>Unavailable equipment detected:</strong>
+                                                                {% for equipment in check.details.unavailable_equipment_found %}
+                                                                    {{ equipment }}{% if not forloop.last %}, {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% endif %}
+
+                                                        {% if check.details.match_percentage %}
+                                                            <div class="check-detail-note">
+                                                                <strong>Ingredient match:</strong>
+                                                                {{ check.details.match_percentage }}%
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="validation-disclaimer-card">
+                                        <i class="bi bi-info-circle"></i>
+                                        <p>
+                                            CulinaAI verifies whether the recipe is compliant with the user’s selected
+                                            constraints. It does not replace professional medical, allergy or nutritional advice.
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                        <div class="verified-recipe-output-header">
+                            <div>
+                                <span class="section-label">
+                                    <i class="bi bi-journal-check"></i>
+                                    Final Verified Recipe
+                                </span>
+                                <h3>Recipe Output</h3>
+                            </div>
                         </div>
 
                         <div class="ai-recipe-text">

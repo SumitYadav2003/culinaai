@@ -6,6 +6,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .ai_service import generate_ai_recipe, modify_ai_recipe
+from .recipe_quality_engine import (
+    build_regeneration_preferences,
+    build_safe_fallback_recipe,
+    validate_recipe_output,
+)
 from .forms import (
     RecipeEmailForm,
     RecipeFeedbackForm,
@@ -63,6 +68,13 @@ def extract_recipe_title(recipe_text):
 def generate_recipe_view(request):
     """
     Handles the AI recipe generation page.
+
+    New CulinaAI flow:
+    1. Generate recipe using AI.
+    2. Validate recipe using custom constraint-based validation engine.
+    3. If validation fails, regenerate with correction instructions.
+    4. If AI still fails safety validation, create a deterministic safe fallback recipe.
+    5. Show a generated recipe instead of simply blocking the user.
     """
 
     if request.method == "POST":
@@ -117,22 +129,138 @@ def generate_recipe_view(request):
             request.session["latest_recipe_preferences"] = preview_data
 
             try:
-                ai_result = generate_ai_recipe(preview_data)
+                max_regeneration_attempts = 3
 
-                request.session["ai_recipe_result"] = ai_result
-                request.session["latest_ai_recipe_text"] = ai_result.get(
+                current_preferences = preview_data
+                final_ai_result = None
+                final_validation_report = None
+                validation_attempt_history = []
+                fallback_used = False
+
+                for attempt_number in range(1, max_regeneration_attempts + 1):
+                    ai_result = generate_ai_recipe(current_preferences)
+                    recipe_text = ai_result.get("recipe_text", "")
+
+                    validation_report = validate_recipe_output(
+                        preferences=preview_data,
+                        recipe_text=recipe_text,
+                        attempt_number=attempt_number,
+                    )
+
+                    validation_attempt_history.append(
+                        {
+                            "attempt_number": attempt_number,
+                            "score": validation_report.get("score"),
+                            "status": validation_report.get("status"),
+                            "risk_level": validation_report.get("risk_level"),
+                            "hard_fail": validation_report.get("hard_fail"),
+                            "failed_checks": [
+                                check.get("name")
+                                for check in validation_report.get(
+                                    "failed_checks",
+                                    [],
+                                )
+                            ],
+                        }
+                    )
+
+                    final_ai_result = ai_result
+                    final_validation_report = validation_report
+
+                    if not validation_report.get("should_regenerate"):
+                        break
+
+                    current_preferences = build_regeneration_preferences(
+                        original_preferences=preview_data,
+                        validation_report=validation_report,
+                        attempt_number=attempt_number,
+                    )
+
+                if not final_ai_result or not final_validation_report:
+                    messages.error(
+                        request,
+                        "CulinaAI could not generate a recipe. Please try again.",
+                    )
+                    return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
+                if (
+                    final_validation_report.get("hard_fail")
+                    and final_validation_report.get("score", 0) < 70
+                ):
+                    fallback_ai_result = build_safe_fallback_recipe(preview_data)
+
+                    fallback_validation_report = validate_recipe_output(
+                        preferences=preview_data,
+                        recipe_text=fallback_ai_result.get("recipe_text", ""),
+                        attempt_number=max_regeneration_attempts + 1,
+                    )
+
+                    validation_attempt_history.append(
+                        {
+                            "attempt_number": max_regeneration_attempts + 1,
+                            "score": fallback_validation_report.get("score"),
+                            "status": "Safe fallback recipe generated",
+                            "risk_level": fallback_validation_report.get("risk_level"),
+                            "hard_fail": fallback_validation_report.get("hard_fail"),
+                            "failed_checks": [
+                                check.get("name")
+                                for check in fallback_validation_report.get(
+                                    "failed_checks",
+                                    [],
+                                )
+                            ],
+                        }
+                    )
+
+                    final_ai_result = fallback_ai_result
+                    final_validation_report = fallback_validation_report
+                    fallback_used = True
+
+                final_ai_result["validation_report"] = final_validation_report
+                final_ai_result[
+                    "validation_attempt_history"
+                ] = validation_attempt_history
+                final_ai_result["quality_score"] = final_validation_report.get(
+                    "score",
+                )
+                final_ai_result["validation_status"] = final_validation_report.get(
+                    "status",
+                )
+
+                request.session["ai_recipe_result"] = final_ai_result
+                request.session["latest_ai_recipe_text"] = final_ai_result.get(
                     "recipe_text",
                     "",
                 )
-                request.session["latest_ai_recipe_prompt"] = ai_result.get(
+                request.session["latest_ai_recipe_prompt"] = final_ai_result.get(
                     "prompt",
                     "",
                 )
+                request.session["latest_validation_report"] = final_validation_report
+                request.session[
+                    "latest_validation_attempt_history"
+                ] = validation_attempt_history
+
+                if fallback_used:
+                    messages.warning(
+                        request,
+                        "CulinaAI detected unsafe AI output and automatically created a safe corrected recipe using the validation engine.",
+                    )
+                elif len(validation_attempt_history) > 1:
+                    messages.success(
+                        request,
+                        "CulinaAI checked, corrected and validated the recipe before showing the final result.",
+                    )
+                else:
+                    messages.success(
+                        request,
+                        "Recipe generated and validated successfully.",
+                    )
 
             except Exception:
                 messages.error(
                     request,
-                    "Recipe preview is ready, but AI generation failed. Please check your OpenAI API key or billing credits.",
+                    "Recipe preview is ready, but AI generation or validation failed. Please check your OpenAI API key, billing credits, or connection.",
                 )
 
             return redirect(f"{reverse('generate_recipe')}#recipe-preview")

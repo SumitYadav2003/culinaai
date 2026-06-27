@@ -26,12 +26,17 @@ class RecipeGenerationForm(forms.Form):
     ]
 
     EQUIPMENT_CHOICES = [
-        ("stove", "Stove"),
-        ("oven", "Oven"),
-        ("microwave", "Microwave"),
-        ("air_fryer", "Air Fryer"),
-        ("blender", "Blender"),
-        ("pressure_cooker", "Pressure Cooker"),
+        ("stove", "Stove / Hob"),
+    ("gas_burner", "Gas Burner"),
+    ("induction_hob", "Induction Hob"),
+    ("portable_camping_stove", "Portable Camping Stove"),
+    ("electric_hot_plate", "Electric Hot Plate"),
+    ("traditional_chulha", "Traditional Clay Stove / Chulha"),
+    ("oven", "Oven"),
+    ("microwave", "Microwave"),
+    ("air_fryer", "Air Fryer"),
+    ("blender", "Blender"),
+    ("pressure_cooker", "Pressure Cooker"),
     ]
 
     ingredients = forms.CharField(
