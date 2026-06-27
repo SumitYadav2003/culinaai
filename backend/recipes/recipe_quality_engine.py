@@ -1057,6 +1057,38 @@ def check_time_match(
     )
 
 
+def get_selected_equipment_keys(selected_equipment: List[str]) -> Set[str]:
+    """
+    Converts selected equipment labels into validation keys.
+
+    Important:
+    If the user selects any direct heat source such as induction hob,
+    gas burner, portable camping stove, electric hot plate or chulha,
+    then normal pan/pot/frying-pan cooking should be allowed.
+    """
+
+    selected_equipment_text = normalize_text(" ".join(selected_equipment))
+    selected_keys = set()
+
+    for equipment_key in EQUIPMENT_KEYWORDS:
+        if equipment_key in selected_equipment_text:
+            selected_keys.add(equipment_key)
+
+    direct_heat_sources = {
+        "stove",
+        "gas burner",
+        "induction hob",
+        "portable camping stove",
+        "electric hot plate",
+        "traditional chulha",
+    }
+
+    if selected_keys.intersection(direct_heat_sources):
+        selected_keys.update(direct_heat_sources)
+
+    return selected_keys
+
+
 def check_equipment_match(
     preferences: Dict[str, Any],
     recipe_text: str,
@@ -1074,13 +1106,7 @@ def check_equipment_match(
             message="No equipment restriction was provided by the user.",
         )
 
-    selected_equipment_text = " ".join(selected_equipment)
-    selected_keys = set()
-
-    for equipment_key in EQUIPMENT_KEYWORDS:
-        if equipment_key in selected_equipment_text:
-            selected_keys.add(equipment_key)
-
+    selected_keys = get_selected_equipment_keys(selected_equipment)
     unavailable_equipment_found = []
 
     for equipment_key, keywords in EQUIPMENT_KEYWORDS.items():
@@ -1101,6 +1127,7 @@ def check_equipment_match(
             message="The recipe appears to require equipment not selected by the user.",
             details={
                 "selected_equipment": selected_equipment,
+                "selected_equipment_keys": sorted(selected_keys),
                 "unavailable_equipment_found": sorted(
                     set(unavailable_equipment_found)
                 ),
@@ -1117,6 +1144,7 @@ def check_equipment_match(
         message="No unavailable cooking equipment was detected.",
         details={
             "selected_equipment": selected_equipment,
+            "selected_equipment_keys": sorted(selected_keys),
         },
     )
 

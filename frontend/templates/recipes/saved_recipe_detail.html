@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-detail-edit-notes-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-validation-db-1">
 <link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=shopping-modal-clean-1">
 {% endblock %}
 
@@ -116,6 +116,255 @@
                     </div>
                 </div>
             </div>
+
+            {% if recipe.quality_score %}
+                <!-- Saved CulinaAI Validation Evidence -->
+                <section class="saved-validation-panel" aria-labelledby="saved-validation-title">
+                    <div class="saved-validation-header">
+                        <div>
+                            <span class="saved-validation-mini-label">
+                                <i class="bi bi-shield-check"></i>
+                                Stored CulinaAI Verification Evidence
+                            </span>
+
+                            <h2 id="saved-validation-title">Saved Recipe Validation Report</h2>
+
+                            <p>
+                                This validation result was generated when the recipe was created and saved.
+                                It shows how CulinaAI checked the output against the user’s ingredients,
+                                allergies, diet preferences, cooking time, difficulty, equipment and recipe structure.
+                            </p>
+                        </div>
+
+                        <div class="saved-validation-badge
+                            {% if recipe.quality_score >= 90 %}
+                                saved-validation-badge-excellent
+                            {% elif recipe.quality_score >= 85 %}
+                                saved-validation-badge-success
+                            {% elif recipe.quality_score >= 75 %}
+                                saved-validation-badge-warning
+                            {% else %}
+                                saved-validation-badge-danger
+                            {% endif %}
+                        ">
+                            <i class="bi bi-patch-check-fill"></i>
+                            {{ recipe.validation_badge|default:"Verified" }}
+                        </div>
+                    </div>
+
+                    <div class="saved-validation-summary-grid">
+                        <div class="saved-validation-score-card
+                            {% if recipe.quality_score >= 90 %}
+                                saved-score-excellent
+                            {% elif recipe.quality_score >= 85 %}
+                                saved-score-success
+                            {% elif recipe.quality_score >= 75 %}
+                                saved-score-warning
+                            {% else %}
+                                saved-score-danger
+                            {% endif %}
+                        ">
+                            <div class="saved-score-ring">
+                                <span>{{ recipe.quality_score }}</span>
+                                <small>/100</small>
+                            </div>
+
+                            <h3>{{ recipe.validation_status|default:"Verified" }}</h3>
+
+                            <p>
+                                Risk Level:
+                                <strong>{{ recipe.validation_risk_level|default:"Low" }}</strong>
+                            </p>
+                        </div>
+
+                        <div class="saved-validation-metric-card">
+                            <span>Target Score</span>
+                            <strong>85/100</strong>
+                            <small>Required benchmark</small>
+                        </div>
+
+                        <div class="saved-validation-metric-card">
+                            <span>Validation Attempts</span>
+                            <strong>{{ recipe.validation_attempts }}</strong>
+                            <small>Generation / correction history</small>
+                        </div>
+
+                        <div class="saved-validation-metric-card">
+                            <span>Validation Mode</span>
+                            <strong>Strict</strong>
+                            <small>Safety-first checking</small>
+                        </div>
+                    </div>
+
+                    <div class="saved-validation-legend">
+                        <div>
+                            <strong>90–100</strong>
+                            <span>Excellent / Verified</span>
+                        </div>
+
+                        <div>
+                            <strong>85–89</strong>
+                            <span>Verified</span>
+                        </div>
+
+                        <div>
+                            <strong>75–84</strong>
+                            <span>Accepted with minor warnings</span>
+                        </div>
+
+                        <div>
+                            <strong>&lt; 75</strong>
+                            <span>Regeneration required</span>
+                        </div>
+                    </div>
+
+                    {% if recipe.validation_attempt_history %}
+                        <div class="saved-validation-sub-panel">
+                            <div class="saved-validation-subheading">
+                                <i class="bi bi-arrow-repeat"></i>
+                                Generation and Correction History
+                            </div>
+
+                            <div class="saved-validation-attempts">
+                                {% for attempt in recipe.validation_attempt_history %}
+                                    <div class="saved-validation-attempt
+                                        {% if attempt.hard_fail %}
+                                            saved-attempt-danger
+                                        {% elif attempt.score >= 85 %}
+                                            saved-attempt-success
+                                        {% else %}
+                                            saved-attempt-warning
+                                        {% endif %}
+                                    ">
+                                        <div class="saved-attempt-number">
+                                            {{ attempt.attempt_number }}
+                                        </div>
+
+                                        <div class="saved-attempt-content">
+                                            <div class="saved-attempt-title-row">
+                                                <strong>Attempt {{ attempt.attempt_number }}</strong>
+                                                <span>{{ attempt.status }}</span>
+                                            </div>
+
+                                            <p>
+                                                Score: {{ attempt.score }}/100 |
+                                                Risk: {{ attempt.risk_level }}
+                                            </p>
+
+                                            {% if attempt.failed_checks %}
+                                                <small>
+                                                    Issues:
+                                                    {% for failed_check in attempt.failed_checks %}
+                                                        {{ failed_check }}{% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                </small>
+                                            {% else %}
+                                                <small>No validation issues detected.</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if recipe.validation_report.checks %}
+                        <div class="saved-validation-sub-panel">
+                            <div class="saved-validation-subheading">
+                                <i class="bi bi-list-check"></i>
+                                Detailed Validation Breakdown
+                            </div>
+
+                            <div class="saved-validation-check-grid">
+                                {% for check in recipe.validation_report.checks %}
+                                    <div class="saved-validation-check-card
+                                        {% if check.passed %}
+                                            saved-check-passed
+                                        {% else %}
+                                            saved-check-failed
+                                        {% endif %}
+                                    ">
+                                        <div class="saved-check-icon">
+                                            {% if check.passed %}
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="saved-check-content">
+                                            <div class="saved-check-title-row">
+                                                <h4>{{ check.name }}</h4>
+                                                <span>{{ check.score }}/{{ check.max_score }}</span>
+                                            </div>
+
+                                            <small>{{ check.category }} • {{ check.severity|title }}</small>
+
+                                            <p>{{ check.message }}</p>
+
+                                            {% if check.details.conflicting_terms %}
+                                                <div class="saved-check-detail saved-check-warning-detail">
+                                                    <strong>Conflicting terms:</strong>
+                                                    {% for term in check.details.conflicting_terms %}
+                                                        {{ term }}{% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+
+                                            {% if check.details.missing_ingredients %}
+                                                <div class="saved-check-detail saved-check-note-detail">
+                                                    <strong>Missing ingredients:</strong>
+                                                    {% for ingredient in check.details.missing_ingredients %}
+                                                        {{ ingredient }}{% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+
+                                            {% if check.details.unavailable_equipment_found %}
+                                                <div class="saved-check-detail saved-check-warning-detail">
+                                                    <strong>Unavailable equipment detected:</strong>
+                                                    {% for equipment in check.details.unavailable_equipment_found %}
+                                                        {{ equipment }}{% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+
+                                            {% if check.details.match_percentage %}
+                                                <div class="saved-check-detail saved-check-note-detail">
+                                                    <strong>Ingredient match:</strong>
+                                                    {{ check.details.match_percentage }}%
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="saved-validation-disclaimer">
+                        <i class="bi bi-info-circle"></i>
+                        <p>
+                            CulinaAI verifies recipe compliance with the selected constraints.
+                            It does not replace professional medical, allergy or nutritional advice.
+                        </p>
+                    </div>
+                </section>
+            {% else %}
+                <section class="saved-validation-panel saved-validation-empty-panel" aria-label="Validation evidence unavailable">
+                    <div class="saved-validation-empty-icon">
+                        <i class="bi bi-shield-exclamation"></i>
+                    </div>
+
+                    <div>
+                        <h2>No saved validation report for this recipe</h2>
+                        <p>
+                            This recipe was saved before the CulinaAI validation evidence fields were added.
+                            Generate and save a new recipe to store the full quality score and validation report.
+                        </p>
+                    </div>
+                </section>
+            {% endif %}
 
             <div class="row g-4 recipe-detail-content-row">
                 <div class="col-lg-4">

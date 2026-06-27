@@ -287,6 +287,15 @@ def generate_recipe_view(request):
 def save_generated_recipe_view(request):
     """
     Saves the latest AI-generated recipe from the user's session into PostgreSQL.
+
+    This version also saves CulinaAI validation evidence:
+    - quality score
+    - validation status
+    - risk level
+    - validation badge
+    - validation attempt count
+    - full validation report
+    - generation/correction history
     """
 
     if request.method != "POST":
@@ -295,6 +304,11 @@ def save_generated_recipe_view(request):
     recipe_text = request.session.get("latest_ai_recipe_text")
     recipe_prompt = request.session.get("latest_ai_recipe_prompt")
     preferences = request.session.get("latest_recipe_preferences")
+
+    validation_report = request.session.get("latest_validation_report") or {}
+    validation_attempt_history = (
+        request.session.get("latest_validation_attempt_history") or []
+    )
 
     if not recipe_text or not preferences:
         messages.error(
@@ -315,6 +329,8 @@ def save_generated_recipe_view(request):
     if meal_type_name and meal_type_name != "Any meal type":
         meal_type = MealType.objects.filter(name=meal_type_name).first()
 
+    quality_score = validation_report.get("score")
+
     recipe = Recipe.objects.create(
         user=request.user,
         title=extract_recipe_title(recipe_text),
@@ -330,6 +346,15 @@ def save_generated_recipe_view(request):
         ai_response=recipe_text,
         is_ai_generated=True,
         is_saved=True,
+
+        # CulinaAI validation fields
+        quality_score=quality_score if quality_score is not None else None,
+        validation_status=validation_report.get("status", ""),
+        validation_risk_level=validation_report.get("risk_level", ""),
+        validation_badge=validation_report.get("badge", ""),
+        validation_attempts=len(validation_attempt_history),
+        validation_report=validation_report,
+        validation_attempt_history=validation_attempt_history,
     )
 
     diet_names = preferences.get("diet_preferences", [])
@@ -340,7 +365,17 @@ def save_generated_recipe_view(request):
         if diet:
             recipe.diet_preferences.add(diet)
 
-    messages.success(request, "Recipe saved successfully.")
+    request.session.pop("latest_ai_recipe_text", None)
+    request.session.pop("latest_ai_recipe_prompt", None)
+    request.session.pop("latest_recipe_preferences", None)
+    request.session.pop("latest_validation_report", None)
+    request.session.pop("latest_validation_attempt_history", None)
+
+    messages.success(
+        request,
+        "Recipe saved successfully with CulinaAI validation evidence.",
+    )
+
     return redirect("saved_recipes")
 
 

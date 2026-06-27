@@ -135,6 +135,47 @@ class Recipe(models.Model):
     ai_prompt = models.TextField(blank=True)
     ai_response = models.TextField(blank=True)
 
+    quality_score = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text="Final CulinaAI validation score out of 100.",
+    )
+
+    validation_status = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Final validation status such as Verified or Excellent / Verified.",
+    )
+
+    validation_risk_level = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Risk level identified by the validation engine.",
+    )
+
+    validation_badge = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Short validation badge shown in the UI.",
+    )
+
+    validation_attempts = models.PositiveSmallIntegerField(
+        default=0,
+        help_text="Number of generation/correction attempts used.",
+    )
+
+    validation_report = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Full CulinaAI validation report stored as JSON.",
+    )
+
+    validation_attempt_history = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="History of AI generation, correction and fallback attempts.",
+    )
+
     is_ai_generated = models.BooleanField(default=True)
     is_saved = models.BooleanField(default=True)
 
