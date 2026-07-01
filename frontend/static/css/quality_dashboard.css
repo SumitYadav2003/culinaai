@@ -1392,3 +1392,207 @@
         white-space: normal;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   Stage 3C Premium Filters and Search
+   ========================================================= */
+
+.quality-dashboard-page .quality-filter-form {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 22px;
+    border-radius: 28px;
+    background:
+        linear-gradient(135deg, #ffffff, #fff8ef);
+    border: 1px solid rgba(249, 115, 22, 0.12);
+    box-shadow: 0 16px 38px rgba(28, 20, 13, 0.06);
+}
+
+.quality-dashboard-page .quality-search-box {
+    position: relative;
+}
+
+.quality-dashboard-page .quality-search-box i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    color: #f97316;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+}
+
+.quality-dashboard-page .quality-search-box input {
+    width: 100%;
+    min-height: 58px;
+    padding: 0 18px 0 50px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    color: #17120f;
+    font-weight: 800;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.quality-dashboard-page .quality-search-box input:focus {
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.quality-dashboard-page .quality-search-box input::placeholder {
+    color: #9b8c80;
+}
+
+.quality-dashboard-page .quality-filter-controls {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(170px, 1fr)) auto auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.quality-dashboard-page .quality-filter-controls select {
+    min-height: 50px;
+    padding: 0 14px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 17px;
+    background: #ffffff;
+    color: #302620;
+    font-weight: 850;
+    outline: none;
+}
+
+.quality-dashboard-page .quality-filter-controls select:focus {
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.quality-dashboard-page .quality-filter-controls button,
+.quality-dashboard-page .quality-filter-controls a {
+    min-height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border-radius: 17px;
+    font-weight: 950;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.quality-dashboard-page .quality-filter-controls button {
+    border: none;
+    color: #16110d;
+    background: linear-gradient(135deg, #ff8a00, #ffd21f);
+    box-shadow: 0 12px 28px rgba(255, 138, 0, 0.22);
+}
+
+.quality-dashboard-page .quality-filter-controls a {
+    color: #4b3d33;
+    background: #fff3e0;
+    border: 1px solid rgba(249, 115, 22, 0.12);
+}
+
+.quality-dashboard-page .quality-filter-controls button:hover,
+.quality-dashboard-page .quality-filter-controls a:hover {
+    transform: translateY(-2px);
+}
+
+.quality-dashboard-page .quality-filter-result {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: #f8fafc;
+    color: #5f5147;
+    font-weight: 750;
+}
+
+.quality-dashboard-page .quality-filter-result strong {
+    color: #f97316;
+    font-weight: 950;
+}
+
+@media (max-width: 1200px) {
+    .quality-dashboard-page .quality-filter-controls {
+        grid-template-columns: repeat(2, minmax(170px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .quality-dashboard-page .quality-filter-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .quality-dashboard-page .quality-filter-controls button,
+    .quality-dashboard-page .quality-filter-controls a {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Keeps filter/table section visible after Apply or Reset */
+.quality-dashboard-page #quality-records {
+    scroll-margin-top: 135px;
+}

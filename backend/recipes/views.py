@@ -1023,9 +1023,8 @@ def quality_dashboard_view(request):
     """
     Staff-only CulinaAI quality dashboard.
 
-    Stage 3B:
-    Adds stronger analytics for validation coverage, regeneration rate,
-    fallback usage, score range, staff review queue and common validation issues.
+    Stage 3C:
+    Adds advanced analytics plus filtering/search for admin recipe records.
     """
 
     if not (request.user.is_staff or request.user.is_superuser):
@@ -1247,11 +1246,79 @@ def quality_dashboard_view(request):
             "The validation system has lower scoring records, so staff review is recommended."
         )
 
-    recent_recipes = recipes.select_related(
+    # Stage 3C filter controls for the recipe records table.
+    search_query = request.GET.get("q", "").strip()
+    validation_filter = request.GET.get("validation", "all")
+    risk_filter = request.GET.get("risk", "all")
+    sort_filter = request.GET.get("sort", "latest")
+
+    filtered_recipes = recipes.select_related(
         "user",
         "cuisine",
         "meal_type",
-    ).order_by("-created_at")[:8]
+    )
+
+    if search_query:
+        filtered_recipes = filtered_recipes.filter(
+            Q(title__icontains=search_query)
+            | Q(user__username__icontains=search_query)
+            | Q(cuisine__name__icontains=search_query)
+            | Q(meal_type__name__icontains=search_query)
+        )
+
+    if validation_filter == "validated":
+        filtered_recipes = filtered_recipes.filter(
+            quality_score__isnull=False,
+        )
+    elif validation_filter == "unvalidated":
+        filtered_recipes = filtered_recipes.filter(
+            quality_score__isnull=True,
+        )
+    elif validation_filter == "excellent":
+        filtered_recipes = filtered_recipes.filter(
+            quality_score__gte=85,
+        )
+    elif validation_filter == "below_excellent":
+        filtered_recipes = filtered_recipes.filter(
+            Q(quality_score__lt=85) | Q(quality_score__isnull=True)
+        )
+    elif validation_filter == "needs_review":
+        filtered_recipes = filtered_recipes.filter(
+            Q(quality_score__lt=70)
+            | Q(quality_score__isnull=True)
+            | Q(validation_risk_level__icontains="medium")
+            | Q(validation_risk_level__icontains="high")
+        )
+
+    if risk_filter == "low":
+        filtered_recipes = filtered_recipes.filter(
+            validation_risk_level__icontains="low",
+        )
+    elif risk_filter == "medium":
+        filtered_recipes = filtered_recipes.filter(
+            validation_risk_level__icontains="medium",
+        )
+    elif risk_filter == "high":
+        filtered_recipes = filtered_recipes.filter(
+            validation_risk_level__icontains="high",
+        )
+    elif risk_filter == "unknown":
+        filtered_recipes = filtered_recipes.filter(
+            Q(validation_risk_level__isnull=True)
+            | Q(validation_risk_level="")
+        )
+
+    if sort_filter == "oldest":
+        filtered_recipes = filtered_recipes.order_by("created_at")
+    elif sort_filter == "score_high":
+        filtered_recipes = filtered_recipes.order_by("-quality_score", "-created_at")
+    elif sort_filter == "score_low":
+        filtered_recipes = filtered_recipes.order_by("quality_score", "-created_at")
+    else:
+        filtered_recipes = filtered_recipes.order_by("-created_at")
+
+    filtered_recipe_count = filtered_recipes.count()
+    filtered_recipes = filtered_recipes[:30]
 
     context = {
         "total_ai_recipes": total_ai_recipes,
@@ -1267,7 +1334,12 @@ def quality_dashboard_view(request):
         "high_risk_count": high_risk_count,
         "first_attempt_count": first_attempt_count,
         "corrected_count": corrected_count,
-        "recent_recipes": recent_recipes,
+        "recent_recipes": filtered_recipes,
+        "filtered_recipe_count": filtered_recipe_count,
+        "search_query": search_query,
+        "validation_filter": validation_filter,
+        "risk_filter": risk_filter,
+        "sort_filter": sort_filter,
         "validation_coverage_rate": validation_coverage_rate,
         "unvalidated_rate": unvalidated_rate,
         "first_attempt_rate": first_attempt_rate,

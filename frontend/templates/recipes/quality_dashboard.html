@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Quality Control Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-premium-2">
+<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-premium-4">
 {% endblock %}
 
 {% block content %}
@@ -128,7 +128,7 @@
             </article>
         </div>
 
-                <!-- Advanced Analytics -->
+        <!-- Advanced Analytics -->
         <section class="quality-advanced-panel">
             <div class="quality-panel-header">
                 <div>
@@ -143,37 +143,49 @@
                 <article class="advanced-card">
                     <span>Validation Coverage</span>
                     <strong>{{ validation_coverage_rate }}%</strong>
-                    <p>{{ validated_count }} of {{ total_ai_recipes }} saved AI recipes contain stored validation evidence.</p>
+                    <p>
+                        {{ validated_count }} of {{ total_ai_recipes }} saved AI recipes contain stored validation evidence.
+                    </p>
                 </article>
 
                 <article class="advanced-card">
                     <span>First Attempt Pass Rate</span>
                     <strong>{{ first_attempt_rate }}%</strong>
-                    <p>{{ first_attempt_count }} validated recipe{% if first_attempt_count != 1 %}s{% endif %} passed on the first attempt.</p>
+                    <p>
+                        {{ first_attempt_count }} validated recipe{% if first_attempt_count != 1 %}s{% endif %} passed on the first attempt.
+                    </p>
                 </article>
 
                 <article class="advanced-card">
                     <span>Regeneration Rate</span>
                     <strong>{{ regeneration_rate }}%</strong>
-                    <p>{{ corrected_count }} recipe{% if corrected_count != 1 %}s{% endif %} needed correction or regeneration.</p>
+                    <p>
+                        {{ corrected_count }} recipe{% if corrected_count != 1 %}s{% endif %} needed correction or regeneration.
+                    </p>
                 </article>
 
                 <article class="advanced-card">
                     <span>Fallback Usage</span>
                     <strong>{{ fallback_count }}</strong>
-                    <p>Number of records where fallback evidence was detected in stored validation data.</p>
+                    <p>
+                        Number of records where fallback evidence was detected in stored validation data.
+                    </p>
                 </article>
 
                 <article class="advanced-card">
                     <span>Average Attempts</span>
                     <strong>{{ average_attempts }}</strong>
-                    <p>Average number of validation attempts used before storing recipes.</p>
+                    <p>
+                        Average number of validation attempts used before storing recipes.
+                    </p>
                 </article>
 
                 <article class="advanced-card">
                     <span>Score Range</span>
                     <strong>{{ lowest_score }}–{{ highest_score }}</strong>
-                    <p>Lowest and highest stored quality scores among validated recipes.</p>
+                    <p>
+                        Lowest and highest stored quality scores among validated recipes.
+                    </p>
                 </article>
             </div>
         </section>
@@ -209,8 +221,7 @@
                                 <strong>{{ recipe.title }}</strong>
 
                                 <span>
-                                    {{ recipe.user.username }}
-                                    ·
+                                    {{ recipe.user.username }} ·
                                     {% if recipe.quality_score %}
                                         {{ recipe.quality_score }}/100
                                     {% else %}
@@ -415,16 +426,71 @@
             </section>
         </div>
 
-        <!-- Recent Recipes Table -->
-        <section class="quality-panel quality-table-panel">
+        <!-- Recipe Records Table -->
+        <section class="quality-panel quality-table-panel" id="quality-records">
             <div class="quality-panel-header">
                 <div>
                     <span>Recent Records</span>
-                    <h2>Latest saved AI recipes</h2>
+                    <h2>Saved AI recipe records</h2>
                 </div>
 
                 <i class="bi bi-table"></i>
             </div>
+
+            <form method="get" action="{% url 'quality_dashboard' %}#quality-records" class="quality-filter-form">
+                <div class="quality-search-box">
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ search_query }}"
+                        placeholder="Search by recipe, username, cuisine or meal type..."
+                    >
+                </div>
+
+                <div class="quality-filter-controls">
+                    <select name="validation">
+                        <option value="all" {% if validation_filter == "all" %}selected{% endif %}>All validation states</option>
+                        <option value="validated" {% if validation_filter == "validated" %}selected{% endif %}>Validated only</option>
+                        <option value="unvalidated" {% if validation_filter == "unvalidated" %}selected{% endif %}>Unvalidated only</option>
+                        <option value="excellent" {% if validation_filter == "excellent" %}selected{% endif %}>Excellent score</option>
+                        <option value="below_excellent" {% if validation_filter == "below_excellent" %}selected{% endif %}>Below excellent</option>
+                        <option value="needs_review" {% if validation_filter == "needs_review" %}selected{% endif %}>Needs review</option>
+                    </select>
+
+                    <select name="risk">
+                        <option value="all" {% if risk_filter == "all" %}selected{% endif %}>All risk levels</option>
+                        <option value="low" {% if risk_filter == "low" %}selected{% endif %}>Low risk</option>
+                        <option value="medium" {% if risk_filter == "medium" %}selected{% endif %}>Medium risk</option>
+                        <option value="high" {% if risk_filter == "high" %}selected{% endif %}>High risk</option>
+                        <option value="unknown" {% if risk_filter == "unknown" %}selected{% endif %}>Unknown risk</option>
+                    </select>
+
+                    <select name="sort">
+                        <option value="latest" {% if sort_filter == "latest" %}selected{% endif %}>Latest first</option>
+                        <option value="oldest" {% if sort_filter == "oldest" %}selected{% endif %}>Oldest first</option>
+                        <option value="score_high" {% if sort_filter == "score_high" %}selected{% endif %}>Highest score</option>
+                        <option value="score_low" {% if sort_filter == "score_low" %}selected{% endif %}>Lowest score</option>
+                    </select>
+
+                    <button type="submit">
+                        <i class="bi bi-funnel-fill"></i>
+                        Apply
+                    </button>
+
+                    <a href="{% url 'quality_dashboard' %}#quality-records">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Reset
+                    </a>
+                </div>
+
+                <div class="quality-filter-result">
+                    Showing <strong>{{ filtered_recipe_count }}</strong> matching recipe
+                    record{% if filtered_recipe_count != 1 %}s{% endif %}.
+                    The table displays up to 30 records.
+                </div>
+            </form>
 
             <div class="quality-table-wrapper">
                 <table class="quality-table">
@@ -493,7 +559,7 @@
                                     {% endif %}
                                 </td>
 
-                                <td>{{ recipe.validation_attempts }}</td>
+                                <td>{{ recipe.validation_attempts|default:"0" }}</td>
 
                                 <td>{{ recipe.created_at|date:"d M Y, H:i" }}</td>
                             </tr>
@@ -504,8 +570,7 @@
                                         <i class="bi bi-inbox"></i>
                                         <h3>No saved AI recipes found yet</h3>
                                         <p>
-                                            Once AI-generated recipes are saved, validation records
-                                            will appear here.
+                                            Once AI-generated recipes are saved, validation records will appear here.
                                         </p>
                                     </div>
                                 </td>
