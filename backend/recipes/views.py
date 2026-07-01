@@ -1,3 +1,4 @@
+import json
 from collections import Counter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -1358,6 +1359,108 @@ def quality_dashboard_view(request):
     return render(request, "recipes/quality_dashboard.html", context)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def quality_recipe_evidence_view(request, recipe_id):
+    """
+    Staff-only validation evidence detail page.
+
+    Allows staff/admin users to inspect the stored validation report,
+    attempt history and saved AI recipe output for a specific recipe.
+    """
+
+    if not (request.user.is_staff or request.user.is_superuser):
+        messages.error(
+            request,
+            "You do not have permission to access this validation evidence page.",
+        )
+        return redirect("home")
+
+    recipe = get_object_or_404(
+        Recipe.objects.select_related(
+            "user",
+            "cuisine",
+            "meal_type",
+        ),
+        id=recipe_id,
+        is_ai_generated=True,
+        is_saved=True,
+    )
+
+    validation_report_pretty = json.dumps(
+        recipe.validation_report or {},
+        indent=2,
+        ensure_ascii=False,
+        default=str,
+    )
+
+    validation_attempt_history_pretty = json.dumps(
+        recipe.validation_attempt_history or [],
+        indent=2,
+        ensure_ascii=False,
+        default=str,
+    )
+
+    # Main saved AI output.
+    # Your Recipe model stores the full AI output in ai_response.
+    recipe_content = recipe.ai_response.strip() if recipe.ai_response else ""
+
+    # Fallback for older/manual records where ai_response may be empty.
+    if not recipe_content:
+        fallback_parts = []
+
+        if recipe.description:
+            fallback_parts.append(f"Description:\n{recipe.description}")
+
+        if recipe.ingredients_text:
+            fallback_parts.append(f"Ingredients:\n{recipe.ingredients_text}")
+
+        if recipe.instructions_text:
+            fallback_parts.append(f"Instructions:\n{recipe.instructions_text}")
+
+        recipe_content = "\n\n".join(fallback_parts)
+
+    context = {
+        "recipe": recipe,
+        "recipe_content": recipe_content,
+        "validation_report_pretty": validation_report_pretty,
+        "validation_attempt_history_pretty": validation_attempt_history_pretty,
+    }
+
+    return render(request, "recipes/quality_recipe_evidence.html", context)
 
 
 

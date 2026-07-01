@@ -16,6 +16,7 @@ from .views import (
     submit_recipe_feedback_view,
     toggle_favourite_recipe_view,
     quality_dashboard_view,
+    quality_recipe_evidence_view,
 )
 
 
@@ -83,4 +84,10 @@ urlpatterns = [
         delete_saved_recipe_view,
         name="delete_saved_recipe",
     ),
+
+    path(
+    "quality-dashboard/recipe/<int:recipe_id>/",
+    quality_recipe_evidence_view,
+    name="quality_recipe_evidence",
+),
 ]

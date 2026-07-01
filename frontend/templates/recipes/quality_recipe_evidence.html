@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Validation Evidence{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-evidence-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="quality-dashboard-page evidence-detail-page">
+    <div class="quality-bg-glow quality-bg-glow-one"></div>
+    <div class="quality-bg-glow quality-bg-glow-two"></div>
+
+    <div class="container">
+
+        <!-- Evidence Header -->
+        <div class="evidence-hero-panel">
+            <div>
+                <span class="quality-eyebrow">
+                    <i class="bi bi-file-earmark-check"></i>
+                    Validation Evidence
+                </span>
+
+                <h1>{{ recipe.title }}</h1>
+
+                <p>
+                    Staff-only audit view showing the stored CulinaAI validation report,
+                    validation attempt history and saved AI-generated recipe content.
+                </p>
+            </div>
+
+            <div class="evidence-hero-actions">
+                <a href="{% url 'quality_dashboard' %}#quality-records" class="quality-soft-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+
+                <a href="{% url 'logout' %}" class="quality-primary-btn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Evidence Summary -->
+        <div class="evidence-summary-grid">
+            <article class="quality-metric-card metric-blue">
+                <div class="metric-icon">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+
+                <div>
+                    <span>Quality Score</span>
+
+                    <h3>
+                        {% if recipe.quality_score %}
+                            {{ recipe.quality_score }}/100
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </h3>
+
+                    <p>Final stored CulinaAI validation score.</p>
+                </div>
+            </article>
+
+            <article class="quality-metric-card metric-green">
+                <div class="metric-icon">
+                    <i class="bi bi-patch-check-fill"></i>
+                </div>
+
+                <div>
+                    <span>Status</span>
+                    <h3>{{ recipe.validation_status|default:"Not stored" }}</h3>
+                    <p>Final validation status recorded for this recipe.</p>
+                </div>
+            </article>
+
+            <article class="quality-metric-card metric-warm">
+                <div class="metric-icon">
+                    <i class="bi bi-shield-exclamation"></i>
+                </div>
+
+                <div>
+                    <span>Risk Level</span>
+                    <h3>{{ recipe.validation_risk_level|default:"Unknown" }}</h3>
+                    <p>Risk category assigned by the validation engine.</p>
+                </div>
+            </article>
+
+            <article class="quality-metric-card metric-purple">
+                <div class="metric-icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+
+                <div>
+                    <span>Attempts</span>
+                    <h3>{{ recipe.validation_attempts|default:"0" }}</h3>
+                    <p>Generation, correction or fallback attempts used.</p>
+                </div>
+            </article>
+        </div>
+
+        <!-- Recipe Metadata -->
+        <section class="quality-panel evidence-meta-panel">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Recipe Metadata</span>
+                    <h2>Stored recipe information</h2>
+                </div>
+
+                <i class="bi bi-card-checklist"></i>
+            </div>
+
+            <div class="evidence-meta-grid">
+                <div>
+                    <span>User</span>
+                    <strong>{{ recipe.user.username }}</strong>
+                </div>
+
+                <div>
+                    <span>Cuisine</span>
+                    <strong>
+                        {% if recipe.cuisine %}
+                            {{ recipe.cuisine.name }}
+                        {% else %}
+                            Not selected
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Meal Type</span>
+                    <strong>
+                        {% if recipe.meal_type %}
+                            {{ recipe.meal_type.name }}
+                        {% else %}
+                            Not selected
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Difficulty</span>
+                    <strong>{{ recipe.difficulty|default:"Not stored"|title }}</strong>
+                </div>
+
+                <div>
+                    <span>Created</span>
+                    <strong>{{ recipe.created_at|date:"d M Y, H:i" }}</strong>
+                </div>
+
+                <div>
+                    <span>Validation Badge</span>
+                    <strong>{{ recipe.validation_badge|default:"Not stored" }}</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Validation Evidence -->
+        <div class="evidence-grid">
+
+            <section class="quality-panel evidence-code-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Validation Report</span>
+                        <h2>Stored scoring evidence</h2>
+                    </div>
+
+                    <i class="bi bi-braces"></i>
+                </div>
+
+                {% if recipe.validation_report %}
+                    <pre>{{ validation_report_pretty }}</pre>
+                {% else %}
+                    <div class="empty-quality-state">
+                        <i class="bi bi-inbox"></i>
+                        <h3>No validation report stored</h3>
+                        <p>This recipe may have been created before validation evidence storage was added.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="quality-panel evidence-code-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Attempt History</span>
+                        <h2>Generation and correction trail</h2>
+                    </div>
+
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+
+                {% if recipe.validation_attempt_history %}
+                    <pre>{{ validation_attempt_history_pretty }}</pre>
+                {% else %}
+                    <div class="empty-quality-state">
+                        <i class="bi bi-clock-history"></i>
+                        <h3>No attempt history stored</h3>
+                        <p>This recipe does not contain stored generation attempt history.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+        </div>
+
+        <!-- Saved Recipe Output -->
+        <section class="quality-panel evidence-recipe-panel">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Saved AI Output</span>
+                    <h2>Stored recipe content</h2>
+                </div>
+
+                <i class="bi bi-journal-text"></i>
+            </div>
+
+                    <!-- Saved Recipe Output -->
+        <section class="quality-panel evidence-recipe-panel">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Saved AI Output</span>
+                    <h2>Stored recipe content</h2>
+                </div>
+
+                <i class="bi bi-journal-text"></i>
+            </div>
+
+            <div class="evidence-recipe-content">
+                {% if recipe_content %}
+                    {{ recipe_content|linebreaks }}
+                {% else %}
+                    <div class="empty-quality-state">
+                        <i class="bi bi-inbox"></i>
+                        <h3>No stored recipe text found</h3>
+                        <p>
+                            This record does not contain AI response text, ingredients text,
+                            instructions text or description.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -503,6 +503,7 @@
                             <th>Risk</th>
                             <th>Attempts</th>
                             <th>Date</th>
+                            <th>Evidence</th>
                         </tr>
                     </thead>
 
@@ -562,10 +563,16 @@
                                 <td>{{ recipe.validation_attempts|default:"0" }}</td>
 
                                 <td>{{ recipe.created_at|date:"d M Y, H:i" }}</td>
+                                <td>
+                                    <a href="{% url 'quality_recipe_evidence' recipe.id %}" class="evidence-link-btn">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                        View Evidence
+                                    </a>
+                                </td>
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="7">
+                                <td colspan="8">
                                     <div class="empty-quality-state">
                                         <i class="bi bi-inbox"></i>
                                         <h3>No saved AI recipes found yet</h3>
