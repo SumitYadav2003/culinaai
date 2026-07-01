@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Validation Evidence{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-evidence-1">
+<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-evidence-final-2">
 {% endblock %}
 
 {% block content %}
@@ -159,66 +159,97 @@
             </div>
         </section>
 
-        <!-- Validation Evidence -->
-        <div class="evidence-grid">
-
-            <section class="quality-panel evidence-code-panel">
-                <div class="quality-panel-header">
-                    <div>
-                        <span>Validation Report</span>
-                        <h2>Stored scoring evidence</h2>
-                    </div>
-
-                    <i class="bi bi-braces"></i>
-                </div>
-
-                {% if recipe.validation_report %}
-                    <pre>{{ validation_report_pretty }}</pre>
-                {% else %}
-                    <div class="empty-quality-state">
-                        <i class="bi bi-inbox"></i>
-                        <h3>No validation report stored</h3>
-                        <p>This recipe may have been created before validation evidence storage was added.</p>
-                    </div>
-                {% endif %}
-            </section>
-
-            <section class="quality-panel evidence-code-panel">
-                <div class="quality-panel-header">
-                    <div>
-                        <span>Attempt History</span>
-                        <h2>Generation and correction trail</h2>
-                    </div>
-
-                    <i class="bi bi-diagram-3"></i>
-                </div>
-
-                {% if recipe.validation_attempt_history %}
-                    <pre>{{ validation_attempt_history_pretty }}</pre>
-                {% else %}
-                    <div class="empty-quality-state">
-                        <i class="bi bi-clock-history"></i>
-                        <h3>No attempt history stored</h3>
-                        <p>This recipe does not contain stored generation attempt history.</p>
-                    </div>
-                {% endif %}
-            </section>
-
-        </div>
-
-        <!-- Saved Recipe Output -->
-        <section class="quality-panel evidence-recipe-panel">
+        <!-- Human-Readable Validation Evidence -->
+        <section class="quality-panel readable-validation-panel">
             <div class="quality-panel-header">
                 <div>
-                    <span>Saved AI Output</span>
-                    <h2>Stored recipe content</h2>
+                    <span>Readable Evidence</span>
+                    <h2>Validation checks explained</h2>
                 </div>
 
-                <i class="bi bi-journal-text"></i>
+                <i class="bi bi-card-checklist"></i>
             </div>
 
-                    <!-- Saved Recipe Output -->
-        <section class="quality-panel evidence-recipe-panel">
+            <div class="validation-check-grid">
+                {% for check in readable_validation_checks %}
+                    <article class="validation-check-card {{ check.css_class }}">
+                        <div class="validation-check-icon">
+                            <i class="bi {{ check.icon }}"></i>
+                        </div>
+
+                        <div class="validation-check-copy">
+                            <span>{{ check.status_label }}</span>
+                            <h3>{{ check.label }}</h3>
+
+                            {% if check.score_text %}
+                                <strong>{{ check.score_text }}</strong>
+                            {% endif %}
+
+                            <p>{{ check.message }}</p>
+                        </div>
+                    </article>
+                {% empty %}
+                    <div class="empty-quality-state">
+                        <i class="bi bi-inbox"></i>
+                        <h3>No readable validation checks found</h3>
+                        <p>
+                            The raw technical audit data is still available below.
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+                <!-- Technical Validation Report -->
+        <section class="quality-panel evidence-code-panel evidence-section-block">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Technical Audit Data</span>
+                    <h2>Raw validation report</h2>
+                </div>
+
+                <i class="bi bi-braces"></i>
+            </div>
+
+            {% if recipe.validation_report %}
+                <pre>{{ validation_report_pretty }}</pre>
+            {% else %}
+                <div class="empty-quality-state">
+                    <i class="bi bi-inbox"></i>
+                    <h3>No validation report stored</h3>
+                    <p>
+                        This recipe may have been created before validation evidence storage was added.
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Technical Attempt History -->
+        <section class="quality-panel evidence-code-panel evidence-section-block">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Technical Audit Data</span>
+                    <h2>Raw attempt history</h2>
+                </div>
+
+                <i class="bi bi-diagram-3"></i>
+            </div>
+
+            {% if recipe.validation_attempt_history %}
+                <pre>{{ validation_attempt_history_pretty }}</pre>
+            {% else %}
+                <div class="empty-quality-state">
+                    <i class="bi bi-clock-history"></i>
+                    <h3>No attempt history stored</h3>
+                    <p>
+                        This recipe does not contain stored generation attempt history.
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Saved Recipe Output -->
+        <section class="quality-panel evidence-recipe-panel evidence-section-block">
             <div class="quality-panel-header">
                 <div>
                     <span>Saved AI Output</span>
@@ -241,6 +272,68 @@
                         </p>
                     </div>
                 {% endif %}
+            </div>
+        </section>
+
+        <!-- Admin Interpretation -->
+        <section class="quality-panel evidence-audit-guide evidence-section-block">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Admin Interpretation</span>
+                    <h2>How to read this evidence</h2>
+                </div>
+
+                <i class="bi bi-lightbulb-fill"></i>
+            </div>
+
+            <div class="evidence-audit-guide-grid">
+                <article class="audit-mini-card audit-score">
+                    <i class="bi bi-speedometer2"></i>
+
+                    <div>
+                        <span>Score Meaning</span>
+                        <p>
+                            The quality score shows how strongly the recipe satisfied
+                            CulinaAI's validation checks.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="audit-mini-card audit-risk">
+                    <i class="bi bi-shield-check"></i>
+
+                    <div>
+                        <span>Risk Review</span>
+                        <p>
+                            The risk level helps staff identify recipes that may need
+                            closer manual review.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="audit-mini-card audit-attempt">
+                    <i class="bi bi-arrow-repeat"></i>
+
+                    <div>
+                        <span>Attempt Trail</span>
+                        <p>
+                            Attempt history shows whether the system accepted, corrected,
+                            regenerated or used fallback output.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="audit-mini-card audit-dissertation">
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                    <div>
+                        <span>Dissertation Value</span>
+                        <p>
+                            This page demonstrates controlled AI output monitoring instead
+                            of simply displaying raw AI-generated text.
+                        </p>
+                    </div>
+                </article>
             </div>
         </section>
 

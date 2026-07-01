@@ -1398,8 +1398,8 @@ def quality_recipe_evidence_view(request, recipe_id):
     """
     Staff-only validation evidence detail page.
 
-    Allows staff/admin users to inspect the stored validation report,
-    attempt history and saved AI recipe output for a specific recipe.
+    Allows staff/admin users to inspect human-readable validation evidence,
+    stored validation report, attempt history and saved AI recipe output.
     """
 
     if not (request.user.is_staff or request.user.is_superuser):
@@ -1420,15 +1420,18 @@ def quality_recipe_evidence_view(request, recipe_id):
         is_saved=True,
     )
 
+    validation_report = recipe.validation_report or {}
+    validation_attempt_history = recipe.validation_attempt_history or []
+
     validation_report_pretty = json.dumps(
-        recipe.validation_report or {},
+        validation_report,
         indent=2,
         ensure_ascii=False,
         default=str,
     )
 
     validation_attempt_history_pretty = json.dumps(
-        recipe.validation_attempt_history or [],
+        validation_attempt_history,
         indent=2,
         ensure_ascii=False,
         default=str,
@@ -1453,15 +1456,238 @@ def quality_recipe_evidence_view(request, recipe_id):
 
         recipe_content = "\n\n".join(fallback_parts)
 
+    def get_first_existing(check_data, possible_keys, default=""):
+        for key in possible_keys:
+            value = check_data.get(key)
+
+            if value is not None and value != "":
+                return value
+
+        return default
+
+    def build_score_text(check_data):
+        awarded = get_first_existing(
+            check_data,
+            [
+                "score_awarded",
+                "awarded_score",
+                "points_awarded",
+                "score",
+                "points",
+            ],
+            None,
+        )
+
+        maximum = get_first_existing(
+            check_data,
+            [
+                "max_score",
+                "maximum_score",
+                "max_points",
+                "total_points",
+                "out_of",
+            ],
+            None,
+        )
+
+        if awarded is not None and maximum is not None:
+            return f"{awarded}/{maximum}"
+
+        if awarded is not None:
+            return str(awarded)
+
+        return ""
+
+    def build_readable_check(check_data, fallback_name="Validation check"):
+        check_name = get_first_existing(
+            check_data,
+            [
+                "name",
+                "category",
+                "title",
+                "criterion",
+                "check",
+                "label",
+            ],
+            fallback_name,
+        )
+
+        message = get_first_existing(
+            check_data,
+            [
+                "message",
+                "detail",
+                "details",
+                "explanation",
+                "reason",
+                "note",
+                "notes",
+                "feedback",
+            ],
+            "No extra explanation stored for this check.",
+        )
+
+        raw_status = str(
+            get_first_existing(
+                check_data,
+                [
+                    "status",
+                    "result",
+                    "outcome",
+                    "state",
+                ],
+                "",
+            )
+        ).lower()
+
+        passed = get_first_existing(
+            check_data,
+            [
+                "passed",
+                "is_passed",
+                "success",
+                "valid",
+            ],
+            None,
+        )
+
+        hard_fail = get_first_existing(
+            check_data,
+            [
+                "hard_fail",
+                "critical_fail",
+                "failed",
+            ],
+            False,
+        )
+
+        if passed is True or raw_status in ["passed", "pass", "success", "verified"]:
+            status_label = "Passed"
+            css_class = "check-passed"
+            icon = "bi-check-circle-fill"
+        elif hard_fail is True or passed is False or "fail" in raw_status:
+            status_label = "Failed"
+            css_class = "check-failed"
+            icon = "bi-x-circle-fill"
+        elif "warning" in raw_status or "review" in raw_status or "moderate" in raw_status:
+            status_label = "Warning"
+            css_class = "check-warning"
+            icon = "bi-exclamation-triangle-fill"
+        else:
+            status_label = "Recorded"
+            css_class = "check-info"
+            icon = "bi-info-circle-fill"
+
+        return {
+            "label": str(check_name).replace("_", " ").title(),
+            "message": str(message),
+            "score_text": build_score_text(check_data),
+            "status_label": status_label,
+            "css_class": css_class,
+            "icon": icon,
+        }
+
+    readable_validation_checks = []
+
+    if isinstance(validation_report, dict):
+        possible_check_lists = [
+            validation_report.get("checks"),
+            validation_report.get("criteria"),
+            validation_report.get("validation_checks"),
+            validation_report.get("check_results"),
+            validation_report.get("score_breakdown"),
+            validation_report.get("criteria_results"),
+            validation_report.get("results"),
+        ]
+
+        for check_list in possible_check_lists:
+            if isinstance(check_list, list):
+                for check in check_list:
+                    if isinstance(check, dict):
+                        readable_validation_checks.append(
+                            build_readable_check(check)
+                        )
+
+            elif isinstance(check_list, dict):
+                for key, value in check_list.items():
+                    if isinstance(value, dict):
+                        readable_validation_checks.append(
+                            build_readable_check(value, fallback_name=key)
+                        )
+                    else:
+                        readable_validation_checks.append(
+                            {
+                                "label": str(key).replace("_", " ").title(),
+                                "message": f"Stored value: {value}",
+                                "score_text": "",
+                                "status_label": "Recorded",
+                                "css_class": "check-info",
+                                "icon": "bi-info-circle-fill",
+                            }
+                        )
+
+        warning_items = validation_report.get("warnings") or validation_report.get("issues") or []
+
+        if isinstance(warning_items, list):
+            for warning in warning_items:
+                if warning:
+                    readable_validation_checks.append(
+                        {
+                            "label": "Validation Warning",
+                            "message": str(warning),
+                            "score_text": "",
+                            "status_label": "Warning",
+                            "css_class": "check-warning",
+                            "icon": "bi-exclamation-triangle-fill",
+                        }
+                    )
+
+    # Fallback readable evidence if no detailed check list exists in JSON.
+    if not readable_validation_checks:
+        readable_validation_checks = [
+            {
+                "label": "Overall Quality Score",
+                "message": "Final stored quality score produced by the CulinaAI validation engine.",
+                "score_text": f"{recipe.quality_score}/100" if recipe.quality_score is not None else "Not stored",
+                "status_label": "Recorded",
+                "css_class": "check-info",
+                "icon": "bi-speedometer2",
+            },
+            {
+                "label": "Validation Status",
+                "message": recipe.validation_status or "No validation status was stored for this recipe.",
+                "score_text": "",
+                "status_label": "Recorded",
+                "css_class": "check-info",
+                "icon": "bi-patch-check-fill",
+            },
+            {
+                "label": "Risk Level",
+                "message": recipe.validation_risk_level or "No risk level was stored for this recipe.",
+                "score_text": "",
+                "status_label": "Recorded",
+                "css_class": "check-info",
+                "icon": "bi-shield-exclamation",
+            },
+            {
+                "label": "Validation Attempts",
+                "message": "Number of generation, correction or fallback attempts stored for this recipe.",
+                "score_text": str(recipe.validation_attempts or 0),
+                "status_label": "Recorded",
+                "css_class": "check-info",
+                "icon": "bi-arrow-repeat",
+            },
+        ]
+
     context = {
         "recipe": recipe,
         "recipe_content": recipe_content,
+        "readable_validation_checks": readable_validation_checks,
         "validation_report_pretty": validation_report_pretty,
         "validation_attempt_history_pretty": validation_attempt_history_pretty,
     }
 
     return render(request, "recipes/quality_recipe_evidence.html", context)
-
 
 
 
