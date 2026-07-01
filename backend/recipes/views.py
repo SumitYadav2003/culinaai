@@ -1,9 +1,12 @@
+from collections import Counter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+
+
 
 from .ai_service import generate_ai_recipe, modify_ai_recipe
 from .recipe_quality_engine import (
@@ -975,3 +978,331 @@ def print_saved_recipe_view(request, recipe_id):
             "recipe": recipe,
         },
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def quality_dashboard_view(request):
+    """
+    Staff-only CulinaAI quality dashboard.
+
+    Stage 3B:
+    Adds stronger analytics for validation coverage, regeneration rate,
+    fallback usage, score range, staff review queue and common validation issues.
+    """
+
+    if not (request.user.is_staff or request.user.is_superuser):
+        messages.error(
+            request,
+            "You do not have permission to access the CulinaAI quality dashboard.",
+        )
+        return redirect("home")
+
+    recipes = Recipe.objects.filter(
+        is_ai_generated=True,
+        is_saved=True,
+    )
+
+    validated_recipes = recipes.filter(
+        quality_score__isnull=False,
+    )
+
+    total_ai_recipes = recipes.count()
+    validated_count = validated_recipes.count()
+    unvalidated_count = total_ai_recipes - validated_count
+
+    scores = list(
+        validated_recipes.values_list(
+            "quality_score",
+            flat=True,
+        )
+    )
+
+    if scores:
+        average_score = round(sum(scores) / len(scores), 1)
+        highest_score = max(scores)
+        lowest_score = min(scores)
+    else:
+        average_score = 0
+        highest_score = 0
+        lowest_score = 0
+
+    excellent_count = validated_recipes.filter(
+        quality_score__gte=85,
+    ).count()
+
+    verified_count = validated_recipes.filter(
+        quality_score__gte=70,
+        quality_score__lt=85,
+    ).count()
+
+    moderate_count = validated_recipes.filter(
+        quality_score__gte=50,
+        quality_score__lt=70,
+    ).count()
+
+    needs_review_count = validated_recipes.filter(
+        quality_score__lt=50,
+    ).count()
+
+    low_risk_count = validated_recipes.filter(
+        validation_risk_level__icontains="low",
+    ).count()
+
+    medium_risk_count = validated_recipes.filter(
+        validation_risk_level__icontains="medium",
+    ).count()
+
+    high_risk_count = validated_recipes.filter(
+        validation_risk_level__icontains="high",
+    ).count()
+
+    first_attempt_count = validated_recipes.filter(
+        validation_attempts__lte=1,
+    ).count()
+
+    corrected_count = validated_recipes.filter(
+        validation_attempts__gt=1,
+    ).count()
+
+    attempt_values = list(
+        validated_recipes.values_list(
+            "validation_attempts",
+            flat=True,
+        )
+    )
+
+    if attempt_values:
+        average_attempts = round(sum(attempt_values) / len(attempt_values), 1)
+    else:
+        average_attempts = 0
+
+    def percentage(part, total):
+        if not total:
+            return 0
+        return round((part / total) * 100, 1)
+
+    validation_coverage_rate = percentage(validated_count, total_ai_recipes)
+    unvalidated_rate = percentage(unvalidated_count, total_ai_recipes)
+    first_attempt_rate = percentage(first_attempt_count, validated_count)
+    regeneration_rate = percentage(corrected_count, validated_count)
+
+    fallback_count = 0
+    issue_counter = Counter()
+
+    for recipe in validated_recipes:
+        report = recipe.validation_report or {}
+        attempt_history = recipe.validation_attempt_history or []
+
+        combined_text = (
+            f"{recipe.validation_status} "
+            f"{recipe.validation_badge} "
+            f"{report} "
+            f"{attempt_history}"
+        ).lower()
+
+        if "fallback" in combined_text:
+            fallback_count += 1
+
+        if recipe.quality_score is not None and recipe.quality_score < 85:
+            issue_counter["Score below excellent threshold"] += 1
+
+        if recipe.validation_risk_level:
+            risk_text = recipe.validation_risk_level.lower()
+
+            if "medium" in risk_text:
+                issue_counter["Medium risk validation result"] += 1
+
+            if "high" in risk_text:
+                issue_counter["High risk validation result"] += 1
+
+        if isinstance(report, dict):
+            possible_check_lists = [
+                report.get("checks"),
+                report.get("criteria"),
+                report.get("validation_checks"),
+                report.get("check_results"),
+            ]
+
+            for check_list in possible_check_lists:
+                if not isinstance(check_list, list):
+                    continue
+
+                for check in check_list:
+                    if not isinstance(check, dict):
+                        continue
+
+                    check_name = (
+                        check.get("name")
+                        or check.get("category")
+                        or check.get("title")
+                        or check.get("criterion")
+                        or "Validation check"
+                    )
+
+                    check_status = str(
+                        check.get("status")
+                        or check.get("result")
+                        or ""
+                    ).lower()
+
+                    check_passed = check.get("passed")
+
+                    if (
+                        check_passed is False
+                        or "fail" in check_status
+                        or "warning" in check_status
+                        or "review" in check_status
+                    ):
+                        issue_counter[str(check_name)] += 1
+
+            warning_items = report.get("warnings") or report.get("issues") or []
+
+            if isinstance(warning_items, list):
+                for warning in warning_items:
+                    if isinstance(warning, str) and warning.strip():
+                        issue_counter[warning.strip()] += 1
+
+    if unvalidated_count:
+        issue_counter["Older recipes without stored validation evidence"] += unvalidated_count
+
+    common_issues = [
+        {
+            "label": label,
+            "count": count,
+        }
+        for label, count in issue_counter.most_common(5)
+    ]
+
+    staff_review_recipes = recipes.filter(
+        Q(quality_score__lt=85)
+        | Q(quality_score__isnull=True)
+        | Q(validation_risk_level__icontains="medium")
+        | Q(validation_risk_level__icontains="high")
+    ).select_related(
+        "user",
+        "cuisine",
+        "meal_type",
+    ).order_by("-created_at")[:6]
+
+    staff_review_count = recipes.filter(
+        Q(quality_score__lt=85)
+        | Q(quality_score__isnull=True)
+        | Q(validation_risk_level__icontains="medium")
+        | Q(validation_risk_level__icontains="high")
+    ).count()
+
+    if average_score >= 85 and high_risk_count == 0:
+        quality_health_label = "Excellent"
+        quality_health_text = (
+            "The validation system is performing strongly with high average quality "
+            "and no high-risk records."
+        )
+    elif average_score >= 70:
+        quality_health_label = "Stable"
+        quality_health_text = (
+            "The validation system is generally stable, but some records may still "
+            "require staff review."
+        )
+    else:
+        quality_health_label = "Needs Review"
+        quality_health_text = (
+            "The validation system has lower scoring records, so staff review is recommended."
+        )
+
+    recent_recipes = recipes.select_related(
+        "user",
+        "cuisine",
+        "meal_type",
+    ).order_by("-created_at")[:8]
+
+    context = {
+        "total_ai_recipes": total_ai_recipes,
+        "validated_count": validated_count,
+        "unvalidated_count": unvalidated_count,
+        "average_score": average_score,
+        "excellent_count": excellent_count,
+        "verified_count": verified_count,
+        "moderate_count": moderate_count,
+        "needs_review_count": needs_review_count,
+        "low_risk_count": low_risk_count,
+        "medium_risk_count": medium_risk_count,
+        "high_risk_count": high_risk_count,
+        "first_attempt_count": first_attempt_count,
+        "corrected_count": corrected_count,
+        "recent_recipes": recent_recipes,
+        "validation_coverage_rate": validation_coverage_rate,
+        "unvalidated_rate": unvalidated_rate,
+        "first_attempt_rate": first_attempt_rate,
+        "regeneration_rate": regeneration_rate,
+        "fallback_count": fallback_count,
+        "average_attempts": average_attempts,
+        "highest_score": highest_score,
+        "lowest_score": lowest_score,
+        "staff_review_recipes": staff_review_recipes,
+        "staff_review_count": staff_review_count,
+        "common_issues": common_issues,
+        "quality_health_label": quality_health_label,
+        "quality_health_text": quality_health_text,
+    }
+
+    return render(request, "recipes/quality_dashboard.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

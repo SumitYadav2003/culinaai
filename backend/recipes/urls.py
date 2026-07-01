@@ -15,11 +15,14 @@ from .views import (
     send_recipe_email_view,
     submit_recipe_feedback_view,
     toggle_favourite_recipe_view,
+    quality_dashboard_view,
 )
 
 
 urlpatterns = [
+
     path("generate/", generate_recipe_view, name="generate_recipe"),
+    path("quality-dashboard/", quality_dashboard_view, name="quality_dashboard"),
     path("save-generated/", save_generated_recipe_view, name="save_generated_recipe"),
 
     path("saved/", saved_recipes_view, name="saved_recipes"),

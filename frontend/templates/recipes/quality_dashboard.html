@@ -1,0 +1,522 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Quality Control Center{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-premium-2">
+{% endblock %}
+
+{% block content %}
+
+<section class="quality-dashboard-page">
+    <div class="quality-bg-glow quality-bg-glow-one"></div>
+    <div class="quality-bg-glow quality-bg-glow-two"></div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="quality-hero-panel">
+            <div class="quality-hero-copy">
+                <span class="quality-eyebrow">
+                    <i class="bi bi-shield-check"></i>
+                    Staff Quality Control
+                </span>
+
+                <h1>
+                    CulinaAI Quality
+                    <span>Control Center</span>
+                </h1>
+
+                <p>
+                    Monitor AI-generated recipe quality, validation scores, risk levels,
+                    correction attempts and stored validation evidence across the CulinaAI system.
+                </p>
+
+                <div class="quality-hero-actions">
+                    <a href="{% url 'home' %}" class="quality-soft-btn">
+                        <i class="bi bi-house-door"></i>
+                        Home
+                    </a>
+
+                    <a href="{% url 'logout' %}" class="quality-primary-btn">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+            <div class="quality-status-card">
+                <div class="quality-status-orb">
+                    <i class="bi bi-robot"></i>
+                </div>
+
+                <span>Validation Engine</span>
+                <h2>Online</h2>
+
+                <p>
+                    Recipes are checked using CulinaAI's rule-based validation and regeneration evidence.
+                </p>
+
+                <div class="quality-status-list">
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Allergy checks
+                    </div>
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Diet compliance
+                    </div>
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Score monitoring
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="quality-summary-grid">
+            <article class="quality-metric-card metric-warm">
+                <div class="metric-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+
+                <div>
+                    <span>Total AI Recipes</span>
+                    <h3>{{ total_ai_recipes }}</h3>
+                    <p>Saved AI-generated recipes in the system.</p>
+                </div>
+            </article>
+
+            <article class="quality-metric-card metric-green">
+                <div class="metric-icon">
+                    <i class="bi bi-patch-check-fill"></i>
+                </div>
+
+                <div>
+                    <span>Validated Recipes</span>
+                    <h3>{{ validated_count }}</h3>
+                    <p>Recipes with stored validation evidence.</p>
+                </div>
+            </article>
+
+            <article class="quality-metric-card metric-blue">
+                <div class="metric-icon">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+
+                <div>
+                    <span>Average Score</span>
+                    <h3>{{ average_score }}/100</h3>
+                    <p>Mean quality score for validated recipes.</p>
+                </div>
+            </article>
+
+            <article class="quality-metric-card metric-purple">
+                <div class="metric-icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+
+                <div>
+                    <span>Corrected / Regenerated</span>
+                    <h3>{{ corrected_count }}</h3>
+                    <p>Recipes needing more than one validation attempt.</p>
+                </div>
+            </article>
+        </div>
+
+                <!-- Advanced Analytics -->
+        <section class="quality-advanced-panel">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Advanced Analytics</span>
+                    <h2>System performance intelligence</h2>
+                </div>
+
+                <i class="bi bi-activity"></i>
+            </div>
+
+            <div class="advanced-analytics-grid">
+                <article class="advanced-card">
+                    <span>Validation Coverage</span>
+                    <strong>{{ validation_coverage_rate }}%</strong>
+                    <p>{{ validated_count }} of {{ total_ai_recipes }} saved AI recipes contain stored validation evidence.</p>
+                </article>
+
+                <article class="advanced-card">
+                    <span>First Attempt Pass Rate</span>
+                    <strong>{{ first_attempt_rate }}%</strong>
+                    <p>{{ first_attempt_count }} validated recipe{% if first_attempt_count != 1 %}s{% endif %} passed on the first attempt.</p>
+                </article>
+
+                <article class="advanced-card">
+                    <span>Regeneration Rate</span>
+                    <strong>{{ regeneration_rate }}%</strong>
+                    <p>{{ corrected_count }} recipe{% if corrected_count != 1 %}s{% endif %} needed correction or regeneration.</p>
+                </article>
+
+                <article class="advanced-card">
+                    <span>Fallback Usage</span>
+                    <strong>{{ fallback_count }}</strong>
+                    <p>Number of records where fallback evidence was detected in stored validation data.</p>
+                </article>
+
+                <article class="advanced-card">
+                    <span>Average Attempts</span>
+                    <strong>{{ average_attempts }}</strong>
+                    <p>Average number of validation attempts used before storing recipes.</p>
+                </article>
+
+                <article class="advanced-card">
+                    <span>Score Range</span>
+                    <strong>{{ lowest_score }}–{{ highest_score }}</strong>
+                    <p>Lowest and highest stored quality scores among validated recipes.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Staff Review and Issue Summary -->
+        <div class="quality-review-grid">
+            <section class="quality-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Staff Review Queue</span>
+                        <h2>Recipes needing attention</h2>
+                    </div>
+
+                    <i class="bi bi-flag-fill"></i>
+                </div>
+
+                <div class="review-summary-box">
+                    <div>
+                        <span>Total review items</span>
+                        <strong>{{ staff_review_count }}</strong>
+                    </div>
+
+                    <p>
+                        This queue includes unvalidated recipes, recipes below the excellent score threshold,
+                        and recipes with medium or high risk levels.
+                    </p>
+                </div>
+
+                <div class="review-recipe-list">
+                    {% for recipe in staff_review_recipes %}
+                        <div class="review-recipe-item">
+                            <div>
+                                <strong>{{ recipe.title }}</strong>
+
+                                <span>
+                                    {{ recipe.user.username }}
+                                    ·
+                                    {% if recipe.quality_score %}
+                                        {{ recipe.quality_score }}/100
+                                    {% else %}
+                                        Not validated
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <small>
+                                {{ recipe.validation_risk_level|default:"Unknown risk" }}
+                            </small>
+                        </div>
+                    {% empty %}
+                        <div class="review-empty-box">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <p>No recipes currently require staff review.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="quality-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Issue Summary</span>
+                        <h2>Common validation signals</h2>
+                    </div>
+
+                    <i class="bi bi-list-check"></i>
+                </div>
+
+                <div class="quality-health-box">
+                    <span>Overall quality health</span>
+                    <strong>{{ quality_health_label }}</strong>
+                    <p>{{ quality_health_text }}</p>
+                </div>
+
+                <div class="issue-list">
+                    {% for issue in common_issues %}
+                        <div class="issue-item">
+                            <span>{{ issue.label }}</span>
+                            <strong>{{ issue.count }}</strong>
+                        </div>
+                    {% empty %}
+                        <div class="review-empty-box">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <p>No repeated validation issues detected yet.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="quality-main-grid">
+
+            <!-- Score Breakdown -->
+            <section class="quality-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Score Distribution</span>
+                        <h2>Validation score breakdown</h2>
+                    </div>
+
+                    <i class="bi bi-bar-chart-fill"></i>
+                </div>
+
+                <div class="score-breakdown-list">
+                    <div class="score-row excellent">
+                        <div>
+                            <strong>Excellent</strong>
+                            <span>Score 85–100</span>
+                        </div>
+
+                        <b>{{ excellent_count }}</b>
+                    </div>
+
+                    <div class="score-row verified">
+                        <div>
+                            <strong>Verified</strong>
+                            <span>Score 70–84</span>
+                        </div>
+
+                        <b>{{ verified_count }}</b>
+                    </div>
+
+                    <div class="score-row moderate">
+                        <div>
+                            <strong>Moderate</strong>
+                            <span>Score 50–69</span>
+                        </div>
+
+                        <b>{{ moderate_count }}</b>
+                    </div>
+
+                    <div class="score-row review">
+                        <div>
+                            <strong>Needs Review</strong>
+                            <span>Score below 50</span>
+                        </div>
+
+                        <b>{{ needs_review_count }}</b>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Risk Breakdown -->
+            <section class="quality-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Risk Monitoring</span>
+                        <h2>Validation risk levels</h2>
+                    </div>
+
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+
+                <div class="risk-grid">
+                    <div class="risk-card low-risk">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Low Risk</span>
+                        <strong>{{ low_risk_count }}</strong>
+                    </div>
+
+                    <div class="risk-card medium-risk">
+                        <i class="bi bi-shield-exclamation"></i>
+                        <span>Medium Risk</span>
+                        <strong>{{ medium_risk_count }}</strong>
+                    </div>
+
+                    <div class="risk-card high-risk">
+                        <i class="bi bi-shield-x"></i>
+                        <span>High Risk</span>
+                        <strong>{{ high_risk_count }}</strong>
+                    </div>
+                </div>
+
+                <div class="quality-note-box">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <p>
+                        Risk levels are stored from the validation engine and help staff review
+                        whether generated recipes require further attention.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Validation Process -->
+            <section class="quality-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Validation Flow</span>
+                        <h2>Attempt monitoring</h2>
+                    </div>
+
+                    <i class="bi bi-diagram-3-fill"></i>
+                </div>
+
+                <div class="attempt-grid">
+                    <div class="attempt-card">
+                        <span>First Attempt Pass</span>
+                        <strong>{{ first_attempt_count }}</strong>
+                        <p>Recipes accepted on first validation attempt.</p>
+                    </div>
+
+                    <div class="attempt-card">
+                        <span>Correction Attempts</span>
+                        <strong>{{ corrected_count }}</strong>
+                        <p>Recipes corrected or regenerated before storage.</p>
+                    </div>
+
+                    <div class="attempt-card">
+                        <span>Unvalidated</span>
+                        <strong>{{ unvalidated_count }}</strong>
+                        <p>Older or manually saved recipes without stored evidence.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Explanation -->
+            <section class="quality-panel quality-explanation-panel">
+                <div class="quality-panel-header">
+                    <div>
+                        <span>Dissertation Evidence</span>
+                        <h2>Why this dashboard matters</h2>
+                    </div>
+
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+
+                <p>
+                    This dashboard demonstrates that CulinaAI does not simply display AI output.
+                    Generated recipes are checked, scored, corrected when required, and stored
+                    with validation evidence for staff review.
+                </p>
+
+                <div class="evidence-chip-grid">
+                    <span><i class="bi bi-check-circle-fill"></i> Quality scoring</span>
+                    <span><i class="bi bi-check-circle-fill"></i> Risk tracking</span>
+                    <span><i class="bi bi-check-circle-fill"></i> Regeneration evidence</span>
+                    <span><i class="bi bi-check-circle-fill"></i> Staff monitoring</span>
+                </div>
+            </section>
+        </div>
+
+        <!-- Recent Recipes Table -->
+        <section class="quality-panel quality-table-panel">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Recent Records</span>
+                    <h2>Latest saved AI recipes</h2>
+                </div>
+
+                <i class="bi bi-table"></i>
+            </div>
+
+            <div class="quality-table-wrapper">
+                <table class="quality-table">
+                    <thead>
+                        <tr>
+                            <th>Recipe</th>
+                            <th>User</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Risk</th>
+                            <th>Attempts</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for recipe in recent_recipes %}
+                            <tr>
+                                <td>
+                                    <div class="recipe-name-cell">
+                                        <div class="recipe-mini-icon">
+                                            <i class="bi bi-egg-fried"></i>
+                                        </div>
+
+                                        <div>
+                                            <strong>{{ recipe.title }}</strong>
+
+                                            <span>
+                                                {% if recipe.cuisine %}
+                                                    {{ recipe.cuisine.name }}
+                                                {% else %}
+                                                    Personalised recipe
+                                                {% endif %}
+
+                                                {% if recipe.meal_type %}
+                                                    · {{ recipe.meal_type.name }}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>{{ recipe.user.username }}</td>
+
+                                <td>
+                                    {% if recipe.quality_score %}
+                                        <span class="score-pill">{{ recipe.quality_score }}/100</span>
+                                    {% else %}
+                                        <span class="muted-pill">Not stored</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <span class="status-pill">
+                                        {{ recipe.validation_status|default:"Not stored" }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {% if recipe.validation_risk_level %}
+                                        <span class="risk-pill">
+                                            {{ recipe.validation_risk_level }}
+                                        </span>
+                                    {% else %}
+                                        <span class="muted-pill">Unknown</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ recipe.validation_attempts }}</td>
+
+                                <td>{{ recipe.created_at|date:"d M Y, H:i" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7">
+                                    <div class="empty-quality-state">
+                                        <i class="bi bi-inbox"></i>
+                                        <h3>No saved AI recipes found yet</h3>
+                                        <p>
+                                            Once AI-generated recipes are saved, validation records
+                                            will appear here.
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+</section>
+
+{% endblock %}

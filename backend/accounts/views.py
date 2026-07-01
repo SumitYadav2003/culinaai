@@ -43,11 +43,16 @@ def login_view(request):
     """
     Log in an existing user.
 
-    Normal login redirects to dashboard.
-    If the user was redirected from a protected page, they are safely sent back there.
+    Role-based redirect:
+    - Normal users go to the user dashboard.
+    - Staff/admin users go directly to the CulinaAI Quality Dashboard.
+    - Safe next URLs are still respected when present.
     """
 
     if request.user.is_authenticated:
+        if request.user.is_staff or request.user.is_superuser:
+            return redirect("quality_dashboard")
+
         return redirect("dashboard")
 
     next_url = request.GET.get("next") or request.POST.get("next")
@@ -65,6 +70,9 @@ def login_view(request):
                 require_https=request.is_secure(),
             ):
                 return redirect(next_url)
+
+            if user.is_staff or user.is_superuser:
+                return redirect("quality_dashboard")
 
             return redirect("dashboard")
 
