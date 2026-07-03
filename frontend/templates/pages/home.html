@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | AI-Personalised Recipe Generator{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/custom.css' %}?v=homepage-process-card-final-2">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}?v=shared-slider-spacing-fix-1">
 {% endblock %}
 
 {% block content %}
@@ -49,10 +49,12 @@
                         <strong>AI</strong>
                         <span>Recipe Engine</span>
                     </div>
+
                     <div>
                         <strong>Smart</strong>
                         <span>Meal Ideas</span>
                     </div>
+
                     <div>
                         <strong>Personal</strong>
                         <span>Food Choices</span>
@@ -110,12 +112,115 @@
 </section>
 
 
+<!-- Simple Shared Recipes Slider Section -->
+<!-- Simple Shared Recipes Slider Section -->
+<section class="simple-shared-recipes-section" id="shared-recipes">
+    <div class="simple-shared-overlay"></div>
+
+    <div class="container">
+        <div class="simple-shared-heading">
+            <span class="simple-shared-label">
+                <i class="bi bi-people-fill"></i>
+                Recipes Shared by Users
+            </span>
+
+            <h2>Explore community recipes</h2>
+
+            <p>
+                Browse public recipes shared by CulinaAI users. These recipes are loaded dynamically
+                from the database and can be opened for full viewing, rating and feedback.
+            </p>
+        </div>
+
+        {% if public_recipes %}
+            <div class="simple-shared-slider-window">
+                <div class="simple-shared-slider-track {% if public_recipes|length > 1 %}simple-shared-slider-track-moving{% else %}simple-shared-slider-track-static{% endif %}">
+
+                    {% for recipe in public_recipes %}
+                        <article class="simple-shared-card">
+                            <div class="simple-shared-card-image">
+                                <div class="simple-shared-card-date">
+                                    {% if recipe.public_shared_at %}
+                                        {{ recipe.public_shared_at|date:"d M Y" }}
+                                    {% else %}
+                                        {{ recipe.created_at|date:"d M Y" }}
+                                    {% endif %}
+                                </div>
+
+                                <div class="simple-shared-card-badge">
+                                    <i class="bi bi-people-fill"></i>
+                                    Shared Recipe
+                                </div>
+                            </div>
+
+                            <div class="simple-shared-card-body">
+                                <h3>{{ recipe.title }}</h3>
+
+                                <p>
+                                    {{ recipe.description|default:"A public recipe shared by a CulinaAI user."|truncatechars:75 }}
+                                </p>
+
+                                <div class="simple-shared-owner">
+                                    <i class="bi bi-person-circle"></i>
+                                    {{ recipe.user.username }}
+                                </div>
+
+                                <div class="simple-shared-meta">
+                                    <span>
+                                        <i class="bi bi-clock"></i>
+                                        {{ recipe.cooking_time_minutes }} min
+                                    </span>
+
+                                    <span>
+                                        <i class="bi bi-star-fill"></i>
+                                        {{ recipe.average_rating_value|default:0|floatformat:1 }}/5
+                                    </span>
+
+                                    <span>
+                                        <i class="bi bi-chat-left-text"></i>
+                                        {{ recipe.feedback_total }}
+                                    </span>
+                                </div>
+
+                                <a href="{% url 'community_recipe_detail' recipe.id %}" class="simple-shared-view-btn">
+                                    View Full Recipe
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+
+                    
+
+                </div>
+            </div>
+        {% else %}
+            <div class="simple-shared-empty">
+                <i class="bi bi-journal-plus"></i>
+
+                <h3>No shared recipes yet</h3>
+
+                <p>
+                    Save a recipe and add it to the community to display it here.
+                </p>
+
+                <a href="{% if user.is_authenticated %}{% url 'saved_recipes' %}{% else %}{% url 'signup' %}{% endif %}">
+                    Share My Recipe
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+
 <!-- Features Section -->
 <section class="features-section" id="features">
     <div class="container">
         <div class="section-heading text-center">
             <span class="section-label">Smart Features</span>
+
             <h2>Why CulinaAI Feels Different</h2>
+
             <p>
                 CulinaAI combines food preferences, dietary needs and AI-powered generation
                 to create recipe ideas that feel personal and practical.
@@ -128,7 +233,9 @@
                     <div class="feature-icon orange">
                         <i class="bi bi-magic"></i>
                     </div>
+
                     <h5>AI Recipe Generation</h5>
+
                     <p>
                         Generate recipe ideas using ingredients, cuisine, cooking time and difficulty level.
                     </p>
@@ -140,7 +247,9 @@
                     <div class="feature-icon green">
                         <i class="bi bi-shield-check"></i>
                     </div>
+
                     <h5>Diet & Allergy Preferences</h5>
+
                     <p>
                         Include dietary needs and allergy information to support safer meal suggestions.
                     </p>
@@ -152,7 +261,9 @@
                     <div class="feature-icon gold">
                         <i class="bi bi-heart-fill"></i>
                     </div>
+
                     <h5>Saved Favourites</h5>
+
                     <p>
                         Save generated recipes and keep favourite meals available through your account.
                     </p>
@@ -164,7 +275,9 @@
                     <div class="feature-icon brown">
                         <i class="bi bi-sliders"></i>
                     </div>
+
                     <h5>Smart Personalisation</h5>
+
                     <p>
                         Adjust recipe results based on meal type, taste, time and cooking preferences.
                     </p>
@@ -180,7 +293,9 @@
     <div class="container">
         <div class="section-heading text-center">
             <span class="section-label">Simple Process</span>
+
             <h2>From Ingredients to Recipe in Seconds</h2>
+
             <p>
                 A smooth flow designed for users who want quick, personalised and useful meal ideas.
             </p>
@@ -213,6 +328,7 @@
                                     Create account to start
                                 {% endif %}
                             </span>
+
                             <i class="bi bi-arrow-right"></i>
                         </div>
                     </a>
@@ -244,6 +360,7 @@
                                     Sign up to personalise
                                 {% endif %}
                             </span>
+
                             <i class="bi bi-arrow-right"></i>
                         </div>
                     </a>
@@ -275,6 +392,7 @@
                                     Register to generate
                                 {% endif %}
                             </span>
+
                             <i class="bi bi-arrow-right"></i>
                         </div>
                     </a>
@@ -366,14 +484,17 @@
                         <i class="bi bi-check2-circle"></i>
                         Dietary preference support
                     </div>
+
                     <div>
                         <i class="bi bi-check2-circle"></i>
                         Cuisine and meal type selection
                     </div>
+
                     <div>
                         <i class="bi bi-check2-circle"></i>
                         Cooking time and difficulty options
                     </div>
+
                     <div>
                         <i class="bi bi-check2-circle"></i>
                         Saved recipes and favourites flow
@@ -400,7 +521,9 @@
                         <i class="bi bi-stars"></i>
                         CulinaAI
                     </span>
+
                     <h2>Ready to Create Your Next Meal?</h2>
+
                     <p>
                         Start generating personalised recipes with a food-tech experience
                         designed for your MSc dissertation project.

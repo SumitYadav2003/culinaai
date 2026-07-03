@@ -2464,3 +2464,549 @@ img {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   HOMEPAGE PUBLIC RECIPE SLIDER
+   Purpose:
+   - Shows public/shared recipes directly on the landing page.
+   - Cards are fetched from the database through public_recipes.
+   - Uses Bootstrap carousel for automatic sliding.
+   ========================================================= */
+/* Responsive */
+@media (max-width: 1199px) {
+    .home-community-recipe-card {
+        grid-template-columns: 1fr;
+    }
+
+    .home-community-evaluation-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .home-community-section {
+        padding: 80px 0;
+    }
+
+    .home-community-header,
+    .home-community-slider-wrap,
+    .home-community-recipe-card {
+        padding: 26px;
+        border-radius: 30px;
+    }
+
+    .home-community-card-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .home-community-recipe-card h3 {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .home-community-primary-btn,
+    .home-community-secondary-btn,
+    .home-community-view-btn {
+        width: 100%;
+    }
+
+    .home-community-slider-wrap .carousel-control-prev,
+    .home-community-slider-wrap .carousel-control-next {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SIMPLE SHARED RECIPES SLIDER - HOMEPAGE
+   Clean card slider like reference image.
+   ========================================================= */
+
+.simple-shared-recipes-section {
+    position: relative;
+    padding: 95px 0;
+    background:
+        linear-gradient(rgba(17, 24, 39, 0.78), rgba(17, 24, 39, 0.78)),
+        url("https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1800&q=80");
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.simple-shared-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 18% 20%, rgba(249, 115, 22, 0.28), transparent 30%),
+        radial-gradient(circle at 85% 18%, rgba(22, 163, 74, 0.18), transparent 32%);
+    pointer-events: none;
+}
+
+.simple-shared-recipes-section .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1320px;
+}
+
+.simple-shared-heading {
+    max-width: 760px;
+    margin: 0 auto 44px;
+    text-align: center;
+}
+
+.simple-shared-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 9px 15px;
+    border-radius: 999px;
+    color: #1f1a17;
+    background: linear-gradient(135deg, #f97316, #facc15);
+    font-size: 0.78rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.simple-shared-heading h2 {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 950;
+    line-height: 1.05;
+    letter-spacing: -0.055em;
+}
+
+.simple-shared-heading p {
+    margin: 0 auto;
+    max-width: 680px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 650;
+}
+
+.simple-shared-slider-window {
+    overflow: hidden;
+    width: 100%;
+    padding: 6px 0 18px;
+}
+
+.simple-shared-slider-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: simpleSharedSlide 28s linear infinite;
+}
+
+.simple-shared-slider-window:hover .simple-shared-slider-track {
+    animation-play-state: paused;
+}
+
+.simple-shared-card {
+    width: 280px;
+    min-height: 390px;
+    flex: 0 0 280px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+    transition: all 0.25s ease;
+}
+
+.simple-shared-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.34);
+}
+
+.simple-shared-card-image {
+    position: relative;
+    height: 150px;
+    background:
+        linear-gradient(rgba(31, 26, 23, 0.12), rgba(31, 26, 23, 0.22)),
+        url("https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80");
+    background-size: cover;
+    background-position: center;
+}
+
+.simple-shared-card-date {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    color: #1f1a17;
+    background: rgba(255, 255, 255, 0.92);
+    font-size: 0.74rem;
+    font-weight: 900;
+}
+
+.simple-shared-card-badge {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    padding: 8px 11px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #166534;
+    background: rgba(220, 252, 231, 0.94);
+    font-size: 0.73rem;
+    font-weight: 950;
+}
+
+.simple-shared-card-body {
+    padding: 18px;
+}
+
+.simple-shared-card-body h3 {
+    margin: 0 0 9px;
+    color: #1f1a17;
+    font-size: 1.12rem;
+    font-weight: 950;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.simple-shared-card-body p {
+    min-height: 48px;
+    margin: 0 0 13px;
+    color: #6b5b51;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    font-weight: 650;
+}
+
+.simple-shared-owner {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 14px;
+    color: #7c2d12;
+    font-size: 0.85rem;
+    font-weight: 900;
+}
+
+.simple-shared-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.simple-shared-meta span {
+    padding: 7px 9px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #1f1a17;
+    background: #fff7ed;
+    border: 1px solid rgba(249, 115, 22, 0.13);
+    font-size: 0.76rem;
+    font-weight: 850;
+}
+
+.simple-shared-meta i {
+    color: #f97316;
+}
+
+.simple-shared-view-btn {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 950;
+    box-shadow: 0 14px 32px rgba(22, 163, 74, 0.24);
+    transition: all 0.25s ease;
+}
+
+.simple-shared-view-btn:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 44px rgba(22, 163, 74, 0.34);
+}
+
+.simple-shared-empty {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 34px;
+    border-radius: 24px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.simple-shared-empty i {
+    font-size: 2rem;
+    color: #f97316;
+}
+
+.simple-shared-empty h3 {
+    margin: 14px 0 8px;
+    color: #1f1a17;
+    font-weight: 950;
+}
+
+.simple-shared-empty p {
+    color: #6b5b51;
+}
+
+.simple-shared-empty a {
+    display: inline-flex;
+    margin-top: 10px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    color: #1f1a17;
+    background: linear-gradient(135deg, #f97316, #facc15);
+    text-decoration: none;
+    font-weight: 950;
+}
+
+@keyframes simpleSharedSlide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 767px) {
+    .simple-shared-recipes-section {
+        padding: 75px 0;
+    }
+
+    .simple-shared-card {
+        width: 250px;
+        flex-basis: 250px;
+    }
+
+    .simple-shared-heading h2 {
+        font-size: 2.2rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SIMPLE SHARED SLIDER - REMOVE DUPLICATE CARD ISSUE
+   ========================================================= */
+
+.simple-shared-slider-track {
+    animation: none !important;
+}
+
+.simple-shared-slider-track-static {
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+.simple-shared-slider-track-moving {
+    width: max-content !important;
+    animation: simpleSharedSlideNormal 35s linear infinite !important;
+}
+
+.simple-shared-slider-window:hover .simple-shared-slider-track-moving {
+    animation-play-state: paused !important;
+}
+
+@keyframes simpleSharedSlideNormal {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-40%);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   HOME SHARED RECIPE SLIDER - SPACING FIX
+   Keeps image background, adds section gap, reduces bottom space
+   ========================================================= */
+
+/* Add gap between hero section and shared recipes section */
+.simple-shared-recipes-section {
+    margin-top: 13px !important;
+    padding-top: 70px !important;
+    padding-bottom: 45px !important;
+    min-height: auto !important;
+}
+
+/* Keep the background image but make it slightly cleaner */
+.simple-shared-recipes-section {
+    background-size: cover !important;
+    background-position: center center !important;
+}
+
+/* Reduce unnecessary space around the slider */
+.simple-shared-slider-window {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Reduce space under the cards */
+.simple-shared-slider-track {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Make the heading area a little tighter */
+.simple-shared-heading {
+    margin-bottom: 30px !important;
+}
+
+/* Reduce title/paragraph spacing */
+.simple-shared-heading h2 {
+    margin-bottom: 10px !important;
+}
+
+.simple-shared-heading p {
+    margin-bottom: 0 !important;
+}
+
+/* Card bottom spacing clean-up */
+.simple-shared-card {
+    margin-bottom: 0 !important;
+}
+
+/* Make sure next section starts closer */
+.features-section {
+    margin-top: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
