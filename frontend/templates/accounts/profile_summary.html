@@ -4,12 +4,12 @@
 {% block title %}CulinaAI | Profile Summary{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/profile_summary.css' %}?v=profile-summary-1">
+<link rel="stylesheet" href="{% static 'css/profile_summary.css' %}?v=profile-summary-bg-card-final-1">
 {% endblock %}
 
 {% block content %}
 
-<section class="profile-summary-section">
+<section class="profile-summary-section profile-dashboard-bg-page">
     <div class="profile-summary-bg"></div>
 
     <div class="container profile-summary-container">
@@ -76,6 +76,7 @@
                             <span>Account Details</span>
                             <h2>Your identity</h2>
                         </div>
+
                         <i class="bi bi-person-vcard"></i>
                     </div>
 
@@ -115,6 +116,7 @@
                             <span>Security</span>
                             <h2>Account protection</h2>
                         </div>
+
                         <i class="bi bi-shield-lock"></i>
                     </div>
 
@@ -148,6 +150,7 @@
                         <div class="profile-stat-icon">
                             <i class="bi bi-journal-bookmark-fill"></i>
                         </div>
+
                         <span>Saved Recipes</span>
                         <strong>{{ total_saved_recipes }}</strong>
                     </div>
@@ -156,6 +159,7 @@
                         <div class="profile-stat-icon">
                             <i class="bi bi-heart-fill"></i>
                         </div>
+
                         <span>Favourites</span>
                         <strong>{{ total_favourite_recipes }}</strong>
                     </div>
@@ -164,6 +168,7 @@
                         <div class="profile-stat-icon">
                             <i class="bi bi-star-fill"></i>
                         </div>
+
                         <span>Ratings Given</span>
                         <strong>{{ total_ratings }}</strong>
                     </div>
@@ -172,6 +177,7 @@
                         <div class="profile-stat-icon">
                             <i class="bi bi-chat-square-text-fill"></i>
                         </div>
+
                         <span>Feedback Sent</span>
                         <strong>{{ total_feedback }}</strong>
                     </div>
@@ -185,6 +191,7 @@
                             <span>Recipe Activity</span>
                             <h2>Your cooking journey</h2>
                         </div>
+
                         <i class="bi bi-graph-up-arrow"></i>
                     </div>
 
@@ -219,34 +226,41 @@
                             <span>Recently Saved</span>
                             <h2>Latest recipes</h2>
                         </div>
+
                         <i class="bi bi-clock-history"></i>
                     </div>
 
                     {% if recent_recipes %}
                         <div class="profile-recent-list">
                             {% for recipe in recent_recipes %}
-                                <div class="profile-recent-item">
+                                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="profile-recent-item">
                                     <div class="profile-recent-icon">
                                         <i class="bi bi-egg-fried"></i>
                                     </div>
 
                                     <div>
                                         <strong>{{ recipe.title }}</strong>
+
                                         <span>
                                             Saved on {{ recipe.created_at|date:"d M Y" }}
                                         </span>
                                     </div>
-                                </div>
+
+                                    <i class="bi bi-arrow-right-short profile-recent-arrow"></i>
+                                </a>
                             {% endfor %}
                         </div>
                     {% else %}
                         <div class="profile-empty-state">
                             <i class="bi bi-journal-plus"></i>
+
                             <h3>No saved recipes yet</h3>
+
                             <p>
                                 Generate and save your first AI recipe to start building
                                 your CulinaAI cooking profile.
                             </p>
+
                             <a href="{% url 'dashboard' %}" class="profile-empty-btn">
                                 Go to dashboard
                             </a>

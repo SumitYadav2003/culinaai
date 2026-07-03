@@ -2,8 +2,9 @@
    CULINAAI PROFILE SUMMARY PAGE
    Purpose:
    - Professional account summary page.
-   - Aesthetic premium layout.
-   - User identity, personal stats, recent activity and security actions.
+   - Uses dashboard-bg.jpg as page background.
+   - Uses card_bg.avif as very light card texture.
+   - Keeps all text readable and premium.
    ========================================================= */
 
 .profile-summary-section {
@@ -11,22 +12,43 @@
     padding: 128px 0 80px;
     position: relative;
     overflow: hidden;
+
     background:
-        radial-gradient(circle at 8% 12%, rgba(249, 115, 22, 0.26), transparent 34%),
-        radial-gradient(circle at 82% 18%, rgba(250, 204, 21, 0.20), transparent 32%),
-        radial-gradient(circle at 75% 82%, rgba(22, 163, 74, 0.18), transparent 34%),
-        linear-gradient(135deg, #fff7ed 0%, #fffbeb 42%, #f8fafc 100%);
+        linear-gradient(
+            120deg,
+            rgba(31, 26, 23, 0.82),
+            rgba(31, 26, 23, 0.62)
+        ),
+        url("../images/dashboard-bg.jpg") !important;
+
+    background-size: cover !important;
+    background-position: center center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-color: #2b211b !important;
 }
 
 .profile-summary-bg {
     position: absolute;
     inset: 0;
     pointer-events: none;
+    background:
+        radial-gradient(circle at 8% 12%, rgba(249, 115, 22, 0.20), transparent 32%),
+        radial-gradient(circle at 82% 18%, rgba(250, 204, 21, 0.14), transparent 30%),
+        radial-gradient(circle at 75% 82%, rgba(22, 163, 74, 0.14), transparent 32%),
+        linear-gradient(rgba(15, 23, 42, 0.10), rgba(15, 23, 42, 0.10));
+}
+
+.profile-summary-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     background-image:
-        linear-gradient(rgba(31, 26, 23, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(31, 26, 23, 0.035) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
     background-size: 46px 46px;
-    mask-image: linear-gradient(to bottom, black, transparent 82%);
+    opacity: 0.32;
+    mask-image: linear-gradient(to bottom, black, transparent 88%);
 }
 
 .profile-summary-container {
@@ -51,7 +73,7 @@
         linear-gradient(135deg, rgba(31, 26, 23, 0.96), rgba(48, 36, 29, 0.92)),
         radial-gradient(circle at 15% 18%, rgba(249, 115, 22, 0.45), transparent 32%);
     border: 1px solid rgba(255, 255, 255, 0.22);
-    box-shadow: 0 34px 90px rgba(31, 26, 23, 0.25);
+    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.34);
 }
 
 .profile-hero-card::before {
@@ -132,7 +154,7 @@
 .profile-hero-left p {
     max-width: 640px;
     margin: 0;
-    color: rgba(255, 255, 255, 0.76);
+    color: rgba(255, 255, 255, 0.78);
     font-size: 1rem;
     font-weight: 650;
     line-height: 1.65;
@@ -228,18 +250,40 @@
 }
 
 /* =========================
-   PANELS
+   PANEL + CARD BACKGROUND IMAGE
    ========================= */
 
-.profile-panel {
+.profile-panel,
+.profile-stat-card {
     position: relative;
     overflow: hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.94),
+            rgba(255, 250, 244, 0.91)
+        ),
+        url("../images/card_bg.avif") !important;
+
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-blend-mode: lighten !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(18px);
+}
+
+.profile-panel > *,
+.profile-stat-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.profile-panel {
     padding: 28px;
     border-radius: 34px;
-    background: rgba(255, 255, 255, 0.86);
-    border: 1px solid rgba(255, 255, 255, 0.68);
-    box-shadow: 0 24px 70px rgba(31, 26, 23, 0.10);
-    backdrop-filter: blur(18px);
 }
 
 .profile-panel::before {
@@ -311,7 +355,16 @@
     align-items: center;
     justify-content: space-between;
     gap: 18px;
-    background: rgba(255, 247, 237, 0.82);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 247, 237, 0.90),
+            rgba(255, 255, 255, 0.86)
+        ),
+        url("../images/card_bg.avif") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-blend-mode: lighten !important;
     border: 1px solid rgba(249, 115, 22, 0.10);
 }
 
@@ -332,11 +385,6 @@
 /* =========================
    SECURITY
    ========================= */
-
-.profile-security-panel {
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 247, 237, 0.84));
-}
 
 .profile-security-panel p {
     position: relative;
@@ -365,7 +413,16 @@
     justify-content: center;
     gap: 10px;
     color: #1f1a17;
-    background: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.95),
+            rgba(255, 247, 237, 0.90)
+        ),
+        url("../images/card_bg.avif") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-blend-mode: lighten !important;
     border: 1px solid rgba(31, 26, 23, 0.08);
     text-decoration: none;
     font-weight: 1000;
@@ -378,7 +435,13 @@
 
 .profile-security-btn.logout {
     color: #7f1d1d;
-    background: rgba(254, 226, 226, 0.82);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(254, 242, 242, 0.94),
+            rgba(255, 255, 255, 0.88)
+        ),
+        url("../images/card_bg.avif") !important;
 }
 
 .profile-security-btn.logout i {
@@ -402,15 +465,9 @@
 }
 
 .profile-stat-card {
-    position: relative;
-    overflow: hidden;
     min-height: 166px;
     padding: 22px;
     border-radius: 30px;
-    background: rgba(255, 255, 255, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    box-shadow: 0 22px 54px rgba(31, 26, 23, 0.10);
-    backdrop-filter: blur(16px);
 }
 
 .profile-stat-card::after {
@@ -421,7 +478,7 @@
     right: -44px;
     bottom: -42px;
     border-radius: 999px;
-    opacity: 0.42;
+    opacity: 0.36;
 }
 
 .profile-stat-card.saved::after {
@@ -475,11 +532,6 @@
    RECIPE ACTIVITY
    ========================= */
 
-.profile-activity-panel {
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 235, 0.86));
-}
-
 .profile-recipe-breakdown {
     position: relative;
     z-index: 2;
@@ -491,7 +543,16 @@
 .profile-recipe-breakdown div {
     padding: 18px;
     border-radius: 24px;
-    background: rgba(255, 247, 237, 0.92);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 247, 237, 0.92),
+            rgba(255, 255, 255, 0.86)
+        ),
+        url("../images/card_bg.avif") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-blend-mode: lighten !important;
     border: 1px solid rgba(249, 115, 22, 0.10);
 }
 
@@ -517,7 +578,16 @@
     margin-top: 22px;
     padding: 18px;
     border-radius: 24px;
-    background: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.94),
+            rgba(255, 247, 237, 0.88)
+        ),
+        url("../images/card_bg.avif") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-blend-mode: lighten !important;
     border: 1px solid rgba(31, 26, 23, 0.06);
 }
 
@@ -573,7 +643,16 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    background: rgba(255, 255, 255, 0.92);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.94),
+            rgba(255, 247, 237, 0.88)
+        ),
+        url("../images/card_bg.avif") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-blend-mode: lighten !important;
     border: 1px solid rgba(31, 26, 23, 0.06);
     transition: all 0.25s ease;
 }
@@ -620,7 +699,16 @@
     padding: 28px;
     border-radius: 28px;
     text-align: center;
-    background: rgba(255, 247, 237, 0.85);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 247, 237, 0.90),
+            rgba(255, 255, 255, 0.86)
+        ),
+        url("../images/card_bg.avif") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-blend-mode: lighten !important;
     border: 1px dashed rgba(249, 115, 22, 0.28);
 }
 
