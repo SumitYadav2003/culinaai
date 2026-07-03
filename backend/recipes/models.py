@@ -103,6 +103,7 @@ class Recipe(models.Model):
         blank=True,
         related_name="recipes",
     )
+
     meal_type = models.ForeignKey(
         MealType,
         on_delete=models.SET_NULL,
@@ -110,11 +111,13 @@ class Recipe(models.Model):
         blank=True,
         related_name="recipes",
     )
+
     diet_preferences = models.ManyToManyField(
         DietPreference,
         blank=True,
         related_name="recipes",
     )
+
     ingredients = models.ManyToManyField(
         Ingredient,
         blank=True,
@@ -125,6 +128,7 @@ class Recipe(models.Model):
     instructions_text = models.TextField(help_text="Step-by-step cooking instructions.")
 
     cooking_time_minutes = models.PositiveIntegerField(default=30)
+
     difficulty = models.CharField(
         max_length=20,
         choices=DIFFICULTY_CHOICES,
@@ -179,6 +183,25 @@ class Recipe(models.Model):
     is_ai_generated = models.BooleanField(default=True)
     is_saved = models.BooleanField(default=True)
 
+    # Community sharing fields.
+    # By default, saved recipes remain private.
+    # A recipe appears in the community only when the owner shares it.
+    is_public = models.BooleanField(
+        default=False,
+        help_text="Controls whether this recipe is visible in the community section.",
+    )
+
+    public_shared_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Stores when the recipe was shared with the community.",
+    )
+
+    community_views = models.PositiveIntegerField(
+        default=0,
+        help_text="Counts how many times this public recipe has been viewed.",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -191,6 +214,34 @@ class Recipe(models.Model):
         only for modified recipes.
         """
         return self.original_recipe_id is not None
+
+    @property
+    def average_rating(self):
+        """
+        Returns the average rating for this recipe.
+
+        This will be useful for community recipe cards and the future
+        evaluation dashboard.
+        """
+
+        average = self.ratings.aggregate(
+            models.Avg("rating")
+        )["rating__avg"]
+
+        if average:
+            return round(average, 1)
+
+        return 0
+
+    @property
+    def feedback_count(self):
+        """
+        Returns the number of feedback comments for this recipe.
+
+        This will help show community engagement on public recipe cards.
+        """
+
+        return self.feedback.count()
 
     class Meta:
         ordering = ["-created_at"]
@@ -205,11 +256,13 @@ class FavouriteRecipe(models.Model):
         on_delete=models.CASCADE,
         related_name="favourite_recipes",
     )
+
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         related_name="favourited_by",
     )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -226,11 +279,13 @@ class RecipeRating(models.Model):
         on_delete=models.CASCADE,
         related_name="recipe_ratings",
     )
+
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         related_name="ratings",
     )
+
     rating = models.PositiveSmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -248,11 +303,13 @@ class RecipeFeedback(models.Model):
         on_delete=models.CASCADE,
         related_name="recipe_feedback",
     )
+
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         related_name="feedback",
     )
+
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
