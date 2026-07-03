@@ -1391,3 +1391,141 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================================
+   DASHBOARD PAGE BACKGROUND IMAGE FINAL FIX
+   Purpose:
+   - Uses the same background image as the homepage hero section.
+   - Targets the real dashboard wrapper: .culina-command-center.
+   - Keeps dashboard cards readable with translucent white cards.
+   ========================================================= */
+
+/* Page background */
+.culina-command-center {
+    position: relative !important;
+    min-height: 100vh !important;
+
+    /*
+       Extra top padding separates the dashboard from the navbar.
+       This prevents the command center hero from visually touching or overlapping
+       the navigation area.
+    */
+    padding: 76px 0 72px !important;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(31, 26, 23, 0.82),
+            rgba(31, 26, 23, 0.62)
+        ),
+        url("../images/dashboard-bg.jpg") !important;
+
+    background-size: cover !important;
+    background-position: center center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-color: #2b211b !important;
+}
+
+.culina-command-center::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(249, 115, 22, 0.24), transparent 28%),
+        radial-gradient(circle at 85% 35%, rgba(22, 163, 74, 0.20), transparent 26%),
+        radial-gradient(circle at 72% 82%, rgba(250, 204, 21, 0.12), transparent 24%) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+.culina-command-center > .container {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Keep the main dashboard hero readable on top of the image */
+.command-hero {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(8, 13, 18, 0.96),
+            rgba(18, 24, 31, 0.92)
+        ),
+        radial-gradient(circle at 82% 16%, rgba(249, 115, 22, 0.28), transparent 32%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34) !important;
+}
+
+/* Make lower dashboard cards readable on the image background */
+.command-profile-card,
+.analytics-card,
+.command-panel,
+.taste-profile-card,
+.ai-journey-card,
+.evaluation-signal-card,
+.command-intelligence-panel {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.34) !important;
+    box-shadow: 0 20px 58px rgba(0, 0, 0, 0.14) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+/* Give page sections slightly stronger contrast on top of the food background */
+.command-action-card,
+.timeline-item,
+.taste-mini-card,
+.journey-feature-link,
+.journey-empty-box,
+.latest-feedback-box {
+    background: rgba(255, 250, 243, 0.95) !important;
+}
+
+/* Keep the black recommendation card premium */
+.smart-next-step-box {
+    background: rgba(17, 24, 39, 0.96) !important;
+}
+
+/* Mobile: fixed backgrounds can feel jumpy, so keep it normal */
+@media (max-width: 767px) {
+    .culina-command-center {
+        background-attachment: scroll !important;
+        padding: 46px 0 52px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
