@@ -7578,6 +7578,1998 @@ textarea.recipe-input {
 }
 
 
+/* =========================================================
+   COMMUNITY RECIPE SHARING FEATURE
+   Purpose:
+   - Styles the Add to Community / Remove from Community controls.
+   - Styles community recipe cards, public detail pages and feedback areas.
+   - Keep this block at the bottom so it overrides older recipe styles.
+   ========================================================= */
+
+/* Saved recipes page community controls */
+
+.saved-recipes-hero-actions {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
+    gap: 14px !important;
+}
+
+.saved-community-page-btn {
+    min-height: 52px !important;
+    padding: 13px 22px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    color: #ffffff !important;
+    font-weight: 950 !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 18px 42px rgba(22, 163, 74, 0.24) !important;
+    transition: var(--transition) !important;
+}
+
+.saved-community-page-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 25px 58px rgba(22, 163, 74, 0.34) !important;
+}
+
+.saved-recipe-card-public {
+    position: relative !important;
+    overflow: hidden !important;
+    border-color: rgba(22, 163, 74, 0.18) !important;
+    background:
+        radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 253, 244, 0.88)) !important;
+}
+
+.saved-recipe-card-public::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 26px !important;
+    width: 58px !important;
+    height: 5px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #16a34a, #facc15) !important;
+}
+
+.saved-recipe-community-badge {
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.95) !important;
+    border: 1px solid rgba(22, 163, 74, 0.16) !important;
+}
+
+.saved-community-status-strip {
+    margin: 22px 0 !important;
+    padding: 17px !important;
+    border-radius: 24px !important;
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    align-items: flex-start !important;
+    background:
+        linear-gradient(135deg, rgba(240, 253, 244, 0.96), rgba(255, 255, 255, 0.94)) !important;
+    border: 1px solid rgba(22, 163, 74, 0.15) !important;
+    box-shadow: 0 16px 42px rgba(22, 163, 74, 0.07) !important;
+}
+
+.saved-community-private-strip {
+    background:
+        linear-gradient(135deg, rgba(255, 247, 237, 0.96), rgba(255, 255, 255, 0.94)) !important;
+    border-color: rgba(249, 115, 22, 0.15) !important;
+    box-shadow: 0 16px 42px rgba(249, 115, 22, 0.06) !important;
+}
+
+.saved-community-status-strip > div:first-child {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 14px 30px rgba(22, 163, 74, 0.22) !important;
+}
+
+.saved-community-private-strip > div:first-child {
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    color: #1f1a17 !important;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22) !important;
+}
+
+.saved-community-status-strip span {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: var(--culina-dark) !important;
+    font-size: 0.92rem !important;
+    font-weight: 950 !important;
+}
+
+.saved-community-status-strip p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    line-height: 1.62 !important;
+}
+
+.saved-recipe-community-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+
+.saved-community-toggle-form {
+    margin: 0 !important;
+}
+
+.saved-community-add-btn,
+.saved-community-remove-btn,
+.recipe-community-add-btn,
+.recipe-community-remove-btn,
+.recipe-community-public-btn {
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-size: 0.88rem !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+    transition: var(--transition) !important;
+}
+
+.saved-community-add-btn,
+.recipe-community-add-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border: 0 !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.22) !important;
+}
+
+.saved-community-remove-btn,
+.recipe-community-remove-btn {
+    color: #92400e !important;
+    background: rgba(254, 243, 199, 0.96) !important;
+    border: 1px solid rgba(245, 158, 11, 0.22) !important;
+}
+
+.recipe-community-public-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    border: 0 !important;
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.22) !important;
+}
+
+.saved-community-add-btn:hover,
+.saved-community-remove-btn:hover,
+.recipe-community-add-btn:hover,
+.recipe-community-remove-btn:hover,
+.recipe-community-public-btn:hover {
+    transform: translateY(-3px) !important;
+}
+
+.saved-community-add-btn:hover,
+.recipe-community-add-btn:hover {
+    color: #ffffff !important;
+    box-shadow: 0 22px 50px rgba(22, 163, 74, 0.32) !important;
+}
+
+.saved-community-remove-btn:hover,
+.recipe-community-remove-btn:hover {
+    color: #ffffff !important;
+    background: #d97706 !important;
+    border-color: #d97706 !important;
+}
+
+.recipe-community-public-btn:hover {
+    color: #ffffff !important;
+    box-shadow: 0 22px 50px rgba(249, 115, 22, 0.32) !important;
+}
+
+/* Saved recipe detail community block */
+
+.recipe-community-status-panel {
+    margin-top: 24px !important;
+    padding: 24px !important;
+    border-radius: 30px !important;
+    display: grid !important;
+    grid-template-columns: 62px minmax(0, 1fr) auto !important;
+    gap: 18px !important;
+    align-items: center !important;
+    background:
+        radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(240, 253, 244, 0.90)) !important;
+    border: 1px solid rgba(22, 163, 74, 0.16) !important;
+    box-shadow: 0 22px 58px rgba(22, 163, 74, 0.08) !important;
+}
+
+.recipe-community-status-panel.recipe-community-private-panel {
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.92)) !important;
+    border-color: rgba(249, 115, 22, 0.16) !important;
+    box-shadow: 0 22px 58px rgba(249, 115, 22, 0.08) !important;
+}
+
+.recipe-community-status-icon {
+    width: 62px !important;
+    height: 62px !important;
+    border-radius: 22px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    font-size: 1.35rem !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 18px 38px rgba(22, 163, 74, 0.24) !important;
+}
+
+.recipe-community-private-panel .recipe-community-status-icon {
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    box-shadow: 0 18px 38px rgba(249, 115, 22, 0.24) !important;
+}
+
+.recipe-community-status-copy span {
+    display: block !important;
+    margin-bottom: 8px !important;
+    color: #166534 !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.10em !important;
+}
+
+.recipe-community-private-panel .recipe-community-status-copy span {
+    color: #9a3412 !important;
+}
+
+.recipe-community-status-copy h3 {
+    margin: 0 0 7px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.35rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.03em !important;
+}
+
+.recipe-community-status-copy p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 700 !important;
+    line-height: 1.65 !important;
+}
+
+.recipe-community-status-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    gap: 12px !important;
+}
+
+.recipe-community-status-actions form {
+    margin: 0 !important;
+}
+
+/* Community list page */
+
+.community-recipes-section {
+    min-height: 100vh !important;
+    padding: 145px 0 95px !important;
+    background:
+        radial-gradient(circle at 10% 14%, rgba(22, 163, 74, 0.14), transparent 30%),
+        radial-gradient(circle at 92% 10%, rgba(249, 115, 22, 0.14), transparent 28%),
+        linear-gradient(135deg, #fff8ef 0%, #f7fff9 52%, #ffffff 100%) !important;
+    overflow-x: hidden !important;
+}
+
+.community-hero-panel {
+    position: relative !important;
+    padding: 40px !important;
+    border-radius: 38px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 28px !important;
+    align-items: center !important;
+    color: #ffffff !important;
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.24), transparent 34%),
+        linear-gradient(135deg, #111827 0%, #1f2937 58%, #2b1810 100%) !important;
+    box-shadow: 0 30px 90px rgba(31, 26, 23, 0.24) !important;
+    overflow: hidden !important;
+}
+
+.community-hero-panel::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) !important;
+    background-size: 42px 42px !important;
+    opacity: 0.45 !important;
+}
+
+.community-hero-panel > * {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.community-hero-panel h1 {
+    max-width: 880px !important;
+    margin: 20px 0 14px !important;
+    color: #ffffff !important;
+    font-size: clamp(2.5rem, 5vw, 5rem) !important;
+    font-weight: 1000 !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.065em !important;
+}
+
+.community-hero-panel p {
+    max-width: 850px !important;
+    margin: 0 !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+    font-size: 1.06rem !important;
+    font-weight: 650 !important;
+    line-height: 1.8 !important;
+}
+
+.community-hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.community-primary-btn,
+.community-soft-btn {
+    min-height: 52px !important;
+    padding: 13px 20px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: var(--transition) !important;
+}
+
+.community-primary-btn {
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    border: 0 !important;
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.28) !important;
+}
+
+.community-soft-btn {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+.community-primary-btn:hover,
+.community-soft-btn:hover {
+    transform: translateY(-3px) !important;
+}
+
+.community-primary-btn:hover {
+    color: #1f1a17 !important;
+}
+
+.community-soft-btn:hover {
+    color: #ffffff !important;
+}
+
+.community-stats-grid {
+    margin-top: 24px !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+}
+
+.community-stat-card {
+    padding: 22px !important;
+    border-radius: 28px !important;
+    display: grid !important;
+    grid-template-columns: 54px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+    box-shadow: 0 22px 58px rgba(31, 26, 23, 0.08) !important;
+}
+
+.community-stat-icon {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 19px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.22) !important;
+}
+
+.community-stat-card span {
+    display: block !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.community-stat-card strong {
+    display: block !important;
+    margin-top: 5px !important;
+    color: var(--culina-dark) !important;
+    font-size: 2rem !important;
+    font-weight: 1000 !important;
+    letter-spacing: -0.05em !important;
+}
+
+.community-slider-section,
+.community-filter-card,
+.community-results-panel {
+    margin-top: 24px !important;
+    padding: 30px !important;
+    border-radius: 34px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 24px 70px rgba(31, 26, 23, 0.10) !important;
+}
+
+.community-section-header {
+    margin-bottom: 22px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
+}
+
+.community-section-header h2 {
+    margin: 8px 0 8px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(1.8rem, 3vw, 2.6rem) !important;
+    font-weight: 1000 !important;
+    letter-spacing: -0.055em !important;
+}
+
+.community-section-header p {
+    max-width: 760px !important;
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 680 !important;
+    line-height: 1.75 !important;
+}
+
+.community-recipe-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+.community-carousel-card-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+.community-recipe-card {
+    position: relative !important;
+    min-height: 100% !important;
+    padding: 24px !important;
+    border-radius: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.11), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 247, 237, 0.88)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.13) !important;
+    box-shadow: 0 22px 60px rgba(31, 26, 23, 0.09) !important;
+    overflow: hidden !important;
+    transition: var(--transition) !important;
+}
+
+.community-recipe-card:hover {
+    transform: translateY(-7px) !important;
+    box-shadow: 0 30px 80px rgba(31, 26, 23, 0.14) !important;
+}
+
+.community-recipe-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 24px !important;
+    width: 54px !important;
+    height: 5px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #f97316, #facc15) !important;
+}
+
+.community-recipe-top {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    align-items: center !important;
+    margin-bottom: 18px !important;
+}
+
+.community-recipe-badge,
+.community-recipe-date {
+    min-height: 34px !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+}
+
+.community-recipe-badge {
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.94) !important;
+}
+
+.community-recipe-date {
+    color: var(--culina-muted) !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+}
+
+.community-recipe-card h3 {
+    margin: 0 0 12px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.35rem !important;
+    font-weight: 1000 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.035em !important;
+}
+
+.community-recipe-card p {
+    margin: 0 0 18px !important;
+    color: var(--culina-muted) !important;
+    line-height: 1.7 !important;
+    font-weight: 650 !important;
+}
+
+.community-recipe-owner {
+    margin-bottom: 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #7c2d12 !important;
+    font-size: 0.86rem !important;
+    font-weight: 900 !important;
+}
+
+.community-recipe-meta,
+.community-recipe-stats {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 9px !important;
+    margin-bottom: 18px !important;
+}
+
+.community-recipe-meta span,
+.community-recipe-stats span {
+    padding: 8px 11px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: var(--culina-dark) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    border: 1px solid rgba(31, 26, 23, 0.06) !important;
+    font-size: 0.82rem !important;
+    font-weight: 850 !important;
+}
+
+.community-recipe-meta i,
+.community-recipe-stats i {
+    color: #f97316 !important;
+}
+
+.community-card-footer {
+    margin-top: auto !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+}
+
+.community-view-btn {
+    min-height: 46px !important;
+    padding: 11px 17px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    font-size: 0.9rem !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.22) !important;
+    transition: var(--transition) !important;
+}
+
+.community-view-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 22px 50px rgba(22, 163, 74, 0.32) !important;
+}
+
+.community-filter-form {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 1.4fr) repeat(3, minmax(160px, 1fr)) auto !important;
+    gap: 16px !important;
+    align-items: end !important;
+}
+
+.community-filter-field {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.community-filter-field label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: var(--culina-dark) !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+}
+
+.community-filter-field input,
+.community-filter-field select {
+    width: 100% !important;
+    min-height: 50px !important;
+    padding: 12px 14px !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    border-radius: 18px !important;
+    color: var(--culina-dark) !important;
+    font-weight: 750 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    outline: none !important;
+    transition: var(--transition) !important;
+}
+
+.community-filter-field input:focus,
+.community-filter-field select:focus {
+    border-color: rgba(22, 163, 74, 0.45) !important;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.10) !important;
+}
+
+.community-filter-actions {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.community-filter-btn,
+.community-reset-btn {
+    min-height: 50px !important;
+    padding: 12px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+    transition: var(--transition) !important;
+}
+
+.community-filter-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border: 0 !important;
+    box-shadow: 0 16px 38px rgba(22, 163, 74, 0.22) !important;
+}
+
+.community-reset-btn {
+    color: #9a3412 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(249, 115, 22, 0.20) !important;
+}
+
+.community-filter-btn:hover,
+.community-reset-btn:hover {
+    transform: translateY(-3px) !important;
+}
+
+.community-empty-state {
+    max-width: 760px !important;
+    margin: 26px auto 0 !important;
+    padding: 52px 30px !important;
+    border-radius: 34px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 24px 70px rgba(31, 26, 23, 0.10) !important;
+}
+
+.community-empty-state i {
+    width: 82px !important;
+    height: 82px !important;
+    margin: 0 auto 18px !important;
+    border-radius: 28px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    font-size: 2rem !important;
+    box-shadow: 0 20px 46px rgba(22, 163, 74, 0.24) !important;
+}
+
+.community-empty-state h3 {
+    color: var(--culina-dark) !important;
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    font-weight: 1000 !important;
+    letter-spacing: -0.055em !important;
+}
+
+.community-empty-state p {
+    max-width: 560px !important;
+    margin: 0 auto 24px !important;
+    color: var(--culina-muted) !important;
+    font-weight: 700 !important;
+    line-height: 1.75 !important;
+}
+
+/* Community detail page */
+
+.community-detail-section {
+    min-height: 100vh !important;
+    padding: 145px 0 95px !important;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(22, 163, 74, 0.13), transparent 30%),
+        radial-gradient(circle at 88% 12%, rgba(249, 115, 22, 0.13), transparent 28%),
+        linear-gradient(135deg, #fff8ef, #ffffff) !important;
+}
+
+.community-detail-hero {
+    padding: 38px !important;
+    border-radius: 36px !important;
+    color: #ffffff !important;
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.24), transparent 34%),
+        linear-gradient(135deg, #111827 0%, #1f2937 58%, #2b1810 100%) !important;
+    box-shadow: 0 30px 90px rgba(31, 26, 23, 0.24) !important;
+}
+
+.community-back-link {
+    margin-bottom: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #facc15 !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+    transition: var(--transition) !important;
+}
+
+.community-back-link:hover {
+    color: #ffffff !important;
+    transform: translateX(-4px) !important;
+}
+
+.community-detail-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 28px !important;
+    align-items: flex-start !important;
+}
+
+.community-detail-header h1 {
+    max-width: 920px !important;
+    margin: 18px 0 14px !important;
+    color: #ffffff !important;
+    font-size: clamp(2.4rem, 5vw, 5rem) !important;
+    font-weight: 1000 !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.065em !important;
+}
+
+.community-detail-header p {
+    max-width: 850px !important;
+    margin: 0 !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+    font-weight: 650 !important;
+    line-height: 1.8 !important;
+}
+
+.community-detail-badge {
+    min-height: 48px !important;
+    padding: 11px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+}
+
+.community-detail-meta {
+    margin-top: 24px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 11px !important;
+}
+
+.community-detail-meta span {
+    padding: 10px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    font-size: 0.86rem !important;
+    font-weight: 850 !important;
+}
+
+.community-detail-grid {
+    margin-top: 28px !important;
+    display: grid !important;
+    grid-template-columns: 380px minmax(0, 1fr) !important;
+    gap: 24px !important;
+    align-items: start !important;
+}
+
+.community-detail-side,
+.community-detail-main {
+    display: grid !important;
+    gap: 22px !important;
+}
+
+.community-author-card,
+.community-detail-side-card,
+.community-recipe-content-card,
+.community-feedback-panel {
+    padding: 28px !important;
+    border-radius: 32px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 24px 66px rgba(31, 26, 23, 0.10) !important;
+}
+
+.community-author-card {
+    text-align: center !important;
+}
+
+.community-author-avatar {
+    width: 78px !important;
+    height: 78px !important;
+    margin: 0 auto 14px !important;
+    border-radius: 28px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    font-size: 2rem !important;
+    box-shadow: 0 20px 46px rgba(22, 163, 74, 0.24) !important;
+}
+
+.community-author-card span {
+    display: block !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.10em !important;
+}
+
+.community-author-card h3 {
+    margin: 7px 0 8px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.45rem !important;
+    font-weight: 1000 !important;
+}
+
+.community-author-card p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 700 !important;
+    line-height: 1.65 !important;
+}
+
+.community-detail-side-card h3,
+.community-recipe-content-card h2,
+.community-feedback-panel h2 {
+    margin: 0 0 16px !important;
+    color: var(--culina-dark) !important;
+    font-weight: 1000 !important;
+    letter-spacing: -0.035em !important;
+}
+
+.community-detail-side-card h3 {
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    font-size: 1.18rem !important;
+}
+
+.community-detail-side-card h3 i {
+    color: #f97316 !important;
+}
+
+.community-detail-side-card p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 650 !important;
+    line-height: 1.75 !important;
+}
+
+.community-detail-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 9px !important;
+}
+
+.community-detail-tags span {
+    padding: 8px 11px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.92) !important;
+    font-size: 0.82rem !important;
+    font-weight: 900 !important;
+}
+
+.community-recipe-content {
+    padding: 24px !important;
+    border-radius: 26px !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, #fffaf3, #ffffff) !important;
+    border: 1px solid rgba(249, 115, 22, 0.10) !important;
+    font-size: 1rem !important;
+    font-weight: 650 !important;
+    line-height: 1.88 !important;
+}
+
+.community-feedback-summary {
+    margin-bottom: 22px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+}
+
+.community-feedback-stat {
+    padding: 18px !important;
+    border-radius: 24px !important;
+    background: rgba(255, 247, 237, 0.94) !important;
+    border: 1px solid rgba(249, 115, 22, 0.13) !important;
+}
+
+.community-feedback-stat span {
+    display: block !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.75rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.community-feedback-stat strong {
+    display: block !important;
+    margin-top: 6px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.9rem !important;
+    font-weight: 1000 !important;
+}
+
+.community-feedback-form {
+    display: grid !important;
+    gap: 18px !important;
+}
+
+.community-feedback-form-grid {
+    display: grid !important;
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    gap: 16px !important;
+}
+
+.community-feedback-field {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.community-feedback-field label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: var(--culina-dark) !important;
+    font-size: 0.86rem !important;
+    font-weight: 950 !important;
+}
+
+.community-feedback-field select,
+.community-feedback-field textarea {
+    width: 100% !important;
+    border: 1px solid rgba(15, 23, 42, 0.10) !important;
+    border-radius: 20px !important;
+    color: var(--culina-dark) !important;
+    font-weight: 750 !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    outline: none !important;
+    transition: var(--transition) !important;
+}
+
+.community-feedback-field select {
+    min-height: 54px !important;
+    padding: 12px 14px !important;
+}
+
+.community-feedback-field textarea {
+    min-height: 130px !important;
+    padding: 14px 16px !important;
+    resize: vertical !important;
+    line-height: 1.6 !important;
+}
+
+.community-feedback-field select:focus,
+.community-feedback-field textarea:focus {
+    border-color: rgba(22, 163, 74, 0.45) !important;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.10) !important;
+}
+
+.community-feedback-submit-btn {
+    justify-self: end !important;
+    min-height: 50px !important;
+    padding: 12px 20px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border: 0 !important;
+    font-weight: 950 !important;
+    box-shadow: 0 17px 40px rgba(22, 163, 74, 0.24) !important;
+    transition: var(--transition) !important;
+}
+
+.community-feedback-submit-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 23px 54px rgba(22, 163, 74, 0.34) !important;
+}
+
+.community-feedback-list {
+    margin-top: 28px !important;
+    padding-top: 24px !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+    display: grid !important;
+    gap: 14px !important;
+}
+
+.community-feedback-item {
+    padding: 18px !important;
+    border-radius: 24px !important;
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 242, 0.92)) !important;
+    border: 1px solid rgba(15, 23, 42, 0.07) !important;
+    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.055) !important;
+}
+
+.community-feedback-icon {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22) !important;
+}
+
+.community-feedback-item strong {
+    display: block !important;
+    margin-bottom: 4px !important;
+    color: var(--culina-dark) !important;
+    font-weight: 1000 !important;
+}
+
+.community-feedback-item span {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin-bottom: 8px !important;
+    color: #92400e !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+}
+
+.community-feedback-item p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 650 !important;
+    line-height: 1.7 !important;
+}
+
+.community-related-section {
+    margin-top: 28px !important;
+}
+
+/* Responsive community feature */
+
+@media (max-width: 1199px) {
+    .community-stats-grid,
+    .community-recipe-grid,
+    .community-carousel-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .community-filter-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .community-filter-actions {
+        grid-column: 1 / -1 !important;
+    }
+
+    .community-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .recipe-community-status-panel {
+        grid-template-columns: 62px minmax(0, 1fr) !important;
+    }
+
+    .recipe-community-status-actions {
+        grid-column: 1 / -1 !important;
+        justify-content: flex-start !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .saved-recipes-hero {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    .saved-recipes-hero-actions {
+        width: 100% !important;
+        justify-content: flex-start !important;
+    }
+
+    .saved-community-page-btn,
+    .saved-recipes-action-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .community-hero-panel,
+    .community-detail-header {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-hero-actions {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+    }
+
+    .community-feedback-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .community-recipes-section,
+    .community-detail-section {
+        padding: 125px 0 75px !important;
+    }
+
+    .community-stats-grid,
+    .community-recipe-grid,
+    .community-carousel-card-grid,
+    .community-filter-form,
+    .community-feedback-summary {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-hero-panel,
+    .community-slider-section,
+    .community-filter-card,
+    .community-results-panel,
+    .community-detail-hero,
+    .community-author-card,
+    .community-detail-side-card,
+    .community-recipe-content-card,
+    .community-feedback-panel {
+        padding: 24px !important;
+        border-radius: 28px !important;
+    }
+
+    .recipe-community-status-panel {
+        grid-template-columns: 1fr !important;
+        text-align: left !important;
+    }
+
+    .recipe-community-status-actions,
+    .recipe-community-status-actions form,
+    .recipe-community-status-actions a,
+    .recipe-community-status-actions button {
+        width: 100% !important;
+    }
+
+    .saved-recipe-community-footer,
+    .saved-recipe-community-footer a,
+    .saved-recipe-community-footer form,
+    .saved-recipe-community-footer button {
+        width: 100% !important;
+    }
+
+    .saved-recipe-community-footer a,
+    .saved-recipe-community-footer button {
+        justify-content: center !important;
+    }
+
+    .community-feedback-submit-btn {
+        width: 100% !important;
+        justify-self: stretch !important;
+    }
+}
+
+
+
+/* =========================================================
+   COMMUNITY FEATURE - FINAL DESIGN FIX
+   Purpose:
+   - Fixes unstyled View Public Page button on saved recipe detail.
+   - Styles the community sharing panel on saved recipe detail.
+   - Improves community public recipe detail page layout, spacing and readability.
+   - Keep this block at the very bottom of recipes.css so it overrides older styles.
+   ========================================================= */
+
+/* ---------- Saved recipe detail: action buttons ---------- */
+.recipe-detail-control-panel .recipe-detail-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 14px !important;
+    flex-wrap: wrap !important;
+}
+
+.recipe-community-toggle-form,
+.recipe-favourite-form {
+    margin: 0 !important;
+}
+
+.recipe-detail-community-badge,
+.recipe-community-add-btn,
+.recipe-community-remove-btn,
+.recipe-community-view-btn,
+.recipe-community-public-btn,
+.recipe-shopping-list-btn,
+.recipe-print-export-btn,
+.recipe-delete-btn,
+.recipe-edit-btn,
+.recipe-favourite-btn {
+    min-height: 48px !important;
+    padding: 12px 18px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    border: 0 !important;
+    font-size: 0.92rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: all 0.24s ease !important;
+}
+
+.recipe-detail-community-badge {
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    box-shadow: 0 16px 38px rgba(249, 115, 22, 0.26) !important;
+}
+
+.recipe-community-add-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 16px 38px rgba(22, 163, 74, 0.24) !important;
+}
+
+.recipe-community-remove-btn {
+    color: #92400e !important;
+    background: rgba(254, 243, 199, 0.98) !important;
+    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    box-shadow: 0 14px 32px rgba(245, 158, 11, 0.10) !important;
+}
+
+.recipe-community-view-btn,
+.recipe-community-public-btn {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9) !important;
+    box-shadow: 0 16px 38px rgba(37, 99, 235, 0.22) !important;
+}
+
+.recipe-shopping-list-btn {
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.94) !important;
+    border: 1px solid rgba(22, 163, 74, 0.18) !important;
+}
+
+.recipe-print-export-btn {
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.20) !important;
+}
+
+.recipe-delete-btn {
+    color: #b91c1c !important;
+    background: rgba(254, 226, 226, 0.96) !important;
+    border: 1px solid rgba(239, 68, 68, 0.20) !important;
+}
+
+.recipe-community-add-btn:hover,
+.recipe-community-remove-btn:hover,
+.recipe-community-view-btn:hover,
+.recipe-community-public-btn:hover,
+.recipe-shopping-list-btn:hover,
+.recipe-print-export-btn:hover,
+.recipe-delete-btn:hover,
+.recipe-edit-btn:hover,
+.recipe-favourite-btn:hover {
+    transform: translateY(-3px) !important;
+}
+
+.recipe-community-remove-btn:hover {
+    color: #ffffff !important;
+    background: #d97706 !important;
+    border-color: #d97706 !important;
+    box-shadow: 0 18px 42px rgba(217, 119, 6, 0.24) !important;
+}
+
+.recipe-community-view-btn:hover,
+.recipe-community-public-btn:hover {
+    color: #ffffff !important;
+    box-shadow: 0 22px 54px rgba(37, 99, 235, 0.34) !important;
+}
+
+/* ---------- Saved recipe detail: community status panel ---------- */
+.recipe-community-share-panel {
+    position: relative !important;
+    margin: 34px 0 10px !important;
+    padding: 30px !important;
+    border-radius: 34px !important;
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+    gap: 22px !important;
+    align-items: flex-start !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.15), transparent 32%),
+        radial-gradient(circle at 100% 0%, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.94)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    box-shadow: 0 26px 76px rgba(31, 26, 23, 0.10) !important;
+}
+
+.recipe-community-share-panel-active {
+    background:
+        radial-gradient(circle at 0% 0%, rgba(22, 163, 74, 0.16), transparent 34%),
+        radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(240, 253, 244, 0.98), rgba(255, 255, 255, 0.95)) !important;
+    border-color: rgba(22, 163, 74, 0.18) !important;
+}
+
+.recipe-community-share-panel::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 30px !important;
+    right: 30px !important;
+    top: 0 !important;
+    height: 5px !important;
+    border-radius: 0 0 999px 999px !important;
+    background: linear-gradient(90deg, #f97316, #facc15, #22c55e) !important;
+}
+
+.recipe-community-share-icon {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 24px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    font-size: 1.55rem !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 18px 42px rgba(22, 163, 74, 0.26) !important;
+}
+
+.recipe-community-share-panel:not(.recipe-community-share-panel-active) .recipe-community-share-icon {
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.26) !important;
+}
+
+.recipe-community-share-copy > span {
+    width: fit-content !important;
+    min-height: 34px !important;
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.94) !important;
+    border: 1px solid rgba(22, 163, 74, 0.16) !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.recipe-community-share-panel:not(.recipe-community-share-panel-active) .recipe-community-share-copy > span {
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.94) !important;
+    border-color: rgba(249, 115, 22, 0.20) !important;
+}
+
+.recipe-community-share-copy h2 {
+    margin: 14px 0 10px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(1.75rem, 3vw, 2.55rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.055em !important;
+}
+
+.recipe-community-share-copy p {
+    max-width: 980px !important;
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 1rem !important;
+    font-weight: 680 !important;
+    line-height: 1.75 !important;
+}
+
+.recipe-community-share-stats {
+    margin-top: 20px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+
+.recipe-community-share-stats span {
+    min-height: 42px !important;
+    padding: 10px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: var(--culina-dark) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    font-size: 0.9rem !important;
+    font-weight: 900 !important;
+    box-shadow: 0 12px 30px rgba(31, 26, 23, 0.05) !important;
+}
+
+.recipe-community-share-stats i {
+    color: #f97316 !important;
+}
+
+/* ---------- Public community recipe detail page ---------- */
+.community-detail-section {
+    min-height: 100vh !important;
+    padding: 145px 0 95px !important;
+    background:
+        radial-gradient(circle at 10% 14%, rgba(22, 163, 74, 0.13), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.13), transparent 28%),
+        linear-gradient(135deg, #fff8ef 0%, #f7fff9 52%, #ffffff 100%) !important;
+    overflow-x: hidden !important;
+}
+
+.community-detail-section .container {
+    max-width: 1320px !important;
+}
+
+.community-back-link {
+    margin-bottom: 20px !important;
+    min-height: 42px !important;
+    padding: 10px 14px !important;
+    border-radius: 999px !important;
+    width: fit-content !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.90) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+    text-decoration: none !important;
+    font-weight: 950 !important;
+    transition: all 0.24s ease !important;
+}
+
+.community-back-link:hover {
+    color: #1f1a17 !important;
+    transform: translateX(-4px) !important;
+}
+
+.community-detail-hero {
+    margin-bottom: 28px !important;
+    padding: 38px !important;
+    border-radius: 38px !important;
+    color: #ffffff !important;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(249, 115, 22, 0.34), transparent 30%),
+        radial-gradient(circle at 88% 15%, rgba(22, 163, 74, 0.24), transparent 30%),
+        linear-gradient(135deg, #111827 0%, #1f2937 58%, #2b1810 100%) !important;
+    box-shadow: 0 30px 90px rgba(31, 26, 23, 0.24) !important;
+    overflow: hidden !important;
+}
+
+.community-detail-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 28px !important;
+    align-items: start !important;
+}
+
+.community-detail-header .section-label {
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    border: 0 !important;
+    box-shadow: 0 14px 34px rgba(249, 115, 22, 0.24) !important;
+}
+
+.community-detail-header h1 {
+    max-width: 920px !important;
+    margin: 18px 0 14px !important;
+    color: #ffffff !important;
+    font-size: clamp(2.25rem, 4.7vw, 4.35rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.065em !important;
+}
+
+.community-detail-header p {
+    max-width: 850px !important;
+    margin: 0 !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+    font-size: 1.02rem !important;
+    font-weight: 650 !important;
+    line-height: 1.78 !important;
+}
+
+.community-detail-badge {
+    min-height: 50px !important;
+    padding: 13px 18px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, #facc15, #fb923c) !important;
+    font-size: 0.9rem !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.28) !important;
+}
+
+.community-detail-meta {
+    margin-top: 28px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+
+.community-detail-meta span {
+    min-height: 42px !important;
+    padding: 10px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    font-size: 0.86rem !important;
+    font-weight: 850 !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.community-detail-meta i {
+    color: #facc15 !important;
+}
+
+.community-detail-grid {
+    display: grid !important;
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr) !important;
+    gap: 28px !important;
+    align-items: start !important;
+}
+
+.community-detail-side {
+    position: sticky !important;
+    top: 125px !important;
+    display: grid !important;
+    gap: 18px !important;
+}
+
+.community-author-card,
+.community-detail-side-card,
+.community-recipe-content-card,
+.community-feedback-panel {
+    padding: 26px !important;
+    border-radius: 30px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 24px 70px rgba(31, 26, 23, 0.10) !important;
+}
+
+.community-author-card {
+    text-align: center !important;
+    background:
+        radial-gradient(circle at top right, rgba(22, 163, 74, 0.16), transparent 35%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 253, 244, 0.92)) !important;
+}
+
+.community-author-avatar {
+    width: 76px !important;
+    height: 76px !important;
+    margin: 0 auto 16px !important;
+    border-radius: 26px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    font-size: 2rem !important;
+    box-shadow: 0 20px 46px rgba(22, 163, 74, 0.24) !important;
+}
+
+.community-author-card span,
+.community-detail-side-card > h3,
+.community-recipe-content-card > h2 {
+    color: var(--culina-dark) !important;
+}
+
+.community-author-card span {
+    display: block !important;
+    color: #166534 !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.10em !important;
+}
+
+.community-author-card h3 {
+    margin: 7px 0 8px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.45rem !important;
+    font-weight: 1000 !important;
+}
+
+.community-author-card p,
+.community-detail-side-card p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 680 !important;
+    line-height: 1.72 !important;
+}
+
+.community-detail-side-card h3,
+.community-recipe-content-card h2 {
+    margin: 0 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.22rem !important;
+    font-weight: 1000 !important;
+    letter-spacing: -0.035em !important;
+}
+
+.community-detail-side-card h3 i,
+.community-recipe-content-card h2 i {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 14px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.20) !important;
+}
+
+.community-detail-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 9px !important;
+}
+
+.community-detail-tags span {
+    padding: 8px 11px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.92) !important;
+    border: 1px solid rgba(22, 163, 74, 0.14) !important;
+    font-size: 0.82rem !important;
+    font-weight: 900 !important;
+}
+
+.community-recipe-content-card {
+    padding: 30px !important;
+}
+
+.community-recipe-content {
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 28px !important;
+    border-radius: 26px !important;
+    color: var(--culina-dark) !important;
+    background: linear-gradient(135deg, #fffaf3, #ffffff) !important;
+    border: 1px solid rgba(249, 115, 22, 0.13) !important;
+    font-size: 1.02rem !important;
+    font-weight: 680 !important;
+    line-height: 1.92 !important;
+}
+
+.community-recipe-content p {
+    margin-bottom: 16px !important;
+}
+
+.community-feedback-panel {
+    margin-top: 28px !important;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 34%),
+        rgba(255, 255, 255, 0.94) !important;
+}
+
+.community-feedback-panel .community-section-header h2 {
+    font-size: clamp(1.8rem, 3vw, 2.55rem) !important;
+}
+
+.community-feedback-summary {
+    margin-bottom: 24px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+}
+
+.community-feedback-stat {
+    padding: 18px !important;
+    border-radius: 24px !important;
+    background: rgba(255, 247, 237, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 14px 34px rgba(31, 26, 23, 0.05) !important;
+}
+
+.community-feedback-stat span {
+    display: block !important;
+    color: #9a3412 !important;
+    font-size: 0.74rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.community-feedback-stat strong {
+    display: block !important;
+    margin-top: 7px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.8rem !important;
+    font-weight: 1000 !important;
+}
+
+.community-feedback-form-grid {
+    display: grid !important;
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    align-items: start !important;
+}
+
+.community-feedback-field {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.community-feedback-field label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    color: var(--culina-dark) !important;
+    font-size: 0.86rem !important;
+    font-weight: 950 !important;
+}
+
+.community-feedback-field select,
+.community-feedback-field textarea {
+    width: 100% !important;
+    border: 1px solid rgba(15, 23, 42, 0.10) !important;
+    border-radius: 20px !important;
+    color: var(--culina-dark) !important;
+    font-weight: 750 !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    outline: none !important;
+    transition: all 0.24s ease !important;
+}
+
+.community-feedback-field select {
+    min-height: 54px !important;
+    padding: 12px 14px !important;
+}
+
+.community-feedback-field textarea {
+    min-height: 132px !important;
+    padding: 14px 16px !important;
+    resize: vertical !important;
+    line-height: 1.65 !important;
+}
+
+.community-feedback-field select:focus,
+.community-feedback-field textarea:focus {
+    border-color: rgba(22, 163, 74, 0.45) !important;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.10) !important;
+}
+
+.community-feedback-submit-btn {
+    margin-top: 16px !important;
+    min-height: 50px !important;
+    padding: 12px 20px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border: 0 !important;
+    font-weight: 950 !important;
+    box-shadow: 0 17px 40px rgba(22, 163, 74, 0.24) !important;
+    transition: all 0.24s ease !important;
+}
+
+.community-feedback-submit-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 23px 54px rgba(22, 163, 74, 0.34) !important;
+}
+
+.community-empty-state {
+    margin-top: 26px !important;
+    padding: 38px 24px !important;
+    border-radius: 30px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 22px 58px rgba(31, 26, 23, 0.08) !important;
+}
+
+.community-empty-state > i {
+    width: 68px !important;
+    height: 68px !important;
+    margin: 0 auto 16px !important;
+    border-radius: 24px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    font-size: 1.7rem !important;
+    box-shadow: 0 18px 42px rgba(22, 163, 74, 0.24) !important;
+}
+
+.community-empty-state h3 {
+    margin: 0 0 8px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.65rem !important;
+    font-weight: 1000 !important;
+}
+
+.community-empty-state p {
+    max-width: 560px !important;
+    margin: 0 auto !important;
+    color: var(--culina-muted) !important;
+    font-weight: 680 !important;
+    line-height: 1.7 !important;
+}
+
+@media (max-width: 1199px) {
+    .recipe-detail-control-panel .recipe-detail-actions {
+        justify-content: flex-start !important;
+    }
+
+    .community-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-detail-side {
+        position: static !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .community-detail-header {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-detail-badge {
+        width: fit-content !important;
+    }
+
+    .recipe-community-share-panel {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .community-detail-section {
+        padding: 125px 0 75px !important;
+    }
+
+    .community-detail-hero,
+    .community-author-card,
+    .community-detail-side-card,
+    .community-recipe-content-card,
+    .community-feedback-panel,
+    .recipe-community-share-panel {
+        padding: 24px !important;
+        border-radius: 28px !important;
+    }
+
+    .community-detail-header h1 {
+        font-size: clamp(2.05rem, 11vw, 3.1rem) !important;
+    }
+
+    .community-detail-side {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-feedback-summary,
+    .community-feedback-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-feedback-submit-btn,
+    .recipe-community-add-btn,
+    .recipe-community-remove-btn,
+    .recipe-community-view-btn,
+    .recipe-shopping-list-btn,
+    .recipe-print-export-btn,
+    .recipe-delete-btn,
+    .recipe-edit-btn,
+    .recipe-favourite-btn,
+    .recipe-community-toggle-form {
+        width: 100% !important;
+    }
+
+    .recipe-detail-control-panel .recipe-detail-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
 
 
 
@@ -7605,3 +9597,341 @@ textarea.recipe-input {
 
 
 
+
+
+
+
+/* =========================================================
+   COMMUNITY DETAIL PAGE - WIDE HORIZONTAL LAYOUT FIX
+   Purpose:
+   - Removes unnecessary side empty space.
+   - Makes recipe content and feedback form use full page width.
+   - Makes the feedback form horizontal and professional.
+   ========================================================= */
+
+.community-detail-section {
+    width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+.community-detail-section .container {
+    max-width: 1640px !important;
+    width: 94% !important;
+}
+
+/* Main page grid: left info cards + large recipe area */
+.community-detail-grid {
+    display: grid !important;
+    grid-template-columns: 330px minmax(0, 1fr) !important;
+    gap: 32px !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 1640px !important;
+    margin: 0 auto !important;
+}
+
+/* Left sidebar should stay compact */
+.community-detail-side {
+    width: 100% !important;
+    max-width: 330px !important;
+}
+
+/* Right side should use all remaining space */
+.community-detail-main {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+/* Full recipe card should stretch properly */
+.community-recipe-content-card,
+.community-feedback-panel,
+.community-related-section,
+.community-results-panel {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Recipe content should not look like a narrow column */
+.community-recipe-content {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 28px !important;
+    border-radius: 24px !important;
+    font-size: 1rem !important;
+    line-height: 1.85 !important;
+}
+
+/* Feedback section should cover the available horizontal space */
+.community-feedback-panel {
+    margin-top: 34px !important;
+    padding: 34px !important;
+}
+
+/* Rating cards should stretch horizontally */
+.community-feedback-summary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    width: 100% !important;
+}
+
+/* Make the actual feedback form horizontal */
+.community-feedback-form {
+    width: 100% !important;
+    margin-top: 24px !important;
+}
+
+.community-feedback-form-grid {
+    display: grid !important;
+    grid-template-columns: 260px minmax(0, 1fr) !important;
+    gap: 18px !important;
+    align-items: start !important;
+    width: 100% !important;
+}
+
+.community-feedback-field {
+    width: 100% !important;
+}
+
+.community-feedback-field select,
+.community-feedback-field textarea {
+    width: 100% !important;
+}
+
+.community-feedback-field select {
+    min-height: 58px !important;
+}
+
+.community-feedback-field textarea {
+    min-height: 150px !important;
+    resize: vertical !important;
+}
+
+/* Submit button aligned nicely on the right */
+.community-feedback-submit-btn {
+    margin-top: 18px !important;
+    min-height: 54px !important;
+    padding: 13px 22px !important;
+    border-radius: 999px !important;
+    float: right !important;
+}
+
+/* Feedback comments should also use full width */
+.community-feedback-list {
+    clear: both !important;
+    width: 100% !important;
+    margin-top: 34px !important;
+}
+
+.community-feedback-item {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 56px minmax(0, 1fr) !important;
+    gap: 18px !important;
+}
+
+/* Related recipe cards should use the wider page */
+.community-related-section .community-recipe-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+/* Improve hero width also */
+.community-detail-hero {
+    width: 100% !important;
+    max-width: 1640px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Tablet layout */
+@media (max-width: 1199px) {
+    .community-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-detail-side {
+        max-width: none !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 18px !important;
+    }
+
+    .community-author-card {
+        grid-column: 1 / -1 !important;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 767px) {
+    .community-detail-section .container {
+        width: 96% !important;
+    }
+
+    .community-detail-side {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-feedback-summary {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-feedback-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-feedback-submit-btn {
+        float: none !important;
+        width: 100% !important;
+    }
+
+    .community-related-section .community-recipe-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMMUNITY FEEDBACK - FULL WIDTH FINAL FIX
+   Purpose:
+   - Feedback panel currently sits only inside the right column.
+   - This expands it leftwards so it uses the empty sidebar space too.
+   - Makes the rating form wider and more horizontal.
+   ========================================================= */
+
+@media (min-width: 1200px) {
+    .community-detail-grid {
+        overflow: visible !important;
+    }
+
+    .community-detail-main {
+        overflow: visible !important;
+    }
+
+    .community-feedback-panel {
+        margin-left: -365px !important;
+        width: calc(100% + 365px) !important;
+        max-width: none !important;
+        padding: 42px !important;
+        border-radius: 34px !important;
+    }
+
+    .community-feedback-panel .community-section-header h2 {
+        font-size: clamp(2.2rem, 3vw, 3.2rem) !important;
+    }
+
+    .community-feedback-panel .community-section-header p {
+        max-width: 1150px !important;
+    }
+
+    .community-feedback-summary {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 22px !important;
+        width: 100% !important;
+    }
+
+    .community-feedback-stat {
+        min-height: 110px !important;
+        padding: 24px !important;
+    }
+
+    .community-feedback-form-grid {
+        display: grid !important;
+        grid-template-columns: 300px minmax(0, 1fr) !important;
+        gap: 22px !important;
+        align-items: start !important;
+        width: 100% !important;
+    }
+
+    .community-feedback-field select {
+        min-height: 62px !important;
+        font-size: 1rem !important;
+    }
+
+    .community-feedback-field textarea {
+        min-height: 165px !important;
+        font-size: 1rem !important;
+    }
+
+    .community-feedback-submit-btn {
+        float: none !important;
+        margin-left: auto !important;
+        margin-top: 22px !important;
+        min-width: 300px !important;
+        min-height: 58px !important;
+        display: flex !important;
+    }
+
+    .community-feedback-list {
+        margin-top: 36px !important;
+        width: 100% !important;
+    }
+
+    .community-feedback-item {
+        padding: 24px !important;
+        border-radius: 26px !important;
+    }
+}
+
+/* Large screens: make it even wider and more balanced */
+@media (min-width: 1500px) {
+    .community-feedback-panel {
+        margin-left: -390px !important;
+        width: calc(100% + 390px) !important;
+    }
+}
+
+/* Tablet/mobile: keep normal safe layout */
+@media (max-width: 1199px) {
+    .community-feedback-panel {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .community-feedback-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .community-feedback-submit-btn {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+}

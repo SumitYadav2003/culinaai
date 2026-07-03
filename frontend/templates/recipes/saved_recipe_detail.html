@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-validation-db-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-final-design-fix-1">
 <link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=shopping-modal-clean-1">
 {% endblock %}
 
@@ -24,8 +24,13 @@
             <div class="recipe-detail-header">
                 <div class="recipe-detail-title-area">
                     <span class="section-label">
-                        <i class="bi bi-journal-richtext"></i>
-                        Saved AI Recipe
+                        {% if recipe.is_public %}
+                            <i class="bi bi-people-fill"></i>
+                            Community Shared Recipe
+                        {% else %}
+                            <i class="bi bi-journal-richtext"></i>
+                            Saved AI Recipe
+                        {% endif %}
                     </span>
 
                     <h1>{{ recipe.title }}</h1>
@@ -42,10 +47,17 @@
                 <div class="recipe-detail-control-panel">
                     <div class="recipe-detail-actions">
 
-                        <div class="recipe-detail-badge">
-                            <i class="bi bi-stars"></i>
-                            CulinaAI Generated
-                        </div>
+                        {% if recipe.is_public %}
+                            <div class="recipe-detail-badge recipe-detail-community-badge">
+                                <i class="bi bi-people-fill"></i>
+                                Shared with Community
+                            </div>
+                        {% else %}
+                            <div class="recipe-detail-badge">
+                                <i class="bi bi-stars"></i>
+                                CulinaAI Generated
+                            </div>
+                        {% endif %}
 
                         <a href="{% url 'edit_saved_recipe' recipe.id %}" class="btn recipe-edit-btn">
                             <i class="bi bi-pencil-square"></i>
@@ -67,6 +79,29 @@
                                 </button>
                             {% endif %}
                         </form>
+
+                        <form method="post" action="{% url 'toggle_community_recipe' recipe.id %}" class="recipe-community-toggle-form">
+                            {% csrf_token %}
+
+                            {% if recipe.is_public %}
+                                <button type="submit" class="btn recipe-community-remove-btn">
+                                    <i class="bi bi-eye-slash"></i>
+                                    Remove from Community
+                                </button>
+                            {% else %}
+                                <button type="submit" class="btn recipe-community-add-btn">
+                                    <i class="bi bi-people-fill"></i>
+                                    Add to Community
+                                </button>
+                            {% endif %}
+                        </form>
+
+                        {% if recipe.is_public %}
+                            <a href="{% url 'community_recipe_detail' recipe.id %}" class="btn recipe-community-view-btn">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                View Public Page
+                            </a>
+                        {% endif %}
 
                         <button type="button" class="btn recipe-shopping-list-btn" data-bs-toggle="modal" data-bs-target="#shoppingListModal">
                             <i class="bi bi-bag-check"></i>
@@ -116,6 +151,63 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Community Sharing Status -->
+            <section class="recipe-community-share-panel {% if recipe.is_public %}recipe-community-share-panel-active{% endif %}" aria-label="Community sharing status">
+                <div class="recipe-community-share-icon">
+                    {% if recipe.is_public %}
+                        <i class="bi bi-broadcast-pin"></i>
+                    {% else %}
+                        <i class="bi bi-lock-fill"></i>
+                    {% endif %}
+                </div>
+
+                <div class="recipe-community-share-copy">
+                    {% if recipe.is_public %}
+                        <span>Community Sharing Enabled</span>
+                        <h2>This recipe is public in the CulinaAI community.</h2>
+
+                        <p>
+                            Other logged-in users can view this recipe, read the full instructions,
+                            give a rating and leave feedback. This creates useful evaluation data
+                            for the community and future dashboard.
+                        </p>
+
+                        <div class="recipe-community-share-stats">
+                            <span>
+                                <i class="bi bi-eye-fill"></i>
+                                {{ recipe.community_views }} views
+                            </span>
+
+                            <span>
+                                <i class="bi bi-star-fill"></i>
+                                {{ recipe.average_rating }}/5 average rating
+                            </span>
+
+                            <span>
+                                <i class="bi bi-chat-heart-fill"></i>
+                                {{ recipe.feedback_count }} feedback comments
+                            </span>
+
+                            {% if recipe.public_shared_at %}
+                                <span>
+                                    <i class="bi bi-calendar2-check-fill"></i>
+                                    Shared {{ recipe.public_shared_at|date:"d M Y" }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <span>Private Saved Recipe</span>
+                        <h2>This recipe is currently private.</h2>
+
+                        <p>
+                            Only you can see this recipe. Use the Add to Community button above
+                            when you want to publish it as a public community recipe for other users
+                            to view, rate and review.
+                        </p>
+                    {% endif %}
+                </div>
+            </section>
 
             {% if recipe.quality_score %}
                 <!-- Saved CulinaAI Validation Evidence -->

@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI Community | {{ recipe.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-feedback-full-width-final-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="community-detail-section">
+    <div class="container">
+
+        <div class="community-detail-hero">
+            <a href="{% url 'home' %}#shared-recipes" class="community-back-link">
+    <i class="bi bi-arrow-left"></i>
+    Back to Shared Recipes
+</a>
+
+            <div class="community-detail-header">
+                <div>
+                    <span class="section-label">
+                        <i class="bi bi-people-fill"></i>
+                        Community Shared Recipe
+                    </span>
+
+                    <h1>{{ recipe.title }}</h1>
+
+                    <p>
+                        {% if recipe.description %}
+                            {{ recipe.description }}
+                        {% else %}
+                            This recipe was generated with CulinaAI, saved by the user, and shared publicly
+                            with the recipe community for viewing, rating and feedback.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="community-detail-badge">
+                    <i class="bi bi-broadcast-pin"></i>
+                    Public Recipe
+                </div>
+            </div>
+
+            <div class="community-detail-meta">
+                <span>
+                    <i class="bi bi-person-circle"></i>
+                    Shared by {{ recipe.user.username }}
+                </span>
+
+                <span>
+                    <i class="bi bi-eye"></i>
+                    {{ recipe.community_views }} views
+                </span>
+
+                <span>
+                    <i class="bi bi-star-fill"></i>
+                    {{ average_rating }}/5 average rating
+                </span>
+
+                <span>
+                    <i class="bi bi-chat-left-text"></i>
+                    {{ feedback_count }} feedback comments
+                </span>
+
+                <span>
+                    <i class="bi bi-clock"></i>
+                    {{ recipe.cooking_time_minutes }} minutes
+                </span>
+
+                <span>
+                    <i class="bi bi-bar-chart"></i>
+                    {{ recipe.difficulty|title }}
+                </span>
+
+                {% if recipe.cuisine %}
+                    <span>
+                        <i class="bi bi-globe2"></i>
+                        {{ recipe.cuisine.name }}
+                    </span>
+                {% endif %}
+
+                {% if recipe.meal_type %}
+                    <span>
+                        <i class="bi bi-egg-fried"></i>
+                        {{ recipe.meal_type.name }}
+                    </span>
+                {% endif %}
+
+                {% if recipe.public_shared_at %}
+                    <span>
+                        <i class="bi bi-calendar-check"></i>
+                        Shared {{ recipe.public_shared_at|date:"d M Y" }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="community-detail-grid">
+            <aside class="community-detail-side">
+
+                <div class="community-author-card">
+                    <div class="community-author-avatar">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    <span>Recipe Owner</span>
+
+                    <h3>{{ recipe.user.username }}</h3>
+
+                    <p>
+                        This user chose to publish their saved CulinaAI recipe so other users can
+                        view it and provide evaluation feedback.
+                    </p>
+
+                    {% if is_owner %}
+                        <div style="margin-top: 18px;">
+                            <a href="{% url 'saved_recipe_detail' recipe.id %}" class="recipe-community-public-btn">
+                                <i class="bi bi-journal-richtext"></i>
+                                Open My Saved Recipe
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="community-detail-side-card">
+                    <h3>
+                        <i class="bi bi-basket2"></i>
+                        Ingredients Used
+                    </h3>
+
+                    <p>{{ recipe.ingredients_text|linebreaksbr }}</p>
+                </div>
+
+                <div class="community-detail-side-card">
+                    <h3>
+                        <i class="bi bi-shield-exclamation"></i>
+                        Allergy & Safety Notes
+                    </h3>
+
+                    {% if recipe.allergy_notes %}
+                        <p>{{ recipe.allergy_notes|linebreaksbr }}</p>
+                    {% else %}
+                        <p>
+                            No allergy notes were provided. Users should still manually check ingredients
+                            before cooking.
+                        </p>
+                    {% endif %}
+                </div>
+
+                <div class="community-detail-side-card">
+                    <h3>
+                        <i class="bi bi-tags"></i>
+                        Diet Preferences
+                    </h3>
+
+                    <div class="community-detail-tags">
+                        {% for diet in recipe.diet_preferences.all %}
+                            <span>
+                                <i class="bi bi-check-circle"></i>
+                                {{ diet.name }}
+                            </span>
+                        {% empty %}
+                            <span>
+                                <i class="bi bi-info-circle"></i>
+                                No diet preference
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if recipe.quality_score %}
+                    <div class="community-detail-side-card">
+                        <h3>
+                            <i class="bi bi-shield-check"></i>
+                            CulinaAI Validation
+                        </h3>
+
+                        <p>
+                            Quality Score: <strong>{{ recipe.quality_score }}/100</strong><br>
+                            Status: <strong>{{ recipe.validation_status|default:"Verified" }}</strong><br>
+                            Risk Level: <strong>{{ recipe.validation_risk_level|default:"Low" }}</strong>
+                        </p>
+                    </div>
+                {% endif %}
+
+            </aside>
+
+            <main class="community-detail-main">
+
+                <div class="community-recipe-content-card">
+                    <h2>
+                        <i class="bi bi-journal-text"></i>
+                        Full Recipe
+                    </h2>
+
+                    <div class="community-recipe-content">
+                        {{ recipe.instructions_text|linebreaks }}
+                    </div>
+                </div>
+
+                <section class="community-feedback-panel">
+                    <div class="community-section-header">
+                        <div>
+                            <span class="section-label">
+                                <i class="bi bi-chat-square-heart"></i>
+                                Community Evaluation
+                            </span>
+
+                            <h2>Rate and review this recipe</h2>
+
+                            <p>
+                                Your rating and feedback help evaluate how useful and acceptable shared
+                                CulinaAI recipes are to users. This feedback will later support the
+                                evaluation dashboard.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="community-feedback-summary">
+                        <div class="community-feedback-stat">
+                            <span>Average Rating</span>
+                            <strong>{{ average_rating }}/5</strong>
+                        </div>
+
+                        <div class="community-feedback-stat">
+                            <span>Total Feedback</span>
+                            <strong>{{ feedback_count }}</strong>
+                        </div>
+
+                        <div class="community-feedback-stat">
+                            <span>Your Rating</span>
+                            <strong>
+                                {% if user_rating %}
+                                    {{ user_rating.rating }}/5
+                                {% else %}
+                                    New
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <form method="post" action="{% url 'submit_community_recipe_feedback' recipe.id %}" class="community-feedback-form">
+                        {% csrf_token %}
+
+                        <div class="community-feedback-form-grid">
+                            <div class="community-feedback-field">
+                                <label for="{{ feedback_form.rating.id_for_label }}">
+                                    <i class="bi bi-star"></i>
+                                    Rating
+                                </label>
+
+                                {{ feedback_form.rating }}
+                            </div>
+
+                            <div class="community-feedback-field">
+                                <label for="{{ feedback_form.comment.id_for_label }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Feedback Comment
+                                </label>
+
+                                {{ feedback_form.comment }}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn community-feedback-submit-btn">
+                            <i class="bi bi-send-fill"></i>
+                            Submit Community Feedback
+                        </button>
+                    </form>
+
+                    {% if feedback_items %}
+                        <div class="community-feedback-list">
+                            {% for feedback in feedback_items %}
+                                <div class="community-feedback-item">
+                                    <div class="community-feedback-icon">
+                                        <i class="bi bi-chat-heart"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>{{ feedback.user.username }}</strong>
+
+                                        <span>
+                                            <i class="bi bi-calendar-check"></i>
+                                            {{ feedback.created_at|date:"d M Y, H:i" }}
+                                        </span>
+
+                                        <p>{{ feedback.comment }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="community-empty-state">
+                            <i class="bi bi-chat-square-heart"></i>
+
+                            <h3>No feedback yet</h3>
+
+                            <p>
+                                Be the first user to rate and review this community recipe.
+                            </p>
+                        </div>
+                    {% endif %}
+                </section>
+
+                {% if related_recipes %}
+                    <section class="community-related-section">
+                        <div class="community-results-panel">
+                            <div class="community-section-header">
+                                <div>
+                                    <span class="section-label">
+                                        <i class="bi bi-grid-3x3-gap"></i>
+                                        Related Recipes
+                                    </span>
+
+                                    <h2>More community recipes</h2>
+
+                                    <p>
+                                        Similar public recipes from the community.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="community-recipe-grid">
+                                {% for related in related_recipes %}
+                                    <article class="community-recipe-card">
+                                        <div class="community-recipe-top">
+                                            <span class="community-recipe-badge">
+                                                <i class="bi bi-people-fill"></i>
+                                                Community
+                                            </span>
+
+                                            <span class="community-recipe-date">
+                                                {% if related.public_shared_at %}
+                                                    {{ related.public_shared_at|date:"d M Y" }}
+                                                {% else %}
+                                                    {{ related.created_at|date:"d M Y" }}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+
+                                        <h3>{{ related.title }}</h3>
+
+                                        <p>
+                                            {{ related.description|default:"A related community recipe shared by a CulinaAI user."|truncatechars:120 }}
+                                        </p>
+
+                                        <div class="community-recipe-owner">
+                                            <i class="bi bi-person-circle"></i>
+                                            Shared by {{ related.user.username }}
+                                        </div>
+
+                                        <div class="community-recipe-stats">
+                                            <span>
+                                                <i class="bi bi-eye"></i>
+                                                {{ related.community_views }} views
+                                            </span>
+
+                                            <span>
+                                                <i class="bi bi-star-fill"></i>
+                                                {% if related.average_rating_value %}
+                                                    {{ related.average_rating_value|floatformat:1 }}/5
+                                                {% else %}
+                                                    0/5
+                                                {% endif %}
+                                            </span>
+
+                                            <span>
+                                                <i class="bi bi-chat-left-text"></i>
+                                                {{ related.feedback_total }} feedback
+                                            </span>
+                                        </div>
+
+                                        <div class="community-card-footer">
+                                            <a href="{% url 'community_recipe_detail' related.id %}" class="community-view-btn">
+                                                <i class="bi bi-eye-fill"></i>
+                                                View Recipe
+                                            </a>
+                                        </div>
+                                    </article>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
+
+            </main>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

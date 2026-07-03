@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Saved Recipes{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-validation-list-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-community-list-1">
 {% endblock %}
 
 {% block content %}
@@ -23,14 +23,17 @@
 
                 <p>
                     Browse the personalised recipes you have generated and saved with CulinaAI.
-                    Your recipe collection will grow as you explore new meal ideas.
+                    You can also share selected recipes with the community for other users to view,
+                    rate and review.
                 </p>
             </div>
 
-            <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-action-btn">
-                <i class="bi bi-magic"></i>
-                Generate New Recipe
-            </a>
+
+                <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-action-btn">
+                    <i class="bi bi-magic"></i>
+                    Generate New Recipe
+                </a>
+            </div>
         </div>
 
         <div class="saved-recipes-filter-card">
@@ -119,12 +122,19 @@
             <div class="row g-4 saved-recipes-grid">
                 {% for recipe in recipes %}
                     <div class="col-md-6 col-xl-4">
-                        <div class="saved-recipe-card">
+                        <div class="saved-recipe-card {% if recipe.is_public %}saved-recipe-card-public{% endif %}">
                             <div class="saved-recipe-top">
-                                <span class="saved-recipe-badge">
-                                    <i class="bi bi-stars"></i>
-                                    AI Recipe
-                                </span>
+                                {% if recipe.is_public %}
+                                    <span class="saved-recipe-badge saved-recipe-community-badge">
+                                        <i class="bi bi-people-fill"></i>
+                                        Community Recipe
+                                    </span>
+                                {% else %}
+                                    <span class="saved-recipe-badge">
+                                        <i class="bi bi-stars"></i>
+                                        AI Recipe
+                                    </span>
+                                {% endif %}
 
                                 <span class="saved-recipe-date">
                                     {{ recipe.created_at|date:"d M Y" }}
@@ -155,6 +165,40 @@
                                     </span>
                                 {% endif %}
                             </div>
+
+                            {% if recipe.is_public %}
+                                <div class="saved-community-status-strip">
+                                    <div>
+                                        <i class="bi bi-broadcast-pin"></i>
+                                    </div>
+
+                                    <div>
+                                        <span>Shared with Community</span>
+
+                                        <p>
+                                            This recipe is visible to other users.
+                                            Views: {{ recipe.community_views }} |
+                                            Rating: {{ recipe.average_rating }}/5 |
+                                            Feedback: {{ recipe.feedback_count }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="saved-community-status-strip saved-community-private-strip">
+                                    <div>
+                                        <i class="bi bi-lock-fill"></i>
+                                    </div>
+
+                                    <div>
+                                        <span>Private Recipe</span>
+
+                                        <p>
+                                            Only you can see this recipe. Share it with the community
+                                            when you want other users to rate and review it.
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endif %}
 
                             {% if recipe.validation_status %}
                                 <div class="saved-recipe-validation-strip">
@@ -216,11 +260,27 @@
                                 </div>
                             {% endif %}
 
-                            <div class="saved-recipe-footer">
+                            <div class="saved-recipe-footer saved-recipe-community-footer">
                                 <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn saved-recipe-view-btn">
                                     <i class="bi bi-eye"></i>
                                     View Recipe
                                 </a>
+
+                                <form method="post" action="{% url 'toggle_community_recipe' recipe.id %}" class="saved-community-toggle-form">
+                                    {% csrf_token %}
+
+                                    {% if recipe.is_public %}
+                                        <button type="submit" class="btn saved-community-remove-btn">
+                                            <i class="bi bi-eye-slash"></i>
+                                            Remove from Community
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="btn saved-community-add-btn">
+                                            <i class="bi bi-people-fill"></i>
+                                            Add to Community
+                                        </button>
+                                    {% endif %}
+                                </form>
                             </div>
                         </div>
                     </div>
