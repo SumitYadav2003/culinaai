@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | AI-Personalised Recipe Generator{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/custom.css' %}?v=shared-slider-spacing-fix-1">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}?v=community-generated-images-1">
 {% endblock %}
 
 {% block content %}
@@ -139,6 +139,20 @@
                     {% for recipe in public_recipes %}
                         <article class="simple-shared-card">
                             <div class="simple-shared-card-image">
+                                {% if recipe.generated_image %}
+                                    <img
+                                        src="{{ recipe.generated_image.url }}"
+                                        alt="AI-generated image for {{ recipe.title }}"
+                                        class="simple-shared-recipe-img"
+                                    >
+                                {% else %}
+                                    <img
+                                        src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80"
+                                        alt="Default CulinaAI recipe image"
+                                        class="simple-shared-recipe-img"
+                                    >
+                                {% endif %}
+
                                 <div class="simple-shared-card-date">
                                     {% if recipe.public_shared_at %}
                                         {{ recipe.public_shared_at|date:"d M Y" }}

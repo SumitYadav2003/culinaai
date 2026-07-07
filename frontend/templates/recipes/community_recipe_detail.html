@@ -4,7 +4,7 @@
 {% block title %}CulinaAI Community | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-feedback-full-width-final-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-recipe-images-1">
 {% endblock %}
 
 {% block content %}
@@ -95,6 +95,53 @@
                     </span>
                 {% endif %}
             </div>
+
+            <section class="community-detail-image-showcase" aria-label="Community recipe image">
+                <div class="community-detail-image-copy">
+                    <span class="section-label">
+                        <i class="bi bi-image-fill"></i>
+                        Recipe Visual
+                    </span>
+
+                    <h2>AI-generated image for this shared recipe</h2>
+
+                    <p>
+                        This visual is linked to the saved CulinaAI recipe and helps community users
+                        understand the dish before reading the full cooking instructions.
+                    </p>
+
+                    <div class="community-detail-image-meta">
+                        <span>
+                            <i class="bi bi-stars"></i>
+                            CulinaAI Visual
+                        </span>
+
+                        <span>
+                            <i class="bi bi-people-fill"></i>
+                            Community Shared
+                        </span>
+                    </div>
+                </div>
+
+                <div class="community-detail-image-frame">
+                    {% if recipe.generated_image %}
+                        <img
+                            src="{{ recipe.generated_image.url }}"
+                            alt="AI-generated image for {{ recipe.title }}"
+                        >
+                    {% else %}
+                        <img
+                            src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80"
+                            alt="Default CulinaAI recipe image"
+                        >
+                    {% endif %}
+
+                    <div class="community-detail-image-badge">
+                        <i class="bi bi-stars"></i>
+                        AI Recipe Image
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div class="community-detail-grid">
@@ -339,6 +386,27 @@
                                                 {% endif %}
                                             </span>
                                         </div>
+
+                                        <a href="{% url 'community_recipe_detail' related.id %}" class="community-related-image-link">
+                                            <div class="community-related-image-frame">
+                                                {% if related.generated_image %}
+                                                    <img
+                                                        src="{{ related.generated_image.url }}"
+                                                        alt="AI-generated image for {{ related.title }}"
+                                                    >
+                                                {% else %}
+                                                    <img
+                                                        src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80"
+                                                        alt="Default CulinaAI recipe image"
+                                                    >
+                                                {% endif %}
+
+                                                <span class="community-related-image-badge">
+                                                    <i class="bi bi-image-fill"></i>
+                                                    AI Visual
+                                                </span>
+                                            </div>
+                                        </a>
 
                                         <h3>{{ related.title }}</h3>
 

@@ -1,7 +1,11 @@
+import base64
 import json
+import uuid
 from collections import Counter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.core.mail import send_mail
 from django.db.models import Avg, Count, F, Q
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,7 +14,11 @@ from django.utils import timezone
 
 
 
-from .ai_service import generate_ai_recipe, modify_ai_recipe
+from .ai_service import (
+    generate_ai_recipe,
+    generate_recipe_image_base64,
+    modify_ai_recipe,
+)
 from .recipe_quality_engine import (
     build_regeneration_preferences,
     build_safe_fallback_recipe,
@@ -69,6 +77,45 @@ def extract_recipe_title(recipe_text):
     return "AI Generated Recipe"
 
 
+def save_generated_recipe_image(image_base64):
+    """
+    Saves an OpenAI-generated Base64 image into Django's media storage.
+
+    Returns the relative media path that can be assigned directly to
+    Recipe.generated_image.
+    """
+
+    if not image_base64:
+        return ""
+
+    clean_image_base64 = str(image_base64).strip()
+
+    if clean_image_base64.startswith("data:image") and "," in clean_image_base64:
+        clean_image_base64 = clean_image_base64.split(",", 1)[1]
+
+    image_binary = base64.b64decode(clean_image_base64)
+    image_file = ContentFile(image_binary)
+
+    image_path = f"recipe_images/culinaai_recipe_{uuid.uuid4().hex}.png"
+
+    return default_storage.save(image_path, image_file)
+
+
+def get_storage_url(file_path):
+    """
+    Safely returns a display URL for a file saved using Django storage.
+    """
+
+    if not file_path:
+        return ""
+
+    try:
+        return default_storage.url(file_path)
+    except Exception:
+        return ""
+
+
+
 @login_required
 def generate_recipe_view(request):
     """
@@ -98,6 +145,77 @@ def generate_recipe_view(request):
                 for equipment in cleaned_data.get("cooking_equipment", [])
             ]
 
+            other_diet_preference = request.POST.get(
+                "other_diet_preference",
+                "",
+            ).strip()
+
+            other_kitchen_equipment = request.POST.get(
+                "other_kitchen_equipment",
+                "",
+            ).strip()
+
+            selected_utensils = [
+                utensil.strip()
+                for utensil in request.POST.getlist("utensils")
+                if utensil.strip()
+            ]
+
+            other_utensils = request.POST.get(
+                "other_utensils",
+                "",
+            ).strip()
+
+            selected_diet_preferences = [
+                diet.name for diet in cleaned_data.get("diet_preferences", [])
+            ]
+
+            if other_diet_preference:
+                selected_diet_preferences.append(
+                    f"Other: {other_diet_preference}",
+                )
+
+            if other_kitchen_equipment:
+                selected_equipment.append(
+                    f"Other: {other_kitchen_equipment}",
+                )
+
+            selected_utensils_for_preview = selected_utensils.copy()
+
+            if other_utensils:
+                selected_utensils_for_preview.append(
+                    f"Other: {other_utensils}",
+                )
+
+            additional_notes_parts = []
+
+            if cleaned_data.get("additional_notes"):
+                additional_notes_parts.append(
+                    cleaned_data.get("additional_notes"),
+                )
+
+            if other_diet_preference:
+                additional_notes_parts.append(
+                    f"Custom diet preference: {other_diet_preference}",
+                )
+
+            if other_kitchen_equipment:
+                additional_notes_parts.append(
+                    f"Other kitchen equipment available: {other_kitchen_equipment}",
+                )
+
+            if selected_utensils_for_preview:
+                additional_notes_parts.append(
+                    "Available utensils: "
+                    + ", ".join(selected_utensils_for_preview),
+                )
+
+            combined_additional_notes = (
+                " | ".join(additional_notes_parts)
+                if additional_notes_parts
+                else "None provided"
+            )
+
             preview_data = {
                 "ingredients": cleaned_data.get("ingredients"),
                 "cuisine": cleaned_data.get("cuisine").name
@@ -106,9 +224,8 @@ def generate_recipe_view(request):
                 "meal_type": cleaned_data.get("meal_type").name
                 if cleaned_data.get("meal_type")
                 else "Any meal type",
-                "diet_preferences": [
-                    diet.name for diet in cleaned_data.get("diet_preferences", [])
-                ],
+                "diet_preferences": selected_diet_preferences,
+                "other_diet_preference": other_diet_preference,
                 "allergies": cleaned_data.get("allergies") or "None provided",
                 "cooking_time_minutes": cleaned_data.get("cooking_time_minutes"),
                 "servings": cleaned_data.get("servings"),
@@ -126,8 +243,10 @@ def generate_recipe_view(request):
                     "Balanced",
                 ),
                 "cooking_equipment": selected_equipment,
-                "additional_notes": cleaned_data.get("additional_notes")
-                or "None provided",
+                "other_kitchen_equipment": other_kitchen_equipment,
+                "utensils": selected_utensils_for_preview,
+                "other_utensils": other_utensils,
+                "additional_notes": combined_additional_notes,
             }
 
             request.session["recipe_preview_data"] = preview_data
@@ -232,6 +351,33 @@ def generate_recipe_view(request):
                     "status",
                 )
 
+                generated_recipe_title = extract_recipe_title(
+                    final_ai_result.get("recipe_text", ""),
+                )
+                generated_image_path = ""
+                generated_image_prompt = ""
+
+                try:
+                    image_result = generate_recipe_image_base64(
+                        recipe_title=generated_recipe_title,
+                        preferences=preview_data,
+                    )
+
+                    generated_image_prompt = image_result.get("image_prompt", "")
+                    generated_image_path = save_generated_recipe_image(
+                        image_result.get("image_base64", ""),
+                    )
+
+                except Exception:
+                    generated_image_path = ""
+                    generated_image_prompt = ""
+
+                final_ai_result["generated_image"] = generated_image_path
+                final_ai_result["generated_image_url"] = get_storage_url(
+                    generated_image_path,
+                )
+                final_ai_result["generated_image_prompt"] = generated_image_prompt
+
                 request.session["ai_recipe_result"] = final_ai_result
                 request.session["latest_ai_recipe_text"] = final_ai_result.get(
                     "recipe_text",
@@ -241,6 +387,10 @@ def generate_recipe_view(request):
                     "prompt",
                     "",
                 )
+                request.session["latest_recipe_image_path"] = generated_image_path
+                request.session[
+                    "latest_recipe_image_prompt"
+                ] = generated_image_prompt
                 request.session["latest_validation_report"] = final_validation_report
                 request.session[
                     "latest_validation_attempt_history"
@@ -308,6 +458,8 @@ def save_generated_recipe_view(request):
 
     recipe_text = request.session.get("latest_ai_recipe_text")
     recipe_prompt = request.session.get("latest_ai_recipe_prompt")
+    recipe_image_path = request.session.get("latest_recipe_image_path")
+    recipe_image_prompt = request.session.get("latest_recipe_image_prompt")
     preferences = request.session.get("latest_recipe_preferences")
 
     validation_report = request.session.get("latest_validation_report") or {}
@@ -340,6 +492,7 @@ def save_generated_recipe_view(request):
         user=request.user,
         title=extract_recipe_title(recipe_text),
         description=preferences.get("additional_notes", ""),
+        generated_image=recipe_image_path or None,
         cuisine=cuisine,
         meal_type=meal_type,
         ingredients_text=preferences.get("ingredients", ""),
@@ -372,6 +525,8 @@ def save_generated_recipe_view(request):
 
     request.session.pop("latest_ai_recipe_text", None)
     request.session.pop("latest_ai_recipe_prompt", None)
+    request.session.pop("latest_recipe_image_path", None)
+    request.session.pop("latest_recipe_image_prompt", None)
     request.session.pop("latest_recipe_preferences", None)
     request.session.pop("latest_validation_report", None)
     request.session.pop("latest_validation_attempt_history", None)
@@ -881,6 +1036,7 @@ def save_modified_recipe_view(request, recipe_id):
         user=request.user,
         title=extract_recipe_title(modified_recipe_text),
         description=f"Modified version of: {original_recipe.title}",
+        generated_image=original_recipe.generated_image,
         cuisine=original_recipe.cuisine,
         meal_type=original_recipe.meal_type,
         original_recipe=original_recipe,
@@ -2041,6 +2197,70 @@ def quality_recipe_evidence_view(request, recipe_id):
     }
 
     return render(request, "recipes/quality_recipe_evidence.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def unsave_recipe_view(request, recipe_id):
+    """
+    Removes a saved recipe from the user's saved recipe library without
+    permanently deleting the recipe record.
+
+    This keeps validation evidence and recipe history in the database,
+    but hides the recipe from the saved recipes page.
+    """
+
+    if request.method != "POST":
+        return redirect("saved_recipe_detail", recipe_id=recipe_id)
+
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    recipe_title = recipe.title
+
+    # Remove favourite connection if the recipe was favourited.
+    FavouriteRecipe.objects.filter(
+        user=request.user,
+        recipe=recipe,
+    ).delete()
+
+    # If the recipe was shared publicly, make it private again.
+    recipe.is_saved = False
+    recipe.is_public = False
+    recipe.public_shared_at = None
+
+    recipe.save(
+        update_fields=[
+            "is_saved",
+            "is_public",
+            "public_shared_at",
+            "updated_at",
+        ]
+    )
+
+    messages.success(
+        request,
+        f'"{recipe_title}" has been removed from your saved recipes.',
+    )
+
+    return redirect("saved_recipes")
 
 
 

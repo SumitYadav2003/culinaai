@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Saved Recipes{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-community-list-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-recipe-images-1">
 {% endblock %}
 
 {% block content %}
@@ -28,12 +28,10 @@
                 </p>
             </div>
 
-
-                <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-action-btn">
-                    <i class="bi bi-magic"></i>
-                    Generate New Recipe
-                </a>
-            </div>
+            <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-action-btn">
+                <i class="bi bi-magic"></i>
+                Generate New Recipe
+            </a>
         </div>
 
         <div class="saved-recipes-filter-card">
@@ -140,6 +138,29 @@
                                     {{ recipe.created_at|date:"d M Y" }}
                                 </span>
                             </div>
+
+                            {% if recipe.generated_image %}
+                                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="saved-recipe-image-link">
+                                    <div class="saved-recipe-image-frame">
+                                        <img
+                                            src="{{ recipe.generated_image.url }}"
+                                            alt="AI-generated image for {{ recipe.title }}"
+                                        >
+
+                                        <span class="saved-recipe-image-badge">
+                                            <i class="bi bi-image-fill"></i>
+                                            AI Visual
+                                        </span>
+                                    </div>
+                                </a>
+                            {% else %}
+                                <div class="saved-recipe-image-placeholder">
+                                    <div>
+                                        <i class="bi bi-image"></i>
+                                        <span>No image saved</span>
+                                    </div>
+                                </div>
+                            {% endif %}
 
                             <h3>{{ recipe.title }}</h3>
 
@@ -280,6 +301,15 @@
                                             Add to Community
                                         </button>
                                     {% endif %}
+                                </form>
+
+                                <form method="post" action="{% url 'unsave_recipe' recipe.id %}" class="saved-recipe-unsave-form">
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="btn saved-recipe-unsave-btn">
+                                        <i class="bi bi-bookmark-dash"></i>
+                                        Unsave
+                                    </button>
                                 </form>
                             </div>
                         </div>

@@ -21,6 +21,7 @@ from .views import (
     submit_recipe_feedback_view,
     toggle_community_recipe_view,
     toggle_favourite_recipe_view,
+    unsave_recipe_view,
 )
 
 
@@ -77,6 +78,12 @@ urlpatterns = [
         name="saved_recipe_detail",
     ),
 
+        path(
+    "saved/<int:recipe_id>/unsave/",
+    unsave_recipe_view,
+    name="unsave_recipe",
+),
+
     # Favourites.
     path(
         "favourite/<int:recipe_id>/",
@@ -120,4 +127,6 @@ urlpatterns = [
         delete_saved_recipe_view,
         name="delete_saved_recipe",
     ),
+
+
 ]

@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=generate-validation-v1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-image-generation-1">
 {% endblock %}
 
 {% block content %}
@@ -227,6 +227,25 @@
                                     <div class="recipe-checkbox-grid horizontal-checkbox-grid">
                                         {{ form.diet_preferences }}
                                     </div>
+
+                                    <div class="custom-other-field">
+                                        <label class="recipe-label" for="other_diet_preference">
+                                            Other Diet Preference
+                                            <span>optional</span>
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="other_diet_preference"
+                                            name="other_diet_preference"
+                                            class="recipe-input custom-other-input"
+                                            placeholder="Example: Jain food, no onion no garlic, diabetic-friendly, high-fiber"
+                                        >
+
+                                        <small>
+                                            Add any diet preference that is not listed above.
+                                        </small>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6">
@@ -240,11 +259,147 @@
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
                                 <i class="bi bi-tools"></i>
-                                Available Kitchen Equipment
+                                Equipment and Utensils
                             </div>
 
-                            <div class="recipe-checkbox-grid horizontal-checkbox-grid horizontal-equipment-grid">
-                                {{ form.cooking_equipment }}
+                            <div class="row g-3 equipment-utensils-row">
+                                <div class="col-lg-6">
+                                    <div class="generate-subsection-label">
+                                        <i class="bi bi-lightning-charge"></i>
+                                        Kitchen Equipment
+                                    </div>
+
+                                    <p class="custom-choice-helper">
+                                        Select cooking machines or appliances available to the user.
+                                    </p>
+
+                                    <div class="recipe-checkbox-grid horizontal-checkbox-grid horizontal-equipment-grid">
+                                        {{ form.cooking_equipment }}
+                                    </div>
+
+                                    <div class="custom-other-field">
+                                        <label class="recipe-label" for="other_kitchen_equipment">
+                                            Other Kitchen Equipment
+                                            <span>optional</span>
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="other_kitchen_equipment"
+                                            name="other_kitchen_equipment"
+                                            class="recipe-input custom-other-input"
+                                            placeholder="Example: rice cooker, sandwich maker, slow cooker"
+                                        >
+
+                                        <small>
+                                            Add extra machines or cooking appliances not listed above.
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="generate-subsection-label">
+                                        <i class="bi bi-cup-hot"></i>
+                                        Utensils
+                                    </div>
+
+                                    <p class="custom-choice-helper">
+                                        Select cooking tools available for preparing the recipe.
+                                    </p>
+
+                                    <div class="recipe-checkbox-grid horizontal-checkbox-grid horizontal-utensils-grid">
+                                        <ul>
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Frying Pan">
+                                                    Frying Pan
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Saucepan">
+                                                    Saucepan
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Deep Pot">
+                                                    Deep Pot
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Tawa / Griddle">
+                                                    Tawa / Griddle
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Wok / Kadhai">
+                                                    Wok / Kadhai
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Mixing Bowl">
+                                                    Mixing Bowl
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Knife">
+                                                    Knife
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Chopping Board">
+                                                    Chopping Board
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Spatula">
+                                                    Spatula
+                                                </label>
+                                            </li>
+
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="utensils" value="Measuring Cups">
+                                                    Measuring Cups
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="custom-other-field">
+                                        <label class="recipe-label" for="other_utensils">
+                                            Other Utensils
+                                            <span>optional</span>
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="other_utensils"
+                                            name="other_utensils"
+                                            class="recipe-input custom-other-input"
+                                            placeholder="Example: rolling pin, steamer basket, mortar and pestle"
+                                        >
+
+                                        <small>
+                                            Add any cooking tools that are not listed above.
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -286,8 +441,9 @@
                         <h5>AI Personalisation Summary</h5>
                         <p>
                             CulinaAI will analyse your ingredients, cuisine, meal type, diet preferences,
-                            allergies, cooking time, servings, spice level, budget, nutrition goal and
-                            available equipment to create a personalised recipe recommendation.
+                            allergies, cooking time, servings, spice level, budget, nutrition goal,
+                            available equipment, utensils and any custom user preferences to create
+                            a personalised recipe recommendation.
                         </p>
                     </div>
                 </div>
@@ -366,6 +522,17 @@
                     </div>
 
                     <div>
+                        <strong>Utensils</strong>
+                        <span>
+                            {% for utensil in preview_data.utensils %}
+                                {{ utensil }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                No utensils selected
+                            {% endfor %}
+                        </span>
+                    </div>
+
+                    <div>
                         <strong>Additional Notes</strong>
                         <span>{{ preview_data.additional_notes }}</span>
                     </div>
@@ -396,6 +563,8 @@
                             </form>
                         </div>
 
+                       
+
                         {% with validation=ai_recipe_result.validation_report %}
                             {% if validation %}
                                 <div class="culina-validation-dashboard">
@@ -411,7 +580,7 @@
 
                                             <p>
                                                 This recipe was checked against your selected ingredients, diet,
-                                                allergies, cooking time, difficulty, equipment and output structure
+                                                allergies, cooking time, difficulty, equipment, utensils and output structure
                                                 before being shown as the final result.
                                             </p>
                                         </div>
@@ -622,18 +791,48 @@
                         {% endwith %}
 
                         <div class="verified-recipe-output-header">
-                            <div>
-                                <span class="section-label">
-                                    <i class="bi bi-journal-check"></i>
-                                    Final Verified Recipe
-                                </span>
-                                <h3>Recipe Output</h3>
-                            </div>
-                        </div>
+    <div>
+        <span class="section-label">
+            <i class="bi bi-journal-check"></i>
+            Final Verified Recipe
+        </span>
+        <h3>Recipe Output</h3>
+    </div>
+</div>
 
-                        <div class="ai-recipe-text">
-                            {{ ai_recipe_result.recipe_text|linebreaks }}
-                        </div>
+<div class="final-recipe-with-image-layout">
+
+    {% if ai_recipe_result.generated_image_url %}
+        <div class="final-recipe-image-card">
+            <img
+                src="{{ ai_recipe_result.generated_image_url }}"
+                alt="AI-generated food image for this recipe"
+            >
+
+            <div class="final-recipe-image-badge">
+                <i class="bi bi-stars"></i>
+                AI Food Image
+            </div>
+        </div>
+    {% elif generated_image_url %}
+        <div class="final-recipe-image-card">
+            <img
+                src="{{ generated_image_url }}"
+                alt="AI-generated food image for this recipe"
+            >
+
+            <div class="final-recipe-image-badge">
+                <i class="bi bi-stars"></i>
+                AI Food Image
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="ai-recipe-text final-recipe-text-with-image">
+        {{ ai_recipe_result.recipe_text|linebreaks }}
+    </div>
+
+</div>
                     </div>
                 {% endif %}
             </div>

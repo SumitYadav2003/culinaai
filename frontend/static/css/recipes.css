@@ -9935,3 +9935,1165 @@ textarea.recipe-input {
         margin-left: 0 !important;
     }
 }
+
+
+/* =========================================================
+   GENERATE RECIPE - CUSTOM DIET, EQUIPMENT AND UTENSILS
+   Purpose:
+   - Adds "Other" text inputs for diet preference and equipment.
+   - Adds a separate utensils section beside kitchen equipment.
+   - Keeps the layout premium and readable.
+   ========================================================= */
+
+.equipment-utensils-row {
+    align-items: flex-start !important;
+}
+
+.generate-subsection-label {
+    margin-bottom: 8px !important;
+    padding: 10px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.88) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.generate-subsection-label i {
+    color: var(--culina-orange) !important;
+}
+
+.custom-choice-helper {
+    margin: 0 0 14px !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.88rem !important;
+    font-weight: 650 !important;
+    line-height: 1.55 !important;
+}
+
+.custom-other-field {
+    margin-top: 16px !important;
+    padding: 16px !important;
+    border-radius: 22px !important;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 247, 237, 0.86)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.12) !important;
+    box-shadow: 0 14px 34px rgba(31, 26, 23, 0.055) !important;
+}
+
+.custom-other-field .recipe-label {
+    margin-bottom: 8px !important;
+}
+
+.custom-other-field .recipe-label span {
+    color: var(--culina-muted) !important;
+    font-size: 0.82rem !important;
+    font-weight: 800 !important;
+}
+
+.custom-other-input {
+    width: 100% !important;
+    min-height: 52px !important;
+    border-radius: 18px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(31, 26, 23, 0.10) !important;
+    box-shadow: 0 10px 24px rgba(31, 26, 23, 0.04) !important;
+}
+
+.custom-other-input::placeholder {
+    color: rgba(91, 80, 72, 0.68) !important;
+    font-weight: 650 !important;
+}
+
+.custom-other-field small {
+    display: block !important;
+    margin-top: 8px !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.45 !important;
+    font-weight: 650 !important;
+}
+
+.horizontal-utensils-grid ul,
+.horizontal-equipment-grid ul {
+    grid-template-columns: 1fr !important;
+}
+
+.horizontal-utensils-grid label,
+.horizontal-equipment-grid label {
+    min-height: 52px !important;
+}
+
+.horizontal-utensils-grid input,
+.horizontal-equipment-grid input {
+    flex: 0 0 auto !important;
+}
+
+@media (min-width: 1200px) {
+    .horizontal-utensils-grid ul,
+    .horizontal-equipment-grid ul {
+        max-height: 520px !important;
+        overflow-y: auto !important;
+        padding-right: 6px !important;
+    }
+
+    .horizontal-utensils-grid ul::-webkit-scrollbar,
+    .horizontal-equipment-grid ul::-webkit-scrollbar {
+        width: 8px !important;
+    }
+
+    .horizontal-utensils-grid ul::-webkit-scrollbar-thumb,
+    .horizontal-equipment-grid ul::-webkit-scrollbar-thumb {
+        border-radius: 999px !important;
+        background: rgba(249, 115, 22, 0.28) !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .custom-other-field {
+        padding: 14px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   UNSAVE RECIPE BUTTONS
+   Purpose:
+   - Removes a recipe from the saved recipe library without deleting it.
+   - Used on saved recipe detail page and saved recipe cards.
+   ========================================================= */
+
+.recipe-unsave-form,
+.saved-recipe-unsave-form {
+    margin: 0 !important;
+}
+
+.recipe-unsave-btn,
+.saved-recipe-unsave-btn {
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(249, 115, 22, 0.22) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.96) !important;
+    font-size: 0.9rem !important;
+    font-weight: 950 !important;
+    text-decoration: none !important;
+    transition: var(--transition) !important;
+}
+
+.recipe-unsave-btn:hover,
+.saved-recipe-unsave-btn:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #ea580c) !important;
+    border-color: transparent !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 36px rgba(249, 115, 22, 0.24) !important;
+}
+
+.saved-recipe-footer,
+.saved-recipe-card-footer {
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+@media (max-width: 575px) {
+    .recipe-unsave-btn,
+    .saved-recipe-unsave-btn,
+    .recipe-unsave-form,
+    .saved-recipe-unsave-form {
+        width: 100% !important;
+    }
+}
+
+
+/* =========================================================
+   AI GENERATED RECIPE IMAGES
+   Purpose:
+   - Styles the image shown after recipe generation.
+   - Styles the saved recipe detail image showcase.
+   - Styles recipe images on saved recipe cards.
+   ========================================================= */
+
+/* Generate page image preview */
+
+.ai-generated-food-image-panel {
+    margin: 28px 0 32px !important;
+    padding: 28px !important;
+    border-radius: 34px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px) !important;
+    gap: 28px !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.96)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.12) !important;
+    box-shadow: 0 26px 76px rgba(31, 26, 23, 0.12) !important;
+}
+
+.ai-generated-food-image-copy {
+    min-width: 0 !important;
+}
+
+.ai-generated-food-image-copy h3 {
+    margin: 14px 0 10px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(1.8rem, 3vw, 2.8rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.055em !important;
+}
+
+.ai-generated-food-image-copy p {
+    max-width: 720px !important;
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-weight: 700 !important;
+    line-height: 1.75 !important;
+}
+
+.ai-generated-food-image-frame {
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: 320px !important;
+    border-radius: 30px !important;
+    background: rgba(31, 26, 23, 0.08) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 24px 68px rgba(31, 26, 23, 0.16) !important;
+}
+
+.ai-generated-food-image-frame img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 320px !important;
+    display: block !important;
+    object-fit: cover !important;
+    border-radius: 30px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.ai-generated-food-image-frame:hover img {
+    transform: scale(1.04) !important;
+}
+
+.ai-generated-food-image-badge {
+    position: absolute !important;
+    left: 18px !important;
+    bottom: 18px !important;
+    min-height: 40px !important;
+    padding: 9px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: var(--culina-dark) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(255, 255, 255, 0.64) !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 16px 38px rgba(31, 26, 23, 0.18) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+/* Saved recipe detail image showcase */
+
+.saved-recipe-image-showcase {
+    margin: 30px 0 34px !important;
+    padding: 32px !important;
+    border-radius: 36px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 520px) !important;
+    gap: 32px !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.15), transparent 32%),
+        radial-gradient(circle at 100% 100%, rgba(22, 163, 74, 0.13), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.96)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.13) !important;
+    box-shadow: 0 28px 82px rgba(31, 26, 23, 0.12) !important;
+}
+
+.saved-recipe-image-copy {
+    min-width: 0 !important;
+}
+
+.saved-recipe-image-copy h2 {
+    margin: 16px 0 12px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(2rem, 4vw, 3.4rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.03 !important;
+    letter-spacing: -0.06em !important;
+}
+
+.saved-recipe-image-copy p {
+    max-width: 780px !important;
+    margin: 0 0 22px !important;
+    color: var(--culina-muted) !important;
+    font-size: 1rem !important;
+    font-weight: 680 !important;
+    line-height: 1.8 !important;
+}
+
+.saved-recipe-image-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+.saved-recipe-image-meta span {
+    min-height: 40px !important;
+    padding: 9px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.94) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+}
+
+.saved-recipe-image-meta i {
+    color: #f97316 !important;
+}
+
+.saved-recipe-image-frame {
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: 360px !important;
+    border-radius: 32px !important;
+    background: rgba(31, 26, 23, 0.08) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 26px 78px rgba(31, 26, 23, 0.18) !important;
+}
+
+.saved-recipe-image-frame img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 360px !important;
+    display: block !important;
+    object-fit: cover !important;
+    border-radius: 32px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.saved-recipe-image-frame:hover img {
+    transform: scale(1.04) !important;
+}
+
+.saved-recipe-image-badge {
+    position: absolute !important;
+    left: 20px !important;
+    bottom: 20px !important;
+    min-height: 42px !important;
+    padding: 10px 15px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: var(--culina-dark) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(255, 255, 255, 0.64) !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 16px 38px rgba(31, 26, 23, 0.18) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+/* Saved recipes list image cards */
+
+.saved-recipe-image-link {
+    display: block !important;
+    margin-bottom: 20px !important;
+    text-decoration: none !important;
+}
+
+.saved-recipe-image-frame {
+    margin-bottom: 0 !important;
+}
+
+.saved-recipe-card .saved-recipe-image-frame {
+    min-height: 220px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 54px rgba(31, 26, 23, 0.12) !important;
+}
+
+.saved-recipe-card .saved-recipe-image-frame img {
+    min-height: 220px !important;
+    border-radius: 24px !important;
+}
+
+.saved-recipe-image-badge {
+    position: absolute !important;
+}
+
+.saved-recipe-card .saved-recipe-image-badge,
+.saved-recipe-image-frame .saved-recipe-image-badge {
+    left: 14px !important;
+    bottom: 14px !important;
+    min-height: 36px !important;
+    padding: 8px 12px !important;
+    font-size: 0.76rem !important;
+}
+
+.saved-recipe-image-placeholder {
+    height: 220px !important;
+    margin-bottom: 20px !important;
+    border-radius: 24px !important;
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+    color: #9a3412 !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.14), transparent 32%),
+        linear-gradient(135deg, rgba(255, 237, 213, 0.92), rgba(255, 247, 237, 0.96)) !important;
+    border: 1px dashed rgba(249, 115, 22, 0.34) !important;
+}
+
+.saved-recipe-image-placeholder div {
+    display: grid !important;
+    gap: 8px !important;
+    justify-items: center !important;
+}
+
+.saved-recipe-image-placeholder i {
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 20px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--culina-white) !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.24) !important;
+    font-size: 1.35rem !important;
+}
+
+.saved-recipe-image-placeholder span {
+    font-size: 0.88rem !important;
+    font-weight: 950 !important;
+}
+
+/* Responsive image layouts */
+
+@media (max-width: 1199px) {
+    .ai-generated-food-image-panel,
+    .saved-recipe-image-showcase {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ai-generated-food-image-frame,
+    .saved-recipe-image-frame {
+        min-height: 340px !important;
+    }
+
+    .ai-generated-food-image-frame img,
+    .saved-recipe-image-frame img {
+        min-height: 340px !important;
+    }
+
+    .saved-recipe-card .saved-recipe-image-frame,
+    .saved-recipe-card .saved-recipe-image-frame img {
+        min-height: 220px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .ai-generated-food-image-panel,
+    .saved-recipe-image-showcase {
+        padding: 22px !important;
+        border-radius: 28px !important;
+    }
+
+    .ai-generated-food-image-frame,
+    .saved-recipe-image-frame {
+        min-height: 250px !important;
+        border-radius: 24px !important;
+    }
+
+    .ai-generated-food-image-frame img,
+    .saved-recipe-image-frame img {
+        min-height: 250px !important;
+        border-radius: 24px !important;
+    }
+
+    .saved-recipe-card .saved-recipe-image-frame,
+    .saved-recipe-card .saved-recipe-image-frame img,
+    .saved-recipe-image-placeholder {
+        min-height: 200px !important;
+        height: 200px !important;
+    }
+
+    .ai-generated-food-image-badge,
+    .saved-recipe-image-badge {
+        left: 14px !important;
+        bottom: 14px !important;
+        max-width: calc(100% - 28px) !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FINAL RECIPE OUTPUT WITH IMAGE
+   Purpose:
+   - Shows AI-generated food image beside the final recipe text.
+   - Makes the generated recipe result look like a professional recipe card.
+   ========================================================= */
+
+.final-recipe-with-image-layout {
+    display: grid !important;
+    grid-template-columns: minmax(320px, 420px) minmax(0, 1fr) !important;
+    gap: 26px !important;
+    align-items: flex-start !important;
+    margin-top: 22px !important;
+}
+
+.final-recipe-image-card {
+    position: sticky !important;
+    top: 120px !important;
+    overflow: hidden !important;
+    min-height: 520px !important;
+    border-radius: 30px !important;
+    background: rgba(255, 248, 239, 0.95) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    box-shadow: 0 26px 76px rgba(31, 26, 23, 0.14) !important;
+}
+
+.final-recipe-image-card img {
+    width: 100% !important;
+    height: 520px !important;
+    display: block !important;
+    object-fit: cover !important;
+    border-radius: 30px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.final-recipe-image-card:hover img {
+    transform: scale(1.04) !important;
+}
+
+.final-recipe-image-badge {
+    position: absolute !important;
+    left: 18px !important;
+    bottom: 18px !important;
+    min-height: 42px !important;
+    padding: 10px 15px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 16px 38px rgba(31, 26, 23, 0.18) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.final-recipe-text-with-image {
+    margin: 0 !important;
+    min-height: 520px !important;
+}
+
+@media (max-width: 991px) {
+    .final-recipe-with-image-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .final-recipe-image-card {
+        position: relative !important;
+        top: auto !important;
+        min-height: 360px !important;
+    }
+
+    .final-recipe-image-card img {
+        height: 360px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .final-recipe-with-image-layout {
+        gap: 18px !important;
+    }
+
+    .final-recipe-image-card {
+        min-height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .final-recipe-image-card img {
+        height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .final-recipe-text-with-image {
+        min-height: auto !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMMUNITY RECIPE DETAIL - DYNAMIC RECIPE IMAGES
+   Purpose:
+   - Shows the actual AI-generated image on public recipe detail pages.
+   - Shows generated images on related community recipe cards.
+   ========================================================= */
+
+.community-detail-image-showcase {
+    margin-top: 32px !important;
+    padding: 32px !important;
+    border-radius: 36px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 520px) !important;
+    gap: 32px !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.96)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 28px 82px rgba(31, 26, 23, 0.12) !important;
+}
+
+.community-detail-image-copy h2 {
+    margin: 16px 0 12px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(2rem, 4vw, 3.4rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.03 !important;
+    letter-spacing: -0.06em !important;
+}
+
+.community-detail-image-copy p {
+    margin: 0 0 22px !important;
+    color: var(--culina-muted) !important;
+    font-weight: 680 !important;
+    line-height: 1.8 !important;
+}
+
+.community-detail-image-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+.community-detail-image-meta span {
+    min-height: 40px !important;
+    padding: 9px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.94) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+    font-size: 0.84rem !important;
+    font-weight: 950 !important;
+}
+
+.community-detail-image-frame,
+.community-related-image-frame {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 30px !important;
+    background: rgba(31, 26, 23, 0.08) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 24px 68px rgba(31, 26, 23, 0.16) !important;
+}
+
+.community-detail-image-frame {
+    min-height: 360px !important;
+}
+
+.community-detail-image-frame img {
+    width: 100% !important;
+    height: 360px !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 30px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.community-detail-image-frame:hover img,
+.community-related-image-frame:hover img {
+    transform: scale(1.04) !important;
+}
+
+.community-detail-image-badge,
+.community-related-image-badge {
+    position: absolute !important;
+    left: 18px !important;
+    bottom: 18px !important;
+    min-height: 40px !important;
+    padding: 9px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: var(--culina-dark) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.70) !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 16px 38px rgba(31, 26, 23, 0.18) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.community-related-image-link {
+    display: block !important;
+    margin: 18px 0 18px !important;
+    text-decoration: none !important;
+}
+
+.community-related-image-frame {
+    min-height: 190px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 18px 46px rgba(31, 26, 23, 0.12) !important;
+}
+
+.community-related-image-frame img {
+    width: 100% !important;
+    height: 190px !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 24px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.community-related-image-badge {
+    left: 14px !important;
+    bottom: 14px !important;
+    min-height: 34px !important;
+    padding: 7px 11px !important;
+    font-size: 0.74rem !important;
+}
+
+@media (max-width: 1199px) {
+    .community-detail-image-showcase {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .community-detail-image-showcase {
+        padding: 22px !important;
+        border-radius: 28px !important;
+    }
+
+    .community-detail-image-frame {
+        min-height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .community-detail-image-frame img {
+        height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .community-related-image-frame,
+    .community-related-image-frame img {
+        min-height: 170px !important;
+        height: 170px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SAVED RECIPE DETAIL - FULL RECIPE WITH IMAGE
+   Purpose:
+   - Shows saved AI-generated image beside the full recipe text.
+   - Makes saved recipe detail look like a professional recipe page.
+   ========================================================= */
+
+.saved-full-recipe-with-image-layout {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr) !important;
+    gap: 24px !important;
+    align-items: flex-start !important;
+    margin-top: 22px !important;
+}
+
+.saved-full-recipe-image-card {
+    position: sticky !important;
+    top: 125px !important;
+    overflow: hidden !important;
+    min-height: 460px !important;
+    border-radius: 28px !important;
+    background: rgba(255, 248, 239, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    box-shadow: 0 24px 70px rgba(31, 26, 23, 0.14) !important;
+}
+
+.saved-full-recipe-image-card img {
+    width: 100% !important;
+    height: 460px !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 28px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.saved-full-recipe-image-card:hover img {
+    transform: scale(1.04) !important;
+}
+
+.saved-full-recipe-image-badge {
+    position: absolute !important;
+    left: 16px !important;
+    bottom: 16px !important;
+    min-height: 40px !important;
+    padding: 9px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 16px 38px rgba(31, 26, 23, 0.18) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.saved-full-recipe-text-with-image {
+    margin: 0 !important;
+    min-height: 460px !important;
+}
+
+@media (max-width: 1199px) {
+    .saved-full-recipe-with-image-layout {
+        grid-template-columns: minmax(240px, 300px) minmax(0, 1fr) !important;
+        gap: 20px !important;
+    }
+
+    .saved-full-recipe-image-card,
+    .saved-full-recipe-image-card img {
+        min-height: 420px !important;
+        height: 420px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .saved-full-recipe-with-image-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .saved-full-recipe-image-card {
+        position: relative !important;
+        top: auto !important;
+        min-height: 360px !important;
+    }
+
+    .saved-full-recipe-image-card img {
+        height: 360px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .saved-full-recipe-with-image-layout {
+        gap: 18px !important;
+    }
+
+    .saved-full-recipe-image-card {
+        min-height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .saved-full-recipe-image-card img {
+        height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .saved-full-recipe-text-with-image {
+        min-height: auto !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SAVED RECIPE DETAIL - WRAPPED IMAGE INSIDE RECIPE TEXT
+   Purpose:
+   - Image stays on the left.
+   - Recipe text wraps beside the image.
+   - After the image ends, text uses the full card width.
+   ========================================================= */
+
+.saved-recipe-flow-text {
+    display: block !important;
+    overflow: auto !important;
+    padding: 28px !important;
+    border-radius: 26px !important;
+    background: var(--culina-white) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+    color: var(--culina-dark) !important;
+    line-height: 1.9 !important;
+    font-weight: 650 !important;
+}
+
+.saved-recipe-flow-image {
+    position: relative !important;
+    float: left !important;
+    width: 360px !important;
+    max-width: 48% !important;
+    height: 440px !important;
+    margin: 0 28px 18px 0 !important;
+    overflow: hidden !important;
+    border-radius: 26px !important;
+    background: rgba(255, 248, 239, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    box-shadow: 0 22px 62px rgba(31, 26, 23, 0.14) !important;
+}
+
+.saved-recipe-flow-image img {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 26px !important;
+    transition: transform 0.35s ease !important;
+}
+
+.saved-recipe-flow-image:hover img {
+    transform: scale(1.04) !important;
+}
+
+.saved-recipe-flow-image-badge {
+    position: absolute !important;
+    left: 16px !important;
+    bottom: 16px !important;
+    min-height: 38px !important;
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.8rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 14px 34px rgba(31, 26, 23, 0.18) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.saved-recipe-flow-text p {
+    margin-bottom: 16px !important;
+}
+
+.saved-recipe-flow-text strong {
+    color: var(--culina-orange-dark) !important;
+}
+
+@media (max-width: 991px) {
+    .saved-recipe-flow-image {
+        float: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 360px !important;
+        margin: 0 0 24px 0 !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .saved-recipe-flow-text {
+        padding: 20px !important;
+    }
+
+    .saved-recipe-flow-image {
+        height: 260px !important;
+        border-radius: 22px !important;
+    }
+
+    .saved-recipe-flow-image img {
+        border-radius: 22px !important;
+    }
+}

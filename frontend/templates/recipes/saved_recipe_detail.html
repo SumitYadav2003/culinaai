@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-final-design-fix-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-inline-recipe-image-1">
 <link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=shopping-modal-clean-1">
 {% endblock %}
 
@@ -113,6 +113,15 @@
                             Print / Export
                         </a>
 
+                        <form method="post" action="{% url 'unsave_recipe' recipe.id %}" class="recipe-unsave-form">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn recipe-unsave-btn">
+                                <i class="bi bi-bookmark-dash"></i>
+                                Unsave Recipe
+                            </button>
+                        </form>
+
                         <button type="button" class="btn recipe-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal">
                             <i class="bi bi-trash3"></i>
                             Delete Recipe
@@ -208,6 +217,57 @@
                     {% endif %}
                 </div>
             </section>
+
+
+
+            {% if recipe.generated_image %}
+                <!-- Saved AI Generated Recipe Image -->
+                <section class="saved-recipe-image-showcase" aria-label="AI-generated recipe image">
+                    <div class="saved-recipe-image-copy">
+                        <span class="section-label">
+                            <i class="bi bi-image-fill"></i>
+                            AI Food Visual
+                        </span>
+
+                        <h2>Generated image for this saved recipe.</h2>
+
+                        <p>
+                            This image was generated when CulinaAI created the recipe. It gives a visual preview
+                            of the final dish and makes the saved recipe feel more complete and professional.
+                        </p>
+
+                        <div class="saved-recipe-image-meta">
+                            <span>
+                                <i class="bi bi-stars"></i>
+                                AI-generated visual
+                            </span>
+
+                            {% if recipe.cuisine %}
+                                <span>
+                                    <i class="bi bi-globe2"></i>
+                                    {{ recipe.cuisine.name }} style
+                                </span>
+                            {% endif %}
+
+                            {% if recipe.meal_type %}
+                                <span>
+                                    <i class="bi bi-egg-fried"></i>
+                                    {{ recipe.meal_type.name }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="saved-recipe-image-frame">
+                        <img src="{{ recipe.generated_image.url }}" alt="AI-generated image for {{ recipe.title }}">
+
+                        <div class="saved-recipe-image-badge">
+                            <i class="bi bi-magic"></i>
+                            CulinaAI Visual
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
 
             {% if recipe.quality_score %}
                 <!-- Saved CulinaAI Validation Evidence -->
@@ -538,20 +598,38 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <div class="recipe-detail-main-card">
-                        <div class="recipe-detail-main-header">
-                            <span class="section-label">
-                                <i class="bi bi-robot"></i>
-                                Full AI Recipe
-                            </span>
+<div class="recipe-detail-main-card">
+    <div class="recipe-detail-main-header">
+        <span class="section-label">
+            <i class="bi bi-robot"></i>
+            Full AI Recipe
+        </span>
 
-                            <h2>Cooking instructions and chef guidance</h2>
-                        </div>
+        <h2>Cooking instructions and chef guidance</h2>
+    </div>
 
-                        <div class="recipe-detail-text">
-                            {{ recipe.instructions_text|linebreaks }}
-                        </div>
-                    </div>
+    {% if recipe.generated_image %}
+        <div class="recipe-detail-text saved-recipe-flow-text">
+            <div class="saved-recipe-flow-image">
+                <img
+                    src="{{ recipe.generated_image.url }}"
+                    alt="AI-generated image for {{ recipe.title }}"
+                >
+
+                <div class="saved-recipe-flow-image-badge">
+                    <i class="bi bi-stars"></i>
+                    AI Food Image
+                </div>
+            </div>
+
+            {{ recipe.instructions_text|linebreaks }}
+        </div>
+    {% else %}
+        <div class="recipe-detail-text">
+            {{ recipe.instructions_text|linebreaks }}
+        </div>
+    {% endif %}
+</div>
                 </div>
             </div>
         </div>

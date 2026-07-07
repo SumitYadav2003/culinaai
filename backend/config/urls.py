@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.db.models import Avg, Count
 from django.shortcuts import render
@@ -53,3 +55,10 @@ urlpatterns = [
     path("dashboard/", include("dashboard.urls")),
     path("recipes/", include("recipes.urls")),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )

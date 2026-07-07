@@ -96,6 +96,14 @@ class Recipe(models.Model):
     personal_notes = models.TextField(blank=True)
     description = models.TextField(blank=True)
 
+
+    generated_image = models.ImageField(
+    upload_to="recipe_images/",
+    null=True,
+    blank=True,
+    help_text="AI-generated image for this recipe.",
+)
+
     cuisine = models.ForeignKey(
         Cuisine,
         on_delete=models.SET_NULL,

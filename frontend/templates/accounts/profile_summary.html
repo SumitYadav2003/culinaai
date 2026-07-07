@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Profile Summary{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/profile_summary.css' %}?v=profile-summary-bg-card-final-1">
+<link rel="stylesheet" href="{% static 'css/profile_summary.css' %}?v=profile-security-wide-1">
 {% endblock %}
 
 {% block content %}
@@ -15,11 +15,15 @@
     <div class="container profile-summary-container">
 
         <!-- Profile Hero -->
-        <div class="profile-hero-card">
+        <div class="profile-hero-card profile-hero-card-editable">
 
             <div class="profile-hero-left">
-                <div class="profile-avatar">
-                    {{ user.username|slice:":1"|upper }}
+                <div class="profile-avatar profile-avatar-photo-wrap">
+                    {% if profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="{{ user.username }} profile image" class="profile-avatar-photo">
+                    {% else %}
+                        <span>{{ user.username|slice:":1"|upper }}</span>
+                    {% endif %}
                 </div>
 
                 <div>
@@ -28,11 +32,17 @@
                         CulinaAI Account
                     </span>
 
-                    <h1>{{ user.username }}</h1>
+                    <h1>
+                        {% if user.first_name or user.last_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </h1>
 
                     <p>
-                        Your personal CulinaAI profile summary, account details,
-                        recipe activity and security overview.
+                        Manage your personal CulinaAI profile, update account details,
+                        upload a profile image and review your recipe activity.
                     </p>
 
                     <div class="profile-identity-pills">
@@ -45,6 +55,11 @@
                             <i class="bi bi-shield-check"></i>
                             Active account
                         </span>
+
+                        <span>
+                            <i class="bi bi-graph-up"></i>
+                            {{ profile_completion }}% profile complete
+                        </span>
                     </div>
                 </div>
             </div>
@@ -55,12 +70,33 @@
                     Dashboard
                 </a>
 
-                <a href="{% url 'password_reset' %}" class="profile-action-btn secondary">
-                    <i class="bi bi-key"></i>
-                    Reset Password
+                <a href="#account-security" class="profile-action-btn secondary">
+                    <i class="bi bi-shield-lock"></i>
+                    Security
                 </a>
             </div>
 
+        </div>
+
+        <!-- Profile Completion Card -->
+        <div class="profile-completion-card">
+            <div>
+                <span class="profile-kicker profile-kicker-dark">
+                    <i class="bi bi-check2-circle"></i>
+                    Profile Completion
+                </span>
+
+                <h2>Complete your CulinaAI identity</h2>
+
+                <p>
+                    Add your name, email and profile image to make your account section look more professional.
+                </p>
+            </div>
+
+            <div class="profile-completion-meter">
+                <strong>{{ profile_completion }}%</strong>
+                <span>Completed</span>
+            </div>
         </div>
 
         <!-- Main Grid -->
@@ -68,6 +104,146 @@
 
             <!-- Left Column -->
             <div class="profile-left-column">
+
+                <!-- Edit Profile Form -->
+                <div class="profile-panel profile-edit-panel">
+                    <div class="profile-panel-header">
+                        <div>
+                            <span>Edit Profile</span>
+                            <h2>Update your details</h2>
+                        </div>
+
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data" class="profile-edit-form">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="form_type" value="profile_update">
+
+                        <!-- Clean Profile Image Upload -->
+                        <div class="profile-clean-upload-card">
+                            <div class="profile-clean-preview">
+                                {% if profile.profile_image %}
+                                    <img
+                                        id="profile-image-preview"
+                                        src="{{ profile.profile_image.url }}"
+                                        alt="{{ user.username }} profile image"
+                                    >
+                                {% else %}
+                                    <div id="profile-image-fallback" class="profile-clean-preview-fallback">
+                                        {{ user.username|slice:":1"|upper }}
+                                    </div>
+
+                                    <img
+                                        id="profile-image-preview"
+                                        src=""
+                                        alt="Selected profile image preview"
+                                        style="display: none;"
+                                    >
+                                {% endif %}
+                            </div>
+
+                            <div class="profile-clean-upload-content">
+                                <h3>Profile photo</h3>
+
+                                <p>
+                                    Upload a clear photo for your CulinaAI account profile.
+                                    Your image will appear on your profile page.
+                                </p>
+
+                                <label for="id_profile_image" class="profile-clean-upload-btn">
+                                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    Choose New Photo
+                                </label>
+
+                                <input
+                                    type="file"
+                                    name="profile_image"
+                                    id="id_profile_image"
+                                    class="profile-image-input"
+                                    accept="image/*"
+                                >
+
+                                <span id="profile-file-name" class="profile-clean-file-name">
+                                    No new image selected
+                                </span>
+
+                                {% for error in profile_form.profile_image.errors %}
+                                    <div class="profile-form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="profile-edit-grid">
+                            <div class="profile-edit-field">
+                                <label class="profile-edit-label" for="{{ account_form.first_name.id_for_label }}">
+                                    First name
+                                </label>
+
+                                {{ account_form.first_name }}
+
+                                {% for error in account_form.first_name.errors %}
+                                    <div class="profile-form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="profile-edit-field">
+                                <label class="profile-edit-label" for="{{ account_form.last_name.id_for_label }}">
+                                    Last name
+                                </label>
+
+                                {{ account_form.last_name }}
+
+                                {% for error in account_form.last_name.errors %}
+                                    <div class="profile-form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="profile-edit-field">
+                                <label class="profile-edit-label" for="{{ account_form.username.id_for_label }}">
+                                    Username
+                                </label>
+
+                                {{ account_form.username }}
+
+                                {% for error in account_form.username.errors %}
+                                    <div class="profile-form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="profile-edit-field">
+                                <label class="profile-edit-label" for="{{ account_form.email.id_for_label }}">
+                                    Email address
+                                </label>
+
+                                {{ account_form.email }}
+
+                                {% for error in account_form.email.errors %}
+                                    <div class="profile-form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="profile-edit-field profile-edit-field-full">
+                            <label class="profile-edit-label" for="{{ profile_form.bio.id_for_label }}">
+                                Bio
+                                <span>optional</span>
+                            </label>
+
+                            {{ profile_form.bio }}
+
+                            {% for error in profile_form.bio.errors %}
+                                <div class="profile-form-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit" class="btn profile-save-btn">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Save Profile Changes
+                        </button>
+                    </form>
+                </div>
 
                 <!-- Account Details -->
                 <div class="profile-panel">
@@ -81,6 +257,17 @@
                     </div>
 
                     <div class="profile-detail-list">
+                        <div class="profile-detail-item">
+                            <span>Full name</span>
+                            <strong>
+                                {% if user.first_name or user.last_name %}
+                                    {{ user.first_name }} {{ user.last_name }}
+                                {% else %}
+                                    Not added yet
+                                {% endif %}
+                            </strong>
+                        </div>
+
                         <div class="profile-detail-item">
                             <span>Username</span>
                             <strong>{{ user.username }}</strong>
@@ -106,35 +293,6 @@
                                 {% endif %}
                             </strong>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Security Panel -->
-                <div class="profile-panel profile-security-panel">
-                    <div class="profile-panel-header">
-                        <div>
-                            <span>Security</span>
-                            <h2>Account protection</h2>
-                        </div>
-
-                        <i class="bi bi-shield-lock"></i>
-                    </div>
-
-                    <p>
-                        Keep your CulinaAI account protected by using a strong password
-                        and resetting it if you suspect unusual activity.
-                    </p>
-
-                    <div class="profile-security-actions">
-                        <a href="{% url 'password_reset' %}" class="profile-security-btn">
-                            <i class="bi bi-key-fill"></i>
-                            Reset password by email
-                        </a>
-
-                        <a href="{% url 'logout' %}" class="profile-security-btn logout">
-                            <i class="bi bi-box-arrow-right"></i>
-                            Logout safely
-                        </a>
                     </div>
                 </div>
 
@@ -182,6 +340,15 @@
                         <strong>{{ total_feedback }}</strong>
                     </div>
 
+                    <div class="profile-stat-card community">
+                        <div class="profile-stat-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+
+                        <span>Shared Publicly</span>
+                        <strong>{{ public_recipe_count }}</strong>
+                    </div>
+
                 </div>
 
                 <!-- Recipe Activity -->
@@ -205,18 +372,44 @@
                             <span>Modified recipes</span>
                             <strong>{{ modified_recipe_count }}</strong>
                         </div>
+
+                        <div>
+                            <span>Community shared</span>
+                            <strong>{{ public_recipe_count }}</strong>
+                        </div>
                     </div>
 
                     <div class="profile-progress-wrap">
                         <div class="profile-progress-label">
-                            <span>Recipe personalisation progress</span>
-                            <strong>{{ total_saved_recipes }} saved</strong>
+                            <span>Profile completion</span>
+                            <strong>{{ profile_completion }}%</strong>
                         </div>
 
                         <div class="profile-progress-track">
-                            <div class="profile-progress-fill"></div>
+                            <div class="profile-progress-fill" style="width: {{ profile_completion }}%;"></div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Bio Panel -->
+                <div class="profile-panel profile-bio-panel">
+                    <div class="profile-panel-header">
+                        <div>
+                            <span>Personal Bio</span>
+                            <h2>Cooking profile</h2>
+                        </div>
+
+                        <i class="bi bi-card-text"></i>
+                    </div>
+
+                    {% if profile.bio %}
+                        <p>{{ profile.bio|linebreaksbr }}</p>
+                    {% else %}
+                        <p>
+                            Add a short bio to describe your cooking style, diet preferences
+                            or favourite cuisines.
+                        </p>
+                    {% endif %}
                 </div>
 
                 <!-- Recent Recipes -->
@@ -234,8 +427,12 @@
                         <div class="profile-recent-list">
                             {% for recipe in recent_recipes %}
                                 <a href="{% url 'saved_recipe_detail' recipe.id %}" class="profile-recent-item">
-                                    <div class="profile-recent-icon">
-                                        <i class="bi bi-egg-fried"></i>
+                                    <div class="profile-recent-icon profile-recent-image-icon">
+                                        {% if recipe.generated_image %}
+                                            <img src="{{ recipe.generated_image.url }}" alt="{{ recipe.title }}">
+                                        {% else %}
+                                            <i class="bi bi-egg-fried"></i>
+                                        {% endif %}
                                     </div>
 
                                     <div>
@@ -272,7 +469,198 @@
 
         </div>
 
+        <!-- Full Width Security Section -->
+        <div id="account-security" class="profile-panel profile-security-panel profile-security-wide-panel">
+
+            <div class="profile-panel-header">
+                <div>
+                    <span>Security</span>
+                    <h2>Account protection</h2>
+                </div>
+
+                <i class="bi bi-shield-lock"></i>
+            </div>
+
+            <div class="profile-security-wide-grid">
+
+                <!-- Left: Password Form -->
+                <div class="profile-security-password-area">
+                    <p>
+                        Keep your CulinaAI account protected by using a strong password.
+                        You can change your password directly from this page or reset it by email.
+                    </p>
+
+                    <form method="post" class="profile-password-change-form">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="form_type" value="password_change">
+
+                        <div class="profile-password-form-header">
+                            <div>
+                                <span>Direct Password Change</span>
+                                <h3>Change your password</h3>
+                            </div>
+
+                            <i class="bi bi-lock-fill"></i>
+                        </div>
+
+                        <div class="profile-edit-field profile-edit-field-full">
+                            <label class="profile-edit-label" for="{{ password_form.old_password.id_for_label }}">
+                                Current password
+                            </label>
+
+                            {{ password_form.old_password }}
+
+                            {% for error in password_form.old_password.errors %}
+                                <div class="profile-form-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="profile-edit-field profile-edit-field-full">
+                            <label class="profile-edit-label" for="{{ password_form.new_password1.id_for_label }}">
+                                New password
+                            </label>
+
+                            {{ password_form.new_password1 }}
+
+                            {% for error in password_form.new_password1.errors %}
+                                <div class="profile-form-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="profile-edit-field profile-edit-field-full">
+                            <label class="profile-edit-label" for="{{ password_form.new_password2.id_for_label }}">
+                                Confirm new password
+                            </label>
+
+                            {{ password_form.new_password2 }}
+
+                            {% for error in password_form.new_password2.errors %}
+                                <div class="profile-form-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        {% if password_form.non_field_errors %}
+                            {% for error in password_form.non_field_errors %}
+                                <div class="profile-form-error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <button type="submit" class="btn profile-password-save-btn">
+                            <i class="bi bi-shield-check"></i>
+                            Update Password
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: Security Health Card -->
+                <div class="profile-security-side-card">
+
+                    <div class="profile-security-score-card">
+                        <div class="profile-security-score-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+
+                        <div>
+                            <span>Account Health</span>
+                            <strong>Protected</strong>
+                            <p>Your account is active and secured through Django authentication.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-security-checklist">
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Password is stored securely using Django hashing.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Email password recovery is available for your account.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Profile changes require authenticated login access.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Changing password keeps your current session safely active.</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-security-mini-details">
+                        <div>
+                            <span>Last login</span>
+                            <strong>
+                                {% if user.last_login %}
+                                    {{ user.last_login|date:"d M Y, H:i" }}
+                                {% else %}
+                                    First login session
+                                {% endif %}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Joined</span>
+                            <strong>{{ user.date_joined|date:"d M Y" }}</strong>
+                        </div>
+
+                        <div>
+                            <span>Email</span>
+                            <strong>{{ user.email|default:"Not provided" }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="profile-security-actions profile-security-actions-wide">
+                        <a href="{% url 'password_reset' %}" class="profile-security-btn">
+                            <i class="bi bi-key-fill"></i>
+                            Reset password by email
+                        </a>
+
+                        <a href="{% url 'logout' %}" class="profile-security-btn logout">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout safely
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const profileImageInput = document.getElementById("id_profile_image");
+    const profileFileName = document.getElementById("profile-file-name");
+    const profileImagePreview = document.getElementById("profile-image-preview");
+    const profileImageFallback = document.getElementById("profile-image-fallback");
+
+    if (profileImageInput && profileFileName) {
+        profileImageInput.addEventListener("change", function () {
+            if (this.files && this.files.length > 0) {
+                const selectedFile = this.files[0];
+                profileFileName.textContent = selectedFile.name;
+
+                if (profileImagePreview) {
+                    profileImagePreview.src = URL.createObjectURL(selectedFile);
+                    profileImagePreview.style.display = "block";
+                }
+
+                if (profileImageFallback) {
+                    profileImageFallback.style.display = "none";
+                }
+            } else {
+                profileFileName.textContent = "No new image selected";
+            }
+        });
+    }
+</script>
 {% endblock %}

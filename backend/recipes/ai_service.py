@@ -613,3 +613,116 @@ def modify_ai_recipe(recipe, modification_type, custom_instruction=""):
         "prompt": prompt,
         "modified_recipe_text": response.output_text,
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def build_recipe_image_prompt(recipe_title, preferences):
+    """
+    Builds a safe, professional image prompt for a generated recipe.
+
+    The image should look like a realistic food photography image.
+    We do not include allergy or medical claims in the image.
+    """
+
+    ingredients = preferences.get("ingredients") or "fresh ingredients"
+    cuisine = preferences.get("cuisine") or "home-style cuisine"
+    meal_type = preferences.get("meal_type") or "meal"
+    diet_preferences = preferences.get("diet_preferences") or []
+    diet_text = ", ".join(diet_preferences) if diet_preferences else "general"
+
+    return f"""
+Create a realistic, professional food photography image for this recipe.
+
+Recipe title:
+{recipe_title}
+
+Recipe context:
+- Main ingredients: {ingredients}
+- Cuisine style: {cuisine}
+- Meal type: {meal_type}
+- Diet style: {diet_text}
+
+Visual requirements:
+- Show the finished cooked dish only.
+- Make it look appetising, realistic and freshly prepared.
+- Use natural lighting.
+- Use a clean kitchen or dining table background.
+- Use a modern plate or bowl presentation.
+- No people.
+- No text, labels, logos, watermarks or brand names.
+- Do not show raw unsafe food.
+- Do not show ingredients that are not suitable for the recipe.
+- Make the image suitable for a professional recipe web application.
+""".strip()
+
+
+def generate_recipe_image_base64(recipe_title, preferences):
+    """
+    Generates a Base64 recipe image using OpenAI image generation.
+
+    This function only returns Base64 image data.
+    The Django view will save it into the Recipe.generated_image field.
+    """
+
+    if not settings.OPENAI_API_KEY:
+        raise ValueError(
+            "OpenAI API key is missing. Please add OPENAI_API_KEY to your .env file."
+        )
+
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+    image_prompt = build_recipe_image_prompt(
+        recipe_title=recipe_title,
+        preferences=preferences,
+    )
+
+    response = client.responses.create(
+        model=getattr(settings, "OPENAI_IMAGE_MODEL", "gpt-5.5"),
+        input=image_prompt,
+        tools=[
+            {
+                "type": "image_generation",
+                "size": "1024x1024",
+            }
+        ],
+    )
+
+    image_data = [
+        output.result
+        for output in response.output
+        if output.type == "image_generation_call"
+    ]
+
+    if not image_data:
+        return {
+            "image_prompt": image_prompt,
+            "image_base64": "",
+        }
+
+    return {
+        "image_prompt": image_prompt,
+        "image_base64": image_data[0],
+    }
