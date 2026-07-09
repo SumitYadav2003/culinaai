@@ -9,6 +9,7 @@ from .models import (
     Recipe,
     RecipeFeedback,
     RecipeRating,
+    PantryItem,
 )
 
 
@@ -221,3 +222,51 @@ class RecipeFeedbackAdmin(admin.ModelAdmin):
     search_fields = ("user__username", "recipe__title", "comment")
     date_hierarchy = "created_at"
     list_select_related = ("user", "recipe")
+
+
+
+
+
+
+
+
+
+@admin.register(PantryItem)
+class PantryItemAdmin(admin.ModelAdmin):
+    list_display = (
+        "ingredient_name",
+        "user",
+        "quantity",
+        "unit",
+        "category",
+        "expiry_date",
+        "expiry_status",
+        "is_available",
+        "updated_at",
+    )
+
+    list_filter = (
+        "category",
+        "unit",
+        "is_available",
+        "expiry_date",
+    )
+
+    search_fields = (
+        "ingredient_name",
+        "user__username",
+        "user__email",
+        "notes",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+        "days_until_expiry",
+        "expiry_status",
+    )
+
+    ordering = (
+        "expiry_date",
+        "ingredient_name",
+    )

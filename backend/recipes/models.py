@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 class Cuisine(models.Model):
@@ -392,3 +393,149 @@ class RecipeHistory(models.Model):
     @property
     def is_saved_to_library(self):
         return self.saved_recipe_id is not None
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class PantryItem(models.Model):
+    """
+    Stores ingredients that a user currently has in their pantry.
+
+    This supports the Smart Pantry feature:
+    - Track available ingredients
+    - Track quantity and unit
+    - Track expiry dates
+    - Warn users about expired or soon-expiring ingredients
+    - Later suggest recipes based on pantry items
+    """
+
+    CATEGORY_CHOICES = [
+        ("vegetable", "Vegetable"),
+        ("fruit", "Fruit"),
+        ("dairy", "Dairy"),
+        ("grain", "Grain / Rice / Pasta"),
+        ("protein", "Protein"),
+        ("spice", "Spice / Seasoning"),
+        ("sauce", "Sauce / Condiment"),
+        ("frozen", "Frozen"),
+        ("other", "Other"),
+    ]
+
+    UNIT_CHOICES = [
+        ("g", "grams"),
+        ("kg", "kilograms"),
+        ("ml", "millilitres"),
+        ("l", "litres"),
+        ("pcs", "pieces"),
+        ("tbsp", "tablespoons"),
+        ("tsp", "teaspoons"),
+        ("pack", "pack"),
+        ("other", "other"),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="pantry_items",
+    )
+
+    ingredient_name = models.CharField(
+        max_length=120,
+        help_text="Name of the pantry ingredient.",
+    )
+
+    quantity = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Quantity available, for example 1.5 or 500.",
+    )
+
+    unit = models.CharField(
+        max_length=20,
+        choices=UNIT_CHOICES,
+        default="pcs",
+    )
+
+    category = models.CharField(
+        max_length=30,
+        choices=CATEGORY_CHOICES,
+        default="other",
+    )
+
+    expiry_date = models.DateField(
+        null=True,
+        blank=True,
+        help_text="Optional expiry date for this ingredient.",
+    )
+
+    is_available = models.BooleanField(
+        default=True,
+        help_text="Marks whether the item is still available in the pantry.",
+    )
+
+    notes = models.TextField(
+        blank=True,
+        help_text="Optional notes, for example brand, storage location or freshness.",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def days_until_expiry(self):
+        if not self.expiry_date:
+            return None
+
+        today = timezone.localdate()
+        return (self.expiry_date - today).days
+
+    @property
+    def expiry_status(self):
+        days_left = self.days_until_expiry
+
+        if days_left is None:
+            return "No expiry date"
+
+        if days_left < 0:
+            return "Expired"
+
+        if days_left == 0:
+            return "Expires today"
+
+        if days_left <= 3:
+            return "Expiring soon"
+
+        return "Fresh"
+
+    class Meta:
+        ordering = ["expiry_date", "ingredient_name"]
+        indexes = [
+            models.Index(fields=["user", "ingredient_name"]),
+            models.Index(fields=["user", "expiry_date"]),
+        ]
+
+    def __str__(self):
+        return f"{self.ingredient_name} ({self.user.username})"
