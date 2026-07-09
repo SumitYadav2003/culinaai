@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     community_recipe_detail_view,
     community_recipes_view,
+    delete_recipe_history_view,
     delete_saved_recipe_confirm_view,
     delete_saved_recipe_view,
     edit_saved_recipe_view,
@@ -12,7 +13,10 @@ from .views import (
     print_saved_recipe_view,
     quality_dashboard_view,
     quality_recipe_evidence_view,
+    recipe_history_detail_view,
+    recipe_history_view,
     save_generated_recipe_view,
+    save_history_recipe_view,
     save_modified_recipe_view,
     saved_recipe_detail_view,
     saved_recipes_view,
@@ -28,6 +32,24 @@ from .views import (
 urlpatterns = [
     path("generate/", generate_recipe_view, name="generate_recipe"),
     path("save-generated/", save_generated_recipe_view, name="save_generated_recipe"),
+
+    # Automatic recipe history.
+    path("history/", recipe_history_view, name="recipe_history"),
+    path(
+        "history/<int:history_id>/",
+        recipe_history_detail_view,
+        name="recipe_history_detail",
+    ),
+    path(
+        "history/<int:history_id>/save/",
+        save_history_recipe_view,
+        name="save_history_recipe",
+    ),
+    path(
+        "history/<int:history_id>/delete/",
+        delete_recipe_history_view,
+        name="delete_recipe_history",
+    ),
 
     # Community recipe sharing.
     path(
@@ -56,7 +78,6 @@ urlpatterns = [
     # Saved recipes.
     path("saved/", saved_recipes_view, name="saved_recipes"),
 
-    # Specific saved recipe actions must stay before the general detail route.
     path(
         "saved/<int:recipe_id>/edit/",
         edit_saved_recipe_view,
@@ -77,12 +98,11 @@ urlpatterns = [
         saved_recipe_detail_view,
         name="saved_recipe_detail",
     ),
-
-        path(
-    "saved/<int:recipe_id>/unsave/",
-    unsave_recipe_view,
-    name="unsave_recipe",
-),
+    path(
+        "saved/<int:recipe_id>/unsave/",
+        unsave_recipe_view,
+        name="unsave_recipe",
+    ),
 
     # Favourites.
     path(
@@ -127,6 +147,4 @@ urlpatterns = [
         delete_saved_recipe_view,
         name="delete_saved_recipe",
     ),
-
-
 ]

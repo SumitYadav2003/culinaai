@@ -38,6 +38,7 @@ from .models import (
     MealType,
     Recipe,
     RecipeFeedback,
+    RecipeHistory,
     RecipeRating,
 )
 from .shopping_service import build_shopping_list_context
@@ -113,6 +114,73 @@ def get_storage_url(file_path):
         return default_storage.url(file_path)
     except Exception:
         return ""
+    
+
+
+
+
+
+
+def create_recipe_history_entry(
+    user,
+    recipe_text,
+    recipe_prompt,
+    preferences,
+    image_path="",
+    image_prompt="",
+    validation_report=None,
+    validation_attempt_history=None,
+):
+    """
+    Automatically stores every generated recipe in RecipeHistory.
+
+    This supports:
+    - user history page
+    - recent searches
+    - analytics dashboard
+    - future ML recommendation engine
+    """
+
+    if not recipe_text or not preferences:
+        return None
+
+    validation_report = validation_report or {}
+    validation_attempt_history = validation_attempt_history or []
+
+    return RecipeHistory.objects.create(
+        user=user,
+        title=extract_recipe_title(recipe_text),
+        recipe_text=recipe_text,
+        recipe_prompt=recipe_prompt or "",
+
+        ingredients_text=preferences.get("ingredients", ""),
+        cuisine_name=preferences.get("cuisine", ""),
+        meal_type_name=preferences.get("meal_type", ""),
+        dietary_preferences=preferences.get("diet_preferences", []) or [],
+        allergies=preferences.get("allergies", ""),
+
+        cooking_time_minutes=preferences.get("cooking_time_minutes") or 30,
+        servings=preferences.get("servings") or None,
+        difficulty=preferences.get("difficulty") or "easy",
+
+        spice_level=preferences.get("spice_level", ""),
+        budget_level=preferences.get("budget_level", ""),
+        nutrition_goal=preferences.get("nutrition_goal", ""),
+        cooking_equipment=preferences.get("cooking_equipment", []) or [],
+        utensils=preferences.get("utensils", []) or [],
+        additional_notes=preferences.get("additional_notes", ""),
+
+        generated_image=image_path or None,
+        generated_image_prompt=image_prompt or "",
+
+        quality_score=validation_report.get("score"),
+        validation_status=validation_report.get("status", ""),
+        validation_risk_level=validation_report.get("risk_level", ""),
+        validation_badge=validation_report.get("badge", ""),
+        validation_attempts=len(validation_attempt_history),
+        validation_report=validation_report,
+        validation_attempt_history=validation_attempt_history,
+    )
 
 
 
@@ -127,6 +195,7 @@ def generate_recipe_view(request):
     3. If validation fails, regenerate with correction instructions.
     4. If AI still fails safety validation, create a deterministic safe fallback recipe.
     5. Show a generated recipe instead of simply blocking the user.
+    6. Automatically store every generated recipe in RecipeHistory.
     """
 
     if request.method == "POST":
@@ -341,19 +410,14 @@ def generate_recipe_view(request):
                     fallback_used = True
 
                 final_ai_result["validation_report"] = final_validation_report
-                final_ai_result[
-                    "validation_attempt_history"
-                ] = validation_attempt_history
-                final_ai_result["quality_score"] = final_validation_report.get(
-                    "score",
-                )
-                final_ai_result["validation_status"] = final_validation_report.get(
-                    "status",
-                )
+                final_ai_result["validation_attempt_history"] = validation_attempt_history
+                final_ai_result["quality_score"] = final_validation_report.get("score")
+                final_ai_result["validation_status"] = final_validation_report.get("status")
 
                 generated_recipe_title = extract_recipe_title(
                     final_ai_result.get("recipe_text", ""),
                 )
+
                 generated_image_path = ""
                 generated_image_prompt = ""
 
@@ -388,13 +452,27 @@ def generate_recipe_view(request):
                     "",
                 )
                 request.session["latest_recipe_image_path"] = generated_image_path
-                request.session[
-                    "latest_recipe_image_prompt"
-                ] = generated_image_prompt
+                request.session["latest_recipe_image_prompt"] = generated_image_prompt
                 request.session["latest_validation_report"] = final_validation_report
-                request.session[
-                    "latest_validation_attempt_history"
-                ] = validation_attempt_history
+                request.session["latest_validation_attempt_history"] = validation_attempt_history
+
+                try:
+                    history_entry = create_recipe_history_entry(
+                        user=request.user,
+                        recipe_text=final_ai_result.get("recipe_text", ""),
+                        recipe_prompt=final_ai_result.get("prompt", ""),
+                        preferences=preview_data,
+                        image_path=generated_image_path,
+                        image_prompt=generated_image_prompt,
+                        validation_report=final_validation_report,
+                        validation_attempt_history=validation_attempt_history,
+                    )
+
+                    if history_entry:
+                        request.session["latest_recipe_history_id"] = history_entry.id
+
+                except Exception:
+                    request.session.pop("latest_recipe_history_id", None)
 
                 if fallback_used:
                     messages.warning(
@@ -409,7 +487,7 @@ def generate_recipe_view(request):
                 else:
                     messages.success(
                         request,
-                        "Recipe generated and validated successfully.",
+                        "Recipe generated, validated and added to your history successfully.",
                     )
 
             except Exception:
@@ -436,6 +514,234 @@ def generate_recipe_view(request):
             "generation_preview": preview_data is not None,
         },
     )
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def recipe_history_view(request):
+    """
+    Displays all automatically generated recipe history items for the logged-in user.
+    """
+
+    history_items = (
+        RecipeHistory.objects.filter(user=request.user)
+        .select_related("saved_recipe")
+        .order_by("-created_at")
+    )
+
+    search_query = request.GET.get("q", "").strip()
+    cuisine_filter = request.GET.get("cuisine", "").strip()
+    difficulty_filter = request.GET.get("difficulty", "").strip()
+
+    if search_query:
+        history_items = history_items.filter(
+            Q(title__icontains=search_query)
+            | Q(recipe_text__icontains=search_query)
+            | Q(ingredients_text__icontains=search_query)
+            | Q(cuisine_name__icontains=search_query)
+            | Q(meal_type_name__icontains=search_query)
+        )
+
+    if cuisine_filter:
+        history_items = history_items.filter(
+            cuisine_name__iexact=cuisine_filter,
+        )
+
+    if difficulty_filter:
+        history_items = history_items.filter(
+            difficulty=difficulty_filter,
+        )
+
+    cuisine_options = (
+        RecipeHistory.objects.filter(user=request.user)
+        .exclude(cuisine_name="")
+        .values_list("cuisine_name", flat=True)
+        .distinct()
+        .order_by("cuisine_name")
+    )
+
+    context = {
+        "history_items": history_items,
+        "search_query": search_query,
+        "cuisine_filter": cuisine_filter,
+        "difficulty_filter": difficulty_filter,
+        "cuisine_options": cuisine_options,
+        "difficulty_choices": Recipe.DIFFICULTY_CHOICES,
+        "total_history_count": RecipeHistory.objects.filter(user=request.user).count(),
+        "saved_from_history_count": RecipeHistory.objects.filter(
+            user=request.user,
+            saved_recipe__isnull=False,
+        ).count(),
+    }
+
+    return render(request, "recipes/recipe_history.html", context)
+
+
+@login_required
+def recipe_history_detail_view(request, history_id):
+    """
+    Displays one generated recipe history item in full detail.
+    """
+
+    history_item = get_object_or_404(
+        RecipeHistory.objects.select_related("saved_recipe"),
+        id=history_id,
+        user=request.user,
+    )
+
+    return render(
+        request,
+        "recipes/recipe_history_detail.html",
+        {
+            "history_item": history_item,
+        },
+    )
+
+
+@login_required
+def save_history_recipe_view(request, history_id):
+    """
+    Saves a recipe from automatic history into the user's saved recipe library.
+    """
+
+    if request.method != "POST":
+        return redirect("recipe_history_detail", history_id=history_id)
+
+    history_item = get_object_or_404(
+        RecipeHistory,
+        id=history_id,
+        user=request.user,
+    )
+
+    if history_item.saved_recipe and history_item.saved_recipe.is_saved:
+        messages.info(
+            request,
+            "This history recipe is already saved in your recipe library.",
+        )
+        return redirect(
+            "saved_recipe_detail",
+            recipe_id=history_item.saved_recipe.id,
+        )
+
+    cuisine = None
+    meal_type = None
+
+    if history_item.cuisine_name and history_item.cuisine_name != "Any cuisine":
+        cuisine = Cuisine.objects.filter(name=history_item.cuisine_name).first()
+
+    if history_item.meal_type_name and history_item.meal_type_name != "Any meal type":
+        meal_type = MealType.objects.filter(name=history_item.meal_type_name).first()
+
+    recipe = Recipe.objects.create(
+        user=request.user,
+        title=history_item.title,
+        description=history_item.additional_notes,
+        generated_image=history_item.generated_image.name
+        if history_item.generated_image
+        else None,
+        cuisine=cuisine,
+        meal_type=meal_type,
+        ingredients_text=history_item.ingredients_text,
+        instructions_text=history_item.recipe_text,
+        cooking_time_minutes=history_item.cooking_time_minutes or 30,
+        difficulty=history_item.difficulty or "easy",
+        allergy_notes=history_item.allergies,
+        ai_prompt=history_item.recipe_prompt,
+        ai_response=history_item.recipe_text,
+        is_ai_generated=True,
+        is_saved=True,
+        quality_score=history_item.quality_score,
+        validation_status=history_item.validation_status,
+        validation_risk_level=history_item.validation_risk_level,
+        validation_badge=history_item.validation_badge,
+        validation_attempts=history_item.validation_attempts,
+        validation_report=history_item.validation_report,
+        validation_attempt_history=history_item.validation_attempt_history,
+    )
+
+    for diet_name in history_item.dietary_preferences:
+        diet = DietPreference.objects.filter(name=diet_name).first()
+
+        if diet:
+            recipe.diet_preferences.add(diet)
+
+    history_item.saved_recipe = recipe
+    history_item.save(update_fields=["saved_recipe"])
+
+    messages.success(
+        request,
+        "Recipe saved from history into your recipe library.",
+    )
+
+    return redirect("saved_recipe_detail", recipe_id=recipe.id)
+
+
+@login_required
+def delete_recipe_history_view(request, history_id):
+    """
+    Deletes one recipe history item.
+
+    This does not delete the saved recipe if the user already saved it separately.
+    """
+
+    if request.method != "POST":
+        return redirect("recipe_history_detail", history_id=history_id)
+
+    history_item = get_object_or_404(
+        RecipeHistory,
+        id=history_id,
+        user=request.user,
+    )
+
+    history_title = history_item.title
+    history_item.delete()
+
+    messages.success(
+        request,
+        f'"{history_title}" was removed from your recipe history.',
+    )
+
+    return redirect("recipe_history")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required
@@ -515,6 +821,20 @@ def save_generated_recipe_view(request):
         validation_attempt_history=validation_attempt_history,
     )
 
+
+    history_id = request.session.get("latest_recipe_history_id")
+
+    if history_id:
+        RecipeHistory.objects.filter(
+            id=history_id,
+            user=request.user,
+        ).update(
+            saved_recipe=recipe,
+        )
+
+
+    
+
     diet_names = preferences.get("diet_preferences", [])
 
     for diet_name in diet_names:
@@ -530,6 +850,7 @@ def save_generated_recipe_view(request):
     request.session.pop("latest_recipe_preferences", None)
     request.session.pop("latest_validation_report", None)
     request.session.pop("latest_validation_attempt_history", None)
+    request.session.pop("latest_recipe_history_id", None)
 
     messages.success(
         request,

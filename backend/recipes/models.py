@@ -68,10 +68,6 @@ class Recipe(models.Model):
         related_name="recipes",
     )
 
-    # Links a modified recipe back to the original recipe.
-    # Normal AI-generated recipes will keep this empty.
-    # Modified recipes will use this field for comparison:
-    # Original Recipe vs Modified Recipe.
     original_recipe = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -80,29 +76,24 @@ class Recipe(models.Model):
         related_name="modified_versions",
     )
 
-    # Stores what type of modification the user requested.
-    # Example: healthier, cheaper, quicker, vegetarian, spicier, simpler, custom.
     modification_type = models.CharField(
         max_length=50,
         choices=MODIFICATION_TYPE_CHOICES,
         blank=True,
     )
 
-    # Stores the optional custom instruction entered by the user.
-    # This helps explain why the modified recipe was created.
     modification_instruction = models.TextField(blank=True)
 
     title = models.CharField(max_length=200)
     personal_notes = models.TextField(blank=True)
     description = models.TextField(blank=True)
 
-
     generated_image = models.ImageField(
-    upload_to="recipe_images/",
-    null=True,
-    blank=True,
-    help_text="AI-generated image for this recipe.",
-)
+        upload_to="recipe_images/",
+        null=True,
+        blank=True,
+        help_text="AI-generated image for this recipe.",
+    )
 
     cuisine = models.ForeignKey(
         Cuisine,
@@ -191,9 +182,6 @@ class Recipe(models.Model):
     is_ai_generated = models.BooleanField(default=True)
     is_saved = models.BooleanField(default=True)
 
-    # Community sharing fields.
-    # By default, saved recipes remain private.
-    # A recipe appears in the community only when the owner shares it.
     is_public = models.BooleanField(
         default=False,
         help_text="Controls whether this recipe is visible in the community section.",
@@ -215,23 +203,10 @@ class Recipe(models.Model):
 
     @property
     def is_modified_version(self):
-        """
-        Returns True when this recipe was created from another saved recipe.
-
-        This is useful in templates because we can show the comparison section
-        only for modified recipes.
-        """
         return self.original_recipe_id is not None
 
     @property
     def average_rating(self):
-        """
-        Returns the average rating for this recipe.
-
-        This will be useful for community recipe cards and the future
-        evaluation dashboard.
-        """
-
         average = self.ratings.aggregate(
             models.Avg("rating")
         )["rating__avg"]
@@ -243,12 +218,6 @@ class Recipe(models.Model):
 
     @property
     def feedback_count(self):
-        """
-        Returns the number of feedback comments for this recipe.
-
-        This will help show community engagement on public recipe cards.
-        """
-
         return self.feedback.count()
 
     class Meta:
@@ -279,6 +248,7 @@ class FavouriteRecipe(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.recipe.title}"
+
 
 
 class RecipeRating(models.Model):
@@ -326,3 +296,99 @@ class RecipeFeedback(models.Model):
 
     def __str__(self):
         return f"Feedback from {self.user.username} on {self.recipe.title}"
+
+
+class RecipeHistory(models.Model):
+    """
+    Stores every AI-generated recipe automatically.
+
+    This is different from saved recipes:
+    - History is created automatically after generation.
+    - Saved recipes are created only when the user clicks Save.
+    - History will later support analytics and ML recommendations.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="recipe_history",
+    )
+
+    saved_recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="history_entries",
+        help_text="Links this history item to a saved recipe if the user saves it later.",
+    )
+
+    title = models.CharField(max_length=200)
+    recipe_text = models.TextField()
+    recipe_prompt = models.TextField(blank=True)
+
+    ingredients_text = models.TextField(blank=True)
+    cuisine_name = models.CharField(max_length=120, blank=True)
+    meal_type_name = models.CharField(max_length=120, blank=True)
+
+    dietary_preferences = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="Diet preferences selected when the recipe was generated.",
+    )
+
+    allergies = models.TextField(blank=True)
+    cooking_time_minutes = models.PositiveIntegerField(default=30)
+
+    servings = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Number of people/servings requested by the user.",
+    )
+
+    difficulty = models.CharField(
+        max_length=20,
+        choices=Recipe.DIFFICULTY_CHOICES,
+        default="easy",
+    )
+
+    spice_level = models.CharField(max_length=100, blank=True)
+    budget_level = models.CharField(max_length=100, blank=True)
+    nutrition_goal = models.CharField(max_length=100, blank=True)
+
+    cooking_equipment = models.JSONField(default=list, blank=True)
+    utensils = models.JSONField(default=list, blank=True)
+
+    additional_notes = models.TextField(blank=True)
+
+    generated_image = models.ImageField(
+        upload_to="recipe_history_images/",
+        null=True,
+        blank=True,
+        help_text="AI-generated image connected to this history item.",
+    )
+
+    generated_image_prompt = models.TextField(blank=True)
+
+    quality_score = models.PositiveSmallIntegerField(null=True, blank=True)
+    validation_status = models.CharField(max_length=100, blank=True)
+    validation_risk_level = models.CharField(max_length=50, blank=True)
+    validation_badge = models.CharField(max_length=50, blank=True)
+    validation_attempts = models.PositiveSmallIntegerField(default=0)
+
+    validation_report = models.JSONField(default=dict, blank=True)
+    validation_attempt_history = models.JSONField(default=list, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Recipe History"
+        verbose_name_plural = "Recipe History"
+
+    def __str__(self):
+        return f"{self.user.username} - {self.title}"
+
+    @property
+    def is_saved_to_library(self):
+        return self.saved_recipe_id is not None

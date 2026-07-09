@@ -22,7 +22,7 @@
     <!-- Custom CSS -->
     <link
       rel="stylesheet"
-      href="{% static 'css/custom.css' %}?v=login-final-layout-clean-2"
+      href="{% static 'css/custom.css' %}?v=history-ui-final-2"
     />
     {% block extra_css %}{% endblock %}
   </head>
@@ -58,16 +58,17 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#features">Features</a>
+              <a class="nav-link" href="{% url 'home' %}#features">Features</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#how-it-works">How It Works</a>
+              <a class="nav-link" href="{% url 'home' %}#how-it-works">How It Works</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#ai-recipes">AI Recipes</a>
+              <a class="nav-link" href="{% url 'home' %}#ai-recipes">AI Recipes</a>
             </li>
+
             {% if user.is_authenticated %}
             <li class="nav-item ms-lg-2">
               <a class="btn btn-login" href="{% url 'dashboard' %}">
@@ -76,6 +77,12 @@
               </a>
             </li>
 
+            <li class="nav-item">
+              <a class="btn btn-login" href="{% url 'recipe_history' %}">
+                <i class="bi bi-clock-history"></i>
+                History
+              </a>
+            </li>
 
             <li class="nav-item">
               <a class="btn btn-login" href="{% url 'profile_summary' %}">
@@ -110,7 +117,6 @@
       </div>
     </nav>
 
-    <!-- Page Content -->
     <!-- Global Messages -->
     {% if messages %}
     <div class="global-message-wrapper">
@@ -149,9 +155,9 @@
 
           <div class="col-lg-6 text-lg-end">
             <div class="footer-links">
-              <a href="#features">Features</a>
-              <a href="#how-it-works">How It Works</a>
-              <a href="#ai-recipes">AI Recipes</a>
+              <a href="{% url 'home' %}#features">Features</a>
+              <a href="{% url 'home' %}#how-it-works">How It Works</a>
+              <a href="{% url 'home' %}#ai-recipes">AI Recipes</a>
             </div>
             <p class="footer-small mt-3 mb-0">
               &copy; 2026 CulinaAI. All rights reserved.

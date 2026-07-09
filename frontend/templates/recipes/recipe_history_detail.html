@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | {{ history_item.title }}{% endblock %}
+
+{% block content %}
+
+<section class="history-detail-section">
+    <div class="container">
+
+        <!-- Detail Hero -->
+        <div class="history-hero-card">
+            <div class="history-hero-content">
+                <span class="history-eyebrow">
+                    <i class="bi bi-clock-history"></i>
+                    Recipe History Detail
+                </span>
+
+                <h1>
+                    {{ history_item.title }}
+                    <span>from your AI history.</span>
+                </h1>
+
+                <p>
+                    This recipe was automatically stored when you generated it with
+                    CulinaAI. You can review it, save it to your recipe library, or delete
+                    it from your automatic history.
+                </p>
+
+                <div class="history-hero-actions">
+                    <a href="{% url 'recipe_history' %}" class="btn history-secondary-btn">
+                        <i class="bi bi-arrow-left"></i>
+                        Back to History
+                    </a>
+
+                    <a href="{% url 'generate_recipe' %}" class="btn history-primary-btn">
+                        <i class="bi bi-magic"></i>
+                        Generate New Recipe
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-detail-grid">
+
+            <!-- Main Recipe Detail -->
+            <article class="history-detail-card">
+
+                <div class="history-detail-image">
+                    {% if history_item.generated_image %}
+                        <img
+                            src="{{ history_item.generated_image.url }}"
+                            alt="{{ history_item.title }}"
+                        >
+                    {% endif %}
+                </div>
+
+                <div class="history-detail-body">
+                    <h2>{{ history_item.title }}</h2>
+
+                    <div class="history-meta-list">
+                        {% if history_item.saved_recipe %}
+                            <span>
+                                <i class="bi bi-bookmark-check-fill"></i>
+                                Saved to Library
+                            </span>
+                        {% else %}
+                            <span>
+                                <i class="bi bi-clock-history"></i>
+                                Auto History
+                            </span>
+                        {% endif %}
+
+                        <span>
+                            <i class="bi bi-calendar3"></i>
+                            {{ history_item.created_at|date:"d M Y, H:i" }}
+                        </span>
+                    </div>
+
+                    <div class="history-detail-meta-grid">
+                        <div class="history-detail-meta-card">
+                            <span>Cuisine</span>
+                            <strong>{{ history_item.cuisine_name|default:"Any cuisine" }}</strong>
+                        </div>
+
+                        <div class="history-detail-meta-card">
+                            <span>Meal Type</span>
+                            <strong>{{ history_item.meal_type_name|default:"Any meal type" }}</strong>
+                        </div>
+
+                        <div class="history-detail-meta-card">
+                            <span>Difficulty</span>
+                            <strong>{{ history_item.difficulty|title }}</strong>
+                        </div>
+
+                        <div class="history-detail-meta-card">
+                            <span>Cooking Time</span>
+                            <strong>{{ history_item.cooking_time_minutes }} minutes</strong>
+                        </div>
+
+                        <div class="history-detail-meta-card">
+                            <span>Servings</span>
+                            <strong>{{ history_item.servings|default:"Not specified" }}</strong>
+                        </div>
+
+                        <div class="history-detail-meta-card">
+                            <span>Status</span>
+                            {% if history_item.saved_recipe %}
+                                <strong>Saved</strong>
+                            {% else %}
+                                <strong>History only</strong>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="history-recipe-text-box">
+{{ history_item.recipe_text }}
+                    </div>
+                </div>
+            </article>
+
+            <!-- Side Panel -->
+            <aside>
+
+                <!-- Preferences Card -->
+                <div class="history-side-card">
+                    <h3>
+                        <i class="bi bi-sliders"></i>
+                        Generation Preferences
+                    </h3>
+
+                    <div class="history-preference-list">
+                        <div class="history-preference-item">
+                            <span>Ingredients Provided</span>
+                            <strong>{{ history_item.ingredients_text|default:"Not provided" }}</strong>
+                        </div>
+
+                        <div class="history-preference-item">
+                            <span>Dietary Preferences</span>
+                            <strong>{{ history_item.dietary_preferences|default:"None selected" }}</strong>
+                        </div>
+
+                        <div class="history-preference-item">
+                            <span>Allergies / Restrictions</span>
+                            <strong>{{ history_item.allergies|default:"None provided" }}</strong>
+                        </div>
+
+                        <div class="history-preference-item">
+                            <span>Cuisine</span>
+                            <strong>{{ history_item.cuisine_name|default:"Any cuisine" }}</strong>
+                        </div>
+
+                        <div class="history-preference-item">
+                            <span>Meal Type</span>
+                            <strong>{{ history_item.meal_type_name|default:"Any meal type" }}</strong>
+                        </div>
+
+                        <div class="history-preference-item">
+                            <span>Difficulty</span>
+                            <strong>{{ history_item.difficulty|title }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save / View Saved Card -->
+                <div class="history-side-card">
+                    <h3>
+                        <i class="bi bi-bookmark-heart"></i>
+                        Recipe Library
+                    </h3>
+
+                    {% if history_item.saved_recipe %}
+                        <p class="history-delete-note">
+                            This history recipe has already been saved to your personal
+                            recipe library.
+                        </p>
+
+                        <a
+                            href="{% url 'saved_recipe_detail' history_item.saved_recipe.id %}"
+                            class="btn history-primary-btn w-100"
+                        >
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            Open Saved Recipe
+                        </a>
+                    {% else %}
+                        <p class="history-delete-note">
+                            Save this recipe if you want it to appear in your saved recipe
+                            library and favourites workflow.
+                        </p>
+
+                        <form
+                            method="post"
+                            action="{% url 'save_history_recipe' history_item.id %}"
+                            class="history-action-form"
+                        >
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn history-primary-btn">
+                                <i class="bi bi-bookmark-plus-fill"></i>
+                                Save to Recipe Library
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <!-- Delete Card -->
+                <div class="history-side-card">
+                    <h3>
+                        <i class="bi bi-trash3"></i>
+                        Delete History Record
+                    </h3>
+
+                    <p class="history-delete-note">
+                        Delete this automatic history record only if you no longer need it.
+                        This action removes it from your history page.
+                    </p>
+
+                    <form
+                        method="post"
+                        action="{% url 'delete_recipe_history' history_item.id %}"
+                        class="history-action-form"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn history-danger-btn"
+                            onclick="return confirm('Are you sure you want to delete this recipe from your history?');"
+                        >
+                            <i class="bi bi-trash3-fill"></i>
+                            Delete from History
+                        </button>
+                    </form>
+                </div>
+
+            </aside>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

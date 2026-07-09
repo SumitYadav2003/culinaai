@@ -244,6 +244,22 @@
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
                     </a>
 
+
+                    <a href="{% url 'recipe_history' %}" class="command-action-card">
+    <div class="command-action-icon">
+        <i class="bi bi-clock-history"></i>
+    </div>
+
+    <div class="command-action-copy">
+        <h3>Automatic Recipe History</h3>
+        <p>
+            View every recipe you generated automatically, even if you did not save it.
+        </p>
+    </div>
+
+    <i class="bi bi-arrow-right-short command-action-arrow"></i>
+</a>
+
                     <a href="{% url 'saved_recipes' %}" class="command-action-card">
                         <div class="command-action-icon">
                             <i class="bi bi-journal-bookmark-fill"></i>
@@ -580,6 +596,11 @@
                 <div class="intelligence-chip">
                     <i class="bi bi-check-circle-fill"></i>
                     AI Generation
+                </div>
+
+                <div class="intelligence-chip">
+                    <i class="bi bi-check-circle-fill"></i>
+                        Automatic History
                 </div>
 
                 <div class="intelligence-chip">

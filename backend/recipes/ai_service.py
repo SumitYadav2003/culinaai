@@ -355,14 +355,32 @@ EQUIPMENT RULES:
 - Do not assume the user has oven, microwave, blender, air fryer or pressure cooker unless selected.
 
 OUTPUT QUALITY RULES:
-- The recipe must include a clear title, short description, match summary, ingredients with quantities, cooking time, servings, difficulty, numbered steps, allergy/diet notes, chef tips, storage advice and substitutions.
-- Steps must be clear, numbered and practical.
+- The recipe must include a clear title, short description, match summary, ingredients with quantities, cooking time, servings, difficulty, numbered steps, allergy/diet notes, estimated cost, pairing suggestions, chef tips, storage advice and substitutions.
 - Do not provide unsafe cooking advice.
 - Do not claim professional medical, allergy or nutrition certainty.
 - Do not say the recipe is medically guaranteed.
 - Do not suggest allergy ingredients as substitutions.
 - Substitutions must also follow the user's allergies, diet and equipment restrictions.
 - Return only the recipe in the requested structure.
+
+
+ESTIMATED COST:
+Provide an approximate UK cost estimate in GBP.
+Include:
+- Approximate total cost
+- Approximate cost per serving
+- Budget level match
+- One cost-saving suggestion
+Make clear that the cost is only an estimate.
+
+PAIRING SUGGESTIONS:
+Suggest safe and realistic pairings that match the recipe.
+Include:
+- Side dish pairing
+- Drink pairing
+- Dessert or snack pairing
+- Best occasion to serve the recipe
+Do not suggest anything that conflicts with the user's allergies or dietary preferences.
 
 {diet_rule_text}
 {equipment_rule_text}
@@ -376,7 +394,8 @@ OUTPUT FORMAT RULES:
 Return only the recipe.
 Do not add markdown tables.
 Do not add explanations outside the recipe.
-Use this exact structure and headings:
+Use this exact structure and headings.
+Do not skip any heading.
 
 RECIPE TITLE:
 A clear, attractive recipe title.
@@ -385,7 +404,7 @@ SHORT DESCRIPTION:
 2-3 sentences describing the recipe.
 
 MATCH SUMMARY:
-Explain how the recipe matches the user's ingredients, cuisine, meal type, diet, allergy restrictions, time, difficulty and equipment.
+Explain how the recipe matches the user's ingredients, cuisine, meal type, diet, allergy restrictions, time, servings, difficulty and equipment.
 
 INGREDIENTS WITH QUANTITIES:
 Use bullet points with realistic quantities.
@@ -410,6 +429,24 @@ ALLERGY AND DIET NOTES:
 Write only: "The user-provided restricted ingredients have been excluded from this recipe." Do not name the avoided ingredients.
 Mention any safe substitutions.
 Do not suggest using avoided ingredients.
+
+ESTIMATED COST:
+Provide an approximate UK cost estimate in GBP.
+Include:
+- Approximate total cost
+- Approximate cost per serving
+- Budget level match
+- One cost-saving suggestion
+Make clear that the cost is only an estimate.
+
+PAIRING SUGGESTIONS:
+Suggest safe and realistic pairings that match the recipe.
+Include:
+- Side dish pairing
+- Drink pairing
+- Dessert or snack pairing
+- Best occasion to serve the recipe
+Do not suggest anything that conflicts with the user's allergies or dietary preferences.
 
 CHEF TIPS:
 Give 2-3 practical cooking tips.
@@ -442,7 +479,7 @@ def generate_ai_recipe(preferences):
     response = client.responses.create(
         model="gpt-4.1-mini",
         input=prompt,
-        max_output_tokens=1400,
+        max_output_tokens=1700,
         temperature=0.3,
     )
 
@@ -613,16 +650,6 @@ def modify_ai_recipe(recipe, modification_type, custom_instruction=""):
         "prompt": prompt,
         "modified_recipe_text": response.output_text,
     }
-
-
-
-
-
-
-
-
-
-
 
 
 

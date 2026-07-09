@@ -898,7 +898,7 @@ def ingredient_variants(ingredient: str) -> List[str]:
     else:
         variants.add(f"{ingredient}s")
 
-    ingredient_synonyms = {
+        ingredient_synonyms = {
         "chickpea": ["chickpea", "chickpeas", "chana", "garbanzo"],
         "aubergine": ["aubergine", "eggplant", "brinjal"],
         "coriander": ["coriander", "cilantro"],
@@ -908,6 +908,13 @@ def ingredient_variants(ingredient: str) -> List[str]:
         "bell pepper": ["bell pepper", "capsicum", "pepper"],
         "egg": ["egg", "eggs", "omelette", "omelet"],
         "bread": ["bread", "toast", "sourdough", "slice"],
+
+        "avocado": ["avocado", "avocados", "avacado", "avacados"],
+        "cucumber": ["cucumber", "cucumbers", "cumcumber", "cumcumbers"],
+        "beetroot": ["beetroot", "beetroots", "beet root", "beet roots", "beets"],
+        "tomato": ["tomato", "tomatoes", "tomatos", "tamato"],
+        "potato": ["potato", "potatoes", "potatos", "patato"],
+        "mango": ["mango", "mangoes", "mangos", "raw mango", "raw mangoes"],
     }
 
     for key, synonyms in ingredient_synonyms.items():

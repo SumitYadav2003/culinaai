@@ -3097,3 +3097,725 @@ img {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   AUTOMATIC RECIPE HISTORY UI
+   Purpose:
+   - Styles the automatic recipe history list page.
+   - Styles the recipe history detail page.
+   - Supports search/filter cards, recipe history cards,
+     save-from-history action, delete action and empty states.
+   ========================================================= */
+
+.history-page-section,
+.history-detail-section {
+    min-height: 100vh;
+    padding: 135px 0 95px;
+    background:
+        radial-gradient(circle at 10% 18%, rgba(249, 115, 22, 0.13), transparent 28%),
+        radial-gradient(circle at 88% 16%, rgba(22, 163, 74, 0.11), transparent 28%),
+        radial-gradient(circle at 50% 95%, rgba(250, 204, 21, 0.12), transparent 30%),
+        var(--culina-cream);
+}
+
+/* =========================
+   HISTORY HERO
+========================= */
+
+.history-hero-card {
+    position: relative;
+    overflow: hidden;
+    padding: 48px;
+    border-radius: 38px;
+    margin-bottom: 34px;
+    background:
+        radial-gradient(circle at 86% 18%, rgba(250, 204, 21, 0.20), transparent 30%),
+        radial-gradient(circle at 10% 90%, rgba(22, 163, 74, 0.16), transparent 30%),
+        linear-gradient(135deg, var(--culina-dark), var(--culina-dark-2));
+    box-shadow: var(--shadow-strong);
+}
+
+.history-hero-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.06), transparent 40%),
+        radial-gradient(circle at 20% 20%, rgba(249, 115, 22, 0.18), transparent 32%);
+    pointer-events: none;
+}
+
+.history-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.history-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 16px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    color: var(--culina-gold);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 0.82rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    backdrop-filter: blur(14px);
+}
+
+.history-hero-card h1 {
+    max-width: 850px;
+    margin: 0 0 16px;
+    color: var(--culina-white);
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
+    font-weight: 950;
+    line-height: 1.05;
+    letter-spacing: -0.055em;
+}
+
+.history-hero-card h1 span {
+    display: block;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.history-hero-card p {
+    max-width: 760px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    font-weight: 650;
+}
+
+.history-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.history-primary-btn,
+.history-secondary-btn,
+.history-danger-btn {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 21px;
+    border-radius: 999px;
+    font-weight: 950;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.history-primary-btn {
+    border: 0;
+    color: var(--culina-dark);
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    box-shadow: 0 18px 42px rgba(249, 115, 22, 0.34);
+}
+
+.history-primary-btn:hover {
+    color: var(--culina-dark);
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(249, 115, 22, 0.48);
+}
+
+.history-secondary-btn {
+    color: var(--culina-white);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(14px);
+}
+
+.history-secondary-btn:hover {
+    color: var(--culina-dark);
+    background: var(--culina-white);
+    transform: translateY(-4px);
+}
+
+.history-danger-btn {
+    border: 0;
+    color: #ffffff;
+    background: linear-gradient(135deg, #dc2626, #f97316);
+    box-shadow: 0 18px 42px rgba(220, 38, 38, 0.24);
+}
+
+.history-danger-btn:hover {
+    color: #ffffff;
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(220, 38, 38, 0.36);
+}
+
+/* =========================
+   HISTORY STATS
+========================= */
+
+.history-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.history-stat-card {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding: 24px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(31, 26, 23, 0.06);
+    box-shadow: 0 16px 42px rgba(31, 26, 23, 0.08);
+    backdrop-filter: blur(16px);
+    transition: var(--transition);
+}
+
+.history-stat-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(249, 115, 22, 0.26);
+    box-shadow: var(--shadow-soft);
+}
+
+.history-stat-icon {
+    width: 62px;
+    height: 62px;
+    flex: 0 0 62px;
+    border-radius: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--culina-dark);
+    font-size: 1.65rem;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.24);
+}
+
+.history-stat-card span {
+    display: block;
+    color: var(--culina-muted);
+    font-size: 0.82rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+}
+
+.history-stat-card strong {
+    display: block;
+    color: var(--culina-dark);
+    font-size: 2rem;
+    font-weight: 950;
+    line-height: 1;
+}
+
+.history-stat-card p {
+    margin: 7px 0 0;
+    color: var(--culina-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    font-weight: 650;
+}
+
+/* =========================
+   HISTORY FILTERS
+========================= */
+
+.history-filter-card {
+    padding: 26px;
+    margin-bottom: 30px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(31, 26, 23, 0.06);
+    box-shadow: 0 16px 42px rgba(31, 26, 23, 0.08);
+    backdrop-filter: blur(16px);
+}
+
+.history-filter-card label {
+    color: var(--culina-dark);
+    font-size: 0.86rem;
+    font-weight: 950;
+    margin-bottom: 8px;
+}
+
+.history-filter-card .form-control,
+.history-filter-card .form-select {
+    min-height: 50px;
+    border-radius: 16px;
+    border: 1px solid rgba(31, 26, 23, 0.12);
+    color: var(--culina-dark);
+    background: rgba(255, 248, 239, 0.72);
+    font-weight: 700;
+}
+
+.history-filter-card .form-control:focus,
+.history-filter-card .form-select:focus {
+    border-color: var(--culina-orange);
+    background: var(--culina-white);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.14);
+}
+
+.history-filter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+/* =========================
+   HISTORY LIST CARDS
+========================= */
+
+.history-list-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.history-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 30px;
+    color: var(--culina-dark);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(31, 26, 23, 0.07);
+    box-shadow: 0 18px 45px rgba(31, 26, 23, 0.08);
+    transition: var(--transition);
+}
+
+.history-card:hover {
+    color: var(--culina-dark);
+    transform: translateY(-10px);
+    border-color: rgba(249, 115, 22, 0.28);
+    box-shadow: var(--shadow-soft);
+}
+
+.history-card-image {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(31, 26, 23, 0.18), rgba(31, 26, 23, 0.28)),
+        url("https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80");
+    background-size: cover;
+    background-position: center;
+}
+
+.history-card-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.history-card:hover .history-card-image img {
+    transform: scale(1.07);
+}
+
+.history-card-badge {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: #166534;
+    background: rgba(220, 252, 231, 0.95);
+    font-size: 0.74rem;
+    font-weight: 950;
+}
+
+.history-card-date {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    padding: 7px 11px;
+    border-radius: 999px;
+    color: var(--culina-dark);
+    background: rgba(255, 255, 255, 0.94);
+    font-size: 0.74rem;
+    font-weight: 950;
+}
+
+.history-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+}
+
+.history-card-body h3 {
+    margin: 0 0 10px;
+    color: var(--culina-dark);
+    font-size: 1.25rem;
+    font-weight: 950;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+}
+
+.history-card-body p {
+    margin: 0 0 16px;
+    color: var(--culina-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    font-weight: 650;
+}
+
+.history-meta-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.history-meta-list span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: var(--culina-dark);
+    background: var(--culina-cream);
+    border: 1px solid rgba(249, 115, 22, 0.12);
+    font-size: 0.76rem;
+    font-weight: 850;
+}
+
+.history-meta-list i {
+    color: var(--culina-orange);
+}
+
+.history-card-actions {
+    margin-top: auto;
+    display: grid;
+    gap: 10px;
+}
+
+.history-view-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    color: var(--culina-dark);
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    font-size: 0.86rem;
+    font-weight: 950;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.history-view-link:hover {
+    color: var(--culina-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 38px rgba(249, 115, 22, 0.28);
+}
+
+.history-saved-pill {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 999px;
+    color: #166534;
+    background: rgba(220, 252, 231, 0.95);
+    font-size: 0.82rem;
+    font-weight: 950;
+}
+
+/* =========================
+   HISTORY DETAIL PAGE
+========================= */
+
+.history-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.history-detail-card,
+.history-side-card {
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(31, 26, 23, 0.07);
+    box-shadow: 0 18px 45px rgba(31, 26, 23, 0.08);
+    backdrop-filter: blur(16px);
+}
+
+.history-detail-card {
+    overflow: hidden;
+}
+
+.history-detail-image {
+    position: relative;
+    min-height: 330px;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(31, 26, 23, 0.14), rgba(31, 26, 23, 0.32)),
+        url("https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80");
+    background-size: cover;
+    background-position: center;
+}
+
+.history-detail-image img {
+    width: 100%;
+    height: 330px;
+    display: block;
+    object-fit: cover;
+}
+
+.history-detail-body {
+    padding: 32px;
+}
+
+.history-detail-body h2 {
+    margin: 0 0 14px;
+    color: var(--culina-dark);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 950;
+    letter-spacing: -0.055em;
+    line-height: 1.08;
+}
+
+.history-detail-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+}
+
+.history-detail-meta-card {
+    padding: 17px;
+    border-radius: 22px;
+    background: var(--culina-cream);
+    border: 1px solid rgba(249, 115, 22, 0.12);
+}
+
+.history-detail-meta-card span {
+    display: block;
+    color: var(--culina-muted);
+    font-size: 0.74rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 6px;
+}
+
+.history-detail-meta-card strong {
+    color: var(--culina-dark);
+    font-size: 0.98rem;
+    font-weight: 950;
+}
+
+.history-recipe-text-box {
+    margin-top: 24px;
+    padding: 26px;
+    border-radius: 26px;
+    color: var(--culina-dark);
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.09), transparent 34%),
+        var(--culina-cream);
+    border: 1px solid rgba(249, 115, 22, 0.14);
+    white-space: pre-wrap;
+    line-height: 1.8;
+    font-weight: 650;
+}
+
+.history-side-card {
+    padding: 26px;
+    margin-bottom: 22px;
+}
+
+.history-side-card h3 {
+    margin: 0 0 16px;
+    color: var(--culina-dark);
+    font-size: 1.25rem;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+}
+
+.history-preference-list {
+    display: grid;
+    gap: 12px;
+}
+
+.history-preference-item {
+    padding: 14px 15px;
+    border-radius: 18px;
+    background: var(--culina-cream);
+    border: 1px solid rgba(31, 26, 23, 0.06);
+}
+
+.history-preference-item span {
+    display: block;
+    color: var(--culina-muted);
+    font-size: 0.74rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 5px;
+}
+
+.history-preference-item strong {
+    color: var(--culina-dark);
+    font-size: 0.95rem;
+    font-weight: 900;
+}
+
+.history-action-form {
+    display: grid;
+    gap: 12px;
+}
+
+.history-action-form button {
+    width: 100%;
+}
+
+.history-delete-note {
+    color: var(--culina-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-top: 12px;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.history-empty-state {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px;
+    border-radius: 34px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px dashed rgba(249, 115, 22, 0.32);
+    box-shadow: 0 18px 45px rgba(31, 26, 23, 0.08);
+}
+
+.history-empty-icon {
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 20px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--culina-dark);
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.25);
+}
+
+.history-empty-state h2 {
+    color: var(--culina-dark);
+    font-size: 2rem;
+    font-weight: 950;
+    letter-spacing: -0.04em;
+    margin-bottom: 10px;
+}
+
+.history-empty-state p {
+    max-width: 560px;
+    margin: 0 auto 24px;
+    color: var(--culina-muted);
+    line-height: 1.8;
+    font-weight: 650;
+}
+
+/* =========================
+   HISTORY RESPONSIVE
+========================= */
+
+@media (max-width: 1199px) {
+    .history-list-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .history-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .history-page-section,
+    .history-detail-section {
+        padding: 120px 0 75px;
+    }
+
+    .history-hero-card {
+        padding: 34px 26px;
+        border-radius: 30px;
+    }
+
+    .history-stats-grid,
+    .history-list-grid,
+    .history-detail-meta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-filter-card,
+    .history-detail-body,
+    .history-side-card,
+    .history-empty-state {
+        padding: 24px;
+        border-radius: 26px;
+    }
+
+    .history-card {
+        border-radius: 26px;
+    }
+
+    .history-hero-actions .btn,
+    .history-filter-actions .btn,
+    .history-primary-btn,
+    .history-secondary-btn,
+    .history-danger-btn {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
