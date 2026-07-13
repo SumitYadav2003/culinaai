@@ -44,63 +44,178 @@
             </div>
 
             <div class="col-lg-5">
-                <div class="auth-card">
-                    <div class="auth-card-header">
-                        <div class="auth-icon">
-                            <i class="bi bi-person-circle"></i>
-                        </div>
 
-                        <h2>Login</h2>
+                {% if just_registered %}
+                    <div class="culina-flip-scene">
+                        <div class="culina-flip-card" data-auth-flip-card>
 
-                        <p>Access your CulinaAI account.</p>
-                    </div>
+                            <div class="culina-flip-face culina-flip-front">
+                                <div class="auth-card culina-success-login-card">
+                                    <div class="auth-card-header">
+                                        <div class="auth-icon">
+                                            <i class="bi bi-check2-circle"></i>
+                                        </div>
 
-                    <form method="post" novalidate>
-                        {% csrf_token %}
+                                        <span class="culina-account-created-badge">
+                                            Account Created Successfully
+                                        </span>
 
-                        <div class="mb-3">
-                            <label class="auth-label">Username</label>
-
-                            {{ form.username }}
-
-                            {% for error in form.username.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-2">
-                            <div class="auth-password-row">
-                                <label class="auth-label">Password</label>
-
-                                <a href="{% url 'password_reset' %}" class="auth-forgot-link">
-                                    Forgot password?
-                                </a>
+                                        <h2>Welcome to CulinaAI</h2>
+                                        <p>Your account is ready. The login form will appear now.</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            {{ form.password }}
+                            <div class="culina-flip-face culina-flip-back">
+                                <div class="auth-card">
+                                    <div class="auth-card-header">
+                                        <div class="auth-icon">
+                                            <i class="bi bi-person-circle"></i>
+                                        </div>
 
-                            {% for error in form.password.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
+                                        <h2>Login</h2>
+                                        <p>Please login to continue to your CulinaAI dashboard.</p>
+                                    </div>
+
+                                    <form method="post" novalidate>
+                                        {% csrf_token %}
+
+                                        {% if next %}
+                                            <input type="hidden" name="next" value="{{ next }}">
+                                        {% endif %}
+
+                                        <div class="mb-3">
+                                            <label class="auth-label">Email Address</label>
+                                            {{ form.username }}
+
+                                            {% for error in form.username.errors %}
+                                                <div class="auth-error">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <div class="auth-password-row">
+                                                <label class="auth-label">Password</label>
+
+                                                <a href="{% url 'password_reset' %}" class="auth-forgot-link">
+                                                    Forgot password?
+                                                </a>
+                                            </div>
+
+                                            <div class="culina-password-wrap">
+                                                {{ form.password }}
+
+                                                <button
+                                                    type="button"
+                                                    class="culina-password-toggle"
+                                                    data-culina-password-toggle
+                                                    data-target-id="id_password"
+                                                    aria-label="Show password"
+                                                >
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </div>
+
+                                            {% for error in form.password.errors %}
+                                                <div class="auth-error">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+
+                                        {% if form.non_field_errors %}
+                                            {% for error in form.non_field_errors %}
+                                                <div class="auth-error mb-3">{{ error }}</div>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                        <button type="submit" class="btn auth-submit mt-4">
+                                            <i class="bi bi-box-arrow-in-right"></i>
+                                            Login to Continue
+                                        </button>
+                                    </form>
+
+                                    <div class="auth-switch">
+                                        New to CulinaAI?
+                                        <a href="{% url 'signup' %}">Create an account</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="auth-card">
+                        <div class="auth-card-header">
+                            <div class="auth-icon">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+
+                            <h2>Login</h2>
+                            <p>Access your CulinaAI account.</p>
                         </div>
 
-                        {% if form.non_field_errors %}
-                            {% for error in form.non_field_errors %}
-                                <div class="auth-error mb-3">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
+                        <form method="post" novalidate>
+                            {% csrf_token %}
 
-                        <button type="submit" class="btn auth-submit mt-4">
-                            <i class="bi bi-box-arrow-in-right"></i>
-                            Login to Continue
-                        </button>
-                    </form>
+                            {% if next %}
+                                <input type="hidden" name="next" value="{{ next }}">
+                            {% endif %}
 
-                    <div class="auth-switch">
-                        New to CulinaAI?
-                        <a href="{% url 'signup' %}">Create an account</a>
+                            <div class="mb-3">
+                                <label class="auth-label">Email Address</label>
+                                {{ form.username }}
+
+                                {% for error in form.username.errors %}
+                                    <div class="auth-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="mb-2">
+                                <div class="auth-password-row">
+                                    <label class="auth-label">Password</label>
+
+                                    <a href="{% url 'password_reset' %}" class="auth-forgot-link">
+                                        Forgot password?
+                                    </a>
+                                </div>
+
+                                <div class="culina-password-wrap">
+                                    {{ form.password }}
+
+                                    <button
+                                        type="button"
+                                        class="culina-password-toggle"
+                                        data-culina-password-toggle
+                                        data-target-id="id_password"
+                                        aria-label="Show password"
+                                    >
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+
+                                {% for error in form.password.errors %}
+                                    <div class="auth-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="auth-error mb-3">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <button type="submit" class="btn auth-submit mt-4">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Login to Continue
+                            </button>
+                        </form>
+
+                        <div class="auth-switch">
+                            New to CulinaAI?
+                            <a href="{% url 'signup' %}">Create an account</a>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
+
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 
 from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
@@ -14,14 +15,18 @@ from .forms import (
     UserProfileUpdateForm,
 )
 from .models import UserProfile
+from .email_service import send_welcome_email
 
 
 def signup_view(request):
     """
     Create a new user account.
 
-    After successful signup, the user is redirected to the login page.
-    The user is not automatically logged in after registration.
+    After successful signup:
+    - user account is created
+    - welcome email is sent
+    - user is redirected to login page with registered flag
+    - user is not automatically logged in
     """
 
     if request.user.is_authenticated:
@@ -31,13 +36,23 @@ def signup_view(request):
         form = SignUpForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
 
-            messages.success(
-                request,
-                "Your CulinaAI account has been created successfully. Please log in to continue.",
-            )
-            return redirect("login")
+            email_sent = send_welcome_email(request, user)
+
+            if email_sent:
+                messages.success(
+                    request,
+                    "Your CulinaAI account has been created successfully. A welcome email has been sent to your inbox.",
+                )
+            else:
+                messages.success(
+                    request,
+                    "Your CulinaAI account has been created successfully. Please log in to continue.",
+                )
+
+            login_url = reverse("login") + "?registered=1"
+            return redirect(login_url)
 
         messages.error(request, "Please correct the errors below.")
     else:
@@ -63,6 +78,7 @@ def login_view(request):
         return redirect("dashboard")
 
     next_url = request.GET.get("next") or request.POST.get("next")
+    just_registered = request.GET.get("registered") == "1"
 
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
@@ -88,13 +104,14 @@ def login_view(request):
         form = LoginForm()
 
     return render(
-        request,
-        "accounts/login.html",
-        {
-            "form": form,
-            "next": next_url,
-        },
-    )
+    request,
+    "accounts/login.html",
+    {
+        "form": form,
+        "next": next_url,
+        "just_registered": just_registered,
+    },
+)
 
 
 def logout_view(request):

@@ -51,15 +51,13 @@
                         <p>Sign up to access your CulinaAI dashboard.</p>
                     </div>
 
-                    
-
                     <form method="post" novalidate>
                         {% csrf_token %}
 
                         <div class="mb-3">
-                            <label class="auth-label">Username</label>
-                            {{ form.username }}
-                            {% for error in form.username.errors %}
+                            <label class="auth-label">Full Name</label>
+                            {{ form.full_name }}
+                            {% for error in form.full_name.errors %}
                                 <div class="auth-error">{{ error }}</div>
                             {% endfor %}
                         </div>
@@ -74,7 +72,21 @@
 
                         <div class="mb-3">
                             <label class="auth-label">Password</label>
-                            {{ form.password1 }}
+
+                            <div class="culina-password-wrap">
+                                {{ form.password1 }}
+
+                                <button
+                                    type="button"
+                                    class="culina-password-toggle"
+                                    data-culina-password-toggle
+                                    data-target-id="id_password1"
+                                    aria-label="Show password"
+                                >
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
                             {% for error in form.password1.errors %}
                                 <div class="auth-error">{{ error }}</div>
                             {% endfor %}
@@ -82,7 +94,21 @@
 
                         <div class="mb-4">
                             <label class="auth-label">Confirm Password</label>
-                            {{ form.password2 }}
+
+                            <div class="culina-password-wrap">
+                                {{ form.password2 }}
+
+                                <button
+                                    type="button"
+                                    class="culina-password-toggle"
+                                    data-culina-password-toggle
+                                    data-target-id="id_password2"
+                                    aria-label="Show password"
+                                >
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
                             {% for error in form.password2.errors %}
                                 <div class="auth-error">{{ error }}</div>
                             {% endfor %}

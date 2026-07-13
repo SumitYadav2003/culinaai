@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}CulinaAI | Edit Pantry Item{% endblock %}
+
+{% block content %}
+<section class="pantry-page-section">
+  <div class="container">
+
+    <div class="pantry-hero-card pantry-small-hero">
+      <div>
+        <p class="pantry-eyebrow">Smart Pantry</p>
+        <h1>Edit Pantry Item</h1>
+        <p>
+          Update ingredient quantity, category, expiry date, availability status,
+          or notes for your pantry item.
+        </p>
+      </div>
+
+      <div class="pantry-hero-actions">
+        <a href="{% url 'pantry_list' %}" class="pantry-secondary-btn">
+          <i class="bi bi-arrow-left"></i>
+          Back to Pantry
+        </a>
+      </div>
+    </div>
+
+    <div class="pantry-edit-wrapper">
+      <div class="pantry-form-card pantry-edit-card">
+        <h2>Update {{ pantry_item.ingredient_name }}</h2>
+        <p>
+          Make changes below and save the updated pantry item.
+        </p>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.ingredient_name.id_for_label }}">
+              {{ form.ingredient_name.label }}
+            </label>
+            {{ form.ingredient_name }}
+            {% for error in form.ingredient_name.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ form.quantity.id_for_label }}">
+                {{ form.quantity.label }}
+              </label>
+              {{ form.quantity }}
+              {% for error in form.quantity.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ form.unit.id_for_label }}">
+                {{ form.unit.label }}
+              </label>
+              {{ form.unit }}
+              {% for error in form.unit.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.category.id_for_label }}">
+              {{ form.category.label }}
+            </label>
+            {{ form.category }}
+            {% for error in form.category.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.expiry_date.id_for_label }}">
+              {{ form.expiry_date.label }}
+            </label>
+            {{ form.expiry_date }}
+            {% for error in form.expiry_date.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.notes.id_for_label }}">
+              {{ form.notes.label }}
+            </label>
+            {{ form.notes }}
+            {% for error in form.notes.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="form-check mb-4">
+            {{ form.is_available }}
+            <label class="form-check-label" for="{{ form.is_available.id_for_label }}">
+              {{ form.is_available.label }}
+            </label>
+          </div>
+
+          <div class="pantry-form-actions">
+            <button type="submit" class="pantry-primary-btn">
+              <i class="bi bi-check-circle"></i>
+              Save Changes
+            </button>
+
+            <a href="{% url 'pantry_list' %}" class="pantry-secondary-light-btn">
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

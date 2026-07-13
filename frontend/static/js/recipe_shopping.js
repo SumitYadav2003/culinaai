@@ -1,129 +1,273 @@
-/*
-    CulinaAI Shopping Modal JavaScript
-
-    Purpose:
-    - Keeps shopping-list behaviour separate from template HTML.
-    - Copies the shopping list ingredients to the clipboard.
-    - Prints only the shopping list using the print area styled in recipe_shopping.css.
-*/
-
 document.addEventListener("DOMContentLoaded", function () {
-    const copyButton = document.querySelector("[data-shopping-copy-button]");
-    const printButton = document.querySelector("[data-shopping-print-button]");
-    const copyFeedback = document.querySelector("[data-shopping-copy-feedback]");
-    const recipeTitleElement = document.querySelector("[data-shopping-recipe-title]");
+  const copyButton = document.querySelector("[data-shopping-copy-button]");
+  const printButton = document.querySelector("[data-shopping-print-button]");
+  const copyFeedback = document.querySelector("[data-shopping-copy-feedback]");
+  const recipeTitleElement = document.querySelector("[data-shopping-recipe-title]");
 
-    /*
-        Gets all ingredient names from the modal.
-
-        The template will mark each ingredient using:
-        data-shopping-item-name
-    */
-    function getShoppingItems() {
-        const itemElements = document.querySelectorAll("[data-shopping-item-name]");
-
-        return Array.from(itemElements)
-            .map(function (itemElement) {
-                return itemElement.textContent.trim();
-            })
-            .filter(function (itemName) {
-                return itemName.length > 0;
-            });
+  function getRecipeTitle() {
+    if (recipeTitleElement && recipeTitleElement.textContent.trim()) {
+      return recipeTitleElement.textContent.trim();
     }
 
-    /*
-        Shows a short success or error message below the modal buttons.
-    */
-    function showCopyFeedback(message, isError) {
-        if (!copyFeedback) {
-            return;
+    return "CulinaAI Shopping List";
+  }
+
+  function getMissingItems() {
+    const items = [];
+
+    document
+      .querySelectorAll(".culina-shopping-missing-item .culina-shopping-name")
+      .forEach(function (item) {
+        const value = item.textContent.trim();
+
+        if (value) {
+          items.push(value);
         }
+      });
 
-        copyFeedback.textContent = message;
-        copyFeedback.classList.remove("is-error", "is-success");
+    return items;
+  }
 
-        if (isError) {
-            copyFeedback.classList.add("is-error");
-        } else {
-            copyFeedback.classList.add("is-success");
+  function getAvailableItems() {
+    const items = [];
+
+    document
+      .querySelectorAll(".culina-shopping-available-item .culina-shopping-name")
+      .forEach(function (item) {
+        const value = item.textContent.trim();
+
+        if (value) {
+          items.push(value);
         }
+      });
 
-        window.setTimeout(function () {
-            copyFeedback.textContent = "";
-            copyFeedback.classList.remove("is-error", "is-success");
-        }, 2500);
+    return items;
+  }
+
+  function buildShoppingText() {
+    const recipeTitle = getRecipeTitle();
+    const missingItems = getMissingItems();
+    const availableItems = getAvailableItems();
+
+    const lines = [];
+
+    lines.push("CulinaAI Shopping List");
+    lines.push(recipeTitle);
+    lines.push("");
+
+    lines.push("Need to Buy:");
+
+    if (missingItems.length > 0) {
+      missingItems.forEach(function (item) {
+        lines.push("- " + item);
+      });
+    } else {
+      lines.push("All recipe ingredients are already available in your Smart Pantry.");
     }
 
-    /*
-        Fallback copy method for browsers where navigator.clipboard is unavailable.
-    */
-    function fallbackCopyText(textToCopy) {
-        const temporaryTextArea = document.createElement("textarea");
+    lines.push("");
 
-        temporaryTextArea.value = textToCopy;
-        temporaryTextArea.setAttribute("readonly", "");
-        temporaryTextArea.style.position = "absolute";
-        temporaryTextArea.style.left = "-9999px";
+    lines.push("Already in Pantry:");
 
-        document.body.appendChild(temporaryTextArea);
-        temporaryTextArea.select();
-
-        const copied = document.execCommand("copy");
-
-        document.body.removeChild(temporaryTextArea);
-
-        return copied;
+    if (availableItems.length > 0) {
+      availableItems.forEach(function (item) {
+        lines.push("- " + item);
+      });
+    } else {
+      lines.push("No pantry matches found.");
     }
 
-    /*
-        Copy shopping list button.
-    */
-    if (copyButton) {
-        copyButton.addEventListener("click", async function () {
-            const shoppingItems = getShoppingItems();
+    return lines.join("\n");
+  }
 
-            if (!shoppingItems.length) {
-                showCopyFeedback("No shopping items found to copy.", true);
-                return;
+  async function copyShoppingList() {
+    const shoppingText = buildShoppingText();
+
+    try {
+      await navigator.clipboard.writeText(shoppingText);
+
+      if (copyFeedback) {
+        copyFeedback.textContent = "Shopping list copied.";
+      }
+    } catch (error) {
+      if (copyFeedback) {
+        copyFeedback.textContent = "Copy failed. Please try again.";
+      }
+    }
+
+    setTimeout(function () {
+      if (copyFeedback) {
+        copyFeedback.textContent = "";
+      }
+    }, 2500);
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function buildListHtml(items, emptyMessage) {
+    if (!items.length) {
+      return `<p>${escapeHtml(emptyMessage)}</p>`;
+    }
+
+    const listItems = items
+      .map(function (item) {
+        return `<li>${escapeHtml(item)}</li>`;
+      })
+      .join("");
+
+    return `<ul>${listItems}</ul>`;
+  }
+
+  function printShoppingList() {
+    const recipeTitle = getRecipeTitle();
+    const missingItems = getMissingItems();
+    const availableItems = getAvailableItems();
+
+    const printWindow = window.open("", "_blank", "width=900,height=700");
+
+    if (!printWindow) {
+      alert("Please allow pop-ups to print the shopping list.");
+      return;
+    }
+
+    const missingHtml = buildListHtml(
+      missingItems,
+      "All recipe ingredients are already available in your Smart Pantry."
+    );
+
+    const availableHtml = buildListHtml(
+      availableItems,
+      "No pantry matches found."
+    );
+
+    const printHtml = `
+      <!doctype html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>CulinaAI Shopping List</title>
+          <style>
+            @page {
+              size: A4;
+              margin: 18mm;
             }
 
-            const recipeTitle = recipeTitleElement
-                ? recipeTitleElement.textContent.trim()
-                : "CulinaAI Recipe";
-
-            const shoppingListText = [
-                `Shopping List - ${recipeTitle}`,
-                "",
-                ...shoppingItems.map(function (itemName) {
-                    return `- ${itemName}`;
-                }),
-            ].join("\n");
-
-            try {
-                if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(shoppingListText);
-                } else {
-                    const copied = fallbackCopyText(shoppingListText);
-
-                    if (!copied) {
-                        throw new Error("Fallback copy failed");
-                    }
-                }
-
-                showCopyFeedback("Shopping list copied successfully.", false);
-            } catch (error) {
-                showCopyFeedback("Could not copy list. Please try again.", true);
+            * {
+              box-sizing: border-box;
             }
-        });
-    }
 
-    /*
-        Print shopping list button.
-        The CSS file controls print mode and only shows the shopping print area.
-    */
-    if (printButton) {
-        printButton.addEventListener("click", function () {
-            window.print();
-        });
-    }
+            body {
+              margin: 0;
+              color: #1f2937;
+              font-family: Arial, sans-serif;
+              line-height: 1.5;
+            }
+
+            .print-header {
+              margin-bottom: 24px;
+              padding-bottom: 14px;
+              border-bottom: 2px solid #e5e7eb;
+            }
+
+            .print-label {
+              margin: 0 0 8px;
+              color: #15803d;
+              font-size: 12px;
+              font-weight: 800;
+              letter-spacing: 0.08em;
+              text-transform: uppercase;
+            }
+
+            h1 {
+              margin: 0;
+              color: #111827;
+              font-size: 28px;
+            }
+
+            .recipe-title {
+              margin: 8px 0 0;
+              color: #4b5563;
+              font-size: 15px;
+              font-weight: 700;
+            }
+
+            h2 {
+              margin: 22px 0 8px;
+              color: #111827;
+              font-size: 21px;
+            }
+
+            p {
+              margin: 0 0 10px;
+              color: #4b5563;
+              font-size: 14px;
+            }
+
+            ul {
+              margin: 8px 0 0 20px;
+              padding: 0;
+            }
+
+            li {
+              margin-bottom: 7px;
+              font-size: 15px;
+            }
+
+            .note {
+              margin-top: 26px;
+              padding-top: 12px;
+              border-top: 1px solid #e5e7eb;
+              color: #6b7280;
+              font-size: 12px;
+            }
+          </style>
+        </head>
+
+        <body>
+          <div class="print-header">
+            <p class="print-label">CulinaAI Pantry-Aware Shopping List</p>
+            <h1>Shopping List</h1>
+            <p class="recipe-title">${escapeHtml(recipeTitle)}</p>
+          </div>
+
+          <h2>Need to Buy</h2>
+          ${missingHtml}
+
+          <h2>Already in Pantry</h2>
+          ${availableHtml}
+
+          <p class="note">
+            Generated by CulinaAI using the saved recipe and Smart Pantry comparison.
+          </p>
+
+          <script>
+            window.onload = function () {
+              window.focus();
+              window.print();
+              window.close();
+            };
+          <\/script>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(printHtml);
+    printWindow.document.close();
+  }
+
+  if (copyButton) {
+    copyButton.addEventListener("click", copyShoppingList);
+  }
+
+  if (printButton) {
+    printButton.addEventListener("click", printShoppingList);
+  }
 });

@@ -26,12 +26,20 @@ from .views import (
     toggle_community_recipe_view,
     toggle_favourite_recipe_view,
     unsave_recipe_view,
+    pantry_list_view,
+    pantry_item_delete_view,
+    pantry_item_update_view,
+    cooking_mode_view,
+    ask_cooking_assistant_view,
 )
 
 
 urlpatterns = [
     path("generate/", generate_recipe_view, name="generate_recipe"),
     path("save-generated/", save_generated_recipe_view, name="save_generated_recipe"),
+    path("pantry/", pantry_list_view, name="pantry_list"),
+    path("pantry/<int:item_id>/edit/", pantry_item_update_view, name="pantry_item_update"),
+    path("pantry/<int:item_id>/delete/", pantry_item_delete_view, name="pantry_item_delete"),
 
     # Automatic recipe history.
     path("history/", recipe_history_view, name="recipe_history"),
@@ -93,6 +101,18 @@ urlpatterns = [
         toggle_community_recipe_view,
         name="toggle_community_recipe",
     ),
+
+    path(
+    "saved/<int:recipe_id>/cook/",
+    cooking_mode_view,
+    name="cooking_mode",
+),
+
+path(
+    "saved/<int:recipe_id>/assistant/ask/",
+    ask_cooking_assistant_view,
+    name="ask_cooking_assistant",
+),
     path(
         "saved/<int:recipe_id>/",
         saved_recipe_detail_view,

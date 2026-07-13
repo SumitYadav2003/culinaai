@@ -1,0 +1,598 @@
+/* =========================================================
+   CulinaAI Advanced Cooking Chat Assistant
+   File: frontend/static/css/cooking_chat.css
+   ========================================================= */
+
+.culina-chat-launch-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    padding: 0.72rem 1.15rem;
+    font-weight: 950;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+    border: 0;
+    box-shadow: 0 14px 28px rgba(249, 115, 22, 0.2);
+}
+
+.culina-chat-launch-btn:hover {
+    color: #211714;
+    transform: translateY(-1px);
+}
+
+.culina-chat-modal {
+    z-index: 1080;
+}
+
+.culina-chat-modal .modal-dialog {
+    max-width: 980px;
+}
+
+.culina-chat-modal-content {
+    overflow: hidden;
+    border: 0;
+    border-radius: 30px;
+    background: #fffaf3;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+}
+
+.culina-chat-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem;
+    color: #fffaf3;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.34), transparent 34%),
+        linear-gradient(145deg, #211714, #33251d);
+    border: 0;
+}
+
+.culina-chat-avatar {
+    width: 58px;
+    height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+    font-size: 1.35rem;
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.22);
+}
+
+.culina-chat-title {
+    min-width: 0;
+}
+
+.culina-chat-title span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #ffb429;
+    font-size: 0.76rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.culina-chat-title h2 {
+    margin: 0.25rem 0 0;
+    color: #fffaf3;
+    font-size: clamp(1.2rem, 2vw, 1.75rem);
+    font-weight: 950;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+}
+
+.culina-chat-title p {
+    margin: 0.3rem 0 0;
+    color: rgba(255, 250, 243, 0.78);
+    font-size: 0.88rem;
+    font-weight: 750;
+    line-height: 1.5;
+}
+
+.culina-chat-header .btn-close {
+    filter: invert(1);
+    opacity: 0.85;
+}
+
+.culina-chat-body {
+    padding: 0;
+    background: #fffaf3;
+}
+
+.culina-chat-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    min-height: 640px;
+    max-height: 76vh;
+}
+
+.culina-chat-sidebar {
+    min-width: 0;
+    padding: 1rem;
+    background: rgba(249, 115, 22, 0.07);
+    border-right: 1px solid rgba(80, 50, 30, 0.08);
+    overflow-y: auto;
+}
+
+.culina-chat-sidebar h3 {
+    margin: 0;
+    color: #211714;
+    font-size: 1rem;
+    font-weight: 950;
+}
+
+.culina-chat-sidebar p {
+    margin: 0.35rem 0 1rem;
+    color: #6f5948;
+    font-size: 0.84rem;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.culina-chat-quick-grid {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.culina-chat-quick-btn {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.7rem;
+    align-items: center;
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(80, 50, 30, 0.08);
+    border-radius: 18px;
+    color: #211714;
+    background: rgba(255, 255, 255, 0.78);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.culina-chat-quick-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(249, 115, 22, 0.28);
+    background: #fffaf3;
+}
+
+.culina-chat-quick-btn i {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #211714;
+    border-radius: 15px;
+    background: rgba(249, 115, 22, 0.13);
+}
+
+.culina-chat-quick-btn span {
+    color: #211714;
+    font-size: 0.86rem;
+    font-weight: 950;
+    line-height: 1.35;
+}
+
+.culina-chat-main {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 32%),
+        #fffaf3;
+}
+
+.culina-chat-messages {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.1rem;
+    overflow-y: auto;
+}
+
+.culina-chat-empty {
+    margin: auto;
+    max-width: 520px;
+    padding: 1.25rem;
+    text-align: center;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px dashed rgba(80, 50, 30, 0.16);
+}
+
+.culina-chat-empty i {
+    color: #f97316;
+    font-size: 2rem;
+}
+
+.culina-chat-empty h3 {
+    margin: 0.65rem 0 0.35rem;
+    color: #211714;
+    font-weight: 950;
+}
+
+.culina-chat-empty p {
+    margin: 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.6;
+}
+
+.culina-chat-message {
+    display: flex;
+    gap: 0.7rem;
+    max-width: 86%;
+}
+
+.culina-chat-message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.culina-chat-message.assistant {
+    align-self: flex-start;
+}
+
+.culina-chat-message-avatar {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    color: #211714;
+    background: rgba(249, 115, 22, 0.14);
+}
+
+.culina-chat-message.user .culina-chat-message-avatar {
+    color: #fffaf3;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.culina-chat-bubble {
+    min-width: 0;
+    padding: 0.85rem 0.95rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.culina-chat-message.user .culina-chat-bubble {
+    color: #fffaf3;
+    background: linear-gradient(135deg, #211714, #3b2a20);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.culina-chat-bubble p {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-weight: 750;
+    line-height: 1.62;
+}
+
+.culina-chat-message.user .culina-chat-bubble p {
+    color: #fffaf3;
+}
+
+.culina-chat-meta {
+    display: block;
+    margin-top: 0.45rem;
+    color: #9a8472;
+    font-size: 0.72rem;
+    font-weight: 850;
+}
+
+.culina-chat-message.user .culina-chat-meta {
+    color: rgba(255, 250, 243, 0.65);
+}
+
+.culina-chat-loading {
+    display: none;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 1.1rem 0.85rem;
+    color: #6f5948;
+    font-size: 0.86rem;
+    font-weight: 900;
+}
+
+.culina-chat-loading.show {
+    display: flex;
+}
+
+.culina-chat-dots {
+    display: inline-flex;
+    gap: 0.25rem;
+}
+
+.culina-chat-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #f97316;
+    animation: chatDotPulse 1s ease-in-out infinite;
+}
+
+.culina-chat-dots span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.culina-chat-dots span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes chatDotPulse {
+    0%, 100% {
+        opacity: 0.35;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+}
+
+.culina-chat-input-wrap {
+    padding: 1rem;
+    background: rgba(255, 250, 243, 0.98);
+    border-top: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.culina-chat-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.culina-chat-input {
+    width: 100%;
+    min-height: 54px;
+    max-height: 140px;
+    resize: vertical;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(80, 50, 30, 0.13);
+    border-radius: 22px;
+    color: #211714;
+    background: #fff;
+    font-weight: 750;
+    outline: none;
+}
+
+.culina-chat-input:focus {
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.08);
+}
+
+.culina-chat-send-btn {
+    min-height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.8rem 1.1rem;
+    border: 0;
+    border-radius: 999px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+    font-weight: 950;
+    white-space: nowrap;
+}
+
+.culina-chat-send-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.culina-chat-error {
+    display: none;
+    margin-top: 0.55rem;
+    color: #b91c1c;
+    font-size: 0.84rem;
+    font-weight: 850;
+}
+
+.culina-chat-error.show {
+    display: block;
+}
+
+@media (max-width: 991px) {
+    .culina-chat-layout {
+        grid-template-columns: 1fr;
+        max-height: none;
+    }
+
+    .culina-chat-sidebar {
+        border-right: 0;
+        border-bottom: 1px solid rgba(80, 50, 30, 0.08);
+        max-height: 220px;
+    }
+
+    .culina-chat-messages {
+        min-height: 420px;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-chat-modal .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .culina-chat-header {
+        grid-template-columns: auto 1fr;
+    }
+
+    .culina-chat-header .btn-close {
+        grid-column: 1 / -1;
+        justify-self: end;
+    }
+
+    .culina-chat-message {
+        max-width: 96%;
+    }
+
+    .culina-chat-form {
+        grid-template-columns: 1fr;
+    }
+
+    .culina-chat-send-btn {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   Cooking Chat Modal Height Fix
+   Fixes input box/send button being cut at 100% screen zoom
+   ========================================================= */
+
+.culina-chat-modal .modal-dialog {
+    max-width: 980px;
+    height: calc(100vh - 2rem);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.culina-chat-modal-content {
+    height: 100%;
+    max-height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.culina-chat-header {
+    flex: 0 0 auto;
+}
+
+.culina-chat-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.culina-chat-layout {
+    height: 100%;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+
+.culina-chat-sidebar {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.culina-chat-main {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.culina-chat-messages {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.culina-chat-input-wrap {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 5;
+}
+
+.culina-chat-form {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.culina-chat-input {
+    min-width: 0;
+    max-height: 90px;
+}
+
+.culina-chat-send-btn {
+    flex: 0 0 auto;
+}
+
+/* Smaller laptop screens */
+@media (max-height: 760px) {
+    .culina-chat-modal .modal-dialog {
+        height: calc(100vh - 1rem);
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .culina-chat-modal-content {
+        max-height: calc(100vh - 1rem);
+    }
+
+    .culina-chat-header {
+        padding: 0.9rem 1rem;
+    }
+
+    .culina-chat-title p {
+        display: none;
+    }
+
+    .culina-chat-sidebar {
+        padding: 0.85rem;
+    }
+
+    .culina-chat-input-wrap {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .culina-chat-modal .modal-dialog {
+        height: calc(100vh - 1rem);
+        margin: 0.5rem;
+    }
+
+    .culina-chat-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .culina-chat-sidebar {
+        max-height: 190px;
+    }
+
+    .culina-chat-messages {
+        min-height: 0 !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-chat-form {
+        grid-template-columns: 1fr;
+    }
+
+    .culina-chat-send-btn {
+        width: 100%;
+    }
+}

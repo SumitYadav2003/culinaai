@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count
 from django.shortcuts import render
 
+from recipes.analytics_service import build_user_analytics_context
 from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 
 
@@ -11,15 +12,20 @@ def dashboard_view(request):
     Displays the logged-in user's CulinaAI dashboard.
 
     The dashboard is designed as a professional user analytics hub.
-    It focuses on useful, non-repetitive insights:
-    - recipe activity
-    - favourite count
-    - AI-generated recipes
+
+    It now includes:
+    - saved recipes count
+    - favourite recipes count
+    - total AI recipe generations
     - AI-modified recipes
-    - average rating
+    - feedback and ratings
     - taste profile
-    - latest feedback
-    - latest AI refinement
+    - favourite cuisine
+    - average cooking time
+    - favourite ingredients
+    - recent searches
+    - weekly/monthly activity data
+    - chart-ready analytics data
     """
 
     saved_recipes = Recipe.objects.filter(
@@ -57,7 +63,28 @@ def dashboard_view(request):
     favourite_count = favourite_recipes.count()
     modified_count = modified_recipes.count()
     feedback_count = feedback_items.count()
-    ai_generation_count = saved_recipes.filter(is_ai_generated=True).count()
+
+    # Build full analytics context from recipe history, saved recipes,
+    # favourites, cuisines, ingredients and cooking time.
+    analytics_context = build_user_analytics_context(
+        user=request.user,
+    )
+
+    # Prefer automatic recipe history for generation count.
+    # Fallback to saved AI recipes if history has less data.
+    history_generation_count = analytics_context.get(
+        "total_recipes_generated",
+        0,
+    )
+
+    saved_ai_generation_count = saved_recipes.filter(
+        is_ai_generated=True,
+    ).count()
+
+    ai_generation_count = max(
+        history_generation_count,
+        saved_ai_generation_count,
+    )
 
     # Find the cuisine the user has saved most often.
     # This gives the dashboard a personal "taste profile" feeling.
@@ -80,7 +107,6 @@ def dashboard_view(request):
     )
 
     # Count unique cuisines to show recipe variety.
-    # This is capped visually later in the template/CSS.
     cuisine_variety_count = (
         saved_recipes.exclude(cuisine__isnull=True)
         .values("cuisine")
@@ -102,19 +128,34 @@ def dashboard_view(request):
 
     if saved_count == 0:
         smart_tip_title = "Build your recipe library"
-        smart_tip_text = "Generate and save your first AI recipe to unlock personalised dashboard insights."
+        smart_tip_text = (
+            "Generate and save your first AI recipe to unlock personalised "
+            "dashboard insights."
+        )
         smart_tip_icon = "bi-magic"
+
     elif modified_count == 0:
         smart_tip_title = "Try your first AI refinement"
-        smart_tip_text = "Modify a saved recipe to make it healthier, quicker, cheaper, vegetarian or custom."
+        smart_tip_text = (
+            "Modify a saved recipe to make it healthier, quicker, cheaper, "
+            "vegetarian or custom."
+        )
         smart_tip_icon = "bi-arrow-repeat"
+
     elif feedback_count == 0:
         smart_tip_title = "Add evaluation feedback"
-        smart_tip_text = "Rate and review recipes to build stronger evidence for recipe quality evaluation."
+        smart_tip_text = (
+            "Rate and review recipes to build stronger evidence for recipe "
+            "quality evaluation."
+        )
         smart_tip_icon = "bi-chat-square-heart"
+
     else:
         smart_tip_title = "Your CulinaAI profile is active"
-        smart_tip_text = "You are using saved recipes, AI refinements, favourites and feedback together."
+        smart_tip_text = (
+            "You are using saved recipes, AI refinements, favourites and "
+            "feedback together."
+        )
         smart_tip_icon = "bi-graph-up-arrow"
 
     context = {
@@ -127,10 +168,26 @@ def dashboard_view(request):
         "recent_recipes": recent_recipes,
 
         # Personalised taste intelligence.
-        "top_cuisine_name": top_cuisine["cuisine__name"] if top_cuisine else "Not enough data",
-        "top_cuisine_total": top_cuisine["total"] if top_cuisine else 0,
-        "top_meal_type_name": top_meal_type["meal_type__name"] if top_meal_type else "Not enough data",
-        "top_meal_type_total": top_meal_type["total"] if top_meal_type else 0,
+        "top_cuisine_name": (
+            top_cuisine["cuisine__name"]
+            if top_cuisine
+            else "Not enough data"
+        ),
+        "top_cuisine_total": (
+            top_cuisine["total"]
+            if top_cuisine
+            else 0
+        ),
+        "top_meal_type_name": (
+            top_meal_type["meal_type__name"]
+            if top_meal_type
+            else "Not enough data"
+        ),
+        "top_meal_type_total": (
+            top_meal_type["total"]
+            if top_meal_type
+            else 0
+        ),
         "cuisine_variety_count": cuisine_variety_count,
         "recipe_variety_score": recipe_variety_score,
 
@@ -143,5 +200,8 @@ def dashboard_view(request):
         "smart_tip_text": smart_tip_text,
         "smart_tip_icon": smart_tip_icon,
     }
+
+    # Add advanced analytics data into the same dashboard context.
+    context.update(analytics_context)
 
     return render(request, "dashboard/dashboard.html", context)

@@ -3817,5 +3817,2281 @@ img {
 
 
 
+/* ================================
+   Professional Compact Navbar
+================================ */
+
+.culina-navbar {
+  min-height: 92px;
+  background: rgba(31, 26, 23, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1050;
+}
+
+.culina-navbar .container {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.culina-logo {
+  flex-shrink: 0;
+  margin-right: 2.2rem;
+}
+
+.culina-main-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-right: auto;
+}
+
+.culina-main-links .nav-link {
+  color: rgba(255, 255, 255, 0.84) !important;
+  font-weight: 850;
+  font-size: 0.98rem;
+  padding: 0.5rem 0 !important;
+  position: relative;
+  white-space: nowrap;
+}
+
+.culina-main-links .nav-link:hover,
+.culina-main-links .nav-link.active {
+  color: #ffc437 !important;
+}
+
+.culina-main-links .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f97316, #facc15);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.culina-main-links .nav-link:hover::after,
+.culina-main-links .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.culina-user-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.culina-nav-action,
+.culina-account-toggle {
+  min-height: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  padding: 0.72rem 1rem !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.055) !important;
+  color: #ffffff !important;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1;
+  text-decoration: none !important;
+  white-space: nowrap;
+  box-shadow: none !important;
+  transition: all 0.22s ease;
+}
+
+.culina-nav-action i,
+.culina-account-toggle i {
+  color: #ffc437;
+  font-size: 1rem;
+}
+
+.culina-nav-action:hover,
+.culina-account-toggle:hover,
+.culina-account-toggle:focus,
+.culina-nav-action-active {
+  color: #ffc437 !important;
+  border-color: rgba(255, 196, 55, 0.5) !important;
+  background: rgba(255, 196, 55, 0.13) !important;
+  transform: translateY(-1px);
+}
+
+.culina-account-dropdown {
+  position: relative;
+}
+
+.culina-account-toggle::after {
+  margin-left: 0.15rem;
+}
+
+.culina-account-menu {
+  margin-top: 0.75rem !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  padding: 0.55rem !important;
+  min-width: 180px;
+  background: #ffffff !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22) !important;
+}
+
+.culina-account-menu .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  font-weight: 850;
+}
+
+.culina-account-menu .dropdown-item i {
+  font-size: 1rem;
+}
+
+.culina-account-menu .dropdown-item:hover {
+  background: rgba(255, 196, 55, 0.14);
+}
+
+.culina-signup-action {
+  color: #211714 !important;
+  background: linear-gradient(135deg, #f97316, #facc15) !important;
+  border-color: transparent !important;
+}
+
+.culina-signup-action i {
+  color: #211714 !important;
+}
+
+.culina-signup-action:hover {
+  color: #211714 !important;
+  background: linear-gradient(135deg, #fb923c, #fde047) !important;
+}
+
+/* Navbar laptop/tablet adjustment */
+@media (max-width: 1250px) {
+  .culina-logo {
+    margin-right: 1rem;
+  }
+
+  .culina-main-links {
+    gap: 0.85rem;
+  }
+
+  .culina-main-links .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .culina-user-nav {
+    gap: 0.4rem;
+  }
+
+  .culina-nav-action,
+  .culina-account-toggle {
+    padding: 0.62rem 0.75rem !important;
+    font-size: 0.84rem;
+  }
+}
+
+/* Navbar mobile */
+@media (max-width: 991px) {
+  .culina-navbar {
+    min-height: auto;
+    padding: 12px 0;
+  }
+
+  .culina-navbar .container {
+    display: flex;
+    gap: 0;
+  }
+
+  .navbar-collapse {
+    margin-top: 16px;
+    padding: 18px;
+    border-radius: 24px;
+    background: rgba(31, 26, 23, 0.98);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.24);
+  }
+
+  .culina-main-links {
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin-right: 0;
+  }
+
+  .culina-main-links .nav-link {
+    padding: 0.7rem 0 !important;
+  }
+
+  .culina-user-nav {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .culina-nav-action,
+  .culina-account-toggle {
+    width: 100%;
+  }
+
+  .culina-user-nav .dropdown {
+    width: 100%;
+  }
+}
+
+/* ================================
+   Smart Pantry Page
+================================ */
+
+.pantry-page-section {
+  min-height: 100vh;
+  padding: 142px 0 5rem !important;
+  background:
+    radial-gradient(circle at top left, rgba(255, 180, 40, 0.12), transparent 28%),
+    linear-gradient(135deg, #fff8ee 0%, #f8efe4 45%, #fffaf3 100%);
+}
+
+.pantry-page-section .container {
+  max-width: 1320px;
+}
+
+.pantry-hero-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.7rem 3rem;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 93% 10%, rgba(250, 204, 21, 0.22), transparent 20%),
+    linear-gradient(135deg, rgba(44, 35, 30, 0.98), rgba(87, 58, 39, 0.96));
+  color: #ffffff;
+  box-shadow: 0 24px 55px rgba(65, 42, 24, 0.22);
+  margin-top: 0 !important;
+  margin-bottom: 2.2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.pantry-hero-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -95px;
+  width: 245px;
+  height: 245px;
+  border-radius: 50%;
+  background: rgba(255, 196, 55, 0.18);
+}
+
+.pantry-hero-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pantry-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.48rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 196, 55, 0.16);
+  border: 1px solid rgba(255, 196, 55, 0.34);
+  color: #ffe7a1;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin-bottom: 1.05rem;
+}
+
+.pantry-hero-card h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  margin-bottom: 0.8rem;
+}
+
+.pantry-hero-card p {
+  max-width: 720px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.pantry-hero-actions {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 215px;
+}
+
+.pantry-primary-btn,
+.pantry-secondary-btn {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1.25rem;
+  border-radius: 999px;
+  border: 0;
+  font-weight: 950;
+  text-decoration: none;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+.pantry-primary-btn {
+  background: linear-gradient(135deg, #ffb429, #ff7a1c);
+  color: #211714;
+  box-shadow: 0 14px 30px rgba(255, 132, 27, 0.28);
+}
+
+.pantry-primary-btn:hover {
+  color: #211714;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(255, 132, 27, 0.34);
+}
+
+.pantry-secondary-btn {
+  background: rgba(255, 255, 255, 0.13);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.pantry-secondary-btn:hover {
+  color: #ffc437;
+  background: rgba(255, 196, 55, 0.12);
+  transform: translateY(-2px);
+}
+
+.pantry-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.pantry-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.45rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(90, 60, 35, 0.08);
+  box-shadow: 0 18px 42px rgba(82, 52, 30, 0.08);
+}
+
+.pantry-stat-icon {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 180, 40, 0.16);
+  color: #e57719;
+  font-size: 1.45rem;
+}
+
+.pantry-stat-card h3 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 950;
+  color: #211714;
+  line-height: 1;
+}
+
+.pantry-stat-card p {
+  margin: 0.25rem 0 0;
+  color: #7b6a5c;
+  font-weight: 850;
+}
+
+.pantry-warning-stat .pantry-stat-icon {
+  background: rgba(255, 196, 55, 0.2);
+  color: #c98400;
+}
+
+.pantry-danger-stat .pantry-stat-icon {
+  background: rgba(220, 53, 69, 0.12);
+  color: #d43f45;
+}
+
+.pantry-layout-grid {
+  display: grid;
+  grid-template-columns: 440px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.pantry-form-card,
+.pantry-list-card {
+  padding: 1.85rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(90, 60, 35, 0.08);
+  box-shadow: 0 20px 48px rgba(82, 52, 30, 0.09);
+}
+
+.pantry-form-card h2,
+.pantry-list-card h2 {
+  font-size: 1.75rem;
+  font-weight: 950;
+  color: #211714;
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.04em;
+}
+
+.pantry-form-card > p,
+.pantry-list-card > p {
+  color: #7b6a5c;
+  font-weight: 750;
+  margin-bottom: 1.4rem;
+}
+
+.pantry-form-card .form-label {
+  font-weight: 900;
+  color: #33251d;
+  margin-bottom: 0.45rem;
+}
+
+.pantry-form-card .form-control,
+.pantry-form-card .form-select {
+  min-height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(73, 45, 25, 0.14);
+  padding: 0.78rem 0.95rem;
+  font-weight: 700;
+  background-color: #fffaf3;
+}
+
+.pantry-form-card .form-control:focus,
+.pantry-form-card .form-select:focus {
+  border-color: rgba(255, 132, 27, 0.75);
+  box-shadow: 0 0 0 0.22rem rgba(255, 132, 27, 0.14);
+}
+
+.pantry-form-card textarea.form-control {
+  resize: vertical;
+}
+
+.pantry-items-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.pantry-item-card {
+  padding: 1.2rem;
+  border-radius: 22px;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.08);
+  transition: all 0.22s ease;
+}
+
+.pantry-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(82, 52, 30, 0.1);
+}
+
+.pantry-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.pantry-item-main h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+  font-weight: 950;
+  color: #211714;
+  text-transform: capitalize;
+}
+
+.pantry-item-main p {
+  margin: 0;
+  color: #7b6a5c;
+  font-weight: 800;
+}
+
+.pantry-status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.pantry-status-expired {
+  background: rgba(220, 53, 69, 0.12);
+  color: #b02a37;
+}
+
+.pantry-status-today {
+  background: rgba(255, 132, 27, 0.16);
+  color: #c85f10;
+}
+
+.pantry-status-soon {
+  background: rgba(255, 196, 55, 0.2);
+  color: #966700;
+}
+
+.pantry-status-fresh {
+  background: rgba(25, 135, 84, 0.12);
+  color: #198754;
+}
+
+.pantry-status-none {
+  background: rgba(108, 117, 125, 0.12);
+  color: #6c757d;
+}
+
+.pantry-item-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: #6f6258;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.pantry-item-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pantry-item-meta i {
+  color: #e57719;
+}
+
+.pantry-item-notes {
+  margin: 0.9rem 0 0;
+  padding: 0.85rem;
+  border-radius: 16px;
+  background: rgba(255, 180, 40, 0.09);
+  color: #6f4d32;
+  font-weight: 700;
+}
+
+.pantry-empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  border-radius: 24px;
+  background: rgba(255, 180, 40, 0.08);
+  border: 1px dashed rgba(255, 132, 27, 0.3);
+}
+
+.pantry-empty-state i {
+  font-size: 3rem;
+  color: #e57719;
+  margin-bottom: 1rem;
+}
+
+.pantry-empty-state h3 {
+  font-weight: 950;
+  color: #211714;
+}
+
+.pantry-empty-state p {
+  color: #7b6a5c;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+@media (max-width: 1100px) {
+  .pantry-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pantry-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pantry-page-section {
+    padding: 120px 0 3rem !important;
+  }
+
+  .pantry-hero-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.6rem;
+    border-radius: 24px;
+  }
+
+  .pantry-hero-actions {
+    width: 100%;
+  }
+
+  .pantry-primary-btn,
+  .pantry-secondary-btn {
+    width: 100%;
+  }
+
+  .pantry-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pantry-form-card,
+  .pantry-list-card {
+    padding: 1.2rem;
+    border-radius: 22px;
+  }
+
+  .pantry-item-main {
+    flex-direction: column;
+  }
+}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Smart Pantry Edit/Delete Actions
+================================ */
+
+.pantry-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.pantry-edit-action,
+.pantry-delete-action,
+.pantry-secondary-light-btn,
+.pantry-danger-action-btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 950;
+  text-decoration: none;
+  border: 0;
+  transition: all 0.22s ease;
+}
+
+.pantry-edit-action {
+  color: #211714;
+  background: linear-gradient(135deg, #ffb429, #ff7a1c);
+  box-shadow: 0 10px 24px rgba(255, 132, 27, 0.18);
+}
+
+.pantry-edit-action:hover {
+  color: #211714;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(255, 132, 27, 0.26);
+}
+
+.pantry-delete-action {
+  color: #b02a37;
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.16);
+}
+
+.pantry-delete-action:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #dc3545, #f97316);
+  transform: translateY(-2px);
+}
+
+.pantry-small-hero {
+  padding-top: 2.1rem;
+  padding-bottom: 2.1rem;
+}
+
+.pantry-edit-wrapper,
+.pantry-delete-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.pantry-edit-card {
+  width: 100%;
+}
+
+.pantry-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.pantry-form-actions .pantry-primary-btn,
+.pantry-form-actions .pantry-secondary-light-btn {
+  flex: 1 1 190px;
+}
+
+.pantry-secondary-light-btn {
+  color: #211714;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.12);
+}
+
+.pantry-secondary-light-btn:hover {
+  color: #211714;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(82, 52, 30, 0.1);
+}
+
+.pantry-delete-hero {
+  background:
+    radial-gradient(circle at 93% 10%, rgba(220, 53, 69, 0.18), transparent 20%),
+    linear-gradient(135deg, rgba(44, 35, 30, 0.98), rgba(87, 48, 39, 0.96));
+}
+
+.pantry-delete-card {
+  padding: 2.2rem;
+  border-radius: 30px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(90, 60, 35, 0.08);
+  box-shadow: 0 20px 48px rgba(82, 52, 30, 0.09);
+}
+
+.pantry-delete-icon {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 1.2rem;
+  border-radius: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #dc3545, #f97316);
+  font-size: 2rem;
+  box-shadow: 0 18px 38px rgba(220, 53, 69, 0.22);
+}
+
+.pantry-delete-card h2 {
+  margin-bottom: 0.75rem;
+  color: #211714;
+  font-size: 2rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pantry-delete-card > p {
+  max-width: 560px;
+  margin: 0 auto 1.4rem;
+  color: #7b6a5c;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.pantry-delete-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.pantry-delete-summary div {
+  padding: 1rem;
+  border-radius: 18px;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.pantry-delete-summary span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #7b6a5c;
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.pantry-delete-summary strong {
+  color: #211714;
+  font-weight: 950;
+}
+
+.pantry-delete-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.pantry-delete-actions .pantry-danger-action-btn,
+.pantry-delete-actions .pantry-secondary-light-btn {
+  flex: 1 1 190px;
+}
+
+.pantry-danger-action-btn {
+  color: #ffffff;
+  background: linear-gradient(135deg, #dc3545, #f97316);
+  box-shadow: 0 14px 32px rgba(220, 53, 69, 0.22);
+}
+
+.pantry-danger-action-btn:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(220, 53, 69, 0.3);
+}
+
+@media (max-width: 575px) {
+  .pantry-delete-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .pantry-form-actions,
+  .pantry-delete-actions {
+    display: grid;
+  }
+
+  .pantry-item-actions {
+    display: grid;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Smart Pantry Delete Modal
+================================ */
+
+.pantry-delete-action {
+  cursor: pointer;
+}
+
+.pantry-delete-modal-content {
+  border: 0;
+  border-radius: 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(220, 53, 69, 0.12), transparent 30%),
+    #ffffff;
+  box-shadow: 0 28px 80px rgba(31, 26, 23, 0.28);
+}
+
+.pantry-delete-modal .modal-body {
+  padding: 2.2rem;
+  text-align: center;
+}
+
+.pantry-delete-modal-icon {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 1.2rem;
+  border-radius: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #dc3545, #f97316);
+  font-size: 2rem;
+  box-shadow: 0 18px 38px rgba(220, 53, 69, 0.24);
+}
+
+.pantry-delete-modal h2 {
+  margin-bottom: 0.75rem;
+  color: #211714;
+  font-size: 2rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pantry-delete-modal p {
+  max-width: 430px;
+  margin: 0 auto 1.3rem;
+  color: #7b6a5c;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.pantry-delete-modal-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.08);
+  text-align: left;
+}
+
+.pantry-delete-modal-summary span {
+  color: #7b6a5c;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.pantry-delete-modal-summary strong {
+  color: #211714;
+  font-weight: 950;
+}
+
+.pantry-delete-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.4rem;
+}
+
+.pantry-delete-modal-actions .pantry-danger-action-btn,
+.pantry-delete-modal-actions .pantry-secondary-light-btn {
+  flex: 1 1 160px;
+}
+
+@media (max-width: 575px) {
+  .pantry-delete-modal .modal-body {
+    padding: 1.5rem;
+  }
+
+  .pantry-delete-modal-actions {
+    display: grid;
+  }
+
+  .pantry-delete-modal-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Smart Pantry modal stability fix */
+.pantry-delete-modal {
+  z-index: 2100 !important;
+}
+
+.modal-backdrop {
+  z-index: 2090 !important;
+}
+
+body.modal-open .pantry-item-card:hover {
+  transform: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Smart Pantry Edit Modal
+================================ */
+
+.pantry-edit-action {
+  border: 0;
+  cursor: pointer;
+}
+
+.pantry-edit-modal {
+  z-index: 2100 !important;
+}
+
+.pantry-edit-modal-content {
+  border: 0;
+  border-radius: 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(255, 180, 40, 0.16), transparent 32%),
+    #ffffff;
+  box-shadow: 0 28px 80px rgba(31, 26, 23, 0.28);
+}
+
+.pantry-edit-modal .modal-body {
+  padding: 2rem;
+}
+
+.pantry-edit-modal-header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.pantry-edit-modal-icon {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  border-radius: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #211714;
+  background: linear-gradient(135deg, #ffb429, #ff7a1c);
+  font-size: 1.7rem;
+  box-shadow: 0 16px 34px rgba(255, 132, 27, 0.22);
+}
+
+.pantry-edit-modal-label {
+  margin: 0 0 0.25rem;
+  color: #e57719;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pantry-edit-modal h2 {
+  margin: 0 0 0.35rem;
+  color: #211714;
+  font-size: 2rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pantry-edit-modal-header p:last-child {
+  margin: 0;
+  color: #7b6a5c;
+  font-weight: 700;
+}
+
+.pantry-edit-modal .form-label {
+  color: #33251d;
+  font-weight: 900;
+}
+
+.pantry-edit-modal .form-control,
+.pantry-edit-modal .form-select {
+  min-height: 50px;
+  border-radius: 16px;
+  border: 1px solid rgba(73, 45, 25, 0.14);
+  background-color: #fffaf3;
+  font-weight: 700;
+}
+
+.pantry-edit-modal .form-control:focus,
+.pantry-edit-modal .form-select:focus {
+  border-color: rgba(255, 132, 27, 0.75);
+  box-shadow: 0 0 0 0.22rem rgba(255, 132, 27, 0.14);
+}
+
+.pantry-edit-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.pantry-edit-modal-actions .pantry-primary-btn,
+.pantry-edit-modal-actions .pantry-secondary-light-btn {
+  flex: 1 1 180px;
+}
+
+@media (max-width: 575px) {
+  .pantry-edit-modal .modal-body {
+    padding: 1.35rem;
+  }
+
+  .pantry-edit-modal-header {
+    flex-direction: column;
+  }
+
+  .pantry-edit-modal-actions {
+    display: grid;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Smart Pantry Expiry Alert
+================================ */
+
+.pantry-alert-card {
+  margin-bottom: 2rem;
+  padding: 1.8rem;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 180, 40, 0.14), transparent 32%),
+    rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(90, 60, 35, 0.08);
+  box-shadow: 0 20px 48px rgba(82, 52, 30, 0.09);
+}
+
+.pantry-alert-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.pantry-alert-icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-radius: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #211714;
+  background: linear-gradient(135deg, #ffb429, #facc15);
+  font-size: 1.65rem;
+  box-shadow: 0 16px 34px rgba(255, 132, 27, 0.2);
+}
+
+.pantry-alert-label {
+  margin: 0 0 0.25rem;
+  color: #e57719;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pantry-alert-header h2 {
+  margin: 0 0 0.35rem;
+  color: #211714;
+  font-size: 1.9rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pantry-alert-header p:last-child {
+  margin: 0;
+  color: #7b6a5c;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.pantry-alert-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pantry-alert-panel {
+  padding: 1.15rem;
+  border-radius: 22px;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.pantry-alert-panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.9rem;
+  color: #211714;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.pantry-alert-panel ul {
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0;
+  margin: 0;
+}
+
+.pantry-alert-panel li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.8rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.pantry-alert-panel li strong {
+  color: #211714;
+  font-weight: 950;
+  text-transform: capitalize;
+}
+
+.pantry-alert-panel li span {
+  color: #7b6a5c;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.pantry-alert-danger-panel h3 i {
+  color: #dc3545;
+}
+
+.pantry-alert-warning-panel h3 i {
+  color: #c98400;
+}
+
+.pantry-alert-priority-panel h3 i {
+  color: #f97316;
+}
+
+.pantry-alert-empty {
+  margin: 0;
+  color: #7b6a5c;
+  font-weight: 700;
+}
+
+.pantry-alert-action-row {
+  margin-top: 1.3rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 991px) {
+  .pantry-alert-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pantry-alert-action-row {
+    justify-content: stretch;
+  }
+
+  .pantry-alert-action-row .pantry-primary-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .pantry-alert-header {
+    flex-direction: column;
+  }
+
+  .pantry-alert-card {
+    padding: 1.2rem;
+    border-radius: 24px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Smart Pantry Recommendations
+================================ */
+
+.pantry-recommendation-card {
+  margin-bottom: 2rem;
+  padding: 1.8rem;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top left, rgba(249, 115, 22, 0.14), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(90, 60, 35, 0.08);
+  box-shadow: 0 20px 48px rgba(82, 52, 30, 0.09);
+}
+
+.pantry-recommendation-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.pantry-recommendation-icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-radius: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, #f97316, #22c55e);
+  font-size: 1.65rem;
+  box-shadow: 0 16px 34px rgba(249, 115, 22, 0.2);
+}
+
+.pantry-recommendation-label {
+  margin: 0 0 0.25rem;
+  color: #e57719;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pantry-recommendation-header h2 {
+  margin: 0 0 0.35rem;
+  color: #211714;
+  font-size: 1.9rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pantry-recommendation-header p:last-child {
+  margin: 0;
+  color: #7b6a5c;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.pantry-recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pantry-recommendation-item {
+  padding: 1.2rem;
+  border-radius: 24px;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.08);
+  box-shadow: 0 12px 28px rgba(82, 52, 30, 0.06);
+}
+
+.pantry-recommendation-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.pantry-recommendation-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(249, 115, 22, 0.12);
+  color: #c05610;
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pantry-recommendation-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 34px;
+  padding: 0 0.65rem;
+  border-radius: 999px;
+  color: #166534;
+  background: rgba(34, 197, 94, 0.14);
+  font-weight: 950;
+  font-size: 0.88rem;
+}
+
+.pantry-recommendation-item h3 {
+  margin: 0 0 0.55rem;
+  color: #211714;
+  font-size: 1.2rem;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.pantry-recommendation-reason {
+  margin: 0 0 0.9rem;
+  color: #7b6a5c;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.pantry-recommendation-ingredients {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-bottom: 0.9rem;
+  padding: 0.85rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #4b3628;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.pantry-recommendation-ingredients i {
+  color: #f97316;
+  margin-top: 0.1rem;
+}
+
+.pantry-recommendation-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.pantry-recommendation-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(90, 60, 35, 0.07);
+  color: #6f5948;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.pantry-recommendation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.pantry-recommendation-btn {
+  flex: 1 1 180px;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 991px) {
+  .pantry-recommendation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575px) {
+  .pantry-recommendation-card {
+    padding: 1.2rem;
+    border-radius: 24px;
+  }
+
+  .pantry-recommendation-header {
+    flex-direction: column;
+  }
+
+  .pantry-recommendation-actions {
+    flex-direction: column;
+  }
+
+  .pantry-recommendation-btn {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Smart Pantry Bulk Add
+================================ */
+
+.pantry-bulk-card {
+  margin-bottom: 2rem;
+  padding: 1.8rem;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(90, 60, 35, 0.08);
+  box-shadow: 0 20px 48px rgba(82, 52, 30, 0.09);
+}
+
+.pantry-bulk-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.pantry-bulk-icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-radius: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, #22c55e, #f97316);
+  font-size: 1.65rem;
+  box-shadow: 0 16px 34px rgba(34, 197, 94, 0.18);
+}
+
+.pantry-bulk-label {
+  margin: 0 0 0.25rem;
+  color: #e57719;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pantry-bulk-header h2 {
+  margin: 0 0 0.35rem;
+  color: #211714;
+  font-size: 1.9rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.pantry-bulk-header p:last-child {
+  margin: 0;
+  color: #7b6a5c;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.pantry-bulk-table {
+  display: grid;
+  gap: 0.7rem;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.pantry-bulk-row {
+  min-width: 1100px;
+  display: grid;
+  grid-template-columns: 1.35fr 0.75fr 0.95fr 1fr 1fr 1.2fr 46px;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.pantry-bulk-heading {
+  padding: 0 0.25rem;
+  color: #7b6a5c;
+  font-size: 0.75rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.pantry-bulk-input-row {
+  padding: 0.75rem;
+  border-radius: 20px;
+  background: #fffaf3;
+  border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.pantry-bulk-input-row .form-control,
+.pantry-bulk-input-row .form-select {
+  min-height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(80, 50, 30, 0.13);
+  color: #211714;
+  font-weight: 750;
+}
+
+.pantry-bulk-input-row .form-control:focus,
+.pantry-bulk-input-row .form-select:focus {
+  border-color: rgba(249, 115, 22, 0.55);
+  box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.12);
+}
+
+.pantry-bulk-remove-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 14px;
+  color: #9f1d1d;
+  background: rgba(220, 38, 38, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+}
+
+.pantry-bulk-remove-btn:hover {
+  color: #fff;
+  background: #dc2626;
+}
+
+.pantry-bulk-actions {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 991px) {
+  .pantry-bulk-actions {
+    justify-content: stretch;
+  }
+
+  .pantry-bulk-actions .pantry-primary-btn,
+  .pantry-bulk-actions .pantry-secondary-btn {
+    flex: 1 1 220px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 575px) {
+  .pantry-bulk-card {
+    padding: 1.2rem;
+    border-radius: 24px;
+  }
+
+  .pantry-bulk-header {
+    flex-direction: column;
+  }
+
+  .pantry-bulk-actions {
+    flex-direction: column;
+  }
+
+  .pantry-bulk-actions .pantry-primary-btn,
+  .pantry-bulk-actions .pantry-secondary-btn {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Bulk Add Row Button Visibility Fix
+================================ */
+
+.pantry-bulk-actions .pantry-secondary-btn,
+.pantry-bulk-actions-top .pantry-secondary-btn {
+  background: #fff7ed !important;
+  color: #c05610 !important;
+  border: 1px solid rgba(249, 115, 22, 0.35) !important;
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.12);
+}
+
+.pantry-bulk-actions .pantry-secondary-btn i,
+.pantry-bulk-actions-top .pantry-secondary-btn i {
+  color: #f97316 !important;
+}
+
+.pantry-bulk-actions .pantry-secondary-btn:hover,
+.pantry-bulk-actions-top .pantry-secondary-btn:hover {
+  background: linear-gradient(135deg, #ffb429, #f97316) !important;
+  color: #211714 !important;
+  border-color: transparent !important;
+}
+
+.pantry-bulk-actions .pantry-secondary-btn:hover i,
+.pantry-bulk-actions-top .pantry-secondary-btn:hover i {
+  color: #211714 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Bulk Add Help Text Styling
+================================ */
+
+.pantry-bulk-help {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 1.2rem 0 1.4rem;
+  padding: 1rem 1.15rem;
+  border-radius: 20px;
+  background: rgba(255, 247, 237, 0.9);
+  border: 1px solid rgba(249, 115, 22, 0.18);
+  color: #6f5948;
+  font-size: 0.98rem;
+  font-weight: 750;
+  line-height: 1.6;
+}
+
+.pantry-bulk-help i {
+  color: #f97316;
+  font-size: 1.15rem;
+  margin-top: 0.15rem;
+}
+
+.pantry-bulk-help strong {
+  color: #211714;
+  font-weight: 950;
+}
+
+@media (max-width: 575px) {
+  .pantry-bulk-help {
+    font-size: 0.92rem;
+    padding: 0.9rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Recommendation Card Standardisation
+================================ */
+
+.pantry-recommendation-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.pantry-recommendation-actions {
+  margin-top: auto;
+}
+
+.pantry-recommendation-actions .pantry-recommendation-btn {
+  width: 100%;
+  flex: 1 1 100%;
+  justify-content: center;
+}
+
+.pantry-recommendation-actions .pantry-secondary-btn {
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================
+   Pantry Alert Overflow Fix
+================================ */
+
+.pantry-alert-card,
+.pantry-alert-grid,
+.pantry-alert-panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.pantry-alert-panel ul {
+  width: 100%;
+  min-width: 0;
+}
+
+.pantry-alert-panel li {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.pantry-alert-panel li strong,
+.pantry-alert-panel li span {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.pantry-alert-priority-panel {
+  overflow: hidden;
+}
+
+.pantry-alert-priority-panel li {
+  background: rgba(255, 255, 255, 0.82);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.password-field-wrapper {
+    position: relative !important;
+    width: 100% !important;
+}
+
+.password-field-wrapper input {
+    width: 100% !important;
+    padding-right: 52px !important;
+}
+
+.password-eye-btn {
+    position: absolute !important;
+    top: 50% !important;
+    right: 16px !important;
+    transform: translateY(-50%) !important;
+    width: 34px !important;
+    height: 34px !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    color: #6c757d !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.15rem !important;
+    z-index: 10 !important;
+}
+
+.password-eye-btn:hover {
+    color: #f28c28 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   AUTH PASSWORD FIELD + SIGNUP TO LOGIN TRANSITION
+   ========================================================= */
+
+.auth-card .culina-password-wrap {
+    position: relative !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+.auth-card .culina-password-wrap input {
+    width: 100% !important;
+    padding-right: 60px !important;
+}
+
+.auth-card .culina-password-toggle {
+    position: absolute !important;
+    top: 50% !important;
+    right: 18px !important;
+    transform: translateY(-50%) !important;
+
+    width: 36px !important;
+    height: 36px !important;
+
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    color: #6c757d !important;
+    cursor: pointer !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 1.15rem !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 50 !important;
+}
+
+.auth-card .culina-password-toggle:hover {
+    color: #f28c28 !important;
+}
+
+.auth-card .culina-password-toggle i {
+    pointer-events: none !important;
+}
+
+.culina-account-created-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    margin-bottom: 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: #157347;
+    background: rgba(25, 135, 84, 0.12);
+    border: 1px solid rgba(25, 135, 84, 0.22);
+}
+
+/* Clear door-style signup-to-login flip animation */
+.login-auth-section .col-lg-5 {
+    perspective: 1400px !important;
+}
+
+.culina-auth-card-turn-in {
+    animation: culinaDoorFlipIn 2.6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+    transform-origin: left center !important;
+    transform-style: preserve-3d !important;
+    backface-visibility: visible !important;
+    will-change: transform !important;
+}
+
+@keyframes culinaDoorFlipIn {
+    0% {
+        transform: rotateY(-92deg);
+    }
+
+    18% {
+        transform: rotateY(-92deg);
+    }
+
+    48% {
+        transform: rotateY(18deg);
+    }
+
+    68% {
+        transform: rotateY(-9deg);
+    }
+
+    84% {
+        transform: rotateY(4deg);
+    }
+
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   REAL SIGNUP SUCCESS TO LOGIN FLIP
+   ========================================================= */
+
+.login-auth-section {
+    overflow: visible !important;
+}
+
+.login-auth-section .auth-container {
+    overflow: visible !important;
+}
+
+.culina-flip-scene {
+    width: 100%;
+    min-height: 720px;
+    perspective: 1800px;
+    overflow: visible !important;
+}
+
+.culina-flip-card {
+    position: relative;
+    width: 100%;
+    min-height: 720px;
+    transform-style: preserve-3d;
+    transition: transform 1.6s ease-in-out;
+    overflow: visible !important;
+}
+
+.culina-flip-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.culina-flip-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    min-height: 720px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: visible !important;
+}
+
+.culina-flip-front {
+    transform: rotateY(0deg);
+}
+
+.culina-flip-back {
+    transform: rotateY(180deg);
+}
+
+.culina-flip-face .auth-card {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.culina-success-login-card {
+    min-height: 620px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   LOGIN PAGE RIGHT CARD ALIGNMENT FIX
+   Purpose:
+   - Moves the login/flip card slightly downward
+   - Aligns it better with the left-side feature cards
+   ========================================================= */
+
+.login-auth-section .col-lg-5 > .auth-card,
+.login-auth-section .culina-flip-scene {
+    margin-top: 45px !important;
+}
+
+@media (max-width: 991px) {
+    .login-auth-section .col-lg-5 > .auth-card,
+    .login-auth-section .culina-flip-scene {
+        margin-top: 20px !important;
+    }
+}

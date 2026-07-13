@@ -1,0 +1,680 @@
+/* =========================================================
+   CULINAAI PREMIUM RECIPE OUTPUT
+   Purpose:
+   - Converts plain AI recipe text into an exciting recipe-reading layout.
+   - Only affects generated recipe output marked with data-culina-recipe-output.
+   ========================================================= */
+
+.culina-readable-recipe {
+    position: relative !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    line-height: 1.75 !important;
+    font-weight: 650 !important;
+}
+
+.culina-recipe-book {
+    display: grid !important;
+    gap: 24px !important;
+}
+
+.culina-recipe-hero-card {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 34px !important;
+    border-radius: 34px !important;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.18), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(22, 163, 74, 0.13), transparent 32%),
+        linear-gradient(135deg, #fffaf2, #ffffff) !important;
+    border: 1px solid rgba(249, 115, 22, 0.16) !important;
+    box-shadow: 0 28px 80px rgba(31, 26, 23, 0.10) !important;
+}
+
+.culina-recipe-hero-card::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -70px !important;
+    top: -70px !important;
+    width: 180px !important;
+    height: 180px !important;
+    border-radius: 50% !important;
+    background: rgba(250, 204, 21, 0.22) !important;
+}
+
+.culina-recipe-top-badge {
+    position: relative !important;
+    z-index: 2 !important;
+    width: fit-content !important;
+    margin-bottom: 18px !important;
+    padding: 9px 14px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.94) !important;
+    border: 1px solid rgba(249, 115, 22, 0.20) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.culina-recipe-title {
+    position: relative !important;
+    z-index: 2 !important;
+    margin: 0 0 16px !important;
+    color: #1f1a17 !important;
+    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif !important;
+    font-size: clamp(2.1rem, 4.4vw, 4.5rem) !important;
+    font-weight: 900 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.06em !important;
+}
+
+.culina-recipe-description {
+    position: relative !important;
+    z-index: 2 !important;
+    max-width: 980px !important;
+    margin: 0 !important;
+    color: #5b5048 !important;
+    font-size: 1.08rem !important;
+    font-weight: 700 !important;
+    line-height: 1.9 !important;
+}
+
+.culina-recipe-summary-grid {
+    position: relative !important;
+    z-index: 2 !important;
+    margin-top: 26px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+}
+
+.culina-summary-pill {
+    padding: 16px !important;
+    border-radius: 24px !important;
+    display: grid !important;
+    grid-template-columns: 46px 1fr !important;
+    gap: 13px !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+    border: 1px solid rgba(249, 115, 22, 0.13) !important;
+    box-shadow: 0 16px 40px rgba(31, 26, 23, 0.06) !important;
+}
+
+.culina-summary-pill i {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 17px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #facc15) !important;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22) !important;
+}
+
+.culina-summary-pill span {
+    display: block !important;
+    color: #9a3412 !important;
+    font-size: 0.72rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+
+.culina-summary-pill strong {
+    display: block !important;
+    margin-top: 3px !important;
+    color: #1f1a17 !important;
+    font-size: 1rem !important;
+    font-weight: 950 !important;
+}
+
+.culina-recipe-section-card {
+    padding: 28px !important;
+    border-radius: 30px !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.92)) !important;
+    border: 1px solid rgba(31, 26, 23, 0.08) !important;
+    box-shadow: 0 22px 62px rgba(31, 26, 23, 0.08) !important;
+}
+
+.culina-recipe-section-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin-bottom: 20px !important;
+}
+
+.culina-section-icon {
+    width: 54px !important;
+    height: 54px !important;
+    flex: 0 0 54px !important;
+    border-radius: 20px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    font-size: 1.25rem !important;
+    background: linear-gradient(135deg, #f97316, #ea580c) !important;
+    box-shadow: 0 16px 38px rgba(249, 115, 22, 0.24) !important;
+}
+
+.culina-recipe-section-header h3 {
+    margin: 0 !important;
+    color: #1f1a17 !important;
+    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif !important;
+    font-size: clamp(1.45rem, 2.6vw, 2.25rem) !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.045em !important;
+}
+
+.culina-recipe-section-header span {
+    display: block !important;
+    margin-top: 4px !important;
+    color: #9a3412 !important;
+    font-size: 0.75rem !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.10em !important;
+}
+
+.culina-recipe-list {
+    display: grid !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.culina-recipe-list li {
+    display: grid !important;
+    grid-template-columns: 36px 1fr !important;
+    gap: 12px !important;
+    align-items: start !important;
+    padding: 14px 16px !important;
+    border-radius: 20px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+    border: 1px solid rgba(249, 115, 22, 0.11) !important;
+    font-size: 1rem !important;
+    font-weight: 760 !important;
+    line-height: 1.65 !important;
+}
+
+.culina-list-dot {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 14px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.95) !important;
+    font-weight: 950 !important;
+}
+
+.culina-step-list {
+    counter-reset: cooking-step !important;
+    display: grid !important;
+    gap: 16px !important;
+}
+
+.culina-step-card {
+    counter-increment: cooking-step !important;
+    display: grid !important;
+    grid-template-columns: 58px 1fr !important;
+    gap: 16px !important;
+    align-items: start !important;
+    padding: 18px !important;
+    border-radius: 24px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.90) !important;
+    border: 1px solid rgba(31, 26, 23, 0.07) !important;
+    box-shadow: 0 16px 42px rgba(31, 26, 23, 0.055) !important;
+}
+
+.culina-step-number {
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 20px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 16px 34px rgba(22, 163, 74, 0.22) !important;
+    font-size: 1.05rem !important;
+    font-weight: 950 !important;
+}
+
+.culina-step-card p {
+    margin: 0 !important;
+    color: #1f1a17 !important;
+    font-size: 1.02rem !important;
+    font-weight: 760 !important;
+    line-height: 1.78 !important;
+}
+
+.culina-text-panel {
+    padding: 20px !important;
+    border-radius: 24px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+    border-left: 5px solid #f97316 !important;
+    font-size: 1.02rem !important;
+    font-weight: 720 !important;
+    line-height: 1.85 !important;
+}
+
+.culina-text-panel p {
+    margin: 0 0 12px !important;
+}
+
+.culina-text-panel p:last-child {
+    margin-bottom: 0 !important;
+}
+
+.culina-warning-style {
+    background:
+        linear-gradient(135deg, rgba(255, 247, 237, 0.98), rgba(255, 255, 255, 0.94)) !important;
+    border-left-color: #f97316 !important;
+}
+
+.culina-safe-style {
+    background:
+        linear-gradient(135deg, rgba(240, 253, 244, 0.98), rgba(255, 255, 255, 0.94)) !important;
+    border-left-color: #16a34a !important;
+}
+
+.culina-money-style .culina-section-icon {
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+}
+
+.culina-pairing-style .culina-section-icon {
+    background: linear-gradient(135deg, #f59e0b, #f97316) !important;
+}
+
+.culina-tips-style .culina-section-icon {
+    background: linear-gradient(135deg, #7c3aed, #f97316) !important;
+}
+
+.culina-recipe-empty-note {
+    padding: 20px !important;
+    border-radius: 22px !important;
+    color: #6b7280 !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    border: 1px dashed rgba(249, 115, 22, 0.22) !important;
+    font-weight: 750 !important;
+}
+
+@media (max-width: 991px) {
+    .culina-recipe-summary-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-recipe-hero-card,
+    .culina-recipe-section-card {
+        padding: 24px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-step-card,
+    .culina-recipe-list li {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-step-number,
+    .culina-list-dot {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .culina-recipe-section-header {
+        align-items: flex-start !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SAVED RECIPE OUTPUT IMAGE + HERO ALIGNMENT FIX
+   Purpose:
+   - Image and recipe hero sit together at the top.
+   - All recipe sections after that use full width.
+   - Prevents recipe text from becoming a thin right-side column.
+   ========================================================= */
+
+.culina-recipe-image-hero-layout {
+    display: grid !important;
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr) !important;
+    gap: 28px !important;
+    align-items: stretch !important;
+}
+
+.culina-recipe-image-hero-layout .saved-recipe-flow-image {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 430px !important;
+    margin: 0 !important;
+    border-radius: 30px !important;
+}
+
+.culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 430px !important;
+    object-fit: cover !important;
+    border-radius: 30px !important;
+}
+
+.culina-recipe-image-hero-layout .culina-recipe-hero-card {
+    height: 100% !important;
+    min-height: 430px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.culina-recipe-image-hero-layout .culina-recipe-title {
+    font-size: clamp(2rem, 3.4vw, 3.7rem) !important;
+    line-height: 1.03 !important;
+}
+
+.culina-recipe-image-hero-layout .culina-recipe-summary-grid {
+    grid-template-columns: 1fr !important;
+}
+
+@media (max-width: 1199px) {
+    .culina-recipe-image-hero-layout {
+        grid-template-columns: minmax(260px, 340px) minmax(0, 1fr) !important;
+        gap: 22px !important;
+    }
+
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image,
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image img,
+    .culina-recipe-image-hero-layout .culina-recipe-hero-card {
+        min-height: 390px !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-title {
+        font-size: clamp(1.8rem, 3.2vw, 3rem) !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .culina-recipe-image-hero-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image,
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+        min-height: 340px !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-hero-card {
+        min-height: auto !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-summary-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image,
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+        min-height: 260px !important;
+        border-radius: 24px !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-summary-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SAVED RECIPE DETAIL WIDTH + IMAGE VISIBILITY FIX
+   Purpose:
+   - Makes left sidebar smaller and main recipe output wider.
+   - Prevents AI food image from being heavily cropped.
+   - Gives recipe title/summary more breathing space.
+   ========================================================= */
+
+.recipe-detail-section .container {
+    max-width: 1580px !important;
+}
+
+.recipe-detail-content-row {
+    align-items: flex-start !important;
+}
+
+.recipe-detail-content-row > .col-lg-3 {
+    max-width: 360px !important;
+}
+
+.recipe-detail-content-row > .col-lg-9 {
+    flex: 1 1 auto !important;
+}
+
+.recipe-detail-main-card {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.culina-recipe-image-hero-layout {
+    grid-template-columns: minmax(420px, 500px) minmax(0, 1fr) !important;
+    gap: 34px !important;
+}
+
+.culina-recipe-image-hero-layout .saved-recipe-flow-image {
+    min-height: 500px !important;
+    background: #fff8ef !important;
+}
+
+.culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 500px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: #fff8ef !important;
+}
+
+.culina-recipe-image-hero-layout .culina-recipe-hero-card {
+    min-height: 500px !important;
+    padding: 38px !important;
+}
+
+.culina-recipe-image-hero-layout .culina-recipe-title {
+    font-size: clamp(2.4rem, 4vw, 4.8rem) !important;
+    line-height: 1.02 !important;
+}
+
+@media (max-width: 1399px) {
+    .culina-recipe-image-hero-layout {
+        grid-template-columns: minmax(360px, 430px) minmax(0, 1fr) !important;
+        gap: 28px !important;
+    }
+
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image,
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image img,
+    .culina-recipe-image-hero-layout .culina-recipe-hero-card {
+        min-height: 450px !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-title {
+        font-size: clamp(2.1rem, 3.5vw, 4rem) !important;
+    }
+}
+
+@media (max-width: 1199px) {
+    .recipe-detail-content-row > .col-lg-3 {
+        max-width: 100% !important;
+    }
+
+    .culina-recipe-image-hero-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image,
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+        min-height: 420px !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-hero-card {
+        min-height: auto !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image,
+    .culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+        min-height: 280px !important;
+    }
+
+    .culina-recipe-image-hero-layout .culina-recipe-hero-card {
+        padding: 24px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMMUNITY RECIPE DETAIL OUTPUT WIDTH FIX
+   Purpose:
+   - Gives the public/community recipe output more reading space.
+   - Keeps left information cards smaller.
+   ========================================================= */
+
+.community-detail-grid {
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr) !important;
+    gap: 34px !important;
+}
+
+.community-detail-main {
+    min-width: 0 !important;
+}
+
+.community-recipe-content-card {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.community-recipe-content.culina-readable-recipe {
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+@media (max-width: 991px) {
+    .community-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   COMMUNITY RELATED RECIPES FULL WIDTH FIX
+   Purpose:
+   - Makes the related recipes section use the full page width
+   - Prevents it from looking squeezed inside the right column
+   ========================================================= */
+
+.community-related-section {
+    width: calc(100% + 374px) !important;
+    margin-left: -374px !important;
+    margin-top: 42px !important;
+}
+
+.community-related-section .community-results-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.community-related-section .community-recipe-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 28px !important;
+}
+
+.community-related-section .community-recipe-card {
+    width: 100% !important;
+}
+
+@media (max-width: 1199px) {
+    .community-related-section {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    .community-related-section .community-recipe-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .community-related-section .community-recipe-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

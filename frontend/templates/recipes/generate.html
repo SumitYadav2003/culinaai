@@ -4,7 +4,9 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=recipe-image-generation-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=voice-premium-final-1">
+<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
 {% endblock %}
 
 {% block content %}
@@ -133,7 +135,7 @@
                         </div>
                     </div>
 
-                    <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" class="culina-horizontal-generate-form" novalidate>
+                    <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" class="culina-horizontal-generate-form" data-recipe-loading-form novalidate>
                         {% csrf_token %}
 
                         <!-- Row 1 -->
@@ -145,8 +147,27 @@
 
                             <div class="row g-3">
                                 <div class="col-lg-4 col-md-6">
-                                    <label class="recipe-label">{{ form.ingredients.label }}</label>
+                                    <div class="voice-field-heading">
+                                        <label class="recipe-label">{{ form.ingredients.label }}</label>
+
+                                        <button
+                                            type="button"
+                                            class="culina-voice-btn culina-premium-voice-btn"
+                                            data-voice-target="id_ingredients"
+                                            data-voice-mode="replace"
+                                            title="Speak ingredients"
+                                        >
+                                            <i class="bi bi-mic-fill"></i>
+                                            Speak
+                                        </button>
+                                    </div>
+
                                     {{ form.ingredients }}
+
+                                    <small class="voice-helper-text">
+                                        Click Speak and say ingredients like: paneer, rice, onion, tomato.
+                                    </small>
+
                                     {% for error in form.ingredients.errors %}
                                         <div class="auth-error">{{ error }}</div>
                                     {% endfor %}
@@ -229,10 +250,23 @@
                                     </div>
 
                                     <div class="custom-other-field">
-                                        <label class="recipe-label" for="other_diet_preference">
-                                            Other Diet Preference
-                                            <span>optional</span>
-                                        </label>
+                                        <div class="voice-field-heading">
+                                            <label class="recipe-label" for="other_diet_preference">
+                                                Other Diet Preference
+                                                <span>optional</span>
+                                            </label>
+
+                                            <button
+                                                type="button"
+                                                class="culina-voice-btn"
+                                                data-voice-target="other_diet_preference"
+                                                data-voice-mode="append"
+                                                title="Speak diet preference"
+                                            >
+                                                <i class="bi bi-mic-fill"></i>
+                                                Speak
+                                            </button>
+                                        </div>
 
                                         <input
                                             type="text"
@@ -249,8 +283,26 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <label class="recipe-label">{{ form.allergies.label }}</label>
+                                    <div class="voice-field-heading">
+                                        <label class="recipe-label">{{ form.allergies.label }}</label>
+
+                                        <button
+                                            type="button"
+                                            class="culina-voice-btn"
+                                            data-voice-target="id_allergies"
+                                            data-voice-mode="replace"
+                                            title="Speak allergies or restricted ingredients"
+                                        >
+                                            <i class="bi bi-mic-fill"></i>
+                                            Speak
+                                        </button>
+                                    </div>
+
                                     {{ form.allergies }}
+
+                                    <small class="voice-helper-text">
+                                        Click Speak and say restrictions like: nuts, eggs, shellfish.
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -278,10 +330,23 @@
                                     </div>
 
                                     <div class="custom-other-field">
-                                        <label class="recipe-label" for="other_kitchen_equipment">
-                                            Other Kitchen Equipment
-                                            <span>optional</span>
-                                        </label>
+                                        <div class="voice-field-heading">
+                                            <label class="recipe-label" for="other_kitchen_equipment">
+                                                Other Kitchen Equipment
+                                                <span>optional</span>
+                                            </label>
+
+                                            <button
+                                                type="button"
+                                                class="culina-voice-btn"
+                                                data-voice-target="other_kitchen_equipment"
+                                                data-voice-mode="append"
+                                                title="Speak kitchen equipment"
+                                            >
+                                                <i class="bi bi-mic-fill"></i>
+                                                Speak
+                                            </button>
+                                        </div>
 
                                         <input
                                             type="text"
@@ -382,10 +447,23 @@
                                     </div>
 
                                     <div class="custom-other-field">
-                                        <label class="recipe-label" for="other_utensils">
-                                            Other Utensils
-                                            <span>optional</span>
-                                        </label>
+                                        <div class="voice-field-heading">
+                                            <label class="recipe-label" for="other_utensils">
+                                                Other Utensils
+                                                <span>optional</span>
+                                            </label>
+
+                                            <button
+                                                type="button"
+                                                class="culina-voice-btn"
+                                                data-voice-target="other_utensils"
+                                                data-voice-mode="append"
+                                                title="Speak utensils"
+                                            >
+                                                <i class="bi bi-mic-fill"></i>
+                                                Speak
+                                            </button>
+                                        </div>
 
                                         <input
                                             type="text"
@@ -410,9 +488,29 @@
                                 Additional Instructions
                             </div>
 
-                            <label class="recipe-label">{{ form.additional_notes.label }}</label>
+                            <div class="voice-field-heading">
+                                <label class="recipe-label">{{ form.additional_notes.label }}</label>
+
+                                <button
+                                    type="button"
+                                    class="culina-voice-btn"
+                                    data-voice-target="id_additional_notes"
+                                    data-voice-mode="replace"
+                                    title="Speak additional instructions"
+                                >
+                                    <i class="bi bi-mic-fill"></i>
+                                    Speak
+                                </button>
+                            </div>
+
                             {{ form.additional_notes }}
+
+                            <small class="voice-helper-text">
+                                Example: make it spicy, use less oil, keep it high protein.
+                            </small>
                         </div>
+
+                        <div class="voice-status-message" data-voice-status hidden></div>
 
                         <button type="submit" class="btn recipe-generate-btn">
                             <i class="bi bi-magic"></i>
@@ -562,8 +660,6 @@
                                 </button>
                             </form>
                         </div>
-
-                       
 
                         {% with validation=ai_recipe_result.validation_report %}
                             {% if validation %}
@@ -791,53 +887,110 @@
                         {% endwith %}
 
                         <div class="verified-recipe-output-header">
-    <div>
-        <span class="section-label">
-            <i class="bi bi-journal-check"></i>
-            Final Verified Recipe
-        </span>
-        <h3>Recipe Output</h3>
-    </div>
-</div>
+                            <div>
+                                <span class="section-label">
+                                    <i class="bi bi-journal-check"></i>
+                                    Final Verified Recipe
+                                </span>
+                                <h3>Recipe Output</h3>
+                            </div>
+                        </div>
 
-<div class="final-recipe-with-image-layout">
+                        <div class="final-recipe-with-image-layout">
 
-    {% if ai_recipe_result.generated_image_url %}
-        <div class="final-recipe-image-card">
-            <img
-                src="{{ ai_recipe_result.generated_image_url }}"
-                alt="AI-generated food image for this recipe"
-            >
+                            {% if ai_recipe_result.generated_image_url %}
+                                <div class="final-recipe-image-card">
+                                    <img
+                                        src="{{ ai_recipe_result.generated_image_url }}"
+                                        alt="AI-generated food image for this recipe"
+                                    >
 
-            <div class="final-recipe-image-badge">
-                <i class="bi bi-stars"></i>
-                AI Food Image
-            </div>
-        </div>
-    {% elif generated_image_url %}
-        <div class="final-recipe-image-card">
-            <img
-                src="{{ generated_image_url }}"
-                alt="AI-generated food image for this recipe"
-            >
+                                    <div class="final-recipe-image-badge">
+                                        <i class="bi bi-stars"></i>
+                                        AI Food Image
+                                    </div>
+                                </div>
+                            {% elif generated_image_url %}
+                                <div class="final-recipe-image-card">
+                                    <img
+                                        src="{{ generated_image_url }}"
+                                        alt="AI-generated food image for this recipe"
+                                    >
 
-            <div class="final-recipe-image-badge">
-                <i class="bi bi-stars"></i>
-                AI Food Image
-            </div>
-        </div>
-    {% endif %}
+                                    <div class="final-recipe-image-badge">
+                                        <i class="bi bi-stars"></i>
+                                        AI Food Image
+                                    </div>
+                                </div>
+                            {% endif %}
 
-    <div class="ai-recipe-text final-recipe-text-with-image">
-        {{ ai_recipe_result.recipe_text|linebreaks }}
-    </div>
+                            <div
+                                class="ai-recipe-text final-recipe-text-with-image culina-readable-recipe"
+                                data-culina-recipe-output
+                            >
+                                {{ ai_recipe_result.recipe_text|linebreaks }}
+                            </div>
 
-</div>
+                        </div>
                     </div>
                 {% endif %}
             </div>
         {% endif %}
     </div>
+
+    <!-- Recipe Generation Loading Overlay -->
+    <div class="culina-loading-overlay" data-culina-loading-overlay>
+        <div class="culina-loading-card">
+            <div class="culina-loading-content">
+                <div class="culina-loading-badge">
+                    <i class="bi bi-stars"></i>
+                    CulinaAI is cooking
+                </div>
+
+                <div class="culina-chef-loader" aria-hidden="true">
+                    <span class="culina-steam culina-steam-one"></span>
+                    <span class="culina-steam culina-steam-two"></span>
+                    <span class="culina-steam culina-steam-three"></span>
+
+                    <span class="culina-orbit-dot culina-dot-one"></span>
+                    <span class="culina-orbit-dot culina-dot-two"></span>
+                    <span class="culina-orbit-dot culina-dot-three"></span>
+
+                    <div class="culina-loader-lid"></div>
+                    <div class="culina-loader-pot"></div>
+                    <div class="culina-loader-plate"></div>
+                </div>
+
+                <h2 class="culina-loading-title">Generating your personalised recipe...</h2>
+
+                <p class="culina-loading-subtitle">
+                    CulinaAI is checking your ingredients, preferences, allergies and cooking constraints
+                    before preparing the final recipe.
+                </p>
+
+                <div class="culina-loading-progress-wrap">
+                    <div class="culina-loading-progress">
+                        <div class="culina-loading-progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="culina-loading-step" data-culina-loading-step>
+                    Reading your ingredients...
+                </div>
+
+                <div class="culina-loading-mini">
+                    Please wait. Do not refresh the page while the recipe is being generated.
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
+<script src="{% static 'js/voice_input.js' %}?v=voice-input-1"></script>
 {% endblock %}

@@ -20,17 +20,17 @@
     />
 
     <!-- Custom CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'css/custom.css' %}?v=history-ui-final-2"
-    />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=pantry-alert-overflow-fix-1" />
     {% block extra_css %}{% endblock %}
   </head>
 
   <body>
+    {% with current_url=request.resolver_match.url_name %}
+
     <!-- Premium Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top culina-navbar">
       <div class="container">
+
         <a class="navbar-brand culina-logo" href="{% url 'home' %}">
           <span class="logo-image-wrap">
             <img
@@ -47,90 +47,133 @@
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#culinaNavbar"
+          aria-controls="culinaNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="culinaNavbar">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
-            <li class="nav-item">
-              <a class="nav-link active" href="{% url 'home' %}">Home</a>
-            </li>
 
+          <!-- Main Navigation Links -->
+          <ul class="navbar-nav culina-main-links align-items-lg-center">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}#features">Features</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}#how-it-works">How It Works</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}#ai-recipes">AI Recipes</a>
-            </li>
-
-            {% if user.is_authenticated %}
-            <li class="nav-item ms-lg-2">
-              <a class="btn btn-login" href="{% url 'dashboard' %}">
-                <i class="bi bi-speedometer2"></i>
-                Dashboard
+              <a
+                class="nav-link {% if current_url == 'home' %}active{% endif %}"
+                href="{% url 'home' %}"
+              >
+                Home
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="btn btn-login" href="{% url 'recipe_history' %}">
-                <i class="bi bi-clock-history"></i>
-                History
+              <a class="nav-link" href="{% url 'home' %}#features">
+                Features
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="btn btn-login" href="{% url 'profile_summary' %}">
-                <i class="bi bi-person-circle"></i>
-                Profile
+              <a class="nav-link" href="{% url 'home' %}#how-it-works">
+                How It Works
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="btn btn-signup" href="{% url 'logout' %}">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
+              <a class="nav-link" href="{% url 'home' %}#ai-recipes">
+                AI Recipes
               </a>
             </li>
-            {% else %}
-            <li class="nav-item ms-lg-2">
-              <a class="btn btn-login" href="{% url 'login' %}">
-                <i class="bi bi-box-arrow-in-right"></i>
-                Login
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="btn btn-signup" href="{% url 'signup' %}">
-                <i class="bi bi-person-plus"></i>
-                Sign Up
-              </a>
-            </li>
-            {% endif %}
           </ul>
+
+          <!-- User Navigation -->
+          {% if user.is_authenticated %}
+            <div class="culina-user-nav">
+              <a
+                href="{% url 'dashboard' %}"
+                class="culina-nav-action {% if current_url == 'dashboard' %}culina-nav-action-active{% endif %}"
+              >
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+              </a>
+
+              <a
+                href="{% url 'pantry_list' %}"
+                class="culina-nav-action {% if current_url == 'pantry_list' %}culina-nav-action-active{% endif %}"
+              >
+                <i class="bi bi-basket2"></i>
+                <span>Pantry</span>
+              </a>
+
+              <a
+                href="{% url 'recipe_history' %}"
+                class="culina-nav-action {% if current_url == 'recipe_history' or current_url == 'recipe_history_detail' %}culina-nav-action-active{% endif %}"
+              >
+                <i class="bi bi-clock-history"></i>
+                <span>History</span>
+              </a>
+
+              <div class="dropdown culina-account-dropdown">
+                <button
+                  class="culina-nav-action culina-account-toggle dropdown-toggle {% if current_url == 'profile_summary' %}culina-nav-action-active{% endif %}"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="bi bi-person-circle"></i>
+                  <span>Account</span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end culina-account-menu">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'profile_summary' %}">
+                      <i class="bi bi-person"></i>
+                      Profile
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                      <i class="bi bi-box-arrow-right"></i>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          {% else %}
+            <div class="culina-user-nav">
+              <a href="{% url 'login' %}" class="culina-nav-action">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Login</span>
+              </a>
+
+              <a href="{% url 'signup' %}" class="culina-nav-action culina-signup-action">
+                <i class="bi bi-person-plus"></i>
+                <span>Sign Up</span>
+              </a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </nav>
 
     <!-- Global Messages -->
     {% if messages %}
-    <div class="global-message-wrapper">
-      {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} global-message">
-        <i class="bi bi-info-circle-fill"></i>
-        {{ message }}
+      <div class="global-message-wrapper">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} global-message">
+            <i class="bi bi-info-circle-fill"></i>
+            {{ message }}
+          </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
     {% endif %}
 
     <!-- Page Content -->
-    <main>{% block content %}{% endblock %}</main>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
 
     <!-- Premium Footer -->
     <footer class="culina-footer">
@@ -147,10 +190,14 @@
               </span>
               Culina<span>AI</span>
             </a>
+
             <p class="footer-text mt-3">
               AI-Assisted Recipe Generation and Meal Personalisation System.
             </p>
-            <p class="footer-small">MSc Dissertation Project | Sumit Yadav</p>
+
+            <p class="footer-small">
+              MSc Dissertation Project | Sumit Yadav
+            </p>
           </div>
 
           <div class="col-lg-6 text-lg-end">
@@ -159,6 +206,7 @@
               <a href="{% url 'home' %}#how-it-works">How It Works</a>
               <a href="{% url 'home' %}#ai-recipes">AI Recipes</a>
             </div>
+
             <p class="footer-small mt-3 mb-0">
               &copy; 2026 CulinaAI. All rights reserved.
             </p>
@@ -167,11 +215,14 @@
       </div>
     </footer>
 
+    {% endwith %}
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}?v=favourite-refresh-clear-final-1"></script>
+
     {% block extra_js %}{% endblock %}
   </body>
 </html>

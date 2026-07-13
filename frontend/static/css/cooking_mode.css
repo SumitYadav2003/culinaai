@@ -1,0 +1,603 @@
+/* =========================================================
+   CulinaAI Interactive Cooking Mode
+   File: frontend/static/css/cooking_mode.css
+   ========================================================= */
+
+.culina-cooking-mode {
+    min-height: 100vh;
+    padding: 3rem 0 4.5rem;
+    color: #211714;
+    background:
+        linear-gradient(rgba(20, 14, 10, 0.72), rgba(20, 14, 10, 0.72)),
+        url("../images/home-hero-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.culina-cooking-mode *,
+.culina-cooking-mode *::before,
+.culina-cooking-mode *::after {
+    box-sizing: border-box;
+}
+
+.culina-cooking-mode .container {
+    width: min(100% - 2rem, 1320px);
+    max-width: 1320px;
+    margin-inline: auto;
+}
+
+.culina-cooking-mode a {
+    text-decoration: none;
+}
+
+.cooking-mode-hero,
+.cooking-step-sidebar,
+.cooking-main-card,
+.cooking-timer-card,
+.cooking-finish-card {
+    background: rgba(255, 250, 243, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 26px 66px rgba(0, 0, 0, 0.18);
+}
+
+.cooking-mode-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+    gap: 1.5rem;
+    align-items: stretch;
+    margin-bottom: 1.5rem;
+    padding: clamp(1.2rem, 2.8vw, 2.4rem);
+    border-radius: 38px;
+}
+
+.cooking-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+    color: #6f5948;
+    font-weight: 900;
+}
+
+.cooking-back-link:hover {
+    color: #f97316;
+}
+
+.cooking-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f97316;
+    font-size: 0.82rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.cooking-mode-hero-copy h1 {
+    margin: 0.55rem 0 0.85rem;
+    color: #16151f;
+    font-size: clamp(2.1rem, 4vw, 4rem);
+    font-weight: 950;
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+.cooking-mode-hero-copy p {
+    max-width: 760px;
+    margin: 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.75;
+}
+
+.cooking-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.2rem;
+}
+
+.cooking-hero-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    padding: 0.62rem 0.85rem;
+    border-radius: 999px;
+    color: #211714;
+    background: rgba(249, 115, 22, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.14);
+    font-size: 0.84rem;
+    font-weight: 950;
+}
+
+.cooking-mode-summary {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem;
+    border-radius: 30px;
+    color: #fffaf3;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.22), transparent 36%),
+        linear-gradient(145deg, #211714, #33251d);
+}
+
+.summary-icon {
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: 24px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+    font-size: 1.45rem;
+}
+
+.cooking-mode-summary h2 {
+    margin: 0;
+    font-weight: 950;
+}
+
+.cooking-mode-summary p {
+    margin: 0.5rem 0 1rem;
+    color: rgba(255, 250, 243, 0.82);
+    font-weight: 750;
+    line-height: 1.6;
+}
+
+.summary-progress {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+}
+
+.summary-progress div {
+    padding: 0.9rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.summary-progress strong {
+    display: block;
+    color: #ffb429;
+    font-size: 1.5rem;
+    font-weight: 950;
+}
+
+.summary-progress span {
+    color: rgba(255, 250, 243, 0.78);
+    font-size: 0.78rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.cooking-mode-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.3fr) minmax(280px, 0.75fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.cooking-step-sidebar,
+.cooking-main-card,
+.cooking-timer-card,
+.cooking-finish-card {
+    min-width: 0;
+    padding: 1.3rem;
+    border-radius: 34px;
+}
+
+.sidebar-header,
+.timer-header {
+    margin-bottom: 1rem;
+}
+
+.sidebar-header span,
+.timer-header span,
+.current-step-header span,
+.cooking-finish-card span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #f97316;
+    font-size: 0.76rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sidebar-header h2,
+.timer-header h2,
+.current-step-header h2,
+.cooking-finish-card h2 {
+    margin: 0.35rem 0 0;
+    color: #16151f;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+}
+
+.timer-header p,
+.cooking-finish-card p {
+    margin: 0.5rem 0 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.6;
+}
+
+.cooking-step-list {
+    display: grid;
+    gap: 0.72rem;
+    max-height: 640px;
+    overflow-y: auto;
+    padding-right: 0.2rem;
+}
+
+.cooking-step-link {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.85rem;
+    border: 1px solid rgba(80, 50, 30, 0.08);
+    border-radius: 20px;
+    color: #211714;
+    background: rgba(255, 255, 255, 0.7);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.cooking-step-link:hover,
+.cooking-step-link.active {
+    transform: translateY(-1px);
+    border-color: rgba(249, 115, 22, 0.32);
+    background: rgba(255, 244, 229, 0.92);
+}
+
+.step-link-number {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    color: #211714;
+    background: rgba(249, 115, 22, 0.14);
+    font-weight: 950;
+}
+
+.step-link-copy {
+    min-width: 0;
+}
+
+.step-link-copy strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 950;
+    overflow-wrap: anywhere;
+}
+
+.step-link-copy small {
+    display: block;
+    margin-top: 0.15rem;
+    color: #7b6a5c;
+    font-weight: 800;
+}
+
+.step-complete-icon {
+    color: rgba(34, 197, 94, 0.25);
+}
+
+.cooking-step-link.completed .step-complete-icon {
+    color: #22c55e;
+}
+
+.cooking-progress-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.progress-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.progress-topline span,
+.progress-topline strong {
+    color: #6f5948;
+    font-weight: 950;
+}
+
+.cooking-progress-track {
+    height: 12px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.12);
+}
+
+.cooking-progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ffb429, #f97316);
+    transition: width 0.25s ease;
+}
+
+.current-step-card {
+    padding: clamp(1.2rem, 2.6vw, 2rem);
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 34%),
+        rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.current-step-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.current-step-number {
+    width: 74px;
+    height: 74px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 26px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.22);
+    font-size: 2rem;
+    font-weight: 950;
+}
+
+.current-step-text {
+    margin: 0;
+    color: #4b3a30;
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-weight: 850;
+    line-height: 1.7;
+}
+
+.step-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.7rem;
+}
+
+.cooking-control-btn,
+.timer-btn,
+.cooking-finish-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    font-weight: 950;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cooking-control-btn:hover,
+.timer-btn:hover,
+.cooking-finish-btn:hover {
+    transform: translateY(-2px);
+}
+
+.cooking-control-btn.primary,
+.timer-btn.start,
+.cooking-finish-btn {
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+}
+
+.cooking-control-btn.complete {
+    color: #064e3b;
+    background: rgba(34, 197, 94, 0.16);
+}
+
+.cooking-control-btn.secondary,
+.timer-btn.pause,
+.timer-btn.reset {
+    color: #211714;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(80, 50, 30, 0.1);
+}
+
+.cooking-control-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.timer-display-wrap {
+    display: grid;
+    place-items: center;
+    margin: 1.2rem 0;
+    padding: 1.2rem;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle, rgba(249, 115, 22, 0.12), transparent 55%),
+        rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.timer-display {
+    color: #16151f;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 950;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.timer-display-wrap small {
+    margin-top: 0.45rem;
+    color: #7b6a5c;
+    font-weight: 900;
+}
+
+.timer-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+}
+
+.timer-tip {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.65rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+    padding: 0.9rem;
+    border-radius: 20px;
+    background: rgba(249, 115, 22, 0.09);
+}
+
+.timer-tip i {
+    color: #f97316;
+}
+
+.timer-tip p {
+    margin: 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.cooking-finish-card {
+    display: none;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.cooking-finish-card.show {
+    display: grid;
+}
+
+.cooking-finish-btn {
+    color: #211714;
+}
+
+/* -------------------------------
+   Responsive
+-------------------------------- */
+
+@media (max-width: 1199px) {
+    .cooking-mode-grid,
+    .cooking-mode-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .cooking-step-sidebar {
+        order: 2;
+    }
+
+    .cooking-main-card {
+        order: 1;
+    }
+
+    .cooking-timer-card {
+        order: 3;
+    }
+
+    .cooking-step-list {
+        max-height: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .culina-cooking-mode {
+        padding: 2rem 0 3rem;
+    }
+
+    .summary-progress,
+    .current-step-header,
+    .cooking-finish-card {
+        grid-template-columns: 1fr;
+    }
+
+    .step-action-row,
+    .cooking-hero-meta {
+        flex-direction: column;
+    }
+
+    .cooking-control-btn,
+    .cooking-hero-meta span {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-cooking-mode .container {
+        width: min(100% - 1rem, 1320px);
+    }
+
+    .cooking-mode-hero,
+    .cooking-step-sidebar,
+    .cooking-main-card,
+    .cooking-timer-card,
+    .cooking-finish-card {
+        border-radius: 26px;
+    }
+
+    .current-step-number {
+        width: 64px;
+        height: 64px;
+        font-size: 1.6rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   Cooking Mode Navbar Spacer
+   Prevents top cooking mode card from clashing with navbar
+   Same approach as dashboard spacer fix
+   ========================================================= */
+
+.cooking-navbar-spacer {
+    height: 60px !important;
+    width: 100%;
+    display: block;
+}
+
+@media (max-width: 991px) {
+    .cooking-navbar-spacer {
+        height: 40px !important;
+    }
+}

@@ -539,3 +539,134 @@ class PantryItem(models.Model):
 
     def __str__(self):
         return f"{self.ingredient_name} ({self.user.username})"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class CookingChatSession(models.Model):
+    """
+    Stores one AI cooking assistant chat session for a saved recipe.
+
+    Purpose:
+    - Keeps chat history connected to a user and a recipe.
+    - Supports recipe-specific after-use cooking help.
+    - Example use cases:
+      ingredient substitution, cooking mistakes, step explanation,
+      pantry-aware suggestions, and dietary adjustments.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="cooking_chat_sessions",
+    )
+
+    recipe = models.ForeignKey(
+        "Recipe",
+        on_delete=models.CASCADE,
+        related_name="cooking_chat_sessions",
+    )
+
+    title = models.CharField(
+        max_length=180,
+        default="AI Cooking Assistant",
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    class Meta:
+        ordering = ["-updated_at", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "recipe"]),
+            models.Index(fields=["updated_at"]),
+        ]
+
+    def __str__(self):
+        return f"{self.user} - {self.recipe.title}"
+
+
+class CookingChatMessage(models.Model):
+    """
+    Stores individual messages inside a cooking assistant chat session.
+
+    Messages can be from:
+    - user
+    - assistant
+    - system
+
+    This makes the AI assistant advanced because previous messages
+    can be shown again and reused as context.
+    """
+
+    SENDER_USER = "user"
+    SENDER_ASSISTANT = "assistant"
+    SENDER_SYSTEM = "system"
+
+    SENDER_CHOICES = [
+        (SENDER_USER, "User"),
+        (SENDER_ASSISTANT, "Assistant"),
+        (SENDER_SYSTEM, "System"),
+    ]
+
+    session = models.ForeignKey(
+        CookingChatSession,
+        on_delete=models.CASCADE,
+        related_name="messages",
+    )
+
+    sender = models.CharField(
+        max_length=20,
+        choices=SENDER_CHOICES,
+    )
+
+    message = models.TextField()
+
+    quick_prompt_label = models.CharField(
+        max_length=120,
+        blank=True,
+    )
+
+    ai_model = models.CharField(
+        max_length=80,
+        blank=True,
+    )
+
+    metadata = models.JSONField(
+        default=dict,
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["created_at"]
+        indexes = [
+            models.Index(fields=["session", "created_at"]),
+            models.Index(fields=["sender"]),
+        ]
+
+    def __str__(self):
+        return f"{self.sender}: {self.message[:60]}"

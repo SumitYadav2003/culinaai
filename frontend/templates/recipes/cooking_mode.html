@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Cooking Mode{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-navbar-spacer-fix-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="culina-cooking-mode">
+    <div class="cooking-navbar-spacer"></div>
+    <div class="container">
+
+        <div class="cooking-mode-hero">
+            <div class="cooking-mode-hero-copy">
+                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-back-link">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to recipe
+                </a>
+
+                <span class="cooking-eyebrow">
+                    <i class="bi bi-play-circle-fill"></i>
+                    Interactive Cooking Mode
+                </span>
+
+                <h1>{{ recipe.title }}</h1>
+
+                <p>
+                    Follow this recipe step by step, mark progress as you cook, and use the
+                    built-in timer to stay on track.
+                </p>
+
+                <div class="cooking-hero-meta">
+                    <span>
+                        <i class="bi bi-list-check"></i>
+                        {{ total_steps }} steps
+                    </span>
+
+                    <span>
+                        <i class="bi bi-clock"></i>
+                        {{ estimated_total_minutes }} minutes
+                    </span>
+
+                    <span>
+                        <i class="bi bi-bar-chart"></i>
+                        {{ recipe.difficulty|title }}
+                    </span>
+
+                    {% if recipe.cuisine %}
+                        <span>
+                            <i class="bi bi-globe2"></i>
+                            {{ recipe.cuisine.name }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="cooking-mode-summary">
+                <div class="summary-icon">
+                    <i class="bi bi-egg-fried"></i>
+                </div>
+
+                <h2>Cooking session</h2>
+
+                <p>
+                    Complete each step in order. The progress bar updates as you mark steps done.
+                </p>
+
+                <div class="summary-progress">
+                    <div>
+                        <strong id="completedStepsCount">0</strong>
+                        <span>Completed</span>
+                    </div>
+
+                    <div>
+                        <strong>{{ total_steps }}</strong>
+                        <span>Total steps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cooking-mode-grid">
+
+            <!-- Step Sidebar -->
+            <aside class="cooking-step-sidebar">
+                <div class="sidebar-header">
+                    <span>Recipe Steps</span>
+                    <h2>Step checklist</h2>
+                </div>
+
+                <div class="cooking-step-list" id="cookingStepList">
+                    {% for step in cooking_steps %}
+                        <button
+                            type="button"
+                            class="cooking-step-link {% if forloop.first %}active{% endif %}"
+                            data-step-button
+                            data-step-index="{{ forloop.counter0 }}"
+                        >
+                            <span class="step-link-number">{{ step.number }}</span>
+
+                            <span class="step-link-copy">
+                                <strong>{{ step.title }}</strong>
+                                <small>{{ step.timer_minutes }} min timer</small>
+                            </span>
+
+                            <i class="bi bi-check-circle-fill step-complete-icon"></i>
+                        </button>
+                    {% endfor %}
+                </div>
+            </aside>
+
+            <!-- Main Step Card -->
+            <main class="cooking-main-card">
+                <div class="cooking-progress-card">
+                    <div class="progress-topline">
+                        <span id="stepCounterText">Step 1 of {{ total_steps }}</span>
+                        <strong id="progressPercentText">0%</strong>
+                    </div>
+
+                    <div class="cooking-progress-track">
+                        <div class="cooking-progress-fill" id="cookingProgressFill"></div>
+                    </div>
+                </div>
+
+                <article class="current-step-card">
+                    <div class="current-step-header">
+                        <div class="current-step-number" id="currentStepNumber">
+                            1
+                        </div>
+
+                        <div>
+                            <span>Current Step</span>
+                            <h2 id="currentStepTitle">
+                                {% if cooking_steps %}
+                                    {{ cooking_steps.0.title }}
+                                {% else %}
+                                    Cooking Step
+                                {% endif %}
+                            </h2>
+                        </div>
+                    </div>
+
+                    <p id="currentStepText" class="current-step-text">
+                        {% if cooking_steps %}
+                            {{ cooking_steps.0.text }}
+                        {% else %}
+                            Review this recipe before cooking.
+                        {% endif %}
+                    </p>
+
+                    <div class="step-action-row">
+                        <button type="button" class="cooking-control-btn secondary" id="previousStepBtn">
+                            <i class="bi bi-arrow-left"></i>
+                            Previous
+                        </button>
+
+                        <button type="button" class="cooking-control-btn complete" id="completeStepBtn">
+                            <i class="bi bi-check2-circle"></i>
+                            Mark as Completed
+                        </button>
+
+                        <button type="button" class="cooking-control-btn primary" id="nextStepBtn">
+                            Next
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </article>
+            </main>
+
+            <!-- Timer Card -->
+            <aside class="cooking-timer-card">
+                <div class="timer-header">
+                    <span>
+                        <i class="bi bi-stopwatch-fill"></i>
+                        Cooking Timer
+                    </span>
+
+                    <h2>Step timer</h2>
+
+                    <p>
+                        The timer changes based on the current step. You can start, pause or reset it anytime.
+                    </p>
+                </div>
+
+                <div class="timer-display-wrap">
+                    <div class="timer-display" id="timerDisplay">00:00</div>
+                    <small id="timerStepLabel">Timer for current step</small>
+                </div>
+
+                <div class="timer-controls">
+                    <button type="button" class="timer-btn start" id="startTimerBtn">
+                        <i class="bi bi-play-fill"></i>
+                        Start
+                    </button>
+
+                    <button type="button" class="timer-btn pause" id="pauseTimerBtn">
+                        <i class="bi bi-pause-fill"></i>
+                        Pause
+                    </button>
+
+                    <button type="button" class="timer-btn reset" id="resetTimerBtn">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Reset
+                    </button>
+                </div>
+
+                <div class="timer-tip">
+                    <i class="bi bi-lightbulb"></i>
+                    <p>
+                        Tip: Read the next step while the timer is running so your cooking flow stays smooth.
+                    </p>
+                </div>
+            </aside>
+        </div>
+
+        <div class="cooking-finish-card" id="cookingFinishCard">
+            <div>
+                <span>
+                    <i class="bi bi-trophy-fill"></i>
+                    Cooking Complete
+                </span>
+
+                <h2>Great job, {{ user.username }}!</h2>
+
+                <p>
+                    You completed all cooking steps for this recipe. You can now return to the recipe page,
+                    rate it, add feedback, or save notes for next time.
+                </p>
+            </div>
+
+            <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-finish-btn">
+                <i class="bi bi-star"></i>
+                Review recipe
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<script id="cookingStepsData" type="application/json">{{ cooking_steps_json|safe }}</script>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/cooking_mode.js' %}?v=cooking-mode-final-1"></script>
+{% endblock %}

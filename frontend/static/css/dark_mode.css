@@ -1,0 +1,316 @@
+/* =========================================================
+   CulinaAI Dark Mode
+   File: frontend/static/css/dark_mode.css
+   ========================================================= */
+
+:root {
+    --culina-theme-transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+    background:
+        radial-gradient(circle at top left, rgba(255, 152, 0, 0.12), transparent 34rem),
+        linear-gradient(135deg, #130f0b 0%, #1a120c 45%, #241407 100%) !important;
+    color: #f8efe5 !important;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] section,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .container,
+html[data-theme="dark"] .container-fluid {
+    transition: var(--culina-theme-transition);
+}
+
+/* Navbar / header */
+html[data-theme="dark"] .navbar,
+html[data-theme="dark"] .culina-navbar,
+html[data-theme="dark"] header {
+    background: rgba(21, 15, 10, 0.94) !important;
+    border-color: rgba(255, 171, 64, 0.18) !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.36) !important;
+    backdrop-filter: blur(16px);
+}
+
+html[data-theme="dark"] .navbar a,
+html[data-theme="dark"] .navbar-brand,
+html[data-theme="dark"] .nav-link,
+html[data-theme="dark"] header a {
+    color: #fff4e8 !important;
+}
+
+html[data-theme="dark"] .navbar a:hover,
+html[data-theme="dark"] .nav-link:hover {
+    color: #ffb547 !important;
+}
+
+/* Dark mode toggle button */
+.culina-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(255, 152, 0, 0.26) !important;
+    border-radius: 999px !important;
+    padding: 0.48rem 0.85rem !important;
+    font-weight: 800 !important;
+    font-size: 0.86rem !important;
+    color: #4b2a05 !important;
+    background: linear-gradient(135deg, #fff8ef, #ffe5bd) !important;
+    box-shadow: 0 10px 24px rgba(255, 152, 0, 0.16) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.culina-theme-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(255, 152, 0, 0.24) !important;
+}
+
+.culina-theme-toggle i {
+    font-size: 1rem;
+}
+
+html[data-theme="dark"] .culina-theme-toggle {
+    color: #ffe7c2 !important;
+    background: linear-gradient(135deg, #2a190d, #4a2608) !important;
+    border-color: rgba(255, 181, 71, 0.42) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34) !important;
+}
+
+/* General surfaces/cards */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .modal-content,
+html[data-theme="dark"] .dropdown-menu,
+html[data-theme="dark"] .recipe-detail-hero,
+html[data-theme="dark"] .recipe-detail-side-card,
+html[data-theme="dark"] .recipe-detail-main-card,
+html[data-theme="dark"] .recipe-feedback-card,
+html[data-theme="dark"] .culina-modify-recipe,
+html[data-theme="dark"] .culina-modify-panel,
+html[data-theme="dark"] .culina-email-share,
+html[data-theme="dark"] .culina-email-panel,
+html[data-theme="dark"] .recipe-community-share-panel,
+html[data-theme="dark"] .saved-validation-panel,
+html[data-theme="dark"] .saved-recipe-image-showcase,
+html[data-theme="dark"] .culina-comparison-section,
+html[data-theme="dark"] .dashboard-card,
+html[data-theme="dark"] .dashboard-stat-card,
+html[data-theme="dark"] .pantry-card,
+html[data-theme="dark"] .pantry-panel,
+html[data-theme="dark"] .recipe-card,
+html[data-theme="dark"] .saved-recipe-card {
+    background: rgba(35, 24, 16, 0.92) !important;
+    color: #f8efe5 !important;
+    border-color: rgba(255, 181, 71, 0.16) !important;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.33) !important;
+}
+
+/* Text */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+html[data-theme="dark"] strong,
+html[data-theme="dark"] label {
+    color: #fff7ec !important;
+}
+
+html[data-theme="dark"] p,
+html[data-theme="dark"] small,
+html[data-theme="dark"] span,
+html[data-theme="dark"] li,
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .recipe-detail-text,
+html[data-theme="dark"] .recipe-detail-side-card p,
+html[data-theme="dark"] .culina-modify-lead,
+html[data-theme="dark"] .culina-email-lead {
+    color: #e8d8c5 !important;
+}
+
+html[data-theme="dark"] .section-label,
+html[data-theme="dark"] .saved-validation-mini-label {
+    color: #ffb547 !important;
+}
+
+/* Inputs/forms */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select,
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    background: rgba(18, 13, 9, 0.92) !important;
+    color: #fff8ef !important;
+    border-color: rgba(255, 181, 71, 0.28) !important;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #bda58d !important;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] textarea:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+    border-color: #ff9800 !important;
+    box-shadow: 0 0 0 0.22rem rgba(255, 152, 0, 0.18) !important;
+}
+
+/* Tables */
+html[data-theme="dark"] table,
+html[data-theme="dark"] .table {
+    color: #f8efe5 !important;
+}
+
+html[data-theme="dark"] .table th,
+html[data-theme="dark"] .table td {
+    border-color: rgba(255, 181, 71, 0.16) !important;
+}
+
+html[data-theme="dark"] .table thead th {
+    background: rgba(255, 152, 0, 0.12) !important;
+    color: #ffe8c5 !important;
+}
+
+/* Buttons that were white/light */
+html[data-theme="dark"] .btn-light,
+html[data-theme="dark"] .btn-outline-dark,
+html[data-theme="dark"] .recipe-back-link,
+html[data-theme="dark"] .recipe-edit-btn,
+html[data-theme="dark"] .recipe-print-export-btn,
+html[data-theme="dark"] .recipe-shopping-list-btn,
+html[data-theme="dark"] .recipe-favourite-btn,
+html[data-theme="dark"] .recipe-community-view-btn {
+    background: rgba(255, 244, 232, 0.08) !important;
+    color: #fff3e4 !important;
+    border-color: rgba(255, 181, 71, 0.24) !important;
+}
+
+html[data-theme="dark"] .btn-light:hover,
+html[data-theme="dark"] .btn-outline-dark:hover,
+html[data-theme="dark"] .recipe-back-link:hover,
+html[data-theme="dark"] .recipe-edit-btn:hover,
+html[data-theme="dark"] .recipe-print-export-btn:hover,
+html[data-theme="dark"] .recipe-shopping-list-btn:hover,
+html[data-theme="dark"] .recipe-favourite-btn:hover,
+html[data-theme="dark"] .recipe-community-view-btn:hover {
+    background: rgba(255, 152, 0, 0.18) !important;
+    color: #ffffff !important;
+}
+
+/* Modals */
+html[data-theme="dark"] .modal-backdrop.show {
+    opacity: 0.78 !important;
+}
+
+html[data-theme="dark"] .modal-header,
+html[data-theme="dark"] .modal-footer {
+    border-color: rgba(255, 181, 71, 0.16) !important;
+}
+
+html[data-theme="dark"] .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Cooking chat */
+html[data-theme="dark"] .culina-chat-modal-content {
+    background: rgba(31, 21, 14, 0.98) !important;
+}
+
+html[data-theme="dark"] .culina-chat-header {
+    background: linear-gradient(135deg, #140d09, #4a2508) !important;
+}
+
+html[data-theme="dark"] .culina-chat-sidebar {
+    background: rgba(255, 152, 0, 0.08) !important;
+    border-color: rgba(255, 181, 71, 0.16) !important;
+}
+
+html[data-theme="dark"] .culina-chat-quick-btn {
+    background: rgba(255, 244, 232, 0.08) !important;
+    color: #fff3e4 !important;
+    border-color: rgba(255, 181, 71, 0.18) !important;
+}
+
+html[data-theme="dark"] .culina-chat-quick-btn:hover {
+    background: rgba(255, 152, 0, 0.17) !important;
+}
+
+html[data-theme="dark"] .culina-chat-main,
+html[data-theme="dark"] .culina-chat-messages,
+html[data-theme="dark"] .culina-chat-input-wrap {
+    background: rgba(20, 14, 10, 0.74) !important;
+}
+
+html[data-theme="dark"] .culina-chat-message.assistant .culina-chat-bubble {
+    background: rgba(255, 244, 232, 0.08) !important;
+    color: #fff3e4 !important;
+    border-color: rgba(255, 181, 71, 0.18) !important;
+}
+
+html[data-theme="dark"] .culina-chat-message.user .culina-chat-bubble {
+    background: linear-gradient(135deg, #6b330b, #2b160c) !important;
+    color: #fff7ec !important;
+}
+
+html[data-theme="dark"] .culina-chat-input {
+    background: rgba(14, 10, 7, 0.96) !important;
+}
+
+/* Shopping modal */
+html[data-theme="dark"] .culina-shopping-modal-content,
+html[data-theme="dark"] .culina-shopping-modal-body,
+html[data-theme="dark"] .culina-pantry-shopping-panel {
+    background: rgba(31, 21, 14, 0.98) !important;
+    color: #f8efe5 !important;
+    border-color: rgba(255, 181, 71, 0.16) !important;
+}
+
+html[data-theme="dark"] .culina-shopping-simple-item {
+    background: rgba(255, 244, 232, 0.07) !important;
+    border-color: rgba(255, 181, 71, 0.14) !important;
+}
+
+/* Validation/report panels */
+html[data-theme="dark"] .saved-validation-check-card,
+html[data-theme="dark"] .saved-validation-metric-card,
+html[data-theme="dark"] .saved-validation-sub-panel,
+html[data-theme="dark"] .saved-validation-attempt,
+html[data-theme="dark"] .culina-comparison-card,
+html[data-theme="dark"] .feedback-history-item,
+html[data-theme="dark"] .culina-modify-workflow-card,
+html[data-theme="dark"] .culina-email-highlight {
+    background: rgba(255, 244, 232, 0.07) !important;
+    border-color: rgba(255, 181, 71, 0.14) !important;
+}
+
+/* Links */
+html[data-theme="dark"] a {
+    color: #ffbd59;
+}
+
+html[data-theme="dark"] a:hover {
+    color: #ffd08a;
+}
+
+/* Scrollbars */
+html[data-theme="dark"] * {
+    scrollbar-color: #9c5a12 #21150d;
+}
+
+/* Small screens */
+@media (max-width: 575px) {
+    .culina-theme-toggle span {
+        display: none;
+    }
+
+    .culina-theme-toggle {
+        padding: 0.5rem 0.62rem !important;
+    }
+}

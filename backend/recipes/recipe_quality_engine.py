@@ -890,24 +890,43 @@ def check_diet_compliance(
 
 
 def ingredient_variants(ingredient: str) -> List[str]:
+    """
+    Builds alternative names for an ingredient so validation does not fail
+    because of plural/singular words or common UK/Indian/US ingredient names.
+
+    Important fix:
+    ingredient_synonyms must be defined before it is used. Earlier it was
+    accidentally inside the else block, so ingredients ending with "s" caused
+    UnboundLocalError.
+    """
+
     ingredient = normalize_text(ingredient)
-    variants = {ingredient}
+    variants = set()
+
+    if not ingredient:
+        return []
+
+    variants.add(ingredient)
 
     if ingredient.endswith("s"):
         variants.add(ingredient[:-1])
     else:
         variants.add(f"{ingredient}s")
 
-        ingredient_synonyms = {
+    ingredient_synonyms = {
         "chickpea": ["chickpea", "chickpeas", "chana", "garbanzo"],
         "aubergine": ["aubergine", "eggplant", "brinjal"],
         "coriander": ["coriander", "cilantro"],
         "spring onion": ["spring onion", "scallion"],
-        "paneer": ["paneer", "cottage cheese"],
-        "yogurt": ["yogurt", "yoghurt", "curd"],
+        "paneer": ["paneer", "cottage cheese", "indian cottage cheese"],
+        "yogurt": ["yogurt", "yoghurt", "curd", "dahi"],
         "bell pepper": ["bell pepper", "capsicum", "pepper"],
         "egg": ["egg", "eggs", "omelette", "omelet"],
         "bread": ["bread", "toast", "sourdough", "slice"],
+        "rice": ["rice", "basmati rice", "white rice", "brown rice"],
+        "lentil": ["lentil", "lentils", "dal", "daal"],
+        "soy": ["soy", "soya", "soya chunks", "soy chunks"],
+        "tofu": ["tofu", "bean curd"],
 
         "avocado": ["avocado", "avocados", "avacado", "avacados"],
         "cucumber": ["cucumber", "cucumbers", "cumcumber", "cumcumbers"],
@@ -918,11 +937,12 @@ def ingredient_variants(ingredient: str) -> List[str]:
     }
 
     for key, synonyms in ingredient_synonyms.items():
-        if ingredient == key or ingredient in synonyms:
-            variants.update(synonyms)
+        synonym_set = {normalize_text(item) for item in [key] + synonyms}
 
-    return sorted(variants)
+        if ingredient == key or ingredient in synonym_set:
+            variants.update(synonym_set)
 
+    return sorted(variant for variant in variants if variant)
 
 def check_ingredient_match(
     preferences: Dict[str, Any],

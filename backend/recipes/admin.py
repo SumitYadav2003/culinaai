@@ -10,6 +10,8 @@ from .models import (
     RecipeFeedback,
     RecipeRating,
     PantryItem,
+    CookingChatSession,
+    CookingChatMessage,
 )
 
 
@@ -270,3 +272,48 @@ class PantryItemAdmin(admin.ModelAdmin):
         "expiry_date",
         "ingredient_name",
     )
+
+
+
+
+
+
+
+
+
+
+class CookingChatMessageInline(admin.TabularInline):
+    model = CookingChatMessage
+    extra = 0
+    readonly_fields = ("sender", "message", "quick_prompt_label", "ai_model", "created_at")
+    can_delete = False
+
+
+@admin.register(CookingChatSession)
+class CookingChatSessionAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "recipe",
+        "title",
+        "is_active",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = ("is_active", "created_at", "updated_at")
+    search_fields = ("user__username", "recipe__title", "title")
+    inlines = [CookingChatMessageInline]
+
+
+@admin.register(CookingChatMessage)
+class CookingChatMessageAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "session",
+        "sender",
+        "quick_prompt_label",
+        "created_at",
+    )
+    list_filter = ("sender", "created_at")
+    search_fields = ("message", "session__recipe__title", "session__user__username")
+    readonly_fields = ("created_at",)

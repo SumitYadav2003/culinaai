@@ -5,6 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-recipe-images-1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
 {% endblock %}
 
 {% block content %}
@@ -242,8 +243,10 @@
                         Full Recipe
                     </h2>
 
-                    <div class="community-recipe-content">
-                        {{ recipe.instructions_text|linebreaks }}
+                    <div
+                            class="community-recipe-content culina-readable-recipe"
+                            data-culina-recipe-output>
+                                {{ recipe.instructions_text|linebreaks }}
                     </div>
                 </div>
 
@@ -459,4 +462,7 @@
     </div>
 </section>
 
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
 {% endblock %}

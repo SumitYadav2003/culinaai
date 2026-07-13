@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Cuisine, DietPreference, MealType, Recipe
+from .models import Cuisine, DietPreference, MealType, Recipe,PantryItem
 
 
 class RecipeGenerationForm(forms.Form):
@@ -319,3 +319,139 @@ class SavedRecipeEditForm(forms.ModelForm):
             raise forms.ValidationError("Recipe title cannot be empty.")
 
         return title
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class PantryItemForm(forms.ModelForm):
+    class Meta:
+        model = PantryItem
+        fields = [
+            "ingredient_name",
+            "quantity",
+            "unit",
+            "category",
+            "expiry_date",
+            "notes",
+            "is_available",
+        ]
+
+        widgets = {
+            "ingredient_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Example: rice, paneer, milk, tomato",
+                }
+            ),
+            "quantity": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Optional",
+                    "step": "0.01",
+                    "min": "0",
+                }
+            ),
+            "unit": forms.Select(
+                attrs={
+                    "class": "form-select",
+                }
+            ),
+            "category": forms.Select(
+                attrs={
+                    "class": "form-select",
+                }
+            ),
+            "expiry_date": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                }
+            ),
+            "notes": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                    "placeholder": "Optional notes, for example brand, storage location, or freshness",
+                }
+            ),
+            "is_available": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+        }
+
+        labels = {
+            "ingredient_name": "Ingredient name",
+            "quantity": "Quantity",
+            "unit": "Unit",
+            "category": "Category",
+            "expiry_date": "Expiry date",
+            "notes": "Notes",
+            "is_available": "Currently available",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["ingredient_name"].required = True
+        self.fields["quantity"].required = False
+        self.fields["unit"].required = False
+        self.fields["category"].required = False
+        self.fields["expiry_date"].required = False
+        self.fields["notes"].required = False
+        self.fields["is_available"].required = False
+
+        self.fields["quantity"].widget.attrs["placeholder"] = "Optional"
+        self.fields["notes"].widget.attrs["placeholder"] = (
+            "Optional notes, for example brand, storage location, or freshness"
+        )
+
+    def clean_ingredient_name(self):
+        ingredient_name = self.cleaned_data.get("ingredient_name", "").strip()
+
+        if not ingredient_name:
+            raise forms.ValidationError("Ingredient name is required.")
+
+        return ingredient_name
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data.get("quantity")
+
+        if quantity in ["", None]:
+            return None
+
+        return quantity
+
+    def clean_unit(self):
+        unit = self.cleaned_data.get("unit")
+
+        if not unit:
+            return "other"
+
+        return unit
+
+    def clean_category(self):
+        category = self.cleaned_data.get("category")
+
+        if not category:
+            return "other"
+
+        return category

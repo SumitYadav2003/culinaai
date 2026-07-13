@@ -5,7 +5,9 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-inline-recipe-image-1">
-<link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=shopping-modal-clean-1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
+<link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=pantry-match-badge-fix-1">
+<link rel="stylesheet" href="{% static 'css/cooking_chat.css' %}?v=cooking-chat-height-fix-1">
 {% endblock %}
 
 {% block content %}
@@ -107,6 +109,21 @@
                             <i class="bi bi-bag-check"></i>
                             Shopping List
                         </button>
+
+                        <a href="{% url 'cooking_mode' recipe.id %}" class="btn btn-warning fw-bold rounded-pill px-4 py-2">
+                            <i class="bi bi-play-circle"></i>
+                                Start Cooking Mode
+                        </a>
+
+                        <button
+                            type="button"
+                            class="btn culina-chat-launch-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#cookingAssistantModal">
+                            <i class="bi bi-robot"></i>
+                            Ask CulinaAI Assistant
+                        </button>
+
 
                         <a href="{% url 'print_saved_recipe' recipe.id %}" class="btn recipe-print-export-btn">
                             <i class="bi bi-printer"></i>
@@ -519,7 +536,7 @@
             {% endif %}
 
             <div class="row g-4 recipe-detail-content-row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
 
                     {% if recipe.personal_notes %}
                         <div class="recipe-detail-side-card recipe-personal-notes-card">
@@ -597,7 +614,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-8">
+                <div class="col-lg-9">
 <div class="recipe-detail-main-card">
     <div class="recipe-detail-main-header">
         <span class="section-label">
@@ -609,26 +626,25 @@
     </div>
 
     {% if recipe.generated_image %}
-        <div class="recipe-detail-text saved-recipe-flow-text">
-            <div class="saved-recipe-flow-image">
-                <img
-                    src="{{ recipe.generated_image.url }}"
-                    alt="AI-generated image for {{ recipe.title }}"
-                >
+    <div class="saved-recipe-flow-image saved-recipe-output-image-card" data-culina-recipe-image>
+        <img
+            src="{{ recipe.generated_image.url }}"
+            alt="AI-generated image for {{ recipe.title }}"
+        >
 
-                <div class="saved-recipe-flow-image-badge">
-                    <i class="bi bi-stars"></i>
-                    AI Food Image
-                </div>
-            </div>
+        <div class="saved-recipe-flow-image-badge">
+            <i class="bi bi-stars"></i>
+            AI Food Image
+        </div>
+    </div>
+{% endif %}
 
-            {{ recipe.instructions_text|linebreaks }}
-        </div>
-    {% else %}
-        <div class="recipe-detail-text">
-            {{ recipe.instructions_text|linebreaks }}
-        </div>
-    {% endif %}
+<div
+    class="recipe-detail-text culina-readable-recipe"
+    data-culina-recipe-output
+>
+    {{ recipe.instructions_text|linebreaks }}
+</div>
 </div>
                 </div>
             </div>
@@ -711,7 +727,10 @@
                                 </span>
                             </div>
 
-                            <div class="culina-comparison-content">
+                            <div
+                                class="culina-comparison-content culina-readable-recipe"
+                                data-culina-recipe-output
+                                >
                                 {{ original_recipe.instructions_text|linebreaks }}
                             </div>
                         </article>
@@ -740,9 +759,12 @@
                                 </span>
                             </div>
 
-                            <div class="culina-comparison-content">
+                            <div
+                                class="culina-comparison-content culina-readable-recipe"
+                                    data-culina-recipe-output
+                                    >
                                 {{ recipe.instructions_text|linebreaks }}
-                            </div>
+                                </div>
                         </article>
                     </div>
                 </section>
@@ -993,7 +1015,10 @@
                             <small>Review before saving</small>
                         </div>
 
-                        <div class="culina-modified-preview-text">
+                        <div
+                            class="culina-modified-preview-text culina-readable-recipe"
+                            data-culina-recipe-output
+                        >
                             {{ modified_recipe_preview.modified_recipe_text|linebreaks }}
                         </div>
 
@@ -1109,7 +1134,7 @@
 
         <!-- Shopping List Modal -->
         <div class="modal fade culina-shopping-modal" id="shoppingListModal" tabindex="-1" aria-labelledby="shoppingListModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content culina-shopping-modal-content">
 
                     <div class="modal-header culina-shopping-modal-header">
@@ -1119,7 +1144,7 @@
                             </div>
 
                             <div>
-                                <span>Shopping List</span>
+                                <span>Pantry-Aware Shopping List</span>
 
                                 <h2 id="shoppingListModalLabel">
                                     Ingredients to buy
@@ -1136,8 +1161,8 @@
                                 <h3 data-shopping-recipe-title>{{ recipe.title }}</h3>
 
                                 <p>
-                                    A quick ingredient list made from this saved recipe.
-                                    Copy it or print it for your grocery shopping.
+                                    CulinaAI compares this recipe with your Smart Pantry, then separates
+                                    ingredients you already have from items you may need to buy.
                                 </p>
                             </div>
 
@@ -1148,20 +1173,104 @@
                         </div>
 
                         {% if shopping_categories %}
-                            <div class="culina-shopping-list">
-                                {% for category in shopping_categories %}
-                                    {% for item in category.items %}
-                                        <div class="culina-shopping-simple-item">
-                                            <span class="culina-shopping-simple-icon">
-                                                <i class="bi bi-bag-check"></i>
-                                            </span>
+                            <div class="culina-pantry-match-summary">
+                                <div class="culina-pantry-match-score">
+                                    <span>{{ pantry_match_score }}%</span>
+                                    <small>Pantry Match</small>
+                                </div>
 
-                                            <span class="culina-shopping-name" data-shopping-item-name>
-                                                {{ item.name }}
-                                            </span>
+                                <div class="culina-pantry-match-copy">
+                                    <h3>
+                                        You already have {{ pantry_available_count }} of {{ shopping_total_items }} ingredient{{ shopping_total_items|pluralize }}.
+                                    </h3>
+
+                                    <p>
+                                        Missing ingredients are shown under Need to Buy. Items already available
+                                        in your Smart Pantry are shown separately so you avoid buying duplicates.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="culina-pantry-shopping-grid">
+
+                                <div class="culina-pantry-shopping-panel culina-pantry-missing-panel">
+                                    <div class="culina-pantry-panel-header">
+                                        <i class="bi bi-cart-plus"></i>
+
+                                        <div>
+                                            <h3>Need to Buy</h3>
+                                            <p>{{ pantry_missing_count }} missing item{{ pantry_missing_count|pluralize }}</p>
                                         </div>
-                                    {% endfor %}
-                                {% endfor %}
+                                    </div>
+
+                                    {% if pantry_missing_items %}
+                                        <div class="culina-shopping-list">
+                                            {% for item in pantry_missing_items %}
+                                                <div class="culina-shopping-simple-item culina-shopping-missing-item">
+                                                    <span class="culina-shopping-simple-icon">
+                                                        <i class="bi bi-bag-plus"></i>
+                                                    </span>
+
+                                                    <span class="culina-shopping-name" data-shopping-item-name>
+                                                        {{ item.name }}
+                                                    </span>
+
+                                                    <span class="culina-shopping-status-badge missing">
+                                                        Need to Buy
+                                                    </span>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="culina-shopping-empty-mini">
+                                            <i class="bi bi-check2-circle"></i>
+
+                                            <p>
+                                                Great! Your Smart Pantry already covers this recipe.
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="culina-pantry-shopping-panel culina-pantry-available-panel">
+                                    <div class="culina-pantry-panel-header">
+                                        <i class="bi bi-house-check"></i>
+
+                                        <div>
+                                            <h3>Already in Pantry</h3>
+                                            <p>{{ pantry_available_count }} available item{{ pantry_available_count|pluralize }}</p>
+                                        </div>
+                                    </div>
+
+                                    {% if pantry_available_items %}
+                                        <div class="culina-shopping-list">
+                                            {% for item in pantry_available_items %}
+                                                <div class="culina-shopping-simple-item culina-shopping-available-item">
+                                                    <span class="culina-shopping-simple-icon">
+                                                        <i class="bi bi-check2-circle"></i>
+                                                    </span>
+
+                                                    <span class="culina-shopping-name">
+                                                        {{ item.name }}
+                                                    </span>
+
+                                                    <span class="culina-shopping-status-badge available">
+                                                        In Pantry
+                                                    </span>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="culina-shopping-empty-mini">
+                                            <i class="bi bi-basket"></i>
+
+                                            <p>
+                                                No matching pantry ingredients found yet.
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
                             </div>
                         {% else %}
                             <div class="culina-shopping-empty">
@@ -1207,13 +1316,29 @@
             <p>{{ recipe.title }}</p>
 
             {% if shopping_categories %}
-                <ul>
-                    {% for category in shopping_categories %}
-                        {% for item in category.items %}
+                <h2>Need to Buy</h2>
+
+                {% if pantry_missing_items %}
+                    <ul>
+                        {% for item in pantry_missing_items %}
                             <li>{{ item.name }}</li>
                         {% endfor %}
-                    {% endfor %}
-                </ul>
+                    </ul>
+                {% else %}
+                    <p>All recipe ingredients are already available in your Smart Pantry.</p>
+                {% endif %}
+
+                <h2>Already in Pantry</h2>
+
+                {% if pantry_available_items %}
+                    <ul>
+                        {% for item in pantry_available_items %}
+                            <li>{{ item.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No pantry matches found.</p>
+                {% endif %}
             {% else %}
                 <p>No ingredients found.</p>
             {% endif %}
@@ -1289,10 +1414,173 @@
         </div>
 
     </div>
+
+    <!-- =========================================================
+     AI Cooking Chat Assistant Modal
+     Add this near the bottom of saved_recipe_detail.html,
+     before the JavaScript block.
+     ========================================================= -->
+
+<div
+    class="modal fade culina-chat-modal"
+    id="cookingAssistantModal"
+    tabindex="-1"
+    aria-labelledby="cookingAssistantModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div
+            class="modal-content culina-chat-modal-content"
+            data-cooking-chat-root
+            data-ask-url="{% url 'ask_cooking_assistant' recipe.id %}"
+        >
+            <div class="modal-header culina-chat-header">
+                <div class="culina-chat-avatar">
+                    <i class="bi bi-robot"></i>
+                </div>
+
+                <div class="culina-chat-title">
+                    <span>
+                        <i class="bi bi-stars"></i>
+                        Advanced AI Cooking Assistant
+                    </span>
+
+                    <h2 id="cookingAssistantModalLabel">
+                        Ask about {{ recipe.title }}
+                    </h2>
+
+                    <p>
+                        Get recipe-specific help with substitutions, missing ingredients,
+                        pantry suggestions, cooking mistakes and step explanations.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+
+            <div class="modal-body culina-chat-body">
+                <div class="culina-chat-layout">
+
+                    <!-- Quick prompts -->
+                    <aside class="culina-chat-sidebar">
+                        <h3>Quick help</h3>
+
+                        <p>
+                            Choose a common cooking question or type your own message.
+                        </p>
+
+                        <div class="culina-chat-quick-grid">
+                            {% for prompt in cooking_chat_quick_prompts %}
+                                <button
+                                    type="button"
+                                    class="culina-chat-quick-btn"
+                                    data-cooking-chat-quick
+                                    data-prompt-key="{{ prompt.key }}"
+                                    data-prompt-text="{{ prompt.prompt }}"
+                                >
+                                    <i class="bi {{ prompt.icon }}"></i>
+                                    <span>{{ prompt.label }}</span>
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </aside>
+
+                    <!-- Chat messages -->
+                    <section class="culina-chat-main">
+                        <div
+                            class="culina-chat-messages"
+                            data-cooking-chat-messages
+                        >
+                            {% if cooking_chat_messages %}
+                                {% for message in cooking_chat_messages %}
+                                    <div class="culina-chat-message {{ message.sender }}">
+                                        <div class="culina-chat-message-avatar">
+                                            {% if message.sender == "user" %}
+                                                <i class="bi bi-person-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-robot"></i>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="culina-chat-bubble">
+                                            <p>{{ message.message }}</p>
+                                            <span class="culina-chat-meta">
+                                                {{ message.created_at|date:"d M Y, H:i" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="culina-chat-empty" data-cooking-chat-empty>
+                                    <i class="bi bi-chat-heart"></i>
+
+                                    <h3>No assistant messages yet</h3>
+
+                                    <p>
+                                        Ask a question like “What can I use instead of paneer?”
+                                        or choose a quick prompt from the left.
+                                    </p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div
+                            class="culina-chat-loading"
+                            data-cooking-chat-loading
+                        >
+                            <div class="culina-chat-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            CulinaAI is thinking...
+                        </div>
+
+                        <div class="culina-chat-input-wrap">
+                            <form class="culina-chat-form" data-cooking-chat-form>
+                                {% csrf_token %}
+
+                                <textarea
+                                    class="culina-chat-input"
+                                    rows="2"
+                                    data-cooking-chat-input
+                                    placeholder="Ask something like: I do not have paneer, what can I use instead?"
+                                ></textarea>
+
+                                <button
+                                    type="submit"
+                                    class="culina-chat-send-btn"
+                                    data-cooking-chat-send
+                                >
+                                    <i class="bi bi-send-fill"></i>
+                                    Send
+                                </button>
+                            </form>
+
+                            <div
+                                class="culina-chat-error"
+                                data-cooking-chat-error
+                            ></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </section>
 
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_shopping.js' %}?v=shopping-modal-1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
+<script src="{% static 'js/recipe_shopping.js' %}?v=shopping-copy-print-fix-1"></script>
+<script src="{% static 'js/cooking_chat.js' %}?v=cooking-chat-error-hide-1"></script>
 {% endblock %}

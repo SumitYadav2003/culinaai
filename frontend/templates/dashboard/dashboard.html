@@ -4,21 +4,13 @@
 {% block title %}CulinaAI | Command Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=dashboard-bg-clean-one-block-1">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=navbar-force-down-final-10">
 {% endblock %}
 
 {% block content %}
 
 <section class="culina-command-center">
-    <!--
-        CulinaAI Command Center Dashboard
-        Purpose:
-        - Gives the user a premium analytics-style overview of their recipe activity.
-        - Uses visual cards, an animated robot assistant, profile panel, quick actions,
-          recent activity, and project-progress style insights.
-        - This template stays focused on HTML structure only.
-        - Styling and animations live inside frontend/static/css/dashboard.css.
-    -->
+    <div class="dashboard-navbar-spacer"></div>
     <div class="container">
 
         <!-- Top Hero / AI Assistant Greeting -->
@@ -37,8 +29,8 @@
 
                     <p>
                         Track your saved meals, favourite dishes, AI-generated recipes,
-                        feedback history, and personalised cooking progress from one
-                        intelligent dashboard.
+                        feedback history, smart pantry activity, and personalised cooking
+                        analytics from one intelligent dashboard.
                     </p>
 
                     <div class="command-hero-actions">
@@ -59,11 +51,10 @@
                         <span>AI Assistant</span>
 
                         <p>
-                            Welcome back, {{ user.username }}. Ready to cook smarter today?
+                            Welcome back, {{ user.username }}. Your personalised recipe analytics are ready.
                         </p>
                     </div>
 
-                    <!-- Animated robot built with HTML/CSS. -->
                     <div class="culina-robot" aria-label="Animated CulinaAI robot assistant">
                         <div class="robot-antenna"></div>
 
@@ -98,7 +89,7 @@
             </div>
         </div>
 
-        <!-- Profile + Analytics Overview -->
+        <!-- Profile + Main Counts -->
         <div class="command-overview-grid">
 
             <!-- Profile Card -->
@@ -137,7 +128,7 @@
                 </div>
             </aside>
 
-            <!-- Analytics Cards -->
+            <!-- Main Count Cards -->
             <div class="command-analytics-grid">
                 <article class="analytics-card analytics-card-orange">
                     <div class="analytics-icon">
@@ -213,7 +204,7 @@
             </div>
         </div>
 
-        <!-- Main Dashboard Panels -->
+        <!-- Quick Launch + Recent Activity -->
         <div class="command-main-grid">
 
             <!-- Quick Launch Panel -->
@@ -236,29 +227,37 @@
 
                         <div class="command-action-copy">
                             <h3>Generate New Recipe</h3>
-                            <p>
-                                Create a personalised recipe from ingredients, diet needs and preferences.
-                            </p>
+                            <p>Create a personalised recipe from ingredients, diet needs and preferences.</p>
                         </div>
 
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
                     </a>
 
-
                     <a href="{% url 'recipe_history' %}" class="command-action-card">
-    <div class="command-action-icon">
-        <i class="bi bi-clock-history"></i>
-    </div>
+                        <div class="command-action-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
 
-    <div class="command-action-copy">
-        <h3>Automatic Recipe History</h3>
-        <p>
-            View every recipe you generated automatically, even if you did not save it.
-        </p>
-    </div>
+                        <div class="command-action-copy">
+                            <h3>Automatic Recipe History</h3>
+                            <p>View every recipe you generated automatically, even if you did not save it.</p>
+                        </div>
 
-    <i class="bi bi-arrow-right-short command-action-arrow"></i>
-</a>
+                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                    </a>
+
+                    <a href="{% url 'pantry_list' %}" class="command-action-card">
+                        <div class="command-action-icon">
+                            <i class="bi bi-basket2-fill"></i>
+                        </div>
+
+                        <div class="command-action-copy">
+                            <h3>Smart Pantry</h3>
+                            <p>Manage ingredients, expiry tracking and pantry-aware recipe generation.</p>
+                        </div>
+
+                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                    </a>
 
                     <a href="{% url 'saved_recipes' %}" class="command-action-card">
                         <div class="command-action-icon">
@@ -267,9 +266,7 @@
 
                         <div class="command-action-copy">
                             <h3>Saved Recipe Library</h3>
-                            <p>
-                                Search, filter, view and manage your saved AI-generated recipes.
-                            </p>
+                            <p>Search, filter, view and manage your saved AI-generated recipes.</p>
                         </div>
 
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
@@ -282,21 +279,12 @@
 
                         <div class="command-action-copy">
                             <h3>Favourite Recipes</h3>
-                            <p>
-                                Open the recipes you liked most and want to cook again.
-                            </p>
+                            <p>Open the recipes you liked most and want to cook again.</p>
                         </div>
 
                         <i class="bi bi-arrow-right-short command-action-arrow"></i>
                     </a>
 
-                    <!--
-                        Latest Modified Recipe Shortcut
-                        Purpose:
-                        - Reuses the existing Quick Launch design.
-                        - Avoids creating a duplicate dashboard shortcut section.
-                        - Sends the user to their latest modified recipe when available.
-                    -->
                     {% if latest_modified_recipe %}
                         <a href="{% url 'saved_recipe_detail' latest_modified_recipe.id %}" class="command-action-card">
                             <div class="command-action-icon">
@@ -409,6 +397,211 @@
                 {% endif %}
             </section>
         </div>
+
+        <!-- Personal Analytics Dashboard -->
+        <section class="user-analytics-section">
+            <div class="user-analytics-header">
+                <div>
+                    <span>
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                        Personal Analytics Dashboard
+                    </span>
+
+                    <h2>Your recipe behaviour and cooking intelligence</h2>
+
+                    <p>
+                        This section summarises your recipe generation activity, favourite cuisine,
+                        average cooking time, favourite ingredients, recent searches and usage trends.
+                    </p>
+                </div>
+
+                <div class="user-analytics-status">
+                    <i class="bi bi-activity"></i>
+                    {{ activity_label|default:"New User" }}
+                </div>
+            </div>
+
+            <div class="user-kpi-grid">
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-magic"></i>
+                    </div>
+
+                    <span>Total Recipes Generated</span>
+                    <h3>{{ total_recipes_generated|default:"0" }}</h3>
+                    <p>All automatic AI recipe generations recorded in your recipe history.</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-pie-chart-fill"></i>
+                    </div>
+
+                    <span>Favourite Cuisine</span>
+                    <h3>{{ favourite_cuisine|default:"Not enough data" }}</h3>
+                    <p>Your most repeated cuisine based on history, saved recipes and favourites.</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-stopwatch-fill"></i>
+                    </div>
+
+                    <span>Average Cooking Time</span>
+                    <h3>
+                        {% if average_cooking_time %}
+                            {{ average_cooking_time }} min
+                        {% else %}
+                            0 min
+                        {% endif %}
+                    </h3>
+                    <p>Average preparation or cooking time calculated from your recipe activity.</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+
+                    <span>Usage Insight</span>
+                    <h3>{{ activity_label|default:"New User" }}</h3>
+                    <p>{{ activity_message|default:"Generate more recipes to unlock stronger personal analytics." }}</p>
+                </article>
+            </div>
+
+            <div class="user-chart-grid">
+                <article class="user-chart-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Cuisine Distribution</span>
+                            <h3>Pie chart for cuisine</h3>
+                            <p>Shows which cuisines appear most often in your activity.</p>
+                        </div>
+
+                        <i class="bi bi-pie-chart-fill"></i>
+                    </div>
+
+                    <div class="user-chart-wrap">
+                        <canvas id="cuisinePieChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="user-chart-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Ingredient Frequency</span>
+                            <h3>Bar chart for ingredients</h3>
+                            <p>Shows your most frequently used recipe ingredients.</p>
+                        </div>
+
+                        <i class="bi bi-bar-chart-fill"></i>
+                    </div>
+
+                    <div class="user-chart-wrap">
+                        <canvas id="ingredientBarChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="user-chart-card user-chart-card-wide">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Recipe Activity</span>
+                            <h3>Line chart for usage over time</h3>
+                            <p>Tracks your recipe generation activity over the last 30 days.</p>
+                        </div>
+
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <div class="user-chart-wrap user-chart-wrap-wide">
+                        <canvas id="usageLineChart"></canvas>
+                    </div>
+                </article>
+            </div>
+
+            <div class="user-analytics-list-grid">
+                <article class="user-list-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Favourite Ingredients</span>
+                            <h3>Most used ingredients</h3>
+                            <p>Based on saved recipes, favourites and generated recipe history.</p>
+                        </div>
+
+                        <i class="bi bi-basket2-fill"></i>
+                    </div>
+
+                    {% if favourite_ingredients %}
+                        <div class="user-ingredient-list">
+                            {% for ingredient in favourite_ingredients %}
+                                <div class="user-ingredient-item">
+                                    <div class="user-ingredient-rank">
+                                        {{ forloop.counter }}
+                                    </div>
+
+                                    <div class="user-ingredient-copy">
+                                        <strong>{{ ingredient.name }}</strong>
+                                        <span>
+                                            Used {{ ingredient.count }} time{% if ingredient.count != 1 %}s{% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="user-empty-mini">
+                            <i class="bi bi-basket2"></i>
+                            <p>No favourite ingredients yet. Generate more recipes to build this list.</p>
+                        </div>
+                    {% endif %}
+                </article>
+
+                <article class="user-list-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Recent Searches</span>
+                            <h3>Latest recipe searches</h3>
+                            <p>Shows your latest generated recipe inputs from automatic history.</p>
+                        </div>
+
+                        <i class="bi bi-search-heart-fill"></i>
+                    </div>
+
+                    {% if recent_searches %}
+                        <div class="user-search-list">
+                            {% for search in recent_searches %}
+                                <div class="user-search-item">
+                                    <div class="user-search-icon">
+                                        <i class="bi bi-clock-history"></i>
+                                    </div>
+
+                                    <div class="user-search-copy">
+                                        <strong>
+                                            {{ search.ingredients_text|truncatechars:70|default:"Recipe search" }}
+                                        </strong>
+
+                                        <span>
+                                            {{ search.created_at|date:"d M Y" }}
+                                            {% if search.cuisine_name %}
+                                                · {{ search.cuisine_name }}
+                                            {% endif %}
+                                            {% if search.cooking_time_minutes %}
+                                                · {{ search.cooking_time_minutes }} min
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="user-empty-mini">
+                            <i class="bi bi-search"></i>
+                            <p>No recent searches yet. Generate recipes to start tracking activity.</p>
+                        </div>
+                    {% endif %}
+                </article>
+            </div>
+        </section>
 
         <!-- Taste Intelligence and AI Journey -->
         <section class="taste-intelligence-grid">
@@ -585,9 +778,10 @@
                 <h2>Your CulinaAI workspace is becoming smarter.</h2>
 
                 <p>
-                    The system now combines recipe generation, saved recipe management,
-                    favourites, feedback, email sharing, recipe modification, and
-                    original-vs-modified comparison. This creates strong evidence for
+                    The system now combines recipe generation, automatic history,
+                    saved recipe management, favourites, feedback, smart pantry,
+                    pantry-aware shopping lists, recipe modification, email sharing,
+                    and personal analytics. This creates strong evidence for
                     personalisation, evaluation and explainable AI use.
                 </p>
             </div>
@@ -600,7 +794,7 @@
 
                 <div class="intelligence-chip">
                     <i class="bi bi-check-circle-fill"></i>
-                        Automatic History
+                    Automatic History
                 </div>
 
                 <div class="intelligence-chip">
@@ -625,7 +819,17 @@
 
                 <div class="intelligence-chip">
                     <i class="bi bi-check-circle-fill"></i>
-                    Email Sharing
+                    Smart Pantry
+                </div>
+
+                <div class="intelligence-chip">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Pantry Shopping
+                </div>
+
+                <div class="intelligence-chip">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Analytics Dashboard
                 </div>
 
                 <div class="intelligence-chip">
@@ -642,5 +846,155 @@
 
     </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cuisineLabels = {{ cuisine_chart_labels|default:"[]"|safe }};
+    const cuisineValues = {{ cuisine_chart_values|default:"[]"|safe }};
+    const ingredientLabels = {{ ingredient_chart_labels|default:"[]"|safe }};
+    const ingredientValues = {{ ingredient_chart_values|default:"[]"|safe }};
+    const dailyActivityLabels = {{ daily_activity_labels|default:"[]"|safe }};
+    const dailyActivityValues = {{ daily_activity_values|default:"[]"|safe }};
+
+    function hasChartData(values) {
+        return Array.isArray(values) && values.some(function (value) {
+            return Number(value) > 0;
+        });
+    }
+
+    function showEmptyChart(canvasId, message) {
+        const canvas = document.getElementById(canvasId);
+
+        if (!canvas || !canvas.parentElement) {
+            return;
+        }
+
+        const wrapper = canvas.parentElement;
+        canvas.remove();
+
+        const emptyBox = document.createElement("div");
+        emptyBox.className = "user-empty-mini user-chart-empty";
+        emptyBox.innerHTML = "<i class='bi bi-info-circle'></i><p>" + message + "</p>";
+
+        wrapper.appendChild(emptyBox);
+    }
+
+    const cuisineCanvas = document.getElementById("cuisinePieChart");
+
+    if (cuisineCanvas && hasChartData(cuisineValues)) {
+        new Chart(cuisineCanvas, {
+            type: "pie",
+            data: {
+                labels: cuisineLabels,
+                datasets: [
+                    {
+                        data: cuisineValues,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        });
+    } else {
+        showEmptyChart(
+            "cuisinePieChart",
+            "No cuisine chart data yet. Save or generate more recipes."
+        );
+    }
+
+    const ingredientCanvas = document.getElementById("ingredientBarChart");
+
+    if (ingredientCanvas && hasChartData(ingredientValues)) {
+        new Chart(ingredientCanvas, {
+            type: "bar",
+            data: {
+                labels: ingredientLabels,
+                datasets: [
+                    {
+                        label: "Ingredient usage",
+                        data: ingredientValues,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: "y",
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        showEmptyChart(
+            "ingredientBarChart",
+            "No ingredient chart data yet. Generate recipes with ingredients."
+        );
+    }
+
+    const usageCanvas = document.getElementById("usageLineChart");
+
+    if (usageCanvas && hasChartData(dailyActivityValues)) {
+        new Chart(usageCanvas, {
+            type: "line",
+            data: {
+                labels: dailyActivityLabels,
+                datasets: [
+                    {
+                        label: "Recipes generated",
+                        data: dailyActivityValues,
+                        borderWidth: 3,
+                        tension: 0.35,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        showEmptyChart(
+            "usageLineChart",
+            "No usage activity yet. Generate recipes to build your activity line chart."
+        );
+    }
+});
+</script>
 
 {% endblock %}

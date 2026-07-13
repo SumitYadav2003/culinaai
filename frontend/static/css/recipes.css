@@ -11097,3 +11097,531 @@ textarea.recipe-input {
         border-radius: 22px !important;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   CULINAAI VOICE INPUT BUTTONS
+   Purpose:
+   - Styles microphone buttons on the Generate Recipe form.
+   - Works with frontend/static/js/voice_input.js.
+   ========================================================= */
+
+.voice-field-heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 8px !important;
+}
+
+.voice-field-heading .recipe-label {
+    margin-bottom: 0 !important;
+}
+
+.culina-voice-btn {
+    min-height: 34px !important;
+    padding: 7px 12px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+    box-shadow: 0 12px 28px rgba(249, 115, 22, 0.24) !important;
+
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: all 0.22s ease !important;
+}
+
+.culina-voice-btn i {
+    font-size: 0.92rem !important;
+}
+
+.culina-voice-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 18px 38px rgba(249, 115, 22, 0.34) !important;
+}
+
+.culina-voice-btn.voice-listening {
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.12),
+                0 16px 38px rgba(22, 163, 74, 0.28) !important;
+    animation: culinaVoicePulse 1.2s ease-in-out infinite !important;
+}
+
+.culina-voice-btn.voice-not-supported {
+    opacity: 0.55 !important;
+    cursor: not-allowed !important;
+    background: linear-gradient(135deg, #64748b, #94a3b8) !important;
+    box-shadow: none !important;
+}
+
+.voice-helper-text {
+    display: block !important;
+    margin-top: 8px !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+}
+
+.voice-status-message {
+    margin-top: 2px !important;
+    padding: 13px 16px !important;
+    border-radius: 18px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    font-size: 0.9rem !important;
+    font-weight: 850 !important;
+    line-height: 1.55 !important;
+}
+
+.voice-status-message::before {
+    font-family: "bootstrap-icons" !important;
+    font-size: 1.05rem !important;
+}
+
+.voice-status-listening {
+    color: #92400e !important;
+    background: rgba(254, 243, 199, 0.92) !important;
+    border: 1px solid rgba(245, 158, 11, 0.22) !important;
+}
+
+.voice-status-listening::before {
+    content: "\F490" !important;
+}
+
+.voice-status-success {
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.92) !important;
+    border: 1px solid rgba(22, 163, 74, 0.18) !important;
+}
+
+.voice-status-success::before {
+    content: "\F26A" !important;
+}
+
+.voice-status-warning {
+    color: #92400e !important;
+    background: rgba(254, 243, 199, 0.92) !important;
+    border: 1px solid rgba(245, 158, 11, 0.22) !important;
+}
+
+.voice-status-warning::before {
+    content: "\F33A" !important;
+}
+
+.voice-status-error {
+    color: #991b1b !important;
+    background: rgba(254, 226, 226, 0.92) !important;
+    border: 1px solid rgba(239, 68, 68, 0.18) !important;
+}
+
+.voice-status-error::before {
+    content: "\F623" !important;
+}
+
+@keyframes culinaVoicePulse {
+    0%, 100% {
+        transform: translateY(-2px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.04);
+    }
+}
+
+@media (max-width: 575px) {
+    .voice-field-heading {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .culina-voice-btn {
+        width: 100% !important;
+        min-height: 40px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   CULINAAI PREMIUM VOICE INPUT BUTTON DESIGN
+   Purpose:
+   - Makes voice input button match CulinaAI theme.
+   - Adds premium mic icon, glow, hover and listening animation.
+   - Paste at the very bottom of recipes.css.
+   ========================================================= */
+
+.culina-voice-btn {
+    position: relative !important;
+    min-height: 38px !important;
+    padding: 7px 14px 7px 9px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+
+    color: #1f1a17 !important;
+    background:
+        linear-gradient(135deg, #fff7ed 0%, #fed7aa 42%, #facc15 100%) !important;
+    border: 1px solid rgba(249, 115, 22, 0.28) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        0 12px 28px rgba(249, 115, 22, 0.22) !important;
+
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.02em !important;
+
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    transition: all 0.25s ease !important;
+}
+
+.culina-voice-btn::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+        linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.55) 45%,
+            transparent 70%
+        ) !important;
+    transform: translateX(-120%) !important;
+    transition: transform 0.55s ease !important;
+}
+
+.culina-voice-btn:hover::before {
+    transform: translateX(120%) !important;
+}
+
+.culina-voice-btn i {
+    position: relative !important;
+    z-index: 2 !important;
+
+    width: 27px !important;
+    height: 27px !important;
+    min-width: 27px !important;
+
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #ea580c) !important;
+    box-shadow:
+        0 0 0 4px rgba(249, 115, 22, 0.14),
+        0 10px 22px rgba(234, 88, 12, 0.30) !important;
+
+    font-size: 0.9rem !important;
+}
+
+.culina-voice-btn {
+    z-index: 1 !important;
+}
+
+.culina-voice-btn:hover {
+    color: #1f1a17 !important;
+    transform: translateY(-3px) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.82),
+        0 18px 42px rgba(249, 115, 22, 0.34) !important;
+}
+
+.culina-voice-btn:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* Listening state */
+
+.culina-voice-btn.voice-listening {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border-color: rgba(22, 163, 74, 0.32) !important;
+    box-shadow:
+        0 0 0 7px rgba(22, 163, 74, 0.12),
+        0 18px 44px rgba(22, 163, 74, 0.32) !important;
+    animation: culinaPremiumVoiceListening 1.25s ease-in-out infinite !important;
+}
+
+.culina-voice-btn.voice-listening i {
+    color: #16a34a !important;
+    background: #ffffff !important;
+    box-shadow:
+        0 0 0 5px rgba(255, 255, 255, 0.18),
+        0 12px 26px rgba(22, 163, 74, 0.28) !important;
+}
+
+.culina-voice-btn.voice-listening::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 21px !important;
+    top: 50% !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(255, 255, 255, 0.38) !important;
+    transform: translate(-50%, -50%) scale(0.85) !important;
+    animation: culinaVoiceRing 1.2s ease-out infinite !important;
+}
+
+/* Unsupported browser state */
+
+.culina-voice-btn.voice-not-supported {
+    opacity: 0.58 !important;
+    cursor: not-allowed !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #64748b, #94a3b8) !important;
+    border-color: rgba(100, 116, 139, 0.20) !important;
+    box-shadow: none !important;
+}
+
+.culina-voice-btn.voice-not-supported i {
+    background: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+@keyframes culinaPremiumVoiceListening {
+    0%, 100% {
+        transform: translateY(-2px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.045);
+    }
+}
+
+@keyframes culinaVoiceRing {
+    0% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(0.85);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.55);
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-voice-btn {
+        width: 100% !important;
+        min-height: 43px !important;
+        justify-content: center !important;
+    }
+
+    .culina-voice-btn i {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FINAL FORCE FIX - PREMIUM VOICE MIC BUTTON
+   Purpose:
+   - Strong override for CulinaAI voice input button.
+   - Uses extra class culina-premium-voice-btn to avoid old CSS conflicts.
+   ========================================================= */
+
+.culina-horizontal-generate-form .culina-premium-voice-btn {
+    position: relative !important;
+    min-height: 42px !important;
+    padding: 8px 16px 8px 9px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(249, 115, 22, 0.34) !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+
+    color: #1f1a17 !important;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.95), transparent 32%),
+        linear-gradient(135deg, #fff7ed 0%, #fed7aa 42%, #facc15 100%) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.82),
+        0 14px 32px rgba(249, 115, 22, 0.28) !important;
+
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.02em !important;
+
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    transition: all 0.25s ease !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.65) 45%,
+        transparent 70%
+    ) !important;
+    transform: translateX(-125%) !important;
+    transition: transform 0.55s ease !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn:hover::before {
+    transform: translateX(125%) !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn i {
+    position: relative !important;
+    z-index: 2 !important;
+
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    border-radius: 50% !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #ea580c) !important;
+
+    box-shadow:
+        0 0 0 5px rgba(249, 115, 22, 0.14),
+        0 12px 26px rgba(234, 88, 12, 0.34) !important;
+
+    font-size: 0.95rem !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn:hover {
+    color: #1f1a17 !important;
+    transform: translateY(-3px) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 20px 46px rgba(249, 115, 22, 0.40) !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn.voice-listening {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+    border-color: rgba(22, 163, 74, 0.35) !important;
+    box-shadow:
+        0 0 0 8px rgba(22, 163, 74, 0.12),
+        0 18px 44px rgba(22, 163, 74, 0.34) !important;
+    animation: culinaPremiumVoiceListeningFinal 1.2s ease-in-out infinite !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn.voice-listening i {
+    color: #16a34a !important;
+    background: #ffffff !important;
+}
+
+.culina-horizontal-generate-form .culina-premium-voice-btn.voice-listening::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 24px !important;
+    top: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(255, 255, 255, 0.55) !important;
+    transform: translate(-50%, -50%) scale(0.85) !important;
+    animation: culinaVoiceRingFinal 1.2s ease-out infinite !important;
+}
+
+@keyframes culinaPremiumVoiceListeningFinal {
+    0%, 100% {
+        transform: translateY(-2px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.05);
+    }
+}
+
+@keyframes culinaVoiceRingFinal {
+    0% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(0.85);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.6);
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-horizontal-generate-form .culina-premium-voice-btn {
+        width: 100% !important;
+        min-height: 44px !important;
+    }
+}

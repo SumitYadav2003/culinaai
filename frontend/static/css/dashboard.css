@@ -1,873 +1,1267 @@
 /* =========================================================
-   CULINAAI PREMIUM ANALYTICS DASHBOARD
+   CulinaAI Command Center Dashboard
+   File: frontend/static/css/dashboard.css
    Purpose:
-   - Production-ready dashboard UI for CulinaAI.
-   - Fixes hero/card overlap.
-   - Uses a premium dark + cream + orange + green food-tech theme.
-   - Keeps the waving AI robot but makes it more polished and professional.
+   - Complete dashboard styling in one professional CSS file.
+   - No inline CSS required in dashboard.html.
+   - Uses normal document flow, so sections do not overlap.
    ========================================================= */
 
-/* Page background */
+/* -------------------------------
+   Page shell
+-------------------------------- */
+
 .culina-command-center {
+    position: relative;
     min-height: 100vh;
-
-    /*
-       Extra top padding separates the dashboard from the navbar.
-       This prevents the command center hero from visually touching or overlapping
-       the navigation area.
-    */
-    padding: 76px 0 72px;
-
+    padding: 1.6rem 0 4.5rem;
+    color: #211714;
     background:
-        radial-gradient(circle at 8% 4%, rgba(249, 115, 22, 0.10), transparent 26%),
-        radial-gradient(circle at 90% 12%, rgba(22, 163, 74, 0.08), transparent 24%),
-        linear-gradient(135deg, #fff8ef 0%, #f8fafc 48%, #f3fbf5 100%);
+        linear-gradient(rgba(20, 14, 10, 0.74), rgba(20, 14, 10, 0.74)),
+        url("../images/home-hero-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-/* =========================================================
-   HERO SECTION
-   ========================================================= */
-
-.command-hero {
-    position: relative;
-    margin-top: 12px;
-    margin-bottom: 26px;
-    padding: 30px;
-    border-radius: 34px;
-    color: #ffffff;
-    background:
-        linear-gradient(135deg, rgba(8, 13, 18, 0.98), rgba(18, 24, 31, 0.97)),
-        radial-gradient(circle at 82% 16%, rgba(249, 115, 22, 0.28), transparent 32%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 30px 90px rgba(15, 23, 42, 0.22);
-    overflow: hidden;
+.culina-command-center *,
+.culina-command-center *::before,
+.culina-command-center *::after {
+    box-sizing: border-box;
 }
 
-.command-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-    background-size: 42px 42px;
-    opacity: 0.38;
-    pointer-events: none;
+.culina-command-center .container {
+    width: min(100% - 2rem, 1320px);
+    max-width: 1320px;
+    margin-inline: auto;
 }
 
-.command-hero::after {
-    content: "";
-    position: absolute;
-    right: -140px;
-    bottom: -160px;
-    width: 420px;
-    height: 420px;
-    border-radius: 999px;
-    background: rgba(249, 115, 22, 0.18);
-    filter: blur(8px);
-    pointer-events: none;
+.culina-command-center a {
+    text-decoration: none;
 }
 
-/*
-   Fix overlap:
-   - Left content can shrink safely.
-   - Right AI module has a controlled width.
-*/
-.command-hero-content {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
-    gap: 28px;
-    align-items: stretch;
-}
-
-.command-hero-copy {
-    min-width: 0;
-    padding: 28px 12px 28px 10px;
-}
+/* -------------------------------
+   Shared controls
+-------------------------------- */
 
 .command-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    max-width: 100%;
-    padding: 9px 14px;
-    border-radius: 999px;
-    color: #fed7aa;
-    background: rgba(255, 247, 237, 0.08);
-    border: 1px solid rgba(253, 186, 116, 0.22);
-    font-size: 0.74rem;
+    gap: 0.55rem;
+    color: #f97316;
+    font-size: 0.84rem;
     font-weight: 950;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-}
-
-.command-eyebrow i {
-    color: #fb923c;
-}
-
-.command-hero h1 {
-    max-width: 760px;
-    margin: 18px 0 16px;
-    color: #ffffff;
-    font-size: clamp(2.15rem, 4.4vw, 4.15rem);
-    line-height: 1.03;
-    font-weight: 1000;
-    letter-spacing: -0.065em;
-}
-
-.command-hero h1 span {
-    display: block;
-    color: #ffb86b;
-}
-
-.command-hero p {
-    max-width: 720px;
-    margin: 0;
-    color: rgba(248, 250, 252, 0.82);
-    font-size: 1rem;
-    font-weight: 620;
-    line-height: 1.78;
-}
-
-.command-hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 26px;
 }
 
 .command-primary-btn,
 .command-secondary-btn {
-    min-height: 52px;
-    padding: 13px 21px;
-    border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 0.55rem;
+    min-height: 48px;
+    padding: 0.78rem 1.15rem;
+    border-radius: 999px;
     font-weight: 950;
-    transition: all 0.24s ease;
+    line-height: 1;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .command-primary-btn {
-    color: #111827 !important;
-    background: linear-gradient(135deg, #ff7a1a, #ffb703);
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
     border: 0;
-    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.28);
+    box-shadow: 0 18px 34px rgba(249, 115, 22, 0.26);
 }
 
 .command-secondary-btn {
-    color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #211714;
+    background: rgba(255, 250, 243, 0.88);
+    border: 1px solid rgba(80, 50, 30, 0.1);
 }
 
 .command-primary-btn:hover,
 .command-secondary-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 22px 48px rgba(15, 23, 42, 0.22);
 }
 
-/* =========================================================
-   AI ASSISTANT / WAVING ROBOT CARD
-   ========================================================= */
+/* -------------------------------
+   Hero
+-------------------------------- */
 
-.command-robot-card {
+.command-hero {
     position: relative;
-    min-height: 100%;
-    padding: 22px;
-    border-radius: 28px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding: 1.35rem;
+    border-radius: 38px;
     background:
-        radial-gradient(circle at top right, rgba(255, 183, 3, 0.12), transparent 36%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 250, 244, 0.9));
-    border: 1px solid rgba(255, 255, 255, 0.42);
-    box-shadow:
-        0 24px 70px rgba(0, 0, 0, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.22), transparent 32%),
+        rgba(255, 250, 243, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.56);
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.22);
     overflow: hidden;
 }
 
-.command-robot-card::before {
-    content: "";
-    position: absolute;
-    inset: 14px;
-    border-radius: 22px;
-    border: 1px solid rgba(249, 115, 22, 0.08);
-    pointer-events: none;
+.command-hero-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.75fr);
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.command-hero-copy {
+    min-width: 0;
+    padding: clamp(1.25rem, 2.6vw, 2.5rem);
+}
+
+.command-hero-copy h1 {
+    margin: 0.65rem 0 0.8rem;
+    color: #16151f;
+    font-size: clamp(2.1rem, 4vw, 4.3rem);
+    font-weight: 950;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+}
+
+.command-hero-copy h1 span {
+    display: block;
+    color: #f97316;
+}
+
+.command-hero-copy p {
+    max-width: 760px;
+    margin: 0;
+    color: #6f5948;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.8;
+}
+
+.command-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.35rem;
+}
+
+/* -------------------------------
+   Robot card
+-------------------------------- */
+
+.command-robot-card {
+    position: relative;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem;
+    border-radius: 32px;
+    background:
+        radial-gradient(circle at top, rgba(249, 115, 22, 0.22), transparent 36%),
+        linear-gradient(145deg, #211714, #33251d);
+    color: #fffaf3;
+    overflow: hidden;
 }
 
 .robot-speech {
     position: relative;
     z-index: 2;
-    padding: 16px;
-    border-radius: 20px;
-    background: rgba(255, 247, 237, 0.82);
-    border: 1px solid rgba(249, 115, 22, 0.13);
+    padding: 1rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .robot-speech span {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 7px;
-    color: #ea580c;
-    font-size: 0.72rem;
-    font-weight: 1000;
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #ffb429;
+    font-size: 0.76rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.13em;
-}
-
-.robot-speech span::before {
-    content: "✦";
-    color: #f97316;
 }
 
 .robot-speech p {
     margin: 0;
-    color: #1f2937;
-    font-size: 0.98rem;
-    font-weight: 850;
+    font-weight: 800;
     line-height: 1.55;
 }
 
-/*
-   Professional friendly robot:
-   - Kept because you wanted the robot greeting.
-   - Less childish than before: cleaner shapes, smaller size, controlled animation.
-*/
 .culina-robot {
     position: relative;
-    z-index: 2;
-    width: 182px;
-    height: 202px;
-    margin: 20px auto 14px;
-    animation: premiumRobotFloat 3.8s ease-in-out infinite;
+    z-index: 1;
+    width: 170px;
+    height: 200px;
+    margin: 1.2rem auto;
+    animation: robotFloat 3.2s ease-in-out infinite;
 }
 
 .robot-antenna {
-    position: absolute;
-    top: 3px;
-    left: 50%;
-    width: 4px;
-    height: 22px;
+    width: 8px;
+    height: 34px;
+    margin: 0 auto -2px;
     border-radius: 999px;
-    background: #f97316;
-    transform: translateX(-50%);
-}
-
-.robot-antenna::after {
-    content: "";
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 18px rgba(34, 197, 94, 0.58);
-    transform: translateX(-50%);
+    background: #ffb429;
 }
 
 .robot-head {
-    position: absolute;
-    top: 28px;
-    left: 50%;
-    width: 128px;
-    height: 92px;
-    border-radius: 34px;
-    background: linear-gradient(145deg, #f8fafc, #fff7ed);
-    border: 1px solid rgba(15, 23, 42, 0.10);
-    box-shadow:
-        0 22px 44px rgba(15, 23, 42, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.96);
-    transform: translateX(-50%);
-}
-
-.robot-head::before {
-    content: "";
-    position: absolute;
-    inset: 20px 24px 30px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #07111f, #111827);
-    box-shadow: inset 0 0 18px rgba(34, 197, 94, 0.08);
+    position: relative;
+    width: 132px;
+    height: 98px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #fffaf3, #e8fff1);
+    box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.08);
 }
 
 .robot-eye {
     position: absolute;
-    z-index: 2;
-    top: 42px;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background: #34d399;
-    box-shadow: 0 0 16px rgba(52, 211, 153, 0.68);
-    animation: premiumRobotBlink 4.8s infinite;
+    top: 34px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #166534;
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.7);
 }
 
 .robot-eye-left {
-    left: 45px;
+    left: 32px;
 }
 
 .robot-eye-right {
-    right: 45px;
+    right: 32px;
 }
 
 .robot-smile {
     position: absolute;
-    z-index: 2;
-    top: 61px;
     left: 50%;
-    width: 28px;
-    height: 13px;
-    border-bottom: 3px solid #34d399;
+    bottom: 22px;
+    width: 42px;
+    height: 18px;
+    border-bottom: 5px solid #166534;
     border-radius: 0 0 999px 999px;
     transform: translateX(-50%);
 }
 
 .robot-body {
-    position: absolute;
-    left: 50%;
-    bottom: 18px;
-    width: 104px;
-    height: 78px;
+    position: relative;
+    width: 112px;
+    height: 82px;
+    margin: 10px auto 0;
     border-radius: 28px;
-    background: linear-gradient(145deg, #111827, #263241);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 24px 44px rgba(15, 23, 42, 0.22);
-    transform: translateX(-50%);
+    background: linear-gradient(145deg, #4ade80, #16a34a);
 }
 
 .robot-core {
     position: absolute;
-    inset: 19px 32px;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    color: #111827;
-    background: linear-gradient(135deg, #ffb703, #fb923c);
-    box-shadow: 0 0 24px rgba(249, 115, 22, 0.38);
+    inset: 22px 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fffaf3;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
 }
 
 .robot-arm {
     position: absolute;
     top: 118px;
-    width: 18px;
-    height: 58px;
+    width: 42px;
+    height: 14px;
     border-radius: 999px;
-    background: linear-gradient(180deg, #f8fafc, #e5e7eb);
-    border: 1px solid rgba(15, 23, 42, 0.12);
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    background: #ffb429;
 }
 
 .robot-arm-left {
-    left: 22px;
-    transform: rotate(21deg);
+    left: 4px;
+    transform: rotate(-20deg);
 }
 
 .robot-arm-right {
-    right: 16px;
-    transform-origin: top center;
-    animation: premiumRobotWave 1.6s ease-in-out infinite;
+    right: 4px;
+    transform: rotate(20deg);
 }
 
 .robot-status-strip {
     position: relative;
     z-index: 2;
     display: grid;
-    gap: 10px;
+    gap: 0.55rem;
 }
 
 .robot-status-strip span {
-    padding: 12px 13px;
-    border-radius: 17px;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    color: #374151;
-    background: rgba(255, 255, 255, 0.76);
-    border: 1px solid rgba(120, 113, 108, 0.11);
-    font-size: 0.83rem;
-    font-weight: 820;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 900;
+    color: rgba(255, 250, 243, 0.88);
 }
 
 .robot-status-strip .bi-circle-fill {
-    color: #22c55e;
-    font-size: 0.56rem;
+    color: #4ade80;
+    font-size: 0.52rem;
 }
 
-.robot-status-strip .bi-shield-check {
-    color: #f97316;
-}
-
-@keyframes premiumRobotFloat {
+@keyframes robotFloat {
     0%, 100% {
         transform: translateY(0);
     }
 
     50% {
-        transform: translateY(-8px);
+        transform: translateY(-10px);
     }
 }
 
-@keyframes premiumRobotWave {
-    0%, 100% {
-        transform: rotate(-12deg);
-    }
-
-    50% {
-        transform: rotate(-46deg);
-    }
-}
-
-@keyframes premiumRobotBlink {
-    0%, 92%, 100% {
-        transform: scaleY(1);
-    }
-
-    95% {
-        transform: scaleY(0.16);
-    }
-}
-
-/* =========================================================
-   PROFILE AND ANALYTICS
-   ========================================================= */
+/* -------------------------------
+   Profile + main cards
+-------------------------------- */
 
 .command-overview-grid {
     display: grid;
-    grid-template-columns: 310px minmax(0, 1fr);
-    gap: 22px;
-    margin-bottom: 22px;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    align-items: stretch;
 }
 
 .command-profile-card,
 .analytics-card,
 .command-panel,
-.command-intelligence-panel {
-    border: 1px solid rgba(120, 113, 108, 0.13);
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 18px 52px rgba(15, 23, 42, 0.075);
-    backdrop-filter: blur(14px);
+.taste-profile-card,
+.ai-journey-card,
+.evaluation-signal-card,
+.command-intelligence-panel,
+.user-kpi-card,
+.user-chart-card,
+.user-list-card {
+    background: rgba(255, 250, 243, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 26px 66px rgba(0, 0, 0, 0.18);
 }
 
 .command-profile-card {
     position: relative;
+    min-width: 0;
+    padding: 1.4rem;
+    border-radius: 32px;
     overflow: hidden;
-    padding: 26px;
-    border-radius: 28px;
-    text-align: center;
 }
 
 .profile-glow {
     position: absolute;
-    right: -55px;
-    top: -55px;
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    background: rgba(249, 115, 22, 0.13);
-    filter: blur(8px);
+    right: -56px;
+    top: -56px;
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.18);
+    pointer-events: none;
 }
 
 .command-avatar {
     position: relative;
-    z-index: 2;
-    width: 94px;
-    height: 94px;
-    margin: 0 auto 16px;
-    border-radius: 30px;
-    display: grid;
-    place-items: center;
-    background:
-        radial-gradient(circle at 25% 18%, rgba(255, 255, 255, 0.18), transparent 34%),
-        linear-gradient(135deg, #111827, #f97316);
-    box-shadow: 0 22px 44px rgba(249, 115, 22, 0.18);
+    z-index: 1;
+    width: 76px;
+    height: 76px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: 28px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.25);
 }
 
 .command-avatar span {
-    color: #ffffff;
-    font-size: 2.35rem;
-    font-weight: 1000;
+    font-size: 1.85rem;
+    font-weight: 950;
 }
 
 .command-profile-card h2 {
+    position: relative;
+    z-index: 1;
     margin: 0;
-    color: #111827;
-    font-size: 1.55rem;
-    font-weight: 1000;
-    letter-spacing: -0.04em;
+    color: #16151f;
+    font-size: 1.45rem;
+    font-weight: 950;
+    overflow-wrap: anywhere;
 }
 
-.command-profile-card p {
-    margin: 6px 0 16px;
-    color: #6b7280;
-    font-weight: 680;
+.command-profile-card > p {
+    position: relative;
+    z-index: 1;
+    margin: 0.35rem 0 1rem;
+    color: #6f5948;
+    font-weight: 800;
+    overflow-wrap: anywhere;
 }
 
 .command-profile-pill {
-    width: fit-content;
-    margin: 0 auto 18px;
-    padding: 10px 14px;
-    border-radius: 999px;
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.45rem;
+    padding: 0.62rem 0.85rem;
+    border-radius: 999px;
     color: #166534;
-    background: rgba(220, 252, 231, 0.9);
-    font-size: 0.84rem;
-    font-weight: 900;
+    background: rgba(34, 197, 94, 0.13);
+    font-size: 0.82rem;
+    font-weight: 950;
 }
 
 .profile-mini-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
 }
 
 .profile-mini-grid div {
-    padding: 15px;
-    border-radius: 20px;
-    background: #fffaf3;
-    border: 1px solid rgba(249, 115, 22, 0.11);
+    padding: 0.9rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(80, 50, 30, 0.08);
 }
 
 .profile-mini-grid strong {
     display: block;
-    color: #111827;
-    font-size: 1.42rem;
-    font-weight: 1000;
+    color: #16151f;
+    font-size: 1.4rem;
+    font-weight: 950;
 }
 
 .profile-mini-grid span {
-    color: #6b7280;
-    font-size: 0.76rem;
-    font-weight: 850;
+    color: #7b6a5c;
+    font-size: 0.78rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .command-analytics-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    gap: 1rem;
 }
 
 .analytics-card {
-    min-height: 166px;
-    padding: 20px;
-    border-radius: 24px;
-    transition: all 0.22s ease;
-}
-
-.analytics-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 58px rgba(15, 23, 42, 0.12);
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.95rem;
+    align-items: flex-start;
+    padding: 1.12rem;
+    border-radius: 28px;
 }
 
 .analytics-icon {
     width: 48px;
     height: 48px;
-    margin-bottom: 14px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    font-size: 1.22rem;
-}
-
-.analytics-card-orange .analytics-icon {
-    background: linear-gradient(135deg, #f97316, #ffb703);
-}
-
-.analytics-card-pink .analytics-icon {
-    background: linear-gradient(135deg, #e11d48, #fb7185);
-}
-
-.analytics-card-green .analytics-icon {
-    background: linear-gradient(135deg, #16a34a, #34d399);
-}
-
-.analytics-card-blue .analytics-icon {
-    background: linear-gradient(135deg, #0f766e, #14b8a6);
-}
-
-.analytics-card-purple .analytics-icon {
-    background: linear-gradient(135deg, #7c3aed, #c084fc);
-}
-
-.analytics-card-dark .analytics-icon {
-    background: linear-gradient(135deg, #111827, #374151);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
 }
 
 .analytics-card span {
-    color: #6b7280;
-    font-size: 0.72rem;
+    display: block;
+    color: #7b6a5c;
+    font-size: 0.75rem;
     font-weight: 950;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    letter-spacing: 0.10em;
 }
 
 .analytics-card h3 {
-    margin: 5px 0 4px;
-    color: #111827;
-    font-size: 2.05rem;
-    font-weight: 1000;
-    letter-spacing: -0.05em;
+    margin: 0.25rem 0;
+    color: #16151f;
+    font-size: 1.75rem;
+    font-weight: 950;
 }
 
 .analytics-card p {
     margin: 0;
-    color: #6b7280;
+    color: #6f5948;
     font-size: 0.88rem;
-    font-weight: 640;
-    line-height: 1.56;
+    font-weight: 750;
+    line-height: 1.55;
 }
 
-/* =========================================================
-   MAIN PANELS
-   ========================================================= */
+.analytics-card-pink .analytics-icon {
+    background: linear-gradient(135deg, #fb7185, #f97316);
+}
+
+.analytics-card-green .analytics-icon {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+}
+
+.analytics-card-blue .analytics-icon {
+    background: linear-gradient(135deg, #93c5fd, #38bdf8);
+}
+
+.analytics-card-purple .analytics-icon {
+    background: linear-gradient(135deg, #c084fc, #a855f7);
+}
+
+.analytics-card-dark .analytics-icon {
+    color: #fffaf3;
+    background: linear-gradient(135deg, #211714, #4b3426);
+}
+
+/* -------------------------------
+   Main panels
+-------------------------------- */
 
 .command-main-grid {
     display: grid;
-    grid-template-columns: minmax(330px, 0.82fr) minmax(0, 1.18fr);
-    gap: 22px;
-    margin-bottom: 22px;
+    grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: start;
+    clear: both;
 }
 
 .command-panel {
-    padding: 24px;
-    border-radius: 28px;
+    min-width: 0;
+    padding: 1.5rem;
+    border-radius: 34px;
 }
 
-.command-panel-header {
+.command-panel-header,
+.taste-card-header,
+.user-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 18px;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
 }
 
-.command-panel-header span {
+.command-panel-header span,
+.taste-card-header span,
+.user-card-header span {
     display: block;
-    margin-bottom: 5px;
-    color: #6b7280;
-    font-size: 0.72rem;
+    color: #727987;
+    font-size: 0.78rem;
     font-weight: 950;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
 }
 
-.command-panel-header h2 {
-    margin: 0;
-    color: #111827;
-    font-size: 1.42rem;
-    font-weight: 1000;
-    letter-spacing: -0.04em;
+.command-panel-header h2,
+.taste-card-header h2,
+.user-card-header h3 {
+    margin: 0.35rem 0 0;
+    color: #16151f;
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    font-weight: 950;
+    letter-spacing: -0.03em;
 }
 
-.command-panel-header > i {
-    width: 44px;
-    height: 44px;
-    border-radius: 15px;
-    display: grid;
-    place-items: center;
-    color: #ea580c;
-    background: rgba(255, 237, 213, 0.9);
+.command-panel-header > i,
+.taste-card-header > i,
+.user-card-header > i {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #f97316;
+    border-radius: 18px;
+    background: rgba(249, 115, 22, 0.12);
 }
 
 .command-action-list,
 .command-timeline {
     display: grid;
-    gap: 12px;
+    gap: 0.85rem;
 }
 
 .command-action-card,
 .timeline-item {
-    padding: 16px;
-    border-radius: 20px;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 14px;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
     align-items: center;
-    text-decoration: none;
-    background: #fffaf3;
-    border: 1px solid rgba(249, 115, 22, 0.10);
-    transition: all 0.2s ease;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: 24px;
+    color: #16151f;
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(249, 115, 22, 0.13);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .command-action-card:hover,
 .timeline-item:hover {
     transform: translateY(-2px);
-    background: #ffffff;
-    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+    border-color: rgba(249, 115, 22, 0.35);
+    box-shadow: 0 16px 36px rgba(249, 115, 22, 0.12);
 }
 
 .command-action-icon,
 .timeline-dot {
-    width: 46px;
-    height: 46px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    background: linear-gradient(135deg, #f97316, #16a34a);
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    color: #fffaf3;
+    background: linear-gradient(135deg, #ffb429, #f97316);
 }
 
-.command-action-card h3,
+.command-action-copy,
+.timeline-content {
+    min-width: 0;
+}
+
+.command-action-copy h3,
 .timeline-content h3 {
-    margin: 0 0 4px;
-    color: #111827;
-    font-size: 0.98rem;
+    margin: 0;
+    color: #16151f;
+    font-size: 1.05rem;
     font-weight: 950;
-    line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
-.command-action-card p,
+.command-action-copy p,
 .timeline-content p {
-    margin: 0;
+    margin: 0.35rem 0 0;
     color: #6b7280;
-    font-size: 0.86rem;
-    font-weight: 640;
+    font-weight: 750;
     line-height: 1.55;
 }
 
 .command-action-arrow,
 .timeline-arrow {
     color: #9ca3af;
-    font-size: 1.7rem;
+    font-size: 1.55rem;
 }
 
 .timeline-topline {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 5px;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+}
+
+.timeline-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    color: #9a3412;
+    background: rgba(249, 115, 22, 0.13);
+    font-size: 0.68rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.timeline-badge.modified {
+    color: #6b21a8;
+    background: rgba(168, 85, 247, 0.13);
 }
 
 .timeline-topline small {
     color: #9ca3af;
-    font-size: 0.74rem;
-    font-weight: 780;
-}
-
-.timeline-badge {
-    width: fit-content;
-    padding: 5px 9px;
-    border-radius: 999px;
-    font-size: 0.66rem;
-    font-weight: 950;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-.timeline-badge.modified {
-    color: #166534;
-    background: rgba(220, 252, 231, 0.92);
-}
-
-.timeline-badge.original {
-    color: #9a3412;
-    background: rgba(255, 237, 213, 0.92);
+    font-weight: 900;
 }
 
 .command-empty-state {
-    padding: 32px 18px;
+    padding: 2rem;
     text-align: center;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.68);
 }
 
 .empty-orbit {
-    width: 78px;
-    height: 78px;
-    margin: 0 auto 16px;
-    border-radius: 24px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    font-size: 1.8rem;
-    background: linear-gradient(135deg, #f97316, #16a34a);
+    width: 80px;
+    height: 80px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: #f97316;
+    border-radius: 28px;
+    background: rgba(249, 115, 22, 0.12);
+    font-size: 2rem;
 }
 
 .command-empty-state h3 {
-    margin: 0 0 8px;
-    color: #111827;
-    font-weight: 1000;
+    margin: 0;
+    font-weight: 950;
 }
 
 .command-empty-state p {
-    max-width: 520px;
-    margin: 0 auto 18px;
-    color: #6b7280;
-    font-weight: 640;
+    margin: 0.6rem 0 1rem;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.65;
+}
+
+/* -------------------------------
+   Personal analytics dashboard
+-------------------------------- */
+
+.user-analytics-section {
+    display: block;
+    width: 100%;
+    clear: both;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    border-radius: 36px;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 28%),
+        rgba(255, 250, 243, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 26px 66px rgba(0, 0, 0, 0.18);
+    overflow: visible;
+}
+
+.user-analytics-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.user-analytics-header span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #f97316;
+    font-size: 0.82rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.user-analytics-header h2 {
+    margin: 0.4rem 0 0;
+    color: #16151f;
+    font-size: clamp(1.55rem, 2.5vw, 2.35rem);
+    font-weight: 950;
+    letter-spacing: -0.035em;
+}
+
+.user-analytics-header p {
+    max-width: 780px;
+    margin: 0.35rem 0 0;
+    color: #6f5948;
+    font-weight: 750;
     line-height: 1.7;
 }
 
-/* =========================================================
-   INTELLIGENCE PANEL
-   ========================================================= */
+.user-analytics-status {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1rem;
+    color: #166534;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.13);
+    border: 1px solid rgba(34, 197, 94, 0.18);
+    font-weight: 950;
+}
 
-.command-intelligence-panel {
-    padding: 28px;
-    border-radius: 30px;
+.user-kpi-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
-    gap: 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-kpi-card {
+    position: relative;
+    min-width: 0;
+    padding: 1.15rem;
+    border-radius: 26px;
+    overflow: hidden;
+}
+
+.user-kpi-card::after {
+    content: "";
+    position: absolute;
+    right: -28px;
+    bottom: -28px;
+    width: 92px;
+    height: 92px;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.08);
+    pointer-events: none;
+}
+
+.user-kpi-icon {
+    position: relative;
+    z-index: 1;
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+    border-radius: 18px;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+}
+
+.user-kpi-card span {
+    position: relative;
+    z-index: 1;
+    display: block;
+    color: #7b6a5c;
+    font-size: 0.74rem;
+    font-weight: 950;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.user-kpi-card h3 {
+    position: relative;
+    z-index: 1;
+    margin: 0.3rem 0;
+    color: #16151f;
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    font-weight: 950;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.user-kpi-card p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #6f5948;
+    font-size: 0.86rem;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.user-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+    margin-bottom: 1rem;
+}
+
+.user-chart-card,
+.user-list-card {
+    min-width: 0;
+    padding: 1.2rem;
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+.user-chart-card-wide {
+    grid-column: 1 / -1;
+}
+
+.user-card-header {
+    margin-bottom: 1rem;
+}
+
+.user-card-header p {
+    margin: 0.25rem 0 0;
+    color: #6f5948;
+    font-size: 0.86rem;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.user-chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    min-height: 300px;
+}
+
+.user-chart-wrap-wide {
+    height: 320px;
+    min-height: 320px;
+}
+
+.user-chart-wrap canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+}
+
+.user-analytics-list-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: start;
+}
+
+.user-ingredient-list,
+.user-search-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.user-ingredient-item,
+.user-search-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    min-width: 0;
+    padding: 0.85rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(80, 50, 30, 0.07);
+}
+
+.user-ingredient-rank,
+.user-search-icon {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    color: #211714;
+    background: rgba(249, 115, 22, 0.13);
+    font-weight: 950;
+}
+
+.user-ingredient-copy,
+.user-search-copy {
+    min-width: 0;
+}
+
+.user-ingredient-copy strong,
+.user-search-copy strong {
+    display: block;
+    color: #16151f;
+    font-weight: 950;
+    overflow-wrap: anywhere;
+}
+
+.user-ingredient-copy span,
+.user-search-copy span {
+    display: block;
+    margin-top: 0.15rem;
+    color: #6f5948;
+    font-size: 0.84rem;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.user-empty-mini {
+    display: flex;
+    min-height: 160px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 22px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px dashed rgba(80, 50, 30, 0.15);
+}
+
+.user-empty-mini i {
+    color: #f97316;
+    font-size: 1.55rem;
+}
+
+.user-empty-mini p {
+    max-width: 420px;
+    margin: 0.55rem 0 0;
+    color: #6f5948;
+    font-weight: 800;
+    line-height: 1.55;
+}
+
+.user-chart-empty {
+    height: 100%;
+    min-height: 100%;
+}
+
+/* -------------------------------
+   Taste Intelligence
+-------------------------------- */
+
+.taste-intelligence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: stretch;
+    clear: both;
+}
+
+.taste-profile-card,
+.ai-journey-card,
+.evaluation-signal-card {
+    min-width: 0;
+    padding: 1.5rem;
+    border-radius: 34px;
+}
+
+.taste-profile-main {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
     align-items: center;
 }
 
-.intelligence-copy .command-eyebrow {
-    color: #9a3412;
-    background: rgba(255, 237, 213, 0.85);
-    border-color: rgba(249, 115, 22, 0.14);
+.taste-score-ring {
+    width: 112px;
+    height: 112px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background:
+        radial-gradient(circle, #fffaf3 55%, transparent 56%),
+        conic-gradient(#f97316 var(--taste-score, 0%), rgba(249, 115, 22, 0.16) 0);
+}
+
+.taste-score-ring div {
+    text-align: center;
+}
+
+.taste-score-ring strong {
+    display: block;
+    color: #16151f;
+    font-size: 1.5rem;
+    font-weight: 950;
+}
+
+.taste-score-ring span {
+    color: #7b6a5c;
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.taste-profile-copy h3 {
+    margin: 0;
+    color: #16151f;
+    font-weight: 950;
+}
+
+.taste-profile-copy p {
+    margin: 0.45rem 0 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.65;
+}
+
+.taste-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.taste-mini-card {
+    padding: 0.9rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.taste-mini-card span {
+    display: block;
+    color: #7b6a5c;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.taste-mini-card strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: #16151f;
+    font-weight: 950;
+    overflow-wrap: anywhere;
+}
+
+.taste-mini-card small {
+    display: block;
+    margin-top: 0.15rem;
+    color: #6f5948;
+    font-weight: 800;
+}
+
+.journey-feature-link,
+.latest-feedback-box,
+.smart-next-step-box,
+.journey-empty-box,
+.journey-note {
+    display: grid;
+    gap: 0.85rem;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.journey-feature-link {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    color: #16151f;
+}
+
+.journey-feature-icon,
+.latest-feedback-icon,
+.smart-next-icon {
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fffaf3;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+}
+
+.journey-feature-link span,
+.latest-feedback-box span,
+.smart-next-step-box span {
+    display: block;
+    color: #7b6a5c;
+    font-size: 0.74rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.journey-feature-link h3,
+.latest-feedback-box h3,
+.smart-next-step-box h3,
+.journey-empty-box h3 {
+    margin: 0.25rem 0;
+    color: #16151f;
+    font-weight: 950;
+    overflow-wrap: anywhere;
+}
+
+.journey-feature-link p,
+.latest-feedback-box p,
+.smart-next-step-box p,
+.journey-empty-box p,
+.journey-note p {
+    margin: 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.journey-empty-box {
+    text-align: center;
+}
+
+.journey-empty-box > i {
+    color: #f97316;
+    font-size: 2rem;
+}
+
+.journey-empty-box a {
+    display: inline-flex;
+    justify-content: center;
+    gap: 0.35rem;
+    color: #f97316;
+    font-weight: 950;
+}
+
+.journey-note {
+    grid-template-columns: auto 1fr;
+    align-items: flex-start;
+    margin-top: 0.9rem;
+    background: rgba(249, 115, 22, 0.09);
+}
+
+.journey-note i {
+    color: #f97316;
+}
+
+.latest-feedback-box,
+.smart-next-step-box {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+}
+
+.smart-next-step-box {
+    margin-top: 0.85rem;
+}
+
+/* -------------------------------
+   Intelligence panel
+-------------------------------- */
+
+.command-intelligence-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: 34px;
+    clear: both;
 }
 
 .intelligence-copy h2 {
-    max-width: 680px;
-    margin: 13px 0 10px;
-    color: #111827;
-    font-size: clamp(1.7rem, 3vw, 2.55rem);
-    font-weight: 1000;
-    line-height: 1.06;
-    letter-spacing: -0.052em;
+    margin: 0.6rem 0 0.65rem;
+    color: #16151f;
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+    font-weight: 950;
+    letter-spacing: -0.04em;
 }
 
 .intelligence-copy p {
     margin: 0;
-    color: #6b7280;
-    font-weight: 640;
-    line-height: 1.78;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.75;
 }
 
 .intelligence-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    justify-content: flex-end;
+    gap: 0.7rem;
 }
 
 .intelligence-chip {
-    padding: 10px 13px;
-    border-radius: 999px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: #111827;
-    background: #fffaf3;
-    border: 1px solid rgba(249, 115, 22, 0.10);
-    font-size: 0.84rem;
-    font-weight: 850;
+    gap: 0.45rem;
+    padding: 0.72rem 0.9rem;
+    color: #166534;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.16);
+    font-weight: 950;
+    font-size: 0.86rem;
 }
 
-.intelligence-chip i {
-    color: #16a34a;
-}
-
-/* =========================================================
-   RESPONSIVE DESIGN
-   ========================================================= */
+/* -------------------------------
+   Responsive
+-------------------------------- */
 
 @media (max-width: 1199px) {
     .command-hero-content,
@@ -877,43 +1271,105 @@
         grid-template-columns: 1fr;
     }
 
-    .command-analytics-grid {
+    .command-analytics-grid,
+    .taste-intelligence-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .intelligence-grid {
-        justify-content: flex-start;
+    .user-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 991px) {
+    .culina-command-center {
+        padding: 2rem 0 3rem;
     }
 
-    .command-robot-card {
-        max-width: 460px;
-        margin: 0 auto;
+    .user-analytics-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .user-chart-grid,
+    .user-analytics-list-grid,
+    .taste-intelligence-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-chart-card-wide {
+        grid-column: auto;
     }
 }
 
 @media (max-width: 767px) {
-    .culina-command-center {
-        padding: 30px 0 52px;
+    .command-analytics-grid,
+    .user-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .command-action-card,
+    .timeline-item,
+    .journey-feature-link {
+        grid-template-columns: auto 1fr;
+    }
+
+    .command-action-arrow,
+    .timeline-arrow,
+    .journey-feature-link > .bi-arrow-right-short {
+        display: none;
+    }
+
+    .taste-profile-main,
+    .command-intelligence-panel,
+    .latest-feedback-box,
+    .smart-next-step-box {
+        grid-template-columns: 1fr;
+    }
+
+    .taste-mini-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-chart-wrap,
+    .user-chart-wrap-wide {
+        height: 260px;
+        min-height: 260px;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-command-center .container {
+        width: min(100% - 1rem, 1320px);
     }
 
     .command-hero,
     .command-profile-card,
     .command-panel,
+    .taste-profile-card,
+    .ai-journey-card,
+    .evaluation-signal-card,
+    .command-intelligence-panel,
+    .user-analytics-section {
+        border-radius: 26px;
+    }
+
+    .command-hero,
+    .user-analytics-section,
+    .command-panel,
+    .taste-profile-card,
+    .ai-journey-card,
+    .evaluation-signal-card,
     .command-intelligence-panel {
-        border-radius: 24px;
-        padding: 22px;
+        padding: 1rem;
     }
 
     .command-hero-copy {
-        padding: 8px 0;
-    }
-
-    .command-analytics-grid {
-        grid-template-columns: 1fr;
+        padding: 0.5rem;
     }
 
     .command-hero-actions {
-        display: grid;
+        flex-direction: column;
     }
 
     .command-primary-btn,
@@ -921,577 +1377,53 @@
         width: 100%;
     }
 
-    .command-action-card,
-    .timeline-item {
-        grid-template-columns: auto minmax(0, 1fr);
-    }
-
-    .command-action-arrow,
-    .timeline-arrow {
-        display: none;
+    .robot-status-strip {
+        font-size: 0.78rem;
     }
 }
-
 
 
 
 
 
 /* =========================================================
-   DASHBOARD PROFESSIONAL POLISH OVERRIDES
-   Purpose:
-   - Removes mixed orange/green icon gradients.
-   - Uses one consistent CulinaAI brand icon colour.
-   - Keeps the dashboard more professional and less noisy.
+   FINAL NAVBAR SAFE SPACING FIX
+   This keeps the dashboard card below the navbar properly.
    ========================================================= */
 
-.analytics-icon,
-.command-action-icon,
-.timeline-dot,
-.empty-orbit {
-    background: #f97316 !important;
-    color: #ffffff !important;
-    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22) !important;
-}
-
-/* Keep status/validation icons green because they communicate success/state. */
-.command-profile-pill i,
-.intelligence-chip i,
-.robot-status-strip .bi-circle-fill {
-    color: #16a34a !important;
-}
-
-/* Make the dashboard hero breathe more under the navbar on all screen sizes. */
-.command-hero {
-    margin-top: 12px !important;
-}
-
-/* Cleaner user dashboard: no admin-style visual treatment leaks into cards. */
-.command-action-card {
-    background: #ffffff !important;
-    border: 1px solid rgba(249, 115, 22, 0.10) !important;
-}
-
-.command-action-card:hover {
-    border-color: rgba(249, 115, 22, 0.22) !important;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* =========================================================
-   TASTE INTELLIGENCE AND AI JOURNEY
-   Purpose:
-   - Adds meaningful non-repetitive dashboard insights.
-   - Shows taste profile, latest AI refinement and evaluation signal.
-   ========================================================= */
-
-.taste-intelligence-grid {
-    display: grid;
-    grid-template-columns: minmax(320px, 1.1fr) minmax(300px, 0.95fr) minmax(300px, 0.95fr);
-    gap: 22px;
-    margin-bottom: 22px;
-}
-
-.taste-profile-card,
-.ai-journey-card,
-.evaluation-signal-card {
-    min-height: 360px;
-    padding: 24px;
-    border-radius: 28px;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(249, 115, 22, 0.11);
-    box-shadow: 0 18px 52px rgba(15, 23, 42, 0.075);
-    transition: all 0.24s ease;
-}
-
-.taste-profile-card:hover,
-.ai-journey-card:hover,
-.evaluation-signal-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 26px 68px rgba(15, 23, 42, 0.12);
-}
-
-.taste-card-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 22px;
-}
-
-.taste-card-header span {
-    display: block;
-    margin-bottom: 5px;
-    color: #6b7280;
-    font-size: 0.72rem;
-    font-weight: 950;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-}
-
-.taste-card-header h2 {
-    margin: 0;
-    color: #111827;
-    font-size: 1.35rem;
-    font-weight: 1000;
-    letter-spacing: -0.04em;
-}
-
-.taste-card-header > i {
-    width: 44px;
-    height: 44px;
-    border-radius: 15px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    background: #f97316;
-    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22);
-}
-
-/* Taste profile */
-
-.taste-profile-main {
-    display: grid;
-    grid-template-columns: 132px minmax(0, 1fr);
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 22px;
-}
-
-.taste-score-ring {
-    width: 132px;
-    height: 132px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background:
-        conic-gradient(#f97316 var(--taste-score), #f3f4f6 0);
-    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.14);
-}
-
-.taste-score-ring > div {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    align-content: center;
-    background: #ffffff;
-    border: 1px solid rgba(249, 115, 22, 0.10);
-}
-
-.taste-score-ring strong {
-    color: #111827;
-    font-size: 2rem;
-    font-weight: 1000;
-    line-height: 1;
-}
-
-.taste-score-ring span {
-    color: #6b7280;
-    font-size: 0.72rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-.taste-profile-copy h3 {
-    margin: 0 0 8px;
-    color: #111827;
-    font-size: 1.15rem;
-    font-weight: 1000;
-    letter-spacing: -0.03em;
-}
-
-.taste-profile-copy p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 0.92rem;
-    font-weight: 640;
-    line-height: 1.68;
-}
-
-.taste-profile-copy strong {
-    color: #111827;
-}
-
-.taste-mini-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.taste-mini-card {
-    padding: 15px;
-    border-radius: 20px;
-    background: #fffaf3;
-    border: 1px solid rgba(249, 115, 22, 0.10);
-}
-
-.taste-mini-card span {
-    display: block;
-    margin-bottom: 6px;
-    color: #6b7280;
-    font-size: 0.72rem;
-    font-weight: 950;
-    text-transform: uppercase;
-    letter-spacing: 0.10em;
-}
-
-.taste-mini-card strong {
-    display: block;
-    color: #111827;
-    font-size: 1.04rem;
-    font-weight: 1000;
-    line-height: 1.3;
-}
-
-.taste-mini-card small {
-    display: block;
-    margin-top: 4px;
-    color: #6b7280;
-    font-size: 0.78rem;
-    font-weight: 700;
-}
-
-/* AI journey */
-
-.journey-feature-link {
-    padding: 16px;
-    border-radius: 22px;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 14px;
-    align-items: center;
-    color: inherit;
-    text-decoration: none;
-    background: #fffaf3;
-    border: 1px solid rgba(249, 115, 22, 0.11);
-    transition: all 0.22s ease;
-}
-
-.journey-feature-link:hover {
-    color: inherit;
-    transform: translateX(4px);
-    background: #ffffff;
-    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
-}
-
-.journey-feature-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 17px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    background: #f97316;
-    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.20);
-}
-
-.journey-feature-link span {
-    color: #ea580c;
-    font-size: 0.72rem;
-    font-weight: 950;
-    text-transform: uppercase;
-    letter-spacing: 0.10em;
-}
-
-.journey-feature-link h3 {
-    margin: 4px 0;
-    color: #111827;
-    font-size: 1rem;
-    font-weight: 1000;
-    line-height: 1.35;
-}
-
-.journey-feature-link p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 0.86rem;
-    font-weight: 640;
-    line-height: 1.48;
-}
-
-.journey-feature-link > i {
-    color: #9ca3af;
-    font-size: 1.6rem;
-}
-
-.journey-empty-box {
-    padding: 22px;
-    border-radius: 22px;
-    text-align: center;
-    background: #fffaf3;
-    border: 1px dashed rgba(249, 115, 22, 0.24);
-}
-
-.journey-empty-box > i {
-    width: 58px;
-    height: 58px;
-    margin: 0 auto 12px;
-    border-radius: 18px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    background: #f97316;
-    font-size: 1.5rem;
-}
-
-.journey-empty-box h3 {
-    margin: 0 0 7px;
-    color: #111827;
-    font-size: 1.08rem;
-    font-weight: 1000;
-}
-
-.journey-empty-box p {
-    margin: 0 0 14px;
-    color: #6b7280;
-    font-size: 0.88rem;
-    font-weight: 640;
-    line-height: 1.6;
-}
-
-.journey-empty-box a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #ea580c;
-    text-decoration: none;
-    font-size: 0.86rem;
-    font-weight: 950;
-}
-
-.journey-note {
-    margin-top: 16px;
-    padding: 14px;
-    border-radius: 18px;
-    display: flex;
-    gap: 10px;
-    background: rgba(240, 253, 244, 0.82);
-    border: 1px solid rgba(22, 163, 74, 0.12);
-}
-
-.journey-note i {
-    color: #16a34a;
-    margin-top: 3px;
-}
-
-.journey-note p {
-    margin: 0;
-    color: #374151;
-    font-size: 0.84rem;
-    font-weight: 660;
-    line-height: 1.6;
-}
-
-/* Evaluation signal */
-
-.latest-feedback-box,
-.smart-next-step-box {
-    padding: 16px;
-    border-radius: 22px;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 14px;
-    background: #fffaf3;
-    border: 1px solid rgba(249, 115, 22, 0.10);
-}
-
-.smart-next-step-box {
-    margin-top: 14px;
-    background: #111827;
-    border-color: rgba(17, 24, 39, 0.08);
-}
-
-.latest-feedback-icon,
-.smart-next-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    color: #ffffff;
-    background: #f97316;
-    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.20);
-}
-
-.latest-feedback-box span,
-.smart-next-step-box span {
-    color: #ea580c;
-    font-size: 0.72rem;
-    font-weight: 950;
-    text-transform: uppercase;
-    letter-spacing: 0.10em;
-}
-
-.latest-feedback-box h3,
-.smart-next-step-box h3 {
-    margin: 4px 0;
-    color: #111827;
-    font-size: 1rem;
-    font-weight: 1000;
-    line-height: 1.35;
-}
-
-.latest-feedback-box p,
-.smart-next-step-box p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 0.86rem;
-    font-weight: 640;
-    line-height: 1.55;
-}
-
-.smart-next-step-box span {
-    color: #fdba74;
-}
-
-.smart-next-step-box h3 {
-    color: #ffffff;
-}
-
-.smart-next-step-box p {
-    color: rgba(255, 255, 255, 0.72);
-}
-
-.empty-feedback-box {
-    border-style: dashed;
-}
-
-@media (max-width: 1199px) {
-    .taste-intelligence-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .taste-profile-card,
-    .ai-journey-card,
-    .evaluation-signal-card {
-        min-height: auto;
-    }
-}
-
-@media (max-width: 767px) {
-    .taste-profile-main {
-        grid-template-columns: 1fr;
-        justify-items: center;
-        text-align: center;
-    }
-
-    .taste-mini-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* =========================================================
-   DASHBOARD PAGE BACKGROUND IMAGE FINAL FIX
-   Purpose:
-   - Uses the same background image as the homepage hero section.
-   - Targets the real dashboard wrapper: .culina-command-center.
-   - Keeps dashboard cards readable with translucent white cards.
-   ========================================================= */
-
-/* Page background */
 .culina-command-center {
-    position: relative !important;
-    min-height: 100vh !important;
-
-    /*
-       Extra top padding separates the dashboard from the navbar.
-       This prevents the command center hero from visually touching or overlapping
-       the navigation area.
-    */
-    padding: 76px 0 72px !important;
-
-    background:
-        linear-gradient(
-            120deg,
-            rgba(31, 26, 23, 0.82),
-            rgba(31, 26, 23, 0.62)
-        ),
-        url("../images/dashboard-bg.jpg") !important;
-
-    background-size: cover !important;
-    background-position: center center !important;
-    background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
-    background-color: #2b211b !important;
+    margin-top: 0 !important;
+    padding-top: 1.8rem !important;
+    padding-bottom: 4.5rem !important;
 }
 
-.culina-command-center::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background:
-        radial-gradient(circle at 15% 20%, rgba(249, 115, 22, 0.24), transparent 28%),
-        radial-gradient(circle at 85% 35%, rgba(22, 163, 74, 0.20), transparent 26%),
-        radial-gradient(circle at 72% 82%, rgba(250, 204, 21, 0.12), transparent 24%) !important;
-    pointer-events: none !important;
-    z-index: 0 !important;
+.culina-command-center .command-hero {
+    margin-top: 0 !important;
+    padding-top: 1.35rem !important;
+    padding-bottom: 1.35rem !important;
 }
 
-.culina-command-center > .container {
-    position: relative !important;
-    z-index: 2 !important;
+/* Make sure hero content does not move upward */
+.culina-command-center .command-hero-content {
+    margin-top: 0 !important;
+    transform: none !important;
 }
 
-/* Keep the main dashboard hero readable on top of the image */
-.command-hero {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(8, 13, 18, 0.96),
-            rgba(18, 24, 31, 0.92)
-        ),
-        radial-gradient(circle at 82% 16%, rgba(249, 115, 22, 0.28), transparent 32%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34) !important;
-}
-
-/* Make lower dashboard cards readable on the image background */
-.command-profile-card,
-.analytics-card,
-.command-panel,
-.taste-profile-card,
-.ai-journey-card,
-.evaluation-signal-card,
-.command-intelligence-panel {
-    background: rgba(255, 255, 255, 0.94) !important;
-    border: 1px solid rgba(255, 255, 255, 0.34) !important;
-    box-shadow: 0 20px 58px rgba(0, 0, 0, 0.14) !important;
-    backdrop-filter: blur(16px) !important;
-}
-
-/* Give page sections slightly stronger contrast on top of the food background */
-.command-action-card,
-.timeline-item,
-.taste-mini-card,
-.journey-feature-link,
-.journey-empty-box,
-.latest-feedback-box {
-    background: rgba(255, 250, 243, 0.95) !important;
-}
-
-/* Keep the black recommendation card premium */
-.smart-next-step-box {
-    background: rgba(17, 24, 39, 0.96) !important;
-}
-
-/* Mobile: fixed backgrounds can feel jumpy, so keep it normal */
-@media (max-width: 767px) {
+/* Desktop spacing */
+@media (min-width: 992px) {
     .culina-command-center {
-        background-attachment: scroll !important;
-        padding: 46px 0 52px !important;
+        padding-top: 2rem !important;
+    }
+}
+
+/* Tablet/mobile spacing */
+@media (max-width: 991px) {
+    .culina-command-center {
+        padding-top: 1.4rem !important;
+    }
+
+    .culina-command-center .command-hero {
+        padding-top: 1.2rem !important;
     }
 }
 
@@ -1515,6 +1447,30 @@
 
 
 
+/* =========================================================
+   REAL FINAL FIX - FORCE DASHBOARD BELOW NAVBAR
+   ========================================================= */
+
+body:has(.culina-command-center) .culina-command-center {
+    padding-top: 42px !important;
+}
+
+body:has(.culina-command-center) .command-hero {
+    margin-top: 0 !important;
+}
+
+/* If navbar is fixed/sticky and covering content */
+@media (min-width: 992px) {
+    body:has(.culina-command-center) .culina-command-center {
+        padding-top: 52px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    body:has(.culina-command-center) .culina-command-center {
+        padding-top: 32px !important;
+    }
+}
 
 
 
@@ -1524,8 +1480,14 @@
 
 
 
+.dashboard-navbar-spacer {
+    height: 60px !important;
+    width: 100%;
+    display: block;
+}
 
-
-
-
-
+@media (max-width: 991px) {
+    .dashboard-navbar-spacer {
+        height: 40px !important;
+    }
+}

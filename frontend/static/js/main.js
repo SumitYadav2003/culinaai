@@ -1,3 +1,16 @@
+/* =========================================================
+   CULINAAI MAIN JAVASCRIPT
+   Purpose:
+   - Auto-hide global Django messages
+   - Handle favourite filter refresh cleanup
+   - Handle password show/hide buttons
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL MESSAGE AUTO HIDE
+   ========================================================= */
+
 document.addEventListener("DOMContentLoaded", function () {
     const messages = document.querySelectorAll(".global-message");
 
@@ -13,17 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
-
-
-
-
 /* =========================================================
-   FAVOURITE FILTER REFRESH CLEANUP - FINAL VERSION
-   Purpose:
-   - Keep filters after the user clicks "Apply Filters".
-   - Clear filters when the user refreshes a filtered favourites page.
-   - This avoids keeping old query parameters forever.
+   FAVOURITE FILTER REFRESH CLEANUP
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -38,10 +42,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterForm = favouriteRecipesPage.querySelector(".recipe-filter-form");
     const hasQueryString = window.location.search.length > 0;
 
-    /*
-        When the user submits the filter form, save a temporary marker.
-        The next page load is allowed to keep the filters.
-    */
     if (filterForm) {
         filterForm.addEventListener("submit", function () {
             sessionStorage.setItem("culinaFavouriteFilterSubmitted", "true");
@@ -56,21 +56,112 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterWasJustSubmitted =
         sessionStorage.getItem("culinaFavouriteFilterSubmitted") === "true";
 
-    /*
-        First load after pressing Apply Filters:
-        - Keep the filters.
-        - Remove the marker immediately.
-        - If the user refreshes after this, the marker will be gone.
-    */
     if (filterWasJustSubmitted) {
         sessionStorage.removeItem("culinaFavouriteFilterSubmitted");
         return;
     }
 
-    /*
-        Refresh or direct reload of a filtered URL:
-        - Clear query parameters.
-        - Return to the clean favourites page.
-    */
     window.location.replace(window.location.pathname);
+});
+
+
+/* =========================================================
+   PASSWORD SHOW / HIDE TOGGLE
+   Works for:
+   - Login page password
+   - Signup page password
+   - Signup page confirm password
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordToggleButtons = document.querySelectorAll(
+        "[data-culina-password-toggle]"
+    );
+
+    passwordToggleButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const targetId = button.getAttribute("data-target-id");
+            const passwordInput = document.getElementById(targetId);
+            const icon = button.querySelector("i");
+
+            if (!passwordInput) {
+                return;
+            }
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                button.setAttribute("aria-label", "Hide password");
+
+                if (icon) {
+                    icon.classList.remove("bi-eye");
+                    icon.classList.add("bi-eye-slash");
+                }
+            } else {
+                passwordInput.type = "password";
+                button.setAttribute("aria-label", "Show password");
+
+                if (icon) {
+                    icon.classList.remove("bi-eye-slash");
+                    icon.classList.add("bi-eye");
+                }
+            }
+        });
+    });
+});
+
+
+/* =========================================================
+   LOGIN PAGE FOCUS AFTER SUCCESSFUL SIGNUP
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const animatedLoginCard = document.querySelector(".culina-auth-card-turn-in");
+
+    if (!animatedLoginCard) {
+        return;
+    }
+
+    const emailInput = document.getElementById("id_username");
+
+    if (emailInput) {
+        setTimeout(function () {
+            emailInput.focus();
+        }, 700);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   REAL SIGNUP SUCCESS TO LOGIN FLIP
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const flipCard = document.querySelector("[data-auth-flip-card]");
+
+    if (!flipCard) {
+        return;
+    }
+
+    setTimeout(function () {
+        flipCard.classList.add("is-flipped");
+    }, 900);
+
+    setTimeout(function () {
+        const emailInput = document.getElementById("id_username");
+
+        if (emailInput) {
+            emailInput.focus();
+        }
+    }, 2300);
 });

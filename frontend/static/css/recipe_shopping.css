@@ -430,3 +430,355 @@
     border: 1px solid rgba(34, 197, 94, 0.18);
     font-size: 0.95rem;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   PANTRY-AWARE SHOPPING LIST
+   Purpose:
+   - Shows which recipe ingredients are already in Smart Pantry.
+   - Separates missing ingredients into a clean "Need to Buy" list.
+   ========================================================= */
+
+.culina-pantry-match-summary {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 22px;
+    padding: 18px;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at top right, rgba(34, 197, 94, 0.16), transparent 36%),
+        #fffaf3;
+    border: 1px solid rgba(34, 197, 94, 0.16);
+}
+
+.culina-pantry-match-score {
+    width: 92px;
+    height: 92px;
+    border-radius: 28px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #22c55e, #facc15);
+    color: #211714;
+    box-shadow: 0 16px 34px rgba(34, 197, 94, 0.18);
+}
+
+.culina-pantry-match-score span {
+    font-size: 1.55rem;
+    font-weight: 950;
+    line-height: 1;
+}
+
+.culina-pantry-match-score small {
+    margin-top: 6px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.culina-pantry-match-copy h3 {
+    margin: 0 0 6px;
+    color: #211714;
+    font-size: 1.2rem;
+    font-weight: 950;
+}
+
+.culina-pantry-match-copy p {
+    margin: 0;
+    color: #6f5948;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.culina-pantry-shopping-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.culina-pantry-shopping-panel {
+    min-width: 0;
+    padding: 18px;
+    border-radius: 24px;
+    background: #fffaf3;
+    border: 1px solid rgba(80, 50, 30, 0.08);
+}
+
+.culina-pantry-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.culina-pantry-panel-header > i {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+}
+
+.culina-pantry-available-panel .culina-pantry-panel-header > i {
+    background: linear-gradient(135deg, #22c55e, #86efac);
+}
+
+.culina-pantry-panel-header h3 {
+    margin: 0;
+    color: #211714;
+    font-size: 1.1rem;
+    font-weight: 950;
+}
+
+.culina-pantry-panel-header p {
+    margin: 2px 0 0;
+    color: #7b6a5c;
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.culina-shopping-simple-item {
+    position: relative;
+    min-width: 0;
+}
+
+.culina-shopping-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.culina-shopping-status-badge {
+    margin-left: auto;
+    flex: 0 0 auto;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.culina-shopping-status-badge.missing {
+    color: #9a3412;
+    background: rgba(249, 115, 22, 0.12);
+}
+
+.culina-shopping-status-badge.available {
+    color: #166534;
+    background: rgba(34, 197, 94, 0.13);
+}
+
+.culina-shopping-missing-item .culina-shopping-simple-icon {
+    color: #f97316;
+    background: rgba(249, 115, 22, 0.12);
+}
+
+.culina-shopping-available-item .culina-shopping-simple-icon {
+    color: #15803d;
+    background: rgba(34, 197, 94, 0.13);
+}
+
+.culina-shopping-empty-mini {
+    padding: 18px;
+    border-radius: 18px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px dashed rgba(80, 50, 30, 0.15);
+}
+
+.culina-shopping-empty-mini i {
+    color: #f97316;
+    font-size: 1.6rem;
+}
+
+.culina-shopping-empty-mini p {
+    margin: 8px 0 0;
+    color: #6f5948;
+    font-weight: 800;
+}
+
+@media (max-width: 991px) {
+    .culina-pantry-shopping-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-pantry-match-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .culina-pantry-match-score {
+        width: 100%;
+        height: auto;
+        min-height: 86px;
+    }
+
+    .culina-shopping-status-badge {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .culina-shopping-simple-item {
+        flex-wrap: wrap;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SHOPPING MODAL VISIBILITY + CLICK FIX
+   Fixes:
+   - modal looking blurry/dim
+   - overlay sitting above modal
+   - buttons not clickable
+   ========================================================= */
+
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+.culina-shopping-modal {
+    z-index: 1080 !important;
+}
+
+.culina-shopping-modal .modal-dialog {
+    position: relative;
+    z-index: 1090 !important;
+    pointer-events: auto !important;
+}
+
+.culina-shopping-modal .modal-content {
+    position: relative;
+    z-index: 1100 !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    background: #fffaf3 !important;
+}
+
+.culina-shopping-modal .modal-body,
+.culina-shopping-modal .modal-footer,
+.culina-shopping-modal .modal-header {
+    position: relative;
+    z-index: 1110 !important;
+    pointer-events: auto !important;
+}
+
+.culina-shopping-modal button,
+.culina-shopping-modal a {
+    pointer-events: auto !important;
+}
+
+/* Make footer buttons clear and clickable */
+.culina-shopping-modal-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1120 !important;
+    background: rgba(255, 250, 243, 0.98) !important;
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(80, 50, 30, 0.1);
+}
+
+/* Make modal cleaner and less cramped */
+.culina-shopping-modal .modal-dialog {
+    max-width: 1050px;
+}
+
+.culina-shopping-modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   Pantry Match Score Badge Alignment Fix
+   ========================================================= */
+
+.culina-pantry-match-score {
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.75rem !important;
+    overflow: hidden;
+}
+
+.culina-pantry-match-score span {
+    display: block;
+    width: 100%;
+    text-align: center !important;
+    font-size: 1.55rem;
+    font-weight: 950;
+    line-height: 1.1;
+}
+
+.culina-pantry-match-score small {
+    display: block;
+    width: 100%;
+    text-align: center !important;
+    margin-top: 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 950;
+    line-height: 1.35;
+    letter-spacing: 0.07em;
+}

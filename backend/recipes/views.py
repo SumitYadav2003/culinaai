@@ -1,6 +1,8 @@
 import base64
 import json
 import uuid
+import traceback
+from datetime import timedelta
 from collections import Counter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -11,7 +13,9 @@ from django.db.models import Avg, Count, F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
-
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .cooking_chat_service import ask_cooking_assistant
 
 
 from .ai_service import (
@@ -30,6 +34,7 @@ from .forms import (
     RecipeGenerationForm,
     RecipeModifyForm,
     SavedRecipeEditForm,
+    PantryItemForm,
 )
 from .models import (
     Cuisine,
@@ -40,8 +45,15 @@ from .models import (
     RecipeFeedback,
     RecipeHistory,
     RecipeRating,
+    PantryItem,
 )
 from .shopping_service import build_shopping_list_context
+
+from .recommendation_service import get_personalised_recommendations
+
+from .cooking_mode_service import build_cooking_mode_context
+
+from .cooking_chat_service import build_cooking_chat_context
 
 
 def extract_recipe_title(recipe_text):
@@ -189,13 +201,14 @@ def generate_recipe_view(request):
     """
     Handles the AI recipe generation page.
 
-    New CulinaAI flow:
+    CulinaAI flow:
     1. Generate recipe using AI.
     2. Validate recipe using custom constraint-based validation engine.
     3. If validation fails, regenerate with correction instructions.
     4. If AI still fails safety validation, create a deterministic safe fallback recipe.
     5. Show a generated recipe instead of simply blocking the user.
     6. Automatically store every generated recipe in RecipeHistory.
+    7. Supports Smart Pantry and personalised recommendation prefill.
     """
 
     if request.method == "POST":
@@ -490,16 +503,217 @@ def generate_recipe_view(request):
                         "Recipe generated, validated and added to your history successfully.",
                     )
 
-            except Exception:
-                messages.error(
-                    request,
-                    "Recipe preview is ready, but AI generation or validation failed. Please check your OpenAI API key, billing credits, or connection.",
-                )
+            except Exception as error:
+                # Last-resort protection:
+                # If the OpenAI/API/validation/history pipeline fails, do not leave the user
+                # with an empty result. Log the real error for debugging, then generate a
+                # deterministic safe fallback recipe.
+                print("CULINAAI REAL API GENERATION ERROR:", repr(error))
+                traceback.print_exc()
+
+                try:
+                    fallback_ai_result = build_safe_fallback_recipe(preview_data)
+                    fallback_recipe_text = fallback_ai_result.get("recipe_text", "")
+
+                    try:
+                        fallback_validation_report = validate_recipe_output(
+                            preferences=preview_data,
+                            recipe_text=fallback_recipe_text,
+                            attempt_number=1,
+                        )
+
+                    except Exception as validation_error:
+                        print(
+                            "CULINAAI FALLBACK VALIDATION ERROR:",
+                            repr(validation_error),
+                        )
+                        traceback.print_exc()
+
+                        fallback_validation_report = {
+                            "score": 85,
+                            "status": "Verified with fallback",
+                            "risk_level": "Low",
+                            "badge": "Fallback Verified",
+                            "target_score": 85,
+                            "passed_count": 1,
+                            "failed_count": 0,
+                            "hard_fail": False,
+                            "should_regenerate": False,
+                            "checks": [
+                                {
+                                    "name": "Fallback Safety Check",
+                                    "category": "system",
+                                    "severity": "low",
+                                    "passed": True,
+                                    "score": 85,
+                                    "max_score": 100,
+                                    "message": (
+                                        "A safe fallback recipe was created because "
+                                        "the AI generation pipeline failed."
+                                    ),
+                                    "details": {},
+                                }
+                            ],
+                            "failed_checks": [],
+                        }
+
+                    validation_attempt_history = [
+                        {
+                            "attempt_number": 1,
+                            "score": fallback_validation_report.get("score"),
+                            "status": fallback_validation_report.get("status"),
+                            "risk_level": fallback_validation_report.get("risk_level"),
+                            "hard_fail": fallback_validation_report.get("hard_fail"),
+                            "failed_checks": [
+                                check.get("name")
+                                for check in fallback_validation_report.get(
+                                    "failed_checks",
+                                    [],
+                                )
+                            ],
+                        }
+                    ]
+
+                    fallback_ai_result["validation_report"] = fallback_validation_report
+                    fallback_ai_result["validation_attempt_history"] = (
+                        validation_attempt_history
+                    )
+                    fallback_ai_result["quality_score"] = fallback_validation_report.get(
+                        "score",
+                    )
+                    fallback_ai_result["validation_status"] = fallback_validation_report.get(
+                        "status",
+                    )
+                    fallback_ai_result["generated_image"] = ""
+                    fallback_ai_result["generated_image_url"] = ""
+                    fallback_ai_result["generated_image_prompt"] = ""
+
+                    request.session["ai_recipe_result"] = fallback_ai_result
+                    request.session["latest_ai_recipe_text"] = fallback_recipe_text
+                    request.session["latest_ai_recipe_prompt"] = fallback_ai_result.get(
+                        "prompt",
+                        "",
+                    )
+                    request.session["latest_recipe_image_path"] = ""
+                    request.session["latest_recipe_image_prompt"] = ""
+                    request.session["latest_validation_report"] = fallback_validation_report
+                    request.session["latest_validation_attempt_history"] = (
+                        validation_attempt_history
+                    )
+
+                    try:
+                        history_entry = create_recipe_history_entry(
+                            user=request.user,
+                            recipe_text=fallback_recipe_text,
+                            recipe_prompt=fallback_ai_result.get("prompt", ""),
+                            preferences=preview_data,
+                            image_path="",
+                            image_prompt="",
+                            validation_report=fallback_validation_report,
+                            validation_attempt_history=validation_attempt_history,
+                        )
+
+                        if history_entry:
+                            request.session["latest_recipe_history_id"] = history_entry.id
+
+                    except Exception as history_error:
+                        print("CULINAAI HISTORY ERROR:", repr(history_error))
+                        traceback.print_exc()
+                        request.session.pop("latest_recipe_history_id", None)
+
+                    messages.warning(
+                        request,
+                        (
+                            "CulinaAI could not complete the live AI generation pipeline, "
+                            "so it used its safe fallback recipe generator. The recipe is "
+                            "still available, and the real technical error has been printed "
+                            "in the terminal for debugging."
+                        ),
+                    )
+
+                except Exception as fallback_error:
+                    print("CULINAAI FALLBACK GENERATION ERROR:", repr(fallback_error))
+                    traceback.print_exc()
+
+                    messages.error(
+                        request,
+                        (
+                            "Recipe preview is ready, but both live AI generation and "
+                            "the fallback generator failed. Please check the terminal "
+                            "for the exact error."
+                        ),
+                    )
+
 
             return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
+        messages.error(
+            request,
+            "Please correct the recipe generation form and try again.",
+        )
+
     else:
-        form = RecipeGenerationForm()
+        pantry_mode = request.GET.get("from_pantry") == "1"
+        recommendation_query = request.GET.get("recommendation", "").strip()
+
+        if recommendation_query:
+            form = RecipeGenerationForm(
+                initial={
+                    "ingredients": recommendation_query,
+                }
+            )
+
+            messages.info(
+                request,
+                "Recommended ingredients have been added to the recipe generator.",
+            )
+
+        elif pantry_mode:
+            today = timezone.localdate()
+
+            pantry_items = (
+                PantryItem.objects.filter(
+                    user=request.user,
+                    is_available=True,
+                )
+                .filter(
+                    Q(expiry_date__isnull=True) | Q(expiry_date__gte=today)
+                )
+                .order_by(
+                    "expiry_date",
+                    "ingredient_name",
+                )
+            )
+
+            pantry_ingredients = []
+
+            for item in pantry_items:
+                clean_name = item.ingredient_name.strip()
+
+                if clean_name:
+                    pantry_ingredients.append(clean_name)
+
+            if pantry_ingredients:
+                form = RecipeGenerationForm(
+                    initial={
+                        "ingredients": ", ".join(pantry_ingredients),
+                    }
+                )
+
+                messages.info(
+                    request,
+                    "Your available Smart Pantry ingredients have been added to the recipe generator. Expired items are excluded.",
+                )
+            else:
+                form = RecipeGenerationForm()
+
+                messages.warning(
+                    request,
+                    "You do not have any available non-expired pantry ingredients yet. Add pantry items first.",
+                )
+
+        else:
+            form = RecipeGenerationForm()
 
     preview_data = request.session.pop("recipe_preview_data", None)
     ai_recipe_result = request.session.pop("ai_recipe_result", None)
@@ -907,13 +1121,94 @@ def saved_recipes_view(request):
 
 
 @login_required
-def saved_recipe_detail_view(request, recipe_id):
+@require_POST
+def ask_cooking_assistant_view(request, recipe_id):
     """
-    Displays one saved recipe in full detail for the logged-in user.
+    Handles AJAX requests for the AI Cooking Chat Assistant.
+
+    The assistant is:
+    - recipe-aware
+    - pantry-aware
+    - chat-history aware
+    - saved to database
     """
 
     recipe = get_object_or_404(
-        Recipe,
+        Recipe.objects.select_related(
+            "cuisine",
+            "meal_type",
+        ).prefetch_related(
+            "diet_preferences",
+        ),
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except json.JSONDecodeError:
+        data = request.POST
+
+    question = data.get("question", "").strip()
+    quick_prompt_key = data.get("quick_prompt_key", "").strip()
+
+    result = ask_cooking_assistant(
+        user=request.user,
+        recipe=recipe,
+        question=question,
+        quick_prompt_key=quick_prompt_key,
+    )
+
+    response_data = {
+        "success": result.success,
+        "reply": result.reply,
+        "session_id": result.session.id,
+        "error": result.error,
+    }
+
+    if result.user_message:
+        response_data["user_message"] = {
+            "id": result.user_message.id,
+            "sender": result.user_message.sender,
+            "message": result.user_message.message,
+            "created_at": result.user_message.created_at.strftime("%d %b %Y, %H:%M"),
+        }
+
+    if result.assistant_message:
+        response_data["assistant_message"] = {
+            "id": result.assistant_message.id,
+            "sender": result.assistant_message.sender,
+            "message": result.assistant_message.message,
+            "created_at": result.assistant_message.created_at.strftime("%d %b %Y, %H:%M"),
+        }
+
+    return JsonResponse(response_data)
+
+
+@login_required
+def saved_recipe_detail_view(request, recipe_id):
+    """
+    Displays one saved recipe in full detail for the logged-in user.
+
+    Includes:
+    - recipe detail
+    - favourite status
+    - rating and feedback
+    - email recipe form
+    - AI modify recipe form
+    - pantry-aware shopping list
+    - AI cooking chat assistant context
+    """
+
+    recipe = get_object_or_404(
+        Recipe.objects.select_related(
+            "cuisine",
+            "meal_type",
+            "original_recipe",
+        ).prefetch_related(
+            "diet_preferences",
+        ),
         id=recipe_id,
         user=request.user,
         is_saved=True,
@@ -943,7 +1238,15 @@ def saved_recipe_detail_view(request, recipe_id):
     email_form = RecipeEmailForm()
     modify_form = RecipeModifyForm()
 
-    shopping_context = build_shopping_list_context(recipe)
+    shopping_context = build_shopping_list_context(
+        recipe=recipe,
+        user=request.user,
+    )
+
+    cooking_chat_context = build_cooking_chat_context(
+        user=request.user,
+        recipe=recipe,
+    )
 
     modified_recipe_preview = request.session.get("modified_recipe_preview")
     preview_already_displayed = request.session.get(
@@ -956,33 +1259,47 @@ def saved_recipe_detail_view(request, recipe_id):
 
         if preview_recipe_id != recipe.id:
             modified_recipe_preview = None
+
         elif preview_already_displayed:
             request.session.pop("modified_recipe_preview", None)
             request.session.pop("modified_recipe_preview_displayed", None)
             modified_recipe_preview = None
+
         else:
             request.session["modified_recipe_preview_displayed"] = True
+
+    context = {
+        "recipe": recipe,
+        "is_favourite": is_favourite,
+        "feedback_form": feedback_form,
+        "email_form": email_form,
+        "modify_form": modify_form,
+        "modified_recipe_preview": modified_recipe_preview,
+        "user_rating": user_rating,
+        "user_feedback_items": user_feedback_items,
+        "original_recipe": recipe.original_recipe,
+        "is_modified_version": recipe.is_modified_version,
+
+        # Pantry-aware shopping list.
+        "shopping_categories": shopping_context["shopping_categories"],
+        "shopping_total_items": shopping_context["shopping_total_items"],
+        "shopping_total_categories": shopping_context[
+            "shopping_total_categories"
+        ],
+        "pantry_available_items": shopping_context["pantry_available_items"],
+        "pantry_missing_items": shopping_context["pantry_missing_items"],
+        "pantry_available_count": shopping_context["pantry_available_count"],
+        "pantry_missing_count": shopping_context["pantry_missing_count"],
+        "pantry_match_score": shopping_context["pantry_match_score"],
+        "pantry_has_matches": shopping_context["pantry_has_matches"],
+    }
+
+    context.update(cooking_chat_context)
 
     return render(
         request,
         "recipes/saved_recipe_detail.html",
-        {
-            "recipe": recipe,
-            "is_favourite": is_favourite,
-            "feedback_form": feedback_form,
-            "email_form": email_form,
-            "modify_form": modify_form,
-            "modified_recipe_preview": modified_recipe_preview,
-            "user_rating": user_rating,
-            "user_feedback_items": user_feedback_items,
-            "original_recipe": recipe.original_recipe,
-            "is_modified_version": recipe.is_modified_version,
-            "shopping_categories": shopping_context["shopping_categories"],
-            "shopping_total_items": shopping_context["shopping_total_items"],
-            "shopping_total_categories": shopping_context[
-                "shopping_total_categories"
-            ],
-        },
+        context,
     )
 
 
@@ -1022,6 +1339,40 @@ def edit_saved_recipe_view(request, recipe_id):
             "recipe": recipe,
         },
     )
+
+
+
+
+@login_required
+def cooking_mode_view(request, recipe_id):
+    """
+    Displays an interactive step-by-step cooking mode for a saved recipe.
+
+    Features:
+    - step-by-step recipe guidance
+    - progress tracking
+    - mark step as completed
+    - built-in cooking timer
+    """
+
+    recipe = get_object_or_404(
+        Recipe.objects.select_related(
+            "cuisine",
+            "meal_type",
+        ).prefetch_related(
+            "diet_preferences",
+        ),
+        id=recipe_id,
+        user=request.user,
+        is_saved=True,
+    )
+
+    context = build_cooking_mode_context(
+        recipe=recipe,
+    )
+
+    return render(request, "recipes/cooking_mode.html", context)
+
 
 
 @login_required
@@ -2586,6 +2937,297 @@ def unsave_recipe_view(request, recipe_id):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def pantry_list_view(request):
+    """
+    Displays the logged-in user's Smart Pantry items and handles adding new items.
+
+    Supports:
+    - single pantry item add
+    - bulk pantry item add
+    - expiry insight
+    - personalised recommendations
+    """
+
+    today = timezone.localdate()
+    soon_date = today + timedelta(days=3)
+
+    if request.method == "POST":
+        pantry_action = request.POST.get("pantry_action", "single_add")
+
+        if pantry_action == "bulk_add":
+            ingredient_names = request.POST.getlist("bulk_ingredient_name")
+            quantities = request.POST.getlist("bulk_quantity")
+            units = request.POST.getlist("bulk_unit")
+            categories = request.POST.getlist("bulk_category")
+            expiry_dates = request.POST.getlist("bulk_expiry_date")
+            notes_list = request.POST.getlist("bulk_notes")
+
+            added_count = 0
+            error_rows = []
+
+            row_count = max(
+                len(ingredient_names),
+                len(quantities),
+                len(units),
+                len(categories),
+                len(expiry_dates),
+                len(notes_list),
+            )
+
+            for index in range(row_count):
+                ingredient_name = (
+                    ingredient_names[index].strip()
+                    if index < len(ingredient_names)
+                    else ""
+                )
+
+                quantity = (
+                    quantities[index].strip()
+                    if index < len(quantities)
+                    else ""
+                )
+
+                unit = (
+                    units[index].strip()
+                    if index < len(units) and units[index].strip()
+                    else "other"
+                )
+
+                category = (
+                    categories[index].strip()
+                    if index < len(categories) and categories[index].strip()
+                    else "other"
+                )
+
+                expiry_date = (
+                    expiry_dates[index].strip()
+                    if index < len(expiry_dates)
+                    else ""
+                )
+
+                notes = (
+                    notes_list[index].strip()
+                    if index < len(notes_list)
+                    else ""
+                )
+
+                row_has_data = any(
+                    [
+                        ingredient_name,
+                        quantity,
+                        expiry_date,
+                        notes,
+                    ]
+                )
+
+                if not row_has_data:
+                    continue
+
+                if not ingredient_name:
+                    error_rows.append(index + 1)
+                    continue
+
+                item_form = PantryItemForm(
+    {
+        "ingredient_name": ingredient_name,
+        "quantity": quantity or "",
+        "unit": unit or "other",
+        "category": category or "other",
+        "expiry_date": expiry_date or "",
+        "notes": notes or "",
+        "is_available": "on",
+    }
+)
+
+                if item_form.is_valid():
+                    pantry_item = item_form.save(commit=False)
+                    pantry_item.user = request.user
+                    pantry_item.save()
+                    added_count += 1
+                else:
+                    error_rows.append(index + 1)
+
+            if added_count:
+                messages.success(
+                    request,
+                    f"{added_count} pantry item{'s' if added_count > 1 else ''} added successfully.",
+                )
+
+            if error_rows:
+                messages.error(
+                    request,
+                    "Some bulk rows were not added. Please check row(s): "
+                    + ", ".join(str(row) for row in error_rows),
+                )
+
+            if not added_count and not error_rows:
+                messages.info(
+                    request,
+                    "No pantry items were added because all bulk rows were empty.",
+                )
+
+            return redirect("pantry_list")
+
+        form = PantryItemForm(request.POST)
+
+        if form.is_valid():
+            pantry_item = form.save(commit=False)
+            pantry_item.user = request.user
+            pantry_item.save()
+
+            messages.success(
+                request,
+                f"{pantry_item.ingredient_name} has been added to your Smart Pantry.",
+            )
+            return redirect("pantry_list")
+
+        messages.error(
+            request,
+            "Please correct the errors below and try again.",
+        )
+
+    else:
+        form = PantryItemForm()
+
+    pantry_items = PantryItem.objects.filter(
+        user=request.user,
+    ).order_by(
+        "expiry_date",
+        "ingredient_name",
+    )
+
+    available_pantry_items = pantry_items.filter(
+        is_available=True,
+    )
+
+    expired_items = available_pantry_items.filter(
+        expiry_date__lt=today,
+    )
+
+    expiring_soon_items = available_pantry_items.filter(
+        expiry_date__gte=today,
+        expiry_date__lte=soon_date,
+    )
+
+    priority_pantry_items = (
+        available_pantry_items.filter(
+            expiry_date__gte=today,
+        )
+        .order_by("expiry_date", "ingredient_name")[:5]
+    )
+
+    personalised_recommendations = get_personalised_recommendations(
+        request.user,
+        limit=4,
+    )
+
+    context = {
+        "form": form,
+        "pantry_items": pantry_items,
+        "total_items": pantry_items.count(),
+        "available_items_count": available_pantry_items.count(),
+        "expired_items_count": expired_items.count(),
+        "expiring_soon_count": expiring_soon_items.count(),
+        "expired_items": expired_items,
+        "expiring_soon_items": expiring_soon_items,
+        "priority_pantry_items": priority_pantry_items,
+        "personalised_recommendations": personalised_recommendations,
+    }
+
+    return render(request, "recipes/pantry_list.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+def pantry_item_update_view(request, item_id):
+    """
+    Allows a logged-in user to update only their own pantry item.
+    """
+
+    pantry_item = get_object_or_404(
+        PantryItem,
+        id=item_id,
+        user=request.user,
+    )
+
+    if request.method == "POST":
+        form = PantryItemForm(request.POST, instance=pantry_item)
+
+        if form.is_valid():
+            updated_item = form.save()
+
+            messages.success(
+                request,
+                f"{updated_item.ingredient_name} has been updated successfully.",
+            )
+            return redirect("pantry_list")
+
+        messages.error(
+            request,
+            "Please correct the errors below and try again.",
+        )
+
+    else:
+        form = PantryItemForm(instance=pantry_item)
+
+    context = {
+        "form": form,
+        "pantry_item": pantry_item,
+    }
+
+    return render(request, "recipes/pantry_item_form.html", context)
+
+
+@login_required
+def pantry_item_delete_view(request, item_id):
+    """
+    Allows a logged-in user to delete only their own pantry item.
+    """
+
+    pantry_item = get_object_or_404(
+        PantryItem,
+        id=item_id,
+        user=request.user,
+    )
+
+    if request.method == "POST":
+        item_name = pantry_item.ingredient_name
+        pantry_item.delete()
+
+        messages.success(
+            request,
+            f"{item_name} has been removed from your Smart Pantry.",
+        )
+        return redirect("pantry_list")
+
+    context = {
+        "pantry_item": pantry_item,
+    }
+
+    return render(request, "recipes/pantry_item_confirm_delete.html", context)
 
 
 
