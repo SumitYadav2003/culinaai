@@ -20,7 +20,8 @@
     />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=pantry-alert-overflow-fix-1" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=footer-role-layout-fix-1" />
+
     {% block extra_css %}{% endblock %}
   </head>
 
@@ -82,6 +83,15 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'home' %}#ai-recipes">
                 AI Recipes
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link {% if current_url == 'about_culinaai' %}active{% endif %}"
+                href="{% url 'about_culinaai' %}"
+              >
+                About
               </a>
             </li>
           </ul>
@@ -175,11 +185,14 @@
       {% block content %}{% endblock %}
     </main>
 
-    <!-- Premium Footer -->
-    <footer class="culina-footer">
+    <!-- Professional Footer -->
+    <footer class="culina-footer culina-footer-pro">
       <div class="container">
-        <div class="row gy-4 align-items-center">
-          <div class="col-lg-6">
+
+        <div class="culina-footer-main">
+
+          <!-- Brand Column -->
+          <div class="culina-footer-brand-panel">
             <a class="footer-logo" href="{% url 'home' %}">
               <span class="logo-image-wrap">
                 <img
@@ -192,26 +205,84 @@
             </a>
 
             <p class="footer-text mt-3">
-              AI-Assisted Recipe Generation and Meal Personalisation System.
+              CulinaAI is an AI-powered cooking platform helping users generate
+              personalised recipes, manage pantry ingredients and receive intelligent
+              cooking guidance.
             </p>
 
-            <p class="footer-small">
-              MSc Dissertation Project | Sumit Yadav
+            <div class="culina-footer-badges">
+              <span><i class="bi bi-calendar2-check"></i> Established 2026</span>
+              <span><i class="bi bi-cpu"></i> AI Food Technology</span>
+              <span><i class="bi bi-shield-check"></i> User-Centred Cooking</span>
+            </div>
+          </div>
+
+          <!-- What We Do Column -->
+          <div class="culina-footer-column">
+            <h3>What We Do</h3>
+            <p>
+              We provide AI-assisted recipe generation, meal personalisation,
+              pantry support and guided cooking tools for everyday users.
             </p>
           </div>
 
-          <div class="col-lg-6 text-lg-end">
-            <div class="footer-links">
+          <!-- Role-Based Services / Admin Tools Column -->
+          <div class="culina-footer-column">
+            {% if user.is_staff or user.is_superuser %}
+              <h3>Admin Tools</h3>
+
+              <div class="culina-footer-link-list">
+                <a href="{% url 'quality_dashboard' %}">Quality Dashboard</a>
+                <a href="{% url 'quality_dashboard' %}#quality-records">Recipe Records</a>
+                <a href="{% url 'admin:index' %}">Django Admin Panel</a>
+                <a href="{% url 'home' %}">Website Home</a>
+              </div>
+
+            {% elif user.is_authenticated %}
+              <h3>Services</h3>
+
+              <div class="culina-footer-link-list">
+                <a href="{% url 'generate_recipe' %}">AI Recipe Generation</a>
+                <a href="{% url 'pantry_list' %}">Smart Pantry Support</a>
+                <a href="{% url 'community_recipes' %}">Community Recipes</a>
+                <a href="{% url 'recipe_history' %}">AI Cooking Assistant</a>
+              </div>
+
+            {% else %}
+              <h3>Services</h3>
+
+              <div class="culina-footer-link-list">
+                <a href="{% url 'signup' %}">AI Recipe Generation</a>
+                <a href="{% url 'signup' %}">Smart Pantry Support</a>
+                <a href="{% url 'signup' %}">Community Recipes</a>
+                <a href="{% url 'signup' %}">AI Cooking Assistant</a>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="culina-footer-column">
+            <h3>Quick Links</h3>
+
+            <div class="culina-footer-link-list">
+              <a href="{% url 'home' %}">Home</a>
               <a href="{% url 'home' %}#features">Features</a>
               <a href="{% url 'home' %}#how-it-works">How It Works</a>
-              <a href="{% url 'home' %}#ai-recipes">AI Recipes</a>
+              <a href="{% url 'about_culinaai' %}">About CulinaAI</a>
             </div>
-
-            <p class="footer-small mt-3 mb-0">
-              &copy; 2026 CulinaAI. All rights reserved.
-            </p>
           </div>
         </div>
+
+        <div class="culina-footer-bottom">
+          <p>
+            &copy; 2026 CulinaAI. All rights reserved.
+          </p>
+
+          <p>
+            AI-Assisted Recipe Generation and Meal Personalisation System.
+          </p>
+        </div>
+
       </div>
     </footer>
 

@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About CulinaAI | Smart AI Cooking Platform{% endblock %}
+
+{% block content %}
+
+<section class="about-page-section">
+
+    <!-- Hero Section -->
+    <div class="about-hero-wrap">
+        <div class="container">
+            <div class="about-hero-card">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7">
+                        <span class="about-eyebrow">
+                            <i class="bi bi-stars"></i>
+                            About CulinaAI
+                        </span>
+
+                        <h1>
+                            Making everyday cooking smarter, safer and more personal with AI.
+                        </h1>
+
+                        <p>
+                            CulinaAI is an AI-powered cooking technology platform designed to help
+                            users generate personalised recipes, manage ingredients, discover meal
+                            ideas and receive intelligent cooking guidance based on their own kitchen
+                            needs.
+                        </p>
+
+                        <div class="about-hero-actions">
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'dashboard' %}" class="about-primary-btn">
+                                    <i class="bi bi-speedometer2"></i>
+                                    Open Dashboard
+                                </a>
+                                <a href="{% url 'pantry_list' %}" class="about-secondary-btn">
+                                    <i class="bi bi-basket2"></i>
+                                    Manage Pantry
+                                </a>
+                            {% else %}
+                                <a href="{% url 'signup' %}" class="about-primary-btn">
+                                    <i class="bi bi-person-plus"></i>
+                                    Start Using CulinaAI
+                                </a>
+                                <a href="{% url 'login' %}" class="about-secondary-btn">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Login
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="about-brand-panel">
+                            <div class="about-brand-logo">
+                                <img src="{% static 'images/chefgpt.webp' %}" alt="CulinaAI logo">
+                            </div>
+
+                            <h2>Culina<span>AI</span></h2>
+                            <p>AI-assisted recipe generation and meal personalisation system.</p>
+
+                            <div class="about-brand-tags">
+                                <span><i class="bi bi-calendar2-check"></i> Established 2026</span>
+                                <span><i class="bi bi-cpu"></i> AI Food Technology</span>
+                                <span><i class="bi bi-shield-check"></i> User-Centred Cooking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-stats-grid">
+                <div class="about-stat-card">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>Established</span>
+                    <strong>2026</strong>
+                    <p>Created as a modern AI-assisted cooking platform.</p>
+                </div>
+
+                <div class="about-stat-card">
+                    <i class="bi bi-magic"></i>
+                    <span>Platform Focus</span>
+                    <strong>Personalisation</strong>
+                    <p>Recipes are generated around user ingredients, diet, time and preferences.</p>
+                </div>
+
+                <div class="about-stat-card">
+                    <i class="bi bi-basket2"></i>
+                    <span>Kitchen Support</span>
+                    <strong>Smart Pantry</strong>
+                    <p>Users can track ingredients, expiry dates and recipe opportunities.</p>
+                </div>
+
+                <div class="about-stat-card">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Cooking Help</span>
+                    <strong>AI Assistant</strong>
+                    <p>Users can ask recipe-specific cooking questions while preparing meals.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Who We Are -->
+    <section class="about-content-section">
+        <div class="container">
+            <div class="about-section-heading text-center">
+                <span>Who We Are</span>
+                <h2>A smart cooking companion built for modern kitchens.</h2>
+                <p>
+                    CulinaAI combines artificial intelligence, recipe personalisation and kitchen
+                    management tools to support users before, during and after cooking.
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="about-info-card">
+                        <div class="about-card-icon orange">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+                        <h3>Our Purpose</h3>
+                        <p>
+                            We help users turn available ingredients into practical, structured and
+                            personalised recipes instead of relying on generic recipe search results.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="about-info-card">
+                        <div class="about-card-icon green">
+                            <i class="bi bi-person-heart"></i>
+                        </div>
+                        <h3>User-Centred Design</h3>
+                        <p>
+                            CulinaAI is designed around real user needs such as allergies, dietary
+                            preferences, cooking time, budget, equipment and available pantry items.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="about-info-card">
+                        <div class="about-card-icon gold">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <h3>AI-Powered Support</h3>
+                        <p>
+                            The platform uses AI to generate recipes, suggest improvements, support
+                            cooking questions and make the recipe experience more interactive.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do / Services -->
+    <section class="about-services-section">
+        <div class="container">
+            <div class="about-section-heading text-center">
+                <span>What We Do</span>
+                <h2>Our services and platform features.</h2>
+                <p>
+                    CulinaAI provides a complete cooking workflow from ingredient planning to recipe
+                    generation, saving, printing and guided preparation.
+                </p>
+            </div>
+
+            <div class="about-services-grid">
+                <div class="about-service-card">
+                    <i class="bi bi-stars"></i>
+                    <h3>AI Recipe Generation</h3>
+                    <p>Generate personalised recipes using ingredients, cuisine, meal type, diet, allergies and time preferences.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-basket"></i>
+                    <h3>Smart Pantry Support</h3>
+                    <p>Track pantry ingredients, expiry dates and recipe possibilities based on what users already have.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-bookmark-heart"></i>
+                    <h3>Saved Recipes & Favourites</h3>
+                    <p>Save generated recipes, organise favourites and return to previous cooking ideas anytime.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-chat-square-text"></i>
+                    <h3>AI Cooking Assistant</h3>
+                    <p>Ask recipe-specific questions for cooking guidance, substitutions, timing and preparation support.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-printer"></i>
+                    <h3>Recipe Print & Export</h3>
+                    <p>View recipes in a professional format and print or save them as PDF for offline use.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-mic"></i>
+                    <h3>Voice Input</h3>
+                    <p>Use browser-based voice input to add ingredients, allergies, equipment and notes more easily.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-people"></i>
+                    <h3>Community Recipe Discovery</h3>
+                    <p>Explore public recipes shared by users and discover different recipe ideas from the community.</p>
+                </div>
+
+                <div class="about-service-card">
+                    <i class="bi bi-shield-exclamation"></i>
+                    <h3>Allergy & Diet Awareness</h3>
+                    <p>Support safer cooking decisions by considering allergies, diet preferences and ingredient restrictions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Vision -->
+    <section class="about-mission-section">
+        <div class="container">
+            <div class="about-mission-grid">
+                <div class="about-mission-card">
+                    <span class="about-mini-label">Our Mission</span>
+                    <h2>To make cooking more accessible, personalised and efficient.</h2>
+                    <p>
+                        CulinaAI aims to reduce the difficulty of deciding what to cook by combining
+                        everyday kitchen information with intelligent recipe generation and practical
+                        cooking support.
+                    </p>
+                </div>
+
+                <div class="about-mission-card about-vision-card">
+                    <span class="about-mini-label">Our Vision</span>
+                    <h2>To become a trusted AI cooking companion for everyday users.</h2>
+                    <p>
+                        The long-term vision is to support users from ingredient selection to recipe
+                        creation, pantry awareness, guided cooking, saving, sharing and meal planning.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Different -->
+    <section class="about-difference-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="about-section-heading about-left-heading">
+                        <span>Why CulinaAI Is Different</span>
+                        <h2>Not just a recipe website — a personalised cooking system.</h2>
+                        <p>
+                            Traditional recipe websites usually show the same recipe to every user.
+                            CulinaAI is different because it responds to each user's ingredients,
+                            dietary needs, cooking constraints and saved preferences.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="about-difference-list">
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Creates recipes around user-provided ingredients.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Considers allergies, diet preferences and cooking limitations.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Connects recipe generation with pantry, history and saved recipes.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Provides AI cooking help after the recipe is generated.</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Supports practical actions such as printing, saving and voice input.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Responsibility -->
+    <section class="about-responsibility-section">
+        <div class="container">
+            <div class="about-responsibility-card">
+                <div class="about-responsibility-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <div>
+                    <span>Safety & Responsibility</span>
+                    <h2>Designed to support cooking decisions, not replace user judgement.</h2>
+                    <p>
+                        CulinaAI can provide allergy and dietary guidance, but users should always
+                        manually check ingredients, labels and medical or dietary requirements before
+                        cooking or consuming any recipe.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</section>
+
+{% endblock %}

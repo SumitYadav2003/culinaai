@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Quality Control Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=quality-dashboard-premium-4">
+<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=professional-admin-charts-1">
 {% endblock %}
 
 {% block content %}
@@ -127,6 +127,158 @@
                 </div>
             </article>
         </div>
+
+        <!-- Admin Analytics Charts -->
+        <section class="quality-chart-dashboard-panel">
+            <div class="quality-panel-header">
+                <div>
+                    <span>Admin Analytics</span>
+                    <h2>Quality analytics overview</h2>
+                </div>
+
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+            <div class="quality-chart-grid">
+                <article class="quality-chart-card">
+                    <div class="quality-chart-card-header">
+                        <div>
+                            <span>Score Distribution</span>
+                            <h3>Validation score distribution</h3>
+                        </div>
+                        <i class="bi bi-bar-chart-fill"></i>
+                    </div>
+
+                    <div class="quality-chart-canvas-wrap">
+                        <canvas id="scoreDistributionChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="quality-chart-card">
+                    <div class="quality-chart-card-header">
+                        <div>
+                            <span>Risk Levels</span>
+                            <h3>Safety risk classification</h3>
+                        </div>
+                        <i class="bi bi-pie-chart-fill"></i>
+                    </div>
+
+                    <div class="quality-chart-canvas-wrap doughnut-wrap">
+                        <canvas id="riskLevelChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="quality-chart-card">
+                    <div class="quality-chart-card-header">
+                        <div>
+                            <span>Generation Trend</span>
+                            <h3>AI recipe activity over the last 7 days</h3>
+                        </div>
+                        <i class="bi bi-activity"></i>
+                    </div>
+
+                    <div class="quality-chart-canvas-wrap">
+                        <canvas id="recipeTrendChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="quality-chart-card">
+                    <div class="quality-chart-card-header">
+                        <div>
+                            <span>Validation Health</span>
+                            <h3>Validation process overview</h3>
+                        </div>
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+
+                    <div class="quality-chart-canvas-wrap">
+                        <canvas id="validationHealthChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="quality-chart-card">
+                    <div class="quality-chart-card-header">
+                        <div>
+                            <span>Top Cuisines</span>
+                            <h3>Most generated cuisine categories</h3>
+                        </div>
+                        <i class="bi bi-egg-fried"></i>
+                    </div>
+
+                    <div class="quality-chart-canvas-wrap">
+                        <canvas id="topCuisineChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="quality-chart-card">
+                    <div class="quality-chart-card-header">
+                        <div>
+                            <span>Top Meal Types</span>
+                            <h3>Most selected meal types</h3>
+                        </div>
+                        <i class="bi bi-cup-hot-fill"></i>
+                    </div>
+
+                    <div class="quality-chart-canvas-wrap">
+                        <canvas id="topMealTypeChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="quality-chart-card quality-issue-card">
+    <div class="quality-chart-card-header">
+        <div>
+            <span>Common Issues</span>
+            <h3>Repeated validation signals</h3>
+        </div>
+        <i class="bi bi-exclamation-circle-fill"></i>
+    </div>
+
+    <div class="quality-issue-progress-list">
+        {% for issue in common_issues %}
+            <div class="quality-issue-progress-item">
+                <div class="quality-issue-progress-top">
+                    <span>{{ issue.label }}</span>
+                    <strong>{{ issue.count }}</strong>
+                </div>
+
+                <div class="quality-issue-progress-track">
+                    <div
+                        class="quality-issue-progress-fill"
+                        style="width: {% widthratio issue.count staff_review_count 100 %}%;"
+                    ></div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="quality-empty-chart quality-empty-chart-professional">
+                <i class="bi bi-check-circle"></i>
+                <strong>No repeated issues detected</strong>
+                <p>Validation issue patterns will appear here when repeated signals are found.</p>
+            </div>
+        {% endfor %}
+    </div>
+</article>
+            </div>
+
+            <div class="quality-priority-strip">
+                <div class="priority-box priority-high">
+                    <span>High Priority</span>
+                    <strong>{{ high_priority_count }}</strong>
+                    <p>Critical score or high-risk validation records.</p>
+                </div>
+
+                <div class="priority-box priority-medium">
+                    <span>Medium Priority</span>
+                    <strong>{{ medium_priority_count }}</strong>
+                    <p>Moderate score or medium-risk validation records.</p>
+                </div>
+
+                <div class="priority-box priority-low">
+                    <span>Low Priority</span>
+                    <strong>{{ low_priority_count }}</strong>
+                    <p>Lower urgency review items still requiring staff visibility.</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Advanced Analytics -->
         <section class="quality-advanced-panel">
@@ -563,6 +715,7 @@
                                 <td>{{ recipe.validation_attempts|default:"0" }}</td>
 
                                 <td>{{ recipe.created_at|date:"d M Y, H:i" }}</td>
+
                                 <td>
                                     <a href="{% url 'quality_recipe_evidence' recipe.id %}" class="evidence-link-btn">
                                         <i class="bi bi-file-earmark-text"></i>
@@ -591,4 +744,16 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+{{ score_distribution_chart_data|json_script:"scoreDistributionData" }}
+{{ risk_level_chart_data|json_script:"riskLevelData" }}
+{{ validation_health_chart_data|json_script:"validationHealthData" }}
+{{ recipe_trend_chart_data|json_script:"recipeTrendData" }}
+{{ top_cuisine_chart_data|json_script:"topCuisineData" }}
+{{ top_meal_type_chart_data|json_script:"topMealTypeData" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/quality_dashboard_charts.js' %}?v=culina-theme-charts-1"></script>
 {% endblock %}

@@ -2205,8 +2205,15 @@ def quality_dashboard_view(request):
     """
     Staff-only CulinaAI quality dashboard.
 
-    Stage 3C:
-    Adds advanced analytics plus filtering/search for admin recipe records.
+    Upgraded admin analytics version:
+    - Summary metrics
+    - Validation score analytics
+    - Risk analytics
+    - Validation health analytics
+    - Recipe generation trend
+    - Top cuisine and meal type analytics
+    - Staff review priority overview
+    - Searchable and filterable validation records
     """
 
     if not (request.user.is_staff or request.user.is_superuser):
@@ -2274,6 +2281,11 @@ def quality_dashboard_view(request):
     high_risk_count = validated_recipes.filter(
         validation_risk_level__icontains="high",
     ).count()
+
+    unknown_risk_count = max(
+        total_ai_recipes - low_risk_count - medium_risk_count - high_risk_count,
+        0,
+    )
 
     first_attempt_count = validated_recipes.filter(
         validation_attempts__lte=1,
@@ -2392,23 +2404,42 @@ def quality_dashboard_view(request):
         for label, count in issue_counter.most_common(5)
     ]
 
-    staff_review_recipes = recipes.filter(
+    staff_review_queryset = recipes.filter(
         Q(quality_score__lt=85)
         | Q(quality_score__isnull=True)
         | Q(validation_risk_level__icontains="medium")
         | Q(validation_risk_level__icontains="high")
-    ).select_related(
-        "user",
-        "cuisine",
-        "meal_type",
-    ).order_by("-created_at")[:6]
+    )
 
-    staff_review_count = recipes.filter(
-        Q(quality_score__lt=85)
-        | Q(quality_score__isnull=True)
-        | Q(validation_risk_level__icontains="medium")
+    staff_review_recipes = (
+        staff_review_queryset
+        .select_related(
+            "user",
+            "cuisine",
+            "meal_type",
+        )
+        .order_by("-created_at")[:6]
+    )
+
+    staff_review_count = staff_review_queryset.count()
+
+    high_priority_count = recipes.filter(
+        Q(quality_score__lt=50)
         | Q(validation_risk_level__icontains="high")
     ).count()
+
+    medium_priority_count = recipes.filter(
+        Q(quality_score__gte=50, quality_score__lt=70)
+        | Q(validation_risk_level__icontains="medium")
+    ).exclude(
+        Q(quality_score__lt=50)
+        | Q(validation_risk_level__icontains="high")
+    ).count()
+
+    low_priority_count = max(
+        staff_review_count - high_priority_count - medium_priority_count,
+        0,
+    )
 
     if average_score >= 85 and high_risk_count == 0:
         quality_health_label = "Excellent"
@@ -2427,6 +2458,143 @@ def quality_dashboard_view(request):
         quality_health_text = (
             "The validation system has lower scoring records, so staff review is recommended."
         )
+
+    # Chart data: score distribution.
+    score_distribution_chart_data = {
+        "labels": [
+            "Excellent",
+            "Verified",
+            "Moderate",
+            "Needs Review",
+        ],
+        "values": [
+            excellent_count,
+            verified_count,
+            moderate_count,
+            needs_review_count,
+        ],
+    }
+
+    # Chart data: risk levels.
+    risk_level_chart_data = {
+        "labels": [
+            "Low Risk",
+            "Medium Risk",
+            "High Risk",
+            "Unknown",
+        ],
+        "values": [
+            low_risk_count,
+            medium_risk_count,
+            high_risk_count,
+            unknown_risk_count,
+        ],
+    }
+
+    # Chart data: validation health.
+    validation_health_chart_data = {
+        "labels": [
+            "Validated",
+            "Unvalidated",
+            "First Attempt",
+            "Regenerated",
+            "Fallback Used",
+        ],
+        "values": [
+            validated_count,
+            unvalidated_count,
+            first_attempt_count,
+            corrected_count,
+            fallback_count,
+        ],
+    }
+
+    # Chart data: last 7 days AI recipe generation trend.
+    today = timezone.localdate()
+    trend_start_date = today - timedelta(days=6)
+
+    trend_labels = []
+    trend_values = []
+
+    for day_offset in range(7):
+        current_day = trend_start_date + timedelta(days=day_offset)
+
+        trend_labels.append(current_day.strftime("%d %b"))
+
+        trend_values.append(
+            recipes.filter(
+                created_at__date=current_day,
+            ).count()
+        )
+
+    recipe_trend_chart_data = {
+        "labels": trend_labels,
+        "values": trend_values,
+    }
+
+    # Chart data: top cuisines.
+    top_cuisine_rows = (
+        recipes.exclude(cuisine__isnull=True)
+        .values("cuisine__name")
+        .annotate(total=Count("id"))
+        .order_by("-total")[:6]
+    )
+
+    top_cuisine_chart_data = {
+        "labels": [
+            row["cuisine__name"] or "Not specified"
+            for row in top_cuisine_rows
+        ],
+        "values": [
+            row["total"]
+            for row in top_cuisine_rows
+        ],
+    }
+
+    # Chart data: top meal types.
+    top_meal_type_rows = (
+        recipes.exclude(meal_type__isnull=True)
+        .values("meal_type__name")
+        .annotate(total=Count("id"))
+        .order_by("-total")[:6]
+    )
+
+    top_meal_type_chart_data = {
+        "labels": [
+            row["meal_type__name"] or "Not specified"
+            for row in top_meal_type_rows
+        ],
+        "values": [
+            row["total"]
+            for row in top_meal_type_rows
+        ],
+    }
+
+    # Chart data: common issues.
+    common_issue_chart_data = {
+        "labels": [
+            issue["label"][:42]
+            for issue in common_issues
+        ],
+        "values": [
+            issue["count"]
+            for issue in common_issues
+        ],
+    }
+
+    # Staff priority data.
+    staff_priority_chart_data = {
+        "labels": [
+            "High Priority",
+            "Medium Priority",
+            "Low Priority",
+        ],
+        "values": [
+            high_priority_count,
+            medium_priority_count,
+            low_priority_count,
+        ],
+    }
 
     # Stage 3C filter controls for the recipe records table.
     search_query = request.GET.get("q", "").strip()
@@ -2514,6 +2682,7 @@ def quality_dashboard_view(request):
         "low_risk_count": low_risk_count,
         "medium_risk_count": medium_risk_count,
         "high_risk_count": high_risk_count,
+        "unknown_risk_count": unknown_risk_count,
         "first_attempt_count": first_attempt_count,
         "corrected_count": corrected_count,
         "recent_recipes": filtered_recipes,
@@ -2532,13 +2701,25 @@ def quality_dashboard_view(request):
         "lowest_score": lowest_score,
         "staff_review_recipes": staff_review_recipes,
         "staff_review_count": staff_review_count,
+        "high_priority_count": high_priority_count,
+        "medium_priority_count": medium_priority_count,
+        "low_priority_count": low_priority_count,
         "common_issues": common_issues,
         "quality_health_label": quality_health_label,
         "quality_health_text": quality_health_text,
+
+        # Chart.js JSON data.
+        "score_distribution_chart_data": json.dumps(score_distribution_chart_data),
+        "risk_level_chart_data": json.dumps(risk_level_chart_data),
+        "validation_health_chart_data": json.dumps(validation_health_chart_data),
+        "recipe_trend_chart_data": json.dumps(recipe_trend_chart_data),
+        "top_cuisine_chart_data": json.dumps(top_cuisine_chart_data),
+        "top_meal_type_chart_data": json.dumps(top_meal_type_chart_data),
+        "common_issue_chart_data": json.dumps(common_issue_chart_data),
+        "staff_priority_chart_data": json.dumps(staff_priority_chart_data),
     }
 
     return render(request, "recipes/quality_dashboard.html", context)
-
 
 
 

@@ -48,9 +48,18 @@ def home_view(request):
     )
 
 
+def about_culinaai_view(request):
+    """
+    Professional About CulinaAI page.
+    """
+
+    return render(request, "pages/about_culinaai.html")
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_view, name="home"),
+    path("about/", about_culinaai_view, name="about_culinaai"),
     path("", include("accounts.urls")),
     path("dashboard/", include("dashboard.urls")),
     path("recipes/", include("recipes.urls")),
