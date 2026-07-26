@@ -10,6 +10,7 @@ from .models import (
     RecipeFeedback,
     RecipeRating,
     PantryItem,
+    FridgeScan,
     CookingChatSession,
     CookingChatMessage,
 )
@@ -226,13 +227,6 @@ class RecipeFeedbackAdmin(admin.ModelAdmin):
     list_select_related = ("user", "recipe")
 
 
-
-
-
-
-
-
-
 @admin.register(PantryItem)
 class PantryItemAdmin(admin.ModelAdmin):
     list_display = (
@@ -274,12 +268,109 @@ class PantryItemAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(FridgeScan)
+class FridgeScanAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for the AI Refrigerator Scanner feature.
 
+    This allows staff/admin users to review uploaded fridge images,
+    detected ingredients, confirmed ingredients, scan status and any AI errors.
+    """
 
+    list_display = (
+        "id",
+        "user",
+        "scan_status",
+        "detected_count",
+        "confirmed_count",
+        "has_confirmed_items",
+        "created_at",
+        "updated_at",
+    )
 
+    list_filter = (
+        "scan_status",
+        "created_at",
+        "updated_at",
+    )
 
+    search_fields = (
+        "user__username",
+        "user__email",
+        "raw_ai_response",
+        "error_message",
+    )
 
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+        "detected_count",
+        "confirmed_count",
+        "has_confirmed_items",
+    )
 
+    date_hierarchy = "created_at"
+
+    list_select_related = (
+        "user",
+    )
+
+    fieldsets = (
+        (
+            "Scan Owner",
+            {
+                "fields": (
+                    "user",
+                )
+            },
+        ),
+        (
+            "Uploaded Refrigerator Image",
+            {
+                "fields": (
+                    "image",
+                )
+            },
+        ),
+        (
+            "AI Detection Results",
+            {
+                "fields": (
+                    "detected_items",
+                    "confirmed_items",
+                    "raw_ai_response",
+                )
+            },
+        ),
+        (
+            "Scan Status and Error Handling",
+            {
+                "fields": (
+                    "scan_status",
+                    "error_message",
+                )
+            },
+        ),
+        (
+            "Summary",
+            {
+                "fields": (
+                    "detected_count",
+                    "confirmed_count",
+                    "has_confirmed_items",
+                )
+            },
+        ),
+        (
+            "Timestamps",
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            },
+        ),
+    )
 
 
 class CookingChatMessageInline(admin.TabularInline):

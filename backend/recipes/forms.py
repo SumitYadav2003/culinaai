@@ -1,6 +1,13 @@
 from django import forms
 
-from .models import Cuisine, DietPreference, MealType, Recipe,PantryItem
+from .models import (
+    Cuisine,
+    DietPreference,
+    MealType,
+    Recipe,
+    PantryItem,
+    FridgeScan,
+)
 
 
 class RecipeGenerationForm(forms.Form):
@@ -27,16 +34,16 @@ class RecipeGenerationForm(forms.Form):
 
     EQUIPMENT_CHOICES = [
         ("stove", "Stove / Hob"),
-    ("gas_burner", "Gas Burner"),
-    ("induction_hob", "Induction Hob"),
-    ("portable_camping_stove", "Portable Camping Stove"),
-    ("electric_hot_plate", "Electric Hot Plate"),
-    ("traditional_chulha", "Traditional Clay Stove / Chulha"),
-    ("oven", "Oven"),
-    ("microwave", "Microwave"),
-    ("air_fryer", "Air Fryer"),
-    ("blender", "Blender"),
-    ("pressure_cooker", "Pressure Cooker"),
+        ("gas_burner", "Gas Burner"),
+        ("induction_hob", "Induction Hob"),
+        ("portable_camping_stove", "Portable Camping Stove"),
+        ("electric_hot_plate", "Electric Hot Plate"),
+        ("traditional_chulha", "Traditional Clay Stove / Chulha"),
+        ("oven", "Oven"),
+        ("microwave", "Microwave"),
+        ("air_fryer", "Air Fryer"),
+        ("blender", "Blender"),
+        ("pressure_cooker", "Pressure Cooker"),
     ]
 
     ingredients = forms.CharField(
@@ -319,25 +326,131 @@ class SavedRecipeEditForm(forms.ModelForm):
             raise forms.ValidationError("Recipe title cannot be empty.")
 
         return title
-    
 
 
+class FridgeScanUploadForm(forms.ModelForm):
+    """
+    Form used for uploading a refrigerator image.
+
+    The uploaded image will later be analysed by the AI refrigerator scanner.
+    """
+
+    class Meta:
+        model = FridgeScan
+        fields = ["image"]
+        widgets = {
+            "image": forms.ClearableFileInput(
+                attrs={
+                    "class": "form-control",
+                    "accept": "image/jpeg,image/png,image/webp",
+                }
+            ),
+        }
+        labels = {
+            "image": "Upload refrigerator image",
+        }
+        help_texts = {
+            "image": "Upload a clear fridge photo in JPG, PNG or WEBP format.",
+        }
+
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+
+        if not image:
+            raise forms.ValidationError("Please upload a refrigerator image.")
+
+        max_size_mb = 5
+        max_size_bytes = max_size_mb * 1024 * 1024
+
+        if image.size > max_size_bytes:
+            raise forms.ValidationError(
+                f"Image size must be less than {max_size_mb} MB."
+            )
+
+        allowed_content_types = [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+        ]
+
+        content_type = getattr(image, "content_type", "")
+
+        if content_type and content_type not in allowed_content_types:
+            raise forms.ValidationError(
+                "Only JPG, PNG or WEBP refrigerator images are allowed."
+            )
+
+        return image
 
 
+class FridgeScanConfirmForm(forms.Form):
+    """
+    Form used after AI detection.
 
+    The AI may detect imperfect items, so users must confirm or edit the list
+    before the ingredients are added to the pantry or used for recipe generation.
+    """
 
+    confirmed_items_text = forms.CharField(
+        label="Confirm detected ingredients",
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 8,
+                "placeholder": "Example:\nMilk\nTomatoes\nCheese\nSpinach",
+            }
+        ),
+        help_text="Keep one ingredient per line. Remove anything incorrect and add anything missing.",
+    )
 
+    def __init__(self, *args, detected_items=None, **kwargs):
+        super().__init__(*args, **kwargs)
 
+        if detected_items and not self.is_bound:
+            self.fields["confirmed_items_text"].initial = "\n".join(detected_items)
 
+    def clean_confirmed_items_text(self):
+        confirmed_items_text = self.cleaned_data.get("confirmed_items_text", "")
 
+        raw_items = confirmed_items_text.replace(",", "\n").splitlines()
 
+        cleaned_items = []
+        seen_items = set()
 
+        for item in raw_items:
+            cleaned_item = item.strip()
 
+            if not cleaned_item:
+                continue
 
+            normalised_item = cleaned_item.lower()
 
+            if normalised_item in seen_items:
+                continue
 
+            seen_items.add(normalised_item)
+            cleaned_items.append(cleaned_item)
 
+        if not cleaned_items:
+            raise forms.ValidationError(
+                "Please confirm at least one valid ingredient."
+            )
 
+        if len(cleaned_items) > 40:
+            raise forms.ValidationError(
+                "Please keep the confirmed ingredient list below 40 items."
+            )
+
+        return "\n".join(cleaned_items)
+
+    def get_confirmed_items_list(self):
+        confirmed_items_text = self.cleaned_data.get("confirmed_items_text", "")
+
+        return [
+            item.strip()
+            for item in confirmed_items_text.splitlines()
+            if item.strip()
+        ]
 
 
 class PantryItemForm(forms.ModelForm):
