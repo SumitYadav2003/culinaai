@@ -251,7 +251,6 @@ class FavouriteRecipe(models.Model):
         return f"{self.user.username} - {self.recipe.title}"
 
 
-
 class RecipeRating(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -393,29 +392,6 @@ class RecipeHistory(models.Model):
     @property
     def is_saved_to_library(self):
         return self.saved_recipe_id is not None
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class PantryItem(models.Model):
@@ -541,17 +517,104 @@ class PantryItem(models.Model):
         return f"{self.ingredient_name} ({self.user.username})"
 
 
+class FridgeScan(models.Model):
+    """
+    Stores one AI-assisted refrigerator scan.
 
+    Purpose:
+    - User uploads a refrigerator image.
+    - AI detects possible ingredients from the image.
+    - User reviews/edits the detected ingredients.
+    - Confirmed ingredients can be added to the pantry or used for recipe generation.
 
+    This model supports the AI Refrigerator Scanner feature and connects it
+    safely with the Smart Pantry workflow.
+    """
 
+    STATUS_PENDING = "pending"
+    STATUS_PROCESSING = "processing"
+    STATUS_COMPLETED = "completed"
+    STATUS_FAILED = "failed"
 
+    STATUS_CHOICES = [
+        (STATUS_PENDING, "Pending"),
+        (STATUS_PROCESSING, "Processing"),
+        (STATUS_COMPLETED, "Completed"),
+        (STATUS_FAILED, "Failed"),
+    ]
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="fridge_scans",
+    )
 
+    image = models.ImageField(
+        upload_to="fridge_scans/",
+        help_text="Refrigerator image uploaded by the user.",
+    )
 
+    detected_items = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="Raw list of ingredients detected by the AI scanner.",
+    )
 
+    confirmed_items = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="Final ingredient list confirmed or edited by the user.",
+    )
 
+    raw_ai_response = models.TextField(
+        blank=True,
+        help_text="Raw AI response from the refrigerator image scan.",
+    )
 
+    scan_status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+        help_text="Current status of the refrigerator scan.",
+    )
 
+    error_message = models.TextField(
+        blank=True,
+        help_text="Stores scanning or AI error details if the scan fails.",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def detected_count(self):
+        if isinstance(self.detected_items, list):
+            return len(self.detected_items)
+
+        return 0
+
+    @property
+    def confirmed_count(self):
+        if isinstance(self.confirmed_items, list):
+            return len(self.confirmed_items)
+
+        return 0
+
+    @property
+    def has_confirmed_items(self):
+        return self.confirmed_count > 0
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["user", "scan_status"]),
+            models.Index(fields=["created_at"]),
+        ]
+        verbose_name = "Fridge Scan"
+        verbose_name_plural = "Fridge Scans"
+
+    def __str__(self):
+        return f"{self.user.username} - Fridge Scan #{self.id}"
 
 
 class CookingChatSession(models.Model):
