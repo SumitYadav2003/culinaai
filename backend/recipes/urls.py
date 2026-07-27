@@ -33,13 +33,41 @@ from .views import (
     ask_cooking_assistant_view,
 )
 
+from .fridge_scanner_views import (
+    fridge_scan_upload_view,
+    fridge_scan_confirm_view,
+    fridge_scan_history_view,
+    fridge_scan_delete_view,
+)
+
 
 urlpatterns = [
     path("generate/", generate_recipe_view, name="generate_recipe"),
     path("save-generated/", save_generated_recipe_view, name="save_generated_recipe"),
+
+    # Smart Pantry.
     path("pantry/", pantry_list_view, name="pantry_list"),
     path("pantry/<int:item_id>/edit/", pantry_item_update_view, name="pantry_item_update"),
     path("pantry/<int:item_id>/delete/", pantry_item_delete_view, name="pantry_item_delete"),
+
+    # AI Refrigerator Scanner.
+    path("fridge-scanner/", fridge_scan_upload_view, name="fridge_scan_upload"),
+    path(
+        "fridge-scanner/<int:scan_id>/confirm/",
+        fridge_scan_confirm_view,
+        name="fridge_scan_confirm",
+    ),
+    path(
+        "fridge-scanner/history/",
+        fridge_scan_history_view,
+        name="fridge_scan_history",
+    ),
+
+    path(
+    "fridge-scanner/<int:scan_id>/delete/",
+    fridge_scan_delete_view,
+    name="fridge_scan_delete",
+    ),
 
     # Automatic recipe history.
     path("history/", recipe_history_view, name="recipe_history"),
@@ -85,7 +113,6 @@ urlpatterns = [
 
     # Saved recipes.
     path("saved/", saved_recipes_view, name="saved_recipes"),
-
     path(
         "saved/<int:recipe_id>/edit/",
         edit_saved_recipe_view,
@@ -101,18 +128,16 @@ urlpatterns = [
         toggle_community_recipe_view,
         name="toggle_community_recipe",
     ),
-
     path(
-    "saved/<int:recipe_id>/cook/",
-    cooking_mode_view,
-    name="cooking_mode",
-),
-
-path(
-    "saved/<int:recipe_id>/assistant/ask/",
-    ask_cooking_assistant_view,
-    name="ask_cooking_assistant",
-),
+        "saved/<int:recipe_id>/cook/",
+        cooking_mode_view,
+        name="cooking_mode",
+    ),
+    path(
+        "saved/<int:recipe_id>/assistant/ask/",
+        ask_cooking_assistant_view,
+        name="ask_cooking_assistant",
+    ),
     path(
         "saved/<int:recipe_id>/",
         saved_recipe_detail_view,
