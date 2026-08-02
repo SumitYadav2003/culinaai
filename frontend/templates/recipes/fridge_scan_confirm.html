@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Confirm Fridge Scan{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-confirm-validation-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="fridge-scanner-page">
+    <div class="container py-5">
+
+        <div class="fridge-hero-card mb-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="fridge-hero-icon">
+                        <i class="bi bi-check2-square"></i>
+                    </div>
+
+                    <div>
+                        <p class="fridge-section-kicker">Review Before Use</p>
+
+                        <h1 class="fridge-hero-title mb-2">
+                            Confirm Detected Ingredients
+                        </h1>
+
+                        <p class="fridge-hero-text mb-0">
+                            CulinaAI has analysed the uploaded image and detected possible
+                            ingredients. Please review the list before adding items to pantry
+                            or using them for recipe generation.
+                        </p>
+                    </div>
+                </div>
+
+                <a href="{% url 'fridge_scan_upload' %}" class="fridge-btn-outline text-decoration-none">
+                    <i class="bi bi-camera me-2"></i>
+                    New Scan
+                </a>
+            </div>
+        </div>
+
+        <div class="fridge-safety-note mb-4">
+            <strong>
+                <i class="bi bi-shield-check me-2"></i>
+                Professional validation completed:
+            </strong>
+            CulinaAI checks whether the uploaded image appears to be food, refrigerator,
+            pantry, grocery, or kitchen-related before showing ingredient suggestions.
+            The final ingredient list still requires your confirmation because AI image
+            detection may not always be perfect.
+
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <span class="fridge-badge-green">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Image validated
+                </span>
+
+                <span class="fridge-badge-orange">
+                    <i class="bi bi-eye me-1"></i>
+                    Human review required
+                </span>
+
+                <span class="fridge-badge-dark">
+                    <i class="bi bi-shield-lock me-1"></i>
+                    Safe confirmation flow
+                </span>
+            </div>
+        </div>
+
+        <div class="row g-4 align-items-stretch">
+
+            <div class="col-lg-5 d-flex">
+                <div class="fridge-card h-100 w-100">
+                    <div class="fridge-card-header-soft">
+                        <p class="fridge-section-kicker">Uploaded Image</p>
+
+                        <h4 class="fw-bold mb-1">
+                            Refrigerator Photo
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Image used for this ingredient scan.
+                        </p>
+                    </div>
+
+                    <div class="fridge-card-body">
+                        {% if fridge_scan.image %}
+                            <img
+                                src="{{ fridge_scan.image.url }}"
+                                alt="Uploaded refrigerator scan"
+                                class="fridge-image-preview"
+                            >
+                        {% else %}
+                            <div class="alert alert-warning mb-0 rounded-4">
+                                No image available for this scan.
+                            </div>
+                        {% endif %}
+
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <span class="fridge-badge-dark">
+                                Status: {{ fridge_scan.get_scan_status_display }}
+                            </span>
+
+                            <span class="fridge-badge-orange">
+                                {{ fridge_scan.detected_count }} detected
+                            </span>
+
+                            <span class="fridge-badge-green">
+                                {{ fridge_scan.confirmed_count }} confirmed
+                            </span>
+                        </div>
+
+                        <div class="alert alert-info mt-4 mb-0 rounded-4">
+                            <strong>
+                                <i class="bi bi-info-circle me-1"></i>
+                                Scan note:
+                            </strong>
+                            Ingredients are detected from visible image content only.
+                            Hidden or unclear items are not guaranteed to be detected.
+                        </div>
+
+                        {% if fridge_scan.error_message %}
+                            <div class="alert alert-warning mt-4 mb-0 rounded-4">
+                                <strong>Scanner warning:</strong>
+                                {{ fridge_scan.error_message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 d-flex">
+                <div class="fridge-card h-100 w-100">
+                    <div class="fridge-card-header-soft">
+                        <p class="fridge-section-kicker">Detected Ingredients</p>
+
+                        <h4 class="fw-bold mb-1">
+                            Confirm Ingredients
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Keep one ingredient per line. Remove incorrect items and add missing ones.
+                        </p>
+                    </div>
+
+                    <div class="fridge-card-body">
+
+                        {% if detected_items %}
+                            <div class="mb-4">
+                                <p class="fw-semibold mb-2">
+                                    AI detected:
+                                </p>
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for item in detected_items %}
+                                        <span class="fridge-badge-green">
+                                            {{ item }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning rounded-4 mb-4">
+                                <strong>No clear ingredients detected.</strong>
+                                You can still type the correct ingredients manually below.
+                            </div>
+                        {% endif %}
+
+                        <div class="alert alert-light border rounded-4 mb-4">
+                            <strong>
+                                <i class="bi bi-pencil-square me-1"></i>
+                                Confirmation required:
+                            </strong>
+                            Please check the detected list carefully. Only the ingredients left
+                            in the box below will be saved to pantry or used for recipe generation.
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="mb-4 fridge-confirm-textarea">
+                                <label class="form-label fw-semibold">
+                                    {{ form.confirmed_items_text.label }}
+                                </label>
+
+                                {{ form.confirmed_items_text }}
+
+                                {% if form.confirmed_items_text.help_text %}
+                                    <div class="form-text mt-2">
+                                        {{ form.confirmed_items_text.help_text }}
+                                    </div>
+                                {% endif %}
+
+                                {% for error in form.confirmed_items_text.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="alert alert-warning rounded-4 mb-4">
+                                <strong>
+                                    <i class="bi bi-calendar-event me-1"></i>
+                                    Expiry tracking note:
+                                </strong>
+                                Expiry dates cannot be reliably detected from refrigerator images.
+                                If you add these items to pantry, edit them afterwards to add expiry
+                                dates. Then they will appear in Expired, Expiring Soon, and Priority
+                                Ingredients tracking.
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <button
+                                    type="submit"
+                                    name="action"
+                                    value="add_to_pantry"
+                                    class="fridge-btn-green"
+                                >
+                                    <i class="bi bi-box-seam me-2"></i>
+                                    Add to Pantry
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    name="action"
+                                    value="generate_recipe"
+                                    class="fridge-btn-primary"
+                                >
+                                    <i class="bi bi-magic me-2"></i>
+                                    Generate Recipe
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    name="action"
+                                    value="save_only"
+                                    class="fridge-btn-outline"
+                                >
+                                    Save Confirmation
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="fridge-safety-note mt-4">
+            <strong>
+                <i class="bi bi-shield-check me-2"></i>
+                Safety note:
+            </strong>
+            CulinaAI does not blindly trust the image scan. The image is validated,
+            ingredients are cleaned, and the user confirms the final list before
+            ingredients are saved or used for recipe generation.
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

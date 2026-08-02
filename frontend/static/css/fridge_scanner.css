@@ -1,0 +1,1441 @@
+/* =========================================================
+   CULINAAI FRIDGE SCANNER - CLEAN FINAL CSS
+   Matches current fridge_scan_upload.html structure
+   ========================================================= */
+
+.fridge-scanner-page {
+    min-height: 100vh;
+    padding-top: 115px;
+    padding-bottom: 70px;
+    background:
+        radial-gradient(circle at top left, rgba(247, 206, 87, 0.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(232, 117, 46, 0.10), transparent 32%),
+        linear-gradient(180deg, #f8f1e6 0%, #fbf7ef 50%, #f5ede1 100%);
+}
+
+.fridge-scanner-container {
+    max-width: 1320px;
+}
+
+/* =========================
+   HERO
+   ========================= */
+
+.fridge-page-hero {
+    margin-bottom: 32px;
+    padding: 34px 38px;
+    border-radius: 34px;
+    background:
+        radial-gradient(circle at top right, rgba(247, 206, 87, 0.12), transparent 34%),
+        linear-gradient(135deg, #fffdf8 0%, #fbf6ee 48%, #f5eadc 100%);
+    border: 1px solid rgba(221, 199, 172, 0.75);
+    box-shadow: 0 22px 52px rgba(77, 54, 32, 0.10);
+}
+
+.fridge-page-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.fridge-page-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.fridge-page-icon-box {
+    width: 78px;
+    height: 78px;
+    min-width: 78px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f4c542 0%, #e39138 55%, #d47230 100%);
+    color: #ffffff;
+    font-size: 2rem;
+    box-shadow: 0 18px 34px rgba(216, 115, 43, 0.22);
+}
+
+.fridge-page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #f8ead8;
+    border: 1px solid rgba(216, 115, 43, 0.16);
+    color: #d8732b;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.fridge-page-copy h1 {
+    margin: 0 0 10px;
+    color: #15131e;
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    font-weight: 950;
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+}
+
+.fridge-page-copy p {
+    max-width: 870px;
+    margin: 0;
+    color: #645a50;
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+.fridge-page-actions {
+    flex-shrink: 0;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+
+.scanner-card {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 34px;
+    background:
+        radial-gradient(circle at top right, rgba(247, 206, 87, 0.10), transparent 34%),
+        linear-gradient(135deg, #fffdf8 0%, #fbf6ee 48%, #f5eadc 100%);
+    border: 1px solid rgba(221, 199, 172, 0.72);
+    box-shadow: 0 20px 48px rgba(77, 54, 32, 0.10);
+}
+
+.scanner-upload-card,
+.scanner-workflow-card {
+    min-height: 760px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scanner-card-head {
+    padding: 30px 34px 24px;
+    background: linear-gradient(135deg, #fffaf2 0%, #f8efe2 100%);
+    border-bottom: 1px solid rgba(221, 199, 172, 0.60);
+}
+
+.scanner-section-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #d8732b;
+    font-size: 0.78rem;
+    font-weight: 950;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.scanner-card-head h2 {
+    margin: 0 0 8px;
+    color: #15131e;
+    font-size: clamp(1.8rem, 2.2vw, 2.45rem);
+    font-weight: 950;
+    letter-spacing: -0.04em;
+}
+
+.scanner-card-head p {
+    margin: 0;
+    color: #645a50;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.scanner-card-body {
+    flex: 1;
+    padding: 34px;
+}
+
+.scanner-upload-form {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+   UPLOAD AREA
+   ========================= */
+
+.scanner-upload-shell {
+    padding: 28px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #fffaf2 0%, #fbf3e8 100%);
+    border: 2px dashed rgba(224, 153, 88, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.65),
+        0 12px 28px rgba(77, 54, 32, 0.04);
+}
+
+.scanner-upload-topline {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.scanner-upload-mini-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8ead8;
+    color: #d8732b;
+    font-size: 1.45rem;
+    box-shadow: 0 12px 24px rgba(216, 115, 43, 0.12);
+}
+
+.scanner-upload-topline h5 {
+    margin: 0 0 4px;
+    color: #15131e;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.scanner-upload-topline p {
+    margin: 0;
+    color: #645a50;
+    font-size: 1rem;
+}
+
+.scanner-file-input-wrap input[type="file"] {
+    width: 100%;
+    padding: 15px;
+    border-radius: 24px;
+    background: #fffefb;
+    border: 1px solid rgba(218, 201, 182, 0.95);
+    color: #15131e;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.scanner-file-input-wrap input[type="file"]::file-selector-button {
+    margin-right: 18px;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f4b343 0%, #de8737 100%);
+    color: #15100c;
+    font-weight: 950;
+    cursor: pointer;
+}
+
+.scanner-help-text {
+    margin-top: 14px;
+    color: #6f655b;
+    font-size: 0.95rem;
+}
+
+.scanner-error-text {
+    margin-top: 12px;
+    color: #dc2626;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+/* =========================
+   TIPS + FEATURE CARDS
+   ========================= */
+
+.scanner-support-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.scanner-support-chips span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: #fffefb;
+    border: 1px solid rgba(218, 201, 182, 0.78);
+    color: #4c423a;
+    font-size: 0.92rem;
+    font-weight: 800;
+    box-shadow: 0 10px 24px rgba(77, 54, 32, 0.04);
+}
+
+.scanner-support-chips i {
+    color: #d8732b;
+}
+
+.scanner-feature-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+.scanner-feature-mini {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+    background: #fffefb;
+    border: 1px solid rgba(218, 201, 182, 0.78);
+    box-shadow: 0 10px 24px rgba(77, 54, 32, 0.04);
+}
+
+.scanner-feature-mini-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8ead8;
+    color: #d8732b;
+    font-size: 1.15rem;
+}
+
+.scanner-feature-mini h6 {
+    margin: 0 0 6px;
+    color: #15131e;
+    font-size: 1rem;
+    font-weight: 950;
+}
+
+.scanner-feature-mini p {
+    margin: 0;
+    color: #645a50;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.scanner-upload-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: auto;
+    padding-top: 30px;
+}
+
+.scanner-primary-btn,
+.scanner-secondary-btn,
+.fridge-outline-btn,
+.scanner-table-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 54px;
+    padding: 0 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 950;
+    transition: all 0.2s ease;
+}
+
+.scanner-primary-btn {
+    border: none;
+    background: linear-gradient(135deg, #f4b343 0%, #dc7a34 100%);
+    color: #15100c;
+    box-shadow: 0 16px 30px rgba(216, 115, 43, 0.22);
+}
+
+.scanner-primary-btn:hover {
+    color: #15100c;
+    transform: translateY(-2px);
+}
+
+.scanner-secondary-btn,
+.fridge-outline-btn {
+    background: #fffefb;
+    color: #15131e;
+    border: 1px solid rgba(218, 201, 182, 0.90);
+    box-shadow: 0 10px 24px rgba(77, 54, 32, 0.05);
+}
+
+.scanner-secondary-btn:hover,
+.fridge-outline-btn:hover {
+    color: #15131e;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(77, 54, 32, 0.08);
+}
+
+/* =========================
+   WORKFLOW STEPS
+   ========================= */
+
+.scanner-workflow-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.scanner-step-list {
+    display: grid;
+    gap: 16px;
+}
+
+.scanner-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 24px;
+    background: #fffefb;
+    border: 1px solid rgba(218, 201, 182, 0.78);
+    box-shadow: 0 10px 24px rgba(77, 54, 32, 0.04);
+}
+
+.scanner-step-no {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f4b343 0%, #de8737 60%, #9b7c43 100%);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 950;
+}
+
+.scanner-step-item h5 {
+    margin: 0 0 5px;
+    color: #15131e;
+    font-size: 1.08rem;
+    font-weight: 950;
+}
+
+.scanner-step-item p {
+    margin: 0;
+    color: #645a50;
+    line-height: 1.55;
+}
+
+/* =========================
+   IMAGE CARD
+   ========================= */
+
+.scanner-illustration-box {
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.scanner-real-fridge-box {
+    margin-top: 28px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 30px;
+    background: #fffaf2;
+    border: 1px solid rgba(218, 201, 182, 0.85);
+    box-shadow: 0 18px 38px rgba(77, 54, 32, 0.08);
+}
+
+.scanner-real-fridge-image {
+    width: 100%;
+    display: block;
+    border-radius: 30px;
+}
+
+/* =========================
+   RECENT TABLE
+   ========================= */
+
+.scanner-recent-card {
+    margin-top: 32px;
+}
+
+.scanner-table thead th {
+    color: #7b6f63;
+    font-size: 0.82rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(218, 201, 182, 0.9);
+}
+
+.scanner-table tbody td {
+    padding: 18px 12px;
+    color: #342d27;
+    border-color: rgba(232, 220, 207, 0.8);
+}
+
+.scanner-status-badge {
+    display: inline-flex;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #f8ead8;
+    color: #d8732b;
+    font-size: 0.85rem;
+    font-weight: 900;
+}
+
+.scanner-table-btn {
+    min-height: 40px;
+    padding: 0 18px;
+    background: linear-gradient(135deg, #f4b343 0%, #dc7a34 100%);
+    color: #15100c;
+}
+
+/* =========================
+   CONFIRM / HISTORY SHARED OLD CLASSES
+   ========================= */
+
+.fridge-hero-card,
+.fridge-card {
+    background:
+        radial-gradient(circle at top right, rgba(247, 206, 87, 0.10), transparent 34%),
+        linear-gradient(135deg, #fffdf8 0%, #fbf6ee 48%, #f5eadc 100%);
+    border: 1px solid rgba(221, 199, 172, 0.72);
+    box-shadow: 0 20px 48px rgba(77, 54, 32, 0.10);
+    border-radius: 34px;
+}
+
+.fridge-hero-card {
+    padding: 34px 38px;
+}
+
+.fridge-hero-icon {
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f4c542 0%, #e39138 55%, #d47230 100%);
+    color: #ffffff;
+    font-size: 1.7rem;
+}
+
+.fridge-section-kicker {
+    color: #d8732b;
+    font-size: 0.78rem;
+    font-weight: 950;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.fridge-hero-title {
+    color: #15131e;
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 950;
+    letter-spacing: -0.045em;
+}
+
+.fridge-hero-text {
+    color: #645a50;
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+
+.fridge-card-header-soft {
+    padding: 28px 32px 22px;
+    background: linear-gradient(135deg, #fffaf2 0%, #f8efe2 100%);
+    border-bottom: 1px solid rgba(221, 199, 172, 0.60);
+    border-radius: 34px 34px 0 0;
+}
+
+.fridge-card-body {
+    padding: 32px;
+}
+
+.fridge-image-preview {
+    width: 100%;
+    border-radius: 26px;
+    border: 1px solid rgba(218, 201, 182, 0.85);
+    box-shadow: 0 18px 36px rgba(77, 54, 32, 0.08);
+}
+
+.fridge-badge-dark,
+.fridge-badge-orange,
+.fridge-badge-green {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 850;
+}
+
+.fridge-badge-dark {
+    background: #fffefb;
+    color: #15131e;
+    border: 1px solid rgba(218, 201, 182, 0.90);
+}
+
+.fridge-badge-orange {
+    background: #f8ead8;
+    color: #d8732b;
+    border: 1px solid rgba(216, 115, 43, 0.16);
+}
+
+.fridge-badge-green {
+    background: #eef7e8;
+    color: #4f7b3f;
+    border: 1px solid rgba(114, 161, 89, 0.20);
+}
+
+.fridge-btn-primary,
+.fridge-btn-green,
+.fridge-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 950;
+    border: none;
+}
+
+.fridge-btn-primary {
+    background: linear-gradient(135deg, #f4b343 0%, #dc7a34 100%);
+    color: #15100c;
+}
+
+.fridge-btn-green {
+    background: linear-gradient(135deg, #77b85f 0%, #4f7b3f 100%);
+    color: #ffffff;
+}
+
+.fridge-btn-outline {
+    background: #fffefb;
+    color: #15131e;
+    border: 1px solid rgba(218, 201, 182, 0.90);
+}
+
+.fridge-confirm-textarea textarea,
+.fridge-confirm-textarea .form-control {
+    width: 100%;
+    min-height: 230px;
+    border-radius: 24px;
+    border: 1px solid rgba(218, 201, 182, 0.95);
+    background: #fffefb;
+    padding: 18px;
+}
+
+.fridge-safety-note {
+    padding: 22px 26px;
+    border-radius: 26px;
+    background: #fffefb;
+    border: 1px solid rgba(218, 201, 182, 0.85);
+    box-shadow: 0 16px 34px rgba(77, 54, 32, 0.07);
+    color: #3d342d;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 991.98px) {
+    .fridge-scanner-page {
+        padding-top: 95px;
+    }
+
+    .fridge-page-title-row,
+    .fridge-page-title-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .scanner-upload-card,
+    .scanner-workflow-card {
+        min-height: auto;
+    }
+
+    .fridge-page-actions {
+        width: 100%;
+    }
+
+    .fridge-outline-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .fridge-scanner-page {
+        padding-top: 88px;
+    }
+
+    .fridge-page-hero,
+    .fridge-hero-card {
+        padding: 24px;
+        border-radius: 26px;
+    }
+
+    .scanner-card-head,
+    .scanner-card-body,
+    .fridge-card-header-soft,
+    .fridge-card-body {
+        padding: 24px;
+    }
+
+    .scanner-support-chips span,
+    .scanner-primary-btn,
+    .scanner-secondary-btn,
+    .fridge-btn-primary,
+    .fridge-btn-green,
+    .fridge-btn-outline {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FRIDGE SCAN HISTORY ACTION BUTTONS
+   ========================================================= */
+
+.fridge-history-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.fridge-history-open-btn,
+.fridge-history-delete-btn {
+    min-height: 48px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 950;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.fridge-history-open-btn {
+    background: #fffefb;
+    color: #15131e;
+    border: 1px solid rgba(218, 201, 182, 0.95);
+    box-shadow: 0 10px 22px rgba(77, 54, 32, 0.05);
+}
+
+.fridge-history-open-btn:hover {
+    color: #15131e;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(77, 54, 32, 0.08);
+}
+
+.fridge-history-delete-btn {
+    border: none;
+    background: #fff1ef;
+    color: #b42318;
+    border: 1px solid rgba(244, 171, 163, 0.9);
+    box-shadow: 0 10px 22px rgba(180, 35, 24, 0.06);
+}
+
+.fridge-history-delete-btn:hover {
+    transform: translateY(-2px);
+    background: #ffe4e0;
+    color: #991b1b;
+}
+
+.fridge-delete-modal-content {
+    border: none;
+    border-radius: 32px;
+    background: linear-gradient(135deg, #fffdf8 0%, #fbf6ee 100%);
+    box-shadow: 0 30px 70px rgba(35, 24, 15, 0.22);
+}
+
+.fridge-delete-modal-content .modal-body {
+    padding: 36px;
+}
+
+.fridge-delete-modal-icon {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 20px;
+    border-radius: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff1ef;
+    color: #b42318;
+    font-size: 2rem;
+}
+
+.fridge-delete-modal-content h2 {
+    color: #15131e;
+    font-size: 1.55rem;
+    font-weight: 950;
+    margin-bottom: 12px;
+}
+
+.fridge-delete-modal-content p {
+    color: #645a50;
+    line-height: 1.6;
+    margin-bottom: 26px;
+}
+
+.fridge-delete-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.fridge-delete-confirm-btn,
+.fridge-delete-cancel-btn {
+    min-height: 50px;
+    padding: 0 22px;
+    border-radius: 999px;
+    border: none;
+    font-weight: 950;
+}
+
+.fridge-delete-confirm-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #b42318 100%);
+    color: #ffffff;
+}
+
+.fridge-delete-cancel-btn {
+    background: #fffefb;
+    color: #15131e;
+    border: 1px solid rgba(218, 201, 182, 0.95);
+}
+
+@media (max-width: 575.98px) {
+    .fridge-history-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .fridge-delete-confirm-btn,
+    .fridge-delete-cancel-btn {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FRIDGE SCAN HISTORY - FINAL OPEN / DELETE BUTTON FIX
+   ========================================================= */
+
+.fridge-history-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+    margin-top: 22px !important;
+    width: 100% !important;
+}
+
+.fridge-history-open-btn,
+.fridge-history-delete-btn {
+    min-height: 52px !important;
+    width: 100% !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-size: 0.95rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.fridge-history-open-btn {
+    background: linear-gradient(135deg, #fffdf8 0%, #fbf4ea 100%) !important;
+    color: #15131e !important;
+    border: 1px solid rgba(218, 201, 182, 0.95) !important;
+    box-shadow: 0 10px 22px rgba(77, 54, 32, 0.06) !important;
+}
+
+.fridge-history-open-btn:hover {
+    color: #15131e !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 15px 30px rgba(77, 54, 32, 0.10) !important;
+}
+
+.fridge-history-delete-btn {
+    background: linear-gradient(135deg, #fff1ef 0%, #ffe3df 100%) !important;
+    color: #b42318 !important;
+    border: 1px solid rgba(244, 171, 163, 0.95) !important;
+    box-shadow: 0 10px 22px rgba(180, 35, 24, 0.08) !important;
+}
+
+.fridge-history-delete-btn:hover {
+    background: linear-gradient(135deg, #ffe4e0 0%, #ffd0c9 100%) !important;
+    color: #991b1b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 15px 30px rgba(180, 35, 24, 0.13) !important;
+}
+
+/* =========================================================
+   DELETE MODAL FIX
+   ========================================================= */
+
+.fridge-delete-modal {
+    z-index: 2000 !important;
+}
+
+.modal-backdrop {
+    z-index: 1990 !important;
+}
+
+.fridge-delete-modal-content {
+    border: none !important;
+    border-radius: 34px !important;
+    background:
+        radial-gradient(circle at top right, rgba(247, 206, 87, 0.14), transparent 34%),
+        linear-gradient(135deg, #fffdf8 0%, #fbf6ee 100%) !important;
+    box-shadow: 0 30px 80px rgba(35, 24, 15, 0.30) !important;
+    overflow: hidden !important;
+}
+
+.fridge-delete-modal-content .modal-body {
+    padding: 40px 34px !important;
+}
+
+.fridge-delete-modal-icon {
+    width: 78px !important;
+    height: 78px !important;
+    margin: 0 auto 22px !important;
+    border-radius: 26px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff1ef !important;
+    color: #b42318 !important;
+    font-size: 2rem !important;
+    box-shadow: 0 16px 32px rgba(180, 35, 24, 0.10) !important;
+}
+
+.fridge-delete-modal-content h2 {
+    color: #15131e !important;
+    font-size: 1.75rem !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.035em !important;
+    margin-bottom: 14px !important;
+}
+
+.fridge-delete-modal-content p {
+    max-width: 430px !important;
+    margin: 0 auto 28px !important;
+    color: #645a50 !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+}
+
+.fridge-delete-modal-actions {
+    display: flex !important;
+    gap: 12px !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+}
+
+.fridge-delete-confirm-btn,
+.fridge-delete-cancel-btn {
+    min-height: 52px !important;
+    padding: 0 24px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-size: 0.95rem !important;
+    font-weight: 950 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.fridge-delete-confirm-btn {
+    border: none !important;
+    background: linear-gradient(135deg, #ef4444 0%, #b42318 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 14px 28px rgba(180, 35, 24, 0.18) !important;
+}
+
+.fridge-delete-confirm-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 18px 34px rgba(180, 35, 24, 0.24) !important;
+}
+
+.fridge-delete-cancel-btn {
+    background: #fffefb !important;
+    color: #15131e !important;
+    border: 1px solid rgba(218, 201, 182, 0.95) !important;
+}
+
+.fridge-delete-cancel-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 26px rgba(77, 54, 32, 0.08) !important;
+}
+
+@media (max-width: 575.98px) {
+    .fridge-history-actions {
+        grid-template-columns: 1fr !important;
+    }
+
+    .fridge-delete-confirm-btn,
+    .fridge-delete-cancel-btn {
+        width: 100% !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FRIDGE SCANNER PREMIUM LOADING OVERLAY
+   ========================================================= */
+
+.fridge-scan-loading-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 3000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 24px !important;
+    background:
+        radial-gradient(circle at top left, rgba(244, 179, 67, 0.20), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(119, 184, 95, 0.18), transparent 32%),
+        rgba(23, 18, 14, 0.78) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+.fridge-scan-loading-overlay[hidden] {
+    display: none !important;
+}
+
+.fridge-scan-loading-card {
+    width: min(560px, 100%) !important;
+    padding: 36px 34px !important;
+    border-radius: 36px !important;
+    text-align: center !important;
+    background:
+        radial-gradient(circle at top right, rgba(247, 206, 87, 0.16), transparent 34%),
+        linear-gradient(135deg, #fffdf8 0%, #fbf6ee 52%, #f5eadc 100%) !important;
+    border: 1px solid rgba(221, 199, 172, 0.82) !important;
+    box-shadow: 0 36px 90px rgba(0, 0, 0, 0.38) !important;
+    animation: fridgeLoaderEnter 0.35s ease both !important;
+}
+
+.fridge-scan-loading-badge {
+    width: fit-content !important;
+    margin: 0 auto 22px !important;
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f8ead8 !important;
+    color: #d8732b !important;
+    border: 1px solid rgba(216, 115, 43, 0.16) !important;
+    font-size: 0.78rem !important;
+    font-weight: 950 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+}
+
+.fridge-scan-animation-wrap {
+    position: relative !important;
+    width: 180px !important;
+    height: 220px !important;
+    margin: 0 auto 26px !important;
+}
+
+.fridge-scan-fridge {
+    position: absolute !important;
+    inset: 0 !important;
+    margin: auto !important;
+    width: 138px !important;
+    height: 200px !important;
+    border-radius: 28px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f4efe8 100%) !important;
+    border: 3px solid rgba(218, 201, 182, 0.95) !important;
+    box-shadow:
+        0 22px 40px rgba(77, 54, 32, 0.18),
+        inset 0 0 0 5px rgba(255, 255, 255, 0.65) !important;
+    overflow: hidden !important;
+}
+
+.fridge-scan-freezer {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, #f8efe2 0%, #fffdf8 100%) !important;
+    border-bottom: 2px solid rgba(218, 201, 182, 0.75) !important;
+}
+
+.fridge-scan-freezer span {
+    width: 30px !important;
+    height: 11px !important;
+    border-radius: 999px !important;
+    background: rgba(216, 115, 43, 0.22) !important;
+}
+
+.fridge-scan-body {
+    position: relative !important;
+    height: 152px !important;
+    padding: 18px 16px !important;
+    background:
+        radial-gradient(circle at center, rgba(119, 184, 95, 0.10), transparent 52%),
+        linear-gradient(180deg, #fffefa 0%, #fbf3e8 100%) !important;
+}
+
+.fridge-scan-shelf {
+    position: relative !important;
+    height: 34px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 2px solid rgba(218, 201, 182, 0.85) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+}
+
+.food-dot {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+    animation: foodPulse 1.5s ease-in-out infinite !important;
+}
+
+.food-dot-green {
+    background: #77b85f !important;
+}
+
+.food-dot-red {
+    background: #ef4444 !important;
+}
+
+.food-dot-yellow {
+    background: #f4b343 !important;
+}
+
+.food-dot-white {
+    background: #ffffff !important;
+    border: 1px solid rgba(218, 201, 182, 0.9) !important;
+}
+
+.food-dot-orange {
+    background: #dc7a34 !important;
+}
+
+.fridge-scan-line {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, transparent, #77b85f, #f4b343, transparent) !important;
+    box-shadow: 0 0 18px rgba(119, 184, 95, 0.8) !important;
+    animation: fridgeScanLine 2.2s ease-in-out infinite !important;
+}
+
+.fridge-scan-orbit {
+    position: absolute !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(244, 179, 67, 0.35) !important;
+    animation: fridgeOrbit 2.8s linear infinite !important;
+}
+
+.fridge-scan-orbit-one {
+    inset: 16px !important;
+}
+
+.fridge-scan-orbit-two {
+    inset: 0 !important;
+    animation-duration: 3.6s !important;
+}
+
+.fridge-scan-orbit-three {
+    inset: 32px !important;
+    animation-duration: 2.4s !important;
+    border-color: rgba(119, 184, 95, 0.35) !important;
+}
+
+.fridge-scan-loading-card h2 {
+    margin: 0 0 12px !important;
+    color: #15131e !important;
+    font-size: clamp(1.8rem, 4vw, 2.45rem) !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.045em !important;
+}
+
+.fridge-scan-loading-card p {
+    max-width: 470px !important;
+    margin: 0 auto 22px !important;
+    color: #645a50 !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    font-weight: 600 !important;
+}
+
+.fridge-scan-progress {
+    width: 100% !important;
+    height: 12px !important;
+    overflow: hidden !important;
+    border-radius: 999px !important;
+    background: rgba(218, 201, 182, 0.58) !important;
+    margin-bottom: 16px !important;
+}
+
+.fridge-scan-progress-bar {
+    width: 42% !important;
+    height: 100% !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #77b85f 0%, #f4b343 55%, #dc7a34 100%) !important;
+    animation: fridgeProgress 2.1s ease-in-out infinite !important;
+}
+
+.fridge-scan-step-text {
+    min-height: 24px !important;
+    color: #15131e !important;
+    font-weight: 900 !important;
+    font-size: 1rem !important;
+}
+
+.fridge-scan-mini-note {
+    margin-top: 14px !important;
+    padding: 12px 16px !important;
+    border-radius: 18px !important;
+    background: #fffefb !important;
+    color: #6f655b !important;
+    border: 1px solid rgba(218, 201, 182, 0.82) !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+}
+
+.scanner-primary-btn.is-loading {
+    opacity: 0.85 !important;
+    pointer-events: none !important;
+}
+
+@keyframes fridgeLoaderEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fridgeScanLine {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    50% {
+        top: calc(100% - 4px);
+        opacity: 1;
+    }
+
+    100% {
+        top: 0;
+        opacity: 0.75;
+    }
+}
+
+@keyframes fridgeOrbit {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes foodPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.75;
+    }
+
+    50% {
+        transform: scale(1.18);
+        opacity: 1;
+    }
+}
+
+@keyframes fridgeProgress {
+    0% {
+        transform: translateX(-120%);
+    }
+
+    50% {
+        transform: translateX(80%);
+    }
+
+    100% {
+        transform: translateX(260%);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .fridge-scan-loading-card {
+        padding: 30px 22px !important;
+        border-radius: 30px !important;
+    }
+
+    .fridge-scan-animation-wrap {
+        transform: scale(0.9) !important;
+        margin-bottom: 16px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FRIDGE SCANNER VIDEO LOADING ANIMATION
+   ========================================================= */
+
+.fridge-scan-video-wrap {
+    position: relative !important;
+    width: min(390px, 100%) !important;
+    margin: 0 auto 26px !important;
+    border-radius: 32px !important;
+    overflow: hidden !important;
+    background: #15131e !important;
+    border: 1px solid rgba(221, 199, 172, 0.9) !important;
+    box-shadow:
+        0 24px 55px rgba(35, 24, 15, 0.28),
+        0 0 0 8px rgba(255, 253, 248, 0.55),
+        0 0 42px rgba(244, 179, 67, 0.18) !important;
+}
+
+.fridge-scan-video {
+    width: 100% !important;
+    height: 245px !important;
+    display: block !important;
+    object-fit: cover !important;
+    border-radius: 32px !important;
+}
+
+.fridge-scan-video-glow {
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    border-radius: 32px !important;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(244, 179, 67, 0.10) 0%,
+            transparent 38%,
+            rgba(119, 184, 95, 0.16) 100%
+        ) !important;
+    box-shadow:
+        inset 0 0 44px rgba(244, 179, 67, 0.24),
+        inset 0 0 28px rgba(119, 184, 95, 0.16) !important;
+}
+
+.fridge-scan-loading-card {
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+}
+
+.fridge-scan-loading-card h2 {
+    margin-top: 6px !important;
+}
+
+.fridge-scan-step-text {
+    animation: fridgeStepPulse 1.5s ease-in-out infinite !important;
+}
+
+@keyframes fridgeStepPulse {
+    0%, 100% {
+        opacity: 0.72;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-1px);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .fridge-scan-video-wrap {
+        width: 100% !important;
+        border-radius: 28px !important;
+    }
+
+    .fridge-scan-video {
+        height: 190px !important;
+        border-radius: 28px !important;
+    }
+
+    .fridge-scan-video-glow {
+        border-radius: 28px !important;
+    }
+}

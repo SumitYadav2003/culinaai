@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CulinaAI | Fridge Scan History{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=history-delete-final-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="fridge-scanner-page">
+    <div class="container py-5">
+
+        <div class="fridge-hero-card mb-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="fridge-hero-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+
+                    <div>
+                        <p class="fridge-section-kicker">Previous Scans</p>
+
+                        <h1 class="fridge-hero-title mb-2">
+                            Fridge Scan History
+                        </h1>
+
+                        <p class="fridge-hero-text mb-0">
+                            View previous refrigerator scans and reopen detected ingredient lists.
+                        </p>
+                    </div>
+                </div>
+
+                <a href="{% url 'fridge_scan_upload' %}" class="fridge-btn-primary text-decoration-none">
+                    <i class="bi bi-camera me-2"></i>
+                    New Fridge Scan
+                </a>
+            </div>
+        </div>
+
+        {% if fridge_scans %}
+            <div class="row g-4">
+                {% for scan in fridge_scans %}
+                    <div class="col-md-6 col-xl-4 d-flex">
+                        <div class="fridge-card fridge-history-card h-100 w-100">
+                            <div class="fridge-card-body d-flex flex-column">
+
+                                {% if scan.image %}
+                                    <img
+                                        src="{{ scan.image.url }}"
+                                        alt="Fridge scan image"
+                                        class="fridge-image-preview mb-3"
+                                    >
+                                {% endif %}
+
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                    <div>
+                                        <h5 class="fw-bold mb-1">
+                                            Scan #{{ scan.id }}
+                                        </h5>
+
+                                        <p class="text-muted small mb-0">
+                                            {{ scan.created_at|date:"d M Y, H:i" }}
+                                        </p>
+                                    </div>
+
+                                    <span class="fridge-badge-dark">
+                                        {{ scan.get_scan_status_display }}
+                                    </span>
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap mb-3">
+                                    <span class="fridge-badge-orange">
+                                        {{ scan.detected_count }} detected
+                                    </span>
+
+                                    <span class="fridge-badge-green">
+                                        {{ scan.confirmed_count }} confirmed
+                                    </span>
+                                </div>
+
+                                {% if scan.confirmed_items %}
+                                    <p class="fw-semibold mb-2">
+                                        Confirmed items:
+                                    </p>
+
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
+                                        {% for item in scan.confirmed_items|slice:":6" %}
+                                            <span class="fridge-badge-dark">
+                                                {{ item }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+
+                                {% elif scan.detected_items %}
+                                    <p class="fw-semibold mb-2">
+                                        Detected items:
+                                    </p>
+
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
+                                        {% for item in scan.detected_items|slice:":6" %}
+                                            <span class="fridge-badge-dark">
+                                                {{ item }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+
+                                {% else %}
+                                    <p class="text-muted mb-3">
+                                        No ingredients were detected for this scan.
+                                    </p>
+                                {% endif %}
+
+                                <div class="mt-auto">
+                                    <div class="fridge-history-actions">
+                                        <a href="{% url 'fridge_scan_confirm' scan.id %}"
+                                            class="fridge-history-open-btn"
+                                         >
+                                            <i class="bi bi-folder2-open"></i>
+                                                Open Scan
+                                        </a>
+
+                                    <button
+                                        type="button"
+                                        class="fridge-history-delete-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteFridgeScanModal{{ scan.id }}"
+                                    >
+                                        <i class="bi bi-trash3"></i>
+                                        Delete
+                                    </button>
+                                </div>
+
+<div
+    class="modal fade fridge-delete-modal"
+    id="deleteFridgeScanModal{{ scan.id }}"
+    tabindex="-1"
+    aria-labelledby="deleteFridgeScanModalLabel{{ scan.id }}"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content fridge-delete-modal-content">
+            <div class="modal-body text-center">
+
+                <div class="fridge-delete-modal-icon">
+                    <i class="bi bi-trash3"></i>
+                </div>
+
+                <h2 id="deleteFridgeScanModalLabel{{ scan.id }}">
+                    Delete Scan #{{ scan.id }}?
+                </h2>
+
+                <p>
+                    This will permanently remove this fridge scan and its uploaded image.
+                    This action cannot be undone.
+                </p>
+
+                <form method="post" action="{% url 'fridge_scan_delete' scan.id %}">
+                    {% csrf_token %}
+
+                    <div class="fridge-delete-modal-actions">
+                        <button type="submit" class="fridge-delete-confirm-btn">
+                            <i class="bi bi-trash3"></i>
+                            Yes, Delete
+                        </button>
+
+                        <button
+                            type="button"
+                            class="fridge-delete-cancel-btn"
+                            data-bs-dismiss="modal"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="fridge-card">
+                <div class="fridge-card-body text-center p-5">
+                    <div class="fridge-hero-icon mx-auto mb-3">
+                        <i class="bi bi-camera"></i>
+                    </div>
+
+                    <h4 class="fw-bold mt-3">
+                        No fridge scans yet
+                    </h4>
+
+                    <p class="text-muted">
+                        Upload your first refrigerator image to detect ingredients.
+                    </p>
+
+                    <a href="{% url 'fridge_scan_upload' %}" class="fridge-btn-primary text-decoration-none">
+                        Start Fridge Scan
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
