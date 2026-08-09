@@ -56,9 +56,14 @@ from .cooking_mode_service import build_cooking_mode_context
 from .cooking_chat_service import build_cooking_chat_context
 
 
+# Helper: extracts a clean recipe title from AI-generated text.
 def extract_recipe_title(recipe_text):
     """
-    Extracts a clean recipe title from the AI-generated recipe text.
+    Extracts a clean recipe title from AI-generated recipe text.
+
+    This supports both:
+    - normal generated recipes
+    - AI-modified recipes
     """
 
     if not recipe_text:
@@ -66,21 +71,34 @@ def extract_recipe_title(recipe_text):
 
     lines = recipe_text.splitlines()
 
+    # Important: AI output may use either normal or modified title heading.
+    title_headings = [
+        "RECIPE TITLE",
+        "MODIFIED RECIPE TITLE",
+    ]
+
     for index, line in enumerate(lines):
         clean_line = line.strip()
+        clean_upper = clean_line.upper()
 
-        if clean_line.upper().startswith("RECIPE TITLE"):
-            title_part = clean_line.replace("RECIPE TITLE:", "").strip()
+        for heading in title_headings:
+            if clean_upper.startswith(heading):
+                title_part = ""
 
-            if title_part:
-                return title_part[:200]
+                if ":" in clean_line:
+                    title_part = clean_line.split(":", 1)[1].strip()
 
-            if index + 1 < len(lines):
-                next_line = lines[index + 1].strip()
+                if title_part:
+                    return title_part[:200]
 
-                if next_line:
-                    return next_line[:200]
+                # If title is written on the next line, use that next line.
+                if index + 1 < len(lines):
+                    next_line = lines[index + 1].strip()
 
+                    if next_line:
+                        return next_line[:200]
+
+    # Fallback: use the first non-empty line.
     for line in lines:
         clean_line = line.strip()
 
@@ -90,6 +108,7 @@ def extract_recipe_title(recipe_text):
     return "AI Generated Recipe"
 
 
+# Helper: saves a generated Base64 recipe image into Django media storage.
 def save_generated_recipe_image(image_base64):
     """
     Saves an OpenAI-generated Base64 image into Django's media storage.
@@ -114,6 +133,7 @@ def save_generated_recipe_image(image_base64):
     return default_storage.save(image_path, image_file)
 
 
+# Helper: returns a safe display URL for saved media files.
 def get_storage_url(file_path):
     """
     Safely returns a display URL for a file saved using Django storage.
@@ -133,6 +153,145 @@ def get_storage_url(file_path):
 
 
 
+
+
+
+
+
+# Helper: builds validation preferences for AI-modified recipes.
+def build_modified_recipe_validation_preferences(recipe, modification_type="", custom_instruction=""):
+    """
+    Creates a preferences dictionary for validating an AI-modified recipe.
+
+    The normal recipe generation flow already validates recipes using the
+    original form preferences. Modified recipes do not come directly from that
+    form, so this helper rebuilds enough preference data from the saved recipe
+    and the user's modification request.
+
+    This means modified recipes can also store:
+    - quality score
+    - validation status
+    - risk level
+    - validation badge
+    - full validation report
+    - validation attempt history
+    """
+
+    modification_labels = {
+        "healthier": "Healthier",
+        "cheaper": "Cheaper",
+        "quicker": "Quicker",
+        "vegetarian": "Vegetarian",
+        "spicier": "Spicier",
+        "simpler": "Simpler",
+        "custom": "Custom modification",
+    }
+
+    modification_label = modification_labels.get(
+        modification_type,
+        modification_type or "Modified recipe",
+    )
+
+    # Start with the original saved recipe cuisine.
+    # If the custom instruction clearly asks for a cuisine change, update it
+    # so the validation engine checks the modified recipe against the new style.
+    cuisine_name = recipe.cuisine.name if recipe.cuisine else "Any cuisine"
+    custom_instruction_lower = str(custom_instruction or "").lower()
+
+    cuisine_keywords = {
+        "chinese": "Chinese",
+        "indian": "Indian",
+        "italian": "Italian",
+        "mexican": "Mexican",
+        "thai": "Thai",
+        "japanese": "Japanese",
+        "korean": "Korean",
+        "mediterranean": "Mediterranean",
+        "american": "American",
+        "british": "British",
+        "french": "French",
+        "spanish": "Spanish",
+    }
+
+    for keyword, display_name in cuisine_keywords.items():
+        if keyword in custom_instruction_lower:
+            cuisine_name = display_name
+            break
+
+    diet_preferences = [diet.name for diet in recipe.diet_preferences.all()]
+
+    # If the modification itself asks for a diet change, add that requirement
+    # to the validation preferences before checking the modified recipe.
+    if modification_type == "vegetarian" and "Vegetarian" not in diet_preferences:
+        diet_preferences.append("Vegetarian")
+
+    if "vegan" in custom_instruction_lower and "Vegan" not in diet_preferences:
+        diet_preferences.append("Vegan")
+
+    if "vegetarian" in custom_instruction_lower and "Vegetarian" not in diet_preferences:
+        diet_preferences.append("Vegetarian")
+
+    if "gluten-free" in custom_instruction_lower and "Gluten Free" not in diet_preferences:
+        diet_preferences.append("Gluten Free")
+
+    if "dairy-free" in custom_instruction_lower and "Dairy Free" not in diet_preferences:
+        diet_preferences.append("Dairy Free")
+
+    # This gives the validation engine clear context without needing a new model field.
+    additional_notes = (
+        f"AI modification type: {modification_label}. "
+        f"Custom instruction: {custom_instruction or 'None provided'}. "
+        "Validate the modified recipe against the original saved recipe safety, diet and allergy restrictions."
+    )
+
+    return {
+        "ingredients": recipe.ingredients_text or "",
+        "cuisine": cuisine_name,
+        "meal_type": recipe.meal_type.name if recipe.meal_type else "Any meal type",
+        "diet_preferences": diet_preferences,
+        "allergies": recipe.allergy_notes or "None provided",
+        "cooking_time_minutes": recipe.cooking_time_minutes or 30,
+        "servings": getattr(recipe, "servings", None) or 2,
+        "difficulty": recipe.difficulty or "easy",
+        "spice_level": "Medium",
+        "budget_level": "Moderate Budget",
+        "nutrition_goal": modification_label,
+        "cooking_equipment": [],
+        "utensils": [],
+        "additional_notes": additional_notes,
+    }
+
+
+# Helper: converts one validation report into a simple attempt-history row.
+def build_validation_attempt_row(validation_report, attempt_number=1):
+    """
+    Converts the full validation report into a compact history item.
+
+    The Recipe model stores both:
+    - full validation_report JSON
+    - shorter validation_attempt_history JSON
+
+    This helper keeps modified recipe validation evidence consistent with the
+    normal recipe generation flow.
+    """
+
+    validation_report = validation_report or {}
+
+    return {
+        "attempt_number": attempt_number,
+        "score": validation_report.get("score"),
+        "status": validation_report.get("status"),
+        "risk_level": validation_report.get("risk_level"),
+        "hard_fail": validation_report.get("hard_fail"),
+        "failed_checks": [
+            check.get("name")
+            for check in validation_report.get("failed_checks", [])
+            if isinstance(check, dict)
+        ],
+    }
+
+
+# Helper: stores each generated recipe into RecipeHistory for history, analytics and evidence.
 def create_recipe_history_entry(
     user,
     recipe_text,
@@ -159,6 +318,7 @@ def create_recipe_history_entry(
     validation_report = validation_report or {}
     validation_attempt_history = validation_attempt_history or []
 
+    # Important: this creates the automatic history database record.
     return RecipeHistory.objects.create(
         user=user,
         title=extract_recipe_title(recipe_text),
@@ -196,6 +356,7 @@ def create_recipe_history_entry(
 
 
 
+# Main view: handles recipe generation, validation, fallback, image generation and history storage.
 @login_required
 def generate_recipe_view(request):
     """
@@ -208,10 +369,12 @@ def generate_recipe_view(request):
     4. If AI still fails safety validation, create a deterministic safe fallback recipe.
     5. Show a generated recipe instead of simply blocking the user.
     6. Automatically store every generated recipe in RecipeHistory.
-    7. Supports Smart Pantry and personalised recommendation prefill.
+    7. Supports Smart Pantry, personalised recommendation prefill,
+       and AI Refrigerator Scanner prefill.
     """
 
     if request.method == "POST":
+        # Important: validate user input from the recipe generation form.
         form = RecipeGenerationForm(request.POST)
 
         if form.is_valid():
@@ -344,9 +507,11 @@ def generate_recipe_view(request):
                 fallback_used = False
 
                 for attempt_number in range(1, max_regeneration_attempts + 1):
+                    # Important: OpenAI recipe generation service is called here.
                     ai_result = generate_ai_recipe(current_preferences)
                     recipe_text = ai_result.get("recipe_text", "")
 
+                    # Important: custom validation engine checks the AI output here.
                     validation_report = validate_recipe_output(
                         preferences=preview_data,
                         recipe_text=recipe_text,
@@ -393,6 +558,7 @@ def generate_recipe_view(request):
                     final_validation_report.get("hard_fail")
                     and final_validation_report.get("score", 0) < 70
                 ):
+                    # Important: safe fallback is used if AI output is unsafe.
                     fallback_ai_result = build_safe_fallback_recipe(preview_data)
 
                     fallback_validation_report = validate_recipe_output(
@@ -469,7 +635,11 @@ def generate_recipe_view(request):
                 request.session["latest_validation_report"] = final_validation_report
                 request.session["latest_validation_attempt_history"] = validation_attempt_history
 
+                
+
+                """one of the important function"""
                 try:
+                    # Important: every generated recipe is stored in RecipeHistory.
                     history_entry = create_recipe_history_entry(
                         user=request.user,
                         recipe_text=final_ai_result.get("recipe_text", ""),
@@ -504,10 +674,6 @@ def generate_recipe_view(request):
                     )
 
             except Exception as error:
-                # Last-resort protection:
-                # If the OpenAI/API/validation/history pipeline fails, do not leave the user
-                # with an empty result. Log the real error for debugging, then generate a
-                # deterministic safe fallback recipe.
                 print("CULINAAI REAL API GENERATION ERROR:", repr(error))
                 traceback.print_exc()
 
@@ -644,7 +810,6 @@ def generate_recipe_view(request):
                         ),
                     )
 
-
             return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
         messages.error(
@@ -655,6 +820,10 @@ def generate_recipe_view(request):
     else:
         pantry_mode = request.GET.get("from_pantry") == "1"
         recommendation_query = request.GET.get("recommendation", "").strip()
+        fridge_scanned_ingredients = request.session.get(
+            "fridge_scanned_ingredients",
+            None,
+        )
 
         if recommendation_query:
             form = RecipeGenerationForm(
@@ -671,6 +840,7 @@ def generate_recipe_view(request):
         elif pantry_mode:
             today = timezone.localdate()
 
+            # Important: Generate from Pantry fetches available non-expired pantry items.
             pantry_items = (
                 PantryItem.objects.filter(
                     user=request.user,
@@ -694,6 +864,7 @@ def generate_recipe_view(request):
                     pantry_ingredients.append(clean_name)
 
             if pantry_ingredients:
+                # Important: pantry ingredients are pre-filled into the generation form.
                 form = RecipeGenerationForm(
                     initial={
                         "ingredients": ", ".join(pantry_ingredients),
@@ -710,6 +881,37 @@ def generate_recipe_view(request):
                 messages.warning(
                     request,
                     "You do not have any available non-expired pantry ingredients yet. Add pantry items first.",
+                )
+
+        elif fridge_scanned_ingredients:
+            if isinstance(fridge_scanned_ingredients, list):
+                fridge_ingredients_text = ", ".join(
+                    str(item).strip()
+                    for item in fridge_scanned_ingredients
+                    if str(item).strip()
+                )
+            else:
+                fridge_ingredients_text = str(fridge_scanned_ingredients).strip()
+
+            request.session.pop("fridge_scanned_ingredients", None)
+
+            if fridge_ingredients_text:
+                form = RecipeGenerationForm(
+                    initial={
+                        "ingredients": fridge_ingredients_text,
+                    }
+                )
+
+                messages.info(
+                    request,
+                    "Your confirmed refrigerator scan ingredients have been added to the recipe generator.",
+                )
+            else:
+                form = RecipeGenerationForm()
+
+                messages.warning(
+                    request,
+                    "No confirmed refrigerator ingredients were found. Please enter ingredients manually.",
                 )
 
         else:
@@ -736,10 +938,7 @@ def generate_recipe_view(request):
 
 
 
-
-
-
-
+# View: shows generated recipe history for the logged-in user with search and filters.
 @login_required
 def recipe_history_view(request):
     """
@@ -747,6 +946,7 @@ def recipe_history_view(request):
     """
 
     history_items = (
+        # Important: only the logged-in user’s history is shown.
         RecipeHistory.objects.filter(user=request.user)
         .select_related("saved_recipe")
         .order_by("-created_at")
@@ -800,6 +1000,7 @@ def recipe_history_view(request):
     return render(request, "recipes/recipe_history.html", context)
 
 
+# View: shows one generated recipe history item in full detail.
 @login_required
 def recipe_history_detail_view(request, history_id):
     """
@@ -821,6 +1022,7 @@ def recipe_history_detail_view(request, history_id):
     )
 
 
+# View: saves a generated history item into the user’s saved recipe library.
 @login_required
 def save_history_recipe_view(request, history_id):
     """
@@ -855,6 +1057,7 @@ def save_history_recipe_view(request, history_id):
     if history_item.meal_type_name and history_item.meal_type_name != "Any meal type":
         meal_type = MealType.objects.filter(name=history_item.meal_type_name).first()
 
+    # Important: converts a RecipeHistory item into a saved Recipe record.
     recipe = Recipe.objects.create(
         user=request.user,
         title=history_item.title,
@@ -899,6 +1102,7 @@ def save_history_recipe_view(request, history_id):
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
 
+# View: deletes a history item while keeping any separately saved recipe intact.
 @login_required
 def delete_recipe_history_view(request, history_id):
     """
@@ -958,6 +1162,7 @@ def delete_recipe_history_view(request, history_id):
 
 
 
+# View: saves the latest AI-generated recipe from session into the Recipe table.
 @login_required
 def save_generated_recipe_view(request):
     """
@@ -1008,6 +1213,7 @@ def save_generated_recipe_view(request):
 
     quality_score = validation_report.get("score")
 
+    # Important: saves the generated recipe as a user-owned Recipe record.
     recipe = Recipe.objects.create(
         user=request.user,
         title=extract_recipe_title(recipe_text),
@@ -1039,6 +1245,7 @@ def save_generated_recipe_view(request):
     history_id = request.session.get("latest_recipe_history_id")
 
     if history_id:
+        # Important: links the saved Recipe back to the original history item.
         RecipeHistory.objects.filter(
             id=history_id,
             user=request.user,
@@ -1074,6 +1281,7 @@ def save_generated_recipe_view(request):
     return redirect("saved_recipes")
 
 
+# View: displays saved recipes for the logged-in user with search and filters.
 @login_required
 def saved_recipes_view(request):
     """
@@ -1081,6 +1289,7 @@ def saved_recipes_view(request):
     """
 
     recipes = (
+        # Important: only saved recipes belonging to this user are listed.
         Recipe.objects.filter(
             user=request.user,
             is_saved=True,
@@ -1120,6 +1329,7 @@ def saved_recipes_view(request):
     return render(request, "recipes/saved_recipes.html", context)
 
 
+# AJAX view: sends a recipe-specific user question to the AI cooking assistant service.
 @login_required
 @require_POST
 def ask_cooking_assistant_view(request, recipe_id):
@@ -1153,6 +1363,7 @@ def ask_cooking_assistant_view(request, recipe_id):
     question = data.get("question", "").strip()
     quick_prompt_key = data.get("quick_prompt_key", "").strip()
 
+    # Important: cooking assistant service handles AI chat logic.
     result = ask_cooking_assistant(
         user=request.user,
         recipe=recipe,
@@ -1186,6 +1397,7 @@ def ask_cooking_assistant_view(request, recipe_id):
     return JsonResponse(response_data)
 
 
+# View: shows one saved recipe with favourites, feedback, email, shopping list and chat context.
 @login_required
 def saved_recipe_detail_view(request, recipe_id):
     """
@@ -1238,11 +1450,13 @@ def saved_recipe_detail_view(request, recipe_id):
     email_form = RecipeEmailForm()
     modify_form = RecipeModifyForm()
 
+    # Important: shopping service compares recipe ingredients with pantry items.
     shopping_context = build_shopping_list_context(
         recipe=recipe,
         user=request.user,
     )
 
+    # Important: chat context prepares previous messages and quick prompts.
     cooking_chat_context = build_cooking_chat_context(
         user=request.user,
         recipe=recipe,
@@ -1303,6 +1517,7 @@ def saved_recipe_detail_view(request, recipe_id):
     )
 
 
+# View: lets the owner edit saved recipe title and personal notes only.
 @login_required
 def edit_saved_recipe_view(request, recipe_id):
     """
@@ -1343,6 +1558,7 @@ def edit_saved_recipe_view(request, recipe_id):
 
 
 
+# View: displays step-by-step cooking mode for one saved recipe.
 @login_required
 def cooking_mode_view(request, recipe_id):
     """
@@ -1367,6 +1583,7 @@ def cooking_mode_view(request, recipe_id):
         is_saved=True,
     )
 
+    # Important: cooking mode service converts instructions into guided steps.
     context = build_cooking_mode_context(
         recipe=recipe,
     )
@@ -1375,6 +1592,7 @@ def cooking_mode_view(request, recipe_id):
 
 
 
+# View: displays all favourite recipes for the logged-in user with filters.
 @login_required
 def favourite_recipes_view(request):
     """
@@ -1387,6 +1605,7 @@ def favourite_recipes_view(request):
     selected_difficulty = request.GET.get("difficulty", "").strip()
 
     favourite_recipes = (
+        # Important: only this user’s favourite saved recipes are listed.
         FavouriteRecipe.objects.filter(
             user=request.user,
             recipe__is_saved=True,
@@ -1465,6 +1684,7 @@ def favourite_recipes_view(request):
     )
 
 
+# View: saves or updates rating and feedback for a saved recipe.
 @login_required
 def submit_recipe_feedback_view(request, recipe_id):
     """
@@ -1487,6 +1707,7 @@ def submit_recipe_feedback_view(request, recipe_id):
         rating_value = int(form.cleaned_data["rating"])
         comment = form.cleaned_data.get("comment", "").strip()
 
+        # Important: one rating per user per recipe is updated or created.
         RecipeRating.objects.update_or_create(
             user=request.user,
             recipe=recipe,
@@ -1515,6 +1736,7 @@ def submit_recipe_feedback_view(request, recipe_id):
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
 
+# View: sends a saved recipe to an email address provided by the user.
 @login_required
 def send_recipe_email_view(request, recipe_id):
     """
@@ -1561,6 +1783,7 @@ Enjoy cooking,
 CulinaAI
 """
 
+        # Important: Django email backend sends the recipe to the recipient.
         send_mail(
             subject=subject,
             message=email_body,
@@ -1576,6 +1799,7 @@ CulinaAI
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
 
+# View: toggles a saved recipe in or out of favourites.
 @login_required
 def toggle_favourite_recipe_view(request, recipe_id):
     """
@@ -1592,6 +1816,7 @@ def toggle_favourite_recipe_view(request, recipe_id):
         is_saved=True,
     )
 
+    # Important: get_or_create toggles favourite status without duplicates.
     favourite, created = FavouriteRecipe.objects.get_or_create(
         user=request.user,
         recipe=recipe,
@@ -1606,17 +1831,34 @@ def toggle_favourite_recipe_view(request, recipe_id):
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
 
+# View: generates an AI-modified preview of an existing saved recipe.
 @login_required
 def modify_saved_recipe_view(request, recipe_id):
     """
     Handles AI-powered modification requests for an existing saved recipe.
+
+    This view does not directly save the modified recipe.
+    It only creates a preview and stores it temporarily in the session.
+
+    Updated after principal marker feedback:
+    - modified recipe text is generated
+    - modified recipe image is generated
+    - modified recipe output is validated
+    - comparison table rows are stored
+    - validation evidence is saved in session for later saving
     """
 
     if request.method != "POST":
         return redirect("saved_recipe_detail", recipe_id=recipe_id)
 
+    # Important: only the logged-in user's own saved recipe can be modified.
     recipe = get_object_or_404(
-        Recipe,
+        Recipe.objects.select_related(
+            "cuisine",
+            "meal_type",
+        ).prefetch_related(
+            "diet_preferences",
+        ),
         id=recipe_id,
         user=request.user,
         is_saved=True,
@@ -1629,28 +1871,193 @@ def modify_saved_recipe_view(request, recipe_id):
         custom_instruction = form.cleaned_data.get("custom_instruction", "").strip()
 
         try:
+            # Important: AI service creates the modified recipe text
+            # and comparison table rows.
             ai_result = modify_ai_recipe(
                 recipe=recipe,
                 modification_type=modification_type,
                 custom_instruction=custom_instruction,
             )
 
+            modified_recipe_text = ai_result.get("modified_recipe_text", "").strip()
+            comparison_rows = ai_result.get("comparison_rows", [])
+
+            if not modified_recipe_text:
+                messages.error(
+                    request,
+                    "AI modification did not return a valid recipe. Please try again.",
+                )
+                return redirect(
+                    f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe"
+                )
+
+            # Important: build validation preferences for the modified recipe.
+            # Modified recipes do not come from the normal generation form,
+            # so we rebuild the required validation context from the original recipe.
+            modified_validation_preferences = build_modified_recipe_validation_preferences(
+                recipe=recipe,
+                modification_type=modification_type,
+                custom_instruction=custom_instruction,
+            )
+
+            modified_validation_report = {}
+            modified_validation_attempt_history = []
+
+            try:
+                # Important: validate the AI-modified recipe before showing/saving it.
+                # This keeps modified recipes consistent with normal generated recipes.
+                validation_report = validate_recipe_output(
+                    preferences=modified_validation_preferences,
+                    recipe_text=modified_recipe_text,
+                    attempt_number=1,
+                )
+
+                # Important: copy the validation report and add modification-specific evidence.
+                modified_validation_report = dict(validation_report or {})
+                modified_validation_report.update(
+                    {
+                        "type": "ai_recipe_modification",
+                        "original_recipe_id": recipe.id,
+                        "original_recipe_title": recipe.title,
+                        "modification_type": modification_type,
+                        "custom_instruction": custom_instruction,
+                        "comparison_rows": comparison_rows,
+                    }
+                )
+
+                modified_validation_attempt_history = [
+                    build_validation_attempt_row(
+                        modified_validation_report,
+                        attempt_number=1,
+                    )
+                ]
+
+            except Exception as validation_error:
+                # Validation failure should be visible in terminal, but it should not
+                # completely stop the user from seeing the modified recipe preview.
+                print(
+                    "CULINAAI MODIFIED RECIPE VALIDATION ERROR:",
+                    repr(validation_error),
+                )
+                traceback.print_exc()
+
+                # Important: fallback validation evidence still records that the
+                # modified recipe was generated, but validation could not complete.
+                modified_validation_report = {
+                    "type": "ai_recipe_modification",
+                    "original_recipe_id": recipe.id,
+                    "original_recipe_title": recipe.title,
+                    "modification_type": modification_type,
+                    "custom_instruction": custom_instruction,
+                    "comparison_rows": comparison_rows,
+                    "score": None,
+                    "status": "Validation could not complete",
+                    "risk_level": "Unknown",
+                    "badge": "Validation Pending",
+                    "hard_fail": False,
+                    "should_regenerate": False,
+                    "checks": [],
+                    "failed_checks": [],
+                    "validation_error": str(validation_error),
+                }
+
+                modified_validation_attempt_history = [
+                    build_validation_attempt_row(
+                        modified_validation_report,
+                        attempt_number=1,
+                    )
+                ]
+
+            # Important: extract title from modified recipe text for image generation.
+            modified_recipe_title = extract_recipe_title(modified_recipe_text)
+
+            generated_image_path = ""
+            generated_image_url = ""
+            generated_image_prompt = ""
+
+            try:
+                # Important: generate a new image for the modified recipe.
+                # This is needed because the user may change cuisine/style,
+                # for example from Indian style to Chinese style.
+                modified_image_preferences = {
+                    "ingredients": modified_recipe_text,
+                    "cuisine": modified_validation_preferences.get(
+                        "cuisine",
+                        "modified home-style recipe",
+                    ),
+                    "meal_type": modified_validation_preferences.get(
+                        "meal_type",
+                        "meal",
+                    ),
+                    "diet_preferences": modified_validation_preferences.get(
+                        "diet_preferences",
+                        [],
+                    ),
+                }
+
+                image_result = generate_recipe_image_base64(
+                    recipe_title=modified_recipe_title,
+                    preferences=modified_image_preferences,
+                )
+
+                generated_image_prompt = image_result.get("image_prompt", "")
+
+                generated_image_path = save_generated_recipe_image(
+                    image_result.get("image_base64", ""),
+                )
+
+                generated_image_url = get_storage_url(generated_image_path)
+
+            except Exception as image_error:
+                # Image failure should not block recipe modification.
+                # The user can still review and save the modified recipe text.
+                print("CULINAAI MODIFIED RECIPE IMAGE ERROR:", repr(image_error))
+                generated_image_path = ""
+                generated_image_url = ""
+                generated_image_prompt = ""
+
+            # Important: store the modified preview in session.
+            # It will be displayed on saved_recipe_detail.html.
+            # The validation evidence is also stored here so save_modified_recipe_view
+            # can write it into the Recipe table.
             request.session["modified_recipe_preview"] = {
                 "recipe_id": recipe.id,
                 "modification_type": modification_type,
                 "custom_instruction": custom_instruction,
                 "prompt": ai_result.get("prompt", ""),
-                "modified_recipe_text": ai_result.get("modified_recipe_text", ""),
+                "raw_modified_response": ai_result.get("raw_modified_response", ""),
+                "modified_recipe_text": modified_recipe_text,
+                "comparison_rows": comparison_rows,
+                "generated_image": generated_image_path,
+                "generated_image_url": generated_image_url,
+                "generated_image_prompt": generated_image_prompt,
+                "validation_report": modified_validation_report,
+                "validation_attempt_history": modified_validation_attempt_history,
+                "quality_score": modified_validation_report.get("score"),
+                "validation_status": modified_validation_report.get("status", ""),
+                "validation_risk_level": modified_validation_report.get("risk_level", ""),
+                "validation_badge": modified_validation_report.get("badge", ""),
             }
 
             request.session["modified_recipe_preview_displayed"] = False
 
-            messages.success(
-                request,
-                "AI modification generated successfully. Review the modified recipe below.",
-            )
+            quality_score = modified_validation_report.get("score")
 
-        except Exception:
+            if quality_score is not None:
+                messages.success(
+                    request,
+                    f"AI modification generated and validated successfully. Quality score: {quality_score}/100.",
+                )
+            else:
+                messages.warning(
+                    request,
+                    "AI modification generated successfully, but validation evidence could not be completed. Check the terminal for details.",
+                )
+
+        except Exception as error:
+            print("CULINAAI RECIPE MODIFICATION ERROR:", repr(error))
+            traceback.print_exc()
+
             messages.error(
                 request,
                 "AI modification failed. Please check your OpenAI API key, billing credits, or connection.",
@@ -1665,18 +2072,32 @@ def modify_saved_recipe_view(request, recipe_id):
         f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe"
     )
 
-
+# View: saves the AI-modified preview as a new recipe linked to the original.
 @login_required
 def save_modified_recipe_view(request, recipe_id):
     """
     Saves the AI-modified recipe preview as a new saved recipe.
+
+    Important:
+    The original recipe is not overwritten.
+    A new Recipe record is created and linked back to the original recipe.
+
+    Updated:
+    The modified recipe now saves its own validation evidence so saved recipe
+    cards do not show "Validation Not Stored" for new modified recipes.
     """
 
     if request.method != "POST":
         return redirect("saved_recipe_detail", recipe_id=recipe_id)
 
+    # Important: only the owner can save a modified version of their recipe.
     original_recipe = get_object_or_404(
-        Recipe,
+        Recipe.objects.select_related(
+            "cuisine",
+            "meal_type",
+        ).prefetch_related(
+            "diet_preferences",
+        ),
         id=recipe_id,
         user=request.user,
         is_saved=True,
@@ -1699,16 +2120,68 @@ def save_modified_recipe_view(request, recipe_id):
     modification_type = modified_preview.get("modification_type", "")
     custom_instruction = modified_preview.get("custom_instruction", "")
     modification_prompt = modified_preview.get("prompt", "")
+    modified_image_path = modified_preview.get("generated_image", "")
+    comparison_rows = modified_preview.get("comparison_rows", [])
+
+    validation_report = modified_preview.get("validation_report") or {}
+    validation_attempt_history = (
+        modified_preview.get("validation_attempt_history") or []
+    )
 
     if not modified_recipe_text:
         messages.error(request, "Modified recipe text is empty and cannot be saved.")
         return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
 
+    # Important: use the new modified recipe image if it was generated.
+    # If image generation failed, fall back to the original recipe image path.
+    if modified_image_path:
+        final_recipe_image = modified_image_path
+    elif original_recipe.generated_image:
+        final_recipe_image = original_recipe.generated_image.name
+    else:
+        final_recipe_image = None
+
+    # Important: keep comparison data inside the validation report JSON.
+    # This allows saved modified recipes to display the comparison table later
+    # without needing a new database column.
+    if isinstance(validation_report, dict):
+        final_validation_report = dict(validation_report)
+    else:
+        final_validation_report = {}
+
+    final_validation_report.update(
+        {
+            "type": "ai_recipe_modification",
+            "original_recipe_id": original_recipe.id,
+            "original_recipe_title": original_recipe.title,
+            "modification_type": modification_type,
+            "custom_instruction": custom_instruction,
+            "comparison_rows": comparison_rows,
+        }
+    )
+
+    quality_score = final_validation_report.get("score")
+    validation_status = final_validation_report.get("status", "")
+    validation_risk_level = final_validation_report.get("risk_level", "")
+    validation_badge = final_validation_report.get("badge", "")
+
+    # Important: if validation attempt history is missing for any reason,
+    # rebuild a compact attempt row from the final validation report.
+    if not validation_attempt_history:
+        validation_attempt_history = [
+            build_validation_attempt_row(
+                final_validation_report,
+                attempt_number=1,
+            )
+        ]
+
+    # Important: modified recipe is saved as a new record,
+    # not overwriting the original recipe.
     new_recipe = Recipe.objects.create(
         user=request.user,
         title=extract_recipe_title(modified_recipe_text),
         description=f"Modified version of: {original_recipe.title}",
-        generated_image=original_recipe.generated_image,
+        generated_image=final_recipe_image,
         cuisine=original_recipe.cuisine,
         meal_type=original_recipe.meal_type,
         original_recipe=original_recipe,
@@ -1723,18 +2196,32 @@ def save_modified_recipe_view(request, recipe_id):
         ai_response=modified_recipe_text,
         is_ai_generated=True,
         is_saved=True,
+
+        # CulinaAI validation fields for modified recipes.
+        quality_score=quality_score if quality_score is not None else None,
+        validation_status=validation_status,
+        validation_risk_level=validation_risk_level,
+        validation_badge=validation_badge,
+        validation_attempts=len(validation_attempt_history),
+        validation_report=final_validation_report,
+        validation_attempt_history=validation_attempt_history,
     )
 
+    # Important: copy the original diet preferences to the modified recipe.
     for diet in original_recipe.diet_preferences.all():
         new_recipe.diet_preferences.add(diet)
 
+    # Important: clear temporary preview data after saving.
     request.session.pop("modified_recipe_preview", None)
     request.session.pop("modified_recipe_preview_displayed", None)
 
-    messages.success(request, "Modified recipe saved successfully as a new saved recipe.")
+    messages.success(
+        request,
+        "Modified recipe saved successfully with CulinaAI validation evidence.",
+    )
     return redirect("saved_recipe_detail", recipe_id=new_recipe.id)
 
-
+# View: shows confirmation before deleting a saved recipe.
 @login_required
 def delete_saved_recipe_confirm_view(request, recipe_id):
     """
@@ -1761,6 +2248,7 @@ def delete_saved_recipe_confirm_view(request, recipe_id):
     return render(request, "recipes/delete_saved_recipe_confirm.html", context)
 
 
+# View: permanently deletes a saved recipe from the user’s library.
 @login_required
 def delete_saved_recipe_view(request, recipe_id):
     """
@@ -1788,6 +2276,7 @@ def delete_saved_recipe_view(request, recipe_id):
     return redirect("saved_recipes")
 
 
+# View: renders a clean print/export version of a saved recipe.
 @login_required
 def print_saved_recipe_view(request, recipe_id):
     """
@@ -1830,6 +2319,7 @@ def print_saved_recipe_view(request, recipe_id):
 
 
 
+# View: lets a recipe owner share or remove a recipe from the community page.
 @login_required
 def toggle_community_recipe_view(request, recipe_id):
     """
@@ -1865,6 +2355,7 @@ def toggle_community_recipe_view(request, recipe_id):
             "Recipe removed from the community. It is now private again.",
         )
     else:
+        # Important: setting is_public=True shares this recipe with the community.
         recipe.is_public = True
         recipe.public_shared_at = timezone.now()
         recipe.save(
@@ -1883,6 +2374,7 @@ def toggle_community_recipe_view(request, recipe_id):
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
 
+# View: displays public community recipes with search, filters, sorting and featured data.
 @login_required
 def community_recipes_view(request):
     """
@@ -1900,6 +2392,7 @@ def community_recipes_view(request):
     sort_filter = request.GET.get("sort", "latest").strip()
 
     community_recipes = (
+        # Important: only public saved recipes appear in the community list.
         Recipe.objects.filter(
             is_saved=True,
             is_public=True,
@@ -2032,6 +2525,7 @@ def community_recipes_view(request):
     return render(request, "recipes/community_recipes.html", context)
 
 
+# View: displays a public recipe detail page and increases its community view count.
 @login_required
 def community_recipe_detail_view(request, recipe_id):
     """
@@ -2055,6 +2549,7 @@ def community_recipe_detail_view(request, recipe_id):
         is_public=True,
     )
 
+    # Important: F expression safely increments community views in the database.
     Recipe.objects.filter(
         id=recipe.id,
     ).update(
@@ -2128,6 +2623,7 @@ def community_recipe_detail_view(request, recipe_id):
     return render(request, "recipes/community_recipe_detail.html", context)
 
 
+# View: saves rating and feedback for a public community recipe.
 @login_required
 def submit_community_recipe_feedback_view(request, recipe_id):
     """
@@ -2200,6 +2696,7 @@ def submit_community_recipe_feedback_view(request, recipe_id):
 
 
 
+# Staff view: monitors AI recipe validation quality, risk, trends and review priorities.
 @login_required
 def quality_dashboard_view(request):
     """
@@ -2216,6 +2713,7 @@ def quality_dashboard_view(request):
     - Searchable and filterable validation records
     """
 
+    # Important: quality dashboard is restricted to staff/admin users only.
     if not (request.user.is_staff or request.user.is_superuser):
         messages.error(
             request,
@@ -2223,6 +2721,7 @@ def quality_dashboard_view(request):
         )
         return redirect("home")
 
+    # Important: dashboard analyses saved AI-generated recipes only.
     recipes = Recipe.objects.filter(
         is_ai_generated=True,
         is_saved=True,
@@ -2755,6 +3254,7 @@ def quality_dashboard_view(request):
 
 
 
+# Staff view: shows stored AI prompt, response, validation report and attempt history evidence.
 @login_required
 def quality_recipe_evidence_view(request, recipe_id):
     """
@@ -2785,6 +3285,7 @@ def quality_recipe_evidence_view(request, recipe_id):
     validation_report = recipe.validation_report or {}
     validation_attempt_history = recipe.validation_attempt_history or []
 
+    # Important: JSON evidence is formatted for readable staff review.
     validation_report_pretty = json.dumps(
         validation_report,
         indent=2,
@@ -3066,6 +3567,7 @@ def quality_recipe_evidence_view(request, recipe_id):
 
 
 
+# View: removes a recipe from saved recipes without deleting validation evidence/history.
 @login_required
 def unsave_recipe_view(request, recipe_id):
     """
@@ -3095,6 +3597,7 @@ def unsave_recipe_view(request, recipe_id):
     ).delete()
 
     # If the recipe was shared publicly, make it private again.
+    # Important: unsave hides the recipe but keeps database evidence/history.
     recipe.is_saved = False
     recipe.is_public = False
     recipe.public_shared_at = None
@@ -3130,6 +3633,7 @@ def unsave_recipe_view(request, recipe_id):
 
 
 
+# View: manages Smart Pantry items, bulk add, expiry insights and recommendations.
 @login_required
 def pantry_list_view(request):
     """
@@ -3141,7 +3645,7 @@ def pantry_list_view(request):
     - expiry insight
     - personalised recommendations
     """
-
+    #gives today dates
     today = timezone.localdate()
     soon_date = today + timedelta(days=3)
 
@@ -3265,6 +3769,7 @@ def pantry_list_view(request):
         form = PantryItemForm(request.POST)
 
         if form.is_valid():
+            # Important: commit=False lets us attach the logged-in user before saving.
             pantry_item = form.save(commit=False)
             pantry_item.user = request.user
             pantry_item.save()
@@ -3283,6 +3788,7 @@ def pantry_list_view(request):
     else:
         form = PantryItemForm()
 
+    # Important: pantry page only displays items belonging to the logged-in user.
     pantry_items = PantryItem.objects.filter(
         user=request.user,
     ).order_by(
@@ -3294,10 +3800,12 @@ def pantry_list_view(request):
         is_available=True,
     )
 
+    #expired items calculation
     expired_items = available_pantry_items.filter(
         expiry_date__lt=today,
     )
 
+    #expiring soon items
     expiring_soon_items = available_pantry_items.filter(
         expiry_date__gte=today,
         expiry_date__lte=soon_date,
@@ -3310,6 +3818,7 @@ def pantry_list_view(request):
         .order_by("expiry_date", "ingredient_name")[:5]
     )
 
+    # Important: recommendation service builds pantry/user-based suggestions.
     personalised_recommendations = get_personalised_recommendations(
         request.user,
         limit=4,
@@ -3318,7 +3827,7 @@ def pantry_list_view(request):
     context = {
         "form": form,
         "pantry_items": pantry_items,
-        "total_items": pantry_items.count(),
+        "total_items": pantry_items.count(), #items for counting are displayed here
         "available_items_count": available_pantry_items.count(),
         "expired_items_count": expired_items.count(),
         "expiring_soon_count": expiring_soon_items.count(),
@@ -3342,12 +3851,14 @@ def pantry_list_view(request):
 
 
 
+# View: updates only the logged-in user’s own pantry item.
 @login_required
 def pantry_item_update_view(request, item_id):
     """
     Allows a logged-in user to update only their own pantry item.
     """
 
+    # Important: ownership check prevents users editing another user’s pantry item.
     pantry_item = get_object_or_404(
         PantryItem,
         id=item_id,
@@ -3382,6 +3893,14 @@ def pantry_item_update_view(request, item_id):
     return render(request, "recipes/pantry_item_form.html", context)
 
 
+
+
+
+
+
+
+
+# View: deletes only the logged-in user’s own pantry item.
 @login_required
 def pantry_item_delete_view(request, item_id):
     """
@@ -3396,6 +3915,7 @@ def pantry_item_delete_view(request, item_id):
 
     if request.method == "POST":
         item_name = pantry_item.ingredient_name
+        # Important: deletes the selected pantry item after ownership is verified.
         pantry_item.delete()
 
         messages.success(

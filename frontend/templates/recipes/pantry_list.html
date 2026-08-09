@@ -18,16 +18,21 @@
       </div>
 
       <div class="pantry-hero-actions">
-        <a href="{% url 'dashboard' %}" class="pantry-secondary-btn">
-          <i class="bi bi-speedometer2"></i>
-          Dashboard
-        </a>
+          <a href="{% url 'dashboard' %}" class="pantry-secondary-btn">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+          </a>
 
-        <a href="{% url 'generate_recipe' %}?from_pantry=1" class="pantry-primary-btn">
-          <i class="bi bi-basket2"></i>
-          Generate from Pantry
-        </a>
-      </div>
+          <a href="{% url 'fridge_scan_upload' %}" class="pantry-secondary-btn">
+            <i class="bi bi-camera-fill"></i>
+            AI Fridge Scanner
+          </a>
+
+            <a href="{% url 'generate_recipe' %}?from_pantry=1" class="pantry-primary-btn">
+              <i class="bi bi-basket2"></i>
+              Generate from Pantry
+            </a>
+    </div>  
     </div>
 
     <!-- Stats -->

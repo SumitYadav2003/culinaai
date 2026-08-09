@@ -11625,3 +11625,607 @@ textarea.recipe-input {
         min-height: 44px !important;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   FRIDGE SCANNER SHORTCUT ON GENERATE RECIPE PAGE
+   ========================================================= */
+
+.fridge-scanner-generator-link-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 0 32px 28px;
+    padding: 22px 24px;
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at top right, rgba(247, 206, 87, 0.16), transparent 34%),
+        linear-gradient(135deg, #fffdf8 0%, #fbf3e6 100%);
+    border: 1px solid rgba(221, 199, 172, 0.78);
+    box-shadow: 0 16px 34px rgba(77, 54, 32, 0.08);
+}
+
+.fridge-scanner-generator-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f4c542 0%, #e39138 55%, #d47230 100%);
+    color: #ffffff;
+    font-size: 1.45rem;
+    box-shadow: 0 14px 28px rgba(216, 115, 43, 0.22);
+}
+
+.fridge-scanner-generator-content {
+    flex: 1;
+}
+
+.fridge-scanner-generator-content span {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #d8732b;
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.fridge-scanner-generator-content h3 {
+    margin: 0 0 6px;
+    color: #15131e;
+    font-size: 1.15rem;
+    font-weight: 950;
+    letter-spacing: -0.025em;
+}
+
+.fridge-scanner-generator-content p {
+    margin: 0;
+    color: #645a50;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.fridge-scanner-generator-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #f4b343 0%, #dc7a34 100%);
+    color: #15100c;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 950;
+    box-shadow: 0 14px 26px rgba(216, 115, 43, 0.20);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.fridge-scanner-generator-btn:hover {
+    color: #15100c;
+    transform: translateY(-2px);
+    box-shadow: 0 18px 32px rgba(216, 115, 43, 0.26);
+}
+
+@media (max-width: 991.98px) {
+    .fridge-scanner-generator-link-card {
+        margin: 0 24px 24px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .fridge-scanner-generator-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .fridge-scanner-generator-link-card {
+        margin: 0 18px 22px;
+        padding: 20px;
+    }
+}
+
+/* =========================================================
+   PRINCIPAL MARKER UPDATE - FULL WIDTH AI MODIFIED PREVIEW
+   Purpose:
+   - Makes the AI modified recipe result full width instead of a small side card.
+   - Keeps the same recipe output formatter pattern as the normal generation page.
+   - Adds styling for the new modified recipe image, comparison table and save panel.
+   - Paste/keep this block at the very bottom of recipes.css so it overrides older styles.
+   ========================================================= */
+
+/* Main full-width wrapper for the modified recipe preview */
+.culina-modified-fullwidth-section {
+    margin-top: 38px !important;
+    padding: 38px !important;
+    border-radius: 38px !important;
+    border: 1px solid rgba(22, 163, 74, 0.14) !important;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(22, 163, 74, 0.13), transparent 32%),
+        radial-gradient(circle at 100% 0%, rgba(249, 115, 22, 0.14), transparent 34%),
+        radial-gradient(circle at 50% 100%, rgba(250, 204, 21, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 239, 0.96)) !important;
+    box-shadow: 0 32px 95px rgba(15, 23, 42, 0.11) !important;
+    overflow: hidden !important;
+    scroll-margin-top: 140px !important;
+}
+
+/* Top heading row for the modified preview */
+.culina-modified-fullwidth-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    margin-bottom: 28px !important;
+}
+
+/* Main heading text */
+.culina-modified-fullwidth-header h2 {
+    margin: 14px 0 10px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(2rem, 4vw, 3.4rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.06em !important;
+}
+
+/* Supporting explanation text */
+.culina-modified-fullwidth-header p {
+    max-width: 850px !important;
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 1.02rem !important;
+    font-weight: 680 !important;
+    line-height: 1.78 !important;
+}
+
+/* Badge on the right side of the preview header */
+.culina-modified-fullwidth-badge {
+    flex: 0 0 auto !important;
+    min-height: 48px !important;
+    padding: 12px 17px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    color: #166534 !important;
+    background: rgba(220, 252, 231, 0.92) !important;
+    border: 1px solid rgba(22, 163, 74, 0.18) !important;
+    font-size: 0.86rem !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+    box-shadow: 0 16px 38px rgba(22, 163, 74, 0.12) !important;
+}
+
+/* Main modified recipe result card */
+.culina-modified-output-card {
+    width: 100% !important;
+    margin-top: 0 !important;
+    padding: 34px !important;
+    border-radius: 34px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Generated image card used for the modified version */
+.culina-modified-output-image-card {
+    margin-bottom: 26px !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    box-shadow: 0 24px 68px rgba(15, 23, 42, 0.14) !important;
+}
+
+/* New modified image should be wide and clear */
+.culina-modified-output-image-card img {
+    width: 100% !important;
+    min-height: 360px !important;
+    max-height: 520px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* Make modified recipe text full-height/readable instead of tiny scroll box */
+.culina-modified-fullwidth-section .culina-modified-preview-text {
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* If recipe_output.js transforms the content into recipe cards, keep it wide */
+.culina-modified-fullwidth-section .culina-recipe-book {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Comparison table card below the modified recipe */
+.culina-modified-comparison-table-card {
+    margin-top: 30px !important;
+    padding: 30px !important;
+    border-radius: 34px !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.10), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 247, 237, 0.94)) !important;
+    box-shadow: 0 26px 74px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Header above comparison table */
+.culina-modified-comparison-table-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    margin-bottom: 22px !important;
+}
+
+/* Comparison table title */
+.culina-modified-comparison-table-header h3 {
+    margin: 12px 0 8px !important;
+    color: var(--culina-dark) !important;
+    font-size: clamp(1.6rem, 3vw, 2.35rem) !important;
+    font-weight: 1000 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.05em !important;
+}
+
+/* Comparison table description */
+.culina-modified-comparison-table-header p {
+    max-width: 800px !important;
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.98rem !important;
+    font-weight: 680 !important;
+    line-height: 1.75 !important;
+}
+
+/* Small count badge for number of AI changes */
+.culina-modified-comparison-table-badge {
+    flex: 0 0 auto !important;
+    min-height: 44px !important;
+    padding: 10px 15px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #9a3412 !important;
+    background: rgba(255, 237, 213, 0.96) !important;
+    border: 1px solid rgba(249, 115, 22, 0.18) !important;
+    font-size: 0.82rem !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+}
+
+/* Table wrapper */
+.culina-modified-comparison-table-card .table-responsive {
+    border-radius: 26px !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: #ffffff !important;
+    box-shadow: 0 18px 46px rgba(15, 23, 42, 0.06) !important;
+    overflow: auto !important;
+}
+
+/* Main comparison table */
+.culina-modified-comparison-table {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    color: var(--culina-dark) !important;
+}
+
+/* Table heading row */
+.culina-modified-comparison-table thead th {
+    padding: 16px 18px !important;
+    color: #1f1a17 !important;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.16), rgba(250, 204, 21, 0.16)) !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    font-size: 0.78rem !important;
+    font-weight: 1000 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+}
+
+/* Table body cells */
+.culina-modified-comparison-table tbody td {
+    padding: 17px 18px !important;
+    vertical-align: top !important;
+    color: #374151 !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.07) !important;
+    font-size: 0.94rem !important;
+    font-weight: 680 !important;
+    line-height: 1.65 !important;
+}
+
+/* First column should look like a change category */
+.culina-modified-comparison-table tbody td:first-child {
+    min-width: 150px !important;
+    color: #9a3412 !important;
+    font-weight: 1000 !important;
+}
+
+/* Last column highlights user-facing explanation */
+.culina-modified-comparison-table tbody td:last-child {
+    color: #166534 !important;
+    font-weight: 820 !important;
+}
+
+/* Remove final border from last row */
+.culina-modified-comparison-table tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+/* Save panel below preview and table */
+.culina-modified-save-panel {
+    margin-top: 30px !important;
+    padding: 24px !important;
+    border-radius: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    background:
+        radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(240, 253, 244, 0.96), rgba(255, 255, 255, 0.96)) !important;
+    border: 1px solid rgba(22, 163, 74, 0.16) !important;
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.07) !important;
+}
+
+/* Save panel title */
+.culina-modified-save-panel h3 {
+    margin: 0 0 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    color: var(--culina-dark) !important;
+    font-size: 1.25rem !important;
+    font-weight: 1000 !important;
+}
+
+/* Save panel icon */
+.culina-modified-save-panel h3 i {
+    color: var(--culina-green) !important;
+}
+
+/* Save panel paragraph */
+.culina-modified-save-panel p {
+    margin: 0 !important;
+    color: var(--culina-muted) !important;
+    font-size: 0.95rem !important;
+    font-weight: 690 !important;
+    line-height: 1.65 !important;
+}
+
+/* Save form should not add extra spacing inside the new panel */
+.culina-modified-save-panel .culina-save-modified-form {
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+}
+
+/* Save button inside full-width preview */
+.culina-modified-save-panel .culina-save-modified-btn {
+    width: auto !important;
+    min-width: 230px !important;
+    min-height: 54px !important;
+    padding: 13px 22px !important;
+}
+
+/* Old small preview inside the right modify panel is no longer used,
+   but this protects layout if old HTML remains cached. */
+.culina-modify-panel .culina-modified-preview {
+    display: none !important;
+}
+
+/* Better spacing after the modify form when preview exists */
+.culina-modify-panel .culina-modify-view-preview-link {
+    margin-top: 18px !important;
+}
+
+/* Mobile and tablet layout */
+@media (max-width: 991px) {
+    .culina-modified-fullwidth-section {
+        padding: 28px !important;
+        border-radius: 32px !important;
+    }
+
+    .culina-modified-fullwidth-header,
+    .culina-modified-comparison-table-header,
+    .culina-modified-save-panel {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .culina-modified-fullwidth-badge,
+    .culina-modified-comparison-table-badge {
+        width: fit-content !important;
+    }
+
+    .culina-modified-save-panel .culina-save-modified-form,
+    .culina-modified-save-panel .culina-save-modified-btn {
+        width: 100% !important;
+    }
+
+    .culina-modified-output-image-card img {
+        min-height: 280px !important;
+        max-height: 420px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .culina-modified-fullwidth-section,
+    .culina-modified-output-card,
+    .culina-modified-comparison-table-card,
+    .culina-modified-save-panel {
+        padding: 22px !important;
+        border-radius: 26px !important;
+    }
+
+    .culina-modified-fullwidth-header h2 {
+        font-size: 2rem !important;
+        line-height: 1.08 !important;
+    }
+
+    .culina-modified-comparison-table thead th,
+    .culina-modified-comparison-table tbody td {
+        padding: 14px !important;
+        font-size: 0.88rem !important;
+    }
+
+    .culina-modified-output-image-card img {
+        min-height: 220px !important;
+        max-height: 330px !important;
+    }
+}
+
+
+
+
+
+
+
+
+/* =========================================================
+   FAVOURITE RECIPES PAGE - IMAGE CARD UPDATE
+   Purpose:
+   - Shows AI-generated recipe images on favourite recipe cards.
+   - Keeps the favourite page visually consistent with saved recipe cards.
+   ========================================================= */
+
+.favourite-recipes-section .favourite-recipe-card {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.favourite-recipe-image-wrap {
+    position: relative !important;
+    width: 100% !important;
+    height: 245px !important;
+    margin-bottom: 22px !important;
+    border-radius: 26px !important;
+    display: block !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.18), transparent 34%),
+        linear-gradient(135deg, rgba(255, 247, 237, 0.98), rgba(255, 255, 255, 0.94)) !important;
+    border: 1px solid rgba(249, 115, 22, 0.14) !important;
+    box-shadow: 0 20px 52px rgba(124, 45, 18, 0.10) !important;
+}
+
+.favourite-recipe-card-image {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: cover !important;
+    transform: scale(1.01) !important;
+    transition: transform 0.35s ease, filter 0.35s ease !important;
+}
+
+.favourite-recipe-image-wrap:hover .favourite-recipe-card-image {
+    transform: scale(1.06) !important;
+    filter: brightness(0.96) !important;
+}
+
+.favourite-recipe-image-placeholder {
+    width: 100% !important;
+    height: 100% !important;
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+    color: #9a3412 !important;
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.20), transparent 36%),
+        linear-gradient(135deg, rgba(255, 247, 237, 0.98), rgba(255, 255, 255, 0.92)) !important;
+}
+
+.favourite-recipe-image-placeholder i {
+    display: block !important;
+    margin-bottom: 8px !important;
+    color: #f97316 !important;
+    font-size: 2rem !important;
+}
+
+.favourite-recipe-image-placeholder span {
+    display: block !important;
+    font-size: 0.88rem !important;
+    font-weight: 950 !important;
+}
+
+.favourite-recipe-image-badge,
+.favourite-recipe-visual-badge {
+    position: absolute !important;
+    z-index: 3 !important;
+    min-height: 36px !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    font-size: 0.76rem !important;
+    font-weight: 950 !important;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.16) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.favourite-recipe-image-badge {
+    top: 14px !important;
+    left: 14px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
+}
+
+.favourite-recipe-visual-badge {
+    right: 14px !important;
+    bottom: 14px !important;
+    color: #1f1a17 !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(255, 255, 255, 0.36) !important;
+}
+
+.favourite-recipe-visual-badge i {
+    color: #f97316 !important;
+}
+
+@media (max-width: 991px) {
+    .favourite-recipe-image-wrap {
+        height: 235px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .favourite-recipe-image-wrap {
+        height: 215px !important;
+        border-radius: 22px !important;
+    }
+
+    .favourite-recipe-image-badge,
+    .favourite-recipe-visual-badge {
+        font-size: 0.7rem !important;
+        min-height: 32px !important;
+        padding: 7px 10px !important;
+    }
+}

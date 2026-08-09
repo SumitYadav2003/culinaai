@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=voice-premium-final-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=fridge-link-1">
 <link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1">
 <link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
 {% endblock %}
@@ -133,6 +133,31 @@
                                 Fill in your food preferences below and preview your recipe request before AI generation.
                             </p>
                         </div>
+                    </div>
+
+                                        <!-- Fridge Scanner Shortcut Card -->
+                    <div class="fridge-scanner-generator-link-card">
+                        <div class="fridge-scanner-generator-icon">
+                            <i class="bi bi-camera-fill"></i>
+                        </div>
+
+                        <div class="fridge-scanner-generator-content">
+                            <span>New AI Refrigerator Scanner</span>
+
+                            <h3>
+                                Scan your fridge instead of typing ingredients
+                            </h3>
+
+                            <p>
+                                Upload a refrigerator photo, confirm the detected ingredients,
+                                and use them directly for AI recipe generation.
+                            </p>
+                        </div>
+
+                        <a href="{% url 'fridge_scan_upload' %}" class="fridge-scanner-generator-btn">
+                            <i class="bi bi-stars"></i>
+                            Use Fridge Scanner
+                        </a>
                     </div>
 
                     <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" class="culina-horizontal-generate-form" data-recipe-loading-form novalidate>
