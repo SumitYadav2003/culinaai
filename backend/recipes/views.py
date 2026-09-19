@@ -611,7 +611,10 @@ def generate_recipe_view(request):
                         image_result.get("image_base64", ""),
                     )
 
-                except Exception:
+                except Exception as image_gen_error:
+                    print("CULINAAI IMAGE GENERATION ERROR:", repr(image_gen_error))
+                    traceback.print_exc()
+
                     generated_image_path = ""
                     generated_image_prompt = ""
 
