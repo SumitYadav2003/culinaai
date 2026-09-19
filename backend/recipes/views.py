@@ -610,6 +610,8 @@ def generate_recipe_view(request):
                     generated_image_path = save_generated_recipe_image(
                         image_result.get("image_base64", ""),
                     )
+                    print("CULINAAI IMAGE SAVE DEBUG - path:", generated_image_path)
+                    print("CULINAAI IMAGE SAVE DEBUG - exists:", default_storage.exists(generated_image_path) if generated_image_path else "N/A")
 
                 except Exception as image_gen_error:
                     print("CULINAAI IMAGE GENERATION ERROR:", repr(image_gen_error))
