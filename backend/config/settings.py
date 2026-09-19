@@ -163,3 +163,6 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+import os
+if os.environ.get("GITHUB_ACTIONS") == "true":DATABASES["default"] = { "ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "ci_test_db.sqlite3", }
