@@ -37,7 +37,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_IMAGE_MODEL = os.getenv("OPENAI_IMAGE_MODEL", "gpt-5.5")
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", ".onrender.com,localhost,127.0.0.1").split(",")
 
 
 # Application definition
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -166,3 +167,22 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 import os
 if os.environ.get("GITHUB_ACTIONS") == "true":DATABASES["default"] = { "ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "ci_test_db.sqlite3", }
+
+
+
+STATIC_ROOT = PROJECT_ROOT / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+if os.getenv("EMAIL_BACKEND") == "anymail.backends.brevo.EmailBackend":
+    INSTALLED_APPS.append("anymail")
+    ANYMAIL = {
+        "BREVO_API_KEY": os.getenv("BREVO_API_KEY", ""),
+    }
