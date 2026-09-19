@@ -1,5 +1,7 @@
 # CulinaAI — AI-Assisted Recipe Generation and Meal Personalisation System
 
+![Django CI](https://github.com/SumitYadav2003/culinaai/actions/workflows/django-ci.yml/badge.svg)
+
 CulinaAI is a full-stack web application that generates personalised cooking recipes from a user's available ingredients, dietary needs, allergies, cuisine preference, cooking time and servings. It integrates the OpenAI API for recipe generation and validates every generated recipe against safety and quality checks before it ever reaches a user.
 
 Built as an MSc Individual Dissertation project at the University of Leicester (Jun 2026 – Sep 2026).
