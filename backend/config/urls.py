@@ -3,7 +3,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.db.models import Avg, Count
 from django.shortcuts import render
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve
 
 from recipes.models import Recipe
 
@@ -66,6 +67,6 @@ urlpatterns = [
 ]
 
 
-urlpatterns += static(
-settings.MEDIA_URL,
-document_root=settings.MEDIA_ROOT,)
+urlpatterns += [
+    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
+]
