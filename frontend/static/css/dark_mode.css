@@ -327,6 +327,11 @@ html[data-theme="dark"] .recipe-favourite-btn.active i {
     color: #1f1a17 !important;
 }
 
+/* Community page label sits on an orange-to-gold pill */
+html[data-theme="dark"] .community-detail-header .section-label {
+    color: #1f1a17 !important;
+}
+
 /* Dashboard taste score ring: dark centre, light text */
 html[data-theme="dark"] .taste-score-ring {
     background:

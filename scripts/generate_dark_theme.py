@@ -179,11 +179,12 @@ def collect_strong_selectors(stylesheets, variables):
     return strong
 
 
-def is_inside_strong(selectors, strong_selectors):
-    """True if every selector of a rule is a brand-coloured element or something inside it."""
-    def inside(selector):
-        return any(selector == s or selector.startswith((s + " ", s + ":", s + ">", s + " >")) for s in strong_selectors)
-    return bool(selectors) and all(inside(s) for s in selectors)
+def is_inside_strong(selector, strong_selectors):
+    """True if the selector is a brand-coloured element (e.g. an orange button) or something inside it."""
+    return any(
+        selector == s or selector.startswith((s + " ", s + ":", s + ">", s + " >"))
+        for s in strong_selectors
+    )
 
 
 def convert_value(value, converter):
@@ -207,7 +208,8 @@ def convert_value(value, converter):
 
 
 def dark_declarations(rule, variables, strong_selectors):
-    """Return the dark-mode declarations for one rule, e.g. ['background: #241a12 !important']."""
+    """Return the dark-mode declarations for one rule as two lists:
+    surface (backgrounds and borders) and text colours, e.g. ['background: #241a12 !important']."""
     declarations = [
         d for d in tinycss2.parse_declaration_list(rule.content, skip_whitespace=True, skip_comments=True)
         if d.type == "declaration"
@@ -218,31 +220,29 @@ def dark_declarations(rule, variables, strong_selectors):
         value = VARIABLE_PATTERN.sub(lambda m: variables.get(m.group(1), m.group(0)), value)
         values[declaration.lower_name] = (value, declaration.important)
 
-    selectors = [s.strip() for s in tinycss2.serialize(rule.prelude).split(",") if s.strip()]
     has_strong_background = any(
         is_strong_background(values[name][0]) for name in BACKGROUND_PROPERTIES if name in values
-    ) or is_inside_strong(selectors, strong_selectors)
+    )
 
-    output = []
+    surface, text = [], []
     for name, (value, important) in values.items():
         if name in BACKGROUND_PROPERTIES:
-            new_value = convert_value(value, dark_background)
+            new_value, target = convert_value(value, dark_background), surface
         elif name in TEXT_PROPERTIES and not has_strong_background:
-            new_value = convert_value(value, light_text)
+            new_value, target = convert_value(value, light_text), text
         elif name in BORDER_PROPERTIES:
-            new_value = convert_value(value, dark_border)
+            new_value, target = convert_value(value, dark_border), surface
         else:
             new_value = None
         if new_value:
-            output.append(f"{name}: {new_value}{' !important' if important else ''}")
-    return output
+            target.append(f"{name}: {new_value}{' !important' if important else ''}")
+    return surface, text
 
 
-def prefix_selectors(prelude):
-    """'.card, .panel h2' -> 'html[data-theme="dark"] .card, html[data-theme="dark"] .panel h2'."""
+def prefix_selectors(selector_list):
+    """['.card', '.panel h2'] -> 'html[data-theme="dark"] .card, html[data-theme="dark"] .panel h2'."""
     selectors = []
-    for selector in tinycss2.serialize(prelude).split(","):
-        selector = selector.strip()
+    for selector in selector_list:
         if not selector or selector.startswith(":root"):
             continue
         if selector.startswith("html") or selector.startswith("body"):
@@ -259,11 +259,18 @@ def convert_rules(rules, variables, strong_selectors, indent=""):
     lines = []
     for rule in rules:
         if rule.type == "qualified-rule":
-            selectors = prefix_selectors(rule.prelude)
-            declarations = dark_declarations(rule, variables, strong_selectors) if selectors else []
-            if declarations:
-                body = "".join(f"{indent}    {d};\n" for d in declarations)
-                lines.append(f"{indent}{selectors.replace(chr(10), chr(10) + indent)} {{\n{body}{indent}}}\n")
+            selector_list = [s.strip() for s in tinycss2.serialize(rule.prelude).split(",") if s.strip()]
+            surface, text = dark_declarations(rule, variables, strong_selectors)
+            # Text inside brand-coloured buttons keeps its light-theme colour.
+            text_selectors = [s for s in selector_list if not is_inside_strong(s, strong_selectors)]
+            blocks = [(selector_list, surface), (text_selectors, text)]
+            if surface and text and text_selectors == selector_list:
+                blocks = [(selector_list, surface + text)]
+            for chosen, declarations in blocks:
+                selectors = prefix_selectors(chosen)
+                if selectors and declarations:
+                    body = "".join(f"{indent}    {d};\n" for d in declarations)
+                    lines.append(f"{indent}{selectors.replace(chr(10), chr(10) + indent)} {{\n{body}{indent}}}\n")
         elif rule.type == "at-rule" and rule.lower_at_keyword == "media" and rule.content:
             condition = tinycss2.serialize(rule.prelude).strip()
             if "print" in condition:
