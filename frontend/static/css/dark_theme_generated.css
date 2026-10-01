@@ -1,0 +1,4544 @@
+/* =========================================================
+   CulinaAI dark theme: GENERATED FILE, do not edit by hand.
+   Re-create it with:  python scripts/generate_dark_theme.py
+   Hand-written fixes belong in dark_mode.css.
+   ========================================================= */
+
+/* ---------- from cooking_chat.css ---------- */
+
+html[data-theme="dark"] .culina-chat-modal-content {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .culina-chat-body {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .culina-chat-sidebar h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-chat-sidebar p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-chat-quick-btn {
+    color: #ece3e0;
+    background: rgba(41, 29, 20, 0.78);
+}
+html[data-theme="dark"] .culina-chat-quick-btn:hover {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .culina-chat-quick-btn i {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-chat-quick-btn span {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-chat-main {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 32%),
+        #2c1f15;
+}
+html[data-theme="dark"] .culina-chat-empty {
+    background: rgba(41, 29, 20, 0.75);
+}
+html[data-theme="dark"] .culina-chat-empty i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-chat-empty h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-chat-empty p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-chat-message-avatar {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-chat-bubble {
+    background: rgba(41, 29, 20, 0.85);
+}
+html[data-theme="dark"] .culina-chat-meta {
+    color: #c2b5aa;
+}
+html[data-theme="dark"] .culina-chat-loading {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-chat-input-wrap {
+    background: rgba(44, 31, 21, 0.98);
+}
+html[data-theme="dark"] .culina-chat-input {
+    color: #ece3e0;
+    background: #291d14;
+}
+html[data-theme="dark"] .culina-chat-error {
+    color: #ef9696;
+}
+
+/* ---------- from cooking_mode.css ---------- */
+
+html[data-theme="dark"] .culina-cooking-mode {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .cooking-mode-hero,
+html[data-theme="dark"] .cooking-step-sidebar,
+html[data-theme="dark"] .cooking-main-card,
+html[data-theme="dark"] .cooking-timer-card,
+html[data-theme="dark"] .cooking-finish-card {
+    background: rgba(44, 31, 21, 0.96);
+    border: 1px solid rgba(90, 63, 43, 0.55);
+}
+html[data-theme="dark"] .cooking-back-link {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-back-link:hover {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .cooking-eyebrow {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .cooking-mode-hero-copy h1 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .cooking-mode-hero-copy p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-hero-meta span {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .sidebar-header span,
+html[data-theme="dark"] .timer-header span,
+html[data-theme="dark"] .current-step-header span,
+html[data-theme="dark"] .cooking-finish-card span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .sidebar-header h2,
+html[data-theme="dark"] .timer-header h2,
+html[data-theme="dark"] .current-step-header h2,
+html[data-theme="dark"] .cooking-finish-card h2 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .timer-header p,
+html[data-theme="dark"] .cooking-finish-card p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-step-link {
+    color: #ece3e0;
+    background: rgba(41, 29, 20, 0.7);
+}
+html[data-theme="dark"] .cooking-step-link:hover,
+html[data-theme="dark"] .cooking-step-link.active {
+    background: rgba(50, 37, 19, 0.92);
+}
+html[data-theme="dark"] .step-link-number {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .step-link-copy small {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .step-complete-icon {
+    color: rgba(145, 236, 178, 0.25);
+}
+html[data-theme="dark"] .cooking-step-link.completed .step-complete-icon {
+    color: #91ecb2;
+}
+html[data-theme="dark"] .cooking-progress-card {
+    background: rgba(41, 29, 20, 0.7);
+}
+html[data-theme="dark"] .progress-topline span,
+html[data-theme="dark"] .progress-topline strong {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .current-step-card {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 34%),
+        rgba(41, 29, 20, 0.74);
+}
+html[data-theme="dark"] .current-step-text {
+    color: #dfd4ce;
+}
+html[data-theme="dark"] .cooking-control-btn.complete {
+    color: #c4faec;
+}
+html[data-theme="dark"] .cooking-control-btn.secondary,
+html[data-theme="dark"] .timer-btn.pause,
+html[data-theme="dark"] .timer-btn.reset {
+    color: #ece3e0;
+    background: rgba(41, 29, 20, 0.82);
+}
+html[data-theme="dark"] .timer-display-wrap {
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.12), transparent 55%),
+        rgba(41, 29, 20, 0.72);
+}
+html[data-theme="dark"] .timer-display {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .timer-display-wrap small {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .timer-tip i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .timer-tip p {
+    color: #d5c8be;
+}
+
+/* ---------- from custom.css ---------- */
+
+html[data-theme="dark"] body {
+    background: #302312;
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-logo span,
+html[data-theme="dark"] .footer-logo span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-navbar .nav-link:hover,
+html[data-theme="dark"] .culina-navbar .nav-link.active {
+    color: #f4db77;
+}
+html[data-theme="dark"] .btn-login:hover {
+    background: #291d14;
+    color: #eae5e2;
+}
+html[data-theme="dark"] .hero-badge i {
+    color: #f4db77;
+}
+html[data-theme="dark"] .btn-hero-secondary:hover {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .hero-stats strong {
+    color: #f4db77;
+}
+html[data-theme="dark"] .hero-recipe-card {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .recipe-card-tag {
+    color: #f5a981;
+}
+html[data-theme="dark"] .recipe-card-body h5 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-card-body p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .recipe-meta span {
+    color: #eae5e2;
+    background: #302312;
+}
+html[data-theme="dark"] .floating-card {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .floating-card i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .section-label {
+    color: #f5a981;
+}
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .showcase-title,
+html[data-theme="dark"] .cta-box h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .section-heading p,
+html[data-theme="dark"] .showcase-text,
+html[data-theme="dark"] .cta-box p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .features-section {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.09), transparent 30%),
+        #302312;
+}
+html[data-theme="dark"] .feature-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .feature-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .how-section {
+    background: #291d14;
+}
+html[data-theme="dark"] .step-card {
+    background: linear-gradient(180deg, #302312, #291d14);
+}
+html[data-theme="dark"] .step-number {
+    color: rgba(244, 170, 119, 0.28);
+}
+html[data-theme="dark"] .step-card:hover .step-number {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .step-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .showcase-section {
+    background: radial-gradient(circle at 12% 80%, rgba(22, 163, 74, 0.12), transparent 28%),
+        radial-gradient(circle at 90% 20%, rgba(249, 115, 22, 0.1), transparent 26%),
+        #302312;
+}
+html[data-theme="dark"] .showcase-mini-card {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.9);
+}
+html[data-theme="dark"] .showcase-mini-card i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .checklist div {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .checklist i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .cta-section {
+    background: #291d14;
+}
+html[data-theme="dark"] .cta-label {
+    color: #f4db77;
+}
+html[data-theme="dark"] .footer-links a:hover {
+    color: #f4db77;
+}
+html[data-theme="dark"] .dashboard-placeholder-section {
+    background: radial-gradient(circle at 15% 20%, rgba(249, 115, 22, 0.14), transparent 28%),
+        radial-gradient(circle at 85% 70%, rgba(22, 163, 74, 0.12), transparent 26%),
+        #302312;
+}
+html[data-theme="dark"] .dashboard-placeholder-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .dashboard-placeholder-card h1 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .dashboard-placeholder-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .auth-card {
+    background: rgba(41, 29, 20, 0.94);
+    border: 1px solid rgba(90, 63, 43, 0.45);
+}
+html[data-theme="dark"] .auth-card-header h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .auth-card-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .auth-label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .auth-input {
+    background: rgba(48, 35, 18, 0.75);
+    color: #eae5e2;
+}
+html[data-theme="dark"] .auth-input:focus {
+    background: #291d14;
+}
+html[data-theme="dark"] .auth-error {
+    color: #eb8585;
+}
+html[data-theme="dark"] .auth-switch {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .auth-switch a {
+    color: #f5a981;
+}
+html[data-theme="dark"] .auth-switch a:hover {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .global-message.alert-success {
+    color: #c4faec;
+    background: rgba(21, 55, 37, 0.94);
+}
+html[data-theme="dark"] .global-message.alert-error,
+html[data-theme="dark"] .global-message.alert-danger {
+    color: #edb1b1;
+    background: rgba(50, 19, 19, 0.94);
+}
+html[data-theme="dark"] .global-message.alert-info {
+    color: #acbded;
+    background: rgba(20, 33, 52, 0.94);
+}
+html[data-theme="dark"] .dashboard-section {
+    background: radial-gradient(circle at 10% 15%, rgba(249, 115, 22, 0.12), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(22, 163, 74, 0.11), transparent 28%),
+        radial-gradient(circle at 50% 95%, rgba(250, 204, 21, 0.12), transparent 30%),
+        #302312;
+}
+html[data-theme="dark"] .dashboard-stat-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .dashboard-stat-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .dashboard-stat-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .dashboard-panel {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .panel-label {
+    color: #f5a981;
+}
+html[data-theme="dark"] .dashboard-panel-header h4 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .quick-action-card {
+    color: #eae5e2;
+    background: #302312;
+}
+html[data-theme="dark"] .quick-action-card:hover {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .quick-action-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .quick-arrow {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .empty-state {
+    background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.12), transparent 35%),
+        #302312;
+}
+html[data-theme="dark"] .empty-state h5 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .empty-state p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .logo-image-wrap {
+    background: #291d14;
+}
+html[data-theme="dark"] .auth-forgot-link {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .auth-forgot-link:hover {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .process-card {
+    color: #eae5e2 !important;
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.13), transparent 33%),
+        radial-gradient(circle at bottom left, rgba(22, 163, 74, 0.08), transparent 34%),
+        linear-gradient(180deg, #302312, #291d14) !important;
+}
+html[data-theme="dark"] .process-action-card:hover,
+html[data-theme="dark"] .process-choice-card:hover {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .process-number {
+    color: rgba(244, 170, 119, 0.27) !important;
+}
+html[data-theme="dark"] .process-card:hover .process-number {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .process-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .process-card:hover h3 {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .process-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .process-card-action {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .simple-shared-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .simple-shared-card-date {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .simple-shared-card-badge {
+    color: #bdf1d0;
+    background: rgba(20, 52, 31, 0.94);
+}
+html[data-theme="dark"] .simple-shared-card-body h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .simple-shared-card-body p {
+    color: #d0c6c0;
+}
+html[data-theme="dark"] .simple-shared-owner {
+    color: #f4c2b1;
+}
+html[data-theme="dark"] .simple-shared-meta span {
+    color: #eae5e2;
+    background: #302312;
+}
+html[data-theme="dark"] .simple-shared-meta i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .simple-shared-empty {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .simple-shared-empty i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .simple-shared-empty h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .simple-shared-empty p {
+    color: #d0c6c0;
+}
+html[data-theme="dark"] .history-page-section,
+html[data-theme="dark"] .history-detail-section {
+    background: radial-gradient(circle at 10% 18%, rgba(249, 115, 22, 0.13), transparent 28%),
+        radial-gradient(circle at 88% 16%, rgba(22, 163, 74, 0.11), transparent 28%),
+        radial-gradient(circle at 50% 95%, rgba(250, 204, 21, 0.12), transparent 30%),
+        #302312;
+}
+html[data-theme="dark"] .history-eyebrow {
+    color: #f4db77;
+}
+html[data-theme="dark"] .history-secondary-btn:hover {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .history-stat-card {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .history-stat-card span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .history-stat-card strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-stat-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .history-filter-card {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .history-filter-card label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-filter-card .form-control,
+html[data-theme="dark"] .history-filter-card .form-select {
+    color: #eae5e2;
+    background: rgba(48, 35, 18, 0.72);
+}
+html[data-theme="dark"] .history-filter-card .form-control:focus,
+html[data-theme="dark"] .history-filter-card .form-select:focus {
+    background: #291d14;
+}
+html[data-theme="dark"] .history-card {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.96);
+}
+html[data-theme="dark"] .history-card:hover {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-card-badge {
+    color: #bdf1d0;
+    background: rgba(20, 52, 31, 0.95);
+}
+html[data-theme="dark"] .history-card-date {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .history-card-body h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-card-body p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .history-meta-list span {
+    color: #eae5e2;
+    background: #302312;
+}
+html[data-theme="dark"] .history-meta-list i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .history-saved-pill {
+    color: #bdf1d0;
+    background: rgba(20, 52, 31, 0.95);
+}
+html[data-theme="dark"] .history-detail-card,
+html[data-theme="dark"] .history-side-card {
+    background: rgba(41, 29, 20, 0.96);
+}
+html[data-theme="dark"] .history-detail-body h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-detail-meta-card {
+    background: #302312;
+}
+html[data-theme="dark"] .history-detail-meta-card span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .history-detail-meta-card strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-recipe-text-box {
+    color: #eae5e2;
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.09), transparent 34%),
+        #302312;
+}
+html[data-theme="dark"] .history-side-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-preference-item {
+    background: #302312;
+}
+html[data-theme="dark"] .history-preference-item span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .history-preference-item strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-delete-note {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .history-empty-state {
+    background: rgba(41, 29, 20, 0.96);
+}
+html[data-theme="dark"] .history-empty-state h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .history-empty-state p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-account-menu {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .pantry-page-section {
+    background: radial-gradient(circle at top left, rgba(255, 180, 40, 0.12), transparent 28%),
+    linear-gradient(135deg, #302412 0%, #332513 45%, #2c1f15 100%);
+}
+html[data-theme="dark"] .pantry-stat-card {
+    background: rgba(41, 29, 20, 0.88);
+}
+html[data-theme="dark"] .pantry-stat-icon {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-stat-card h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-stat-card p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-warning-stat .pantry-stat-icon {
+    color: #f6d494;
+}
+html[data-theme="dark"] .pantry-danger-stat .pantry-stat-icon {
+    color: #e48589;
+}
+html[data-theme="dark"] .pantry-form-card,
+html[data-theme="dark"] .pantry-list-card {
+    background: rgba(41, 29, 20, 0.9);
+}
+html[data-theme="dark"] .pantry-form-card h2,
+html[data-theme="dark"] .pantry-list-card h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-form-card > p,
+html[data-theme="dark"] .pantry-list-card > p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-form-card .form-label {
+    color: #e9ded8;
+}
+html[data-theme="dark"] .pantry-form-card .form-control,
+html[data-theme="dark"] .pantry-form-card .form-select {
+    background-color: #2c1f15;
+}
+html[data-theme="dark"] .pantry-item-card {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-item-main h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-item-main p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-status-expired {
+    color: #e79ba3;
+}
+html[data-theme="dark"] .pantry-status-today {
+    color: #f6ba8e;
+}
+html[data-theme="dark"] .pantry-status-soon {
+    color: #f8dfa9;
+}
+html[data-theme="dark"] .pantry-status-fresh {
+    color: #adf0d1;
+}
+html[data-theme="dark"] .pantry-status-none {
+    color: #d5bba7;
+}
+html[data-theme="dark"] .pantry-item-meta {
+    color: #dac3b1;
+}
+html[data-theme="dark"] .pantry-item-meta i {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-item-notes {
+    color: #e1ccbb;
+}
+html[data-theme="dark"] .pantry-empty-state i {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-empty-state h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-empty-state p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-delete-action {
+    color: #e79ba3;
+}
+html[data-theme="dark"] .pantry-secondary-light-btn {
+    color: #ece3e0;
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-secondary-light-btn:hover {
+    color: #ece3e0;
+    background: #291d14;
+}
+html[data-theme="dark"] .pantry-delete-card {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .pantry-delete-card h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-delete-card > p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-delete-summary div {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-delete-summary span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-delete-summary strong {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-delete-modal-content {
+    background: radial-gradient(circle at top right, rgba(220, 53, 69, 0.12), transparent 30%),
+    #291d14;
+}
+html[data-theme="dark"] .pantry-delete-modal h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-delete-modal p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-delete-modal-summary {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-delete-modal-summary span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-delete-modal-summary strong {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-edit-modal-content {
+    background: radial-gradient(circle at top right, rgba(255, 180, 40, 0.16), transparent 32%),
+    #291d14;
+}
+html[data-theme="dark"] .pantry-edit-modal-label {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-edit-modal h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-edit-modal-header p:last-child {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-edit-modal .form-label {
+    color: #e9ded8;
+}
+html[data-theme="dark"] .pantry-edit-modal .form-control,
+html[data-theme="dark"] .pantry-edit-modal .form-select {
+    background-color: #2c1f15;
+}
+html[data-theme="dark"] .pantry-alert-card {
+    background: radial-gradient(circle at top right, rgba(255, 180, 40, 0.14), transparent 32%),
+    rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .pantry-alert-label {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-alert-header h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-alert-header p:last-child {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-alert-panel {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-alert-panel h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-alert-panel li {
+    background: rgba(41, 29, 20, 0.75);
+}
+html[data-theme="dark"] .pantry-alert-panel li strong {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-alert-panel li span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-alert-danger-panel h3 i {
+    color: #e9818b;
+}
+html[data-theme="dark"] .pantry-alert-warning-panel h3 i {
+    color: #f6d494;
+}
+html[data-theme="dark"] .pantry-alert-priority-panel h3 i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .pantry-alert-empty {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-recommendation-card {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.14), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.12), transparent 30%),
+    rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .pantry-recommendation-label {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-recommendation-header h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-recommendation-header p:last-child {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-recommendation-item {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-recommendation-badge {
+    color: #f6b991;
+}
+html[data-theme="dark"] .pantry-recommendation-score {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .pantry-recommendation-item h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-recommendation-reason {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-recommendation-ingredients {
+    background: rgba(41, 29, 20, 0.8);
+    color: #e4d6cd;
+}
+html[data-theme="dark"] .pantry-recommendation-ingredients i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .pantry-recommendation-meta span {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .pantry-bulk-card {
+    background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .pantry-bulk-label {
+    color: #f1b581;
+}
+html[data-theme="dark"] .pantry-bulk-header h2 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-bulk-header p:last-child {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-bulk-heading {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .pantry-bulk-input-row {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .pantry-bulk-input-row .form-control,
+html[data-theme="dark"] .pantry-bulk-input-row .form-select {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-bulk-remove-btn {
+    color: #eea2a2;
+}
+html[data-theme="dark"] .pantry-bulk-actions .pantry-secondary-btn,
+html[data-theme="dark"] .pantry-bulk-actions-top .pantry-secondary-btn {
+    background: #302312 !important;
+    color: #f6b991 !important;
+}
+html[data-theme="dark"] .pantry-bulk-actions .pantry-secondary-btn i,
+html[data-theme="dark"] .pantry-bulk-actions-top .pantry-secondary-btn i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .pantry-bulk-help {
+    background: rgba(48, 35, 18, 0.9);
+    color: #d5c8be;
+}
+html[data-theme="dark"] .pantry-bulk-help i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .pantry-bulk-help strong {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .pantry-alert-priority-panel li {
+    background: rgba(41, 29, 20, 0.82);
+}
+html[data-theme="dark"] .password-eye-btn {
+    color: #d5bba7 !important;
+}
+html[data-theme="dark"] .auth-card .culina-password-toggle {
+    color: #d5bba7 !important;
+}
+html[data-theme="dark"] .culina-account-created-badge {
+    color: #b6f2d6;
+}
+html[data-theme="dark"] .about-page-section {
+    background: radial-gradient(circle at 8% 12%, rgba(249, 115, 22, 0.12), transparent 30%),
+        radial-gradient(circle at 92% 18%, rgba(22, 163, 74, 0.10), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(250, 204, 21, 0.12), transparent 32%),
+        #302312;
+}
+html[data-theme="dark"] .about-eyebrow,
+html[data-theme="dark"] .about-section-heading span,
+html[data-theme="dark"] .about-mini-label {
+    color: #f4db77;
+}
+html[data-theme="dark"] .about-secondary-btn:hover {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .about-brand-logo {
+    background: #291d14;
+}
+html[data-theme="dark"] .about-brand-panel h2 span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .about-brand-tags span {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .about-brand-tags i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .about-stat-card {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .about-stat-card span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .about-stat-card strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .about-stat-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .about-content-section,
+html[data-theme="dark"] .about-mission-section,
+html[data-theme="dark"] .about-responsibility-section {
+    background: #291d14;
+}
+html[data-theme="dark"] .about-services-section,
+html[data-theme="dark"] .about-difference-section {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.09), transparent 30%),
+        #302312;
+}
+html[data-theme="dark"] .about-section-heading span,
+html[data-theme="dark"] .about-mini-label {
+    color: #f5a981;
+}
+html[data-theme="dark"] .about-section-heading h2,
+html[data-theme="dark"] .about-mission-card h2,
+html[data-theme="dark"] .about-responsibility-card h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .about-section-heading p,
+html[data-theme="dark"] .about-mission-card p,
+html[data-theme="dark"] .about-responsibility-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .about-info-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .about-info-card h3,
+html[data-theme="dark"] .about-service-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .about-info-card p,
+html[data-theme="dark"] .about-service-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .about-service-card {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .about-mission-card {
+    background: radial-gradient(circle at 88% 16%, rgba(250, 204, 21, 0.18), transparent 28%),
+        #302312;
+}
+html[data-theme="dark"] .about-vision-card {
+    background: radial-gradient(circle at 88% 16%, rgba(22, 163, 74, 0.14), transparent 28%),
+        #302312;
+}
+html[data-theme="dark"] .about-difference-list div {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .about-difference-list i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .about-responsibility-card {
+    background: radial-gradient(circle at 90% 15%, rgba(22, 163, 74, 0.14), transparent 28%),
+        linear-gradient(180deg, #302312, #291d14);
+}
+html[data-theme="dark"] .about-responsibility-card span {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .culina-footer-badges span {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .culina-footer-badges i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-footer-link-list a:hover {
+    color: #f4db77;
+}
+
+/* ---------- from dashboard.css ---------- */
+
+html[data-theme="dark"] .culina-command-center {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .command-eyebrow {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .command-secondary-btn {
+    color: #ece3e0;
+    background: rgba(44, 31, 21, 0.88);
+}
+html[data-theme="dark"] .command-hero {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.22), transparent 32%),
+        rgba(44, 31, 21, 0.94);
+    border: 1px solid rgba(90, 63, 43, 0.56);
+}
+html[data-theme="dark"] .command-hero-copy h1 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .command-hero-copy h1 span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .command-hero-copy p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .robot-head {
+    background: linear-gradient(145deg, #2c1f15, #13311f);
+}
+html[data-theme="dark"] .command-profile-card,
+html[data-theme="dark"] .analytics-card,
+html[data-theme="dark"] .command-panel,
+html[data-theme="dark"] .taste-profile-card,
+html[data-theme="dark"] .ai-journey-card,
+html[data-theme="dark"] .evaluation-signal-card,
+html[data-theme="dark"] .command-intelligence-panel,
+html[data-theme="dark"] .user-kpi-card,
+html[data-theme="dark"] .user-chart-card,
+html[data-theme="dark"] .user-list-card {
+    background: rgba(44, 31, 21, 0.96);
+    border: 1px solid rgba(90, 63, 43, 0.55);
+}
+html[data-theme="dark"] .command-profile-card h2 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .command-profile-card > p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .command-profile-pill {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .profile-mini-grid div {
+    background: rgba(41, 29, 20, 0.7);
+}
+html[data-theme="dark"] .profile-mini-grid strong {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .profile-mini-grid span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .analytics-card span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .analytics-card h3 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .analytics-card p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .command-panel-header span,
+html[data-theme="dark"] .taste-card-header span,
+html[data-theme="dark"] .user-card-header span {
+    color: #d2b7a2;
+}
+html[data-theme="dark"] .command-panel-header h2,
+html[data-theme="dark"] .taste-card-header h2,
+html[data-theme="dark"] .user-card-header h3 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .command-panel-header > i,
+html[data-theme="dark"] .taste-card-header > i,
+html[data-theme="dark"] .user-card-header > i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .command-action-card,
+html[data-theme="dark"] .timeline-item {
+    color: #e3e2eb;
+    background: rgba(41, 29, 20, 0.68);
+}
+html[data-theme="dark"] .command-action-copy h3,
+html[data-theme="dark"] .timeline-content h3 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .command-action-copy p,
+html[data-theme="dark"] .timeline-content p {
+    color: #d4baa6;
+}
+html[data-theme="dark"] .timeline-badge {
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .timeline-badge.modified {
+    color: #c99eec;
+}
+html[data-theme="dark"] .command-empty-state {
+    background: rgba(41, 29, 20, 0.68);
+}
+html[data-theme="dark"] .empty-orbit {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .command-empty-state p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .user-analytics-section {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 28%),
+        rgba(44, 31, 21, 0.96);
+    border: 1px solid rgba(90, 63, 43, 0.55);
+}
+html[data-theme="dark"] .user-analytics-header span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .user-analytics-header h2 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .user-analytics-header p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .user-analytics-status {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .user-kpi-card span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .user-kpi-card h3 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .user-kpi-card p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .user-card-header p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .user-ingredient-item,
+html[data-theme="dark"] .user-search-item {
+    background: rgba(41, 29, 20, 0.72);
+}
+html[data-theme="dark"] .user-ingredient-rank,
+html[data-theme="dark"] .user-search-icon {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .user-ingredient-copy strong,
+html[data-theme="dark"] .user-search-copy strong {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .user-ingredient-copy span,
+html[data-theme="dark"] .user-search-copy span {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .user-empty-mini {
+    background: rgba(41, 29, 20, 0.72);
+}
+html[data-theme="dark"] .user-empty-mini i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .user-empty-mini p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .taste-profile-copy h3 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .taste-profile-copy p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .taste-mini-card {
+    background: rgba(41, 29, 20, 0.72);
+}
+html[data-theme="dark"] .taste-mini-card span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .taste-mini-card strong {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .taste-mini-card small {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .journey-feature-link,
+html[data-theme="dark"] .latest-feedback-box,
+html[data-theme="dark"] .smart-next-step-box,
+html[data-theme="dark"] .journey-empty-box,
+html[data-theme="dark"] .journey-note {
+    background: rgba(41, 29, 20, 0.72);
+}
+html[data-theme="dark"] .journey-feature-link {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .journey-feature-link span,
+html[data-theme="dark"] .latest-feedback-box span,
+html[data-theme="dark"] .smart-next-step-box span {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .journey-feature-link h3,
+html[data-theme="dark"] .latest-feedback-box h3,
+html[data-theme="dark"] .smart-next-step-box h3,
+html[data-theme="dark"] .journey-empty-box h3 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .journey-feature-link p,
+html[data-theme="dark"] .latest-feedback-box p,
+html[data-theme="dark"] .smart-next-step-box p,
+html[data-theme="dark"] .journey-empty-box p,
+html[data-theme="dark"] .journey-note p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .journey-empty-box > i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .journey-empty-box a {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .journey-note i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .intelligence-copy h2 {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .intelligence-copy p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .intelligence-chip {
+    color: #bdf1d0;
+}
+
+/* ---------- from edit_saved_recipe.css ---------- */
+
+html[data-theme="dark"] .edit-recipe-section {
+    background: radial-gradient(circle at 10% 12%, rgba(249, 115, 22, 0.24), transparent 34%),
+        radial-gradient(circle at 85% 18%, rgba(250, 204, 21, 0.22), transparent 30%),
+        radial-gradient(circle at 80% 82%, rgba(22, 163, 74, 0.16), transparent 34%),
+        linear-gradient(135deg, #302312 0%, #302a12 45%, #2b1f15 100%);
+}
+html[data-theme="dark"] .edit-recipe-form-card,
+html[data-theme="dark"] .edit-recipe-side-card {
+    background: rgba(41, 29, 20, 0.88);
+    border: 1px solid rgba(90, 63, 43, 0.72);
+}
+html[data-theme="dark"] .edit-recipe-card-header span {
+    color: #f5a981;
+}
+html[data-theme="dark"] .edit-recipe-card-header h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .edit-recipe-card-header > i {
+    color: #eae5e2;
+    background: linear-gradient(135deg, #352714, #383115);
+}
+html[data-theme="dark"] .edit-recipe-field label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .edit-recipe-input,
+html[data-theme="dark"] .edit-recipe-form input,
+html[data-theme="dark"] .edit-recipe-form textarea {
+    background: rgba(48, 35, 18, 0.76) !important;
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .edit-recipe-input:focus,
+html[data-theme="dark"] .edit-recipe-form input:focus,
+html[data-theme="dark"] .edit-recipe-form textarea:focus {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .edit-recipe-help {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .edit-recipe-error {
+    color: #eb8585;
+}
+html[data-theme="dark"] .edit-recipe-cancel-btn {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .edit-recipe-save-btn:hover,
+html[data-theme="dark"] .edit-recipe-cancel-btn:hover {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .edit-recipe-side-card {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.92), rgba(48, 35, 18, 0.86));
+}
+html[data-theme="dark"] .edit-recipe-side-card h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .edit-recipe-side-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .edit-recipe-tip-list div {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.88);
+}
+html[data-theme="dark"] .edit-recipe-tip-list i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .edit-recipe-original-box span {
+    color: #f4db77;
+}
+
+/* ---------- from fridge_scanner.css ---------- */
+
+html[data-theme="dark"] .fridge-scanner-page {
+    background: radial-gradient(circle at top left, rgba(247, 206, 87, 0.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(232, 117, 46, 0.10), transparent 32%),
+        linear-gradient(180deg, #332713 0%, #302612 50%, #342714 100%);
+}
+html[data-theme="dark"] .fridge-page-hero {
+    background: radial-gradient(circle at top right, rgba(247, 206, 87, 0.12), transparent 34%),
+        linear-gradient(135deg, #2b1e15 0%, #312512 48%, #362714 100%);
+    border: 1px solid rgba(94, 69, 39, 0.75);
+}
+html[data-theme="dark"] .fridge-page-badge {
+    background: #362714;
+    color: #e9b087;
+}
+html[data-theme="dark"] .fridge-page-copy h1 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .fridge-page-copy p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .scanner-card {
+    background: radial-gradient(circle at top right, rgba(247, 206, 87, 0.10), transparent 34%),
+        linear-gradient(135deg, #2b1e15 0%, #312512 48%, #362714 100%);
+    border: 1px solid rgba(94, 69, 39, 0.72);
+}
+html[data-theme="dark"] .scanner-card-head {
+    background: linear-gradient(135deg, #2c1f15 0%, #342714 100%);
+    border-bottom: 1px solid rgba(94, 69, 39, 0.6);
+}
+html[data-theme="dark"] .scanner-section-label {
+    color: #e9b087;
+}
+html[data-theme="dark"] .scanner-card-head h2 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .scanner-card-head p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .scanner-upload-shell {
+    background: linear-gradient(135deg, #2c1f15 0%, #322513 100%);
+}
+html[data-theme="dark"] .scanner-upload-mini-icon {
+    background: #362714;
+    color: #e9b087;
+}
+html[data-theme="dark"] .scanner-upload-topline h5 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .scanner-upload-topline p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .scanner-file-input-wrap input[type="file"] {
+    background: #2a1e14;
+    border: 1px solid rgba(88, 68, 45, 0.95);
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .scanner-help-text {
+    color: #d9c2b0;
+}
+html[data-theme="dark"] .scanner-error-text {
+    color: #eb8585;
+}
+html[data-theme="dark"] .scanner-support-chips span {
+    background: #2a1e14;
+    border: 1px solid rgba(88, 68, 45, 0.78);
+    color: #dad3ce;
+}
+html[data-theme="dark"] .scanner-support-chips i {
+    color: #e9b087;
+}
+html[data-theme="dark"] .scanner-feature-mini {
+    background: #2a1e14;
+    border: 1px solid rgba(88, 68, 45, 0.78);
+}
+html[data-theme="dark"] .scanner-feature-mini-icon {
+    background: #362714;
+    color: #e9b087;
+}
+html[data-theme="dark"] .scanner-feature-mini h6 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .scanner-feature-mini p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .scanner-secondary-btn,
+html[data-theme="dark"] .fridge-outline-btn {
+    background: #2a1e14;
+    color: #e4e2ed;
+    border: 1px solid rgba(88, 68, 45, 0.9);
+}
+html[data-theme="dark"] .scanner-secondary-btn:hover,
+html[data-theme="dark"] .fridge-outline-btn:hover {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .scanner-step-item {
+    background: #2a1e14;
+    border: 1px solid rgba(88, 68, 45, 0.78);
+}
+html[data-theme="dark"] .scanner-step-item h5 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .scanner-step-item p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .scanner-real-fridge-box {
+    background: #2c1f15;
+    border: 1px solid rgba(88, 68, 45, 0.85);
+}
+html[data-theme="dark"] .scanner-table thead th {
+    color: #d6bdaa;
+    border-bottom: 1px solid rgba(88, 68, 45, 0.9);
+}
+html[data-theme="dark"] .scanner-table tbody td {
+    color: #e3ddd9;
+    border-color: rgba(90, 67, 43, 0.8);
+}
+html[data-theme="dark"] .scanner-status-badge {
+    background: #362714;
+    color: #e9b087;
+}
+html[data-theme="dark"] .fridge-hero-card,
+html[data-theme="dark"] .fridge-card {
+    background: radial-gradient(circle at top right, rgba(247, 206, 87, 0.10), transparent 34%),
+        linear-gradient(135deg, #2b1e15 0%, #312512 48%, #362714 100%);
+    border: 1px solid rgba(94, 69, 39, 0.72);
+}
+html[data-theme="dark"] .fridge-section-kicker {
+    color: #e9b087;
+}
+html[data-theme="dark"] .fridge-hero-title {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .fridge-hero-text {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .fridge-card-header-soft {
+    background: linear-gradient(135deg, #2c1f15 0%, #342714 100%);
+    border-bottom: 1px solid rgba(94, 69, 39, 0.6);
+}
+html[data-theme="dark"] .fridge-image-preview {
+    border: 1px solid rgba(88, 68, 45, 0.85);
+}
+html[data-theme="dark"] .fridge-badge-dark {
+    background: #2a1e14;
+    color: #e4e2ed;
+    border: 1px solid rgba(88, 68, 45, 0.9);
+}
+html[data-theme="dark"] .fridge-badge-orange {
+    background: #362714;
+    color: #e9b087;
+}
+html[data-theme="dark"] .fridge-badge-green {
+    background: #203313;
+    color: #c0dab7;
+}
+html[data-theme="dark"] .fridge-btn-outline {
+    background: #2a1e14;
+    color: #e4e2ed;
+    border: 1px solid rgba(88, 68, 45, 0.9);
+}
+html[data-theme="dark"] .fridge-confirm-textarea textarea,
+html[data-theme="dark"] .fridge-confirm-textarea .form-control {
+    border: 1px solid rgba(88, 68, 45, 0.95);
+    background: #2a1e14;
+}
+html[data-theme="dark"] .fridge-safety-note {
+    background: #2a1e14;
+    border: 1px solid rgba(88, 68, 45, 0.85);
+    color: #e0dad5;
+}
+html[data-theme="dark"] .fridge-history-open-btn {
+    background: #2a1e14;
+    color: #e4e2ed;
+    border: 1px solid rgba(88, 68, 45, 0.95);
+}
+html[data-theme="dark"] .fridge-history-open-btn:hover {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .fridge-history-delete-btn {
+    border: 1px solid rgba(99, 40, 33, 0.9);
+    background: #301612;
+    color: #f19e97;
+}
+html[data-theme="dark"] .fridge-history-delete-btn:hover {
+    background: #331713;
+    color: #efa4a4;
+}
+html[data-theme="dark"] .fridge-delete-modal-content {
+    background: linear-gradient(135deg, #2b1e15 0%, #312512 100%);
+}
+html[data-theme="dark"] .fridge-delete-modal-icon {
+    background: #301612;
+    color: #f19e97;
+}
+html[data-theme="dark"] .fridge-delete-modal-content h2 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .fridge-delete-modal-content p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .fridge-delete-cancel-btn {
+    background: #2a1e14;
+    color: #e4e2ed;
+    border: 1px solid rgba(88, 68, 45, 0.95);
+}
+html[data-theme="dark"] .fridge-history-open-btn {
+    background: linear-gradient(135deg, #2b1e15 0%, #312513 100%) !important;
+    color: #e4e2ed !important;
+    border: 1px solid rgba(88, 68, 45, 0.95) !important;
+}
+html[data-theme="dark"] .fridge-history-open-btn:hover {
+    color: #e4e2ed !important;
+}
+html[data-theme="dark"] .fridge-history-delete-btn {
+    background: linear-gradient(135deg, #301612 0%, #331713 100%) !important;
+    color: #f19e97 !important;
+    border: 1px solid rgba(99, 40, 33, 0.95) !important;
+}
+html[data-theme="dark"] .fridge-history-delete-btn:hover {
+    background: linear-gradient(135deg, #331713 0%, #371915 100%) !important;
+    color: #efa4a4 !important;
+}
+html[data-theme="dark"] .fridge-delete-modal-content {
+    background: radial-gradient(circle at top right, rgba(247, 206, 87, 0.14), transparent 34%),
+        linear-gradient(135deg, #2b1e15 0%, #312512 100%) !important;
+}
+html[data-theme="dark"] .fridge-delete-modal-icon {
+    background: #301612 !important;
+    color: #f19e97 !important;
+}
+html[data-theme="dark"] .fridge-delete-modal-content h2 {
+    color: #e4e2ed !important;
+}
+html[data-theme="dark"] .fridge-delete-modal-content p {
+    color: #dcc7b7 !important;
+}
+html[data-theme="dark"] .fridge-delete-cancel-btn {
+    background: #2a1e14 !important;
+    color: #e4e2ed !important;
+    border: 1px solid rgba(88, 68, 45, 0.95) !important;
+}
+html[data-theme="dark"] .fridge-scan-loading-card {
+    background: radial-gradient(circle at top right, rgba(247, 206, 87, 0.16), transparent 34%),
+        linear-gradient(135deg, #2b1e15 0%, #312512 52%, #362714 100%) !important;
+    border: 1px solid rgba(94, 69, 39, 0.82) !important;
+}
+html[data-theme="dark"] .fridge-scan-loading-badge {
+    background: #362714 !important;
+    color: #e9b087 !important;
+}
+html[data-theme="dark"] .fridge-scan-fridge {
+    background: linear-gradient(180deg, #291d14 0%, #302517 100%) !important;
+    border: 3px solid rgba(88, 68, 45, 0.95) !important;
+}
+html[data-theme="dark"] .fridge-scan-freezer {
+    background: linear-gradient(135deg, #342714 0%, #2b1e15 100%) !important;
+    border-bottom: 2px solid rgba(88, 68, 45, 0.75) !important;
+}
+html[data-theme="dark"] .fridge-scan-body {
+    background: radial-gradient(circle at center, rgba(119, 184, 95, 0.10), transparent 52%),
+        linear-gradient(180deg, #2a1e14 0%, #322513 100%) !important;
+}
+html[data-theme="dark"] .fridge-scan-shelf {
+    border-bottom: 2px solid rgba(88, 68, 45, 0.85) !important;
+}
+html[data-theme="dark"] .food-dot-white {
+    background: #291d14 !important;
+    border: 1px solid rgba(88, 68, 45, 0.9) !important;
+}
+html[data-theme="dark"] .fridge-scan-loading-card h2 {
+    color: #e4e2ed !important;
+}
+html[data-theme="dark"] .fridge-scan-loading-card p {
+    color: #dcc7b7 !important;
+}
+html[data-theme="dark"] .fridge-scan-progress {
+    background: rgba(61, 47, 31, 0.58) !important;
+}
+html[data-theme="dark"] .fridge-scan-step-text {
+    color: #e4e2ed !important;
+}
+html[data-theme="dark"] .fridge-scan-mini-note {
+    background: #2a1e14 !important;
+    color: #d9c2b0 !important;
+    border: 1px solid rgba(88, 68, 45, 0.82) !important;
+}
+html[data-theme="dark"] .fridge-scan-video-wrap {
+    border: 1px solid rgba(94, 69, 39, 0.9) !important;
+}
+
+/* ---------- from password_reset.css ---------- */
+
+html[data-theme="dark"] .password-reset-card {
+    background: rgba(41, 29, 20, 0.95);
+    border: 1px solid rgba(90, 63, 43, 0.46);
+}
+html[data-theme="dark"] .password-reset-header span {
+    color: #f4b7a3;
+    background: rgba(53, 39, 20, 0.95);
+}
+html[data-theme="dark"] .password-reset-header h1 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .password-reset-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .password-reset-label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .password-reset-form input {
+    color: #eae5e2;
+    background: rgba(48, 35, 18, 0.78);
+}
+html[data-theme="dark"] .password-reset-form input:focus {
+    background: #291d14;
+}
+html[data-theme="dark"] .password-reset-help {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .password-reset-error {
+    color: #eb8585;
+}
+html[data-theme="dark"] .password-reset-secondary-link {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .password-reset-secondary-link a {
+    color: #f5a981;
+}
+html[data-theme="dark"] .password-reset-secondary-link a:hover {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .password-reset-status-box {
+    background: rgba(20, 52, 31, 0.84);
+}
+html[data-theme="dark"] .password-reset-status-box i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .password-reset-status-box p {
+    color: #c5f1d7;
+}
+html[data-theme="dark"] .password-reset-invalid-box {
+    background: rgba(50, 19, 19, 0.9);
+}
+html[data-theme="dark"] .password-reset-invalid-box i {
+    color: #eb8585;
+}
+html[data-theme="dark"] .password-reset-invalid-box p {
+    color: #edb1b1;
+}
+html[data-theme="dark"] .password-reset-success-box {
+    background: linear-gradient(135deg, rgba(20, 52, 31, 0.95), rgba(57, 54, 22, 0.88)) !important;
+}
+html[data-theme="dark"] .password-reset-login-btn:hover {
+    color: #eae5e2 !important;
+}
+
+/* ---------- from profile_summary.css ---------- */
+
+html[data-theme="dark"] .profile-identity-pills i {
+    color: #f4db77;
+}
+html[data-theme="dark"] .profile-panel,
+html[data-theme="dark"] .profile-stat-card {
+    background: linear-gradient(
+            135deg,
+            rgba(41, 29, 20, 0.94),
+            rgba(43, 31, 21, 0.91)
+        ),
+        url("../images/card_bg.avif") !important;
+    border: 1px solid rgba(90, 63, 43, 0.72);
+}
+html[data-theme="dark"] .profile-panel-header span {
+    color: #f5a981;
+}
+html[data-theme="dark"] .profile-panel-header h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-panel-header > i {
+    color: #eae5e2;
+    background: linear-gradient(135deg, #352714, #383115);
+}
+html[data-theme="dark"] .profile-detail-item {
+    background: linear-gradient(
+            135deg,
+            rgba(48, 35, 18, 0.9),
+            rgba(41, 29, 20, 0.86)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-detail-item span {
+    color: #d5bca9;
+}
+html[data-theme="dark"] .profile-detail-item strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-security-panel p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .profile-security-btn {
+    color: #eae5e2;
+    background: linear-gradient(
+            135deg,
+            rgba(41, 29, 20, 0.95),
+            rgba(48, 35, 18, 0.9)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-security-btn i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .profile-security-btn.logout {
+    color: #edb1b1;
+    background: linear-gradient(
+            135deg,
+            rgba(44, 31, 21, 0.94),
+            rgba(41, 29, 20, 0.88)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-security-btn.logout i {
+    color: #eb8585;
+}
+html[data-theme="dark"] .profile-security-btn:hover {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-stat-icon {
+    color: #eae5e2;
+    background: linear-gradient(135deg, #352714, #383115);
+}
+html[data-theme="dark"] .profile-stat-card span {
+    color: #d5bca9;
+}
+html[data-theme="dark"] .profile-stat-card strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-recipe-breakdown div {
+    background: linear-gradient(
+            135deg,
+            rgba(48, 35, 18, 0.92),
+            rgba(41, 29, 20, 0.86)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-recipe-breakdown span {
+    color: #d5bca9;
+}
+html[data-theme="dark"] .profile-recipe-breakdown strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-progress-wrap {
+    background: linear-gradient(
+            135deg,
+            rgba(41, 29, 20, 0.94),
+            rgba(48, 35, 18, 0.88)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-progress-label span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .profile-progress-label strong {
+    color: #f5a981;
+}
+html[data-theme="dark"] .profile-recent-item {
+    background: linear-gradient(
+            135deg,
+            rgba(41, 29, 20, 0.94),
+            rgba(48, 35, 18, 0.88)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-recent-item strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-recent-item span {
+    color: #d5bca9;
+}
+html[data-theme="dark"] .profile-empty-state {
+    background: linear-gradient(
+            135deg,
+            rgba(48, 35, 18, 0.9),
+            rgba(41, 29, 20, 0.86)
+        ),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-empty-state h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .profile-empty-state p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .profile-kicker-dark {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .profile-completion-card {
+    background: radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.15), transparent 34%),
+        radial-gradient(circle at 100% 100%, rgba(22, 163, 74, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.95), rgba(48, 35, 18, 0.9)),
+        url("../images/card_bg.avif") !important;
+    border: 1px solid rgba(90, 63, 43, 0.72) !important;
+}
+html[data-theme="dark"] .profile-completion-card h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-completion-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .profile-image-upload-card {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.92), rgba(41, 29, 20, 0.88)),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-edit-label {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-edit-label span {
+    color: #d5bca9 !important;
+}
+html[data-theme="dark"] .profile-image-input,
+html[data-theme="dark"] .profile-edit-input,
+html[data-theme="dark"] .profile-edit-textarea {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .profile-image-input {
+    background: rgba(48, 35, 18, 0.9) !important;
+}
+html[data-theme="dark"] .profile-edit-input:focus,
+html[data-theme="dark"] .profile-edit-textarea:focus,
+html[data-theme="dark"] .profile-image-input:focus {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .profile-image-upload-card small,
+html[data-theme="dark"] .profile-edit-field small {
+    color: #d5bca9 !important;
+}
+html[data-theme="dark"] .profile-form-error {
+    color: #efa4a4 !important;
+    background: rgba(50, 19, 19, 0.92) !important;
+}
+html[data-theme="dark"] .profile-bio-panel p {
+    color: #dac3b2 !important;
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.92), rgba(41, 29, 20, 0.86)),
+        url("../images/card_bg.avif") !important;
+}
+html[data-theme="dark"] .profile-recent-arrow {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .profile-clean-upload-card {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.94), rgba(41, 29, 20, 0.88)) !important;
+}
+html[data-theme="dark"] .profile-clean-preview-fallback {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-clean-upload-content h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-clean-upload-content p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .profile-clean-file-name {
+    color: #d5bca9 !important;
+}
+html[data-theme="dark"] .profile-form-error {
+    color: #efa4a4 !important;
+    background: rgba(50, 19, 19, 0.9) !important;
+}
+html[data-theme="dark"] .profile-password-change-form {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.96), rgba(41, 29, 20, 0.9)) !important;
+}
+html[data-theme="dark"] .profile-password-form-header span {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .profile-password-form-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-security-password-area > p {
+    color: #dac3b2 !important;
+    background: linear-gradient(
+            135deg,
+            rgba(48, 35, 18, 0.94),
+            rgba(41, 29, 20, 0.88)
+        ) !important;
+}
+html[data-theme="dark"] .profile-password-change-form {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 35%),
+        linear-gradient(135deg, rgba(48, 35, 18, 0.96), rgba(41, 29, 20, 0.9)) !important;
+}
+html[data-theme="dark"] .profile-password-form-header span {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .profile-password-form-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-security-side-card {
+    background: radial-gradient(circle at top left, rgba(22, 163, 74, 0.13), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.9)) !important;
+}
+html[data-theme="dark"] .profile-security-score-card {
+    background: linear-gradient(135deg, rgba(18, 49, 34, 0.96), rgba(41, 29, 20, 0.88)) !important;
+}
+html[data-theme="dark"] .profile-security-score-card span {
+    color: #aff2c8 !important;
+}
+html[data-theme="dark"] .profile-security-score-card strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .profile-security-score-card p {
+    color: #d9c1af !important;
+}
+html[data-theme="dark"] .profile-security-checklist div {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.88)) !important;
+}
+html[data-theme="dark"] .profile-security-checklist i {
+    color: #9ff2be !important;
+}
+html[data-theme="dark"] .profile-security-checklist span {
+    color: #dbd4cf !important;
+}
+html[data-theme="dark"] .profile-security-mini-details div {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.92), rgba(41, 29, 20, 0.88)) !important;
+}
+html[data-theme="dark"] .profile-security-mini-details span {
+    color: #d5bca9 !important;
+}
+html[data-theme="dark"] .profile-security-mini-details strong {
+    color: #eae5e2 !important;
+}
+
+/* ---------- from quality_dashboard.css ---------- */
+
+html[data-theme="dark"] .quality-dashboard-page {
+    background: radial-gradient(circle at top left, rgba(255, 168, 38, 0.18), transparent 36%),
+        radial-gradient(circle at top right, rgba(34, 197, 94, 0.14), transparent 34%),
+        linear-gradient(135deg, #302312 0%, #2b1f15 42%, #2b1e15 100%);
+}
+html[data-theme="dark"] .quality-status-card {
+    background: rgba(41, 29, 20, 0.94);
+    color: #ece8e5;
+}
+html[data-theme="dark"] .quality-status-card > span {
+    color: #f4b67d;
+}
+html[data-theme="dark"] .quality-status-card p {
+    color: #d3ccc7;
+}
+html[data-theme="dark"] .quality-status-list div {
+    background: #312513;
+    color: #e7e1dc;
+}
+html[data-theme="dark"] .quality-status-list i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .quality-metric-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .metric-warm .metric-icon {
+    color: #f4b7a3;
+    background: #352714;
+}
+html[data-theme="dark"] .metric-green .metric-icon {
+    color: #b4f9e5;
+    background: #153725;
+}
+html[data-theme="dark"] .metric-blue .metric-icon {
+    color: #a3daf8;
+    background: #132633;
+}
+html[data-theme="dark"] .metric-purple .metric-icon {
+    color: #ae87ea;
+    background: #181331;
+}
+html[data-theme="dark"] .quality-metric-card span {
+    color: #dac4b3;
+}
+html[data-theme="dark"] .quality-metric-card h3 {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-metric-card p {
+    color: #dac3b1;
+}
+html[data-theme="dark"] .quality-panel {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .quality-panel-header span {
+    color: #f4b67d;
+}
+html[data-theme="dark"] .quality-panel-header h2 {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-panel-header > i {
+    background: #332813;
+    color: #f4aa77;
+}
+html[data-theme="dark"] .score-row strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .score-row span {
+    color: #ddc8b7;
+}
+html[data-theme="dark"] .score-row b {
+    background: #291d14;
+    color: #eee9e5;
+}
+html[data-theme="dark"] .score-row.excellent {
+    background: #14341f;
+}
+html[data-theme="dark"] .score-row.verified {
+    background: #142134;
+}
+html[data-theme="dark"] .score-row.moderate {
+    background: #383115;
+}
+html[data-theme="dark"] .score-row.review {
+    background: #321313;
+}
+html[data-theme="dark"] .risk-card span {
+    color: #dbd3ce;
+}
+html[data-theme="dark"] .risk-card strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .low-risk {
+    background: #14341f;
+}
+html[data-theme="dark"] .low-risk i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .medium-risk {
+    background: #383115;
+}
+html[data-theme="dark"] .medium-risk i {
+    color: #f6c48b;
+}
+html[data-theme="dark"] .high-risk {
+    background: #321313;
+}
+html[data-theme="dark"] .high-risk i {
+    color: #eb8585;
+}
+html[data-theme="dark"] .quality-note-box {
+    background: #302312;
+    color: #ddd0c6;
+}
+html[data-theme="dark"] .quality-note-box i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .attempt-card {
+    background: #2b1f15;
+}
+html[data-theme="dark"] .attempt-card span {
+    color: #dac4b3;
+}
+html[data-theme="dark"] .attempt-card strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .attempt-card p {
+    color: #dac4b3;
+}
+html[data-theme="dark"] .quality-explanation-panel {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.95), rgba(49, 37, 19, 0.95));
+}
+html[data-theme="dark"] .quality-explanation-panel > p {
+    color: #dfcbbc;
+}
+html[data-theme="dark"] .evidence-chip-grid span {
+    background: #291d14;
+    color: #e7e1dc;
+}
+html[data-theme="dark"] .evidence-chip-grid i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .quality-table thead th {
+    color: #d6bdaa;
+}
+html[data-theme="dark"] .quality-table tbody tr {
+    background: #291d14;
+}
+html[data-theme="dark"] .quality-table tbody td {
+    color: #e1dad6;
+}
+html[data-theme="dark"] .recipe-mini-icon {
+    background: #332613;
+    color: #f4aa77;
+}
+html[data-theme="dark"] .recipe-name-cell strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .recipe-name-cell span {
+    color: #d6bdaa;
+}
+html[data-theme="dark"] .score-pill {
+    color: #bdfae9;
+    background: #153725;
+}
+html[data-theme="dark"] .status-pill {
+    color: #87a2ef;
+    background: #142134;
+}
+html[data-theme="dark"] .risk-pill {
+    color: #f6c4a6;
+    background: #383115;
+}
+html[data-theme="dark"] .muted-pill {
+    color: #b2bbc7;
+    background: #14212f;
+}
+html[data-theme="dark"] .empty-quality-state i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .empty-quality-state h3 {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .empty-quality-state p {
+    color: #dac4b3;
+}
+html[data-theme="dark"] .quality-advanced-panel {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.94), rgba(43, 31, 21, 0.94));
+}
+html[data-theme="dark"] .advanced-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .advanced-card span {
+    color: #f4b67d;
+}
+html[data-theme="dark"] .advanced-card strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .advanced-card p {
+    color: #dcc6b6;
+}
+html[data-theme="dark"] .review-summary-box {
+    background: #302312;
+}
+html[data-theme="dark"] .review-summary-box span {
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .review-summary-box strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .review-summary-box p {
+    color: #dfcbbc;
+}
+html[data-theme="dark"] .review-recipe-item,
+html[data-theme="dark"] .issue-item {
+    background: #2b1f15;
+}
+html[data-theme="dark"] .review-recipe-item strong,
+html[data-theme="dark"] .issue-item span {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .review-recipe-item span {
+    color: #d8c0ae;
+}
+html[data-theme="dark"] .review-recipe-item small {
+    background: #383115;
+    color: #f6c4a6;
+}
+html[data-theme="dark"] .issue-item strong {
+    background: #332613;
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .quality-health-box {
+    background: linear-gradient(135deg, #123122, #12301b);
+}
+html[data-theme="dark"] .quality-health-box span {
+    color: #b4f9e5;
+}
+html[data-theme="dark"] .quality-health-box strong {
+    color: #c4faec;
+}
+html[data-theme="dark"] .quality-health-box p {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .review-empty-box {
+    background: #123122;
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-advanced-panel {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 36, 18, 0.96)),
+        radial-gradient(circle at top right, rgba(255, 138, 0, 0.18), transparent 36%);
+}
+html[data-theme="dark"] .quality-dashboard-page .advanced-card {
+    background: linear-gradient(145deg, #291d14, #2c1f15);
+}
+html[data-theme="dark"] .quality-dashboard-page .advanced-card span {
+    color: #f4af7d;
+}
+html[data-theme="dark"] .quality-dashboard-page .advanced-card strong {
+    color: #f0eae5;
+}
+html[data-theme="dark"] .quality-dashboard-page .advanced-card p {
+    color: #d0c9c3;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-summary-box {
+    background: linear-gradient(135deg, #302312, #352a14);
+}
+html[data-theme="dark"] .quality-dashboard-page .review-summary-box span {
+    color: #f6af92;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-summary-box strong {
+    color: #f0eae5;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-summary-box p {
+    color: #dacfc8;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-recipe-item,
+html[data-theme="dark"] .quality-dashboard-page .issue-item {
+    background: linear-gradient(135deg, #291d14, #2b1f15);
+}
+html[data-theme="dark"] .quality-dashboard-page .review-recipe-item strong,
+html[data-theme="dark"] .quality-dashboard-page .issue-item span {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-recipe-item span {
+    color: #d8c0ae;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-recipe-item small {
+    background: #372e15;
+    color: #f6c4a6;
+}
+html[data-theme="dark"] .quality-dashboard-page .issue-item strong {
+    background: linear-gradient(135deg, #352714, #3e2c17);
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-health-box {
+    background: linear-gradient(135deg, #123122, #14341f);
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-health-box span {
+    color: #b4f9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-health-box strong {
+    color: #c4faec;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-health-box p {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .quality-dashboard-page .review-empty-box {
+    background: #123122;
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-filter-form {
+    background: linear-gradient(135deg, #291d14, #302312);
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-search-box i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-search-box input {
+    background: #291d14;
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-filter-controls select {
+    background: #291d14;
+    color: #e6dfda;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-filter-controls a {
+    color: #ded5ce;
+    background: #332613;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-filter-result {
+    background: #2b1f15;
+    color: #d4ccc6;
+}
+html[data-theme="dark"] .quality-dashboard-page .quality-filter-result strong {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-meta-grid div {
+    background: #2b1f15;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-meta-grid span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-meta-grid strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card {
+    background: #291d14;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-copy h3 {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-copy strong {
+    background: #2b1f15;
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-copy p {
+    color: #d2cac5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-passed {
+    background: linear-gradient(135deg, #291d14, #12301b);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-passed .validation-check-icon {
+    color: #b4f9e5;
+    background: #153725;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-passed .validation-check-copy span {
+    color: #b4f9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-warning {
+    background: linear-gradient(135deg, #291d14, #302a12);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-warning .validation-check-icon {
+    color: #f7c199;
+    background: #383115;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-warning .validation-check-copy span {
+    color: #f7c199;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-failed {
+    background: linear-gradient(135deg, #291d14, #2c1f15);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-failed .validation-check-icon {
+    color: #ef9696;
+    background: #321313;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-failed .validation-check-copy span {
+    color: #ef9696;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-info {
+    background: linear-gradient(135deg, #291d14, #121f30);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-info .validation-check-icon {
+    color: #87a2ef;
+    background: #142134;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .validation-check-card.check-info .validation-check-copy span {
+    color: #87a2ef;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-audit-guide {
+    background: radial-gradient(circle at top right, rgba(255, 138, 0, 0.18), transparent 34%),
+        linear-gradient(135deg, #291d14 0%, #302312 52%, #2b1e15 100%);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card {
+    background: linear-gradient(145deg, #291d14, #2c1f15);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card span {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card p {
+    color: #d1cac4;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-score > i {
+    background: #132633;
+    color: #a3daf8;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-risk > i {
+    background: #14341f;
+    color: #aff2c8;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-attempt > i {
+    background: #181331;
+    color: #ae87ea;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-dissertation > i {
+    background: #383115;
+    color: #f7c199;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-recipe-content {
+    background: #2c1f15;
+    color: #e6dfda;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-recipe-content h1,
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-recipe-content h2,
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-recipe-content h3,
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-recipe-content strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-recipe-content {
+    background: linear-gradient(135deg, #2c1f15, #291d14);
+    color: #e6dfda;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .evidence-audit-guide {
+    background: radial-gradient(circle at top right, rgba(255, 138, 0, 0.18), transparent 34%),
+        linear-gradient(135deg, #291d14 0%, #302312 52%, #2b1e15 100%);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card {
+    background: linear-gradient(145deg, #291d14, #2c1f15);
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card span {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card p {
+    color: #d1cac4;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-score > i {
+    background: #132633;
+    color: #a3daf8;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-risk > i {
+    background: #14341f;
+    color: #aff2c8;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-attempt > i {
+    background: #181331;
+    color: #ae87ea;
+}
+html[data-theme="dark"] .quality-dashboard-page.evidence-detail-page .audit-mini-card.audit-dissertation > i {
+    background: #383115;
+    color: #f7c199;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel {
+    background: radial-gradient(circle at top right, rgba(255, 138, 0, 0.16), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.10), transparent 32%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 36, 18, 0.96));
+}
+html[data-theme="dark"] .quality-chart-card {
+    background: linear-gradient(145deg, #291d14, #2c1f15);
+}
+html[data-theme="dark"] .quality-chart-card-header span {
+    color: #f4af7d;
+}
+html[data-theme="dark"] .quality-chart-card-header h3 {
+    color: #f0eae5;
+}
+html[data-theme="dark"] .quality-chart-card-header > i {
+    background: #332613;
+    color: #f4aa77;
+}
+html[data-theme="dark"] .quality-empty-chart {
+    background: #2b1f15;
+}
+html[data-theme="dark"] .quality-empty-chart i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .quality-empty-chart strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .quality-empty-chart p {
+    color: #dac4b3;
+}
+html[data-theme="dark"] .priority-box strong {
+    color: #eee9e5;
+}
+html[data-theme="dark"] .priority-box p {
+    color: #d4ccc6;
+}
+html[data-theme="dark"] .priority-high {
+    background: linear-gradient(135deg, #291d14, #2c1f15);
+}
+html[data-theme="dark"] .priority-high span {
+    color: #ef9696;
+}
+html[data-theme="dark"] .priority-medium {
+    background: linear-gradient(135deg, #291d14, #302a12);
+}
+html[data-theme="dark"] .priority-medium span {
+    color: #f7c199;
+}
+html[data-theme="dark"] .priority-low {
+    background: linear-gradient(135deg, #291d14, #12301b);
+}
+html[data-theme="dark"] .priority-low span {
+    color: #b4f9e5;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel {
+    background: #2b1f15 !important;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel .quality-panel-header span {
+    color: #b2bbc7 !important;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel .quality-panel-header h2 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .quality-chart-card {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .quality-chart-card-header span {
+    color: #b2bbc7 !important;
+}
+html[data-theme="dark"] .quality-chart-card-header h3 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .quality-empty-chart-professional,
+html[data-theme="dark"] .quality-empty-chart {
+    background: #2b1f15 !important;
+}
+html[data-theme="dark"] .quality-empty-chart-professional i,
+html[data-theme="dark"] .quality-empty-chart i {
+    color: #b2bbc7 !important;
+}
+html[data-theme="dark"] .quality-empty-chart-professional strong,
+html[data-theme="dark"] .quality-empty-chart strong {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .quality-empty-chart-professional p,
+html[data-theme="dark"] .quality-empty-chart p {
+    color: #b2bbc7 !important;
+}
+html[data-theme="dark"] .priority-box {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .priority-box strong {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .priority-box p {
+    color: #b2bbc7 !important;
+}
+html[data-theme="dark"] .priority-high span {
+    color: #ef9696 !important;
+}
+html[data-theme="dark"] .priority-medium span {
+    color: #f7c199 !important;
+}
+html[data-theme="dark"] .priority-low span {
+    color: #b4f9e5 !important;
+}
+html[data-theme="dark"] .quality-issue-progress-top span {
+    color: #c9d2de !important;
+}
+html[data-theme="dark"] .quality-issue-progress-track {
+    background: #20232a !important;
+}
+html[data-theme="dark"] .priority-high span,
+html[data-theme="dark"] .priority-medium span,
+html[data-theme="dark"] .priority-low span {
+    color: #c9d2de !important;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 34%),
+        linear-gradient(135deg, #291d14 0%, #302312 100%) !important;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel .quality-panel-header span,
+html[data-theme="dark"] .quality-chart-card-header span {
+    color: #f6af92 !important;
+}
+html[data-theme="dark"] .quality-chart-dashboard-panel .quality-panel-header h2,
+html[data-theme="dark"] .quality-chart-card-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .quality-chart-card {
+    background: linear-gradient(145deg, #291d14 0%, #2c1f15 100%) !important;
+}
+html[data-theme="dark"] .priority-high span {
+    color: #f6af92 !important;
+}
+html[data-theme="dark"] .priority-medium span {
+    color: #f7c199 !important;
+}
+html[data-theme="dark"] .priority-low span {
+    color: #b4f9e5 !important;
+}
+html[data-theme="dark"] .quality-empty-chart-professional,
+html[data-theme="dark"] .quality-empty-chart {
+    background: #302312 !important;
+}
+html[data-theme="dark"] .quality-empty-chart-professional i,
+html[data-theme="dark"] .quality-empty-chart i {
+    color: #f4aa77 !important;
+}
+
+/* ---------- from recipe_loading.css ---------- */
+
+html[data-theme="dark"] .culina-loading-card {
+    background: linear-gradient(145deg, rgba(41, 29, 20, 0.97), rgba(49, 36, 19, 0.97));
+}
+html[data-theme="dark"] .culina-loading-badge {
+    color: #f8d1a7;
+}
+html[data-theme="dark"] .culina-loading-title {
+    color: #f7e3d6;
+}
+html[data-theme="dark"] .culina-loading-subtitle {
+    color: #d8c6b8;
+}
+html[data-theme="dark"] .culina-loading-progress {
+    background: #3b2b16;
+}
+html[data-theme="dark"] .culina-loading-step {
+    color: #fae2c6;
+}
+html[data-theme="dark"] .culina-loading-mini {
+    color: #ccbaac;
+}
+
+/* ---------- from recipe_output.css ---------- */
+
+html[data-theme="dark"] .culina-recipe-hero-card {
+    background: radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.18), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(22, 163, 74, 0.13), transparent 32%),
+        linear-gradient(135deg, #2c1f15, #291d14) !important;
+}
+html[data-theme="dark"] .culina-recipe-top-badge {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .culina-recipe-title {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-recipe-description {
+    color: #dfcbbc !important;
+}
+html[data-theme="dark"] .culina-summary-pill {
+    background: rgba(41, 29, 20, 0.86) !important;
+}
+html[data-theme="dark"] .culina-summary-pill span {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .culina-summary-pill strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-recipe-section-card {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.92)) !important;
+}
+html[data-theme="dark"] .culina-recipe-section-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-recipe-section-header span {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .culina-recipe-list li {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.86) !important;
+}
+html[data-theme="dark"] .culina-list-dot {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.95) !important;
+}
+html[data-theme="dark"] .culina-step-card {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.9) !important;
+}
+html[data-theme="dark"] .culina-step-card p {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-text-panel {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.86) !important;
+}
+html[data-theme="dark"] .culina-warning-style {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.98), rgba(41, 29, 20, 0.94)) !important;
+}
+html[data-theme="dark"] .culina-safe-style {
+    background: linear-gradient(135deg, rgba(18, 48, 27, 0.98), rgba(41, 29, 20, 0.94)) !important;
+}
+html[data-theme="dark"] .culina-recipe-empty-note {
+    color: #d4baa6 !important;
+    background: rgba(41, 29, 20, 0.82) !important;
+}
+html[data-theme="dark"] .culina-recipe-image-hero-layout .saved-recipe-flow-image {
+    background: #302312 !important;
+}
+html[data-theme="dark"] .culina-recipe-image-hero-layout .saved-recipe-flow-image img {
+    background: #302312 !important;
+}
+
+/* ---------- from recipe_print.css ---------- */
+
+html[data-theme="dark"] .recipe-print-section {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.10), transparent 34%),
+        linear-gradient(135deg, #302312 0%, #302a12 52%, #291d14 100%) !important;
+}
+html[data-theme="dark"] .recipe-print-document {
+    background: #291d14 !important;
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .recipe-print-brand {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-print-brand i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .recipe-print-header h1 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .recipe-print-header p {
+    color: #c4cad2 !important;
+}
+html[data-theme="dark"] .recipe-print-back-btn {
+    color: #dce2f0 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .recipe-print-meta-grid div {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.96), rgba(41, 29, 20, 0.96)) !important;
+}
+html[data-theme="dark"] .recipe-print-meta-grid span {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .recipe-print-meta-grid strong {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .recipe-print-block {
+    background: #291d14 !important;
+    border: 1px solid rgba(45, 63, 87, 0.95) !important;
+}
+html[data-theme="dark"] .recipe-print-block h2 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .recipe-print-block h2 i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .recipe-print-tags span {
+    color: #f4c2b1 !important;
+    background: rgba(53, 39, 20, 0.95) !important;
+}
+html[data-theme="dark"] .recipe-print-text {
+    color: #cbd2dc !important;
+}
+html[data-theme="dark"] .recipe-print-warning {
+    color: #f4c2b1 !important;
+    background: rgba(48, 35, 18, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-print-origin {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.92), rgba(41, 29, 20, 0.95)) !important;
+}
+html[data-theme="dark"] .recipe-print-origin p {
+    color: #cbd2dc !important;
+}
+html[data-theme="dark"] .recipe-print-footer p {
+    color: #d4baa6 !important;
+}
+html[data-theme="dark"] .recipe-print-image-block {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(48, 35, 18, 0.98), rgba(41, 29, 20, 0.98)) !important;
+}
+html[data-theme="dark"] .recipe-print-image-copy span {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-print-image-copy h2 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .recipe-print-image-copy p {
+    color: #dfcbbc !important;
+}
+html[data-theme="dark"] .premium-print-page {
+    background: radial-gradient(circle at top left, rgba(245, 185, 82, 0.10), transparent 28%),
+        linear-gradient(180deg, #2d2517 0%, #2e2519 100%);
+}
+html[data-theme="dark"] .premium-print-document {
+    background: #291d14;
+    border: 1px solid #5c4528;
+}
+html[data-theme="dark"] .recipe-print-header-copy h1 {
+    color: #ece6e3;
+}
+html[data-theme="dark"] .recipe-print-header-copy p {
+    color: #d2cbc3;
+}
+html[data-theme="dark"] .recipe-print-meta-grid div {
+    background: linear-gradient(180deg, #2b1f15 0%, #322513 100%);
+    border: 1px solid #634421;
+}
+html[data-theme="dark"] .recipe-print-meta-grid span {
+    color: #eeb388;
+}
+html[data-theme="dark"] .recipe-print-meta-grid strong {
+    color: #ebe6e2;
+}
+html[data-theme="dark"] .premium-recipe-hero-block {
+    background: #2b1f15;
+    border: 1px solid #5c4528;
+}
+html[data-theme="dark"] .premium-recipe-label {
+    background: #332213;
+    color: #eeb287;
+}
+html[data-theme="dark"] .premium-recipe-heading h2 {
+    color: #ece6e3;
+}
+html[data-theme="dark"] .premium-recipe-image-card {
+    background: #291d14;
+    border: 1px solid #58462d;
+}
+html[data-theme="dark"] .premium-recipe-image-badge {
+    background: rgba(41, 29, 20, 0.96);
+    color: #ebe4e0;
+}
+html[data-theme="dark"] .premium-recipe-title-card {
+    background: radial-gradient(circle at top right, rgba(67, 61, 26, 0.45) 0, rgba(67, 61, 26, 0.45) 18%, transparent 18.5%),
+        linear-gradient(135deg, #362714 0%, #332913 48%, #2b1e15 100%);
+    border: 1px solid #634921;
+}
+html[data-theme="dark"] .premium-title-badge {
+    border: 1px solid #634521;
+    background: rgba(44, 31, 21, 0.72);
+    color: #f2c4a8;
+}
+html[data-theme="dark"] .premium-recipe-title-card h3 {
+    color: #ece7e3;
+}
+html[data-theme="dark"] .premium-title-summary p {
+    color: #dbd2ca;
+}
+html[data-theme="dark"] .premium-print-block {
+    background: #2b1f15;
+    border: 1px solid #5c4528;
+}
+html[data-theme="dark"] .premium-print-block h2 {
+    color: #ece6e3;
+}
+html[data-theme="dark"] .premium-print-block h2 i {
+    color: #edaf82;
+}
+html[data-theme="dark"] .recipe-print-tags span {
+    background: linear-gradient(180deg, #302512 0%, #352814 100%);
+    border: 1px solid #634721;
+    color: #e4d7cd;
+}
+html[data-theme="dark"] .premium-print-text,
+html[data-theme="dark"] .recipe-print-warning,
+html[data-theme="dark"] .recipe-print-origin p,
+html[data-theme="dark"] .recipe-print-footer p {
+    color: #e3dbd3;
+}
+html[data-theme="dark"] .recipe-print-warning {
+    background: linear-gradient(180deg, #2b1f15 0%, #2b1e15 100%);
+    border: 1px solid #633321;
+}
+html[data-theme="dark"] .premium-print-footer {
+    border-top: 1px solid #5a442a;
+}
+html[data-theme="dark"] .premium-print-footer p {
+    color: #cac2ba;
+}
+
+/* ---------- from recipe_shopping.css ---------- */
+
+html[data-theme="dark"] .recipe-shopping-list-btn {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.96) !important;
+}
+html[data-theme="dark"] .culina-shopping-modal-content {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-shopping-modal-header {
+    border-bottom: 1px solid rgba(45, 63, 87, 0.9) !important;
+    background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.18), transparent 34%),
+        linear-gradient(135deg, #12301b, #302312) !important;
+}
+html[data-theme="dark"] .culina-shopping-heading span {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-shopping-heading h2 {
+    color: #dce2f0;
+}
+html[data-theme="dark"] .culina-shopping-close {
+    background-color: rgba(41, 29, 20, 0.85) !important;
+}
+html[data-theme="dark"] .culina-shopping-summary {
+    background: rgba(40, 49, 19, 0.8);
+}
+html[data-theme="dark"] .culina-shopping-summary h3 {
+    color: #dce2f0;
+}
+html[data-theme="dark"] .culina-shopping-summary p {
+    color: #d4baa6;
+}
+html[data-theme="dark"] .culina-shopping-count {
+    color: #bdf1d0;
+    background: #291d14;
+}
+html[data-theme="dark"] .culina-shopping-item {
+    color: #dce2f0;
+    background: #291d14;
+    border: 1px solid rgba(45, 63, 87, 0.95);
+}
+html[data-theme="dark"] .culina-shopping-check {
+    background: #2b1f15;
+}
+html[data-theme="dark"] .culina-shopping-empty {
+    background: rgba(43, 31, 21, 0.9);
+}
+html[data-theme="dark"] .culina-shopping-empty i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .culina-shopping-empty h3 {
+    color: #dce2f0;
+}
+html[data-theme="dark"] .culina-shopping-empty p {
+    color: #d4baa6;
+}
+html[data-theme="dark"] .culina-shopping-modal-footer {
+    border-top: 1px solid rgba(45, 63, 87, 0.9) !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-shopping-copy-btn {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.96) !important;
+}
+html[data-theme="dark"] .culina-shopping-cancel-btn {
+    color: #cbd2dc !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-shopping-simple-item {
+    color: #dce2f0;
+    background: #291d14;
+    border: 1px solid rgba(45, 63, 87, 0.95);
+}
+html[data-theme="dark"] .culina-shopping-simple-icon {
+    color: #bdf1d0;
+    background: rgba(20, 52, 31, 0.96);
+}
+html[data-theme="dark"] .culina-pantry-match-summary {
+    background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.16), transparent 36%),
+        #2c1f15;
+}
+html[data-theme="dark"] .culina-pantry-match-copy h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-pantry-match-copy p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-pantry-shopping-panel {
+    background: #2c1f15;
+}
+html[data-theme="dark"] .culina-pantry-panel-header h3 {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-pantry-panel-header p {
+    color: #cbc1b9;
+}
+html[data-theme="dark"] .culina-shopping-status-badge.missing {
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .culina-shopping-status-badge.available {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-shopping-missing-item .culina-shopping-simple-icon {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-shopping-available-item .culina-shopping-simple-icon {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .culina-shopping-empty-mini {
+    background: rgba(41, 29, 20, 0.72);
+}
+html[data-theme="dark"] .culina-shopping-empty-mini i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-shopping-empty-mini p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-shopping-modal .modal-content {
+    background: #2c1f15 !important;
+}
+html[data-theme="dark"] .culina-shopping-modal-footer {
+    background: rgba(44, 31, 21, 0.98) !important;
+}
+
+/* ---------- from recipes.css ---------- */
+
+html[data-theme="dark"] .recipe-form-card {
+    background: rgba(41, 29, 20, 0.94);
+    border: 1px solid rgba(90, 63, 43, 0.42);
+}
+html[data-theme="dark"] .recipe-form-header h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-form-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .recipe-label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-label span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .recipe-input {
+    background: rgba(48, 35, 18, 0.78);
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-input:focus {
+    background: #291d14;
+}
+html[data-theme="dark"] .recipe-checkbox-grid label {
+    background: #302312;
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-checkbox-grid label:hover {
+    background: #291d14;
+}
+html[data-theme="dark"] .generation-preview-card {
+    background: rgba(41, 29, 20, 0.94);
+    border: 1px solid rgba(90, 63, 43, 0.42);
+}
+html[data-theme="dark"] .generation-preview-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .generation-preview-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .preview-grid div {
+    background: #302312;
+}
+html[data-theme="dark"] .preview-grid strong {
+    color: #f5a981;
+}
+html[data-theme="dark"] .preview-grid span {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .ai-summary-card h5 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .ai-summary-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .ai-recipe-result-card {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96));
+}
+html[data-theme="dark"] .ai-result-header h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .ai-recipe-text {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .ai-recipe-text strong {
+    color: #f5a981;
+}
+html[data-theme="dark"] .saved-recipes-section {
+    background: radial-gradient(circle at 12% 18%, rgba(249, 115, 22, 0.14), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(22, 163, 74, 0.12), transparent 26%),
+        linear-gradient(135deg, #302312, #291d14);
+}
+html[data-theme="dark"] .saved-recipes-hero {
+    background: rgba(41, 29, 20, 0.86);
+}
+html[data-theme="dark"] .saved-recipes-hero h1 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .saved-recipes-hero p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .saved-recipe-card {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .saved-recipe-badge {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .saved-recipe-date {
+    color: #dac3b2;
+    background: #302312;
+}
+html[data-theme="dark"] .saved-recipe-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .saved-recipe-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .saved-recipe-meta span {
+    color: #eae5e2;
+    background: #302312;
+}
+html[data-theme="dark"] .saved-recipe-meta i {
+    color: #f5a981;
+}
+html[data-theme="dark"] .saved-empty-state {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .saved-empty-state h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .saved-empty-state p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .recipe-detail-section {
+    background: radial-gradient(circle at 10% 18%, rgba(249, 115, 22, 0.14), transparent 28%),
+        radial-gradient(circle at 90% 12%, rgba(22, 163, 74, 0.12), transparent 26%),
+        linear-gradient(135deg, #302312, #291d14);
+}
+html[data-theme="dark"] .recipe-back-link {
+    color: #f5a981;
+}
+html[data-theme="dark"] .recipe-back-link:hover {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .recipe-detail-hero {
+    background: rgba(41, 29, 20, 0.9);
+}
+html[data-theme="dark"] .recipe-detail-header h1 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-detail-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .recipe-detail-meta span {
+    color: #eae5e2;
+    background: #302312;
+}
+html[data-theme="dark"] .recipe-detail-meta i {
+    color: #f5a981;
+}
+html[data-theme="dark"] .recipe-detail-side-card {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .recipe-detail-side-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-detail-side-card h3 i {
+    color: #f5a981;
+}
+html[data-theme="dark"] .recipe-detail-side-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .recipe-detail-tags span {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-detail-main-card {
+    background: rgba(41, 29, 20, 0.94);
+}
+html[data-theme="dark"] .recipe-detail-main-header h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-detail-text {
+    color: #eae5e2;
+    background: #291d14;
+}
+html[data-theme="dark"] .recipe-detail-title-area p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .favourite-recipes-section {
+    background: radial-gradient(circle at top left, rgba(22, 163, 74, 0.12), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 34%),
+        linear-gradient(180deg, #2c1f15 0%, #291d14 52%, #2c1f15 100%);
+}
+html[data-theme="dark"] .favourite-recipes-hero {
+    background: rgba(41, 29, 20, 0.82);
+}
+html[data-theme="dark"] .favourite-recipes-hero h1 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .favourite-recipes-hero p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .favourite-recipe-card {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .favourite-recipe-badge {
+    color: #f592aa;
+}
+html[data-theme="dark"] .favourite-recipe-date {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .favourite-recipe-card h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .favourite-recipe-card p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .favourite-recipe-meta span {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .favourite-empty-state {
+    background: rgba(41, 29, 20, 0.9);
+}
+html[data-theme="dark"] .favourite-empty-state h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .favourite-empty-state p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .saved-recipes-filter-card {
+    background: rgba(41, 29, 20, 0.9);
+}
+html[data-theme="dark"] .filter-field label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .filter-field input,
+html[data-theme="dark"] .filter-field select {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .saved-reset-btn {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .saved-reset-btn:hover {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-feedback-card {
+    background: rgba(41, 29, 20, 0.92);
+}
+html[data-theme="dark"] .recipe-feedback-header h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-feedback-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .current-rating-badge {
+    color: #f6c4a6;
+}
+html[data-theme="dark"] .current-rating-badge i {
+    color: #f4c87d;
+}
+html[data-theme="dark"] .feedback-rating-field label,
+html[data-theme="dark"] .feedback-comment-field label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .feedback-rating-field select,
+html[data-theme="dark"] .feedback-comment-field textarea {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.95);
+}
+html[data-theme="dark"] .feedback-history-header h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .feedback-history-header h3 i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .feedback-history-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .feedback-history-count {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .feedback-history-item {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(44, 31, 21, 0.92));
+}
+html[data-theme="dark"] .feedback-history-content span {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .feedback-history-content p {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-warning-box {
+    background: linear-gradient(135deg, rgba(44, 31, 21, 0.98), rgba(48, 35, 18, 0.94));
+}
+html[data-theme="dark"] .recipe-safe-box {
+    background: linear-gradient(135deg, rgba(18, 48, 27, 0.98), rgba(44, 31, 21, 0.94));
+}
+html[data-theme="dark"] .recipe-warning-box strong,
+html[data-theme="dark"] .recipe-safe-box strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .recipe-warning-box p,
+html[data-theme="dark"] .recipe-safe-box p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] #culina-email-share.culina-email-share {
+    background: radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.16), transparent 34%),
+        radial-gradient(circle at 100% 100%, rgba(22, 163, 74, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(44, 31, 21, 0.96));
+}
+html[data-theme="dark"] #culina-email-share .culina-email-copy h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-lead {
+    color: #dac3b2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-highlight {
+    background: rgba(41, 29, 20, 0.74);
+}
+html[data-theme="dark"] #culina-email-share .culina-email-highlight h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-highlight p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-panel {
+    background: linear-gradient(180deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96));
+}
+html[data-theme="dark"] #culina-email-share .culina-email-panel-header h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-panel-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-field label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-field label i {
+    color: #f5a981;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-field input,
+html[data-theme="dark"] #culina-email-share .culina-email-field textarea {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.96);
+}
+html[data-theme="dark"] #culina-email-share .culina-email-field input::placeholder,
+html[data-theme="dark"] #culina-email-share .culina-email-field textarea::placeholder {
+    color: rgba(223, 203, 188, 0.72);
+}
+html[data-theme="dark"] #culina-email-share .culina-email-field input:focus,
+html[data-theme="dark"] #culina-email-share .culina-email-field textarea:focus {
+    background: #291d14;
+}
+html[data-theme="dark"] #culina-email-share .culina-email-field small {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-modify-recipe {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.15), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.13), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.94));
+}
+html[data-theme="dark"] .culina-modify-copy h2 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-modify-lead {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-modify-options span {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.78);
+}
+html[data-theme="dark"] .culina-modify-options i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-modify-panel {
+    background: rgba(41, 29, 20, 0.88);
+}
+html[data-theme="dark"] .culina-modify-panel-header h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-modify-panel-header p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-modify-field label {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-modify-field label i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .culina-modify-field select,
+html[data-theme="dark"] .culina-modify-field textarea {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.96);
+}
+html[data-theme="dark"] .culina-modify-field select:focus,
+html[data-theme="dark"] .culina-modify-field textarea:focus {
+    background: #291d14;
+}
+html[data-theme="dark"] .culina-modify-field small {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-modified-preview {
+    background: linear-gradient(135deg, rgba(18, 48, 27, 0.96), rgba(41, 29, 20, 0.94));
+}
+html[data-theme="dark"] .culina-modified-preview-header span {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-modified-preview-header span i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .culina-modified-preview-header small {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-modified-preview-text {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.9);
+}
+html[data-theme="dark"] .culina-modify-recipe {
+    background: radial-gradient(circle at 8% 12%, rgba(249, 115, 22, 0.16), transparent 30%),
+        radial-gradient(circle at 92% 8%, rgba(22, 163, 74, 0.12), transparent 28%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96)) !important;
+}
+html[data-theme="dark"] .culina-modify-options span {
+    background: rgba(41, 29, 20, 0.9) !important;
+}
+html[data-theme="dark"] .culina-modify-panel {
+    background: linear-gradient(180deg, rgba(41, 29, 20, 0.98), rgba(43, 31, 21, 0.95)) !important;
+}
+html[data-theme="dark"] .culina-modified-preview {
+    background: radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 32%),
+        linear-gradient(135deg, rgba(18, 48, 27, 0.98), rgba(41, 29, 20, 0.96)) !important;
+}
+html[data-theme="dark"] .culina-modified-preview-text {
+    background: rgba(41, 29, 20, 0.96) !important;
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modify-workflow-card {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.92), rgba(48, 35, 18, 0.84)) !important;
+}
+html[data-theme="dark"] .culina-modify-workflow-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modify-workflow-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-modify-visual {
+    background: radial-gradient(circle at 20% 20%, rgba(249, 115, 22, 0.18), transparent 34%),
+        radial-gradient(circle at 80% 80%, rgba(22, 163, 74, 0.16), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.94), rgba(48, 35, 18, 0.9)) !important;
+}
+html[data-theme="dark"] .culina-modify-visual-orbit {
+    background: radial-gradient(circle, rgba(41, 29, 20, 0.95), rgba(53, 39, 20, 0.62)) !important;
+}
+html[data-theme="dark"] .culina-modify-visual-badge {
+    color: #bdf1d0 !important;
+}
+html[data-theme="dark"] .culina-modify-visual-content h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modify-visual-content p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-comparison-section {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.11), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.10), transparent 34%),
+        rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .culina-comparison-header h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-comparison-header p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-comparison-badge {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.95) !important;
+}
+html[data-theme="dark"] .culina-comparison-source-card {
+    background: rgba(48, 35, 18, 0.92) !important;
+}
+html[data-theme="dark"] .culina-comparison-source-card span {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-comparison-source-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-comparison-source-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-comparison-card {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .culina-comparison-card-header span {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-comparison-card-header small {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-comparison-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-comparison-meta span {
+    color: #eae5e2 !important;
+    background: rgba(43, 31, 21, 0.98) !important;
+}
+html[data-theme="dark"] .culina-comparison-content {
+    color: #eae5e2 !important;
+    background: rgba(43, 31, 21, 0.92) !important;
+}
+html[data-theme="dark"] .recipe-delete-btn {
+    color: #ef9696 !important;
+    background: rgba(50, 19, 19, 0.92) !important;
+}
+html[data-theme="dark"] .delete-recipe-section {
+    background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.10), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.10), transparent 32%),
+        linear-gradient(135deg, #302312 0%, #2c1f15 100%) !important;
+}
+html[data-theme="dark"] .delete-recipe-card {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .delete-recipe-card h1 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .delete-recipe-card > p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .delete-recipe-preview {
+    background: #302312 !important;
+}
+html[data-theme="dark"] .delete-recipe-preview span {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .delete-recipe-preview h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .delete-recipe-preview p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .delete-context-warning {
+    color: #f6c4a6 !important;
+    background: rgba(56, 49, 21, 0.92) !important;
+}
+html[data-theme="dark"] .delete-cancel-btn {
+    color: #eae5e2 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .delete-cancel-btn:hover {
+    color: #eae5e2 !important;
+    background: #2b1f15 !important;
+}
+html[data-theme="dark"] .culina-delete-modal .modal-content,
+html[data-theme="dark"] .culina-delete-modal-content {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-icon {
+    border: 5px solid #5a3f2b !important;
+}
+html[data-theme="dark"] .culina-delete-modal-header .section-label {
+    color: #ef9696 !important;
+    background: rgba(50, 19, 19, 0.88) !important;
+}
+html[data-theme="dark"] .culina-delete-modal-header h2 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .culina-modal-close {
+    background-color: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .culina-delete-modal-body > p {
+    color: #c4cad2 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-preview {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.96), rgba(41, 29, 20, 0.96)) !important;
+}
+html[data-theme="dark"] .culina-delete-modal-preview span {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-preview span::before {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-preview h3 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-preview p {
+    color: #d4baa6 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-footer .delete-cancel-btn {
+    color: #dce2f0 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-delete-modal-footer .delete-cancel-btn:hover {
+    background: #2b1f15 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section {
+    background: radial-gradient(circle at top left, rgba(244, 63, 94, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.10), transparent 34%),
+        linear-gradient(135deg, #302312 0%, #2c1f15 100%) !important;
+}
+html[data-theme="dark"] .saved-recipe-favourite-remove-btn {
+    color: #f592aa !important;
+    background: rgba(50, 19, 21, 0.92) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section {
+    background: radial-gradient(circle at top left, rgba(244, 63, 94, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 28%),
+        linear-gradient(135deg, #302312 0%, #2c1f15 45%, #291d14 100%) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipes-header {
+    background: rgba(41, 29, 20, 0.88) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipes-header h1 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .section-label {
+    color: #f592aa !important;
+    background: rgba(50, 19, 21, 0.9) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-panel {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.88)) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-search label,
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-field label {
+    color: #edb1b1 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-search input,
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-field select {
+    background: rgba(41, 29, 20, 0.96) !important;
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-clear-btn {
+    color: #f592aa !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-results-summary {
+    background: rgba(41, 29, 20, 0.82) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-results-summary div {
+    color: #c4cad2 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-results-summary i {
+    color: #ef839b !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .active-filter-pill {
+    color: #f592aa !important;
+    background: rgba(50, 19, 21, 0.9) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-card,
+html[data-theme="dark"] .favourite-recipe-card {
+    background: linear-gradient(180deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.86)) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-card-badge {
+    color: #f592aa !important;
+    background: rgba(50, 19, 21, 0.92) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-tags span {
+    color: #f4a1b8 !important;
+    background: rgba(50, 19, 21, 0.7) !important;
+}
+html[data-theme="dark"] .saved-recipe-favourite-remove-btn {
+    color: #f592aa !important;
+    background: rgba(50, 19, 21, 0.96) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.10), transparent 32%),
+        linear-gradient(135deg, #302312 0%, #302a12 52%, #291d14 100%) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipes-header {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.92)) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipes-header h1 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipes-header p {
+    color: #c4cad2 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .section-label {
+    color: #f6af92 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .section-label i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipes-secondary-btn {
+    color: #dce2f0 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-panel {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.97), rgba(48, 35, 18, 0.9)) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-search label,
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-field label {
+    color: #f4c2b1 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-search label i,
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-field label i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-search input,
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-field select {
+    background: rgba(41, 29, 20, 0.98) !important;
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-filter-clear-btn {
+    color: #f4b7a3 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-results-summary {
+    background: rgba(41, 29, 20, 0.88) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-results-summary div {
+    color: #c4cad2 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .recipe-results-summary i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .active-filter-pill {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.92) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-card,
+html[data-theme="dark"] .favourite-recipe-card {
+    background: linear-gradient(180deg, rgba(41, 29, 20, 0.99), rgba(48, 35, 18, 0.88)) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-card-badge {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-card h2 {
+    color: #dce2f0 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-card > p {
+    color: #d4baa6 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-meta span,
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-tags span {
+    color: #f4c2b1 !important;
+    background: rgba(48, 35, 18, 0.95) !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-meta i,
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-tags i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-favourite-remove-btn {
+    color: #f4b7a3 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-date {
+    color: #d4baa6 !important;
+}
+html[data-theme="dark"] .favourite-recipes-section .saved-recipe-date i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .recipe-print-export-btn {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .favourite-print-export-btn {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-personal-notes-card {
+    background: radial-gradient(circle at top right, rgba(250, 204, 21, 0.22), transparent 38%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.9)) !important;
+}
+html[data-theme="dark"] .recipe-personal-notes-card h3 i {
+    color: #f4aa77;
+}
+html[data-theme="dark"] .recipe-personal-notes-content {
+    color: #eae5e2;
+    background: rgba(41, 29, 20, 0.78);
+}
+html[data-theme="dark"] .recipe-notes-edit-link {
+    color: #f4b7a3;
+    background: rgba(53, 39, 20, 0.95);
+}
+html[data-theme="dark"] .compact-form-section {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.72), rgba(41, 29, 20, 0.88)) !important;
+}
+html[data-theme="dark"] .compact-section-title {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .compact-preference-card {
+    background: rgba(41, 29, 20, 0.72) !important;
+}
+html[data-theme="dark"] .horizontal-form-section {
+    background: rgba(48, 35, 18, 0.58) !important;
+}
+html[data-theme="dark"] .horizontal-section-heading {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .horizontal-section-heading i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .horizontal-form-section {
+    background: rgba(48, 35, 18, 0.58) !important;
+}
+html[data-theme="dark"] .horizontal-section-heading {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .horizontal-section-heading i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .demo-video-window-dots span {
+    background: rgba(41, 29, 20, 0.42) !important;
+}
+html[data-theme="dark"] .demo-video-play {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .demo-recipe-lines span {
+    background: rgba(41, 29, 20, 0.72) !important;
+}
+html[data-theme="dark"] .demo-video-floating-pill i {
+    color: #f4db77 !important;
+}
+html[data-theme="dark"] .culina-validation-dashboard {
+    background: radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.16), transparent 32%),
+        radial-gradient(circle at 100% 10%, rgba(22, 163, 74, 0.15), transparent 34%),
+        radial-gradient(circle at 70% 100%, rgba(250, 204, 21, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.95)) !important;
+}
+html[data-theme="dark"] .validation-mini-label {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.92) !important;
+}
+html[data-theme="dark"] .validation-dashboard-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .validation-dashboard-header p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .score-ring {
+    border: 8px solid rgba(90, 63, 43, 0.42) !important;
+}
+html[data-theme="dark"] .validation-metric-card {
+    background: rgba(41, 29, 20, 0.86) !important;
+}
+html[data-theme="dark"] .validation-metric-card span {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .validation-metric-card strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .validation-metric-card small {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .validation-attempts-panel,
+html[data-theme="dark"] .validation-checks-panel {
+    background: rgba(41, 29, 20, 0.82) !important;
+}
+html[data-theme="dark"] .validation-subheading {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .validation-attempt-item {
+    background: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .attempt-content strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .attempt-content span {
+    color: #f5a981 !important;
+    background: rgba(53, 39, 20, 0.86) !important;
+}
+html[data-theme="dark"] .attempt-content p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .attempt-content small {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .validation-check-card {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .check-title-row h5 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .check-title-row span {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.9) !important;
+}
+html[data-theme="dark"] .check-failed .check-title-row span {
+    color: #efa4a4 !important;
+    background: rgba(50, 19, 19, 0.92) !important;
+}
+html[data-theme="dark"] .check-content small {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .check-content p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .check-detail-warning {
+    color: #efa4a4 !important;
+    background: rgba(50, 19, 19, 0.88) !important;
+}
+html[data-theme="dark"] .check-detail-note {
+    color: #f4c2b1 !important;
+    background: rgba(53, 39, 20, 0.88) !important;
+}
+html[data-theme="dark"] .validation-disclaimer-card {
+    background: rgba(18, 31, 48, 0.86) !important;
+}
+html[data-theme="dark"] .validation-disclaimer-card p {
+    color: #c9d2de !important;
+}
+html[data-theme="dark"] .verified-recipe-output-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-panel {
+    background: radial-gradient(circle at top left, rgba(22, 163, 74, 0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.94)) !important;
+}
+html[data-theme="dark"] .saved-validation-mini-label {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.88) !important;
+}
+html[data-theme="dark"] .saved-validation-header h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-header p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-validation-metric-card {
+    background: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .saved-validation-metric-card span {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .saved-validation-metric-card strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-metric-card small {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-validation-legend div {
+    background: rgba(41, 29, 20, 0.84) !important;
+}
+html[data-theme="dark"] .saved-validation-legend strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-legend span {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-validation-sub-panel {
+    background: rgba(41, 29, 20, 0.88) !important;
+}
+html[data-theme="dark"] .saved-validation-subheading {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-attempt {
+    background: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .saved-attempt-title-row strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-attempt-title-row span {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.88) !important;
+}
+html[data-theme="dark"] .saved-attempt-content p,
+html[data-theme="dark"] .saved-attempt-content small {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-validation-check-card {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .saved-check-title-row h4 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-check-title-row span {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.88) !important;
+}
+html[data-theme="dark"] .saved-check-content small {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .saved-check-content p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-check-warning-detail {
+    color: #edb1b1 !important;
+    background: rgba(50, 19, 19, 0.88) !important;
+}
+html[data-theme="dark"] .saved-check-note-detail {
+    color: #f4c2b1 !important;
+    background: rgba(53, 39, 20, 0.88) !important;
+}
+html[data-theme="dark"] .saved-validation-disclaimer {
+    color: #acbded !important;
+    background: rgba(18, 31, 48, 0.92) !important;
+}
+html[data-theme="dark"] .saved-validation-disclaimer p {
+    color: #d6dde8 !important;
+}
+html[data-theme="dark"] .saved-validation-empty-panel h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-empty-panel p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-recipe-validation-strip {
+    background: radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 36%),
+        linear-gradient(135deg, rgba(18, 48, 27, 0.98), rgba(41, 29, 20, 0.96)) !important;
+}
+html[data-theme="dark"] .saved-validation-main span {
+    color: #bdf1d0 !important;
+}
+html[data-theme="dark"] .saved-validation-main h4 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-validation-tags span {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.92) !important;
+}
+html[data-theme="dark"] .saved-validation-tags span i {
+    color: #9ff2be !important;
+}
+html[data-theme="dark"] .saved-recipe-validation-missing {
+    background: linear-gradient(135deg, rgba(43, 31, 21, 0.98), rgba(48, 35, 18, 0.92)) !important;
+}
+html[data-theme="dark"] .saved-recipe-validation-missing .saved-validation-main span {
+    color: #c1c9d5 !important;
+}
+html[data-theme="dark"] .saved-recipe-validation-missing p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-recipe-card-public {
+    background: radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 32%),
+        linear-gradient(180deg, rgba(41, 29, 20, 0.98), rgba(18, 48, 27, 0.88)) !important;
+}
+html[data-theme="dark"] .saved-recipe-community-badge {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.95) !important;
+}
+html[data-theme="dark"] .saved-community-status-strip {
+    background: linear-gradient(135deg, rgba(18, 48, 27, 0.96), rgba(41, 29, 20, 0.94)) !important;
+}
+html[data-theme="dark"] .saved-community-private-strip {
+    background: linear-gradient(135deg, rgba(48, 35, 18, 0.96), rgba(41, 29, 20, 0.94)) !important;
+}
+html[data-theme="dark"] .saved-community-status-strip span {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-community-status-strip p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-community-remove-btn,
+html[data-theme="dark"] .recipe-community-remove-btn {
+    color: #f6c4a6 !important;
+    background: rgba(56, 49, 21, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-community-status-panel {
+    background: radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(18, 48, 27, 0.9)) !important;
+}
+html[data-theme="dark"] .recipe-community-status-panel.recipe-community-private-panel {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(48, 35, 18, 0.92)) !important;
+}
+html[data-theme="dark"] .recipe-community-status-copy span {
+    color: #bdf1d0 !important;
+}
+html[data-theme="dark"] .recipe-community-private-panel .recipe-community-status-copy span {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .recipe-community-status-copy h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .recipe-community-status-copy p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-recipes-section {
+    background: radial-gradient(circle at 10% 14%, rgba(22, 163, 74, 0.14), transparent 30%),
+        radial-gradient(circle at 92% 10%, rgba(249, 115, 22, 0.14), transparent 28%),
+        linear-gradient(135deg, #302312 0%, #2b1e15 52%, #291d14 100%) !important;
+}
+html[data-theme="dark"] .community-stat-card {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-stat-card span {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-stat-card strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-slider-section,
+html[data-theme="dark"] .community-filter-card,
+html[data-theme="dark"] .community-results-panel {
+    background: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .community-section-header h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-section-header p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-recipe-card {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.11), transparent 32%),
+        linear-gradient(180deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.88)) !important;
+}
+html[data-theme="dark"] .community-recipe-badge {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.94) !important;
+}
+html[data-theme="dark"] .community-recipe-date {
+    color: #dac3b2 !important;
+    background: rgba(41, 29, 20, 0.86) !important;
+}
+html[data-theme="dark"] .community-recipe-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-recipe-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-recipe-owner {
+    color: #f4c2b1 !important;
+}
+html[data-theme="dark"] .community-recipe-meta span,
+html[data-theme="dark"] .community-recipe-stats span {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.82) !important;
+}
+html[data-theme="dark"] .community-recipe-meta i,
+html[data-theme="dark"] .community-recipe-stats i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .community-filter-field label {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-filter-field input,
+html[data-theme="dark"] .community-filter-field select {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-reset-btn {
+    color: #f4b7a3 !important;
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .community-empty-state {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-empty-state h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-empty-state p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-detail-section {
+    background: radial-gradient(circle at 12% 16%, rgba(22, 163, 74, 0.13), transparent 30%),
+        radial-gradient(circle at 88% 12%, rgba(249, 115, 22, 0.13), transparent 28%),
+        linear-gradient(135deg, #302312, #291d14) !important;
+}
+html[data-theme="dark"] .community-back-link {
+    color: #f4db77 !important;
+}
+html[data-theme="dark"] .community-author-card,
+html[data-theme="dark"] .community-detail-side-card,
+html[data-theme="dark"] .community-recipe-content-card,
+html[data-theme="dark"] .community-feedback-panel {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-author-card span {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-author-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-author-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-detail-side-card h3,
+html[data-theme="dark"] .community-recipe-content-card h2,
+html[data-theme="dark"] .community-feedback-panel h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-detail-side-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-detail-tags span {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.92) !important;
+}
+html[data-theme="dark"] .community-recipe-content {
+    color: #eae5e2 !important;
+    background: linear-gradient(135deg, #2c1f15, #291d14) !important;
+}
+html[data-theme="dark"] .community-feedback-stat {
+    background: rgba(48, 35, 18, 0.94) !important;
+}
+html[data-theme="dark"] .community-feedback-stat span {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-feedback-stat strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-feedback-field label {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-feedback-field select,
+html[data-theme="dark"] .community-feedback-field textarea {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.96) !important;
+}
+html[data-theme="dark"] .community-feedback-item {
+    background: linear-gradient(135deg, rgba(41, 29, 20, 0.96), rgba(44, 31, 21, 0.92)) !important;
+}
+html[data-theme="dark"] .community-feedback-item strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-feedback-item span {
+    color: #f6c4a6 !important;
+}
+html[data-theme="dark"] .community-feedback-item p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .recipe-community-remove-btn {
+    color: #f6c4a6 !important;
+    background: rgba(56, 49, 21, 0.98) !important;
+}
+html[data-theme="dark"] .recipe-shopping-list-btn {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.94) !important;
+}
+html[data-theme="dark"] .recipe-print-export-btn {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-delete-btn {
+    color: #ef9696 !important;
+    background: rgba(50, 19, 19, 0.96) !important;
+}
+html[data-theme="dark"] .recipe-community-share-panel {
+    background: radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.15), transparent 32%),
+        radial-gradient(circle at 100% 0%, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.94)) !important;
+}
+html[data-theme="dark"] .recipe-community-share-panel-active {
+    background: radial-gradient(circle at 0% 0%, rgba(22, 163, 74, 0.16), transparent 34%),
+        radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(18, 48, 27, 0.98), rgba(41, 29, 20, 0.95)) !important;
+}
+html[data-theme="dark"] .recipe-community-share-copy > span {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.94) !important;
+}
+html[data-theme="dark"] .recipe-community-share-panel:not(.recipe-community-share-panel-active) .recipe-community-share-copy > span {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .recipe-community-share-copy h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .recipe-community-share-copy p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .recipe-community-share-stats span {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.92) !important;
+}
+html[data-theme="dark"] .recipe-community-share-stats i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .community-detail-section {
+    background: radial-gradient(circle at 10% 14%, rgba(22, 163, 74, 0.13), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.13), transparent 28%),
+        linear-gradient(135deg, #302312 0%, #2b1e15 52%, #291d14 100%) !important;
+}
+html[data-theme="dark"] .community-back-link {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.9) !important;
+}
+html[data-theme="dark"] .community-back-link:hover {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-detail-meta i {
+    color: #f4db77 !important;
+}
+html[data-theme="dark"] .community-author-card,
+html[data-theme="dark"] .community-detail-side-card,
+html[data-theme="dark"] .community-recipe-content-card,
+html[data-theme="dark"] .community-feedback-panel {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-author-card {
+    background: radial-gradient(circle at top right, rgba(22, 163, 74, 0.16), transparent 35%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(18, 48, 27, 0.92)) !important;
+}
+html[data-theme="dark"] .community-author-card span,
+html[data-theme="dark"] .community-detail-side-card > h3,
+html[data-theme="dark"] .community-recipe-content-card > h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-author-card span {
+    color: #bdf1d0 !important;
+}
+html[data-theme="dark"] .community-author-card h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-author-card p,
+html[data-theme="dark"] .community-detail-side-card p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-detail-side-card h3,
+html[data-theme="dark"] .community-recipe-content-card h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-detail-tags span {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.92) !important;
+}
+html[data-theme="dark"] .community-recipe-content {
+    color: #eae5e2 !important;
+    background: linear-gradient(135deg, #2c1f15, #291d14) !important;
+}
+html[data-theme="dark"] .community-feedback-panel {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 34%),
+        rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-feedback-stat {
+    background: rgba(48, 35, 18, 0.96) !important;
+}
+html[data-theme="dark"] .community-feedback-stat span {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .community-feedback-stat strong {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-feedback-field label {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-feedback-field select,
+html[data-theme="dark"] .community-feedback-field textarea {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.98) !important;
+}
+html[data-theme="dark"] .community-empty-state {
+    background: rgba(41, 29, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-empty-state h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-empty-state p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .generate-subsection-label {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.88) !important;
+}
+html[data-theme="dark"] .generate-subsection-label i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .custom-choice-helper {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .custom-other-field {
+    background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.92), rgba(48, 35, 18, 0.86)) !important;
+}
+html[data-theme="dark"] .custom-other-field .recipe-label span {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .custom-other-input {
+    background: rgba(41, 29, 20, 0.96) !important;
+}
+html[data-theme="dark"] .custom-other-input::placeholder {
+    color: rgba(223, 203, 188, 0.68) !important;
+}
+html[data-theme="dark"] .custom-other-field small {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .recipe-unsave-btn,
+html[data-theme="dark"] .saved-recipe-unsave-btn {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .ai-generated-food-image-panel {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96)) !important;
+}
+html[data-theme="dark"] .ai-generated-food-image-copy h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .ai-generated-food-image-copy p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .ai-generated-food-image-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.92) !important;
+    border: 1px solid rgba(90, 63, 43, 0.64) !important;
+}
+html[data-theme="dark"] .saved-recipe-image-showcase {
+    background: radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.15), transparent 32%),
+        radial-gradient(circle at 100% 100%, rgba(22, 163, 74, 0.13), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96)) !important;
+}
+html[data-theme="dark"] .saved-recipe-image-copy h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-recipe-image-copy p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .saved-recipe-image-meta span {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .saved-recipe-image-meta i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .saved-recipe-image-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.92) !important;
+    border: 1px solid rgba(90, 63, 43, 0.64) !important;
+}
+html[data-theme="dark"] .saved-recipe-image-placeholder {
+    color: #f4b7a3 !important;
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.14), transparent 32%),
+        linear-gradient(135deg, rgba(53, 39, 20, 0.92), rgba(48, 35, 18, 0.96)) !important;
+}
+html[data-theme="dark"] .final-recipe-image-card {
+    background: rgba(48, 35, 18, 0.95) !important;
+}
+html[data-theme="dark"] .final-recipe-image-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.94) !important;
+    border: 1px solid rgba(90, 63, 43, 0.72) !important;
+}
+html[data-theme="dark"] .community-detail-image-showcase {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.14), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96)) !important;
+}
+html[data-theme="dark"] .community-detail-image-copy h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .community-detail-image-copy p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .community-detail-image-meta span {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.94) !important;
+}
+html[data-theme="dark"] .community-detail-image-badge,
+html[data-theme="dark"] .community-related-image-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.94) !important;
+    border: 1px solid rgba(90, 63, 43, 0.7) !important;
+}
+html[data-theme="dark"] .saved-full-recipe-image-card {
+    background: rgba(48, 35, 18, 0.96) !important;
+}
+html[data-theme="dark"] .saved-full-recipe-image-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.94) !important;
+    border: 1px solid rgba(90, 63, 43, 0.72) !important;
+}
+html[data-theme="dark"] .saved-recipe-flow-text {
+    background: #291d14 !important;
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .saved-recipe-flow-image {
+    background: rgba(48, 35, 18, 0.96) !important;
+}
+html[data-theme="dark"] .saved-recipe-flow-image-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.94) !important;
+    border: 1px solid rgba(90, 63, 43, 0.72) !important;
+}
+html[data-theme="dark"] .saved-recipe-flow-text strong {
+    color: #f5a981 !important;
+}
+html[data-theme="dark"] .voice-helper-text {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .voice-status-listening {
+    color: #f6c4a6 !important;
+    background: rgba(56, 49, 21, 0.92) !important;
+}
+html[data-theme="dark"] .voice-status-success {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.92) !important;
+}
+html[data-theme="dark"] .voice-status-warning {
+    color: #f6c4a6 !important;
+    background: rgba(56, 49, 21, 0.92) !important;
+}
+html[data-theme="dark"] .voice-status-error {
+    color: #efa4a4 !important;
+    background: rgba(50, 19, 19, 0.92) !important;
+}
+html[data-theme="dark"] .culina-voice-btn::before {
+    background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(41, 29, 20, 0.55) 45%,
+            transparent 70%
+        ) !important;
+}
+html[data-theme="dark"] .culina-voice-btn.voice-listening i {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-voice-btn.voice-listening::after {
+    border: 2px solid rgba(90, 63, 43, 0.38) !important;
+}
+html[data-theme="dark"] .culina-horizontal-generate-form .culina-premium-voice-btn::before {
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(41, 29, 20, 0.65) 45%,
+        transparent 70%
+    ) !important;
+}
+html[data-theme="dark"] .culina-horizontal-generate-form .culina-premium-voice-btn.voice-listening i {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-horizontal-generate-form .culina-premium-voice-btn.voice-listening::after {
+    border: 2px solid rgba(90, 63, 43, 0.55) !important;
+}
+html[data-theme="dark"] .fridge-scanner-generator-link-card {
+    background: radial-gradient(circle at top right, rgba(247, 206, 87, 0.16), transparent 34%),
+        linear-gradient(135deg, #2b1e15 0%, #322613 100%);
+    border: 1px solid rgba(94, 69, 39, 0.78);
+}
+html[data-theme="dark"] .fridge-scanner-generator-content span {
+    color: #e9b087;
+}
+html[data-theme="dark"] .fridge-scanner-generator-content h3 {
+    color: #e4e2ed;
+}
+html[data-theme="dark"] .fridge-scanner-generator-content p {
+    color: #dcc7b7;
+}
+html[data-theme="dark"] .culina-modified-fullwidth-section {
+    background: radial-gradient(circle at 0% 0%, rgba(22, 163, 74, 0.13), transparent 32%),
+        radial-gradient(circle at 100% 0%, rgba(249, 115, 22, 0.14), transparent 34%),
+        radial-gradient(circle at 50% 100%, rgba(250, 204, 21, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.96)) !important;
+}
+html[data-theme="dark"] .culina-modified-fullwidth-header h2 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modified-fullwidth-header p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-modified-fullwidth-badge {
+    color: #bdf1d0 !important;
+    background: rgba(20, 52, 31, 0.92) !important;
+}
+html[data-theme="dark"] .culina-modified-output-card {
+    background: rgba(41, 29, 20, 0.96) !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table-card {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.10), transparent 34%),
+        linear-gradient(135deg, rgba(41, 29, 20, 0.98), rgba(48, 35, 18, 0.94)) !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table-header h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table-header p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table-badge {
+    color: #f4b7a3 !important;
+    background: rgba(53, 39, 20, 0.96) !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table-card .table-responsive {
+    background: #291d14 !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table thead th {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table tbody td {
+    color: #cbd2dc !important;
+    background: rgba(41, 29, 20, 0.98) !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table tbody td:first-child {
+    color: #f4b7a3 !important;
+}
+html[data-theme="dark"] .culina-modified-comparison-table tbody td:last-child {
+    color: #bdf1d0 !important;
+}
+html[data-theme="dark"] .culina-modified-save-panel {
+    background: radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 34%),
+        linear-gradient(135deg, rgba(18, 48, 27, 0.96), rgba(41, 29, 20, 0.96)) !important;
+}
+html[data-theme="dark"] .culina-modified-save-panel h3 {
+    color: #eae5e2 !important;
+}
+html[data-theme="dark"] .culina-modified-save-panel h3 i {
+    color: #9ff2be !important;
+}
+html[data-theme="dark"] .culina-modified-save-panel p {
+    color: #dac3b2 !important;
+}
+html[data-theme="dark"] .favourite-recipe-image-wrap {
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.18), transparent 34%),
+        linear-gradient(135deg, rgba(48, 35, 18, 0.98), rgba(41, 29, 20, 0.94)) !important;
+}
+html[data-theme="dark"] .favourite-recipe-image-placeholder {
+    color: #f4b7a3 !important;
+    background: radial-gradient(circle at top right, rgba(250, 204, 21, 0.20), transparent 36%),
+        linear-gradient(135deg, rgba(48, 35, 18, 0.98), rgba(41, 29, 20, 0.92)) !important;
+}
+html[data-theme="dark"] .favourite-recipe-image-placeholder i {
+    color: #f4aa77 !important;
+}
+html[data-theme="dark"] .favourite-recipe-visual-badge {
+    color: #eae5e2 !important;
+    background: rgba(41, 29, 20, 0.92) !important;
+    border: 1px solid rgba(90, 63, 43, 0.36) !important;
+}
+html[data-theme="dark"] .favourite-recipe-visual-badge i {
+    color: #f4aa77 !important;
+}

@@ -46,3 +46,6 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# Local SQLite databases (CI and local testing)
+*.sqlite3
