@@ -72,10 +72,17 @@ def clean_value(value):
 
 
 def find_header_row(sheet):
-    """The header row is the first row with a 'Food Code' cell."""
+    """
+    The header row is the first row with a 'Food Code' cell.
+    In CoFID 2021 the '1.4 Inorganics' sheet leaves that cell blank, so a row
+    with 'Food Name' and an empty first cell counts too (codes are in column A).
+    """
     for row_number, row in enumerate(sheet.iter_rows(min_row=1, max_row=10, values_only=True), start=1):
         headers = [clean_header(cell) for cell in row]
         if "food code" in headers:
+            return row_number, headers
+        if "food name" in headers and headers and headers[0] == "":
+            headers[0] = "food code"
             return row_number, headers
     return None, None
 
