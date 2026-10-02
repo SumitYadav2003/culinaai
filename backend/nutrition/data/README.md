@@ -56,3 +56,40 @@ Converted to match CoFID:
   energy for very high-fibre foods (chia) may differ a little from a UK label.
 
 Load everything (CoFID, this supplement, aliases) with `python manage.py load_food_data`.
+
+## carbon_poore_nemecek_2018.csv
+
+Greenhouse gas emissions for 43 food categories, in kg CO2-equivalent per kg of food, from:
+
+> Poore, J. and Nemecek, T. (2018). Reducing food's environmental impacts through producers and
+> consumers. *Science*, 360(6392), 987-992. https://doi.org/10.1126/science.aaq0216
+
+taken from Our World in Data's "Food: greenhouse gas emissions across the supply chain"
+chart (https://ourworldindata.org/grapher/food-emissions-supply-chain), licensed
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+- Each row has the eight supply-chain stages the study reports (land use change, farm, animal feed,
+  processing, transport, retail, packaging, losses). `kg_co2e_per_kg` is their sum. Every total was
+  checked against OWID's separate per-kg list and all matched.
+- These are **global averages**. A UK-grown product can be higher or lower, so the app shows the
+  figure as "about" and uses it to compare dishes, not to certify one.
+- A few figures look odd because a stage is negative. Nuts come out at 0.43 because the study
+  credits nut orchards with storing carbon (land use change -3.26). That is how it is reported.
+- "Wheat & Rye" was measured for bread and is used here for flour, pasta and other wheat foods.
+
+## carbon_food_map.csv
+
+Which category each food counts as (126 foods, the ones the ingredient aliases use), with a note
+wherever the category is a stand-in, e.g. the wheat figure for pasta or the milk figure for yogurt.
+
+Some foods are deliberately left **without** a category because nothing in the 43 fits well enough,
+and borrowing a figure would mislead: butter, ghee, cream, creme fraiche, wild-caught fish (cod,
+tuna, mackerel, sardines), coconut milk, oat drink, Quorn, quinoa, honey, maple syrup, milk
+chocolate, cocoa, seeds, spices, herbs, sauces and stock cubes. The app lists these as "no carbon
+figure" and says what share of the recipe the carbon estimate covers. Tap water and salt count as
+zero, since their footprint is negligible.
+
+Beef uses the beef-herd figure (99.5). Beef from dairy herds, a large share of UK beef, is about a
+third of that (33.3), so beef dishes may read high for UK-sourced meat.
+
+Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_food_data`.

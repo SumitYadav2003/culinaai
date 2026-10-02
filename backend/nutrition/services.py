@@ -7,6 +7,7 @@ CoFID doesn't cover, each labelled with its source), then applies:
 
 - FSA front-of-pack traffic lights (Department of Health and FSA guidance, 2016)
 - UK nutrition claim conditions (retained Regulation (EC) No 1924/2006, Annex)
+- a carbon footprint from Poore & Nemecek (2018), global averages per kg of food
 
 Nothing here asks the AI for numbers. The AI only supplies ingredient names and
 weights; every figure shown to the user is calculated in this file.
@@ -56,6 +57,10 @@ REFERENCE_INTAKES = {
 # we prefer the raw form, because recipes list raw weights.
 COOKED_WORDS = {"boiled", "fried", "grilled", "roasted", "baked", "stewed", "steamed", "cooked", "microwaved", "poached"}
 
+# Tap water and salt have no Poore & Nemecek category, but their footprint is
+# tiny, so they count as zero rather than as "no figure".
+NEGLIGIBLE_CARBON_CODES = {"17-377", "17-367"}  # water, salt
+
 
 # ---------------------------------------------------------------------------
 # Results
@@ -74,8 +79,10 @@ class MatchedIngredient:
     food_code: str
     food_name: str
     method: str  # "alias" or "fuzzy"
-    nutrients: dict
-    source: str = "CoFID 2021"  # where the per-100 g values come from  # this ingredient's contribution, e.g. {"energy_kcal": 495.0, ...}
+    nutrients: dict  # this ingredient's contribution, e.g. {"energy_kcal": 495.0, ...}
+    source: str = "CoFID 2021"  # where the per-100 g values come from
+    carbon_kg: float | None = None  # kg CO2e for the grams used; None when there is no figure
+    carbon_category: str = ""
 
 
 @dataclass
@@ -91,6 +98,11 @@ class NutritionResult:
     percent_reference_intake: dict = field(default_factory=dict)
     traffic_lights: dict = field(default_factory=dict)
     claims: list = field(default_factory=list)
+
+    carbon_kg_total: float = 0.0
+    carbon_kg_per_serving: float = 0.0
+    carbon_coverage_pct: float = 0.0  # share of the recipe's weight that has a carbon figure
+    carbon_unmatched: list = field(default_factory=list)  # matched for nutrition, but no carbon figure
 
     @property
     def is_complete(self):
@@ -125,7 +137,7 @@ def normalise_name(name):
 def find_by_alias(name):
     normalised = normalise_name(name)
     for candidate in (name.strip().lower(), normalised):
-        alias = IngredientAlias.objects.select_related("food").filter(alias=candidate).first()
+        alias = IngredientAlias.objects.select_related("food__carbon_category").filter(alias=candidate).first()
         if alias:
             return alias.food
     return None
@@ -161,7 +173,7 @@ def find_by_words(name, foods):
 
 def load_foods_for_matching():
     """All CoFID foods with their word sets, built once per calculation."""
-    return [(food, words_of(food.name)) for food in CofidFood.objects.all()]
+    return [(food, words_of(food.name)) for food in CofidFood.objects.select_related("carbon_category")]
 
 
 # ---------------------------------------------------------------------------
@@ -172,6 +184,15 @@ def nutrients_for(food, grams):
     """Scale a food's per-100 g values to the grams used. Missing values count as 0."""
     factor = grams / 100.0
     return {n: (getattr(food, n) or 0.0) * factor for n in NUTRIENTS}
+
+
+def carbon_for(food, grams):
+    """kg CO2e for the grams used, or None when the food has no carbon category."""
+    if food.food_code in NEGLIGIBLE_CARBON_CODES:
+        return 0.0
+    if food.carbon_category is None:
+        return None
+    return food.carbon_category.kg_co2e_per_kg * grams / 1000.0
 
 
 def traffic_light(nutrient, per_100g, per_portion, portion_grams):
@@ -229,6 +250,7 @@ def calculate_nutrition(ingredients, servings):
     result = NutritionResult(servings=servings, total_grams=0.0)
     totals = {n: 0.0 for n in NUTRIENTS}
     matched_grams = 0.0
+    carbon_total, carbon_grams = 0.0, 0.0
 
     for item in ingredients:
         grams = max(float(item.grams or 0), 0.0)
@@ -239,14 +261,27 @@ def calculate_nutrition(ingredients, servings):
             food, method = find_by_words(item.name, foods), "fuzzy"
         if food is None:
             result.unmatched.append(item.name)
+            result.carbon_unmatched.append(item.name)
             continue
 
         contribution = nutrients_for(food, grams)
         for n in NUTRIENTS:
             totals[n] += contribution[n]
         matched_grams += grams
+
+        carbon = carbon_for(food, grams)
+        if carbon is None:
+            result.carbon_unmatched.append(item.name)
+        else:
+            carbon_total += carbon
+            carbon_grams += grams
+
         result.matched.append(
-            MatchedIngredient(item.name, grams, food.food_code, food.name, method, contribution, food.source)
+            MatchedIngredient(
+                item.name, grams, food.food_code, food.name, method, contribution, food.source,
+                carbon_kg=None if carbon is None else round(carbon, 3),
+                carbon_category=food.carbon_category.name if food.carbon_category else "",
+            )
         )
 
     result.totals = {n: round(v, 2) for n, v in totals.items()}
@@ -266,4 +301,8 @@ def calculate_nutrition(ingredients, servings):
         for n in TRAFFIC_LIGHT_THRESHOLDS
     }
     result.claims = nutrition_claims(result.per_100g) if matched_grams else []
+
+    result.carbon_kg_total = round(carbon_total, 3)
+    result.carbon_kg_per_serving = round(carbon_total / servings, 3)
+    result.carbon_coverage_pct = round(carbon_grams / result.total_grams * 100, 1) if result.total_grams else 0.0
     return result

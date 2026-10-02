@@ -68,3 +68,47 @@ class RealDataRecipeTests(TestCase):
         chia = CofidFood.objects.get(food_code="USDA-170554")
         self.assertAlmostEqual(chia.carbohydrate_g, 7.7)
         self.assertEqual(chia.source, "USDA FoodData Central")
+
+
+class RealCarbonDataTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        with open("/dev/null", "w") as quiet:
+            call_command("load_food_data", stdout=quiet)
+
+    def test_every_category_total_is_the_sum_of_its_stages(self):
+        from nutrition.models import CarbonCategory
+
+        stages = ["land_use_change", "farm", "animal_feed", "processing", "transport", "retail", "packaging", "losses"]
+        categories = CarbonCategory.objects.all()
+        self.assertEqual(categories.count(), 43)
+        for category in categories:
+            with self.subTest(category=category.name):
+                stage_sum = sum(getattr(category, s) for s in stages)
+                self.assertAlmostEqual(category.kg_co2e_per_kg, stage_sum, delta=0.01)
+
+    def test_every_row_of_the_food_map_is_linked(self):
+        import csv
+        from nutrition.management.commands.load_cofid import DATA_DIR
+        from nutrition.models import CofidFood
+
+        with (DATA_DIR / "carbon_food_map.csv").open(encoding="utf-8") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(CofidFood.objects.filter(carbon_category__isnull=False).count(), len(rows))
+
+    def test_red_lentil_dal_by_hand(self):
+        # lentils 0.25 kg x 1.79 + onion 0.15 x 0.50 + tomatoes 0.20 x 2.09 + garlic 0.01 x 0.50
+        # = 0.9455 kg; water counts as zero; spices and ghee have no figure. 4 servings -> 0.236 kg
+        name, servings, items, _ = HAND_CHECKED_RECIPES[4]
+        result = calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
+        self.assertAlmostEqual(result.carbon_kg_per_serving, 0.236, places=3)
+        self.assertEqual(result.carbon_unmatched, ["ginger", "turmeric", "cumin", "ghee"])
+
+    def test_beef_bolognese_is_far_higher_than_dal(self):
+        bolognese = HAND_CHECKED_RECIPES[1]
+        dal = HAND_CHECKED_RECIPES[4]
+        results = [
+            calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
+            for _, servings, items, _ in (bolognese, dal)
+        ]
+        self.assertGreater(results[0].carbon_kg_per_serving, 10 * results[1].carbon_kg_per_serving)

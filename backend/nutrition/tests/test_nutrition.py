@@ -198,3 +198,38 @@ class ClaimTests(TestCase):
     def test_low_saturates_also_needs_energy_share(self):
         # 1.5 g saturates = 13.5 kcal; in a 100 kcal food that's 13.5% of energy, so no claim.
         self.assertNotIn("Low saturated fat", nutrition_claims(self.per_100g(saturates_g=1.5, energy_kcal=100)))
+
+
+class CarbonTests(TestCase):
+    """Round-number carbon categories, so every figure can be checked by hand."""
+
+    @classmethod
+    def setUpTestData(cls):
+        from nutrition.models import CarbonCategory
+
+        beef = CarbonCategory.objects.create(name="Test beef", kg_co2e_per_kg=100.0)
+        pulses = CarbonCategory.objects.create(name="Test pulses", kg_co2e_per_kg=2.0)
+        make_food("T-1", "Beef, mince, raw", carbon_category=beef)
+        make_food("T-2", "Lentils, red, raw", carbon_category=pulses)
+        make_food("T-3", "Butter, salted")  # no carbon category on purpose
+        make_food("17-377", "Water, distilled")  # code the engine treats as negligible
+
+    def test_carbon_per_serving(self):
+        # 200 g beef = 20 kg, 300 g lentils = 0.6 kg -> 20.6 kg for 2 servings
+        result = calculate_nutrition([IngredientInput("beef mince", 200), IngredientInput("red lentils", 300)], 2)
+        self.assertAlmostEqual(result.carbon_kg_total, 20.6)
+        self.assertAlmostEqual(result.carbon_kg_per_serving, 10.3)
+        self.assertEqual(result.carbon_coverage_pct, 100.0)
+
+    def test_food_without_category_is_reported_not_guessed(self):
+        result = calculate_nutrition([IngredientInput("red lentils", 300), IngredientInput("butter", 100)], 1)
+        self.assertAlmostEqual(result.carbon_kg_total, 0.6)
+        self.assertEqual(result.carbon_unmatched, ["butter"])
+        self.assertEqual(result.carbon_coverage_pct, 75.0)
+        self.assertIsNone(result.matched[1].carbon_kg)
+
+    def test_water_counts_as_zero_and_covered(self):
+        result = calculate_nutrition([IngredientInput("red lentils", 100), IngredientInput("water", 900)], 1)
+        self.assertAlmostEqual(result.carbon_kg_total, 0.2)
+        self.assertEqual(result.carbon_coverage_pct, 100.0)
+        self.assertEqual(result.carbon_unmatched, [])

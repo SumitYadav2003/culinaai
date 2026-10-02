@@ -1,6 +1,36 @@
 from django.db import models
 
 
+class CarbonCategory(models.Model):
+    """
+    Greenhouse gas emissions for one food category, in kg CO2-equivalent per kg
+    of food, from Poore & Nemecek (2018), Science 360:987-992, as published by
+    Our World in Data (CC BY 4.0).
+
+    These are global averages across farms and countries, split into the eight
+    supply-chain stages the study reports. The total is the sum of the stages.
+    """
+
+    name = models.CharField(max_length=60, unique=True)
+    kg_co2e_per_kg = models.FloatField()
+
+    land_use_change = models.FloatField(default=0)
+    farm = models.FloatField(default=0)
+    animal_feed = models.FloatField(default=0)
+    processing = models.FloatField(default=0)
+    transport = models.FloatField(default=0)
+    retail = models.FloatField(default=0)
+    packaging = models.FloatField(default=0)
+    losses = models.FloatField(default=0)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "carbon categories"
+
+    def __str__(self):
+        return f"{self.name} ({self.kg_co2e_per_kg} kg CO2e/kg)"
+
+
 class CofidFood(models.Model):
     """
     One food with its nutrients per 100 g.
@@ -32,6 +62,14 @@ class CofidFood(models.Model):
     sugars_g = models.FloatField(null=True, blank=True)
     fibre_g = models.FloatField(null=True, blank=True)
     salt_g = models.FloatField(null=True, blank=True)
+
+    # Which carbon category this food counts as. Empty when no category fits
+    # well enough (e.g. butter, wild fish), so the app reports "no figure"
+    # instead of borrowing a misleading one.
+    carbon_category = models.ForeignKey(
+        CarbonCategory, null=True, blank=True, on_delete=models.SET_NULL, related_name="foods"
+    )
+    carbon_note = models.CharField(max_length=255, blank=True)
 
     class Meta:
         ordering = ["name"]
