@@ -39,8 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     Chart.defaults.font.family = "'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
-    Chart.defaults.color = chartTheme.text;
     Chart.defaults.animation = false;
+
+    // Text, grid and slice-border colours depend on the light / dark theme.
+    function applyThemeColours() {
+        const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+        chartTheme.text = isDark ? "#f3e6d6" : "#1f1a17";
+        chartTheme.muted = isDark ? "#cdb9a4" : "#7c6d62";
+        chartTheme.grid = isDark ? "rgba(255, 244, 232, 0.10)" : "rgba(31, 26, 23, 0.10)";
+        chartTheme.sliceBorder = isDark ? "#241a12" : "#ffffff";
+
+        Chart.defaults.color = chartTheme.text;
+    }
 
     function readChartData(scriptId) {
         const script = document.getElementById(scriptId);
@@ -237,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             chartTheme.orange,
                             chartTheme.darkSoft
                         ],
-                        borderColor: "#ffffff",
+                        borderColor: chartTheme.sliceBorder,
                         borderWidth: 3,
                         hoverOffset: 0
                     }
@@ -295,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         borderColor: chartTheme.orange,
                         backgroundColor: chartTheme.orangeSoft,
                         pointBackgroundColor: chartTheme.orange,
-                        pointBorderColor: "#ffffff",
+                        pointBorderColor: chartTheme.sliceBorder,
                         pointBorderWidth: 2,
                         pointRadius: 4,
                         pointHoverRadius: 5,
@@ -398,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             chartTheme.amber,
                             chartTheme.greenSoft
                         ],
-                        borderColor: "#ffffff",
+                        borderColor: chartTheme.sliceBorder,
                         borderWidth: 3,
                         hoverOffset: 0
                     }
@@ -476,10 +487,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    createScoreVerticalBarChart();
-    createRiskDoughnutChart();
-    createGenerationLineChart();
-    createValidationHorizontalBarChart();
-    createTopCuisinePieChart();
-    createTopMealTypeCompactBarChart();
+    function drawAllCharts() {
+        // Remove any charts already on the page before drawing them again.
+        Object.values(Chart.instances).forEach(function (chart) {
+            chart.destroy();
+        });
+
+        applyThemeColours();
+
+        createScoreVerticalBarChart();
+        createRiskDoughnutChart();
+        createGenerationLineChart();
+        createValidationHorizontalBarChart();
+        createTopCuisinePieChart();
+        createTopMealTypeCompactBarChart();
+    }
+
+    drawAllCharts();
+
+    // theme_toggle.js sends this event when the user switches theme.
+    window.addEventListener("culina:themechange", drawAllCharts);
 });

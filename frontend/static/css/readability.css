@@ -1,0 +1,277 @@
+/* =========================================================
+   CulinaAI readability fixes
+   File: frontend/static/css/readability.css
+
+   Every rule here makes text easier to read without changing the
+   site's look. It loads after the page stylesheets, so it wins.
+   Targets the WCAG AA contrast level: 4.5:1 for normal text and
+   3:1 for large headings. Each value was checked against the
+   background it actually sits on.
+
+   Brand colours used:
+     green buttons   #15803d -> #166534   (white text 5.0:1 and up)
+     red buttons     #dc2626 -> #b91c1c   (white text 4.8:1 and up)
+     blue buttons    #1d4ed8 -> #1e40af   (white text 6.7:1 and up)
+     orange buttons  keep the orange, text becomes dark #1f1a17 (4.8:1 and up),
+                     matching the existing Generate Recipe and Sign Up buttons
+     orange labels   #c2410c on white/cream, #9a3412 on tinted pills
+   ========================================================= */
+
+/* ---------- 1. Green buttons and badges with white text ---------- */
+
+.process-choice-btn,
+.simple-shared-view-btn,
+.profile-password-save-btn,
+.community-view-btn,
+.community-feedback-submit-btn,
+.saved-recipe-view-btn,
+.favourite-recipes-section .saved-recipe-view-btn,
+.saved-filter-btn,
+.saved-community-add-btn,
+.recipe-community-add-btn,
+.recipe-favourite-btn:not(.active),
+.recipe-feedback-submit-btn,
+.culina-shopping-print-btn,
+.saved-attempt-number,
+.saved-attempt-success .saved-attempt-number,
+.saved-validation-badge,
+.saved-validation-badge-excellent,
+.saved-validation-badge-success,
+.saved-score-excellent,
+.saved-score-success {
+    background: linear-gradient(135deg, #15803d, #166534) !important;
+    color: #ffffff !important;
+}
+
+.process-choice-btn:hover,
+.simple-shared-view-btn:hover,
+.profile-password-save-btn:hover,
+.community-view-btn:hover,
+.community-feedback-submit-btn:hover,
+.saved-recipe-view-btn:hover,
+.saved-filter-btn:hover,
+.saved-community-add-btn:hover,
+.recipe-community-add-btn:hover,
+.recipe-favourite-btn:not(.active):hover,
+.recipe-feedback-submit-btn:hover,
+.culina-shopping-print-btn:hover {
+    background: linear-gradient(135deg, #166534, #14532d) !important;
+    color: #ffffff !important;
+}
+
+/* Fridge scanner uses an olive green */
+.fridge-btn-green {
+    background: linear-gradient(135deg, #4f7b3f 0%, #3f6332 100%) !important;
+    color: #ffffff !important;
+}
+
+/* ---------- 2. Orange buttons: keep the orange, use dark text ---------- */
+
+#culina-email-share .culina-email-submit,
+.culina-modify-submit,
+.culina-comparison-source-link,
+.recipe-print-btn,
+.favourite-recipes-section .recipe-filter-submit-btn,
+.favourite-recipes-section .saved-recipes-primary-btn,
+.quality-issue-progress-top strong {
+    color: #1f1a17 !important;
+}
+
+#culina-email-share .culina-email-submit:hover,
+.culina-modify-submit:hover,
+.culina-comparison-source-link:hover,
+.recipe-print-btn:hover,
+.favourite-recipes-section .recipe-filter-submit-btn:hover,
+.favourite-recipes-section .saved-recipes-primary-btn:hover {
+    color: #1f1a17 !important;
+}
+
+/* Numbered fridge-scanner steps: gold circle, dark number */
+.scanner-step-no {
+    background: linear-gradient(135deg, #f4b343 0%, #de8737 100%);
+    color: #1f1a17;
+}
+
+/* ---------- 3. Red (delete / danger) buttons with white text ---------- */
+
+.history-danger-btn,
+.pantry-danger-action-btn,
+.delete-confirm-btn,
+.culina-delete-modal-footer .delete-confirm-btn,
+.fridge-delete-confirm-btn,
+.saved-validation-badge-danger,
+.saved-score-danger {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    color: #ffffff !important;
+}
+
+.history-danger-btn:hover,
+.pantry-danger-action-btn:hover,
+.delete-confirm-btn:hover,
+.culina-delete-modal-footer .delete-confirm-btn:hover,
+.fridge-delete-confirm-btn:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
+    color: #ffffff !important;
+}
+
+/* Warning attempt number uses the same amber as the warning score band below */
+.saved-attempt-warning .saved-attempt-number {
+    background: linear-gradient(135deg, #b45309, #c2410c) !important;
+}
+
+/* The score ring was a see-through white, which made the white "/100" faint */
+.saved-score-ring {
+    background: rgba(0, 0, 0, 0.14) !important;
+}
+
+/* Score band 75-84 ("accepted with minor warnings") stays amber, but deeper */
+.saved-validation-badge-warning,
+.saved-score-warning {
+    background: linear-gradient(135deg, #b45309, #c2410c) !important;
+    color: #ffffff !important;
+}
+
+/* ---------- 4. Blue (public community page) buttons ---------- */
+
+.recipe-community-view-btn,
+.recipe-community-public-btn {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+    color: #ffffff !important;
+}
+
+/* ---------- 5. History "Reset" button on the white filter card ----------
+   It was white text on a white card, so it could not be seen. */
+
+.history-filter-card .history-secondary-btn {
+    color: #1f1a17;
+    background: #fff8ef;
+    border: 1px solid rgba(31, 26, 23, 0.16);
+}
+
+.history-filter-card .history-secondary-btn:hover {
+    color: #1f1a17;
+    background: #ffedd5;
+}
+
+/* ---------- 6. Small orange labels on white or cream ---------- */
+
+.cooking-eyebrow,
+.sidebar-header span,
+.timer-header span,
+.command-eyebrow,
+.user-analytics-header span,
+.panel-label,
+.horizontal-section-heading,
+.pantry-edit-modal-label,
+.scanner-section-label,
+.fridge-scanner-generator-content span,
+.edit-recipe-card-header span,
+.profile-password-form-header span,
+.profile-progress-label strong,
+.quality-panel-header span,
+.quality-status-card > span,
+.quality-dashboard-page .advanced-card span,
+.quality-dashboard-page.evidence-detail-page .evidence-meta-grid span,
+.quality-dashboard-page .quality-filter-result strong,
+.feedback-history-content span,
+.saved-check-content small,
+.saved-validation-metric-card span,
+.process-card-action,
+.auth-switch a,
+.auth-forgot-link,
+.password-reset-secondary-link a,
+.recipe-back-link {
+    color: #c2410c !important;
+}
+
+/* Labels and badges that sit on a pale orange pill or tinted header */
+.section-label,
+.profile-panel-header span,
+.pantry-alert-label,
+.pantry-bulk-label,
+.pantry-recommendation-label,
+.fridge-section-kicker,
+.current-step-header span,
+.culina-delete-modal-preview span,
+.about-section-heading span,
+.about-mini-label,
+.pantry-recommendation-badge,
+.pantry-bulk-actions .pantry-secondary-btn,
+.pantry-bulk-actions-top .pantry-secondary-btn,
+.fridge-badge-orange,
+.fridge-page-badge,
+.scanner-status-badge,
+.premium-recipe-label {
+    color: #9a3412 !important;
+}
+
+/* This label sits on an orange-to-gold pill, so its text stays dark */
+.community-detail-header .section-label {
+    color: #1f1a17 !important;
+}
+
+/* Large orange heading text only needs 3:1 */
+.command-hero-copy h1 span {
+    color: #ea580c;
+}
+
+/* ---------- 7. Status pills ---------- */
+
+.pantry-status-fresh {
+    color: #146c43;
+}
+
+.pantry-status-soon {
+    color: #7a5300;
+}
+
+.about-responsibility-card span {
+    color: #15803d;
+}
+
+/* ---------- 8. Muted grey text that was slightly too pale ---------- */
+
+.timer-display-wrap small,
+.pantry-bulk-heading,
+.pantry-alert-header p:last-child,
+.pantry-bulk-header p:last-child,
+.pantry-recommendation-header p:last-child,
+.pantry-delete-modal-content p,
+.taste-score-ring span {
+    color: #64554a;
+}
+
+.profile-clean-file-name,
+.profile-detail-item span,
+.profile-edit-label span,
+.profile-recent-item span,
+.profile-recipe-breakdown span,
+.profile-stat-card span {
+    color: #625a55 !important;
+}
+
+.command-panel-header span,
+.taste-card-header span,
+.user-card-header span {
+    color: #5b6270;
+}
+
+.timeline-topline small {
+    color: #6b7280;
+}
+
+/* Chat timestamps */
+.culina-chat-meta {
+    color: #6f5d4f;
+}
+
+/* ...inside the user's dark message bubble */
+.culina-chat-message.user .culina-chat-meta {
+    color: rgba(255, 250, 243, 0.82) !important;
+}
+
+/* Small white labels on the dark AI cards of the generate page */
+.ai-flow-header span,
+.ai-image-card-header span {
+    color: rgba(255, 255, 255, 0.82) !important;
+}
