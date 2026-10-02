@@ -36,10 +36,15 @@ maple syrup, chia seeds, unsweetened oat drink and dry rice noodles. Values come
 data in the public domain. Each row keeps its USDA FDC ID in the food code (e.g. `USDA-169698`), and
 the app labels these foods "USDA FoodData Central" so users can see they are not UK figures.
 
-Values were read from getfoodfacts.com, which republishes USDA data by FDC ID, and cross-checked
-against triagemethod.com (and recipal.com for black beans) because the USDA API was not reachable
-from the build environment. Main values (energy, protein, fat, carbohydrate) agreed on every food
-checked.
+Values were read from getfoodfacts.com, which republishes USDA data by FDC ID, because the USDA API
+was not reachable from the build environment. Cross-checks on a second site:
+
+- Cornflour, breadcrumbs, rice noodles and maple syrup matched triagemethod.com exactly.
+- Black beans matched recipal.com on energy, protein, fat and carbohydrate (saturates and sugars
+  differed slightly).
+- Chia seeds: the second site uses a newer USDA entry (490 kcal instead of 486), so it is not a
+  like-for-like check. The SR Legacy entry (FDC 170554) is used here.
+- Oat drink: not cross-checked. Worth confirming against the USDA site (FDC 2257046) when possible.
 
 Converted to match CoFID:
 
