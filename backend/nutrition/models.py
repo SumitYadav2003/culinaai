@@ -3,17 +3,25 @@ from django.db import models
 
 class CofidFood(models.Model):
     """
-    One food from the UK government's CoFID 2021 dataset
-    (McCance and Widdowson's Composition of Foods Integrated Dataset).
+    One food with its nutrients per 100 g.
 
-    All nutrient values are per 100 g of the food as described by its name
-    (e.g. "Chicken, breast, raw"). A value is empty (None) when CoFID marks it
-    as not measured, so missing data is never mistaken for zero.
+    Almost all foods come from the UK government's CoFID 2021 dataset
+    (McCance and Widdowson's Composition of Foods Integrated Dataset).
+    A handful of common ingredients that CoFID doesn't cover (e.g. cornflour,
+    chia seeds) come from USDA FoodData Central instead; `source` says which,
+    so the app can always show where a number came from.
+
+    A value is empty (None) when the source has no figure, so missing data is
+    never mistaken for zero.
     """
+
+    SOURCE_COFID = "CoFID 2021"
+    SOURCE_USDA = "USDA FoodData Central"
 
     food_code = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=255)
     food_group = models.CharField(max_length=20, blank=True)
+    source = models.CharField(max_length=40, default=SOURCE_COFID)
 
     energy_kcal = models.FloatField(null=True, blank=True)
     energy_kj = models.FloatField(null=True, blank=True)

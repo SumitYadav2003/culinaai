@@ -1,11 +1,12 @@
 """
-Load CoFID foods from the cleaned CSV into the database.
+Load foods from a cleaned CSV into the database.
 
-    python manage.py load_cofid
-    python manage.py load_cofid --file path/to/cofid_2021.csv
+    python manage.py load_cofid                      # CoFID 2021 (default file)
+    python manage.py load_cofid --file data/usda_supplement.csv --source "USDA FoodData Central"
 
-The CSV is created from the official Excel file by scripts/extract_cofid.py.
+The CoFID CSV is created from the official Excel file by scripts/extract_cofid.py.
 Running this command again updates existing foods instead of duplicating them.
+To load everything (CoFID, USDA supplement, aliases) in one go, use `load_food_data`.
 """
 
 import csv
@@ -17,7 +18,8 @@ from django.db import transaction
 from nutrition.models import CofidFood
 from nutrition.services import NUTRIENTS
 
-DEFAULT_CSV = Path(__file__).resolve().parents[2] / "data" / "cofid_2021.csv"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DEFAULT_CSV = DATA_DIR / "cofid_2021.csv"
 
 
 def to_number(value):
@@ -27,10 +29,11 @@ def to_number(value):
 
 
 class Command(BaseCommand):
-    help = "Load CoFID 2021 foods from the cleaned CSV into the database."
+    help = "Load foods (CoFID 2021 by default) from a cleaned CSV into the database."
 
     def add_arguments(self, parser):
-        parser.add_argument("--file", default=str(DEFAULT_CSV), help="Path to the cleaned CoFID CSV.")
+        parser.add_argument("--file", default=str(DEFAULT_CSV), help="Path to the cleaned food CSV.")
+        parser.add_argument("--source", default=CofidFood.SOURCE_COFID, help="Where these values come from.")
 
     def handle(self, *args, **options):
         path = Path(options["file"])
@@ -46,7 +49,11 @@ class Command(BaseCommand):
                     skipped += 1
                     continue
 
-                values = {"name": name, "food_group": (row.get("food_group") or "").strip()}
+                values = {
+                    "name": name,
+                    "food_group": (row.get("food_group") or "").strip(),
+                    "source": options["source"],
+                }
                 values.update({n: to_number(row.get(n)) for n in NUTRIENTS})
 
                 _, was_created = CofidFood.objects.update_or_create(food_code=code, defaults=values)
@@ -56,6 +63,6 @@ class Command(BaseCommand):
                     updated += 1
 
         self.stdout.write(self.style.SUCCESS(
-            f"CoFID load finished: {created} created, {updated} updated, {skipped} skipped. "
+            f"{options['source']}: {created} created, {updated} updated, {skipped} skipped. "
             f"Total foods: {CofidFood.objects.count()}."
         ))

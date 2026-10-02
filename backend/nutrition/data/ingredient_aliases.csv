@@ -244,3 +244,12 @@ dark chocolate,17-491,"Chocolate, plain (the UK name for dark chocolate)"
 milk chocolate,17-648,
 yeast,17-379,Dried
 water,17-377,
+cornflour,USDA-169698,Not in CoFID; USDA value
+cornstarch,USDA-169698,Not in CoFID; USDA value
+breadcrumb,USDA-174928,"Not in CoFID; USDA value, dry plain breadcrumbs"
+black bean,USDA-173735,"Not in CoFID; USDA cooked value, close to canned and drained"
+maple syrup,USDA-169661,Not in CoFID; USDA value
+chia seed,USDA-170554,Not in CoFID; USDA value
+oat milk,USDA-2257046,Not in CoFID; USDA unsweetened oat drink
+oat drink,USDA-2257046,Not in CoFID; USDA unsweetened oat drink
+rice noodle,USDA-169742,"Not in CoFID as dry noodles; USDA value, dry"

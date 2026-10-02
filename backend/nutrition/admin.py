@@ -5,9 +5,9 @@ from .models import CofidFood, IngredientAlias
 
 @admin.register(CofidFood)
 class CofidFoodAdmin(admin.ModelAdmin):
-    list_display = ("food_code", "name", "energy_kcal", "protein_g", "fat_g", "sugars_g", "salt_g")
+    list_display = ("food_code", "name", "source", "energy_kcal", "protein_g", "fat_g", "sugars_g", "salt_g")
     search_fields = ("food_code", "name")
-    list_filter = ("food_group",)
+    list_filter = ("source", "food_group")
 
 
 @admin.register(IngredientAlias)

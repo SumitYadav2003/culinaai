@@ -2,7 +2,8 @@
 Nutrition engine for CulinaAI.
 
 Turns a list of recipe ingredients (name + grams) into calories and nutrients
-using the UK government's CoFID 2021 food data, then applies:
+using the UK government's CoFID 2021 food data (plus a few USDA foods that
+CoFID doesn't cover, each labelled with its source), then applies:
 
 - FSA front-of-pack traffic lights (Department of Health and FSA guidance, 2016)
 - UK nutrition claim conditions (retained Regulation (EC) No 1924/2006, Annex)
@@ -73,7 +74,8 @@ class MatchedIngredient:
     food_code: str
     food_name: str
     method: str  # "alias" or "fuzzy"
-    nutrients: dict  # this ingredient's contribution, e.g. {"energy_kcal": 495.0, ...}
+    nutrients: dict
+    source: str = "CoFID 2021"  # where the per-100 g values come from  # this ingredient's contribution, e.g. {"energy_kcal": 495.0, ...}
 
 
 @dataclass
@@ -243,7 +245,9 @@ def calculate_nutrition(ingredients, servings):
         for n in NUTRIENTS:
             totals[n] += contribution[n]
         matched_grams += grams
-        result.matched.append(MatchedIngredient(item.name, grams, food.food_code, food.name, method, contribution))
+        result.matched.append(
+            MatchedIngredient(item.name, grams, food.food_code, food.name, method, contribution, food.source)
+        )
 
     result.totals = {n: round(v, 2) for n, v in totals.items()}
     result.coverage_pct = round(matched_grams / result.total_grams * 100, 1) if result.total_grams else 0.0

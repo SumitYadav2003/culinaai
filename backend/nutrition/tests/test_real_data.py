@@ -30,8 +30,7 @@ class RealDataRecipeTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         with open("/dev/null", "w") as quiet:
-            call_command("load_cofid", stdout=quiet)
-            call_command("load_ingredient_aliases", stdout=quiet)
+            call_command("load_food_data", stdout=quiet)
 
     def test_every_alias_points_at_a_real_food(self):
         from nutrition.models import IngredientAlias
@@ -51,8 +50,21 @@ class RealDataRecipeTests(TestCase):
         result = calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
         self.assertEqual(set(result.traffic_lights.values()), {"green"})
 
-    def test_ingredient_missing_from_cofid_is_reported(self):
-        result = calculate_nutrition([IngredientInput("chia seeds", 20), IngredientInput("rice", 80)], 1)
-        self.assertEqual(result.unmatched, ["chia seeds"])
+    def test_unknown_ingredient_is_reported(self):
+        result = calculate_nutrition([IngredientInput("dragon fruit", 20), IngredientInput("rice", 80)], 1)
+        self.assertEqual(result.unmatched, ["dragon fruit"])
         self.assertEqual(result.coverage_pct, 80.0)
         self.assertFalse(result.is_complete)
+
+    def test_usda_foods_fill_cofid_gaps_and_say_so(self):
+        items = ["cornflour", "breadcrumbs", "black beans", "maple syrup", "chia seeds", "oat milk", "rice noodles"]
+        result = calculate_nutrition([IngredientInput(name, 50) for name in items], 1)
+        self.assertEqual(result.unmatched, [])
+        self.assertEqual({m.source for m in result.matched}, {"USDA FoodData Central"})
+
+    def test_usda_carbohydrate_is_converted_to_uk_basis(self):
+        # USDA counts fibre inside carbohydrate; CoFID doesn't. Chia: 42.1 - 34.4 = 7.7 g.
+        from nutrition.models import CofidFood
+        chia = CofidFood.objects.get(food_code="USDA-170554")
+        self.assertAlmostEqual(chia.carbohydrate_g, 7.7)
+        self.assertEqual(chia.source, "USDA FoodData Central")

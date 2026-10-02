@@ -20,7 +20,7 @@ total sugars, fibre and salt, all per 100 g. It is created from the official Exc
 - 33 foods (mostly spices and stock cubes) have no energy figure in CoFID. They count as 0 kcal,
   which matters little because they are used in small amounts.
 
-Load it with `python manage.py load_cofid`.
+Load it with `python manage.py load_cofid` (or everything at once with `load_food_data`).
 
 ## ingredient_aliases.csv
 
@@ -28,5 +28,26 @@ Hand-checked links from everyday ingredient names ("chicken breast") to the CoFI
 represents them ("Chicken, light meat, raw"), with a note where a choice needed explaining.
 Load with `python manage.py load_ingredient_aliases` (after `load_cofid`).
 
-Not in CoFID, so these ingredients show as "not found" rather than being matched to the wrong food:
-cornflour, breadcrumbs, black beans, maple syrup, chia seeds, oat milk, dried rice noodles.
+## usda_supplement.csv
+
+Seven common ingredients that CoFID doesn't cover: cornflour, dry breadcrumbs, black beans (cooked),
+maple syrup, chia seeds, unsweetened oat drink and dry rice noodles. Values come from
+**USDA FoodData Central** (SR Legacy, and Foundation Foods for the oat drink), which is US government
+data in the public domain. Each row keeps its USDA FDC ID in the food code (e.g. `USDA-169698`), and
+the app labels these foods "USDA FoodData Central" so users can see they are not UK figures.
+
+Values were read from getfoodfacts.com, which republishes USDA data by FDC ID, and cross-checked
+against triagemethod.com (and recipal.com for black beans) because the USDA API was not reachable
+from the build environment. Main values (energy, protein, fat, carbohydrate) agreed on every food
+checked.
+
+Converted to match CoFID:
+
+- **Carbohydrate:** USDA reports carbohydrate "by difference", which includes fibre. CoFID does not.
+  So `carbohydrate_g` = USDA carbohydrate minus fibre (the original USDA figure is kept in
+  `usda_carbohydrate_by_difference_g`). For chia seeds that is 42.1 - 34.4 = 7.7 g.
+- **Salt** = sodium (mg) x 2.5 / 1000, and **kJ** = kcal x 4.184.
+- **Energy** is kept as USDA states it. USDA and UK methods credit fibre slightly differently, so
+  energy for very high-fibre foods (chia) may differ a little from a UK label.
+
+Load everything (CoFID, this supplement, aliases) with `python manage.py load_food_data`.
