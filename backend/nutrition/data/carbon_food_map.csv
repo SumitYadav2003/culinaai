@@ -1,0 +1,127 @@
+food_code,carbon_category,notes
+11-716,Wheat & Rye,Poore & Nemecek's wheat figure (measured for bread) used for dried pasta
+11-718,Wheat & Rye,Wheat figure used for wholewheat pasta
+11-719,Wheat & Rye,Wheat figure used for egg noodles (mostly wheat flour)
+11-886,Wheat & Rye,Wheat figure used for flour
+11-888,Wheat & Rye,Wheat figure used for flour
+11-889,Wheat & Rye,Wheat figure used for flour
+11-901,Wheat & Rye,Couscous is wheat
+11-925,Wheat & Rye,Wheat tortilla
+11-973,Wheat & Rye,
+11-974,Wheat & Rye,
+11-980,Wheat & Rye,
+11-981,Wheat & Rye,
+11-788,Oatmeal,
+11-857,Rice,
+11-861,Rice,
+11-868,Rice,
+11-878,Rice,
+USDA-169742,Rice,Rice noodles are rice flour
+USDA-169698,Maize,Cornflour is maize starch
+USDA-174928,Wheat & Rye,Breadcrumbs are dried bread
+12-307,Milk,
+12-313,Milk,
+12-596,Milk,
+12-184,Milk,Milk figure used for plain yogurt (close per kg; slightly low)
+12-379,Milk,Milk figure used for plain yogurt (close per kg; slightly low)
+12-555,Milk,"Milk figure used for Greek yogurt (strained, so this reads low)"
+12-346,Cheese,
+12-360,Cheese,Cheese figure (mostly hard cheese) used for mozzarella; probably reads high
+12-495,Cheese,Cheese figure (mostly hard cheese) used for paneer; probably reads high
+12-525,Cheese,Cheese figure (mostly hard cheese) used for feta; probably reads high
+12-526,Cheese,
+12-551,Cheese,Cheese figure (mostly hard cheese) used for cream cheese; probably reads high
+12-524,Soy milk,
+12-937,Eggs,
+13-074,Other Pulses,
+13-089,Other Pulses,
+13-657,Other Pulses,
+13-660,Other Pulses,
+13-670,Other Pulses,
+USDA-173735,Other Pulses,
+13-532,Other Pulses,Pulse figure used for baked beans; the tomato sauce is not counted separately
+13-556,Other Pulses,Pulse figure used for houmous; the oil and tahini are not counted separately
+13-527,Peas,
+13-570,Tofu,
+13-499,Onions & Leeks,
+13-342,Onions & Leeks,
+13-352,Onions & Leeks,
+13-624,Onions & Leeks,
+13-244,Onions & Leeks,Garlic is in the onion family; onion figure used
+13-517,Tomatoes,
+13-519,Tomatoes,
+13-530,Tomatoes,Fresh tomato figure used for canned tomatoes
+13-489,Potatoes,
+13-618,Potatoes,
+13-463,Root Vegetables,
+13-496,Root Vegetables,
+13-164,Root Vegetables,
+13-502,Brassicas,
+13-512,Brassicas,
+13-234,Brassicas,
+13-582,Brassicas,
+13-190,Brassicas,
+13-161,Other Vegetables,
+13-300,Other Vegetables,
+13-316,Other Vegetables,
+13-317,Other Vegetables,
+13-318,Other Vegetables,
+13-355,Other Vegetables,
+13-505,Other Vegetables,
+13-514,Other Vegetables,
+13-520,Other Vegetables,
+13-521,Other Vegetables,
+13-523,Other Vegetables,
+13-524,Other Vegetables,
+13-526,Other Vegetables,
+13-529,Other Vegetables,
+13-572,Other Vegetables,
+13-622,Other Vegetables,
+13-627,Other Vegetables,
+13-636,Other Vegetables,
+14-318,Bananas,
+14-319,Apples,
+14-324,Berries & Grapes,
+14-325,Berries & Grapes,
+14-277,Citrus Fruit,Whole-fruit figure used for juice
+14-279,Citrus Fruit,Whole-fruit figure used for juice
+14-327,Citrus Fruit,
+14-378,Other Fruit,
+14-386,Other Fruit,
+14-811,Nuts,
+14-870,Nuts,
+14-879,Nuts,
+14-896,Nuts,
+14-877,Groundnuts,Groundnuts are peanuts
+14-892,Groundnuts,Peanut figure used for peanut butter
+17-038,Olive Oil,
+17-041,Rapeseed Oil,
+17-045,Sunflower Oil,
+17-686,Rapeseed Oil,UK vegetable oil is usually rapeseed oil
+17-063,Beet Sugar,UK white sugar is mostly from British sugar beet
+17-060,Cane Sugar,Brown sugar is usually cane
+17-065,Cane Sugar,Golden syrup is made from cane sugar
+17-491,Dark Chocolate,
+18-289,Poultry Meat,
+18-290,Poultry Meat,
+18-293,Poultry Meat,
+18-297,Poultry Meat,
+18-488,Poultry Meat,
+18-349,Poultry Meat,Poultry figure used for turkey
+18-350,Poultry Meat,Poultry figure used for turkey
+18-007,Beef (beef herd),Beef-herd figure; beef from dairy herds is lower (33.3)
+18-065,Beef (beef herd),Beef-herd figure; beef from dairy herds is lower (33.3)
+18-077,Beef (beef herd),Beef-herd figure; beef from dairy herds is lower (33.3)
+18-469,Beef (beef herd),Beef-herd figure; beef from dairy herds is lower (33.3)
+18-471,Beef (beef herd),Beef-herd figure; beef from dairy herds is lower (33.3)
+18-508,Beef (beef herd),Beef-herd figure; beef from dairy herds is lower (33.3)
+18-478,Lamb & Mutton,
+18-481,Lamb & Mutton,
+18-536,Pig Meat,
+18-606,Pig Meat,
+19-016,Pig Meat,Pork figure used for bacon
+19-497,Pig Meat,Pork figure used for bacon
+19-496,Pig Meat,Pork figure used for ham
+19-510,Pig Meat,Pork figure used for sausages (they also contain rusk and fat)
+16-356,Fish (farmed),Farmed salmon
+16-387,Shrimps (farmed),Assumes farmed king prawns

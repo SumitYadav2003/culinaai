@@ -1,0 +1,11 @@
+food_code,shop,product,price_in_sheet_gbp,price_on_second_read,second_read_quote,matches
+13-512,Sainsbury's,Sainsbury's Cauliflower,1.18,1.18,"""Sainsbury's Cauliflower"" priced at £1.18 each",yes
+13-317,Tesco,Tesco Red Chillies 60G,0.51,0.51,"""Tesco Red Chillies 60G"" costs £0.51 at £8.50/kg",yes
+17-724,Tesco,Tesco Gravy Granules For Chicken 200G,0.66,0.66,"£0.66 at £3.30/kg unit price",yes
+14-811,Morrisons,Morrisons Cashews 180g,2.48,2.48,"""Morrisons Cashews"" 180g, Price £2.48, Ordinarily £13.78/kg",yes
+14-879,Sainsbury's,"Sainsbury's Walnuts, Halves 100g",1.90,1.90,"""£1.90"" with a unit price of ""£19.00 / kg""",yes
+14-386,Morrisons,Morrisons Ready To Eat Avocado,1.10,1.10,"""Morrisons Ready To Eat Avocado"" at £1.10",yes
+12-555,Morrisons,Morrisons Greek Style Yogurt 500g,1.15,1.15,"""Price£1.15"" - ""Ordinarily £2.30/kg""",yes
+17-515,Sainsbury's,"Sainsbury's Stock Cubes, Beef 10x10g",1.10,1.10,"£1.10, £11.00 / kg",yes
+13-888,Sainsbury's,Sainsbury's Fresh Packed Bunch Coriander 30g,0.55,0.55,"""55p"" with a unit price of ""£18.33 / kg""",yes
+13-836,Tesco,Tesco Fresh Cut Mint 30G,0.50,0.50,"£0.50 with a unit price of £16.67/kg",yes

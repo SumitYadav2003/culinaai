@@ -1,0 +1,255 @@
+alias,food_code,notes
+chicken breast,18-290,CoFID has no raw breast entry; light meat (raw) is breast meat
+chicken,18-488,Average raw chicken meat
+chicken thigh,18-289,CoFID has no raw thigh entry; dark meat (raw) is thigh and leg meat
+chicken drumstick,18-289,CoFID has no raw drumstick entry; dark meat (raw)
+chicken leg,18-293,Leg quarter raw meat and skin
+whole chicken,18-297,Raw meat and skin
+beef mince,18-469,
+lean beef mince,18-508,Extra lean
+extra lean beef mince,18-508,
+beef steak,18-471,Rump steak raw lean and fat as a typical steak
+rump steak,18-471,
+sirloin steak,18-065,
+stewing beef,18-077,Lean and fat
+braising steak,18-007,Lean and fat
+lamb mince,18-481,
+lamb,18-478,Average raw lean and fat
+lamb leg,18-478,No raw leg entry without bone; average raw lamb
+pork chop,18-536,Loin chops raw lean and fat
+pork mince,18-606,
+bacon,19-497,Back rashers raw
+streaky bacon,19-016,
+sausage,19-510,Pork sausages raw
+ham,19-496,
+turkey mince,18-350,No raw mince entry; average raw turkey meat
+turkey breast,18-349,Light meat raw
+salmon,16-356,Farmed flesh only raw
+salmon fillet,16-356,
+cod,16-372,
+tuna,16-416,Canned in brine drained
+tuna in brine,16-416,
+tuna in oil,16-417,Canned in sunflower oil drained
+prawn,16-387,King prawns raw
+king prawn,16-387,
+mackerel,16-393,
+sardine,16-401,Fresh raw
+canned sardine,16-424,Canned in brine drained
+egg,12-937,Whole chicken egg raw
+tofu,13-570,
+paneer,12-495,
+chickpea,13-670,Canned drained
+canned chickpea,13-670,
+dried chickpea,13-074,
+kidney bean,13-660,Canned drained
+red kidney bean,13-660,
+baked bean,13-532,In tomato sauce
+red lentil,13-657,Dried raw
+lentil,13-657,Red split dried raw
+green lentil,13-089,Dried raw
+brown lentil,13-089,
+quorn,13-574,
+milk,12-313,Semi-skimmed as the UK default
+whole milk,12-596,
+semi-skimmed milk,12-313,
+skimmed milk,12-307,
+butter,17-685,Salted
+unsalted butter,17-661,
+cheese,12-346,Assumes cheddar
+cheddar,12-346,
+cheddar cheese,12-346,
+mozzarella,12-360,
+parmesan,12-526,
+feta,12-525,
+cream cheese,12-551,Spreadable full fat soft white cheese
+cream,12-332,Assumes single cream
+single cream,12-332,
+double cream,12-334,
+whipping cream,12-333,
+greek yogurt,12-555,Plain
+greek yoghurt,12-555,
+natural yogurt,12-184,Whole milk plain
+natural yoghurt,12-184,
+plain yogurt,12-184,
+yogurt,12-184,
+yoghurt,12-184,
+low fat yogurt,12-379,
+ghee,17-640,Butter ghee
+creme fraiche,12-335,Full fat
+coconut milk,14-889,Canned (retail); 14-820 is the liquid inside a fresh coconut
+soya milk,12-524,Unsweetened fortified
+rice,11-861,White long grain raw
+white rice,11-861,
+long grain rice,11-861,
+basmati rice,11-857,White basmati raw
+brown rice,11-868,Wholegrain raw
+arborio rice,11-878,
+pasta,11-716,White dried raw
+spaghetti,11-716,White dried pasta raw
+penne,11-716,
+fusilli,11-716,
+macaroni,11-716,
+wholewheat pasta,11-718,
+egg noodle,11-719,Dried raw
+noodle,11-719,Egg noodles dried raw
+bread,11-980,White sliced
+white bread,11-980,
+wholemeal bread,11-981,
+pitta,11-974,
+pitta bread,11-974,
+tortilla,11-925,Wheat soft
+wrap,11-925,
+naan,11-973,
+naan bread,11-973,
+flour,11-886,Plain white
+plain flour,11-886,
+self-raising flour,11-888,
+self raising flour,11-888,
+wholemeal flour,11-889,
+oat,11-788,Porridge oats unfortified
+rolled oat,11-788,
+porridge oat,11-788,
+couscous,11-901,Dry
+quinoa,14-843,Raw
+onion,13-499,
+red onion,13-499,No red onion entry; standard raw onion
+white onion,13-499,
+shallot,13-342,
+garlic,13-244,
+garlic clove,13-244,
+ginger,13-890,Fresh
+fresh ginger,13-890,
+tomato,13-517,Standard raw
+cherry tomato,13-519,
+canned tomato,13-530,
+tinned tomato,13-530,
+chopped tomato,13-530,Canned
+tomato puree,13-531,
+tomato paste,13-531,
+potato,13-489,Old potatoes raw flesh only
+new potato,13-618,
+sweet potato,13-463,
+carrot,13-496,
+broccoli,13-502,
+cauliflower,13-512,
+spinach,13-572,Mature raw
+baby spinach,13-521,
+kale,13-234,
+cabbage,13-582,
+red cabbage,13-190,
+lettuce,13-520,
+cucumber,13-523,
+red pepper,13-524,
+bell pepper,13-524,Assumes red
+green pepper,13-318,
+yellow pepper,13-526,
+chilli,13-316,Green chilli raw
+green chilli,13-316,
+red chilli,13-317,
+mushroom,13-505,White raw
+courgette,13-627,
+zucchini,13-627,
+aubergine,13-161,
+eggplant,13-161,
+pea,13-527,Frozen raw
+frozen pea,13-527,
+sweetcorn,13-622,Kernels raw
+canned sweetcorn,13-529,
+green bean,13-514,
+leek,13-624,
+celery,13-636,
+spring onion,13-352,Bulbs and tops
+avocado,14-386,Hass flesh only
+butternut squash,13-355,
+beetroot,13-164,
+okra,13-300,
+coriander,13-888,Fresh leaves
+fresh coriander,13-888,
+parsley,13-844,Fresh
+basil,13-804,Fresh
+mint,13-836,Fresh
+lemon,14-277,Lemon juice (recipes mostly use juice)
+lemon juice,14-277,
+lime,14-279,Lime juice
+lime juice,14-279,
+apple,14-319,Eating apple flesh and skin
+banana,14-318,Flesh only
+orange,14-327,Flesh only
+strawberry,14-324,
+blueberry,14-325,
+mango,14-378,Ripe flesh
+raisin,14-393,
+date,14-394,Dried
+oil,17-686,Vegetable oil average
+olive oil,17-038,
+extra virgin olive oil,17-038,
+vegetable oil,17-686,
+sunflower oil,17-045,
+coconut oil,17-031,
+rapeseed oil,17-041,
+sesame oil,17-043,
+soy sauce,17-721,
+mayonnaise,17-654,Standard retail
+ketchup,17-709,
+tomato ketchup,17-709,
+worcestershire sauce,17-723,
+mustard,17-364,Smooth prepared mustard
+dijon mustard,17-364,
+wholegrain mustard,17-365,
+honey,17-050,
+sugar,17-063,White
+caster sugar,17-063,
+granulated sugar,17-063,
+brown sugar,17-060,
+golden syrup,17-065,
+vinegar,17-339,
+pesto,17-622,Green
+stock cube,17-727,Vegetable stock cube
+vegetable stock cube,17-727,
+chicken stock cube,17-726,
+beef stock cube,17-515,
+stock,17-774,Chicken stock cube made up with water
+chicken stock,17-774,
+curry paste,17-720,
+peanut butter,14-892,Smooth
+hummus,13-556,
+houmous,13-556,
+gravy granule,17-724,
+almond,14-896,Whole kernels
+ground almond,14-870,
+cashew,14-811,Plain
+cashew nut,14-811,
+peanut,14-877,Plain unsalted
+walnut,14-879,
+sesame seed,14-844,
+desiccated coconut,14-873,
+salt,17-367,
+pepper,13-880,Black pepper
+black pepper,13-880,
+cumin,13-889,Cumin seeds
+ground cumin,13-889,
+turmeric,13-861,
+chilli powder,13-873,
+paprika,13-879,
+garam masala,13-829,
+cinnamon,13-874,
+mixed herb,13-884,Dried
+oregano,13-878,Dried
+curry powder,13-876,
+garlic powder,13-830,
+ground ginger,13-832,
+baking powder,17-355,
+cocoa powder,12-545,
+dark chocolate,17-491,"Chocolate, plain (the UK name for dark chocolate)"
+milk chocolate,17-648,
+yeast,17-379,Dried
+water,17-377,
+cornflour,USDA-169698,Not in CoFID; USDA value
+cornstarch,USDA-169698,Not in CoFID; USDA value
+breadcrumb,USDA-174928,"Not in CoFID; USDA value, dry plain breadcrumbs"
+black bean,USDA-173735,"Not in CoFID; USDA cooked value, close to canned and drained"
+maple syrup,USDA-169661,Not in CoFID; USDA value
+chia seed,USDA-170554,Not in CoFID; USDA value
+oat milk,USDA-2257046,Not in CoFID; USDA unsweetened oat drink
+oat drink,USDA-2257046,Not in CoFID; USDA unsweetened oat drink
+rice noodle,USDA-169742,"Not in CoFID as dry noodles; USDA value, dry"

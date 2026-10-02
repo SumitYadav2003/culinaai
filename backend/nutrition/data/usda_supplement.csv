@@ -1,0 +1,8 @@
+food_code,name,food_group,energy_kcal,energy_kj,protein_g,fat_g,saturates_g,carbohydrate_g,sugars_g,fibre_g,salt_g,usda_carbohydrate_by_difference_g,usda_dataset,notes
+USDA-169698,"Cornflour (cornstarch)",USDA,381,1594,0.26,0.05,0.009,90.4,0,0.9,0.023,91.3,SR Legacy,
+USDA-174928,"Breadcrumbs, dry, plain",USDA,395,1653,13.3,5.3,1.2,67.5,6.2,4.5,1.83,72.0,SR Legacy,
+USDA-173735,"Black beans, cooked, boiled, without salt",USDA,132,552,8.86,0.54,0.14,15.0,0.32,8.7,0.003,23.7,SR Legacy,Cooked values; close to canned and drained beans
+USDA-169661,"Maple syrup",USDA,260,1088,0.04,0.06,0.007,67.0,60.5,0,0.03,67.0,SR Legacy,
+USDA-170554,"Chia seeds, dried",USDA,486,2033,16.5,30.7,3.33,7.7,,34.4,0.04,42.1,SR Legacy,USDA has no sugars figure for this food
+USDA-2257046,"Oat drink (oat milk), unsweetened",USDA,48.3,202,0.8,2.75,,5.1,,0,0.105,5.1,Foundation,USDA has no saturates or sugars figure for this food
+USDA-169742,"Rice noodles, dry",USDA,364,1523,6.0,0.56,0.15,78.6,0.12,1.6,0.455,80.2,SR Legacy,
