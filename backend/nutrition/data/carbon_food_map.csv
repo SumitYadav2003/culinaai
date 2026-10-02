@@ -26,11 +26,11 @@ USDA-174928,Wheat & Rye,Breadcrumbs are dried bread
 12-379,Milk,Milk figure used for plain yogurt (close per kg; slightly low)
 12-555,Milk,"Milk figure used for Greek yogurt (strained, so this reads low)"
 12-346,Cheese,
-12-360,Cheese,
-12-495,Cheese,
-12-525,Cheese,
+12-360,Cheese,Cheese figure (mostly hard cheese) used for mozzarella; probably reads high
+12-495,Cheese,Cheese figure (mostly hard cheese) used for paneer; probably reads high
+12-525,Cheese,Cheese figure (mostly hard cheese) used for feta; probably reads high
 12-526,Cheese,
-12-551,Cheese,
+12-551,Cheese,Cheese figure (mostly hard cheese) used for cream cheese; probably reads high
 12-524,Soy milk,
 12-937,Eggs,
 13-074,Other Pulses,

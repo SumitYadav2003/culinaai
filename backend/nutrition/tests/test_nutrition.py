@@ -233,3 +233,66 @@ class CarbonTests(TestCase):
         self.assertAlmostEqual(result.carbon_kg_total, 0.2)
         self.assertEqual(result.carbon_coverage_pct, 100.0)
         self.assertEqual(result.carbon_unmatched, [])
+
+
+class CostTests(TestCase):
+    """Round-number prices, so every figure can be checked by hand."""
+
+    @classmethod
+    def setUpTestData(cls):
+        make_food("T-1", "Rice, white, raw", price_per_kg_gbp=2.0)
+        make_food("T-2", "Chicken, breast, raw", price_per_kg_gbp=10.0)
+        make_food("T-3", "Saffron, dried")  # no price on purpose
+        make_food("17-377", "Water, distilled", price_per_kg_gbp=0.0)
+
+    def test_cost_per_serving(self):
+        # 300 g rice = £0.60, 400 g chicken = £4.00 -> £4.60 for 2 servings
+        result = calculate_nutrition([IngredientInput("rice", 300), IngredientInput("chicken breast", 400)], 2)
+        self.assertAlmostEqual(result.cost_gbp_total, 4.60)
+        self.assertAlmostEqual(result.cost_gbp_per_serving, 2.30)
+        self.assertEqual(result.cost_coverage_pct, 100.0)
+        self.assertAlmostEqual(result.matched[1].cost_gbp, 4.0)
+
+    def test_food_without_price_is_reported_not_counted_as_free(self):
+        result = calculate_nutrition([IngredientInput("rice", 300), IngredientInput("saffron", 100)], 1)
+        self.assertAlmostEqual(result.cost_gbp_total, 0.60)
+        self.assertEqual(result.cost_unmatched, ["saffron"])
+        self.assertEqual(result.cost_coverage_pct, 75.0)
+        self.assertIsNone(result.matched[1].cost_gbp)
+
+    def test_unknown_ingredient_has_no_price(self):
+        result = calculate_nutrition([IngredientInput("rice", 100), IngredientInput("dragon fruit", 100)], 1)
+        self.assertEqual(result.cost_unmatched, ["dragon fruit"])
+        self.assertEqual(result.cost_coverage_pct, 50.0)
+
+    def test_water_is_free_and_counts_as_priced(self):
+        result = calculate_nutrition([IngredientInput("rice", 100), IngredientInput("water", 900)], 1)
+        self.assertAlmostEqual(result.cost_gbp_total, 0.20)
+        self.assertEqual(result.cost_coverage_pct, 100.0)
+
+
+class CoverageAndEdgeCaseTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        make_food("T-1", "Saffron, dried")  # no price, no carbon category
+        make_food("T-2", "Rice, white, raw", price_per_kg_gbp=2.0)
+
+    def test_dish_with_nothing_priced_has_no_cost_rather_than_zero(self):
+        result = calculate_nutrition([IngredientInput("saffron", 5)], 1)
+        self.assertIsNone(result.cost_gbp_total)
+        self.assertIsNone(result.cost_gbp_per_serving)
+        self.assertIsNone(result.carbon_kg_per_serving)
+        self.assertEqual(result.cost_coverage_pct, 0.0)
+
+    def test_a_tiny_priced_ingredient_still_gives_a_cost(self):
+        # 1 g of rice in 10 kg rounds to 0.0% coverage, but the cost must still be shown, not None.
+        result = calculate_nutrition([IngredientInput("rice", 1), IngredientInput("saffron", 10000)], 1)
+        self.assertEqual(result.cost_coverage_pct, 0.0)
+        self.assertAlmostEqual(result.cost_gbp_total, 0.0)
+        self.assertIsNotNone(result.cost_gbp_total)
+        self.assertEqual(result.cost_unmatched, ["saffron"])
+
+    def test_servings_given_as_text_or_decimal(self):
+        self.assertEqual(calculate_nutrition([IngredientInput("rice", 100)], "2").servings, 2)
+        self.assertEqual(calculate_nutrition([IngredientInput("rice", 100)], "2.5").servings, 2)
+        self.assertEqual(calculate_nutrition([IngredientInput("rice", 100)], 0).servings, 1)

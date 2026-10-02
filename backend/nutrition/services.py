@@ -8,6 +8,7 @@ CoFID doesn't cover, each labelled with its source), then applies:
 - FSA front-of-pack traffic lights (Department of Health and FSA guidance, 2016)
 - UK nutrition claim conditions (retained Regulation (EC) No 1924/2006, Annex)
 - a carbon footprint from Poore & Nemecek (2018), global averages per kg of food
+- a cost estimate from ONS average prices and UK supermarket shelf prices
 
 Nothing here asks the AI for numbers. The AI only supplies ingredient names and
 weights; every figure shown to the user is calculated in this file.
@@ -59,7 +60,8 @@ COOKED_WORDS = {"boiled", "fried", "grilled", "roasted", "baked", "stewed", "ste
 
 # Tap water and salt have no Poore & Nemecek category, but their footprint is
 # tiny, so they count as zero rather than as "no figure".
-NEGLIGIBLE_CARBON_CODES = {"17-377", "17-367"}  # water, salt
+WATER_CODE = "17-377"
+NEGLIGIBLE_CARBON_CODES = {WATER_CODE, "17-367"}  # water, salt
 
 
 # ---------------------------------------------------------------------------
@@ -83,6 +85,7 @@ class MatchedIngredient:
     source: str = "CoFID 2021"  # where the per-100 g values come from
     carbon_kg: float | None = None  # kg CO2e for the grams used; None when there is no figure
     carbon_category: str = ""
+    cost_gbp: float | None = None  # cost of the grams used; None when there is no price
 
 
 @dataclass
@@ -99,10 +102,19 @@ class NutritionResult:
     traffic_lights: dict = field(default_factory=dict)
     claims: list = field(default_factory=list)
 
-    carbon_kg_total: float = 0.0
-    carbon_kg_per_serving: float = 0.0
-    carbon_coverage_pct: float = 0.0  # share of the recipe's weight that has a carbon figure
-    carbon_unmatched: list = field(default_factory=list)  # matched for nutrition, but no carbon figure
+    # Carbon and cost are None when no ingredient has a figure, so a dish is never
+    # shown as "0 kg" or "£0.00" just because nothing could be looked up.
+    # Coverage is the share of the recipe's weight with a figure, leaving out
+    # water, which would otherwise make almost any soup or dal look fully covered.
+    carbon_kg_total: float | None = None
+    carbon_kg_per_serving: float | None = None
+    carbon_coverage_pct: float = 0.0
+    carbon_unmatched: list = field(default_factory=list)  # ingredients with no carbon figure
+
+    cost_gbp_total: float | None = None
+    cost_gbp_per_serving: float | None = None
+    cost_coverage_pct: float = 0.0
+    cost_unmatched: list = field(default_factory=list)  # ingredients with no price
 
     @property
     def is_complete(self):
@@ -195,6 +207,13 @@ def carbon_for(food, grams):
     return food.carbon_category.kg_co2e_per_kg * grams / 1000.0
 
 
+def cost_for(food, grams):
+    """Cost in pounds for the grams used, or None when the food has no price."""
+    if food.price_per_kg_gbp is None:
+        return None
+    return food.price_per_kg_gbp * grams / 1000.0
+
+
 def traffic_light(nutrient, per_100g, per_portion, portion_grams):
     green_max, amber_max, portion_red = TRAFFIC_LIGHT_THRESHOLDS[nutrient]
     if portion_grams > 100 and per_portion > portion_red:
@@ -245,12 +264,15 @@ def calculate_nutrition(ingredients, servings):
 
     Returns a NutritionResult. Unmatched ingredients are listed, never guessed.
     """
-    servings = max(int(servings or 1), 1)
+    servings = max(int(float(servings or 1)), 1)
     foods = load_foods_for_matching()
     result = NutritionResult(servings=servings, total_grams=0.0)
     totals = {n: 0.0 for n in NUTRIENTS}
     matched_grams = 0.0
     carbon_total, carbon_grams = 0.0, 0.0
+    cost_total, cost_grams = 0.0, 0.0
+    non_water_grams = 0.0
+    has_carbon = has_cost = False  # True once an ingredient other than water has a figure
 
     for item in ingredients:
         grams = max(float(item.grams or 0), 0.0)
@@ -259,9 +281,13 @@ def calculate_nutrition(ingredients, servings):
         food, method = find_by_alias(item.name), "alias"
         if food is None:
             food, method = find_by_words(item.name, foods), "fuzzy"
+        is_water = food is not None and food.food_code == WATER_CODE
+        if not is_water:
+            non_water_grams += grams
         if food is None:
             result.unmatched.append(item.name)
             result.carbon_unmatched.append(item.name)
+            result.cost_unmatched.append(item.name)
             continue
 
         contribution = nutrients_for(food, grams)
@@ -274,13 +300,25 @@ def calculate_nutrition(ingredients, servings):
             result.carbon_unmatched.append(item.name)
         else:
             carbon_total += carbon
-            carbon_grams += grams
+            if not is_water:
+                carbon_grams += grams
+                has_carbon = True
+
+        cost = cost_for(food, grams)
+        if cost is None:
+            result.cost_unmatched.append(item.name)
+        else:
+            cost_total += cost
+            if not is_water:
+                cost_grams += grams
+                has_cost = True
 
         result.matched.append(
             MatchedIngredient(
                 item.name, grams, food.food_code, food.name, method, contribution, food.source,
                 carbon_kg=None if carbon is None else round(carbon, 3),
                 carbon_category=food.carbon_category.name if food.carbon_category else "",
+                cost_gbp=None if cost is None else round(cost, 3),
             )
         )
 
@@ -302,7 +340,16 @@ def calculate_nutrition(ingredients, servings):
     }
     result.claims = nutrition_claims(result.per_100g) if matched_grams else []
 
-    result.carbon_kg_total = round(carbon_total, 3)
-    result.carbon_kg_per_serving = round(carbon_total / servings, 3)
-    result.carbon_coverage_pct = round(carbon_grams / result.total_grams * 100, 1) if result.total_grams else 0.0
+    def share(grams):
+        return round(grams / non_water_grams * 100, 1) if non_water_grams else 0.0
+
+    result.carbon_coverage_pct = share(carbon_grams)
+    if has_carbon:
+        result.carbon_kg_total = round(carbon_total, 3)
+        result.carbon_kg_per_serving = round(carbon_total / servings, 3)
+
+    result.cost_coverage_pct = share(cost_grams)
+    if has_cost:
+        result.cost_gbp_total = round(cost_total, 2)
+        result.cost_gbp_per_serving = round(cost_total / servings, 2)
     return result

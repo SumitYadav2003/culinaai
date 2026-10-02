@@ -47,6 +47,8 @@ class Command(BaseCommand):
         if not foods:
             raise CommandError("No foods in the database. Run `python manage.py load_cofid` first.")
 
+        # Start clean, so a food taken out of the map doesn't keep an old category.
+        CofidFood.objects.update(carbon_category=None, carbon_note="")
         linked, missing = 0, []
         with (DATA_DIR / "carbon_food_map.csv").open(encoding="utf-8", newline="") as handle:
             for row in csv.DictReader(handle):

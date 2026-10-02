@@ -71,6 +71,13 @@ class CofidFood(models.Model):
     )
     carbon_note = models.CharField(max_length=255, blank=True)
 
+    # Price per kg in pounds. Empty when there is no price yet, so the app reports
+    # "no price" instead of counting the food as free. data/README.md explains the
+    # basis (e.g. tinned foods are per kg of drained weight).
+    price_per_kg_gbp = models.FloatField(null=True, blank=True)
+    price_source = models.CharField(max_length=120, blank=True)
+    price_note = models.CharField(max_length=255, blank=True)
+
     class Meta:
         ordering = ["name"]
         verbose_name = "CoFID food"

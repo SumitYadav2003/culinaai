@@ -112,3 +112,112 @@ class RealCarbonDataTests(TestCase):
             for _, servings, items, _ in (bolognese, dal)
         ]
         self.assertGreater(results[0].carbon_kg_per_serving, 10 * results[1].carbon_kg_per_serving)
+
+
+class RealPriceDataTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        with open("/dev/null", "w") as quiet:
+            call_command("load_food_data", stdout=quiet)
+
+    def read_csv(self, filename):
+        import csv
+        from nutrition.management.commands.load_cofid import DATA_DIR
+
+        with (DATA_DIR / filename).open(encoding="utf-8") as handle:
+            return list(csv.DictReader(handle))
+
+    def test_every_food_an_alias_uses_is_listed(self):
+        from nutrition.models import IngredientAlias
+
+        listed = {row["food_code"] for row in self.read_csv("ingredient_prices.csv")}
+        used = set(IngredientAlias.objects.values_list("food__food_code", flat=True))
+        self.assertEqual(used - listed, set())
+
+    def test_only_the_three_known_gaps_have_no_price(self):
+        from nutrition.models import CofidFood
+
+        listed = [row["food_code"] for row in self.read_csv("ingredient_prices.csv")]
+        foods = CofidFood.objects.filter(food_code__in=listed)
+        self.assertEqual(foods.count(), 190)
+        unpriced = set(foods.filter(price_per_kg_gbp__isnull=True).values_list("food_code", flat=True))
+        self.assertEqual(unpriced, {"13-164", "13-244", "13-355"})  # beetroot, garlic, butternut squash
+        for food in foods.exclude(price_per_kg_gbp__isnull=True):
+            with self.subTest(food=food.food_code):
+                self.assertTrue(food.price_source)
+                self.assertGreaterEqual(food.price_per_kg_gbp, 0)
+
+    def test_every_shop_average_matches_its_shop_prices(self):
+        # Recompute each average from the raw shop rows and compare with the loaded price.
+        import re
+        from collections import defaultdict
+        from statistics import mean
+
+        shop_prices = defaultdict(list)
+        for row in self.read_csv("ingredient_prices_shop_evidence.csv"):
+            if row["Used"] == "yes":
+                shop_prices[row["Food code"]].append(float(row["Price per kg (£)"]))
+
+        averages = [row for row in self.read_csv("ingredient_prices.csv") if row["status"].startswith("Shop")]
+        self.assertEqual(len(averages), 116)
+        for row in averages:
+            if row["food_code"] == "17-774":  # stock made up from cubes, checked below
+                continue
+            # A stand-in borrows another food's prices and names it: "Uses the prices of 13-529 (...)".
+            borrowed = re.search(r"Uses the prices of (\S+)", row["note"])
+            if row["status"] == "Shop stand-in, check":
+                self.assertIsNotNone(borrowed, row["food_code"])
+            source_code = borrowed.group(1) if borrowed else row["food_code"]
+            with self.subTest(food=row["food_code"]):
+                prices = shop_prices[source_code]
+                self.assertGreaterEqual(len(prices), 2)
+                self.assertAlmostEqual(float(row["price_per_kg_gbp"]), mean(prices), delta=0.01)
+
+    def test_used_shop_rows_belong_to_a_shop_priced_food(self):
+        # "Used = yes" must mean the row went into a price: the food's own shop average, the food a
+        # stand-in borrows from, or the chicken stock cubes behind made-up stock (17-774).
+        import re
+
+        prices = {row["food_code"]: row for row in self.read_csv("ingredient_prices.csv")}
+        own = {code for code, row in prices.items() if row["status"] == "Shop average"}
+        borrowed = {re.search(r"Uses the prices of (\S+)", row["note"]).group(1)
+                    for row in prices.values() if row["status"] == "Shop stand-in, check"}
+        allowed = own | borrowed | {"17-726"}
+        for row in self.read_csv("ingredient_prices_shop_evidence.csv"):
+            if row["Used"] == "yes":
+                with self.subTest(food=row["Food code"], shop=row["Shop"]):
+                    self.assertIn(row["Food code"], allowed)
+        self.assertNotIn("17-041", own)  # rapeseed oil borrows vegetable oil; its branded rows are not used
+
+    def test_made_up_stock_is_cube_price_over_stock_weight(self):
+        # One 10 g cube + 450 ml water = 460 g. Cubes: Tesco 10 for £1.00, Sainsbury's 10 for £1.10,
+        # Morrisons 12 for £1.30 -> average £0.10611 a cube -> £0.231 per kg of stock.
+        from nutrition.models import CofidFood
+
+        self.assertAlmostEqual(CofidFood.objects.get(food_code="17-774").price_per_kg_gbp, 0.231, places=3)
+
+    def test_red_lentil_dal_by_hand(self):
+        # lentils 0.25 kg x £4.20 + onion 0.15 x £1.15 + canned tomatoes 0.20 x £1.625
+        # + ginger 0.01 x £12.47 + turmeric 0.005 x £23.47 + cumin 0.005 x £28.92 + ghee 0.02 x £15.00
+        # = £2.234; water is free; garlic has no price. 4 servings -> £0.56
+        # Coverage leaves water out: 640 of the 650 g that isn't water has a price -> 98.5%
+        name, servings, items, _ = HAND_CHECKED_RECIPES[4]
+        result = calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
+        self.assertAlmostEqual(result.cost_gbp_per_serving, 0.56)
+        self.assertEqual(result.cost_unmatched, ["garlic"])
+        self.assertEqual(result.cost_coverage_pct, 98.5)
+
+    def test_tinned_chickpeas_are_priced_per_drained_kg(self):
+        # Shop prices for a 400 g tin with 240 g drained: Tesco £0.41, Sainsbury's £0.41, Morrisons £0.37
+        # -> £1.708, £1.708, £1.542 per drained kg -> average £1.65
+        from nutrition.models import CofidFood
+
+        self.assertAlmostEqual(CofidFood.objects.get(food_code="13-670").price_per_kg_gbp, 1.65, places=2)
+
+    def test_porridge_by_hand(self):
+        # oats 0.1 kg x £3.16 + milk 0.5 x £1.012 + banana 0.12 x £1.14 + honey 0.02 x £5.65
+        # = £1.072 (all ONS prices, Aug 2026). 2 servings -> £0.54
+        name, servings, items, _ = HAND_CHECKED_RECIPES[6]
+        result = calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
+        self.assertAlmostEqual(result.cost_gbp_per_serving, 0.54)
+        self.assertEqual(result.cost_coverage_pct, 100.0)

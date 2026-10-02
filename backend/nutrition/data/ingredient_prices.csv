@@ -1,0 +1,191 @@
+food_code,food_name,price_per_kg_gbp,source,status,note
+11-861,"Rice, white, long grain, raw",1.52,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.25 to £2.00 per kg
+11-868,"Rice, brown, wholegrain, raw",1.39,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.38 to £1.39 per kg
+11-878,"Rice, white, Italian Arborio risotto, raw",4.6,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.30 to £6.00 per kg
+11-889,"Flour, wheat, wholemeal",1.34,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.00 to £1.95 per kg
+11-973,"Bread, naan, retail",3.69,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.65 to £5.77 per kg
+11-974,"Bread, pitta, white",1.39,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.39 to £1.39 per kg. Weight per item: 6 pittas x 60 g (Tesco product page)
+12-184,"Yogurt, whole milk, plain",2.3,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.30 to £2.30 per kg
+12-307,"Milk, skimmed, pasteurised, average",1.012,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check","ONS has no skimmed milk item. The shop rows are 1-pint packs (£1.50/litre), which cost more per kg than the 2-pint ONS milk items. Tesco and Sainsbury's also sell 2 pints of skimmed for £1.20 (about £1.06/kg), close to the ONS semi-skimmed price used here"
+12-334,"Cream, fresh, double, including Jersey cream",7.56,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £7.33 to £8.00 per kg
+12-335,"Creme fraiche, full fat",2.83,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.50 to £3.50 per kg
+12-360,"Cheese, Mozzarella, fresh",8.4,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.40 to £10.40 per kg
+12-379,"Yogurt, low fat, plain",1.9,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.10 to £2.30 per kg
+12-495,"Cheese, Paneer",9,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,Range £9.00 to £9.00 per kg
+12-524,"Milk, soya, non-dairy alternative to milk, unsweetened, fortified",1.25,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.15 to £1.30 per kg
+12-525,"Cheese, Feta",11.25,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.75 to £11.75 per kg
+12-545,Cocoa powder,14.59,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.96 to £17.80 per kg
+12-555,"Yogurt, Greek style, plain",2.3,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.30 to £2.30 per kg
+13-074,"Beans, chick peas, Kabuli, whole, dried, raw",3.01,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.93 to £4.60 per kg
+13-089,"Lentils, green and brown, whole, dried, raw",4.17,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.10 to £4.20 per kg
+13-161,"Aubergine, raw",1.73,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,"Range £1.73 to £1.73 per kg. Weight per item: USDA FDC 169228, 1 aubergine"
+13-164,"Beetroot, raw",,,No price yet,"Only Sainsbury's gave a weight for standard beetroot. Morrisons sells bunches with no weight, and Tesco's only beetroot sold by weight is organic, which the rules leave out"
+13-190,"Cabbage, red, raw",1.06,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.06 to £1.06 per kg. Weight per item: USDA FDC 169977, 1 medium red cabbage head"
+13-234,"Curly kale, raw",4.46,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,Range £4.44 to £4.47 per kg
+13-244,"Garlic, raw",,,No price yet,"Garlic is sold in bulbs with no weight shown, and USDA has no bulb weight"
+13-300,"Okra, raw",9.38,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,Range £8.75 to £10.00 per kg
+13-316,"Peppers, capsicum, chilli, green, raw",13.44,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.54 to £14.40 per kg
+13-317,"Peppers, capsicum, chilli, red, raw",9.59,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £8.46 to £11.80 per kg
+13-342,"Shallots, raw",3.38,"Average of Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.38 to £3.38 per kg
+13-352,"Spring onions, bulbs and tops, raw",6.77,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.50 to £6.90 per kg
+13-355,"Squash, butternut, raw",,,No price yet,Only Sainsbury's sells it by weight. Tesco and Morrisons sell it 'each' with no weight shown
+13-519,"Tomatoes, cherry, raw",3.12,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.70 to £3.33 per kg
+13-521,"Spinach, baby, raw",7.36,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.25 to £8.33 per kg
+13-531,Tomato puree,3.84,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.95 to £5.63 per kg
+13-570,"Tofu, soya bean, steamed",8.06,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.67 to £8.75 per kg
+13-572,"Spinach, mature, raw",4.39,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.54 to £5.19 per kg
+13-574,"Quorn, pieces, as purchased",9.17,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £9.17 to £9.17 per kg
+13-624,"Leeks, raw",2.74,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.74 to £2.74 per kg
+13-636,"Celery, raw",3.6,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.60 to £3.60 per kg
+13-657,"Lentils, red, split, dried, raw",4.2,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.20 to £4.20 per kg
+13-804,"Basil, fresh",18.89,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £16.67 to £23.33 per kg
+13-829,Garam masala,28.42,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £26.32 to £30.26 per kg
+13-830,Garlic powder,15.91,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £12.50 to £22.22 per kg
+13-832,"Ginger, ground",30.21,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £26.32 to £34.06 per kg
+13-836,"Mint, fresh",17.78,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £16.67 to £20.00 per kg
+13-844,"Parsley, fresh",17.78,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £16.67 to £20.00 per kg
+13-861,"Turmeric, ground",23.47,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £22.22 to £24.22 per kg
+13-873,Chilli powder,23.45,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £20.00 to £26.14 per kg
+13-874,"Cinnamon, ground",30.7,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £27.78 to £34.06 per kg
+13-876,Curry powder,16.18,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £15.62 to £16.67 per kg
+13-879,Paprika,23.45,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £20.00 to £26.14 per kg
+13-880,"Pepper, black",42.76,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £32.29 to £48.00 per kg
+13-888,"Coriander leaves, fresh",18.33,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £16.67 to £20.00 per kg
+13-889,Cumin seeds,28.92,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £27.03 to £30.26 per kg
+13-890,"Ginger, fresh",12.47,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £12.40 to £12.50 per kg
+14-277,"Lemon juice, fresh",3.33,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.20 to £3.60 per kg
+14-279,"Lime juice, fresh",4.93,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.60 to £5.20 per kg
+14-393,"Raisins, dried",4.6,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.60 to £4.60 per kg
+14-394,"Dates, dried, flesh and skin",9.3,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £9.20 to £9.50 per kg
+14-811,"Cashew nuts, kernel only, plain",12.26,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.25 to £13.78 per kg
+14-843,"Quinoa, raw",10.33,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.33 to £10.33 per kg
+14-844,Sesame seeds,15.67,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £12.00 to £23.00 per kg
+14-870,"Almonds, flaked and ground",17,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £17.00 to £17.00 per kg
+14-873,"Coconut, desiccated",10.65,"Average of Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.50 to £10.80 per kg
+14-877,"Peanuts, kernel only, plain, unsalted",8,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £5.00 to £11.50 per kg
+14-879,"Walnuts, kernel only",14.75,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.25 to £19.00 per kg
+14-889,"Coconut milk, retail",2.08,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.88 to £2.50 per kg
+14-896,"Almonds, whole kernels",12.83,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.25 to £13.75 per kg
+16-393,"Mackerel, flesh only, raw",22.95,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £21.94 to £24.69 per kg
+16-401,"Sardines, flesh only, raw",7.64,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,Range £5.50 to £9.79 per kg
+16-424,"Sardines, canned in brine, drained",8.5,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.67 to £10.00 per kg
+17-031,"Oil, coconut",12.3,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £7.61 to £15.53 per kg
+17-043,"Oil, sesame",11.67,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.52 to £11.96 per kg
+17-045,"Oil, sunflower",1.58,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.58 to £1.58 per kg
+17-060,"Sugar, brown",4.13,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.00 to £4.30 per kg
+17-065,"Syrup, golden",2.62,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.47 to £2.73 per kg
+17-339,Vinegar,0.67,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £0.62 to £0.79 per kg
+17-355,Baking powder,4.83,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.06 to £5.75 per kg
+17-364,"Mustard, smooth",2.43,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.43 to £2.43 per kg
+17-365,"Mustard, wholegrain",2.47,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.44 to £2.51 per kg
+17-367,Salt,1.04,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £0.87 to £1.27 per kg
+17-379,"Yeast, dried",27.98,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £27.68 to £28.57 per kg
+17-515,"Stock cubes, beef",10.61,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.00 to £11.00 per kg
+17-622,"Pesto, green",4.68,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.68 to £4.68 per kg
+17-640,"Ghee, butter",15,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £15.00 to £15.00 per kg
+17-686,"Oil, vegetable, average",1.58,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.58 to £1.58 per kg
+17-720,Curry paste,11.36,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.75 to £12.50 per kg
+17-721,"Soy sauce, light and dark varieties",4.44,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.67 to £6.00 per kg
+17-723,Worcestershire sauce,8.67,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £8.67 to £8.67 per kg
+17-724,Gravy instant granules,3.59,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.30 to £3.82 per kg
+17-726,"Stock cubes, chicken",10.61,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.00 to £11.00 per kg
+17-727,"Stock cubes, vegetable",10.61,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £10.00 to £11.00 per kg
+17-774,"Stock cubes, chicken, made up with water",0.231,"Average of Tesco, Sainsbury's, Morrisons, 2 Oct 2026",Shop average,"Average cube price £0.100, £0.110, £0.108"
+18-289,"Chicken, dark meat, raw",9.58,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,Range £9.58 to £9.58 per kg
+18-293,"Chicken, leg quarter, raw, meat and skin",2.4,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.25 to £2.70 per kg
+18-349,"Turkey, light meat, raw",13.83,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £12.50 to £15.00 per kg
+18-350,"Turkey, meat, average, raw",9.47,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £9.00 to £9.90 per kg
+18-481,"Lamb, mince, raw",14.59,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £13.00 to £17.00 per kg
+18-606,"Pork, mince, raw",4.9,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.80 to £5.00 per kg
+USDA-169661,Maple syrup,19.13,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £16.00 to £24.80 per kg
+USDA-169698,Cornflour (cornstarch),5.13,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £5.00 to £5.30 per kg
+USDA-170554,"Chia seeds, dried",11.78,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.33 to £12.00 per kg
+USDA-174928,"Breadcrumbs, dry, plain",6.97,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.80 to £7.14 per kg
+12-937,"Eggs, chicken, whole, raw",5.647,"ONS average price, Aug 2026",ONS + egg weight,"12 eggs x 58 g, the middle of the UK medium egg band (53 g to under 63 g), retained Regulation (EC) 589/2008 Art. 4"
+13-318,"Peppers, capsicum, green, raw",5.88,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,"Range £5.88 to £5.88 per kg. Weight per item: USDA FDC 170427, 1 medium green pepper. Replaces the ONS 'each' price, which ran higher than the three shops"
+13-512,"Cauliflower, raw",2.01,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £2.01 to £2.02 per kg. Weight per item: USDA FDC 169986, 1 medium head. Replaces the ONS 'each' price, which ran higher than the three shops"
+13-520,"Lettuce, average, raw",1.65,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.65 to £1.65 per kg. Weight per item: USDA FDC 169248, 1 medium iceberg head. Replaces the ONS 'each' price, which ran higher than the three shops"
+13-523,"Cucumber, raw, flesh and skin",3.29,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £3.29 to £3.29 per kg. Weight per item: USDA FDC 168409, 1 cucumber. Replaces the ONS 'each' price, which ran higher than the three shops"
+13-524,"Pepper, capsicum, red, raw",5.88,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,"Range £5.88 to £5.88 per kg. Weight per item: USDA FDC 170108, 1 medium red pepper. Replaces the ONS 'each' price, which ran higher than the three shops"
+13-526,"Pepper, capsicum, yellow, raw",5.88,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £5.88 to £5.88 per kg. Weight per item: USDA FDC 170108, 1 medium red pepper (USDA lists no medium yellow pepper). Replaces the ONS 'each' price, which ran higher than the three shops"
+13-582,"Cabbage, average, raw",0.98,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £0.98 to £0.98 per kg. Weight per item: USDA FDC 169975, 1 medium head. Replaces the ONS 'each' price, which ran higher than the three shops"
+14-327,"Oranges, flesh only",2.67,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,"Range £2.67 to £2.67 per kg. Weight per item: USDA FDC 169097, 1 orange. Replaces the ONS 'each' price, which ran higher than the three shops"
+14-378,"Mangoes, ripe, flesh only, raw",2.8,"Average of Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £2.80 to £2.80 per kg. Weight per item: USDA FDC 169910, 1 mango without peel and stone. Replaces the ONS 'each' price, which ran higher than the three shops"
+14-386,"Avocado, Hass, flesh only",6.08,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £5.07 to £8.09 per kg. Weight per item: USDA FDC 171706, 1 avocado without skin and stone. Replaces the ONS 'each' price, which ran higher than the three shops"
+11-718,"Pasta, wholewheat, spaghetti, dried, raw",1.98,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",ONS has one dry pasta item; wholewheat is often a little dearer
+11-719,"Noodles, egg, dried, raw",4.633,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",ONS item covers egg and other Asian-style noodles
+11-886,"Flour, wheat, white, plain, soft",0.673,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",ONS only has self-raising; plain flour usually costs about the same
+13-622,"Sweetcorn, kernels, raw",2.82,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026 (nearest item)","Shop stand-in, check","Range £1.91 to £3.44 per kg. Replaces the ONS price. Uses the prices of 13-529 (tinned sweetcorn, per drained kg): recipes mostly mean tinned sweetcorn"
+16-387,"Prawns, king, raw",20.15,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",ONS item is frozen prawns; king prawns cost more
+17-491,"Chocolate, plain",16.267,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",ONS bar chocolate without filling; dark chocolate is often a little dearer
+18-478,"Lamb, average, raw, lean and fat",21.06,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",Lamb leg or diced lamb can differ
+18-488,"Chicken, meat, average, raw",9.1,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",Plain 'chicken' in a recipe is usually breast
+18-508,"Beef, mince, raw, extra lean",10.96,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",Extra lean mince is usually dearer
+USDA-169742,"Rice noodles, dry",4.633,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check",ONS item covers rice and other Asian-style noodles
+11-716,"Pasta, white, dried, raw",1.98,"ONS average price, Aug 2026","ONS, same item",
+11-788,"Porridge oats, unfortified",3.16,"ONS average price, Aug 2026","ONS, same item",
+11-857,"Rice, white, basmati, raw",2.52,"ONS average price, Aug 2026","ONS, same item",
+11-888,"Flour, wheat, white, self raising",0.673,"ONS average price, Aug 2026","ONS, same item",
+11-901,"Couscous, plain, raw",4.6,"ONS average price, Aug 2026","ONS, same item",
+11-925,"Tortilla, wheat, soft",4.167,"ONS average price, Aug 2026","ONS, same item",
+11-980,"Bread, white, sliced",1.675,"ONS average price, Aug 2026","ONS, same item",
+11-981,"Bread, wholemeal, average",1.625,"ONS average price, Aug 2026","ONS, same item",
+12-313,"Milk, semi-skimmed, pasteurised, average",1.012,"ONS average price, Aug 2026","ONS, same item",ml treated as g
+12-332,"Cream, fresh, single",5.745,"ONS average price, Aug 2026","ONS, same item",ml treated as g
+12-333,"Cream, fresh, whipping",5.745,"ONS average price, Aug 2026","ONS, same item",ml treated as g
+12-346,"Cheese, Cheddar, English",8.45,"ONS average price, Aug 2026","ONS, same item",
+12-526,"Cheese, Parmesan, fresh",23.62,"ONS average price, Aug 2026","ONS, same item",
+12-551,"Cheese, spreadable, full fat, soft, white",9.333,"ONS average price, Aug 2026","ONS, same item",
+12-596,"Milk, whole, pasteurised, average",0.81,"ONS average price, Aug 2026","ONS, same item",ml treated as g
+13-463,"Sweet potato, raw, flesh only",1.54,"ONS average price, Aug 2026","ONS, same item",
+13-489,"Potatoes, old, raw, flesh only",1,"ONS average price, Aug 2026","ONS, same item",
+13-496,"Carrots, old, raw",0.94,"ONS average price, Aug 2026","ONS, same item",
+13-499,"Onions, raw",1.15,"ONS average price, Aug 2026","ONS, same item",
+13-502,"Broccoli, green, raw",2.7,"ONS average price, Aug 2026","ONS, same item",
+13-505,"Mushrooms, white, raw",3.96,"ONS average price, Aug 2026","ONS, same item",
+13-514,"Beans, green, raw",5.32,"ONS average price, Aug 2026","ONS, same item",
+13-517,"Tomatoes, standard, raw",3.73,"ONS average price, Aug 2026","ONS, same item",
+13-527,"Peas, frozen, raw",2.344,"ONS average price, Aug 2026","ONS, same item",
+13-529,"Sweetcorn kernels, canned in water, drained",2.82,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.91 to £3.44 per kg. Replaces the ONS price. Priced per kg of drained weight, as printed on the tin"
+13-530,"Tomatoes, canned, whole contents",1.625,"ONS average price, Aug 2026","ONS, same item",
+13-532,"Baked beans, canned in tomato sauce",2.094,"ONS average price, Aug 2026","ONS, same item",
+13-556,Houmous,7.3,"ONS average price, Aug 2026","ONS, same item",
+13-618,"Potatoes, new and salad, flesh only, raw",1.56,"ONS average price, Aug 2026","ONS, same item",
+13-627,"Courgette, raw",3.13,"ONS average price, Aug 2026","ONS, same item",
+13-660,"Beans, red kidney, canned in water, re-heated, drained",1.6,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.54 to £1.63 per kg. Replaces the ONS price. Priced per kg of drained weight, as printed on the tin"
+13-670,"Beans, chick peas, canned, re-heated, drained",1.65,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.54 to £1.71 per kg. Replaces the ONS price. Priced per kg of drained weight, as printed on the tin"
+13-878,"Oregano, dried, ground",100,"ONS average price, Aug 2026","ONS, same item",Dried oregano
+13-884,"Mixed herbs, dried",100,"ONS average price, Aug 2026","ONS, same item",
+14-318,"Bananas, flesh only",1.14,"ONS average price, Aug 2026","ONS, same item",
+14-319,"Apples, eating, raw, flesh and skin",2.25,"ONS average price, Aug 2026","ONS, same item",
+14-324,"Strawberries, raw",9.14,"ONS average price, Aug 2026","ONS, same item",
+14-325,Blueberries,10.59,"ONS average price, Aug 2026","ONS, same item",
+14-892,"Peanut butter, smooth",6.8,"ONS average price, Aug 2026","ONS, same item",
+16-356,"Salmon, farmed, flesh only, raw",21.13,"ONS average price, Aug 2026","ONS, same item",
+16-372,"Cod, flesh only, raw",26.16,"ONS average price, Aug 2026","ONS, same item",
+16-416,"Tuna, canned in brine, drained",7.11,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,"Range £6.37 to £7.84 per kg. Replaces the ONS price. Priced per kg of drained weight, as printed on the tin"
+16-417,"Tuna, canned in sunflower oil, drained",7.11,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,"Range £6.37 to £7.84 per kg. Replaces the ONS price. Priced per kg of drained weight, as printed on the tin"
+17-038,"Oil, olive",9.594,"ONS average price, Aug 2026","ONS, same item",ml converted to g at 0.92 g per ml
+17-041,"Oil, rapeseed",1.58,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026 (nearest item)","Shop stand-in, check",Range £1.58 to £1.58 per kg. Replaces the ONS price. Uses the prices of 17-686 (own-brand vegetable oil): Tesco's own-brand vegetable oil label reads 'Ingredients: Rapeseed Oil.' No shop had a standard own-brand bottle sold as rapeseed oil; branded 1 L rapeseed oil averaged £3.51/kg (see 'Shop prices' tab)
+17-050,Honey,5.65,"ONS average price, Aug 2026","ONS, same item",
+17-063,"Sugar, white",1.15,"ONS average price, Aug 2026","ONS, same item",
+17-648,"Chocolate, milk",16.267,"ONS average price, Aug 2026","ONS, same item",
+17-654,"Mayonnaise, standard, retail",3.66,"ONS average price, Aug 2026","ONS, same item",ml treated as g
+17-661,"Butter, unsalted",9.04,"ONS average price, Aug 2026","ONS, same item",
+17-685,"Butter, salted",9.04,"ONS average price, Aug 2026","ONS, same item",
+17-709,Tomato ketchup,4.3,"ONS average price, Aug 2026","ONS, same item",
+18-007,"Beef, braising steak, raw, lean and fat",10.96,"ONS average price, Aug 2026","ONS, same item",Diced beef
+18-065,"Beef, sirloin steak, raw, lean and fat",23.24,"ONS average price, Aug 2026","ONS, same item",
+18-077,"Beef, stewing steak, raw, lean and fat",10.96,"ONS average price, Aug 2026","ONS, same item",Diced beef
+18-290,"Chicken, light meat, raw",9.1,"ONS average price, Aug 2026","ONS, same item",
+18-297,"Chicken, whole, raw, meat and skin",4.54,"ONS average price, Aug 2026","ONS, same item","Price per kg as sold, bones included"
+18-469,"Beef, mince, raw",10.96,"ONS average price, Aug 2026","ONS, same item",
+18-471,"Beef, rump steak, raw, lean and fat",23.24,"ONS average price, Aug 2026","ONS, same item",
+18-536,"Pork, loin chops, raw, lean and fat",9.39,"ONS average price, Aug 2026","ONS, same item",
+19-016,"Bacon rashers, streaky, raw",8.58,"ONS average price, Aug 2026","ONS, same item",
+19-496,Ham,16.667,"ONS average price, Aug 2026","ONS, same item",
+19-497,"Bacon rashers, back, raw",8.58,"ONS average price, Aug 2026","ONS, same item",
+19-510,"Sausages, pork, raw",6.78,"ONS average price, Aug 2026","ONS, same item",
+USDA-173735,"Black beans, cooked, boiled, without salt",1.94,"Average of Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.91 to £1.96 per kg. Replaces the ONS price. Priced per kg of drained weight, as printed on the tin"
+USDA-2257046,"Oat drink (oat milk), unsweetened",1.79,"ONS average price, Aug 2026","ONS, same item",ml treated as g
+17-377,"Water, distilled",0,Tap water,Free,Tap water counts as free

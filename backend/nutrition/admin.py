@@ -5,7 +5,7 @@ from .models import CarbonCategory, CofidFood, IngredientAlias
 
 @admin.register(CofidFood)
 class CofidFoodAdmin(admin.ModelAdmin):
-    list_display = ("food_code", "name", "source", "energy_kcal", "protein_g", "fat_g", "sugars_g", "salt_g", "carbon_category")
+    list_display = ("food_code", "name", "source", "energy_kcal", "protein_g", "fat_g", "sugars_g", "salt_g", "carbon_category", "price_per_kg_gbp")
     search_fields = ("food_code", "name")
     list_filter = ("source", "food_group", "carbon_category")
 
