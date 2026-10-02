@@ -160,6 +160,8 @@ def find_by_words(name, foods):
     Fuzzy match that is easy to explain: every word of the ingredient must appear
     in the CoFID food name. Among those, prefer the raw form (unless the ingredient
     itself says it is cooked), then the shortest, most general name.
+    Composite dishes ("Burger, beef, with bun") are skipped unless the ingredient
+    itself says "with", so "burger bun" never matches a whole burger.
     Returns None rather than guessing.
     """
     wanted = words_of(name)
@@ -167,7 +169,11 @@ def find_by_words(name, foods):
         return None
 
     wants_cooked = bool(wanted & COOKED_WORDS)
-    candidates = [food for food, food_words in foods if wanted <= food_words]
+    allow_composite = "with" in wanted
+    candidates = [
+        food for food, food_words in foods
+        if wanted <= food_words and (allow_composite or "with" not in food_words)
+    ]
     if not candidates:
         return None
 

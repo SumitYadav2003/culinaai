@@ -116,6 +116,8 @@
                     <div class="history-recipe-text-box">
 {{ history_item.recipe_text }}
                     </div>
+
+                    {% include "recipes/partials/recipe_insights.html" with insights=history_item.insights %}
                 </div>
             </article>
 

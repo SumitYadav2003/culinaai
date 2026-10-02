@@ -186,6 +186,8 @@
                 </div>
             </section>
 
+            {% include "recipes/partials/recipe_insights.html" with insights=recipe.insights %}
+
             <!-- Modification Information -->
             {% if recipe.is_modified_version and recipe.original_recipe %}
                 <section class="recipe-print-block recipe-print-origin premium-print-block">

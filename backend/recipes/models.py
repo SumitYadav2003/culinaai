@@ -180,6 +180,11 @@ class Recipe(models.Model):
         help_text="History of AI generation, correction and fallback attempts.",
     )
 
+    # Nutrition, cost, carbon, health benefits, classic comparison and risk
+    # flags, worked out by code (recipes/insight_service.py). Empty for
+    # recipes made before October 2026.
+    insights = models.JSONField(default=dict, blank=True)
+
     is_ai_generated = models.BooleanField(default=True)
     is_saved = models.BooleanField(default=True)
 
@@ -378,6 +383,11 @@ class RecipeHistory(models.Model):
 
     validation_report = models.JSONField(default=dict, blank=True)
     validation_attempt_history = models.JSONField(default=list, blank=True)
+
+    # Nutrition, cost, carbon, health benefits, classic comparison and risk
+    # flags, worked out by code (recipes/insight_service.py). Empty for
+    # recipes made before October 2026.
+    insights = models.JSONField(default=dict, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

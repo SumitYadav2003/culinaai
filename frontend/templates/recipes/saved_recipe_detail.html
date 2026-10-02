@@ -645,6 +645,8 @@
 >
     {{ recipe.instructions_text|linebreaks }}
 </div>
+
+{% include "recipes/partials/recipe_insights.html" with insights=recipe.insights add_back_recipe=recipe %}
 </div>
                 </div>
             </div>

@@ -253,3 +253,6 @@ chia seed,USDA-170554,Not in CoFID; USDA value
 oat milk,USDA-2257046,Not in CoFID; USDA unsweetened oat drink
 oat drink,USDA-2257046,Not in CoFID; USDA unsweetened oat drink
 rice noodle,USDA-169742,"Not in CoFID as dry noodles; USDA value, dry"
+burger bun,11-985,"CoFID has no soft white bun; a crusty white roll is the closest"
+bread roll,11-985,White crusty roll
+bap,11-985,"White roll; CoFID has no bap entry"

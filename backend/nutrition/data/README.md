@@ -80,7 +80,7 @@ chart (https://ourworldindata.org/grapher/food-emissions-supply-chain), licensed
 ## carbon_food_map.csv
 
 Which carbon category each food counts as, with a note wherever the category is a stand-in (e.g. the
-wheat figure for pasta, the milk figure for yogurt). Of the 190 foods the ingredient aliases use, 126
+wheat figure for pasta, the milk figure for yogurt). Of the 191 foods the ingredient aliases use, 127
 have a category.
 
 The other 64 are left without one on purpose, because nothing in the 43 categories fits well enough
@@ -111,7 +111,7 @@ Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_foo
 
 ## ingredient_prices.csv
 
-A price per kg for the 190 foods the ingredient aliases use. 187 have a price. It is exported from
+A price per kg for the 191 foods the ingredient aliases use. 187 have a price. It is exported from
 `docs/evaluation/CulinaAI_ingredient_prices.xlsx` with `scripts/export_prices.py`. The `status`
 column says where each price came from:
 
@@ -132,9 +132,9 @@ column says where each price came from:
   vegetable oil, whose label reads "Ingredients: Rapeseed Oil." (Tesco). Branded 1 L rapeseed oil
   averaged £3.51/kg; those rows are kept in the evidence, marked not used.
 - **Free (1 food):** tap water.
-- **No price yet (3 foods):** beetroot and butternut squash (only Sainsbury's gave a weight for the
-  standard product) and garlic (sold in bulbs with no weight). The app reports these as "no price",
-  never as free.
+- **No price yet (4 foods):** beetroot and butternut squash (only Sainsbury's gave a weight for the
+  standard product), garlic (sold in bulbs with no weight) and white bread rolls, used for burger
+  buns (sold by the pack "each" with no weight). The app reports these as "no price", never as free.
 
 What "per kg" means. Prices are per kg of the food as CoFID describes it wherever the data allowed:
 

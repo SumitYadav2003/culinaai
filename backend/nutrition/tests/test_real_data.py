@@ -134,14 +134,15 @@ class RealPriceDataTests(TestCase):
         used = set(IngredientAlias.objects.values_list("food__food_code", flat=True))
         self.assertEqual(used - listed, set())
 
-    def test_only_the_three_known_gaps_have_no_price(self):
+    def test_only_the_four_known_gaps_have_no_price(self):
         from nutrition.models import CofidFood
 
         listed = [row["food_code"] for row in self.read_csv("ingredient_prices.csv")]
         foods = CofidFood.objects.filter(food_code__in=listed)
-        self.assertEqual(foods.count(), 190)
+        self.assertEqual(foods.count(), 191)
         unpriced = set(foods.filter(price_per_kg_gbp__isnull=True).values_list("food_code", flat=True))
-        self.assertEqual(unpriced, {"13-164", "13-244", "13-355"})  # beetroot, garlic, butternut squash
+        # beetroot, garlic, butternut squash, white bread rolls (burger buns)
+        self.assertEqual(unpriced, {"13-164", "13-244", "13-355", "11-985"})
         for food in foods.exclude(price_per_kg_gbp__isnull=True):
             with self.subTest(food=food.food_code):
                 self.assertTrue(food.price_source)

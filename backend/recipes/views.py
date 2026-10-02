@@ -48,6 +48,8 @@ from .models import (
     PantryItem,
 )
 from .shopping_service import build_shopping_list_context
+from .insight_service import build_insights
+from .structure_service import extract_recipe_structure
 
 from .recommendation_service import get_personalised_recommendations
 
@@ -156,6 +158,25 @@ def get_storage_url(file_path):
 
 
 
+
+
+# Helper: nutrition, cost, carbon, health and risk panels for one recipe.
+def build_recipe_insights(recipe_text, preferences):
+    """
+    Reads the finished recipe into structured ingredients (one small AI call),
+    then works out everything else in code (insight_service.py).
+
+    Never raises: if anything fails, the recipe is still shown and the panel
+    says nutrition is not available.
+    """
+
+    try:
+        structure_result = extract_recipe_structure(recipe_text, preferences)
+        return build_insights(structure_result, preferences, recipe_text)
+    except Exception as error:
+        print("CULINAAI INSIGHTS ERROR:", repr(error))
+        traceback.print_exc()
+        return build_insights(None, preferences, recipe_text)
 
 
 # Helper: builds validation preferences for AI-modified recipes.
@@ -301,6 +322,7 @@ def create_recipe_history_entry(
     image_prompt="",
     validation_report=None,
     validation_attempt_history=None,
+    insights=None,
 ):
     """
     Automatically stores every generated recipe in RecipeHistory.
@@ -352,6 +374,7 @@ def create_recipe_history_entry(
         validation_attempts=len(validation_attempt_history),
         validation_report=validation_report,
         validation_attempt_history=validation_attempt_history,
+        insights=insights or {},
     )
 
 
@@ -503,6 +526,7 @@ def generate_recipe_view(request):
                 current_preferences = preview_data
                 final_ai_result = None
                 final_validation_report = None
+                final_insights = None
                 validation_attempt_history = []
                 fallback_used = False
 
@@ -511,11 +535,16 @@ def generate_recipe_view(request):
                     ai_result = generate_ai_recipe(current_preferences)
                     recipe_text = ai_result.get("recipe_text", "")
 
+                    # Nutrition, classic comparison and risk flags for this attempt,
+                    # so gates 9 and 10 can check them.
+                    insights = build_recipe_insights(recipe_text, preview_data)
+
                     # Important: custom validation engine checks the AI output here.
                     validation_report = validate_recipe_output(
                         preferences=preview_data,
                         recipe_text=recipe_text,
                         attempt_number=attempt_number,
+                        insights=insights,
                     )
 
                     validation_attempt_history.append(
@@ -537,6 +566,7 @@ def generate_recipe_view(request):
 
                     final_ai_result = ai_result
                     final_validation_report = validation_report
+                    final_insights = insights
 
                     if not validation_report.get("should_regenerate"):
                         break
@@ -560,11 +590,16 @@ def generate_recipe_view(request):
                 ):
                     # Important: safe fallback is used if AI output is unsafe.
                     fallback_ai_result = build_safe_fallback_recipe(preview_data)
+                    fallback_insights = build_recipe_insights(
+                        fallback_ai_result.get("recipe_text", ""),
+                        preview_data,
+                    )
 
                     fallback_validation_report = validate_recipe_output(
                         preferences=preview_data,
                         recipe_text=fallback_ai_result.get("recipe_text", ""),
                         attempt_number=max_regeneration_attempts + 1,
+                        insights=fallback_insights,
                     )
 
                     validation_attempt_history.append(
@@ -586,8 +621,10 @@ def generate_recipe_view(request):
 
                     final_ai_result = fallback_ai_result
                     final_validation_report = fallback_validation_report
+                    final_insights = fallback_insights
                     fallback_used = True
 
+                final_ai_result["insights"] = final_insights
                 final_ai_result["validation_report"] = final_validation_report
                 final_ai_result["validation_attempt_history"] = validation_attempt_history
                 final_ai_result["quality_score"] = final_validation_report.get("score")
@@ -639,6 +676,7 @@ def generate_recipe_view(request):
                 request.session["latest_recipe_image_prompt"] = generated_image_prompt
                 request.session["latest_validation_report"] = final_validation_report
                 request.session["latest_validation_attempt_history"] = validation_attempt_history
+                request.session["latest_recipe_insights"] = final_insights
 
                 
 
@@ -654,6 +692,7 @@ def generate_recipe_view(request):
                         image_prompt=generated_image_prompt,
                         validation_report=final_validation_report,
                         validation_attempt_history=validation_attempt_history,
+                        insights=final_insights,
                     )
 
                     if history_entry:
@@ -685,12 +724,14 @@ def generate_recipe_view(request):
                 try:
                     fallback_ai_result = build_safe_fallback_recipe(preview_data)
                     fallback_recipe_text = fallback_ai_result.get("recipe_text", "")
+                    fallback_insights = build_recipe_insights(fallback_recipe_text, preview_data)
 
                     try:
                         fallback_validation_report = validate_recipe_output(
                             preferences=preview_data,
                             recipe_text=fallback_recipe_text,
                             attempt_number=1,
+                            insights=fallback_insights,
                         )
 
                     except Exception as validation_error:
@@ -745,6 +786,7 @@ def generate_recipe_view(request):
                         }
                     ]
 
+                    fallback_ai_result["insights"] = fallback_insights
                     fallback_ai_result["validation_report"] = fallback_validation_report
                     fallback_ai_result["validation_attempt_history"] = (
                         validation_attempt_history
@@ -771,6 +813,7 @@ def generate_recipe_view(request):
                     request.session["latest_validation_attempt_history"] = (
                         validation_attempt_history
                     )
+                    request.session["latest_recipe_insights"] = fallback_insights
 
                     try:
                         history_entry = create_recipe_history_entry(
@@ -782,6 +825,7 @@ def generate_recipe_view(request):
                             image_prompt="",
                             validation_report=fallback_validation_report,
                             validation_attempt_history=validation_attempt_history,
+                            insights=fallback_insights,
                         )
 
                         if history_entry:
@@ -1088,6 +1132,7 @@ def save_history_recipe_view(request, history_id):
         validation_attempts=history_item.validation_attempts,
         validation_report=history_item.validation_report,
         validation_attempt_history=history_item.validation_attempt_history,
+        insights=history_item.insights,
     )
 
     for diet_name in history_item.dietary_preferences:
@@ -1196,6 +1241,7 @@ def save_generated_recipe_view(request):
     validation_attempt_history = (
         request.session.get("latest_validation_attempt_history") or []
     )
+    insights = request.session.get("latest_recipe_insights") or {}
 
     if not recipe_text or not preferences:
         messages.error(
@@ -1244,6 +1290,7 @@ def save_generated_recipe_view(request):
         validation_attempts=len(validation_attempt_history),
         validation_report=validation_report,
         validation_attempt_history=validation_attempt_history,
+        insights=insights,
     )
 
 
@@ -1277,6 +1324,7 @@ def save_generated_recipe_view(request):
     request.session.pop("latest_validation_report", None)
     request.session.pop("latest_validation_attempt_history", None)
     request.session.pop("latest_recipe_history_id", None)
+    request.session.pop("latest_recipe_insights", None)
 
     messages.success(
         request,
@@ -1908,6 +1956,13 @@ def modify_saved_recipe_view(request, recipe_id):
             modified_validation_report = {}
             modified_validation_attempt_history = []
 
+            # Saved recipes don't store servings, so let the modified recipe's own
+            # SERVINGS line decide (insight_service falls back to it).
+            modified_insights = build_recipe_insights(
+                modified_recipe_text,
+                dict(modified_validation_preferences, servings=None),
+            )
+
             try:
                 # Important: validate the AI-modified recipe before showing/saving it.
                 # This keeps modified recipes consistent with normal generated recipes.
@@ -1915,6 +1970,7 @@ def modify_saved_recipe_view(request, recipe_id):
                     preferences=modified_validation_preferences,
                     recipe_text=modified_recipe_text,
                     attempt_number=1,
+                    insights=modified_insights,
                 )
 
                 # Important: copy the validation report and add modification-specific evidence.
@@ -2038,6 +2094,7 @@ def modify_saved_recipe_view(request, recipe_id):
                 "generated_image_prompt": generated_image_prompt,
                 "validation_report": modified_validation_report,
                 "validation_attempt_history": modified_validation_attempt_history,
+                "insights": modified_insights,
                 "quality_score": modified_validation_report.get("score"),
                 "validation_status": modified_validation_report.get("status", ""),
                 "validation_risk_level": modified_validation_report.get("risk_level", ""),
@@ -2210,6 +2267,7 @@ def save_modified_recipe_view(request, recipe_id):
         validation_attempts=len(validation_attempt_history),
         validation_report=final_validation_report,
         validation_attempt_history=validation_attempt_history,
+        insights=modified_preview.get("insights") or {},
     )
 
     # Important: copy the original diet preferences to the modified recipe.
