@@ -80,12 +80,12 @@ chart (https://ourworldindata.org/grapher/food-emissions-supply-chain), licensed
 ## carbon_food_map.csv
 
 Which carbon category each food counts as, with a note wherever the category is a stand-in (e.g. the
-wheat figure for pasta, the milk figure for yogurt). Of the 191 foods the ingredient aliases use, 127
+wheat figure for pasta, the milk figure for yogurt). Of the 192 foods the ingredient aliases use, 127
 have a category.
 
-The other 64 are left without one on purpose, because nothing in the 43 categories fits well enough
+The other 65 are left without one on purpose, because nothing in the 43 categories fits well enough
 and borrowing a figure would mislead. Tap water and salt count as zero, since their footprint is
-negligible. The remaining 62 are reported in the app as "no carbon figure", and the app says what
+negligible. The remaining 63 are reported in the app as "no carbon figure", and the app says what
 share of the recipe the estimate covers. They are:
 
 - dairy fats and dairy foods with no category: butter, ghee, single, double and whipping cream,
@@ -96,7 +96,7 @@ share of the recipe the estimate covers. They are:
   Quorn, quinoa, chia seeds, sesame seeds, raisins, dates
 - sweet foods: honey, maple syrup, milk chocolate, cocoa powder
 - herbs and spices: basil, coriander, mint, parsley, mixed herbs, oregano, black pepper, chilli
-  powder, cinnamon, cumin, curry powder, garam masala, garlic powder, fresh and ground ginger,
+  powder, cinnamon, coriander seeds (ground coriander), cumin, curry powder, garam masala, garlic powder, fresh and ground ginger,
   paprika, turmeric
 - sauces, stocks and baking: tomato puree, ketchup, mayonnaise, mustard (smooth and wholegrain),
   pesto, curry paste, soy sauce, Worcestershire sauce, vinegar, gravy granules, stock cubes (beef,
@@ -111,7 +111,7 @@ Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_foo
 
 ## ingredient_prices.csv
 
-A price per kg for the 191 foods the ingredient aliases use. All 191 have a price; 4 are estimates. It is exported from
+A price per kg for the 192 foods the ingredient aliases use. All 192 have a price; 4 are estimates. It is exported from
 `docs/evaluation/CulinaAI_ingredient_prices.xlsx` with `scripts/export_prices.py`. The `status`
 column says where each price came from:
 
@@ -122,9 +122,9 @@ column says where each price came from:
   public sector information licensed under the Open Government Licence v3.0. "Stand-in" (10 foods)
   means ONS has no exact item and the nearest one is used; the note says which. ONS averages cover
   all kinds of shops and brands.
-- **Shop average (116 foods, status starts with "Shop"):** the average of shelf prices at Tesco,
+- **Shop average (117 foods, status starts with "Shop"):** the average of shelf prices at Tesco,
   Sainsbury's and Morrisons,
-  read from their websites on 2 October 2026. Rules: the shop's own-brand standard range where one
+  read from their websites on 2 October 2026 (ground coriander on 3 October). Rules: the shop's own-brand standard range where one
   exists (not value, premium or organic), otherwise the cheapest normal-size brand; the smallest
   normal household pack; the regular price, not Clubcard or Nectar prices. A food needs prices from
   at least two shops. Two are stand-ins that borrow another food's prices, and the note says which:
@@ -152,7 +152,7 @@ What "per kg" means. Prices are per kg of the food as CoFID describes it whereve
 - Made-up stock: the average stock-cube price over 460 g (one 10 g cube plus 450 ml water, from the
   Tesco pack).
 
-`ingredient_prices_shop_evidence.csv` has every shop price collected (357 rows): product name, pack
+`ingredient_prices_shop_evidence.csv` has every shop price collected (360 rows): product name, pack
 size, price, the shop's own unit price, the search URL and any judgement call, marked DOUBTFUL in
 the note. The `Used` column says whether the row went into a price. A test recomputes every shop
 average from the used rows.

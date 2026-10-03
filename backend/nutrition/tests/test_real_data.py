@@ -139,7 +139,7 @@ class RealPriceDataTests(TestCase):
 
         listed = [row["food_code"] for row in self.read_csv("ingredient_prices.csv")]
         foods = CofidFood.objects.filter(food_code__in=listed)
-        self.assertEqual(foods.count(), 191)
+        self.assertEqual(foods.count(), 192)
         unpriced = set(foods.filter(price_per_kg_gbp__isnull=True).values_list("food_code", flat=True))
         self.assertEqual(unpriced, set())
         # Priced with a stated assumption: burger buns, beetroot, garlic, butternut squash
@@ -162,7 +162,7 @@ class RealPriceDataTests(TestCase):
                 shop_prices[row["Food code"]].append(float(row["Price per kg (£)"]))
 
         averages = [row for row in self.read_csv("ingredient_prices.csv") if row["status"].startswith("Shop")]
-        self.assertEqual(len(averages), 116)
+        self.assertEqual(len(averages), 117)
         for row in averages:
             if row["food_code"] == "17-774":  # stock made up from cubes, checked below
                 continue
