@@ -1,0 +1,382 @@
+rank,ingredient,avg_share_across_11_cuisines_pct,top_cuisine,top_cuisine_share_pct,before_match,before_food,before_judged_wrong,after_match,after_food_code,after_food,after_price_per_kg_gbp
+1,garlic,38.35,SoutheastAsian,62.1,alias,"Garlic, raw",,alias,13-244,"Garlic, raw",5.0
+2,onion,36.8,LatinAmerican,65.3,alias,"Onions, raw",,alias,13-499,"Onions, raw",1.15
+3,wheat,32.54,NorthernEuropean,58.0,fuzzy,"Wheat, bulgur, raw",yes,alias,11-886,"Flour, wheat, white, plain, soft",0.673
+4,egg,30.23,NorthernEuropean,52.8,alias,"Eggs, chicken, whole, raw",,alias,12-937,"Eggs, chicken, whole, raw",5.647
+5,butter,29.53,NorthernEuropean,64.0,alias,"Butter, salted",,alias,17-685,"Butter, salted",9.04
+6,cayenne,24.07,LatinAmerican,66.7,fuzzy,"Pepper, cayenne, ground",,alias,13-847,"Pepper, cayenne, ground",40.13
+7,vegetable oil,22.79,SouthAsian,42.7,alias,"Oil, vegetable, average",,alias,17-686,"Oil, vegetable, average",1.58
+8,olive oil,22.42,SouthernEuropean,62.5,alias,"Oil, olive",,alias,17-038,"Oil, olive",9.594
+9,black pepper,21.46,EastAsian,30.3,alias,"Pepper, black",,alias,13-880,"Pepper, black",42.76
+10,tomato,20.57,LatinAmerican,54.1,alias,"Tomatoes, standard, raw",,alias,13-517,"Tomatoes, standard, raw",3.73
+11,cumin,17.22,SouthAsian,60.4,alias,Cumin seeds,,alias,13-889,Cumin seeds,28.92
+12,pepper,16.42,SouthAsian,30.3,alias,"Pepper, black",,alias,13-880,"Pepper, black",42.76
+13,cream,14.26,EasternEuropean,29.1,alias,"Cream, fresh, single",,alias,12-332,"Cream, fresh, single",5.745
+14,ginger,14.21,SouthAsian,42.5,alias,"Ginger, fresh",,alias,13-890,"Ginger, fresh",12.47
+15,milk,13.89,NorthAmerican,26.5,alias,"Milk, semi-skimmed, pasteurised, average",,alias,12-313,"Milk, semi-skimmed, pasteurised, average",1.012
+16,bell pepper,13.49,African,29.3,alias,"Pepper, capsicum, red, raw",,alias,13-524,"Pepper, capsicum, red, raw",5.88
+17,vinegar,13.25,EastAsian,21.6,alias,Vinegar,,alias,17-339,Vinegar,0.67
+18,chicken,12.23,SoutheastAsian,29.8,alias,"Chicken, meat, average, raw",,alias,18-488,"Chicken, meat, average, raw",9.1
+19,cilantro,11.83,SoutheastAsian,35.7,unmatched,,,alias,13-888,"Coriander leaves, fresh",18.33
+20,cinnamon,11.54,African,32.4,alias,"Cinnamon, ground",,alias,13-874,"Cinnamon, ground",30.7
+21,coriander,11.43,SouthAsian,47.3,alias,"Coriander leaves, fresh",,alias,13-888,"Coriander leaves, fresh",18.33
+22,scallion,11.26,EastAsian,47.3,unmatched,,,alias,13-352,"Spring onions, bulbs and tops, raw",6.77
+23,rice,11.11,SoutheastAsian,35.7,alias,"Rice, white, long grain, raw",,alias,11-861,"Rice, white, long grain, raw",1.52
+24,lemon juice,10.65,MiddleEastern,24.8,alias,"Lemon juice, fresh",,alias,14-277,"Lemon juice, fresh",3.33
+25,parsley,10.63,SouthernEuropean,24.5,alias,"Parsley, fresh",,alias,13-844,"Parsley, fresh",17.78
+26,beef,9.71,EastAsian,18.3,fuzzy,"Beef, mince, raw",,fuzzy,18-469,"Beef, mince, raw",10.96
+27,turmeric,9.11,SouthAsian,51.4,alias,"Turmeric, ground",,alias,13-861,"Turmeric, ground",23.47
+28,carrot,9.07,SoutheastAsian,15.3,alias,"Carrots, old, raw",,alias,13-496,"Carrots, old, raw",0.94
+29,fish,8.96,SoutheastAsian,49.5,fuzzy,"Flying fish, raw",yes,unmatched,,,
+30,soy sauce,8.72,EastAsian,54.1,alias,"Soy sauce, light and dark varieties",,alias,17-721,"Soy sauce, light and dark varieties",4.44
+31,chicken broth,8.1,African,16.5,unmatched,,,alias,17-681,"Stock, chicken, ready made, retail",4.93
+32,potato,7.97,EasternEuropean,19.2,alias,"Potatoes, old, raw, flesh only",,alias,13-489,"Potatoes, old, raw, flesh only",1.0
+33,vanilla,7.97,NorthAmerican,19.5,fuzzy,"Ice cream, dairy, vanilla, soft scoop",yes,unmatched,,,
+34,cane molasses,7.38,NorthAmerican,16.6,unmatched,,,alias,17-826,"Treacle, black",3.85
+35,bread,6.84,SouthernEuropean,11.9,alias,"Bread, white, sliced",,alias,11-980,"Bread, white, sliced",1.675
+36,lemon,6.63,African,16.2,alias,"Lemon juice, fresh",,alias,14-277,"Lemon juice, fresh",3.33
+37,corn,6.41,LatinAmerican,29.8,fuzzy,"Chicken, corn-fed, raw, meat only",yes,alias,13-622,"Sweetcorn, kernels, raw",2.82
+38,almond,6.06,NorthernEuropean,18.4,alias,"Almonds, whole kernels",,alias,14-896,"Almonds, whole kernels",12.83
+39,basil,5.57,SouthernEuropean,25.3,alias,"Basil, fresh",,alias,13-804,"Basil, fresh",18.89
+40,lime juice,5.28,SoutheastAsian,28.9,alias,"Lime juice, fresh",,alias,14-279,"Lime juice, fresh",4.93
+41,fenugreek,5.21,SouthAsian,27.9,fuzzy,"Fenugreek leaves, raw",,alias,13-828,Fenugreek seeds,19.73
+42,cheese,5.08,LatinAmerican,18.6,alias,"Cheese, Cheddar, English",,alias,12-346,"Cheese, Cheddar, English",8.45
+43,coconut,4.98,SoutheastAsian,28.2,fuzzy,Coconut milk,yes,fuzzy,14-873,"Coconut, desiccated",10.65
+44,mint,4.82,SoutheastAsian,16.2,alias,"Mint, fresh",,alias,13-836,"Mint, fresh",17.78
+45,mustard,4.79,SouthAsian,9.5,alias,"Mustard, smooth",,alias,17-364,"Mustard, smooth",2.43
+46,yeast,4.74,EasternEuropean,12.6,alias,"Yeast, dried",,alias,17-379,"Yeast, dried",27.98
+47,raisin,4.74,African,13.4,alias,"Raisins, dried",,alias,14-393,"Raisins, dried",4.6
+48,shrimp,4.69,SoutheastAsian,17.7,fuzzy,"Shrimps, boiled",,alias,16-387,"Prawns, king, raw",20.15
+49,sesame oil,4.58,EastAsian,37.3,alias,"Oil, sesame",,alias,17-043,"Oil, sesame",11.67
+50,cucumber,4.45,SoutheastAsian,11.4,alias,"Cucumber, raw, flesh and skin",,alias,13-523,"Cucumber, raw, flesh and skin",3.29
+51,honey,4.35,African,11.9,alias,Honey,,alias,17-050,Honey,5.65
+52,white wine,4.32,SouthernEuropean,11.6,fuzzy,"Wine, white, dry",,fuzzy,17-755,"Wine, white, dry",
+53,vegetable,4.23,EastAsian,21.6,fuzzy,"Sushi, vegetable",yes,unmatched,,,
+54,oregano,4.21,LatinAmerican,18.1,alias,"Oregano, dried, ground",,alias,13-878,"Oregano, dried, ground",100.0
+55,starch,4.15,EastAsian,13.8,unmatched,,,alias,USDA-169698,Cornflour (cornstarch),5.13
+56,mushroom,4.1,SouthernEuropean,7.7,alias,"Mushrooms, white, raw",,alias,13-505,"Mushrooms, white, raw",3.96
+57,bean,4.08,SoutheastAsian,13.6,alias,"Beans, red kidney, canned in water, re-heated, drained",,alias,13-660,"Beans, red kidney, canned in water, re-heated, drained",1.6
+58,seed,4.07,EasternEuropean,9.4,fuzzy,Anise seeds,yes,unmatched,,,
+59,celery,4.01,NorthAmerican,7.2,alias,"Celery, raw",,alias,13-636,"Celery, raw",3.6
+60,macaroni,3.96,SouthernEuropean,23.4,alias,"Pasta, white, dried, raw",,alias,11-716,"Pasta, white, dried, raw",1.98
+61,thyme,3.93,WesternEuropean,10.3,fuzzy,"Thyme, fresh",,fuzzy,13-893,"Thyme, fresh",
+62,pork,3.88,EastAsian,9.8,fuzzy,"Pork, mince, raw",,fuzzy,18-606,"Pork, mince, raw",4.9
+63,yogurt,3.88,SouthAsian,23.8,alias,"Yogurt, whole milk, plain",,alias,12-184,"Yogurt, whole milk, plain",2.3
+64,olive,3.77,African,12.5,fuzzy,"Oil, olive",yes,fuzzy,14-340,"Olives, green, in brine, drained, flesh and skin",
+65,bay,3.67,WesternEuropean,6.7,fuzzy,"Bay leaf, dried",,alias,13-806,"Bay leaf, dried",263.89
+66,cardamom,3.66,SouthAsian,15.5,fuzzy,"Cardamom, ground",,fuzzy,13-809,"Cardamom, ground",
+67,parmesan cheese,3.43,SouthernEuropean,24.1,fuzzy,"Cheese, Parmesan, fresh",,fuzzy,12-526,"Cheese, Parmesan, fresh",23.62
+68,lard,3.42,WesternEuropean,6.5,fuzzy,Lard,,fuzzy,17-010,Lard,
+69,shallot,3.39,SoutheastAsian,15.1,alias,"Shallots, raw",,alias,13-342,"Shallots, raw",3.38
+70,green bell pepper,3.33,LatinAmerican,11.5,unmatched,,,alias,13-318,"Peppers, capsicum, green, raw",5.88
+71,cocoa,3.27,NorthAmerican,10.4,fuzzy,Cocoa butter,yes,alias,12-545,Cocoa powder,14.59
+72,lime,3.22,SoutheastAsian,18.4,alias,"Lime juice, fresh",,alias,14-279,"Lime juice, fresh",4.93
+73,dill,3.18,EasternEuropean,11.3,fuzzy,Dill seeds,yes,fuzzy,13-825,"Dill, dried",
+74,soybean,3.17,EastAsian,25.0,unmatched,,,alias,13-115,"Beans, soya, dried, raw",5.67
+75,orange,3.16,NorthernEuropean,7.2,alias,"Oranges, flesh only",,alias,14-327,"Oranges, flesh only",2.67
+76,red wine,3.1,SouthernEuropean,6.6,fuzzy,"Wine, red",,fuzzy,17-752,"Wine, red",
+77,nutmeg,3.08,WesternEuropean,5.8,fuzzy,"Nutmeg, ground",,fuzzy,13-877,"Nutmeg, ground",
+78,cabbage,3.01,EasternEuropean,10.2,alias,"Cabbage, average, raw",,alias,13-582,"Cabbage, average, raw",0.98
+79,apple,3.01,NorthernEuropean,5.6,alias,"Apples, eating, raw, flesh and skin",,alias,14-319,"Apples, eating, raw, flesh and skin",2.25
+80,lamb,2.94,African,13.1,alias,"Lamb, average, raw, lean and fat",,alias,18-478,"Lamb, average, raw, lean and fat",21.06
+81,walnut,2.9,MiddleEastern,7.9,alias,"Walnuts, kernel only",,alias,14-879,"Walnuts, kernel only",14.75
+82,lettuce,2.72,SoutheastAsian,7.2,alias,"Lettuce, average, raw",,alias,13-520,"Lettuce, average, raw",1.65
+83,cheddar cheese,2.67,LatinAmerican,17.0,alias,"Cheese, Cheddar, English",,alias,12-346,"Cheese, Cheddar, English",8.45
+84,pea,2.65,SouthAsian,7.9,alias,"Peas, frozen, raw",,alias,13-527,"Peas, frozen, raw",2.344
+85,bacon,2.42,EasternEuropean,7.6,alias,"Bacon rashers, back, raw",,alias,19-497,"Bacon rashers, back, raw",8.58
+86,nut,2.34,EastAsian,6.5,fuzzy,Betel nuts,yes,fuzzy,14-880,"Nuts, mixed",
+87,beef broth,2.33,EastAsian,5.5,unmatched,,,unmatched,,,
+88,roasted sesame seed,2.33,EastAsian,19.6,unmatched,,,alias,14-844,Sesame seeds,15.67
+89,milk fat,2.31,EasternEuropean,5.8,fuzzy,"Milk, 1% fat, pasteurised",yes,alias,17-640,"Ghee, butter",15.0
+90,zucchini,2.25,African,7.1,alias,"Courgette, raw",,alias,13-627,"Courgette, raw",3.13
+91,tamarind,2.2,SouthAsian,5.2,fuzzy,Tamarind,,fuzzy,14-265,Tamarind,
+92,chickpea,2.16,African,11.1,alias,"Beans, chick peas, canned, re-heated, drained",,alias,13-670,"Beans, chick peas, canned, re-heated, drained",1.65
+93,fennel,2.05,SouthernEuropean,7.0,fuzzy,"Fennel, Florence, raw",,fuzzy,13-241,"Fennel, Florence, raw",
+94,chive,2.04,WesternEuropean,4.5,fuzzy,"Chives, fresh",,fuzzy,13-887,"Chives, fresh",
+95,lemongrass,2.02,SoutheastAsian,21.0,unmatched,,,unmatched,,,
+96,cream cheese,1.99,NorthAmerican,6.2,alias,"Cheese, spreadable, full fat, soft, white",,alias,12-551,"Cheese, spreadable, full fat, soft, white",9.333
+97,orange juice,1.99,MiddleEastern,5.4,fuzzy,"Orange juice, chilled",,fuzzy,14-329,"Orange juice, chilled",
+98,wine,1.98,EastAsian,6.0,fuzzy,"Wine, red",,fuzzy,17-752,"Wine, red",
+99,apricot,1.96,African,6.5,fuzzy,"Apricots, raw, flesh and skin",,fuzzy,14-025,"Apricots, raw, flesh and skin",
+100,meat,1.96,EasternEuropean,3.7,fuzzy,"Chicken, dark meat, raw",,unmatched,,,
+101,caraway,1.95,African,7.4,fuzzy,Caraway seeds,,alias,13-808,Caraway seeds,34.79
+102,rosemary,1.94,SouthernEuropean,8.9,fuzzy,"Rosemary, dried",,fuzzy,13-882,"Rosemary, dried",
+103,radish,1.91,EastAsian,12.1,fuzzy,"Radish leaves, raw",yes,fuzzy,13-331,"Radish, white/mooli, raw",
+104,sake,1.84,EastAsian,18.5,unmatched,,,unmatched,,,
+105,sesame seed,1.84,EastAsian,7.4,alias,Sesame seeds,,alias,14-844,Sesame seeds,15.67
+106,saffron,1.8,African,10.8,fuzzy,Saffron,,fuzzy,13-852,Saffron,
+107,pork sausage,1.77,SouthernEuropean,6.4,fuzzy,"Sausages, pork, raw",,fuzzy,19-510,"Sausages, pork, raw",6.78
+108,shiitake,1.68,EastAsian,12.6,fuzzy,"Mushrooms, shiitake, dried, raw",,alias,13-294,"Mushrooms, shiitake, dried, raw",303.75
+109,mozzarella cheese,1.58,SouthernEuropean,10.0,fuzzy,"Cheese, Mozzarella, fresh",,fuzzy,12-360,"Cheese, Mozzarella, fresh",8.4
+110,mango,1.45,SouthAsian,8.1,alias,"Mangoes, ripe, flesh only, raw",,alias,14-378,"Mangoes, ripe, flesh only, raw",2.8
+111,peanut butter,1.41,SoutheastAsian,8.1,alias,"Peanut butter, smooth",,alias,14-892,"Peanut butter, smooth",6.8
+112,cider,1.41,NorthernEuropean,2.8,fuzzy,"Cider, dry",,fuzzy,17-222,"Cider, dry",
+113,ham,1.39,SouthernEuropean,4.6,alias,Ham,,alias,19-496,Ham,16.667
+114,buttermilk,1.37,NorthAmerican,3.4,unmatched,,,unmatched,,,
+115,lemon peel,1.34,MiddleEastern,4.0,fuzzy,Lemon peel,,fuzzy,14-337,Lemon peel,
+116,peanut,1.34,SoutheastAsian,9.2,alias,"Peanuts, kernel only, plain, unsalted",,alias,14-877,"Peanuts, kernel only, plain, unsalted",8.0
+117,avocado,1.24,LatinAmerican,9.9,alias,"Avocado, Hass, flesh only",,alias,14-386,"Avocado, Hass, flesh only",6.08
+118,beet,1.24,EasternEuropean,5.8,unmatched,,,alias,13-164,"Beetroot, raw",4.6
+119,sherry,1.17,SouthernEuropean,2.2,fuzzy,"Sherry, medium",,fuzzy,17-236,"Sherry, medium",
+120,plum,1.17,African,3.4,fuzzy,"Plums, Victoria, flesh and skin, raw",,fuzzy,14-220,"Plums, Victoria, flesh and skin, raw",
+121,pecan,1.14,NorthAmerican,5.0,fuzzy,"Pecan nuts, kernel only",,alias,14-837,"Pecan nuts, kernel only",17.5
+122,leek,1.14,WesternEuropean,3.3,alias,"Leeks, raw",,alias,13-624,"Leeks, raw",2.74
+123,pineapple,1.1,NorthAmerican,3.6,fuzzy,"Pineapple, flesh only, raw",,fuzzy,14-376,"Pineapple, flesh only, raw",
+124,celery oil,1.1,NorthAmerican,2.0,unmatched,,,unmatched,,,
+125,pumpkin,1.08,EastAsian,5.5,fuzzy,"Pumpkin, flesh only, raw",,fuzzy,13-326,"Pumpkin, flesh only, raw",
+126,squash,1.07,African,4.3,fuzzy,"Squash, acorn, raw",,alias,13-355,"Squash, butternut, raw",1.5
+127,tabasco pepper,1.06,LatinAmerican,3.3,unmatched,,,alias,13-317,"Peppers, capsicum, chilli, red, raw",9.59
+128,lentil,1.06,SouthAsian,5.2,alias,"Lentils, red, split, dried, raw",,alias,13-657,"Lentils, red, split, dried, raw",4.2
+129,gelatin,1.05,NorthAmerican,3.1,unmatched,,,alias,17-360,Gelatine,41.67
+130,oyster,1.04,EastAsian,5.8,fuzzy,"Oysters, raw",,fuzzy,16-260,"Oysters, raw",
+131,peanut oil,1.04,SoutheastAsian,5.0,fuzzy,"Oil, peanut (groundnut)",,fuzzy,17-040,"Oil, peanut (groundnut)",
+132,roasted peanut,1.03,SoutheastAsian,7.9,fuzzy,"Peanuts, dry roasted",,fuzzy,14-878,"Peanuts, dry roasted",
+133,orange peel,1.0,MiddleEastern,2.3,unmatched,,,unmatched,,,
+134,grape juice,1.0,SouthernEuropean,3.9,fuzzy,"Grape juice, unsweetened",,fuzzy,17-745,"Grape juice, unsweetened",
+135,brandy,0.99,NorthernEuropean,2.4,unmatched,,,unmatched,,,
+136,strawberry,0.99,MiddleEastern,2.6,alias,"Strawberries, raw",,alias,14-324,"Strawberries, raw",9.14
+137,clam,0.99,EastAsian,5.0,unmatched,,,unmatched,,,
+138,pear,0.98,EastAsian,3.5,fuzzy,"Pears, average, raw, flesh only",,fuzzy,14-365,"Pears, average, raw, flesh only",
+139,sweet potato,0.96,African,3.1,alias,"Sweet potato, raw, flesh only",,alias,13-463,"Sweet potato, raw, flesh only",1.54
+140,smoke,0.96,EasternEuropean,2.4,unmatched,,,unmatched,,,
+141,coffee,0.94,WesternEuropean,1.8,fuzzy,"Coffee, Irish",yes,alias,17-153,"Coffee, infusion, strong",0.102
+142,egg noodle,0.94,EasternEuropean,6.0,alias,"Noodles, egg, dried, raw",,alias,11-719,"Noodles, egg, dried, raw",4.633
+143,thai pepper,0.92,SoutheastAsian,8.8,unmatched,,,alias,13-317,"Peppers, capsicum, chilli, red, raw",9.59
+144,banana,0.91,NorthAmerican,2.1,alias,"Bananas, flesh only",,alias,14-318,"Bananas, flesh only",1.14
+145,feta cheese,0.9,SouthernEuropean,3.9,fuzzy,"Cheese, Feta",,fuzzy,12-525,"Cheese, Feta",11.25
+146,whole grain wheat flour,0.9,NorthAmerican,1.5,unmatched,,,alias,11-889,"Flour, wheat, wholemeal",1.34
+147,black bean,0.9,LatinAmerican,7.4,alias,"Black beans, cooked, boiled, without salt",,alias,USDA-173735,"Black beans, cooked, boiled, without salt",1.94
+148,rye flour,0.88,NorthernEuropean,7.2,fuzzy,"Flour, rye",,fuzzy,11-897,"Flour, rye",
+149,broccoli,0.85,SouthernEuropean,1.9,alias,"Broccoli, green, raw",,alias,13-502,"Broccoli, green, raw",2.7
+150,cherry,0.85,NorthAmerican,2.3,fuzzy,"Tomatoes, cherry, raw",yes,fuzzy,14-382,"Cherries, flesh and skin, raw",
+151,sage,0.83,SouthernEuropean,2.9,fuzzy,"Sage, fresh",,fuzzy,13-853,"Sage, fresh",
+152,salmon,0.83,NorthernEuropean,2.0,alias,"Salmon, farmed, flesh only, raw",,alias,16-356,"Salmon, farmed, flesh only, raw",21.13
+153,hazelnut,0.82,EasternEuropean,2.6,fuzzy,"Oil, hazelnut",yes,fuzzy,14-874,"Hazelnuts, kernel only",
+154,squid,0.82,EastAsian,5.7,fuzzy,"Squid, raw",,fuzzy,16-263,"Squid, raw",
+155,currant,0.81,African,2.0,fuzzy,Currants,,fuzzy,14-074,Currants,
+156,rum,0.81,WesternEuropean,2.0,fuzzy,"Truffles, rum, homemade",yes,unmatched,,,
+157,marjoram,0.81,EasternEuropean,3.4,fuzzy,"Marjoram, dried",,fuzzy,13-835,"Marjoram, dried",
+158,turkey,0.81,LatinAmerican,2.8,fuzzy,"Turkey, skin, raw",yes,alias,18-350,"Turkey, meat, average, raw",9.47
+159,pistachio,0.8,MiddleEastern,3.3,fuzzy,"Pistachio nuts, kernel only, roasted and salted",,alias,14-840,"Pistachio nuts, kernel only, roasted and salted",20.89
+160,sauerkraut,0.8,EasternEuropean,7.3,fuzzy,Sauerkraut,,fuzzy,13-336,Sauerkraut,
+161,cauliflower,0.79,SouthAsian,4.3,alias,"Cauliflower, raw",,alias,13-512,"Cauliflower, raw",2.01
+162,fruit,0.78,EasternEuropean,2.1,fuzzy,"Kumquats, whole fruit, raw",yes,unmatched,,,
+163,date,0.77,African,3.1,alias,"Dates, dried, flesh and skin",,alias,14-394,"Dates, dried, flesh and skin",9.3
+164,turnip,0.71,African,2.6,fuzzy,"Turnip, flesh only, raw",,fuzzy,13-389,"Turnip, flesh only, raw",
+165,crab,0.68,SoutheastAsian,2.2,fuzzy,"Crab, purchased cooked",,fuzzy,16-441,"Crab, purchased cooked",
+166,asparagus,0.67,SouthernEuropean,1.6,fuzzy,"Asparagus, raw",,fuzzy,13-157,"Asparagus, raw",
+167,cashew,0.66,SouthAsian,4.8,alias,"Cashew nuts, kernel only, plain",,alias,14-811,"Cashew nuts, kernel only, plain",12.26
+168,veal,0.66,SouthernEuropean,1.7,fuzzy,"Veal, escalope, raw",,fuzzy,18-486,"Veal, escalope, raw",
+169,cottage cheese,0.66,EasternEuropean,3.4,fuzzy,"Cheese, cottage, plain",,fuzzy,12-539,"Cheese, cottage, plain",
+170,raspberry,0.66,WesternEuropean,2.0,fuzzy,"Raspberries, raw",,fuzzy,14-375,"Raspberries, raw",
+171,kidney bean,0.66,LatinAmerican,3.4,alias,"Beans, red kidney, canned in water, re-heated, drained",,alias,13-660,"Beans, red kidney, canned in water, re-heated, drained",1.6
+172,kelp,0.64,EastAsian,7.1,unmatched,,,alias,13-339,"Seaweed, kombu, dried, raw",109.0
+173,seaweed,0.63,EastAsian,6.9,fuzzy,"Seaweed, Irish moss, raw",,alias,13-340,"Seaweed, nori, dried, raw",181.82
+174,oat,0.61,NorthAmerican,2.9,alias,"Porridge oats, unfortified",,alias,11-788,"Porridge oats, unfortified",3.16
+175,tarragon,0.6,WesternEuropean,2.7,fuzzy,"Tarragon, fresh",,fuzzy,13-857,"Tarragon, fresh",
+176,horseradish,0.58,EasternEuropean,2.4,fuzzy,"Horseradish, raw",,fuzzy,13-258,"Horseradish, raw",
+177,chinese cabbage,0.58,EastAsian,6.2,fuzzy,"Cabbage, Chinese, raw",,fuzzy,13-187,"Cabbage, Chinese, raw",
+178,galanga,0.57,SoutheastAsian,6.1,unmatched,,,unmatched,,,
+179,mussel,0.55,SoutheastAsian,1.3,fuzzy,"Mussels, raw",,fuzzy,16-497,"Mussels, raw",
+180,scallop,0.55,SoutheastAsian,1.1,fuzzy,"Scallops, steamed",,fuzzy,16-262,"Scallops, steamed",
+181,tuna,0.55,EastAsian,1.6,alias,"Tuna, canned in brine, drained",,alias,16-416,"Tuna, canned in brine, drained",7.11
+182,smoked sausage,0.54,EasternEuropean,4.2,unmatched,,,unmatched,,,
+183,cod,0.54,African,2.3,alias,"Cod, flesh only, raw",,alias,16-372,"Cod, flesh only, raw",26.16
+184,white bread,0.54,EasternEuropean,1.3,alias,"Bread, white, sliced",,alias,11-980,"Bread, white, sliced",1.675
+185,star anise,0.51,SoutheastAsian,3.5,unmatched,,,alias,13-802,Anise seeds,76.69
+186,rose,0.5,MiddleEastern,2.8,fuzzy,"Wine, rose, medium",yes,unmatched,,,
+187,cranberry,0.5,NorthAmerican,2.1,fuzzy,Cranberries,,fuzzy,14-073,Cranberries,
+188,barley,0.49,EastAsian,1.6,fuzzy,"Barley, pearl, raw",,fuzzy,11-002,"Barley, pearl, raw",
+189,artichoke,0.46,SouthernEuropean,2.7,fuzzy,"Artichoke, globe, raw",,fuzzy,13-153,"Artichoke, globe, raw",
+190,rye bread,0.45,NorthernEuropean,3.6,unmatched,,,unmatched,,,
+191,roasted beef,0.45,EasternEuropean,0.8,fuzzy,"Beef, flank, pot-roasted, lean",,fuzzy,18-026,"Beef, flank, pot-roasted, lean",
+192,root,0.43,SoutheastAsian,3.1,fuzzy,"Casserole, bean and root vegetable, homemade",yes,unmatched,,,
+193,cured pork,0.43,SouthernEuropean,3.0,unmatched,,,unmatched,,,
+194,parsnip,0.41,MiddleEastern,1.2,fuzzy,"Parsnip, raw",,fuzzy,13-312,"Parsnip, raw",
+195,swiss cheese,0.41,WesternEuropean,1.7,unmatched,,,alias,12-493,"Cheese, Emmental",10.95
+196,anise,0.41,WesternEuropean,1.4,fuzzy,Anise seeds,,alias,13-802,Anise seeds,76.69
+197,romano cheese,0.4,SouthernEuropean,3.4,unmatched,,,unmatched,,,
+198,peach,0.38,SouthAsian,1.3,fuzzy,"Peach melba, homemade",yes,alias,14-299,"Peaches, raw, flesh and skin",3.09
+199,enokidake,0.38,EastAsian,4.1,unmatched,,,unmatched,,,
+200,anise seed,0.38,NorthernEuropean,1.6,fuzzy,Anise seeds,,alias,13-802,Anise seeds,76.69
+201,citrus,0.37,WesternEuropean,1.0,fuzzy,"Citrus fruit, soft/easy peelers, flesh only",,unmatched,,,
+202,black mustard seed oil,0.37,SouthAsian,4.0,unmatched,,,unmatched,,,
+203,goat cheese,0.36,SouthernEuropean,1.3,fuzzy,"Cheese, goats milk, full fat, soft, white rind",,fuzzy,12-357,"Cheese, goats milk, full fat, soft, white rind",
+204,mace,0.36,EasternEuropean,1.0,fuzzy,"Mace, ground",,fuzzy,13-834,"Mace, ground",
+205,brown rice,0.36,SouthAsian,1.0,alias,"Rice, brown, wholegrain, raw",,alias,11-868,"Rice, brown, wholegrain, raw",1.39
+206,beer,0.35,WesternEuropean,1.1,fuzzy,"Beer, bitter, average (<4% ABV)",,fuzzy,17-506,"Beer, bitter, average (<4% ABV)",
+207,smoked salmon,0.34,NorthernEuropean,2.0,fuzzy,"Salmon, smoked (cold-smoked)",,fuzzy,16-412,"Salmon, smoked (cold-smoked)",
+208,fig,0.34,MiddleEastern,1.6,fuzzy,"Figs, whole green fruit, raw",,fuzzy,14-091,"Figs, whole green fruit, raw",
+209,buckwheat,0.33,EasternEuropean,1.6,fuzzy,"Buckwheat, groats",,fuzzy,11-006,"Buckwheat, groats",
+210,grape,0.33,SouthAsian,1.0,fuzzy,"Grapes, average",,fuzzy,14-350,"Grapes, average",
+211,tea,0.32,SouthAsian,1.3,fuzzy,"Tea, green, infusion",,fuzzy,17-171,"Tea, green, infusion",
+212,chicory,0.32,WesternEuropean,1.2,fuzzy,"Chicory, pale variety, raw",,fuzzy,13-225,"Chicory, pale variety, raw",
+213,palm,0.31,SoutheastAsian,2.8,fuzzy,"Oil, palm",,unmatched,,,
+214,brassica,0.3,EastAsian,1.1,unmatched,,,unmatched,,,
+215,watercress,0.29,SoutheastAsian,1.1,unmatched,,,unmatched,,,
+216,juniper berry,0.28,NorthernEuropean,1.2,unmatched,,,unmatched,,,
+217,bone oil,0.27,EastAsian,0.9,unmatched,,,unmatched,,,
+218,yam,0.26,MiddleEastern,1.1,fuzzy,"Yam, flesh only, raw",,fuzzy,13-397,"Yam, flesh only, raw",
+219,blueberry,0.26,NorthAmerican,1.1,alias,Blueberries,,alias,14-325,Blueberries,10.59
+220,blue cheese,0.26,SouthernEuropean,1.3,fuzzy,"Cheese, Danish blue",,fuzzy,12-354,"Cheese, Danish blue",
+221,okra,0.26,SouthAsian,1.4,alias,"Okra, raw",,alias,13-300,"Okra, raw",9.38
+222,herring,0.26,NorthernEuropean,2.8,fuzzy,"Herring, flesh only, raw",,fuzzy,16-175,"Herring, flesh only, raw",
+223,tomato juice,0.25,EasternEuropean,0.8,fuzzy,Tomato juice,,fuzzy,13-382,Tomato juice,
+224,blackberry,0.25,NorthernEuropean,0.8,fuzzy,"Blackberries, raw",,fuzzy,14-388,"Blackberries, raw",
+225,roasted pork,0.25,EasternEuropean,0.8,fuzzy,"Pork, leg joint, roasted, lean",,fuzzy,18-515,"Pork, leg joint, roasted, lean",
+226,lime peel oil,0.24,African,0.9,unmatched,,,unmatched,,,
+227,porcini,0.24,SouthernEuropean,1.1,unmatched,,,unmatched,,,
+228,nira,0.24,EastAsian,2.5,unmatched,,,unmatched,,,
+229,pimento,0.24,LatinAmerican,0.9,unmatched,,,unmatched,,,
+230,whiskey,0.24,EasternEuropean,1.0,unmatched,,,unmatched,,,
+231,savory,0.23,WesternEuropean,0.9,unmatched,,,unmatched,,,
+232,tequila,0.23,LatinAmerican,2.2,unmatched,,,unmatched,,,
+233,wasabi,0.22,EastAsian,2.2,unmatched,,,unmatched,,,
+234,chervil,0.22,WesternEuropean,0.8,fuzzy,"Chervil, dried",,fuzzy,13-811,"Chervil, dried",
+235,port wine,0.22,NorthernEuropean,2.0,fuzzy,"Venison in red wine and port, homemade",,unmatched,,,
+236,berry,0.22,NorthernEuropean,0.8,unmatched,,,unmatched,,,
+237,corn grit,0.21,LatinAmerican,1.7,unmatched,,,unmatched,,,
+238,maple syrup,0.2,NorthAmerican,1.1,alias,Maple syrup,,alias,USDA-169661,Maple syrup,19.13
+239,matsutake,0.2,EastAsian,2.0,unmatched,,,unmatched,,,
+240,endive,0.2,SouthernEuropean,0.8,fuzzy,"Endive, raw",,fuzzy,13-240,"Endive, raw",
+241,lingonberry,0.19,NorthernEuropean,2.0,unmatched,,,unmatched,,,
+242,cognac,0.18,WesternEuropean,1.4,unmatched,,,unmatched,,,
+243,lobster,0.18,African,0.6,fuzzy,"Lobster, boiled",,fuzzy,16-332,"Lobster, boiled",
+244,papaya,0.18,SoutheastAsian,1.1,fuzzy,"Papaya, flesh only, raw",,fuzzy,14-390,"Papaya, flesh only, raw",
+245,provolone cheese,0.18,SouthernEuropean,1.3,unmatched,,,unmatched,,,
+246,lima bean,0.17,LatinAmerican,0.4,unmatched,,,unmatched,,,
+247,katsuobushi,0.17,EastAsian,1.8,unmatched,,,unmatched,,,
+248,chicken liver,0.17,EasternEuropean,0.8,fuzzy,"Liver, chicken, raw",,fuzzy,18-411,"Liver, chicken, raw",
+249,octopus,0.17,EastAsian,1.3,fuzzy,"Octopus, raw",,fuzzy,16-259,"Octopus, raw",
+250,grapefruit,0.16,SoutheastAsian,0.7,fuzzy,"Grapefruit, flesh only, raw",,fuzzy,14-384,"Grapefruit, flesh only, raw",
+251,champagne wine,0.16,EasternEuropean,0.8,unmatched,,,unmatched,,,
+252,mackerel,0.16,EastAsian,1.6,alias,"Mackerel, flesh only, raw",,alias,16-393,"Mackerel, flesh only, raw",22.95
+253,rutabaga,0.16,African,0.6,unmatched,,,unmatched,,,
+254,bitter orange,0.16,WesternEuropean,0.6,unmatched,,,unmatched,,,
+255,prawn,0.15,SoutheastAsian,0.7,alias,"Prawns, king, raw",,alias,16-387,"Prawns, king, raw",20.15
+256,corn flake,0.14,NorthAmerican,0.5,unmatched,,,unmatched,,,
+257,sour cherry,0.14,EasternEuropean,0.5,unmatched,,,unmatched,,,
+258,cassava,0.14,African,0.9,fuzzy,"Cassava, raw",,fuzzy,13-208,"Cassava, raw",
+259,black tea,0.14,SouthAsian,0.8,fuzzy,"Tea, black, infusion, average",,fuzzy,17-165,"Tea, black, infusion, average",
+260,kiwi,0.14,WesternEuropean,0.6,fuzzy,"Kiwi fruit, flesh only, raw",,unmatched,,,
+261,cherry brandy,0.14,EasternEuropean,1.0,unmatched,,,unmatched,,,
+262,rhubarb,0.13,NorthernEuropean,0.4,fuzzy,"Rhubarb, stems only, raw",,fuzzy,14-252,"Rhubarb, stems only, raw",
+263,kale,0.13,SouthernEuropean,0.7,alias,"Curly kale, raw",,alias,13-234,"Curly kale, raw",4.46
+264,melon,0.13,NorthAmerican,0.3,fuzzy,Melon seeds,,fuzzy,14-159,"Melon, Galia, flesh only",
+265,sumac,0.13,MiddleEastern,1.4,unmatched,,,unmatched,,,
+266,mandarin,0.13,NorthAmerican,0.6,fuzzy,"Mandarin oranges, canned in juice, whole contents",,unmatched,,,
+267,tangerine,0.13,SoutheastAsian,0.4,unmatched,,,unmatched,,,
+268,mung bean,0.13,SoutheastAsian,0.7,fuzzy,"Beans, mung, dahl, dried, raw",,fuzzy,13-098,"Beans, mung, dahl, dried, raw",
+269,caviar,0.12,EasternEuropean,0.5,unmatched,,,unmatched,,,
+270,quince,0.12,African,0.6,fuzzy,"Quinces, flesh only",,fuzzy,14-241,"Quinces, flesh only",
+271,haddock,0.12,African,0.6,fuzzy,"Haddock, flesh only, raw",,fuzzy,16-375,"Haddock, flesh only, raw",
+272,red bean,0.12,EastAsian,1.3,fuzzy,"Beans, red kidney, dried, raw",,fuzzy,13-109,"Beans, red kidney, dried, raw",
+273,wheat bread,0.12,African,0.3,fuzzy,"Bread, malted wheat",,fuzzy,11-972,"Bread, malted wheat",
+274,brussels sprout,0.11,EasternEuropean,0.5,fuzzy,"Brussels sprouts, raw",,fuzzy,13-177,"Brussels sprouts, raw",
+275,lovage,0.11,NorthernEuropean,0.4,unmatched,,,unmatched,,,
+276,gruyere cheese,0.1,WesternEuropean,0.7,fuzzy,"Cheese, Gruyere",,fuzzy,12-164,"Cheese, Gruyere",23.53
+277,salmon roe,0.1,EasternEuropean,0.5,unmatched,,,unmatched,,,
+278,watermelon,0.1,SouthAsian,0.3,fuzzy,"Melon, watermelon, flesh only",,unmatched,,,
+279,catfish,0.1,SoutheastAsian,0.7,fuzzy,"Catfish, raw",,fuzzy,16-007,"Catfish, raw",
+280,sunflower oil,0.1,SouthAsian,0.6,alias,"Oil, sunflower",,alias,17-045,"Oil, sunflower",1.58
+281,orange flower,0.1,MiddleEastern,0.5,unmatched,,,unmatched,,,
+282,flower,0.1,African,0.6,unmatched,,,unmatched,,,
+283,cereal,0.1,NorthAmerican,0.5,fuzzy,"Breakfast cereal, instant hot oat, plain, raw, fortified",,unmatched,,,
+284,bourbon whiskey,0.09,NorthernEuropean,0.4,unmatched,,,unmatched,,,
+285,black sesame seed,0.09,EastAsian,1.0,unmatched,,,unmatched,,,
+286,lavender,0.09,WesternEuropean,0.8,unmatched,,,unmatched,,,
+287,shellfish,0.09,EastAsian,0.9,unmatched,,,unmatched,,,
+288,liver,0.08,EasternEuropean,0.3,fuzzy,"Liver, calf, raw",,fuzzy,18-409,"Liver, calf, raw",
+289,condiment,0.08,African,0.6,unmatched,,,unmatched,,,
+290,truffle,0.08,SouthernEuropean,0.5,fuzzy,"Truffles, mocha, homemade",,fuzzy,17-098,"Truffles, mocha, homemade",
+291,green tea,0.07,EastAsian,0.6,fuzzy,"Tea, green, infusion",,fuzzy,17-171,"Tea, green, infusion",
+292,eel,0.07,EastAsian,0.8,fuzzy,"Eel, yellow, raw",,fuzzy,16-173,"Eel, yellow, raw",
+293,kumquat,0.07,African,0.6,fuzzy,"Kumquats, whole fruit, raw",,fuzzy,14-125,"Kumquats, whole fruit, raw",
+294,macadamia nut,0.06,SoutheastAsian,0.4,fuzzy,"Macadamia nuts, salted",,fuzzy,14-891,"Macadamia nuts, salted",
+295,peppermint,0.06,NorthAmerican,0.3,fuzzy,Peppermints,,fuzzy,17-117,Peppermints,
+296,malt,0.06,SouthAsian,0.2,fuzzy,"Bread, malt, fruited",,unmatched,,,
+297,chayote,0.06,LatinAmerican,0.4,unmatched,,,unmatched,,,
+298,passion fruit,0.05,African,0.3,fuzzy,Passion fruit juice,,fuzzy,14-178,"Passion fruit, flesh and pips",
+299,coconut oil,0.05,SouthAsian,0.5,alias,"Oil, coconut",,alias,17-031,"Oil, coconut",12.3
+300,artemisia,0.05,EastAsian,0.5,unmatched,,,unmatched,,,
+301,japanese plum,0.05,EastAsian,0.5,unmatched,,,unmatched,,,
+302,apple brandy,0.05,WesternEuropean,0.5,unmatched,,,unmatched,,,
+303,mandarin peel,0.05,EastAsian,0.2,unmatched,,,unmatched,,,
+304,prickly pear,0.04,LatinAmerican,0.5,fuzzy,"Prickly pears, flesh and seeds",,fuzzy,14-230,"Prickly pears, flesh and seeds",
+305,jasmine,0.04,SouthAsian,0.5,unmatched,,,unmatched,,,
+306,violet,0.04,EasternEuropean,0.3,unmatched,,,unmatched,,,
+307,frankfurter,0.04,WesternEuropean,0.3,fuzzy,Frankfurter,,fuzzy,19-495,Frankfurter,
+308,licorice,0.04,NorthernEuropean,0.4,unmatched,,,unmatched,,,
+309,kohlrabi,0.04,EasternEuropean,0.3,unmatched,,,unmatched,,,
+310,holy basil,0.04,SoutheastAsian,0.4,unmatched,,,unmatched,,,
+311,red kidney bean,0.04,LatinAmerican,0.3,alias,"Beans, red kidney, canned in water, re-heated, drained",,alias,13-660,"Beans, red kidney, canned in water, re-heated, drained",1.6
+312,oatmeal,0.04,WesternEuropean,0.2,unmatched,,,unmatched,,,
+313,popcorn,0.04,NorthAmerican,0.2,fuzzy,"Popcorn, candied",,fuzzy,17-691,"Popcorn, candied",
+314,gin,0.03,WesternEuropean,0.2,unmatched,,,unmatched,,,
+315,leaf,0.03,MiddleEastern,0.2,fuzzy,"Bay leaf, dried",,unmatched,,,
+316,gardenia,0.03,EastAsian,0.3,unmatched,,,unmatched,,,
+317,black currant,0.03,EasternEuropean,0.3,unmatched,,,unmatched,,,
+318,potato chip,0.03,SouthAsian,0.2,fuzzy,"Potato chips, microwave, cooked",,fuzzy,13-557,"Potato chips, microwave, cooked",
+319,camembert cheese,0.03,WesternEuropean,0.3,fuzzy,"Cheese, Camembert",,fuzzy,12-345,"Cheese, Camembert",
+320,peppermint oil,0.03,African,0.3,unmatched,,,unmatched,,,
+321,roquefort cheese,0.03,WesternEuropean,0.2,fuzzy,"Cheese, Roquefort",,fuzzy,12-177,"Cheese, Roquefort",
+322,cabernet sauvignon wine,0.02,MiddleEastern,0.2,unmatched,,,unmatched,,,
+323,nectarine,0.02,NorthAmerican,0.1,fuzzy,"Nectarines, flesh and skin, raw",,fuzzy,14-380,"Nectarines, flesh and skin, raw",
+324,pork liver,0.02,SoutheastAsian,0.2,unmatched,,,unmatched,,,
+325,armagnac,0.02,WesternEuropean,0.2,unmatched,,,unmatched,,,
+326,bartlett pear,0.02,WesternEuropean,0.1,unmatched,,,unmatched,,,
+327,clove,0.02,MiddleEastern,0.2,fuzzy,"Cloves, dried",,fuzzy,13-816,"Cloves, dried",
+328,durian,0.02,SoutheastAsian,0.2,fuzzy,"Durian, flesh only",,fuzzy,14-088,"Durian, flesh only",
+329,ouzo,0.02,SouthernEuropean,0.2,unmatched,,,unmatched,,,
+330,grape brandy,0.02,SouthernEuropean,0.2,unmatched,,,unmatched,,,
+331,guava,0.02,LatinAmerican,0.1,fuzzy,"Guava, flesh only, raw",,fuzzy,14-118,"Guava, flesh only, raw",
+332,wood,0.02,WesternEuropean,0.1,unmatched,,,unmatched,,,
+333,munster cheese,0.01,LatinAmerican,0.1,unmatched,,,unmatched,,,
+334,cacao,0.01,NorthAmerican,0.1,unmatched,,,unmatched,,,
+335,sea algae,0.01,EastAsian,0.2,unmatched,,,unmatched,,,
+336,citrus peel,0.01,EastAsian,0.1,unmatched,,,unmatched,,,
+337,sour milk,0.01,NorthAmerican,0.1,unmatched,,,unmatched,,,
+338,beef liver,0.01,EastAsian,0.1,unmatched,,,unmatched,,,
+339,pear brandy,0.01,SouthernEuropean,0.0,unmatched,,,unmatched,,,
+340,litchi,0.01,EastAsian,0.0,unmatched,,,unmatched,,,
+341,red algae,0.01,EastAsian,0.1,unmatched,,,unmatched,,,
+342,raw beef,0.01,EastAsian,0.1,fuzzy,"Beef, mince, raw",,fuzzy,18-469,"Beef, mince, raw",10.96
+343,strawberry juice,0.01,WesternEuropean,0.1,unmatched,,,unmatched,,,
+344,rapeseed,0.01,SouthernEuropean,0.1,fuzzy,"Oil, rapeseed",,unmatched,,,
+345,roasted meat,0.01,LatinAmerican,0.0,fuzzy,"Chicken, dark meat, roasted",,unmatched,,,
+346,sheep cheese,0.01,WesternEuropean,0.0,unmatched,,,unmatched,,,
+347,baked potato,0.0,LatinAmerican,0.0,fuzzy,"Sweet potato, baked",,fuzzy,13-620,"Potatoes, old, baked, flesh only",
+348,bergamot,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+349,pimenta,0.0,SouthernEuropean,0.0,unmatched,,,unmatched,,,
+350,elderberry,0.0,WesternEuropean,0.0,fuzzy,"Elderberries, whole fruit",,fuzzy,14-089,"Elderberries, whole fruit",
+351,huckleberry,0.0,SouthernEuropean,0.0,unmatched,,,unmatched,,,
+352,blackberry brandy,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+353,sassafras,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+354,mutton,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+355,chamomile,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+356,hop,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+357,beech,0.0,EastAsian,0.0,unmatched,,,unmatched,,,
+358,emmental cheese,0.0,WesternEuropean,0.0,fuzzy,"Cheese, Emmental",,fuzzy,12-493,"Cheese, Emmental",10.95
+359,strawberry jam,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+360,jamaican rum,0.0,WesternEuropean,0.0,unmatched,,,unmatched,,,
+361,spearmint,0.0,SouthernEuropean,0.0,unmatched,,,unmatched,,,
+362,concord grape,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+363,roasted almond,0.0,SouthernEuropean,0.0,unmatched,,,unmatched,,,
+364,black raspberry,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+365,carob,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+366,smoked fish,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+367,carnation,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+368,balm,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+369,laurel,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+370,soybean oil,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+371,roasted pecan,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+372,angelica,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+373,mate,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+374,lilac flower oil,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+375,geranium,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+376,roasted hazelnut,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+377,muscat grape,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+378,pelargonium,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+379,sturgeon caviar,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+380,jasmine tea,0.0,NorthAmerican,0.0,unmatched,,,unmatched,,,
+381,roasted nut,0.0,NorthAmerican,0.0,fuzzy,"Cashew nuts, kernel only, roasted and salted",,unmatched,,,

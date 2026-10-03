@@ -155,6 +155,19 @@ def find_by_alias(name):
     return None
 
 
+# One-word names too vague to guess from: "vegetable" could be anything.
+# They stay unmatched unless an alias says what is meant.
+TOO_VAGUE_TO_GUESS = {"vegetable", "fruit", "meat", "fish", "seed", "root", "herb", "spice", "seafood"}
+
+
+def main_food_words(food_name):
+    """
+    CoFID names put the main food first: "Tomatoes, cherry, raw", "Ice cream, dairy, vanilla".
+    'Peach melba' -> {'peach', 'melba'}; 'Tomatoes, cherry, raw' -> {'tomato'}.
+    """
+    return words_of(food_name.split(",")[0])
+
+
 def find_by_words(name, foods):
     """
     Fuzzy match that is easy to explain: every word of the ingredient must appear
@@ -165,14 +178,16 @@ def find_by_words(name, foods):
     Returns None rather than guessing.
     """
     wanted = words_of(name)
-    if not wanted:
+    if not wanted or wanted <= TOO_VAGUE_TO_GUESS:
         return None
 
     wants_cooked = bool(wanted & COOKED_WORDS)
     allow_composite = "with" in wanted
     candidates = [
         food for food, food_words in foods
-        if wanted <= food_words and (allow_composite or "with" not in food_words)
+        if wanted <= food_words
+        and (allow_composite or "with" not in food_words)
+        and main_food_words(food.name) <= wanted
     ]
     if not candidates:
         return None

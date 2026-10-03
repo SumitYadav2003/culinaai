@@ -80,12 +80,13 @@ chart (https://ourworldindata.org/grapher/food-emissions-supply-chain), licensed
 ## carbon_food_map.csv
 
 Which carbon category each food counts as, with a note wherever the category is a stand-in (e.g. the
-wheat figure for pasta, the milk figure for yogurt). Of the 192 foods the ingredient aliases use, 127
+wheat figure for pasta, the milk figure for yogurt). Of the 216 foods the ingredient aliases use, 127
 have a category.
 
-The other 65 are left without one on purpose, because nothing in the 43 categories fits well enough
-and borrowing a figure would mislead. Tap water and salt count as zero, since their footprint is
-negligible. The remaining 63 are reported in the app as "no carbon figure", and the app says what
+The other 89 are left without one on purpose, because nothing in the 43 categories fits well enough
+and borrowing a figure would mislead. The list below covers the first 192; the foods added in the
+October 2026 coverage check (mostly spices, seeds, cheeses, seaweed and sauces) follow the same rule. Tap water and salt count as zero, since their footprint is
+negligible. The remaining foods are reported in the app as "no carbon figure", and the app says what
 share of the recipe the estimate covers. They are:
 
 - dairy fats and dairy foods with no category: butter, ghee, single, double and whipping cream,
@@ -111,7 +112,7 @@ Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_foo
 
 ## ingredient_prices.csv
 
-A price per kg for the 192 foods the ingredient aliases use. All 192 have a price; 4 are estimates. It is exported from
+A price per kg for the 216 foods the ingredient aliases use. All 216 have a price; 11 are estimates. It is exported from
 `docs/evaluation/CulinaAI_ingredient_prices.xlsx` with `scripts/export_prices.py`. The `status`
 column says where each price came from:
 
@@ -122,9 +123,10 @@ column says where each price came from:
   public sector information licensed under the Open Government Licence v3.0. "Stand-in" (10 foods)
   means ONS has no exact item and the nearest one is used; the note says which. ONS averages cover
   all kinds of shops and brands.
-- **Shop average (117 foods, status starts with "Shop"):** the average of shelf prices at Tesco,
+- **Shop average (134 foods, status starts with "Shop"):** the average of shelf prices at Tesco,
   Sainsbury's and Morrisons,
-  read from their websites on 2 October 2026 (ground coriander on 3 October). Rules: the shop's own-brand standard range where one
+  read from their websites on 2 October 2026 (ground coriander on 3 October, and 17 foods added in
+  the coverage check on 4 October). Rules: the shop's own-brand standard range where one
   exists (not value, premium or organic), otherwise the cheapest normal-size brand; the smallest
   normal household pack; the regular price, not Clubcard or Nectar prices. A food needs prices from
   at least two shops. Two are stand-ins that borrow another food's prices, and the note says which:
@@ -132,10 +134,13 @@ column says where each price came from:
   vegetable oil, whose label reads "Ingredients: Rapeseed Oil." (Tesco). Branded 1 L rapeseed oil
   averaged £3.51/kg; those rows are kept in the evidence, marked not used.
 - **Free (1 food):** tap water.
-- **Estimate (4 foods):** burger buns (only Tesco's label gives a weight per bap, 76 g, assumed for
-  all three shops), and beetroot, garlic and butternut squash (only one shop sells each by weight, so
-  the price is that shop's, not an average). The note on each row says exactly what was assumed.
-  These four rows were added to the CSV by hand; the price workbook does not include them.
+- **Estimate (11 foods):** priced with a stated assumption, and the note on each row says which:
+  burger buns (only Tesco's label gives a weight per bap, 76 g, assumed for all three shops); beetroot,
+  garlic, butternut squash, Gruyere, dried soya beans and peaches (only one shop sells the standard
+  product by weight); fenugreek leaves (only sold frozen); dried shiitake and kombu (only sold on
+  tesco.com by a marketplace seller); and brewed coffee (instant coffee price x 1.8 g per 200 ml, the
+  amount on the Nescafe Original label). Rows marked Estimate were added to the CSV by hand; the
+  price workbook does not include them.
 
 What "per kg" means. Prices are per kg of the food as CoFID describes it wherever the data allowed:
 
@@ -152,7 +157,7 @@ What "per kg" means. Prices are per kg of the food as CoFID describes it whereve
 - Made-up stock: the average stock-cube price over 460 g (one 10 g cube plus 450 ml water, from the
   Tesco pack).
 
-`ingredient_prices_shop_evidence.csv` has every shop price collected (360 rows): product name, pack
+`ingredient_prices_shop_evidence.csv` has every shop price collected (429 rows): product name, pack
 size, price, the shop's own unit price, the search URL and any judgement call, marked DOUBTFUL in
 the note. The `Used` column says whether the row went into a price. A test recomputes every shop
 average from the used rows.
@@ -181,3 +186,9 @@ Limits worth stating wherever costs are shown:
   over time."
 
 Load with `python manage.py load_prices` (after `load_cofid`), or with `load_food_data`.
+## Coverage check (October 2026)
+
+`docs/evaluation/ingredient_coverage_2026-10-04.md` measures how many common recipe ingredients the
+matcher handles, using the 381 ingredients of the 56,498 recipes in Ahn et al. (2011), ranked by
+their average share across 11 world cuisine regions. It led to 69 new aliases, 24 new priced foods
+and two matching rules (guesses must name the main food; vague one-word names are not guessed).
