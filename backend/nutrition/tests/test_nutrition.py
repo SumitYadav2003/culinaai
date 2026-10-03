@@ -296,3 +296,11 @@ class CoverageAndEdgeCaseTests(TestCase):
         self.assertEqual(calculate_nutrition([IngredientInput("rice", 100)], "2").servings, 2)
         self.assertEqual(calculate_nutrition([IngredientInput("rice", 100)], "2.5").servings, 2)
         self.assertEqual(calculate_nutrition([IngredientInput("rice", 100)], 0).servings, 1)
+
+
+class CompositeDishTests(TestCase):
+    def test_fuzzy_matching_skips_composite_dishes(self):
+        make_food("T-1", "Burger, beef, with bun, grilled, homemade", energy_kcal=250)
+        foods = load_foods_for_matching()
+        self.assertIsNone(find_by_words("burger bun", foods))
+        self.assertEqual(find_by_words("burger with bun", foods).food_code, "T-1")

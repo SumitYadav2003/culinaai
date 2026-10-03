@@ -957,6 +957,8 @@
                             </div>
 
                         </div>
+
+                        {% include "recipes/partials/recipe_insights.html" with insights=ai_recipe_result.insights %}
                     </div>
                 {% endif %}
             </div>

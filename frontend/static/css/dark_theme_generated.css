@@ -2647,6 +2647,114 @@ html[data-theme="dark"] .culina-chat-meta {
     color: #d1c6be;
 }
 
+/* ---------- from recipe_insights.css ---------- */
+
+html[data-theme="dark"] .culina-insights {
+    background: #291d14;
+}
+html[data-theme="dark"] .culina-insights-label {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-insights-header h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-insights-sub,
+html[data-theme="dark"] .culina-insights-note,
+html[data-theme="dark"] .culina-insights-muted {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-insights-tag-everyday {
+    background: #14341f;
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-insights-tag-treat {
+    background: #352714;
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .culina-insights-empty {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-warning-panel {
+    background: var(--culina-warning-red-soft, #2c1f15);
+}
+html[data-theme="dark"] .culina-warning-line {
+    color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .culina-warning-line i {
+    color: var(--culina-warning-red, #eb8585);
+}
+html[data-theme="dark"] .culina-insights-card {
+    background: #302312;
+}
+html[data-theme="dark"] .culina-insights-card h4 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-insights-card h4 small {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-insights-energy strong {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-insights-energy span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-nutrition-table th,
+html[data-theme="dark"] .culina-nutrition-table td {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-nutrition-table thead th {
+    color: #dac3b2;
+}
+html[data-theme="dark"] small.culina-phone-only {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-benefit-list li {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-benefit-list i {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .culina-cost-carbon {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-cost-carbon small {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-cost-carbon-label {
+    color: #eaccb3;
+}
+html[data-theme="dark"] .culina-classic-item {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-classic-detail {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-reason-chip {
+    background: #352714;
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .culina-reason-healthier_swap {
+    background: #14341f;
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-reason-allergy_diet {
+    background: var(--culina-warning-red-soft, #2c1f15);
+    color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .culina-add-back-button {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-how-calculated {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-how-calculated summary {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-insights-disclaimer {
+    background: #302312;
+    color: #dac3b2;
+}
+
 /* ---------- from recipe_loading.css ---------- */
 
 html[data-theme="dark"] .culina-loading-card {

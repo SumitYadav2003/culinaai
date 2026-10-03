@@ -2,6 +2,8 @@ import copy
 import re
 from typing import Any, Dict, List, Set
 
+from .risk_service import hidden_products_for_allergies
+
 
 TARGET_VALIDATION_SCORE = 85
 MINIMUM_DISPLAY_SCORE = 70
@@ -698,7 +700,12 @@ def check_allergy_safety(
             message="No allergy restrictions were provided by the user.",
         )
 
-    allergy_terms = expand_allergy_terms(allergies)
+    # Products that usually hide one of the user's allergens count too,
+    # e.g. Worcestershire sauce for a fish allergy (risk_service.py).
+    allergy_terms = sorted(
+        set(expand_allergy_terms(allergies))
+        | set(hidden_products_for_allergies(preferences.get("allergies")))
+    )
     conflicts = find_unsafe_allergy_terms(recipe_text, allergy_terms)
 
     if conflicts:
@@ -1399,6 +1406,149 @@ def check_cuisine_and_nutrition_relevance(
     )
 
 
+# Gate 9 looks for medical or unsupported health claims. Cooking words such as
+# "prevent sticking" or "a sweet treat" are deliberately not on this list.
+HEALTH_CLAIM_PATTERNS = [
+    r"\bcur(?:e|es|ed|ing)\b",
+    r"\bdetox\w*",
+    r"\bboost(?:s|ing)?\s+(?:your\s+)?(?:immun\w*|metabolism)",
+    r"\bimmune system\b",
+    r"\bburns?\s+fat\b",
+    r"\bfat[- ]burning\b",
+    r"\bsuperfoods?\b",
+    r"\bheal(?:s|ing)?\b",
+    r"\banti[- ]inflammatory\b",
+    r"\bclinically proven\b",
+    r"\blowers?\s+(?:your\s+)?(?:cholesterol|blood pressure|blood sugar)",
+    r"\b(?:cancer|diabetes|heart disease|cardiovascular disease|dementia|alzheimer\w*|arthritis|hypertension)\b",
+]
+
+
+def find_health_claims(text: str) -> List[str]:
+    """Medical or unsupported health phrases found in the text."""
+    clean_text = normalize_text(text)
+    found = []
+
+    for pattern in HEALTH_CLAIM_PATTERNS:
+        match = re.search(pattern, clean_text)
+
+        if match:
+            found.append(match.group(0))
+
+    return sorted(set(found))
+
+
+def check_health_claims(recipe_text: str, insights: Dict[str, Any] = None) -> Dict[str, Any]:
+    """
+    Gate 9: no medical or unsupported health claims anywhere the user reads:
+    the recipe text and the "Compared with the classic" reasons. Health
+    benefit lines are written by code from the claims the numbers qualify
+    for (insight_service.py), so they cannot overstate.
+    """
+
+    classic_text = " ".join(
+        item.get("detail", "")
+        for item in ((insights or {}).get("classic") or {}).get("items", [])
+    )
+    claims = find_health_claims(f"{recipe_text}\n{classic_text}")
+
+    if claims:
+        return build_check(
+            name="Health Claims",
+            category="Safety",
+            passed=False,
+            score=0,
+            max_score=5,
+            severity="critical",
+            message="The recipe makes medical or unsupported health claims. They must be removed.",
+            details={"health_claims_found": claims},
+        )
+
+    return build_check(
+        name="Health Claims",
+        category="Safety",
+        passed=True,
+        score=5,
+        max_score=5,
+        severity="critical",
+        message="No medical or unsupported health claims were found.",
+    )
+
+
+def check_explanation_consistency(insights: Dict[str, Any] = None) -> Dict[str, Any]:
+    """
+    Gate 10: every classic ingredient this version leaves out has a reason that
+    passes its rule (classic_service.py). A failed reason lowers the score but
+    is not an automatic hard fail; the page only shows reasons code can prove.
+    """
+
+    classic = (insights or {}).get("classic") or {}
+
+    if not (insights or {}).get("available") or not classic.get("is_classic"):
+        return build_check(
+            name="Explanation Consistency",
+            category="Output Quality",
+            passed=True,
+            score=5,
+            max_score=5,
+            severity="major",
+            message="Not a recognised classic dish, so there is nothing to explain."
+            if (insights or {}).get("available")
+            else "No structured data for this recipe, so this check was not applied.",
+        )
+
+    issues = classic.get("issues") or []
+
+    if issues:
+        return build_check(
+            name="Explanation Consistency",
+            category="Output Quality",
+            passed=False,
+            score=0,
+            max_score=5,
+            severity="major",
+            message="Some reasons for leaving out classic ingredients could not be confirmed.",
+            details={"explanation_issues": [issue["problem"] for issue in issues]},
+        )
+
+    return build_check(
+        name="Explanation Consistency",
+        category="Output Quality",
+        passed=True,
+        score=5,
+        max_score=5,
+        severity="major",
+        message="Every classic ingredient left out has a confirmed reason.",
+    )
+
+
+# How much each gate counts towards the 100-point score. With gates 9 and 10
+# added, ingredient match and recipe structure went from 15 to 10 each; the
+# others are unchanged from the 8-gate version.
+GATE_WEIGHTS = {
+    "Allergy Safety": 20,
+    "Diet Compliance": 20,
+    "Ingredient Match": 10,
+    "Recipe Structure": 10,
+    "Cooking Time Match": 10,
+    "Equipment Compatibility": 10,
+    "Difficulty Match": 5,
+    "Cuisine and Nutrition Relevance": 5,
+    "Health Claims": 5,
+    "Explanation Consistency": 5,
+}
+
+
+def apply_gate_weight(check: Dict[str, Any]) -> Dict[str, Any]:
+    """Rescales a gate's own score to its weight, keeping the raw score for the record."""
+    weight = GATE_WEIGHTS[check["name"]]
+    raw_score, raw_max = check["score"], check["max_score"]
+    check["raw_score"], check["raw_max_score"] = raw_score, raw_max
+    check["score"] = round(raw_score / raw_max * weight) if raw_max else 0
+    check["max_score"] = weight
+    return check
+
+
 def calculate_validation_status(score: int, hard_fail: bool) -> Dict[str, str]:
     if hard_fail:
         return {
@@ -1463,6 +1613,17 @@ def build_correction_prompt(validation_report: Dict[str, Any]) -> str:
                 f"  Unavailable equipment detected: {', '.join(details['unavailable_equipment_found'])}"
             )
 
+        if details.get("health_claims_found"):
+            issue_lines.append(
+                f"  Remove these health claims: {', '.join(details['health_claims_found'])}"
+            )
+
+        if details.get("explanation_issues"):
+            issue_lines.append(
+                "  Only leave out a classic ingredient for a real reason: "
+                + " ".join(details["explanation_issues"])
+            )
+
     return "\n".join(issue_lines)
 
 
@@ -1470,7 +1631,12 @@ def validate_recipe_output(
     preferences: Dict[str, Any],
     recipe_text: str,
     attempt_number: int = 1,
+    insights: Dict[str, Any] = None,
 ) -> Dict[str, Any]:
+    """
+    Runs the 10 quality gates. `insights` (insight_service.build_insights) is
+    optional: without it, gate 10 is marked not applicable.
+    """
     checks = [
         check_allergy_safety(preferences, recipe_text),
         check_diet_compliance(preferences, recipe_text),
@@ -1480,7 +1646,10 @@ def validate_recipe_output(
         check_equipment_match(preferences, recipe_text),
         check_difficulty_match(preferences, recipe_text),
         check_cuisine_and_nutrition_relevance(preferences, recipe_text),
+        check_health_claims(recipe_text, insights),
+        check_explanation_consistency(insights),
     ]
+    checks = [apply_gate_weight(check) for check in checks]
 
     hard_fail = any(
         not check["passed"] and check["severity"] == "critical"

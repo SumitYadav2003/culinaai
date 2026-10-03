@@ -1,6 +1,8 @@
 from django.conf import settings
 from openai import OpenAI
 
+from .risk_service import hidden_products_for_allergies
+
 
 COMMON_AVOIDANCE_SYNONYMS = {
     "tomato": [
@@ -157,6 +159,9 @@ def build_avoidance_terms(allergy_text):
         for key, synonyms in COMMON_AVOIDANCE_SYNONYMS.items():
             if key in clean_allergy or clean_allergy in key:
                 avoid_terms.update(synonyms)
+
+    # Products that usually hide one of these allergens (e.g. Worcestershire sauce for fish).
+    avoid_terms.update(hidden_products_for_allergies(allergy_text))
 
     return sorted(term for term in avoid_terms if term)
 

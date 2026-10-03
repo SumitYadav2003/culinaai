@@ -1,0 +1,421 @@
+/* =========================================================
+   Health, cost and carbon panel (templates/recipes/partials/recipe_insights.html)
+   Uses the site's variables from custom.css. Warnings use the shared warning
+   red from dark_mode.css, so they stay red in both themes.
+   After changing colours here, re-run: python scripts/generate_dark_theme.py
+   ========================================================= */
+
+.culina-insights {
+    margin: 2rem 0;
+    padding: 1.75rem;
+    background: #ffffff;
+    border: 1px solid rgba(124, 74, 34, 0.12);
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+}
+
+.culina-insights-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.culina-insights-label {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--culina-orange-dark);
+}
+
+.culina-insights-header h3 {
+    margin: 0.35rem 0 0.25rem;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--culina-dark);
+}
+
+.culina-insights-sub,
+.culina-insights-note,
+.culina-insights-muted {
+    margin: 0;
+    color: var(--culina-muted);
+    font-size: 0.9rem;
+}
+
+.culina-insights-note {
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+}
+
+.culina-insights-tag {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.culina-insights-tag-everyday {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.culina-insights-tag-treat {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.culina-insights-empty {
+    margin: 0 0 1rem;
+    color: var(--culina-muted);
+}
+
+/* ---------- Warnings: always red ---------- */
+
+.culina-warning-panel {
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.15rem;
+    background: var(--culina-warning-red-soft, #fef2f2);
+    border: 1px solid var(--culina-warning-red, #dc2626);
+    border-left-width: 5px;
+    border-radius: 16px;
+}
+
+.culina-warning-line {
+    margin: 0 0 0.45rem;
+    color: var(--culina-warning-red-text, #991b1b);
+    line-height: 1.5;
+}
+
+.culina-warning-line:last-child {
+    margin-bottom: 0;
+}
+
+.culina-warning-line i {
+    margin-right: 0.35rem;
+    color: var(--culina-warning-red, #dc2626);
+}
+
+/* ---------- Cards ---------- */
+
+.culina-insights-grid {
+    display: grid;
+    /* min() stops a 280px column overflowing a narrower panel on phones */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.25rem;
+}
+
+.culina-insights-card {
+    /* The nutrition table adapts to this card's width, which differs from page to page */
+    container-type: inline-size;
+    min-width: 0;
+    padding: 1.25rem;
+    background: var(--culina-cream);
+    border: 1px solid rgba(124, 74, 34, 0.1);
+    border-radius: 18px;
+}
+
+.culina-insights-card h4 {
+    margin: 0 0 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--culina-dark);
+}
+
+.culina-insights-card h4 small {
+    font-weight: 400;
+    color: var(--culina-muted);
+}
+
+.culina-insights-energy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    align-items: baseline;
+    margin: 0 0 0.75rem;
+}
+
+.culina-insights-energy strong {
+    font-size: 1.6rem;
+    color: var(--culina-dark);
+}
+
+.culina-insights-energy span {
+    color: var(--culina-muted);
+    font-size: 0.9rem;
+}
+
+.culina-nutrition-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.culina-nutrition-table th,
+.culina-nutrition-table td {
+    padding: 0.4rem 0.35rem;
+    border-bottom: 1px solid rgba(124, 74, 34, 0.12);
+    text-align: left;
+    color: var(--culina-dark);
+}
+
+.culina-nutrition-table thead th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--culina-muted);
+}
+
+.culina-nutrition-table tbody th {
+    font-weight: 600;
+}
+
+/* On the narrowest phones a table scrolls inside its card instead of being cut off */
+.culina-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* In a narrow card, the level and % RI move under the amount (see @container below) */
+.culina-phone-only,
+span.culina-phone-only {
+    display: none;
+}
+
+/* Colour lives outside @container so the dark-theme generator can see it */
+small.culina-phone-only {
+    font-size: 0.72rem;
+    color: var(--culina-muted);
+}
+
+/* UK traffic-light colours, each with a word so colour is never the only signal */
+.culina-light {
+    display: inline-block;
+    min-width: 4.4rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.culina-light-green {
+    background: #15803d;
+    color: #ffffff;
+}
+
+.culina-light-amber {
+    background: #f59e0b;
+    color: #1f1a17;
+}
+
+.culina-light-red {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.culina-benefit-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.culina-benefit-list li {
+    margin-bottom: 0.5rem;
+    color: var(--culina-dark);
+}
+
+.culina-benefit-list i {
+    margin-right: 0.45rem;
+    color: var(--culina-green);
+}
+
+.culina-cost-carbon {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(124, 74, 34, 0.12);
+    color: var(--culina-dark);
+}
+
+.culina-cost-carbon small {
+    display: block;
+    color: var(--culina-muted);
+}
+
+.culina-cost-carbon-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--culina-brown);
+}
+
+/* ---------- Compared with the classic ---------- */
+
+.culina-classic {
+    margin-top: 1.25rem;
+}
+
+.culina-classic-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.culina-classic-list li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(124, 74, 34, 0.12);
+}
+
+.culina-classic-item {
+    font-weight: 700;
+    color: var(--culina-dark);
+}
+
+.culina-classic-detail {
+    flex: 1 1 14rem;
+    color: var(--culina-muted);
+}
+
+.culina-reason-chip {
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.culina-reason-healthier_swap {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.culina-reason-allergy_diet {
+    background: var(--culina-warning-red-soft, #fef2f2);
+    color: var(--culina-warning-red-text, #991b1b);
+}
+
+.culina-add-back-form {
+    margin: 0;
+}
+
+.culina-add-back-button {
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--culina-orange);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--culina-orange-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.culina-add-back-button:hover,
+.culina-add-back-button:focus-visible {
+    background: var(--culina-orange);
+    color: #ffffff;
+}
+
+/* ---------- How it was calculated, disclaimer ---------- */
+
+.culina-how-calculated {
+    margin-top: 1.25rem;
+    color: var(--culina-dark);
+}
+
+.culina-how-calculated summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--culina-orange-dark);
+}
+
+.culina-how-calculated p {
+    margin: 0.6rem 0;
+}
+
+.culina-insights-disclaimer {
+    margin: 1.25rem 0 0;
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    background: var(--culina-cream);
+    color: var(--culina-muted);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 575.98px) {
+    .culina-insights {
+        padding: 0.9rem;
+        border-radius: 18px;
+    }
+
+    .culina-insights-card {
+        padding: 0.85rem;
+    }
+
+    .culina-nutrition-table {
+        font-size: 0.82rem;
+    }
+
+    .culina-nutrition-table th,
+    .culina-nutrition-table td {
+        padding: 0.35rem 0.2rem;
+    }
+
+    .culina-light {
+        min-width: 0;
+        padding: 0.1rem 0.4rem;
+        font-size: 0.72rem;
+    }
+
+    .culina-how-calculated .culina-nutrition-table td {
+        overflow-wrap: anywhere;
+    }
+}
+
+/* A narrow card (a phone, or a page with a side column): two columns, with the
+   level and % RI shown under each amount */
+@container (max-width: 380px) {
+    .culina-wide-col {
+        display: none;
+    }
+
+    span.culina-phone-only {
+        display: inline-block;
+        margin-left: 0.35rem;
+    }
+
+    small.culina-phone-only {
+        display: block;
+    }
+}
+
+@media print {
+    .culina-insights {
+        box-shadow: none;
+        border-color: #cccccc;
+    }
+
+    .culina-add-back-form,
+    .culina-how-calculated summary::marker {
+        display: none;
+    }
+
+    .culina-how-calculated:not([open]) > *:not(summary) {
+        display: block;
+    }
+}
