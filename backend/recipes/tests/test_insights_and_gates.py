@@ -256,7 +256,7 @@ class BuildInsightsTests(FoodDataTestCase):
         self.assertAlmostEqual(insights["nutrition"]["per_serving"]["energy_kcal"], 264.45, places=1)
         self.assertEqual(insights["tag"], "everyday")
         self.assertIn("Low sugars", [b["claim"] for b in insights["benefits"]])
-        self.assertAlmostEqual(insights["cost"]["per_serving"], 0.56)
+        self.assertAlmostEqual(insights["cost"]["per_serving"], 0.57)  # garlic now priced
         self.assertAlmostEqual(insights["carbon"]["per_serving"], 0.236, places=3)
         self.assertEqual(insights["ai_kcal_per_serving"], 300)
         self.assertIn("Milk", insights["allergens"])  # ghee
@@ -286,3 +286,28 @@ class BuildInsightsTests(FoodDataTestCase):
         insights = build_insights(None, PREFERENCES, RECIPE_TEXT)
         self.assertFalse(insights["available"])
         self.assertTrue(insights["disclaimer"])
+
+
+class NutritionRowLevelTests(TestCase):
+    """Carbohydrate, protein and fibre rows get UK figures; only fibre is marked as advice."""
+
+    def test_extra_rows(self):
+        from recipes.insight_service import nutrition_rows
+
+        nutrition = {
+            "per_serving": {"energy_kcal": 500, "fat_g": 10, "saturates_g": 2, "carbohydrate_g": 65,
+                            "sugars_g": 5, "fibre_g": 9, "protein_g": 30, "salt_g": 1},
+            "traffic_lights": {"fat_g": "amber", "saturates_g": "green", "sugars_g": "green", "salt_g": "amber"},
+            "percent_reference_intake": {"energy_kcal": 25, "fat_g": 14, "saturates_g": 10, "sugars_g": 6, "salt_g": 17},
+        }
+        rows = {row["label"]: row for row in nutrition_rows(nutrition, ["High protein", "Source of fibre"])}
+
+        self.assertEqual(rows["Carbohydrate"]["ri_pct"], 25)  # 65 / 260
+        self.assertEqual(rows["Carbohydrate"]["light_label"], "")  # no official level
+        self.assertEqual(rows["Protein"]["ri_pct"], 60)  # 30 / 50
+        self.assertEqual((rows["Protein"]["light"], rows["Protein"]["light_label"]), ("green", "High"))
+        self.assertEqual(rows["Fibre"]["ri_pct"], 30)  # 9 / 30
+        self.assertEqual(rows["Fibre"]["light_label"], "Source")
+        self.assertEqual(rows["Fibre"]["ri_mark"], "*")
+        self.assertEqual(rows["Fat"]["ri_mark"], "")
+        self.assertEqual(rows["Fat"]["light_label"], "Medium")

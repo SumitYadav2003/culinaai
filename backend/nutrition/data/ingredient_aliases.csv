@@ -256,3 +256,9 @@ rice noodle,USDA-169742,"Not in CoFID as dry noodles; USDA value, dry"
 burger bun,11-985,"CoFID has no soft white bun; a crusty white roll is the closest"
 bread roll,11-985,White crusty roll
 bap,11-985,"White roll; CoFID has no bap entry"
+chili powder,13-873,US spelling of chilli powder
+chili,13-316,"US spelling of chilli; green chilli raw"
+red chili,13-317,US spelling of red chilli
+bun,11-985,"CoFID has no soft white bun; a crusty white roll is the closest"
+smoked paprika,13-879,Paprika (CoFID has no smoked paprika entry)
+bean,13-660,"Plain 'beans' assumed to be tinned red kidney beans, the most common tinned bean in UK recipes"

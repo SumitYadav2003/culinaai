@@ -111,7 +111,7 @@ Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_foo
 
 ## ingredient_prices.csv
 
-A price per kg for the 191 foods the ingredient aliases use. 187 have a price. It is exported from
+A price per kg for the 191 foods the ingredient aliases use. All 191 have a price; 4 are estimates. It is exported from
 `docs/evaluation/CulinaAI_ingredient_prices.xlsx` with `scripts/export_prices.py`. The `status`
 column says where each price came from:
 
@@ -132,9 +132,10 @@ column says where each price came from:
   vegetable oil, whose label reads "Ingredients: Rapeseed Oil." (Tesco). Branded 1 L rapeseed oil
   averaged £3.51/kg; those rows are kept in the evidence, marked not used.
 - **Free (1 food):** tap water.
-- **No price yet (4 foods):** beetroot and butternut squash (only Sainsbury's gave a weight for the
-  standard product), garlic (sold in bulbs with no weight) and white bread rolls, used for burger
-  buns (sold by the pack "each" with no weight). The app reports these as "no price", never as free.
+- **Estimate (4 foods):** burger buns (only Tesco's label gives a weight per bap, 76 g, assumed for
+  all three shops), and beetroot, garlic and butternut squash (only one shop sells each by weight, so
+  the price is that shop's, not an average). The note on each row says exactly what was assumed.
+  These four rows were added to the CSV by hand; the price workbook does not include them.
 
 What "per kg" means. Prices are per kg of the food as CoFID describes it wherever the data allowed:
 

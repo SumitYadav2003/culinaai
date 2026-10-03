@@ -134,15 +134,17 @@ class RealPriceDataTests(TestCase):
         used = set(IngredientAlias.objects.values_list("food__food_code", flat=True))
         self.assertEqual(used - listed, set())
 
-    def test_only_the_four_known_gaps_have_no_price(self):
+    def test_every_food_has_a_price(self):
         from nutrition.models import CofidFood
 
         listed = [row["food_code"] for row in self.read_csv("ingredient_prices.csv")]
         foods = CofidFood.objects.filter(food_code__in=listed)
         self.assertEqual(foods.count(), 191)
         unpriced = set(foods.filter(price_per_kg_gbp__isnull=True).values_list("food_code", flat=True))
-        # beetroot, garlic, butternut squash, white bread rolls (burger buns)
-        self.assertEqual(unpriced, {"13-164", "13-244", "13-355", "11-985"})
+        self.assertEqual(unpriced, set())
+        # Priced with a stated assumption: burger buns, beetroot, garlic, butternut squash
+        estimates = {row["food_code"] for row in self.read_csv("ingredient_prices.csv") if row["status"] == "Estimate"}
+        self.assertEqual(estimates, {"11-985", "13-164", "13-244", "13-355"})
         for food in foods.exclude(price_per_kg_gbp__isnull=True):
             with self.subTest(food=food.food_code):
                 self.assertTrue(food.price_source)
@@ -200,13 +202,12 @@ class RealPriceDataTests(TestCase):
     def test_red_lentil_dal_by_hand(self):
         # lentils 0.25 kg x £4.20 + onion 0.15 x £1.15 + canned tomatoes 0.20 x £1.625
         # + ginger 0.01 x £12.47 + turmeric 0.005 x £23.47 + cumin 0.005 x £28.92 + ghee 0.02 x £15.00
-        # = £2.234; water is free; garlic has no price. 4 servings -> £0.56
-        # Coverage leaves water out: 640 of the 650 g that isn't water has a price -> 98.5%
+        # + garlic 0.01 x £5.00 = £2.284; water is free. 4 servings -> £0.57
         name, servings, items, _ = HAND_CHECKED_RECIPES[4]
         result = calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
-        self.assertAlmostEqual(result.cost_gbp_per_serving, 0.56)
-        self.assertEqual(result.cost_unmatched, ["garlic"])
-        self.assertEqual(result.cost_coverage_pct, 98.5)
+        self.assertAlmostEqual(result.cost_gbp_per_serving, 0.57)
+        self.assertEqual(result.cost_unmatched, [])
+        self.assertEqual(result.cost_coverage_pct, 100.0)
 
     def test_tinned_chickpeas_are_priced_per_drained_kg(self):
         # Shop prices for a 400 g tin with 240 g drained: Tesco £0.41, Sainsbury's £0.41, Morrisons £0.37

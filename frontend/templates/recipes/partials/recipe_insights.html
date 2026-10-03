@@ -74,19 +74,19 @@ Context:
                                 <td>
                                     {{ row.amount|floatformat:1 }} {{ row.unit }}
                                     {% if row.light %}<span class="culina-light culina-light-{{ row.light }} culina-phone-only">{{ row.light_label }}</span>{% endif %}
-                                    {% if row.ri_pct is not None %}<small class="culina-phone-only">{{ row.ri_pct }}% RI</small>{% endif %}
+                                    {% if row.ri_pct is not None %}<small class="culina-phone-only">{{ row.ri_pct }}% RI{{ row.ri_mark }}</small>{% endif %}
                                 </td>
                                 <td class="culina-wide-col">
                                     {% if row.light %}
                                         <span class="culina-light culina-light-{{ row.light }}">{{ row.light_label }}</span>
                                     {% endif %}
                                 </td>
-                                <td class="culina-wide-col">{% if row.ri_pct is not None %}{{ row.ri_pct }}%{% endif %}</td>
+                                <td class="culina-wide-col">{% if row.ri_pct is not None %}{{ row.ri_pct }}%{{ row.ri_mark }}{% endif %}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table></div>
-                <p class="culina-insights-note">Low, medium and high use the UK front-of-pack levels per 100 g. % RI is the share of an adult's reference intake.</p>
+                <p class="culina-insights-note">Low, medium and high use the UK front-of-pack levels per 100 g (fat, saturates, sugars and salt). For protein and fibre, high and source use the UK nutrition claim conditions; carbohydrate has no official level. % RI is the share of an adult's daily reference intake on UK food labels. *Fibre is compared with the UK recommendation of 30 g a day (SACN), which is advice rather than a label reference intake.</p>
             </div>
 
             <div class="culina-insights-card">

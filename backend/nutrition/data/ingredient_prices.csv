@@ -5,7 +5,7 @@ food_code,food_name,price_per_kg_gbp,source,status,note
 11-889,"Flour, wheat, wholemeal",1.34,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.00 to £1.95 per kg
 11-973,"Bread, naan, retail",3.69,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.65 to £5.77 per kg
 11-974,"Bread, pitta, white",1.39,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.39 to £1.39 per kg. Weight per item: 6 pittas x 60 g (Tesco product page)
-11-985,"Bread rolls, white, crusty",,,No price yet,"Burger buns and white rolls are sold by the pack 'each', with no weight shown at Tesco, Sainsbury's or Morrisons (checked 2 Oct 2026)"
+11-985,"Bread rolls, white, crusty",3.089,"Estimate from Tesco, Sainsbury's and Morrisons, 2 Oct 2026",Estimate,"Average of Tesco Large White Bap 4 Pack £1.00, Sainsbury's Large Soft White Rolls x4 £1.15 and Morrisons 6 Large White Baps £1.00. Only Tesco's label gives a weight (76 g per bap), so 76 g is assumed for all three. Range £2.19 to £3.78 per kg"
 12-184,"Yogurt, whole milk, plain",2.3,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.30 to £2.30 per kg
 12-307,"Milk, skimmed, pasteurised, average",1.012,"ONS average price, Aug 2026 (nearest item)","ONS stand-in, check","ONS has no skimmed milk item. The shop rows are 1-pint packs (£1.50/litre), which cost more per kg than the 2-pint ONS milk items. Tesco and Sainsbury's also sell 2 pints of skimmed for £1.20 (about £1.06/kg), close to the ONS semi-skimmed price used here"
 12-334,"Cream, fresh, double, including Jersey cream",7.56,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £7.33 to £8.00 per kg
@@ -20,16 +20,16 @@ food_code,food_name,price_per_kg_gbp,source,status,note
 13-074,"Beans, chick peas, Kabuli, whole, dried, raw",3.01,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £1.93 to £4.60 per kg
 13-089,"Lentils, green and brown, whole, dried, raw",4.17,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £4.10 to £4.20 per kg
 13-161,"Aubergine, raw",1.73,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,"Range £1.73 to £1.73 per kg. Weight per item: USDA FDC 169228, 1 aubergine"
-13-164,"Beetroot, raw",,,No price yet,"Only Sainsbury's gave a weight for standard beetroot. Morrisons sells bunches with no weight, and Tesco's only beetroot sold by weight is organic, which the rules leave out"
+13-164,"Beetroot, raw",4.6,"Estimate from Sainsbury's only, 2 Oct 2026",Estimate,"Sainsbury's Bunched Beetroot 500g £2.30 (£4.60/kg). The only shop that gave a weight for standard beetroot, so this is one shop's price, not an average"
 13-190,"Cabbage, red, raw",1.06,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,"Range £1.06 to £1.06 per kg. Weight per item: USDA FDC 169977, 1 medium red cabbage head"
 13-234,"Curly kale, raw",4.46,"Average of Morrisons, Tesco, 2 Oct 2026",Shop average,Range £4.44 to £4.47 per kg
-13-244,"Garlic, raw",,,No price yet,"Garlic is sold in bulbs with no weight shown, and USDA has no bulb weight"
+13-244,"Garlic, raw",5.0,"Estimate from Morrisons only, 2 Oct 2026",Estimate,"Morrisons Garlic 400g £2.00 (£5.00/kg). Tesco and Sainsbury's sell bulbs 'each' with no weight, so this is one shop's price, not an average"
 13-300,"Okra, raw",9.38,"Average of Morrisons, Sainsbury's, 2 Oct 2026",Shop average,Range £8.75 to £10.00 per kg
 13-316,"Peppers, capsicum, chilli, green, raw",13.44,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £11.54 to £14.40 per kg
 13-317,"Peppers, capsicum, chilli, red, raw",9.59,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £8.46 to £11.80 per kg
 13-342,"Shallots, raw",3.38,"Average of Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £3.38 to £3.38 per kg
 13-352,"Spring onions, bulbs and tops, raw",6.77,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.50 to £6.90 per kg
-13-355,"Squash, butternut, raw",,,No price yet,Only Sainsbury's sells it by weight. Tesco and Morrisons sell it 'each' with no weight shown
+13-355,"Squash, butternut, raw",1.5,"Estimate from Sainsbury's only, 2 Oct 2026",Estimate,"Sainsbury's Butternut Squash Loose £1.50/kg (regular price, Nectar price ignored). Tesco and Morrisons sell it 'each' with no weight, so this is one shop's price, not an average"
 13-519,"Tomatoes, cherry, raw",3.12,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.70 to £3.33 per kg
 13-521,"Spinach, baby, raw",7.36,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £6.25 to £8.33 per kg
 13-531,Tomato puree,3.84,"Average of Morrisons, Sainsbury's, Tesco, 2 Oct 2026",Shop average,Range £2.95 to £5.63 per kg

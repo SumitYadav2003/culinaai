@@ -30,7 +30,7 @@ COST_NOTE = (
     "(October 2026). Prices vary by shop and over time."
 )
 CARBON_NOTE = (
-    "About this figure: global averages per kg of food from Poore & Nemecek (2018), not specific to UK "
+    "Carbon figures are global averages per kg of food from Poore & Nemecek (2018), not specific to UK "
     "farms or brands."
 )
 
@@ -79,19 +79,49 @@ NUTRITION_ROWS = [
 ]
 LIGHT_LABELS = {"green": "Low", "amber": "Medium", "red": "High"}
 
+# UK traffic lights only cover fat, saturates, sugars and salt. For the other rows:
+# - carbohydrate and protein: the reference intakes on UK food labels
+#   (retained Regulation (EC) No 1169/2011, Annex XIII): 260 g and 50 g a day
+# - fibre: the UK recommendation of 30 g a day for adults (SACN, Carbohydrates
+#   and Health, 2015). It is advice, not a label reference intake, so it is marked.
+EXTRA_DAILY_AMOUNTS = {"carbohydrate_g": 260, "protein_g": 50, "fibre_g": 30}
+ADVICE_NOT_LABEL = {"fibre_g"}
 
-def nutrition_rows(nutrition):
-    """Per-serving rows for the page, each with its traffic light and % reference intake where one exists."""
+# Protein and fibre levels come from the UK nutrition claim conditions, the same
+# rules behind the health benefits. Higher is better here, so they show in green.
+CLAIM_LEVELS = {
+    "protein_g": {"High protein": "High", "Source of protein": "Source"},
+    "fibre_g": {"High fibre": "High", "Source of fibre": "Source"},
+}
+
+
+def nutrition_rows(nutrition, claims=()):
+    """
+    Per-serving rows for the page. Each row has a level and a % of a daily amount
+    wherever a UK source gives one; carbohydrate has no official level.
+    """
     rows = []
     for label, nutrient, unit in NUTRITION_ROWS:
+        amount = nutrition["per_serving"][nutrient]
         light = nutrition["traffic_lights"].get(nutrient)
+        light_label = LIGHT_LABELS.get(light, "")
+        for claim, level in CLAIM_LEVELS.get(nutrient, {}).items():
+            if claim in claims:
+                light, light_label = "green", level
+                break
+
+        ri_pct = nutrition["percent_reference_intake"].get(nutrient)
+        if ri_pct is None and nutrient in EXTRA_DAILY_AMOUNTS:
+            ri_pct = round(amount / EXTRA_DAILY_AMOUNTS[nutrient] * 100)
+
         rows.append({
             "label": label,
-            "amount": round(nutrition["per_serving"][nutrient], 1 if unit == "g" else 0),
+            "amount": round(amount, 1 if unit == "g" else 0),
             "unit": unit,
             "light": light,
-            "light_label": LIGHT_LABELS.get(light, ""),
-            "ri_pct": nutrition["percent_reference_intake"].get(nutrient),
+            "light_label": light_label,
+            "ri_pct": ri_pct,
+            "ri_mark": "*" if nutrient in ADVICE_NOT_LABEL else "",
         })
     return rows
 
@@ -131,7 +161,7 @@ def build_insights(structure_result, preferences, recipe_text):
         "weight_warnings": structure_result.get("warnings", []),
         "ai_kcal_per_serving": structure.get("ai_kcal_per_serving"),
         "nutrition": nutrition,
-        "nutrition_rows": nutrition_rows(nutrition),
+        "nutrition_rows": nutrition_rows(nutrition, claims),
         "energy_kj_per_serving": round(nutrition["per_serving"]["energy_kj"]),
         "benefits": [{"claim": claim, "text": BENEFIT_SENTENCES[claim]} for claim in claims],
         "tag": everyday_or_treat(nutrition),
