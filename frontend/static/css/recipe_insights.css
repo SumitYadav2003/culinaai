@@ -185,7 +185,8 @@
 }
 
 /* In a narrow card, the level and % RI move under the amount (see @container below) */
-.culina-phone-only {
+.culina-phone-only,
+span.culina-phone-only {
     display: none;
 }
 

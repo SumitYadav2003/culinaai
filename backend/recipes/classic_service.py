@@ -32,7 +32,11 @@ REASON_LABELS = {
 }
 
 # Too basic to list as "missing" from a classic.
-BASIC_ITEMS = {"salt", "pepper", "black pepper", "water", "oil"}
+BASIC_ITEMS = {
+    "salt", "pepper", "black pepper", "water", "oil",
+    # Groups, not single ingredients: never listed as "missing"
+    "spices", "spice", "mixed spices", "seasoning", "herbs",
+}
 
 SWAP_NUTRIENTS = {"energy_kcal": "energy", "fat_g": "fat", "saturates_g": "saturated fat", "sugars_g": "sugars", "salt_g": "salt"}
 
