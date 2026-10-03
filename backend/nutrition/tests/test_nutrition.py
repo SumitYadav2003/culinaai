@@ -304,3 +304,31 @@ class CompositeDishTests(TestCase):
         foods = load_foods_for_matching()
         self.assertIsNone(find_by_words("burger bun", foods))
         self.assertEqual(find_by_words("burger with bun", foods).food_code, "T-1")
+
+
+class MainFoodRuleTests(TestCase):
+    """A guessed match must name the main food (the part of the CoFID name before the first comma)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        make_food("T-1", "Ice cream, dairy, vanilla, soft scoop")
+        make_food("T-2", "Tomatoes, cherry, raw")
+        make_food("T-3", "Cherries, flesh and skin, raw")
+        make_food("T-4", "Peach melba, homemade")
+        make_food("T-5", "Cheese, Parmesan, fresh")
+
+    def test_a_word_in_a_dish_name_is_not_enough(self):
+        foods = load_foods_for_matching()
+        self.assertIsNone(find_by_words("vanilla", foods))  # not ice cream
+        self.assertIsNone(find_by_words("peach", foods))  # not peach melba
+        self.assertEqual(find_by_words("cherry", foods).food_code, "T-3")  # cherries, not cherry tomatoes
+
+    def test_vague_one_word_names_are_not_guessed(self):
+        make_food("T-6", "Vegetables, stir-fried, takeaway")
+        foods = load_foods_for_matching()
+        self.assertIsNone(find_by_words("vegetables", foods))
+
+    def test_main_food_with_a_qualifier_still_matches(self):
+        foods = load_foods_for_matching()
+        self.assertEqual(find_by_words("parmesan cheese", foods).food_code, "T-5")
+        self.assertEqual(find_by_words("cherry tomatoes", foods).food_code, "T-2")

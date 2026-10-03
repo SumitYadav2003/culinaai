@@ -191,3 +191,27 @@ USDA-173735,"Black beans, cooked, boiled, without salt",1.94,"Average of Sainsbu
 USDA-2257046,"Oat drink (oat milk), unsweetened",1.79,"ONS average price, Aug 2026","ONS, same item",ml treated as g
 17-377,"Water, distilled",0,Tap water,Free,Tap water counts as free
 13-875,Coriander seeds,28.15,"Average of Morrisons, Sainsbury's, Tesco, 3 Oct 2026",Shop average,"Ground coriander, 36 g jars. Range £26.39 to £30.28 per kg. Added 3 Oct 2026"
+11-011,"Cornmeal, sifted",3.7,"Average of Morrisons, Sainsbury's, 4 Oct 2026",Shop average,Range £2.40 to £5.00 per kg. Added 4 Oct 2026. Polenta / cornmeal
+12-493,"Cheese, Emmental",10.95,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £10.00 to £11.46 per kg. Added 4 Oct 2026
+13-340,"Seaweed, nori, dried, raw",181.82,"Average of Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £181.82 to £181.82 per kg. Added 4 Oct 2026
+13-802,Anise seeds,76.69,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £62.50 to £90.91 per kg. Added 4 Oct 2026. Star anise prices (the anise sold in UK shops); CoFID's nearest food is anise seeds
+13-806,"Bay leaf, dried",263.89,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £75.00 to £383.33 per kg. Added 4 Oct 2026
+13-808,Caraway seeds,34.79,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £25.00 to £52.63 per kg. Added 4 Oct 2026
+13-828,Fenugreek seeds,19.73,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,"Range £3.75 to £45.45 per kg. Added 4 Oct 2026. Wide range: Tesco is a 400 g bag (the only size), Sainsbury's a 55 g jar"
+13-847,"Pepper, cayenne, ground",40.13,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £20.83 to £76.92 per kg. Added 4 Oct 2026
+13-856,"Tamarind pulp, flesh only",19.58,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £16.15 to £21.67 per kg. Added 4 Oct 2026
+14-338,"Peel, mixed",7.58,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £7.50 to £7.75 per kg. Added 4 Oct 2026
+14-837,"Pecan nuts, kernel only",17.5,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £17.49 to £17.50 per kg. Added 4 Oct 2026
+14-840,"Pistachio nuts, kernel only, roasted and salted",20.89,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,"Range £16.33 to £30.00 per kg. Added 4 Oct 2026. Mixed basis: Tesco is shelled kernels, others may be in shell (DOUBTFUL)"
+17-158,"Coffee, powder, instant",11.4,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £10.45 to £12.00 per kg. Added 4 Oct 2026
+17-360,Gelatine,41.67,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £41.67 to £41.67 per kg. Added 4 Oct 2026
+17-681,"Stock, chicken, ready made, retail",4.93,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £4.00 to £5.80 per kg. Added 4 Oct 2026. Ready-to-use liquid stock
+17-719,Chilli sauce,8.41,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £6.50 to £10.30 per kg. Added 4 Oct 2026. Own-brand sriracha or hot chilli sauce
+17-826,"Treacle, black",3.85,"Average of Morrisons, Sainsbury's, Tesco, 4 Oct 2026",Shop average,Range £3.85 to £3.85 per kg. Added 4 Oct 2026
+12-164,"Cheese, Gruyere",23.53,"Estimate from Morrisons only, 4 Oct 2026",Estimate,"Morrisons Swiss Le Gruyere 170g £4.00. Tesco and Sainsbury's only sell premium-range Gruyere, which the rules leave out. Added 4 Oct 2026"
+13-115,"Beans, soya, dried, raw",5.67,"Estimate from Tesco only, 4 Oct 2026",Estimate,Tesco Soya Beans 600g £3.40. Sainsbury's and Morrisons don't sell dried soya beans. Added 4 Oct 2026
+14-299,"Peaches, raw, flesh and skin",3.09,"Estimate from Morrisons only, 4 Oct 2026",Estimate,Morrisons Flat Peaches 550g £1.70. Tesco and Sainsbury's sell peaches 'each' with no weight. Added 4 Oct 2026
+13-243,"Fenugreek leaves, raw",4.17,"Estimate from Morrisons only, 4 Oct 2026",Estimate,"Shana frozen methi 300g, regular price £1.25. No shop sells fresh fenugreek leaves; frozen is the nearest. Added 4 Oct 2026"
+13-294,"Mushrooms, shiitake, dried, raw",303.75,"Estimate from a Tesco marketplace seller, 4 Oct 2026",Estimate,"Clearspring Organic Dried Shiitake 40g £12.15, sold on tesco.com by a marketplace seller. No shop sells its own dried shiitake. Added 4 Oct 2026"
+13-339,"Seaweed, kombu, dried, raw",109.0,"Estimate from a Tesco marketplace seller, 4 Oct 2026",Estimate,"Sussex Wholefoods Organic Kombu 100g £10.90, sold on tesco.com by a marketplace seller. No shop sells its own kombu. Added 4 Oct 2026"
+17-153,"Coffee, infusion, strong",0.102,"Estimate from Tesco, Sainsbury's and Morrisons, 4 Oct 2026",Estimate,"Brewed coffee: the own-brand instant coffee average (£11.40/kg) x 1.8 g per 200 ml water, the amount on the Nescafe Original label (1 tsp (1.8 g) + 200 ml hot water = 1 mug). Added 4 Oct 2026"
