@@ -237,3 +237,13 @@ allergies and diet. Cooking notes with a health claim are dropped. Accepted idea
 this list under the same rules, and are labelled "AI idea, checked by code" on the page. Each recipe
 stores how many ideas were suggested, accepted and rejected (with the reason) in `insights.ai_swaps`.
 If the AI call fails, the versions from this list are shown as before.
+
+Protein and fibre levels. The page names them High, Good and Low. High and Good are the UK claim
+levels ("high protein": at least 20% of energy from protein; "source of protein": at least 12%);
+"Good" is the plain word for "source of". Low is shown in grey, only when every ingredient was found.
+A cheapest or greenest swap may lower protein or fibre, and its card says so in red. Healthiest
+never lowers protein, and no version does when the user's nutrition goal is High Protein.
+
+Cooked versions. "Cook this version" tells the AI the exact amounts of the swapped ingredients and
+to keep everything else the same, because the card's figures assume those amounts. The new recipe
+stores what the card expected; if its protein or fibre level comes out lower, the page says so in red.

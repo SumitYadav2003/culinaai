@@ -1062,15 +1062,30 @@ def build_version_preferences(preferences, version, insights, recipe_title):
         if not any(same_ingredient(item, swap["to_name"]) for item in ingredients):
             ingredients.append(swap["to_name"])
 
-    last_recipe = ", ".join(
-        f"{item['name']} ({item['display']})" if item.get("display") else item["name"]
-        for item in (insights.get("ingredients") or [])
-    )
+    last_ingredients = insights.get("ingredients") or []
+    last_recipe = ", ".join(f"{item['name']} ({round(item['grams'])} g)" for item in last_ingredients)
+
+    # The card's figures assume these exact amounts, so the AI is told them rather than
+    # left to "adjust quantities" (which once turned a High protein card into a Good one).
+    amounts = []
+    for swap in version["swaps"]:
+        grams = sum(item["grams"] for item in last_ingredients if same_ingredient(item["name"], swap["from_name"]))
+        if not grams:
+            continue
+        kept = grams * (1 - swap.get("share", 1))
+        if kept:
+            amounts.append(f"{swap['from_name']} {round(kept)} g")
+        if swap.get("to_code"):
+            amounts.append(f"{swap['to_name']} {round(grams * swap.get('share', 1) * swap.get('ratio', 1))} g")
+
     instruction = (
         f"Recipe version: cook the {version['title'].lower()} version of the user's last recipe, "
         f"\"{recipe_title}\", which used: {last_recipe}. Make these swaps: "
         + "; ".join(swap["text"] for swap in version["swaps"])
-        + ". Keep the same dish, cuisine and method otherwise, and adjust quantities and steps to suit."
+        + ". "
+        + (f"Use exactly these amounts for the swapped ingredients: {', '.join(amounts)}. " if amounts else "")
+        + "Keep every other ingredient and its amount the same as before, and the same dish, cuisine and "
+        "method. Only change the steps where the swap needs it."
     )
 
     version_preferences["ingredients"] = ", ".join(ingredients)
@@ -1080,6 +1095,13 @@ def build_version_preferences(preferences, version, insights, recipe_title):
     )
     version_preferences["recipe_version"] = version["title"]
     version_preferences["based_on_title"] = recipe_title
+    # What the card promised, so the cooked recipe can be checked against it.
+    version_preferences["expected"] = {
+        "cost": version.get("cost"),
+        "carbon": version.get("carbon"),
+        "kcal": version.get("kcal"),
+        "levels": version.get("levels") or {},
+    }
     return version_preferences
 
 

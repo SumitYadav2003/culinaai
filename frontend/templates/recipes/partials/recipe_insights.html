@@ -87,12 +87,12 @@ Context:
                                 <th scope="row">{{ row.label }}</th>
                                 <td>
                                     {{ row.amount|floatformat:1 }} {{ row.unit }}
-                                    {% if row.light %}<span class="culina-light culina-light-{{ row.light }} culina-phone-only">{{ row.light_label }}</span>{% endif %}
+                                    {% if row.light %}<span class="culina-light culina-light-{{ row.light }} culina-phone-only">{% if row.light_label == "Source" %}Good{% else %}{{ row.light_label }}{% endif %}</span>{% endif %}
                                     {% if row.ri_pct is not None %}<small class="culina-phone-only">{{ row.ri_pct }}% RI{{ row.ri_mark }}</small>{% endif %}
                                 </td>
                                 <td class="culina-wide-col">
                                     {% if row.light %}
-                                        <span class="culina-light culina-light-{{ row.light }}">{{ row.light_label }}</span>
+                                        <span class="culina-light culina-light-{{ row.light }}">{% if row.light_label == "Source" %}Good{% else %}{{ row.light_label }}{% endif %}</span>
                                     {% endif %}
                                 </td>
                                 <td class="culina-wide-col">{% if row.ri_pct is not None %}{{ row.ri_pct }}%{{ row.ri_mark }}{% endif %}</td>
@@ -100,7 +100,7 @@ Context:
                         {% endfor %}
                     </tbody>
                 </table></div>
-                <p class="culina-insights-note">Low, medium and high use the UK front-of-pack levels per 100 g (fat, saturates, sugars and salt). For protein and fibre, high and source use the UK nutrition claim conditions; carbohydrate has no official level. % RI is the share of an adult's daily reference intake on UK food labels. *Fibre is compared with the UK recommendation of 30 g a day (SACN), which is advice rather than a label reference intake.</p>
+                <p class="culina-insights-note">Low, medium and high use the UK front-of-pack levels per 100 g (fat, saturates, sugars and salt). For protein and fibre, higher is better: High and Good follow the UK nutrition claim rules (Good is the "source of" level), and Low means below that; carbohydrate has no official level. % RI is the share of an adult's daily reference intake on UK food labels. *Fibre is compared with the UK recommendation of 30 g a day (SACN), which is advice rather than a label reference intake.</p>
             </div>
 
             <div class="culina-insights-card">
@@ -108,7 +108,7 @@ Context:
                 {% if insights.benefits %}
                     <ul class="culina-benefit-list">
                         {% for benefit in insights.benefits %}
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><strong>{{ benefit.claim }}.</strong> {{ benefit.text }}</li>
+                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><strong>{% if benefit.name %}{{ benefit.name }}{% elif benefit.claim == "Source of protein" %}Good source of protein{% elif benefit.claim == "Source of fibre" %}Good source of fibre{% else %}{{ benefit.claim }}{% endif %}.</strong> {{ benefit.text }}</li>
                         {% endfor %}
                     </ul>
                     <p class="culina-insights-note">Only claims the numbers qualify for, using the UK nutrition claim conditions.</p>
@@ -180,6 +180,12 @@ Context:
                         {% endif %}
                         The three cards below are not more recipes: each one is this same dish with up to three ingredients swapped. Your recipe stays as it is unless you choose one.
                     </p>
+                    {% if insights.basis.version and insights.basis.expected.kcal %}
+                        <p class="culina-your-recipe-expected">The card estimated {% if insights.basis.expected.cost is not None %}£{{ insights.basis.expected.cost|floatformat:2 }}, {% endif %}{% if insights.basis.expected.carbon is not None %}{{ insights.basis.expected.carbon|floatformat:2 }} kg CO₂e, {% endif %}{{ insights.basis.expected.kcal }} kcal{% for nutrient, level in insights.basis.expected.levels.items %}, {{ nutrient }} {{ level }}{% endfor %} per serving. The figures below are for the recipe as written, so they can differ a little.</p>
+                    {% endif %}
+                    {% for problem in insights.basis.problems %}
+                        <p class="culina-way-warning"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ problem }}</p>
+                    {% endfor %}
                     <dl class="culina-way-stats culina-your-recipe-stats">
                         <div><dt>Cost</dt><dd>{% if insights.cost.per_serving is not None %}£{{ insights.cost.per_serving|floatformat:2 }}{% else %}No figure{% endif %}</dd></div>
                         <div><dt>Carbon</dt><dd>{% if insights.carbon.per_serving is not None %}{{ insights.carbon.per_serving|floatformat:2 }} kg CO₂e{% else %}No figure{% endif %}</dd></div>
@@ -199,6 +205,9 @@ Context:
                                             <strong>{{ swap.text }}</strong>
                                             {% if swap.source == "ai" %}<span class="culina-swap-source">AI idea, checked by code</span>{% endif %}
                                             <span class="culina-swap-impact">{{ swap.impact }}</span>
+                                            {% for tradeoff in swap.tradeoffs %}
+                                                <span class="culina-swap-tradeoff"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ tradeoff }}</span>
+                                            {% endfor %}
                                             {% if swap.note %}<small>{{ swap.note }}</small>{% endif %}
                                         </li>
                                     {% endfor %}
@@ -239,7 +248,7 @@ Context:
                         </div>
                     {% endfor %}
                 </div>
-                <p class="culina-insights-note">Per serving. Cheapest and greenest never turn fat, saturates, sugars or salt to a worse traffic light. Healthiest uses the UK traffic lights and fibre, and may cost more. Where no change is shown, a swapped ingredient has no price or carbon figure, so the change can't be worked out. Swaps skip anything that clashes with your allergies or diet.</p>
+                <p class="culina-insights-note">Per serving. Cheapest and greenest never turn fat, saturates, sugars or salt to a worse traffic light. Healthiest uses the UK traffic lights and fibre, never lowers protein, and may cost more. A swap that lowers the protein or fibre level says so in red; if your goal is High Protein, no card lowers protein. Where no change is shown, a swapped ingredient has no price or carbon figure, so the change can't be worked out. Swaps skip anything that clashes with your allergies or diet.</p>
             </div>
         {% endif %}
 

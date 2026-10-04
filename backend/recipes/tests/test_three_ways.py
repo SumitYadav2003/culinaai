@@ -518,3 +518,75 @@ class AiSwapTests(TestCase):
         insights = add_ai_swaps(insights, preferences)
         self.assertEqual(insights["three_ways"], list_only)
         self.assertFalse(insights["ai_swaps"]["available"])
+
+
+CHICKEN_RICE = [("chicken breast", 300), ("basmati rice", 200), ("tomato", 150), ("onion", 100),
+                ("green chilli", 10), ("vegetable oil", 15), ("salt", 3), ("water", 400)]
+
+
+def chicken_rice_insights(**preferences):
+    structure = {"ingredients": [{"name": n, "display": "", "grams": g} for n, g in CHICKEN_RICE], "servings": 2}
+    return build_insights({"structure": structure, "warnings": []}, dict(NO_SETTINGS, servings=2, **preferences), "")
+
+
+class ProteinTradeoffTests(TestCase):
+    """A swap that lowers protein or fibre says so; High Protein users never lose protein."""
+
+    @classmethod
+    def setUpTestData(cls):
+        with open("/dev/null", "w") as quiet:
+            call_command("load_food_data", stdout=quiet)
+
+    def test_levels_are_recorded_and_words_are_plain(self):
+        insights = chicken_rice_insights()
+        self.assertEqual(version(insights["three_ways"], "cheapest")["levels"]["protein"], "High")
+        self.assertIn("High protein", [b["name"] for b in insights["benefits"]])
+
+    def test_a_drop_in_protein_is_shown_and_blocked_for_high_protein(self):
+        from recipes.swap_service import level_drops
+
+        # All the chicken -> chickpeas (an AI-style full swap) takes chicken and rice from High to Good protein.
+        resolved = resolve_ingredients([IngredientInput(n, g) for n, g in CHICKEN_RICE])
+        before = calculate_for_foods(resolved, 2)
+        chickpeas = CofidFood.objects.get(food_code="13-670")
+        from recipes.swap_service import Swap
+        swap = Swap("18-290", "13-670", 1.0, 1.0, "chickpeas", "Use chickpeas instead of {from}", "", "ai")
+        after = calculate_for_foods(apply_swap(resolved, swap, chickpeas), 2)
+        drops = level_drops(before, after)
+        self.assertTrue(drops and drops[0].startswith("Protein: "), drops)
+
+        full_swap = "Use chickpeas instead of chicken breast"
+        everyone = three_ways(resolved, 2, NO_SETTINGS, [swap])
+        chosen = next(s for s in version(everyone, "cheapest")["swaps"] if s["text"] == full_swap)
+        self.assertEqual(chosen["tradeoffs"], drops)  # shown in red on the card
+        self.assertNotIn(full_swap, swap_texts(version(everyone, "healthiest")))  # healthiest never lowers protein
+
+        # With High Protein, the full swap is never used. (Half the chicken for chickpeas
+        # keeps protein High, so that one is still allowed.)
+        high_protein = three_ways(resolved, 2, dict(NO_SETTINGS, nutrition_goal="High Protein"), [swap])
+        for v in high_protein:
+            self.assertNotIn(full_swap, swap_texts(v), v["title"])
+            self.assertTrue(all(not s["tradeoffs"] or not s["tradeoffs"][0].startswith("Protein") for s in v["swaps"]))
+
+    def test_cooked_version_is_told_exact_amounts_and_checked(self):
+        from recipes.views import build_version_preferences
+
+        insights = chicken_rice_insights()
+        cheapest = version(insights["three_ways"], "cheapest")
+        preferences = build_version_preferences(
+            dict(NO_SETTINGS, ingredients="chicken, rice, tomato, onion, chillies", additional_notes="None provided"),
+            cheapest, insights, "Chicken rice",
+        )
+        notes = preferences["additional_notes"]
+        self.assertIn("chicken breast (300 g)", notes)
+        self.assertIn("Use exactly these amounts for the swapped ingredients: chicken breast 150 g, chickpeas 150 g", notes)
+        self.assertNotIn("adjust quantities", notes)
+        self.assertEqual(preferences["expected"]["levels"]["protein"], "High")
+
+        # If the AI then writes less chicken, the page says protein came out lower than the card.
+        lighter = [{"name": "chicken breast", "display": "", "grams": 80}, {"name": "chickpeas", "display": "", "grams": 80},
+                   {"name": "basmati rice", "display": "", "grams": 300}, {"name": "vegetable oil", "display": "", "grams": 40}]
+        cooked = build_insights({"structure": {"ingredients": lighter, "servings": 2}, "warnings": []}, preferences, "")
+        self.assertEqual(cooked["basis"]["version"], "Cheapest")
+        self.assertTrue(cooked["basis"]["problems"])
+        self.assertIn("Protein came out", cooked["basis"]["problems"][0])

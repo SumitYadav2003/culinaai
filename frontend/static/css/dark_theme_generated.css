@@ -2708,6 +2708,10 @@ html[data-theme="dark"] .culina-nutrition-table thead th {
 html[data-theme="dark"] small.culina-phone-only {
     color: #dac3b2;
 }
+html[data-theme="dark"] .culina-light-grey {
+    background: #2f271f;
+    color: #e6d7cb;
+}
 html[data-theme="dark"] .culina-benefit-list li {
     color: #eae5e2;
 }
@@ -2767,6 +2771,9 @@ html[data-theme="dark"] .culina-your-recipe p {
 html[data-theme="dark"] .culina-your-recipe p i {
     color: #f5a981;
 }
+html[data-theme="dark"] .culina-your-recipe .culina-your-recipe-expected {
+    color: #dac3b2;
+}
 html[data-theme="dark"] .culina-way-warning {
     color: var(--culina-warning-red-text, #efa4a4);
 }
@@ -2788,6 +2795,12 @@ html[data-theme="dark"] .culina-swap-impact {
 html[data-theme="dark"] .culina-swap-source {
     background: #352714;
     color: #f4b7a3;
+}
+html[data-theme="dark"] .culina-swap-tradeoff {
+    color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .culina-swap-tradeoff i {
+    color: var(--culina-warning-red, #eb8585);
 }
 html[data-theme="dark"] .culina-swap-list small {
     color: #dac3b2;
