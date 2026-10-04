@@ -32,6 +32,17 @@ class RecipeGenerationForm(forms.Form):
         ("comfort_food", "Comfort Food"),
     ]
 
+    # Checked by code after generation (recipes/insight_service.py): "Everyday
+    # healthy" means no high (red) UK traffic light for fat, saturates, sugars or salt.
+    # Required, with nothing picked at first, so every user makes a choice
+    # ("No preference" is a real answer, not a default they skipped past).
+    MEAL_STYLE_CHOICES = [
+        ("", "Choose one"),
+        ("any", "No preference"),
+        ("everyday", "Everyday healthy"),
+        ("treat", "Treat"),
+    ]
+
     EQUIPMENT_CHOICES = [
         ("stove", "Stove / Hob"),
         ("gas_burner", "Gas Burner"),
@@ -101,7 +112,9 @@ class RecipeGenerationForm(forms.Form):
         ),
     )
 
+    # Optional: left blank, the view uses 30 minutes.
     cooking_time_minutes = forms.IntegerField(
+        required=False,
         min_value=5,
         max_value=240,
         initial=30,
@@ -114,7 +127,9 @@ class RecipeGenerationForm(forms.Form):
         ),
     )
 
+    # Optional: left blank, the view uses 2 servings.
     servings = forms.IntegerField(
+        required=False,
         min_value=1,
         max_value=12,
         initial=2,
@@ -128,6 +143,7 @@ class RecipeGenerationForm(forms.Form):
     )
 
     difficulty = forms.ChoiceField(
+        required=False,  # a select always sends a value; blank falls back to the default
         choices=Recipe.DIFFICULTY_CHOICES,
         initial="easy",
         widget=forms.Select(
@@ -138,6 +154,7 @@ class RecipeGenerationForm(forms.Form):
     )
 
     spice_level = forms.ChoiceField(
+        required=False,  # a select always sends a value; blank falls back to the default
         choices=SPICE_LEVEL_CHOICES,
         initial="medium",
         label="Spice Level",
@@ -149,6 +166,7 @@ class RecipeGenerationForm(forms.Form):
     )
 
     budget_level = forms.ChoiceField(
+        required=False,  # a select always sends a value; blank falls back to the default
         choices=BUDGET_CHOICES,
         initial="medium",
         label="Budget Level",
@@ -160,9 +178,21 @@ class RecipeGenerationForm(forms.Form):
     )
 
     nutrition_goal = forms.ChoiceField(
+        required=False,  # a select always sends a value; blank falls back to the default
         choices=NUTRITION_GOAL_CHOICES,
         initial="balanced",
         label="Nutrition Goal",
+        widget=forms.Select(
+            attrs={
+                "class": "form-select recipe-input",
+            }
+        ),
+    )
+
+    meal_style = forms.ChoiceField(
+        choices=MEAL_STYLE_CHOICES,
+        label="Meal Style",
+        error_messages={"required": "Choose a meal style: Everyday healthy, Treat or No preference."},
         widget=forms.Select(
             attrs={
                 "class": "form-select recipe-input",

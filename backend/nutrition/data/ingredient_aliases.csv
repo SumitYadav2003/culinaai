@@ -335,3 +335,14 @@ tabasco pepper,13-317,Red chilli
 thai pepper,13-317,Red chilli
 whole grain wheat flour,11-889,Wholemeal flour
 starch,USDA-169698,"Cornflour, the starch most used in UK cooking"
+firm tofu,13-570,"Swap target in ingredient_swaps.csv; CoFID has one tofu entry"
+extra firm tofu,13-570,"CoFID has one tofu entry"
+mature cheddar,12-346,"Swap target in ingredient_swaps.csv; CoFID has one Cheddar entry"
+mature cheddar cheese,12-346,"CoFID has one Cheddar entry"
+back bacon,19-497,"Swap target in ingredient_swaps.csv"
+chicken pieces,18-488,"Raw chicken pieces; without this, the word match picked coated takeaway pieces"
+chicken fillet,18-290,"Chicken breast fillet"
+chilli flakes,13-873,"Dried chilli flakes; CoFID has no flakes entry, so chilli powder stands in"
+chili flakes,13-873,"US spelling; chilli powder stands in for dried flakes"
+red pepper flakes,13-873,"US name for dried chilli flakes; chilli powder stands in"
+crushed red pepper,13-873,"US name for dried chilli flakes; chilli powder stands in"

@@ -278,6 +278,80 @@ def nutrition_claims(per_100g):
     return claims
 
 
+@dataclass
+class ResolvedIngredient:
+    """An ingredient with the food it was matched to (None when nothing matched)."""
+    name: str
+    grams: float
+    food: CofidFood | None
+    method: str = ""  # "alias", "fuzzy", or "swap" for a food chosen by recipes/swap_service.py
+
+
+# Words that describe how an ingredient is bought or cut, not what it is. They are
+# only removed when the full name finds nothing, so "fresh coriander" or "chopped
+# tomatoes" (tinned) still match their own aliases first. Words that change the food
+# ("ground", "dried", "minced", "smoked", "whole", "lean") are not on this list.
+DESCRIPTOR_PHRASES = [
+    "low-sodium", "low sodium", "reduced-salt", "reduced salt", "low-salt", "low salt",
+    "free-range", "free range", "skin-on", "skin on", "bone-in", "bone in",
+]
+DESCRIPTOR_WORDS = {
+    "boneless", "skinless", "fillet", "fillets", "diced", "cubed", "chopped", "sliced", "grated",
+    "crushed", "peeled", "trimmed", "pieces", "piece", "chunks", "large", "small", "medium",
+    "fresh", "ripe", "organic", "finely", "roughly", "thinly", "halved", "quartered",
+}
+
+
+def name_variants(name):
+    """
+    Names to try, in order, when an ingredient doesn't match as written:
+    'chicken breast, diced'             -> 'chicken breast'
+    'boneless skinless chicken breast'  -> 'chicken breast'
+    'water or low-sodium chicken broth' -> 'water', then 'chicken broth'
+    """
+    variants = []
+
+    def add(text):
+        text = " ".join(text.split()).strip(" ,")
+        if text and text not in variants:
+            variants.append(text)
+
+    options = re.split(r"\s+or\s+|/", name.lower())
+    for option in options:
+        option = option.split(",")[0]
+        add(option)
+        for phrase in DESCRIPTOR_PHRASES:
+            option = option.replace(phrase, " ")
+        add(" ".join(word for word in option.split() if word not in DESCRIPTOR_WORDS))
+    return [variant for variant in variants if variant != name.lower().strip()]
+
+
+def match_food(name, foods):
+    """(food, method) for one ingredient name, or (None, "") when nothing matches."""
+    for candidate in [name] + name_variants(name):
+        food = find_by_alias(candidate)
+        if food is not None:
+            return food, "alias"
+        food = find_by_words(candidate, foods)
+        if food is not None:
+            return food, "fuzzy"
+    return None, ""
+
+
+def resolve_ingredients(ingredients):
+    """
+    Matches each IngredientInput to a food: alias first, then the fuzzy word match,
+    then the same again on simpler versions of the name (name_variants).
+    """
+    foods = load_foods_for_matching()
+    resolved = []
+    for item in ingredients:
+        food, method = match_food(item.name, foods)
+        grams = max(float(item.grams or 0), 0.0)
+        resolved.append(ResolvedIngredient(item.name, grams, food, method))
+    return resolved
+
+
 def calculate_nutrition(ingredients, servings):
     """
     ingredients: list of IngredientInput (name, grams of the raw ingredient)
@@ -285,8 +359,15 @@ def calculate_nutrition(ingredients, servings):
 
     Returns a NutritionResult. Unmatched ingredients are listed, never guessed.
     """
+    return calculate_for_foods(resolve_ingredients(ingredients), servings)
+
+
+def calculate_for_foods(resolved, servings):
+    """
+    The calculation itself, for ingredients already matched to foods. Kept separate
+    so swaps (recipes/swap_service.py) can recalculate a dish without matching again.
+    """
     servings = max(int(float(servings or 1)), 1)
-    foods = load_foods_for_matching()
     result = NutritionResult(servings=servings, total_grams=0.0)
     totals = {n: 0.0 for n in NUTRIENTS}
     matched_grams = 0.0
@@ -295,13 +376,10 @@ def calculate_nutrition(ingredients, servings):
     non_water_grams = 0.0
     has_carbon = has_cost = False  # True once an ingredient other than water has a figure
 
-    for item in ingredients:
-        grams = max(float(item.grams or 0), 0.0)
+    for item in resolved:
+        grams, food = item.grams, item.food
         result.total_grams += grams
 
-        food, method = find_by_alias(item.name), "alias"
-        if food is None:
-            food, method = find_by_words(item.name, foods), "fuzzy"
         is_water = food is not None and food.food_code == WATER_CODE
         if not is_water:
             non_water_grams += grams
@@ -336,7 +414,7 @@ def calculate_nutrition(ingredients, servings):
 
         result.matched.append(
             MatchedIngredient(
-                item.name, grams, food.food_code, food.name, method, contribution, food.source,
+                item.name, grams, food.food_code, food.name, item.method, contribution, food.source,
                 carbon_kg=None if carbon is None else round(carbon, 3),
                 carbon_category=food.carbon_category.name if food.carbon_category else "",
                 cost_gbp=None if cost is None else round(cost, 3),

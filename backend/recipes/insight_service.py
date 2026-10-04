@@ -6,18 +6,25 @@ out by code from the structured ingredients (structure_service.py):
 - health benefits: only claims the numbers qualify for, as fixed sentences
 - "Everyday healthy" or "Treat", decided by the traffic lights, not the AI
 - "Compared with the classic" (classic_service.py)
+- "One dish, three ways": cheapest, healthiest and greenest versions (swap_service.py)
+- whether the dish meets the meal style the user chose (everyday healthy or treat)
 - allergens, hidden allergens and safety flags (risk_service.py)
 - the fixed disclaimer
 
 The result is a plain dict, so it can be kept in the session and in a JSONField.
 """
 
-from nutrition.services import IngredientInput, calculate_nutrition
+import traceback
+
+from nutrition.services import IngredientInput, calculate_for_foods, resolve_ingredients
 
 from .classic_service import compare_with_classic
-from .risk_service import allergens_in, hidden_allergen_alerts, nutrition_flags, safety_flags
+from .risk_service import NUTRIENT_LABELS, allergens_in, hidden_allergen_alerts, nutrition_flags, safety_flags
+from .swap_service import three_ways
+from .swap_suggestion_service import suggest_swaps
 
-INSIGHTS_VERSION = 1
+# 2: adds meal_style and three_ways. Older insights simply don't show those parts.
+INSIGHTS_VERSION = 2
 
 DISCLAIMER = (
     "Nutrition values are estimates calculated from UK food composition data (CoFID) using raw ingredient "
@@ -133,6 +140,124 @@ def everyday_or_treat(nutrition):
     return "treat" if "red" in nutrition["traffic_lights"].values() else "everyday"
 
 
+# The meal style picker on the generate form (stored in preferences by its label).
+MEAL_STYLES = {"Everyday healthy": "everyday", "Treat": "treat"}
+
+
+def high_nutrients(nutrition):
+    """['salt', 'fat'] for the nutrients with a red traffic light."""
+    return [NUTRIENT_LABELS[n] for n, light in nutrition["traffic_lights"].items() if light == "red"]
+
+
+def meal_style_check(nutrition, preferences):
+    """
+    Did the dish come out as the meal style the user asked for? Decided by the
+    same traffic lights as the Everyday healthy / Treat tag, never by the AI.
+    Returns None when the user had no preference.
+    """
+    chosen = MEAL_STYLES.get(preferences.get("meal_style"))
+    if chosen is None:
+        return None
+
+    tag = everyday_or_treat(nutrition)
+    if chosen == "treat":
+        text = "You asked for a treat. Enjoy it now and then; the healthiest version below shows lighter swaps."
+        if tag == "everyday":
+            text = "You asked for a treat, and this one is also everyday healthy."
+        return {"chosen": chosen, "met": True, "text": text}
+
+    if tag is None:
+        return {
+            "chosen": chosen,
+            "met": None,
+            "text": "You asked for everyday healthy, but some ingredients weren't found in the food data, "
+                    "so this couldn't be checked.",
+        }
+    if tag == "everyday":
+        return {
+            "chosen": chosen,
+            "met": True,
+            "text": "You asked for everyday healthy, and this dish has no high levels of fat, saturates, sugars or salt.",
+        }
+    return {
+        "chosen": chosen,
+        "met": False,
+        "text": f"You asked for everyday healthy, but this dish is high in {' and '.join(high_nutrients(nutrition))}. "
+                "The healthiest version below shows swaps that bring it down.",
+    }
+
+
+def meal_style_correction(insights):
+    """
+    The correction sent back to the AI when the user asked for everyday healthy
+    and the dish came out high in something. Empty when there is nothing to fix.
+    """
+    style = (insights or {}).get("meal_style") or {}
+    if style.get("chosen") != "everyday" or style.get("met") is not False:
+        return ""
+    highs = " and ".join(high_nutrients(insights["nutrition"]))
+    return (
+        f"The user asked for an everyday healthy dish, but it came out high in {highs} on the UK "
+        "front-of-pack traffic lights. Use less oil, butter, ghee, cheese, cream, sugar, salt, stock cubes "
+        "and processed meat, and no deep frying, so that fat, saturated fat, sugars and salt are all below "
+        "the high levels."
+    )
+
+
+def recipe_basis(preferences):
+    """
+    What the recipe on the page is, for the line above "One dish, three ways", so
+    users don't mistake it for a fourth option. Settings are only listed for
+    recipes made from the generate form (they have a meal style).
+    """
+    settings = []
+    if "meal_style" in preferences:
+        settings = [
+            value for value in (
+                preferences.get("nutrition_goal"),
+                preferences.get("budget_level"),
+                preferences.get("meal_style"),
+            )
+            if value and value != "No preference"
+        ]
+    return {
+        "version": preferences.get("recipe_version") or "",
+        "based_on": preferences.get("based_on_title") or "",
+        "settings": settings,
+    }
+
+
+def safe_three_ways(resolved, servings, preferences, extra_swaps=()):
+    """The three versions, or [] if anything goes wrong; the rest of the panel still shows."""
+    try:
+        return three_ways(resolved, servings, preferences, extra_swaps)
+    except Exception as error:
+        print("CULINAAI THREE WAYS ERROR:", repr(error))
+        traceback.print_exc()
+        return []
+
+
+def add_ai_swaps(insights, preferences):
+    """
+    Adds AI-suggested swaps (checked by code) to "One dish, three ways" for the
+    final recipe only, so the generation loop's retries don't each pay for an AI
+    call. If the AI call fails, the versions from the fixed list stay as they are.
+    """
+    if not (insights or {}).get("available"):
+        return insights
+    try:
+        ingredients = insights["ingredients"]
+        resolved = resolve_ingredients([IngredientInput(item["name"], item["grams"]) for item in ingredients])
+        swaps, record = suggest_swaps(ingredients, resolved, preferences)
+        insights["ai_swaps"] = record
+        if swaps:
+            insights["three_ways"] = safe_three_ways(resolved, insights["nutrition"]["servings"], preferences, swaps)
+    except Exception as error:
+        print("CULINAAI AI SWAPS ERROR:", repr(error))
+        traceback.print_exc()
+    return insights
+
+
 def build_insights(structure_result, preferences, recipe_text):
     """
     structure_result: the dict from extract_recipe_structure, or None.
@@ -147,10 +272,8 @@ def build_insights(structure_result, preferences, recipe_text):
 
     # The user's chosen servings when there is one; otherwise what the recipe says.
     servings = preferences.get("servings") or structure.get("servings") or 1
-    result = calculate_nutrition(
-        [IngredientInput(item["name"], item["grams"]) for item in ingredients],
-        servings,
-    )
+    resolved = resolve_ingredients([IngredientInput(item["name"], item["grams"]) for item in ingredients])
+    result = calculate_for_foods(resolved, servings)
     nutrition = nutrition_summary(result)
     claims = result.claims if result.is_complete else []
 
@@ -165,6 +288,7 @@ def build_insights(structure_result, preferences, recipe_text):
         "energy_kj_per_serving": round(nutrition["per_serving"]["energy_kj"]),
         "benefits": [{"claim": claim, "text": BENEFIT_SENTENCES[claim]} for claim in claims],
         "tag": everyday_or_treat(nutrition),
+        "meal_style": meal_style_check(nutrition, preferences),
         "cost": {
             "per_serving": result.cost_gbp_per_serving,
             "total": result.cost_gbp_total,
@@ -179,6 +303,8 @@ def build_insights(structure_result, preferences, recipe_text):
             "note": CARBON_NOTE,
         },
         "classic": compare_with_classic(structure, preferences),
+        "three_ways": safe_three_ways(resolved, servings, preferences),
+        "basis": recipe_basis(preferences),
         "allergens": allergens_in(names, {m.name: m.food_name for m in result.matched}),
         "hidden_allergens": hidden_allergen_alerts(names),
         "flags": safety_flags(names, recipe_text) + nutrition_flags(nutrition),
