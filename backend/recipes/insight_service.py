@@ -95,11 +95,17 @@ EXTRA_DAILY_AMOUNTS = {"carbohydrate_g": 260, "protein_g": 50, "fibre_g": 30}
 ADVICE_NOT_LABEL = {"fibre_g"}
 
 # Protein and fibre levels come from the UK nutrition claim conditions, the same
-# rules behind the health benefits. Higher is better here, so they show in green.
+# rules behind the health benefits. Higher is better here, so High and Good show
+# in green. "Good" is the level the regulation calls "source of": the plain word
+# is easier to read. Below it, the level is "Low", in grey rather than green,
+# because a low amount of protein or fibre is not a good thing.
 CLAIM_LEVELS = {
-    "protein_g": {"High protein": "High", "Source of protein": "Source"},
-    "fibre_g": {"High fibre": "High", "Source of fibre": "Source"},
+    "protein_g": {"High protein": "High", "Source of protein": "Good"},
+    "fibre_g": {"High fibre": "High", "Source of fibre": "Good"},
 }
+
+# How the health benefit names a "source of" claim on the page.
+CLAIM_NAMES = {"Source of protein": "Good source of protein", "Source of fibre": "Good source of fibre"}
 
 
 def nutrition_rows(nutrition, claims=()):
@@ -116,6 +122,10 @@ def nutrition_rows(nutrition, claims=()):
             if claim in claims:
                 light, light_label = "green", level
                 break
+        else:
+            # Only say "Low" when every ingredient was found; otherwise the level is unknown.
+            if nutrient in CLAIM_LEVELS and nutrition.get("is_complete"):
+                light, light_label = "grey", "Low"
 
         ri_pct = nutrition["percent_reference_intake"].get(nutrient)
         if ri_pct is None and nutrient in EXTRA_DAILY_AMOUNTS:
@@ -204,11 +214,44 @@ def meal_style_correction(insights):
     )
 
 
-def recipe_basis(preferences):
+LEVEL_ORDER = {"Low": 0, "Good": 1, "High": 2}
+
+
+def claim_level_words(claims, is_complete):
+    """{'protein': 'High', 'fibre': 'Low'} from the claims; {} when nutrition is incomplete."""
+    if not is_complete:
+        return {}
+    levels = {}
+    for nutrient, key in (("protein", "protein_g"), ("fibre", "fibre_g")):
+        levels[nutrient] = next(
+            (level for claim, level in CLAIM_LEVELS[key].items() if claim in claims), "Low"
+        )
+    return levels
+
+
+def version_check(expected, levels):
+    """
+    For a cooked version: red lines for every protein or fibre level that came out
+    lower than its card expected. The AI writes the final quantities, so a cooked
+    version can differ a little from the card; a lower level is worth saying.
+    """
+    problems = []
+    for nutrient, expected_level in (expected.get("levels") or {}).items():
+        actual = levels.get(nutrient)
+        if actual and LEVEL_ORDER[actual] < LEVEL_ORDER.get(expected_level, 0):
+            problems.append(
+                f"{nutrient.capitalize()} came out {actual}, not {expected_level} as the card expected, "
+                "because the recipe's amounts changed when it was written."
+            )
+    return problems
+
+
+def recipe_basis(preferences, levels=None):
     """
     What the recipe on the page is, for the line above "One dish, three ways", so
     users don't mistake it for a fourth option. Settings are only listed for
-    recipes made from the generate form (they have a meal style).
+    recipes made from the generate form (they have a meal style). For a cooked
+    version, also what its card expected and anything that came out worse.
     """
     settings = []
     if "meal_style" in preferences:
@@ -220,10 +263,13 @@ def recipe_basis(preferences):
             )
             if value and value != "No preference"
         ]
+    expected = preferences.get("expected") or {}
     return {
         "version": preferences.get("recipe_version") or "",
         "based_on": preferences.get("based_on_title") or "",
         "settings": settings,
+        "expected": expected,
+        "problems": version_check(expected, levels or {}) if expected else [],
     }
 
 
@@ -286,7 +332,10 @@ def build_insights(structure_result, preferences, recipe_text):
         "nutrition": nutrition,
         "nutrition_rows": nutrition_rows(nutrition, claims),
         "energy_kj_per_serving": round(nutrition["per_serving"]["energy_kj"]),
-        "benefits": [{"claim": claim, "text": BENEFIT_SENTENCES[claim]} for claim in claims],
+        "benefits": [
+            {"claim": claim, "name": CLAIM_NAMES.get(claim, claim), "text": BENEFIT_SENTENCES[claim]}
+            for claim in claims
+        ],
         "tag": everyday_or_treat(nutrition),
         "meal_style": meal_style_check(nutrition, preferences),
         "cost": {
@@ -304,7 +353,7 @@ def build_insights(structure_result, preferences, recipe_text):
         },
         "classic": compare_with_classic(structure, preferences),
         "three_ways": safe_three_ways(resolved, servings, preferences),
-        "basis": recipe_basis(preferences),
+        "basis": recipe_basis(preferences, claim_level_words(claims, result.is_complete)),
         "allergens": allergens_in(names, {m.name: m.food_name for m in result.matched}),
         "hidden_allergens": hidden_allergen_alerts(names),
         "flags": safety_flags(names, recipe_text) + nutrition_flags(nutrition),

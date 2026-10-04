@@ -19,7 +19,11 @@ What "cheapest", "healthiest" and "greenest" mean:
   sugars or salt to a worse traffic light.
 - Greenest: lowest kg CO2e per serving, with the same traffic-light rule.
 - Healthiest: lowest health score (health_score below), which uses the UK
-  traffic lights and fibre. It may cost more; the page shows that trade-off.
+  traffic lights and fibre, without lowering the protein level. It may cost
+  more; the page shows that trade-off.
+- Protein: a cheapest or greenest swap may lower the protein level (High, Good,
+  Low), and the card says so in red, unless the user chose High Protein; then no
+  version may lower it.
 """
 
 import csv
@@ -125,6 +129,41 @@ def measure(goal, result):
     return health_score(result)
 
 
+# Protein and fibre levels, from the UK claim rules: High, Good ("source of"), Low.
+CLAIM_LEVEL_WORDS = {2: "High", 1: "Good", 0: "Low"}
+
+
+def claim_level(result, nutrient):
+    """2, 1 or 0 for 'protein' or 'fibre'; None when nutrition is incomplete, so unknown."""
+    if not result.is_complete:
+        return None
+    if f"High {nutrient}" in result.claims:
+        return 2
+    if f"Source of {nutrient}" in result.claims:
+        return 1
+    return 0
+
+
+def level_drops(before, after):
+    """['Protein: High → Good'] for each of protein and fibre whose level fell."""
+    drops = []
+    for nutrient in ("protein", "fibre"):
+        old, new = claim_level(before, nutrient), claim_level(after, nutrient)
+        if old is not None and new is not None and new < old:
+            drops.append(f"{nutrient.capitalize()}: {CLAIM_LEVEL_WORDS[old]} → {CLAIM_LEVEL_WORDS[new]}")
+    return drops
+
+
+def wants_high_protein(preferences):
+    """True when the user picked High Protein as their nutrition goal."""
+    return "protein" in str(preferences.get("nutrition_goal") or "").lower()
+
+
+def protein_got_lower(result, original):
+    old, new = claim_level(original, "protein"), claim_level(result, "protein")
+    return old is not None and (new is None or new < old)
+
+
 def lights_got_worse(result, original):
     return any(
         LIGHT_POINTS[result.traffic_lights[n]] > LIGHT_POINTS[original.traffic_lights[n]]
@@ -211,9 +250,11 @@ def impact_text(goal, before, after):
     return (", ".join(parts) + " per serving") if parts else "A little less fat, saturates, sugars or salt"
 
 
-def build_version(goal, resolved, servings, original, candidates):
+def build_version(goal, resolved, servings, original, candidates, protect_protein=False):
     """
     Greedy: keep adding the swap that helps most, up to MAX_SWAPS.
+    With protect_protein (the user chose High Protein), no swap may lower the
+    protein level. Otherwise a swap may, but it says so (tradeoffs).
     Also says whether the version's cost and carbon can be compared with the
     original: not when a swap brings in or takes out a food with no figure
     (butter has no carbon figure, so "rapeseed oil instead of butter" would look
@@ -231,6 +272,8 @@ def build_version(goal, resolved, servings, original, candidates):
             trial = apply_swap(current, swap, new_food)
             result = calculate_for_foods(trial, servings)
             if goal != "healthiest" and lights_got_worse(result, original):
+                continue
+            if protect_protein and protein_got_lower(result, original):
                 continue
             after = measure(goal, result)
             if after is None:
@@ -252,10 +295,12 @@ def build_version(goal, resolved, servings, original, candidates):
             "from_name": original_name(swap, current),
             "to_name": swap.to_name,
             "share": swap.share,
+            "ratio": swap.ratio,
             "text": describe(swap, current),
             "note": swap.note,
             "source": swap.source,
             "impact": impact_text(goal, current_result, result),
+            "tradeoffs": level_drops(current_result, result),
         })
         used.add(swap.from_code)
         current, current_result = trial, result
@@ -299,6 +344,12 @@ def version_summary(result, original, comparable):
         "kcal_change": kcal_change,
         "tag": tag,
         "still_high": still_high,
+        # The version's protein and fibre levels, so a cooked version can be checked against them.
+        "levels": {
+            nutrient: CLAIM_LEVEL_WORDS[level]
+            for nutrient in ("protein", "fibre")
+            if (level := claim_level(result, nutrient)) is not None
+        },
         "stats": [
             {"label": "Cost", "value": None if cost is None else f"£{cost:.2f}",
              "change": change_text(cost_change, "£{:.2f}")},
@@ -358,7 +409,11 @@ def three_ways(resolved, servings, preferences, extra_swaps=()):
                 continue
             candidates.append((swap, new_food))
 
-        chosen, result, comparable = build_version(goal, resolved, servings, original, candidates)
+        chosen, result, comparable = build_version(
+            goal, resolved, servings, original, candidates,
+            # Healthiest never lowers protein; the others don't when the user chose High Protein.
+            protect_protein=goal == "healthiest" or wants_high_protein(preferences),
+        )
         version["swaps"] = chosen
         if chosen:
             version.update(version_summary(result, original, comparable))

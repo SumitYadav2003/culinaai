@@ -212,6 +212,12 @@ small.culina-phone-only {
     color: #ffffff;
 }
 
+/* Protein or fibre below the "good" level: neutral, not green (low is not a good thing here) */
+.culina-light-grey {
+    background: #e7e1db;
+    color: #3f3833;
+}
+
 .culina-light-amber {
     background: #f59e0b;
     color: #1f1a17;
@@ -392,6 +398,16 @@ small.culina-phone-only {
     color: var(--culina-orange-dark);
 }
 
+.culina-your-recipe .culina-your-recipe-expected {
+    margin-top: 0.5rem;
+    color: var(--culina-muted);
+    font-size: 0.85rem;
+}
+
+.culina-your-recipe .culina-way-warning {
+    margin-top: 0.4rem;
+}
+
 /* Label and value side by side, items in a row that wraps on narrow screens */
 .culina-your-recipe .culina-your-recipe-stats {
     display: flex;
@@ -478,6 +494,19 @@ small.culina-phone-only {
     color: #9a3412;
     font-size: 0.72rem;
     font-weight: 700;
+}
+
+/* A swap that lowers protein or fibre: a warning, so red as everywhere else */
+.culina-swap-tradeoff {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--culina-warning-red-text, #991b1b);
+}
+
+.culina-swap-tradeoff i {
+    margin-right: 0.25rem;
+    color: var(--culina-warning-red, #dc2626);
 }
 
 .culina-swap-list small {

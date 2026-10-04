@@ -307,7 +307,24 @@ class NutritionRowLevelTests(TestCase):
         self.assertEqual(rows["Protein"]["ri_pct"], 60)  # 30 / 50
         self.assertEqual((rows["Protein"]["light"], rows["Protein"]["light_label"]), ("green", "High"))
         self.assertEqual(rows["Fibre"]["ri_pct"], 30)  # 9 / 30
-        self.assertEqual(rows["Fibre"]["light_label"], "Source")
+        self.assertEqual(rows["Fibre"]["light_label"], "Good")  # the "source of fibre" level, in plain words
         self.assertEqual(rows["Fibre"]["ri_mark"], "*")
         self.assertEqual(rows["Fat"]["ri_mark"], "")
         self.assertEqual(rows["Fat"]["light_label"], "Medium")
+
+    def test_low_protein_and_fibre_only_when_everything_was_found(self):
+        from recipes.insight_service import nutrition_rows
+
+        nutrition = {
+            "per_serving": {"energy_kcal": 500, "fat_g": 10, "saturates_g": 2, "carbohydrate_g": 65,
+                            "sugars_g": 5, "fibre_g": 1, "protein_g": 5, "salt_g": 1},
+            "traffic_lights": {"fat_g": "amber", "saturates_g": "green", "sugars_g": "green", "salt_g": "amber"},
+            "percent_reference_intake": {"energy_kcal": 25, "fat_g": 14, "saturates_g": 10, "sugars_g": 6, "salt_g": 17},
+            "is_complete": True,
+        }
+        rows = {row["label"]: row for row in nutrition_rows(nutrition, [])}
+        self.assertEqual((rows["Protein"]["light"], rows["Protein"]["light_label"]), ("grey", "Low"))
+        self.assertEqual(rows["Fibre"]["light_label"], "Low")
+
+        rows = {row["label"]: row for row in nutrition_rows(dict(nutrition, is_complete=False), [])}
+        self.assertEqual(rows["Protein"]["light_label"], "")  # unknown, not low
