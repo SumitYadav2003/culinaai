@@ -286,6 +286,7 @@ USER PREFERENCES:
 - Spice level: {preferences.get("spice_level")}
 - Budget level: {preferences.get("budget_level")}
 - Nutrition goal: {preferences.get("nutrition_goal")}
+- Meal style: {preferences.get("meal_style") or "No preference"}
 - Available cooking equipment: {equipment_text}
 - Additional notes: {preferences.get("additional_notes")}
 
@@ -334,6 +335,11 @@ INGREDIENT AND PERSONALISATION RULES:
 - For balanced, include a reasonable mix of carbohydrate, protein and vegetables where possible.
 - For low budget, avoid expensive or rare ingredients.
 - For premium, you may improve flavour with higher-quality but realistic ingredients.
+
+MEAL STYLE RULES:
+- If the meal style is Everyday healthy, keep fat, saturated fat, sugars and salt below the UK front-of-pack "high" levels (per 100 g of the dish: fat 17.5 g, saturated fat 5 g, sugars 22.5 g, salt 1.5 g). Use modest amounts of oil, butter, ghee, cheese, cream, sugar, salt, stock cubes and processed meat, and do not deep fry. These levels are checked by code after the recipe is written.
+- If the meal style is Treat, a richer dish is fine, but keep portions realistic for the number of servings.
+- If there is no meal style preference, follow the nutrition goal.
 
 COOKING TIME AND DIFFICULTY RULES:
 - Keep the cooking time within the user's requested time limit as closely as possible.

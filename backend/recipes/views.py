@@ -1,4 +1,5 @@
 import base64
+import copy
 import json
 import uuid
 import traceback
@@ -22,7 +23,9 @@ from .ai_service import (
     generate_ai_recipe,
     generate_recipe_image_base64,
     modify_ai_recipe,
+    split_user_items,
 )
+from .classic_service import same_ingredient
 from .recipe_quality_engine import (
     build_regeneration_preferences,
     build_safe_fallback_recipe,
@@ -48,7 +51,7 @@ from .models import (
     PantryItem,
 )
 from .shopping_service import build_shopping_list_context
-from .insight_service import build_insights
+from .insight_service import add_ai_swaps, build_insights, meal_style_correction
 from .structure_service import extract_recipe_structure
 
 from .recommendation_service import get_personalised_recommendations
@@ -378,6 +381,391 @@ def create_recipe_history_entry(
     )
 
 
+# Helper: the full generation pipeline, shared by the form and "Cook this version".
+def run_recipe_generation(request, preview_data):
+    """
+    Generates, checks, corrects and stores one recipe for these preferences, then
+    leaves the result in the session for the generate page to show.
+
+    Used by generate_recipe_view (the form) and generate_recipe_version_view
+    (a version from "One dish, three ways"), so both go through the same
+    10 quality gates, meal style check, history and fallback.
+    """
+
+    request.session["recipe_preview_data"] = preview_data
+    request.session["latest_recipe_preferences"] = preview_data
+
+    try:
+        max_regeneration_attempts = 3
+
+        current_preferences = preview_data
+        final_ai_result = None
+        final_validation_report = None
+        final_insights = None
+        validation_attempt_history = []
+        fallback_used = False
+
+        # The latest attempt that passed validation. If the user asked for
+        # "Everyday healthy" and it came out high in something, CulinaAI tries
+        # again, but never swaps a validated recipe for one that failed.
+        validated_attempt = None
+
+        for attempt_number in range(1, max_regeneration_attempts + 1):
+            # Important: OpenAI recipe generation service is called here.
+            ai_result = generate_ai_recipe(current_preferences)
+            recipe_text = ai_result.get("recipe_text", "")
+
+            # Nutrition, classic comparison and risk flags for this attempt,
+            # so gates 9 and 10 can check them.
+            insights = build_recipe_insights(recipe_text, preview_data)
+
+            # Important: custom validation engine checks the AI output here.
+            validation_report = validate_recipe_output(
+                preferences=preview_data,
+                recipe_text=recipe_text,
+                attempt_number=attempt_number,
+                insights=insights,
+            )
+
+            validation_attempt_history.append(
+                {
+                    "attempt_number": attempt_number,
+                    "score": validation_report.get("score"),
+                    "status": validation_report.get("status"),
+                    "risk_level": validation_report.get("risk_level"),
+                    "hard_fail": validation_report.get("hard_fail"),
+                    "failed_checks": [
+                        check.get("name")
+                        for check in validation_report.get(
+                            "failed_checks",
+                            [],
+                        )
+                    ],
+                }
+            )
+
+            final_ai_result = ai_result
+            final_validation_report = validation_report
+            final_insights = insights
+
+            # Meal style is checked by code from the traffic lights.
+            style_fix = meal_style_correction(insights)
+
+            if not validation_report.get("should_regenerate"):
+                validated_attempt = (ai_result, validation_report, insights)
+
+                if not style_fix:
+                    break
+
+            correction_report = validation_report
+
+            if style_fix:
+                correction_report = dict(
+                    validation_report,
+                    correction_prompt=(
+                        (validation_report.get("correction_prompt", "") + "\n"
+                         if validation_report.get("failed_checks") else "")
+                        + f"- Meal Style: {style_fix}"
+                    ),
+                )
+
+            current_preferences = build_regeneration_preferences(
+                original_preferences=preview_data,
+                validation_report=correction_report,
+                attempt_number=attempt_number,
+            )
+
+        # A later try failed validation: keep the earlier recipe that passed.
+        # The page then says it is still high in something (insights.meal_style).
+        if validated_attempt and final_validation_report.get("should_regenerate"):
+            final_ai_result, final_validation_report, final_insights = validated_attempt
+
+        if not final_ai_result or not final_validation_report:
+            messages.error(
+                request,
+                "CulinaAI could not generate a recipe. Please try again.",
+            )
+            return
+
+        if (
+            final_validation_report.get("hard_fail")
+            and final_validation_report.get("score", 0) < 70
+        ):
+            # Important: safe fallback is used if AI output is unsafe.
+            fallback_ai_result = build_safe_fallback_recipe(preview_data)
+            fallback_insights = build_recipe_insights(
+                fallback_ai_result.get("recipe_text", ""),
+                preview_data,
+            )
+
+            fallback_validation_report = validate_recipe_output(
+                preferences=preview_data,
+                recipe_text=fallback_ai_result.get("recipe_text", ""),
+                attempt_number=max_regeneration_attempts + 1,
+                insights=fallback_insights,
+            )
+
+            validation_attempt_history.append(
+                {
+                    "attempt_number": max_regeneration_attempts + 1,
+                    "score": fallback_validation_report.get("score"),
+                    "status": "Safe fallback recipe generated",
+                    "risk_level": fallback_validation_report.get("risk_level"),
+                    "hard_fail": fallback_validation_report.get("hard_fail"),
+                    "failed_checks": [
+                        check.get("name")
+                        for check in fallback_validation_report.get(
+                            "failed_checks",
+                            [],
+                        )
+                    ],
+                }
+            )
+
+            final_ai_result = fallback_ai_result
+            final_validation_report = fallback_validation_report
+            final_insights = fallback_insights
+            fallback_used = True
+
+        # The AI's swap ideas for "One dish, three ways", checked by code (final recipe only).
+        if not fallback_used:
+            final_insights = add_ai_swaps(final_insights, preview_data)
+
+        final_ai_result["insights"] = final_insights
+        final_ai_result["validation_report"] = final_validation_report
+        final_ai_result["validation_attempt_history"] = validation_attempt_history
+        final_ai_result["quality_score"] = final_validation_report.get("score")
+        final_ai_result["validation_status"] = final_validation_report.get("status")
+
+        generated_recipe_title = extract_recipe_title(
+            final_ai_result.get("recipe_text", ""),
+        )
+
+        generated_image_path = ""
+        generated_image_prompt = ""
+
+        try:
+            image_result = generate_recipe_image_base64(
+                recipe_title=generated_recipe_title,
+                preferences=preview_data,
+            )
+
+            generated_image_prompt = image_result.get("image_prompt", "")
+            generated_image_path = save_generated_recipe_image(
+                image_result.get("image_base64", ""),
+            )
+            print("CULINAAI IMAGE SAVE DEBUG - path:", generated_image_path)
+            print("CULINAAI IMAGE SAVE DEBUG - exists:", default_storage.exists(generated_image_path) if generated_image_path else "N/A")
+
+        except Exception as image_gen_error:
+            print("CULINAAI IMAGE GENERATION ERROR:", repr(image_gen_error))
+            traceback.print_exc()
+
+            generated_image_path = ""
+            generated_image_prompt = ""
+
+        final_ai_result["generated_image"] = generated_image_path
+        final_ai_result["generated_image_url"] = get_storage_url(
+            generated_image_path,
+        )
+        final_ai_result["generated_image_prompt"] = generated_image_prompt
+
+        request.session["ai_recipe_result"] = final_ai_result
+        request.session["latest_ai_recipe_text"] = final_ai_result.get(
+            "recipe_text",
+            "",
+        )
+        request.session["latest_ai_recipe_prompt"] = final_ai_result.get(
+            "prompt",
+            "",
+        )
+        request.session["latest_recipe_image_path"] = generated_image_path
+        request.session["latest_recipe_image_prompt"] = generated_image_prompt
+        request.session["latest_validation_report"] = final_validation_report
+        request.session["latest_validation_attempt_history"] = validation_attempt_history
+        request.session["latest_recipe_insights"] = final_insights
+
+
+
+        """one of the important function"""
+        try:
+            # Important: every generated recipe is stored in RecipeHistory.
+            history_entry = create_recipe_history_entry(
+                user=request.user,
+                recipe_text=final_ai_result.get("recipe_text", ""),
+                recipe_prompt=final_ai_result.get("prompt", ""),
+                preferences=preview_data,
+                image_path=generated_image_path,
+                image_prompt=generated_image_prompt,
+                validation_report=final_validation_report,
+                validation_attempt_history=validation_attempt_history,
+                insights=final_insights,
+            )
+
+            if history_entry:
+                request.session["latest_recipe_history_id"] = history_entry.id
+
+        except Exception:
+            request.session.pop("latest_recipe_history_id", None)
+
+        if fallback_used:
+            messages.warning(
+                request,
+                "CulinaAI detected unsafe AI output and automatically created a safe corrected recipe using the validation engine.",
+            )
+        elif len(validation_attempt_history) > 1:
+            messages.success(
+                request,
+                "CulinaAI checked, corrected and validated the recipe before showing the final result.",
+            )
+        else:
+            messages.success(
+                request,
+                "Recipe generated, validated and added to your history successfully.",
+            )
+
+    except Exception as error:
+        print("CULINAAI REAL API GENERATION ERROR:", repr(error))
+        traceback.print_exc()
+
+        try:
+            fallback_ai_result = build_safe_fallback_recipe(preview_data)
+            fallback_recipe_text = fallback_ai_result.get("recipe_text", "")
+            fallback_insights = build_recipe_insights(fallback_recipe_text, preview_data)
+
+            try:
+                fallback_validation_report = validate_recipe_output(
+                    preferences=preview_data,
+                    recipe_text=fallback_recipe_text,
+                    attempt_number=1,
+                    insights=fallback_insights,
+                )
+
+            except Exception as validation_error:
+                print(
+                    "CULINAAI FALLBACK VALIDATION ERROR:",
+                    repr(validation_error),
+                )
+                traceback.print_exc()
+
+                fallback_validation_report = {
+                    "score": 85,
+                    "status": "Verified with fallback",
+                    "risk_level": "Low",
+                    "badge": "Fallback Verified",
+                    "target_score": 85,
+                    "passed_count": 1,
+                    "failed_count": 0,
+                    "hard_fail": False,
+                    "should_regenerate": False,
+                    "checks": [
+                        {
+                            "name": "Fallback Safety Check",
+                            "category": "system",
+                            "severity": "low",
+                            "passed": True,
+                            "score": 85,
+                            "max_score": 100,
+                            "message": (
+                                "A safe fallback recipe was created because "
+                                "the AI generation pipeline failed."
+                            ),
+                            "details": {},
+                        }
+                    ],
+                    "failed_checks": [],
+                }
+
+            validation_attempt_history = [
+                {
+                    "attempt_number": 1,
+                    "score": fallback_validation_report.get("score"),
+                    "status": fallback_validation_report.get("status"),
+                    "risk_level": fallback_validation_report.get("risk_level"),
+                    "hard_fail": fallback_validation_report.get("hard_fail"),
+                    "failed_checks": [
+                        check.get("name")
+                        for check in fallback_validation_report.get(
+                            "failed_checks",
+                            [],
+                        )
+                    ],
+                }
+            ]
+
+            fallback_ai_result["insights"] = fallback_insights
+            fallback_ai_result["validation_report"] = fallback_validation_report
+            fallback_ai_result["validation_attempt_history"] = (
+                validation_attempt_history
+            )
+            fallback_ai_result["quality_score"] = fallback_validation_report.get(
+                "score",
+            )
+            fallback_ai_result["validation_status"] = fallback_validation_report.get(
+                "status",
+            )
+            fallback_ai_result["generated_image"] = ""
+            fallback_ai_result["generated_image_url"] = ""
+            fallback_ai_result["generated_image_prompt"] = ""
+
+            request.session["ai_recipe_result"] = fallback_ai_result
+            request.session["latest_ai_recipe_text"] = fallback_recipe_text
+            request.session["latest_ai_recipe_prompt"] = fallback_ai_result.get(
+                "prompt",
+                "",
+            )
+            request.session["latest_recipe_image_path"] = ""
+            request.session["latest_recipe_image_prompt"] = ""
+            request.session["latest_validation_report"] = fallback_validation_report
+            request.session["latest_validation_attempt_history"] = (
+                validation_attempt_history
+            )
+            request.session["latest_recipe_insights"] = fallback_insights
+
+            try:
+                history_entry = create_recipe_history_entry(
+                    user=request.user,
+                    recipe_text=fallback_recipe_text,
+                    recipe_prompt=fallback_ai_result.get("prompt", ""),
+                    preferences=preview_data,
+                    image_path="",
+                    image_prompt="",
+                    validation_report=fallback_validation_report,
+                    validation_attempt_history=validation_attempt_history,
+                    insights=fallback_insights,
+                )
+
+                if history_entry:
+                    request.session["latest_recipe_history_id"] = history_entry.id
+
+            except Exception as history_error:
+                print("CULINAAI HISTORY ERROR:", repr(history_error))
+                traceback.print_exc()
+                request.session.pop("latest_recipe_history_id", None)
+
+            messages.warning(
+                request,
+                (
+                    "CulinaAI could not complete the live AI generation pipeline, "
+                    "so it used its safe fallback recipe generator. The recipe is "
+                    "still available, and the real technical error has been printed "
+                    "in the terminal for debugging."
+                ),
+            )
+
+        except Exception as fallback_error:
+            print("CULINAAI FALLBACK GENERATION ERROR:", repr(fallback_error))
+            traceback.print_exc()
+
+            messages.error(
+                request,
+                (
+                    "Recipe preview is ready, but both live AI generation and "
+                    "the fallback generator failed. Please check the terminal "
+                    "for the exact error."
+                ),
+            )
+
 
 # Main view: handles recipe generation, validation, fallback, image generation and history storage.
 @login_required
@@ -406,6 +794,7 @@ def generate_recipe_view(request):
             spice_choices = dict(form.fields["spice_level"].choices)
             budget_choices = dict(form.fields["budget_level"].choices)
             nutrition_choices = dict(form.fields["nutrition_goal"].choices)
+            meal_style_choices = dict(form.fields["meal_style"].choices)
             equipment_choices = dict(form.fields["cooking_equipment"].choices)
 
             selected_equipment = [
@@ -495,9 +884,10 @@ def generate_recipe_view(request):
                 "diet_preferences": selected_diet_preferences,
                 "other_diet_preference": other_diet_preference,
                 "allergies": cleaned_data.get("allergies") or "None provided",
-                "cooking_time_minutes": cleaned_data.get("cooking_time_minutes"),
-                "servings": cleaned_data.get("servings"),
-                "difficulty": cleaned_data.get("difficulty"),
+                # Optional fields: blank means the form's usual defaults.
+                "cooking_time_minutes": cleaned_data.get("cooking_time_minutes") or 30,
+                "servings": cleaned_data.get("servings") or 2,
+                "difficulty": cleaned_data.get("difficulty") or "easy",
                 "spice_level": spice_choices.get(
                     cleaned_data.get("spice_level"),
                     "Medium",
@@ -510,6 +900,10 @@ def generate_recipe_view(request):
                     cleaned_data.get("nutrition_goal"),
                     "Balanced",
                 ),
+                "meal_style": meal_style_choices.get(
+                    cleaned_data.get("meal_style") or "any",
+                    "No preference",
+                ),
                 "cooking_equipment": selected_equipment,
                 "other_kitchen_equipment": other_kitchen_equipment,
                 "utensils": selected_utensils_for_preview,
@@ -517,347 +911,7 @@ def generate_recipe_view(request):
                 "additional_notes": combined_additional_notes,
             }
 
-            request.session["recipe_preview_data"] = preview_data
-            request.session["latest_recipe_preferences"] = preview_data
-
-            try:
-                max_regeneration_attempts = 3
-
-                current_preferences = preview_data
-                final_ai_result = None
-                final_validation_report = None
-                final_insights = None
-                validation_attempt_history = []
-                fallback_used = False
-
-                for attempt_number in range(1, max_regeneration_attempts + 1):
-                    # Important: OpenAI recipe generation service is called here.
-                    ai_result = generate_ai_recipe(current_preferences)
-                    recipe_text = ai_result.get("recipe_text", "")
-
-                    # Nutrition, classic comparison and risk flags for this attempt,
-                    # so gates 9 and 10 can check them.
-                    insights = build_recipe_insights(recipe_text, preview_data)
-
-                    # Important: custom validation engine checks the AI output here.
-                    validation_report = validate_recipe_output(
-                        preferences=preview_data,
-                        recipe_text=recipe_text,
-                        attempt_number=attempt_number,
-                        insights=insights,
-                    )
-
-                    validation_attempt_history.append(
-                        {
-                            "attempt_number": attempt_number,
-                            "score": validation_report.get("score"),
-                            "status": validation_report.get("status"),
-                            "risk_level": validation_report.get("risk_level"),
-                            "hard_fail": validation_report.get("hard_fail"),
-                            "failed_checks": [
-                                check.get("name")
-                                for check in validation_report.get(
-                                    "failed_checks",
-                                    [],
-                                )
-                            ],
-                        }
-                    )
-
-                    final_ai_result = ai_result
-                    final_validation_report = validation_report
-                    final_insights = insights
-
-                    if not validation_report.get("should_regenerate"):
-                        break
-
-                    current_preferences = build_regeneration_preferences(
-                        original_preferences=preview_data,
-                        validation_report=validation_report,
-                        attempt_number=attempt_number,
-                    )
-
-                if not final_ai_result or not final_validation_report:
-                    messages.error(
-                        request,
-                        "CulinaAI could not generate a recipe. Please try again.",
-                    )
-                    return redirect(f"{reverse('generate_recipe')}#recipe-preview")
-
-                if (
-                    final_validation_report.get("hard_fail")
-                    and final_validation_report.get("score", 0) < 70
-                ):
-                    # Important: safe fallback is used if AI output is unsafe.
-                    fallback_ai_result = build_safe_fallback_recipe(preview_data)
-                    fallback_insights = build_recipe_insights(
-                        fallback_ai_result.get("recipe_text", ""),
-                        preview_data,
-                    )
-
-                    fallback_validation_report = validate_recipe_output(
-                        preferences=preview_data,
-                        recipe_text=fallback_ai_result.get("recipe_text", ""),
-                        attempt_number=max_regeneration_attempts + 1,
-                        insights=fallback_insights,
-                    )
-
-                    validation_attempt_history.append(
-                        {
-                            "attempt_number": max_regeneration_attempts + 1,
-                            "score": fallback_validation_report.get("score"),
-                            "status": "Safe fallback recipe generated",
-                            "risk_level": fallback_validation_report.get("risk_level"),
-                            "hard_fail": fallback_validation_report.get("hard_fail"),
-                            "failed_checks": [
-                                check.get("name")
-                                for check in fallback_validation_report.get(
-                                    "failed_checks",
-                                    [],
-                                )
-                            ],
-                        }
-                    )
-
-                    final_ai_result = fallback_ai_result
-                    final_validation_report = fallback_validation_report
-                    final_insights = fallback_insights
-                    fallback_used = True
-
-                final_ai_result["insights"] = final_insights
-                final_ai_result["validation_report"] = final_validation_report
-                final_ai_result["validation_attempt_history"] = validation_attempt_history
-                final_ai_result["quality_score"] = final_validation_report.get("score")
-                final_ai_result["validation_status"] = final_validation_report.get("status")
-
-                generated_recipe_title = extract_recipe_title(
-                    final_ai_result.get("recipe_text", ""),
-                )
-
-                generated_image_path = ""
-                generated_image_prompt = ""
-
-                try:
-                    image_result = generate_recipe_image_base64(
-                        recipe_title=generated_recipe_title,
-                        preferences=preview_data,
-                    )
-
-                    generated_image_prompt = image_result.get("image_prompt", "")
-                    generated_image_path = save_generated_recipe_image(
-                        image_result.get("image_base64", ""),
-                    )
-                    print("CULINAAI IMAGE SAVE DEBUG - path:", generated_image_path)
-                    print("CULINAAI IMAGE SAVE DEBUG - exists:", default_storage.exists(generated_image_path) if generated_image_path else "N/A")
-
-                except Exception as image_gen_error:
-                    print("CULINAAI IMAGE GENERATION ERROR:", repr(image_gen_error))
-                    traceback.print_exc()
-
-                    generated_image_path = ""
-                    generated_image_prompt = ""
-
-                final_ai_result["generated_image"] = generated_image_path
-                final_ai_result["generated_image_url"] = get_storage_url(
-                    generated_image_path,
-                )
-                final_ai_result["generated_image_prompt"] = generated_image_prompt
-
-                request.session["ai_recipe_result"] = final_ai_result
-                request.session["latest_ai_recipe_text"] = final_ai_result.get(
-                    "recipe_text",
-                    "",
-                )
-                request.session["latest_ai_recipe_prompt"] = final_ai_result.get(
-                    "prompt",
-                    "",
-                )
-                request.session["latest_recipe_image_path"] = generated_image_path
-                request.session["latest_recipe_image_prompt"] = generated_image_prompt
-                request.session["latest_validation_report"] = final_validation_report
-                request.session["latest_validation_attempt_history"] = validation_attempt_history
-                request.session["latest_recipe_insights"] = final_insights
-
-                
-
-                """one of the important function"""
-                try:
-                    # Important: every generated recipe is stored in RecipeHistory.
-                    history_entry = create_recipe_history_entry(
-                        user=request.user,
-                        recipe_text=final_ai_result.get("recipe_text", ""),
-                        recipe_prompt=final_ai_result.get("prompt", ""),
-                        preferences=preview_data,
-                        image_path=generated_image_path,
-                        image_prompt=generated_image_prompt,
-                        validation_report=final_validation_report,
-                        validation_attempt_history=validation_attempt_history,
-                        insights=final_insights,
-                    )
-
-                    if history_entry:
-                        request.session["latest_recipe_history_id"] = history_entry.id
-
-                except Exception:
-                    request.session.pop("latest_recipe_history_id", None)
-
-                if fallback_used:
-                    messages.warning(
-                        request,
-                        "CulinaAI detected unsafe AI output and automatically created a safe corrected recipe using the validation engine.",
-                    )
-                elif len(validation_attempt_history) > 1:
-                    messages.success(
-                        request,
-                        "CulinaAI checked, corrected and validated the recipe before showing the final result.",
-                    )
-                else:
-                    messages.success(
-                        request,
-                        "Recipe generated, validated and added to your history successfully.",
-                    )
-
-            except Exception as error:
-                print("CULINAAI REAL API GENERATION ERROR:", repr(error))
-                traceback.print_exc()
-
-                try:
-                    fallback_ai_result = build_safe_fallback_recipe(preview_data)
-                    fallback_recipe_text = fallback_ai_result.get("recipe_text", "")
-                    fallback_insights = build_recipe_insights(fallback_recipe_text, preview_data)
-
-                    try:
-                        fallback_validation_report = validate_recipe_output(
-                            preferences=preview_data,
-                            recipe_text=fallback_recipe_text,
-                            attempt_number=1,
-                            insights=fallback_insights,
-                        )
-
-                    except Exception as validation_error:
-                        print(
-                            "CULINAAI FALLBACK VALIDATION ERROR:",
-                            repr(validation_error),
-                        )
-                        traceback.print_exc()
-
-                        fallback_validation_report = {
-                            "score": 85,
-                            "status": "Verified with fallback",
-                            "risk_level": "Low",
-                            "badge": "Fallback Verified",
-                            "target_score": 85,
-                            "passed_count": 1,
-                            "failed_count": 0,
-                            "hard_fail": False,
-                            "should_regenerate": False,
-                            "checks": [
-                                {
-                                    "name": "Fallback Safety Check",
-                                    "category": "system",
-                                    "severity": "low",
-                                    "passed": True,
-                                    "score": 85,
-                                    "max_score": 100,
-                                    "message": (
-                                        "A safe fallback recipe was created because "
-                                        "the AI generation pipeline failed."
-                                    ),
-                                    "details": {},
-                                }
-                            ],
-                            "failed_checks": [],
-                        }
-
-                    validation_attempt_history = [
-                        {
-                            "attempt_number": 1,
-                            "score": fallback_validation_report.get("score"),
-                            "status": fallback_validation_report.get("status"),
-                            "risk_level": fallback_validation_report.get("risk_level"),
-                            "hard_fail": fallback_validation_report.get("hard_fail"),
-                            "failed_checks": [
-                                check.get("name")
-                                for check in fallback_validation_report.get(
-                                    "failed_checks",
-                                    [],
-                                )
-                            ],
-                        }
-                    ]
-
-                    fallback_ai_result["insights"] = fallback_insights
-                    fallback_ai_result["validation_report"] = fallback_validation_report
-                    fallback_ai_result["validation_attempt_history"] = (
-                        validation_attempt_history
-                    )
-                    fallback_ai_result["quality_score"] = fallback_validation_report.get(
-                        "score",
-                    )
-                    fallback_ai_result["validation_status"] = fallback_validation_report.get(
-                        "status",
-                    )
-                    fallback_ai_result["generated_image"] = ""
-                    fallback_ai_result["generated_image_url"] = ""
-                    fallback_ai_result["generated_image_prompt"] = ""
-
-                    request.session["ai_recipe_result"] = fallback_ai_result
-                    request.session["latest_ai_recipe_text"] = fallback_recipe_text
-                    request.session["latest_ai_recipe_prompt"] = fallback_ai_result.get(
-                        "prompt",
-                        "",
-                    )
-                    request.session["latest_recipe_image_path"] = ""
-                    request.session["latest_recipe_image_prompt"] = ""
-                    request.session["latest_validation_report"] = fallback_validation_report
-                    request.session["latest_validation_attempt_history"] = (
-                        validation_attempt_history
-                    )
-                    request.session["latest_recipe_insights"] = fallback_insights
-
-                    try:
-                        history_entry = create_recipe_history_entry(
-                            user=request.user,
-                            recipe_text=fallback_recipe_text,
-                            recipe_prompt=fallback_ai_result.get("prompt", ""),
-                            preferences=preview_data,
-                            image_path="",
-                            image_prompt="",
-                            validation_report=fallback_validation_report,
-                            validation_attempt_history=validation_attempt_history,
-                            insights=fallback_insights,
-                        )
-
-                        if history_entry:
-                            request.session["latest_recipe_history_id"] = history_entry.id
-
-                    except Exception as history_error:
-                        print("CULINAAI HISTORY ERROR:", repr(history_error))
-                        traceback.print_exc()
-                        request.session.pop("latest_recipe_history_id", None)
-
-                    messages.warning(
-                        request,
-                        (
-                            "CulinaAI could not complete the live AI generation pipeline, "
-                            "so it used its safe fallback recipe generator. The recipe is "
-                            "still available, and the real technical error has been printed "
-                            "in the terminal for debugging."
-                        ),
-                    )
-
-                except Exception as fallback_error:
-                    print("CULINAAI FALLBACK GENERATION ERROR:", repr(fallback_error))
-                    traceback.print_exc()
-
-                    messages.error(
-                        request,
-                        (
-                            "Recipe preview is ready, but both live AI generation and "
-                            "the fallback generator failed. Please check the terminal "
-                            "for the exact error."
-                        ),
-                    )
+            run_recipe_generation(request, preview_data)
 
             return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
@@ -985,6 +1039,77 @@ def generate_recipe_view(request):
 
 
 
+
+
+# Helper: the preferences for one version from "One dish, three ways".
+def build_version_preferences(preferences, version, insights, recipe_title):
+    """
+    The user's own settings, with the version's swaps made in the ingredient list
+    and the last recipe described, so the AI cooks the same dish with the swaps.
+
+    - A full swap ("tofu instead of paneer") takes the old ingredient out of the
+      user's list and puts the new one in, so the ingredient gate checks for tofu.
+    - A half swap or "use less" keeps the old ingredient; a half swap adds the new one.
+    """
+    version_preferences = copy.deepcopy(preferences)
+    ingredients = split_user_items(preferences.get("ingredients"))
+
+    for swap in version["swaps"]:
+        if not swap.get("to_code"):
+            continue
+        if swap.get("share", 0) >= 1:
+            ingredients = [item for item in ingredients if not same_ingredient(item, swap["from_name"])]
+        if not any(same_ingredient(item, swap["to_name"]) for item in ingredients):
+            ingredients.append(swap["to_name"])
+
+    last_recipe = ", ".join(
+        f"{item['name']} ({item['display']})" if item.get("display") else item["name"]
+        for item in (insights.get("ingredients") or [])
+    )
+    instruction = (
+        f"Recipe version: cook the {version['title'].lower()} version of the user's last recipe, "
+        f"\"{recipe_title}\", which used: {last_recipe}. Make these swaps: "
+        + "; ".join(swap["text"] for swap in version["swaps"])
+        + ". Keep the same dish, cuisine and method otherwise, and adjust quantities and steps to suit."
+    )
+
+    version_preferences["ingredients"] = ", ".join(ingredients)
+    notes = preferences.get("additional_notes") or ""
+    version_preferences["additional_notes"] = (
+        instruction if notes in ("", "None provided") else f"{notes} | {instruction}"
+    )
+    version_preferences["recipe_version"] = version["title"]
+    version_preferences["based_on_title"] = recipe_title
+    return version_preferences
+
+
+# View: "Cook this version" on the generate page. Makes the cheapest, healthiest or
+# greenest version of the recipe just generated, through the same pipeline and checks.
+@login_required
+@require_POST
+def generate_recipe_version_view(request):
+    goal = request.POST.get("goal", "")
+    preferences = request.session.get("latest_recipe_preferences")
+    insights = request.session.get("latest_recipe_insights") or {}
+
+    # Only versions the code worked out for the user's last recipe can be cooked;
+    # nothing in the request is used except which of the three to cook.
+    version = next(
+        (v for v in insights.get("three_ways") or [] if v.get("goal") == goal and v.get("swaps")),
+        None,
+    )
+
+    if not preferences or version is None:
+        messages.error(
+            request,
+            "That recipe is no longer available. Generate it again to see its three versions.",
+        )
+        return redirect("generate_recipe")
+
+    recipe_title = extract_recipe_title(request.session.get("latest_ai_recipe_text", ""))
+    version_preferences = build_version_preferences(preferences, version, insights, recipe_title)
+    run_recipe_generation(request, version_preferences)
+    return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
 
 # View: shows generated recipe history for the logged-in user with search and filters.
@@ -1958,9 +2083,12 @@ def modify_saved_recipe_view(request, recipe_id):
 
             # Saved recipes don't store servings, so let the modified recipe's own
             # SERVINGS line decide (insight_service falls back to it).
-            modified_insights = build_recipe_insights(
-                modified_recipe_text,
-                dict(modified_validation_preferences, servings=None),
+            modified_insights = add_ai_swaps(
+                build_recipe_insights(
+                    modified_recipe_text,
+                    dict(modified_validation_preferences, servings=None),
+                ),
+                modified_validation_preferences,
             )
 
             try:

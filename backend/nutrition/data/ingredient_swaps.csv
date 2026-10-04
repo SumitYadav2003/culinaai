@@ -1,0 +1,48 @@
+from_code,to_code,share,ratio,to_name,text,note
+18-469,18-508,1,1,extra lean beef mince,Use extra lean beef mince instead of {from},
+18-469,18-350,1,1,turkey mince,Use turkey mince instead of {from},
+18-469,13-657,0.5,0.4,red lentils,Swap half the {from} for red lentils,"40 g of dried red lentils cooks up to about the weight of 100 g of mince. Add a splash more water."
+18-508,13-657,0.5,0.4,red lentils,Swap half the {from} for red lentils,"40 g of dried red lentils cooks up to about the weight of 100 g of mince. Add a splash more water."
+18-481,18-350,1,1,turkey mince,Use turkey mince instead of {from},
+18-481,13-657,0.5,0.4,red lentils,Swap half the {from} for red lentils,"40 g of dried red lentils cooks up to about the weight of 100 g of mince. Add a splash more water."
+18-077,13-660,0.5,1,kidney beans,Swap half the {from} for tinned kidney beans,Add the beans for the last 15 minutes.
+18-007,13-660,0.5,1,kidney beans,Swap half the {from} for tinned kidney beans,Add the beans for the last 15 minutes.
+18-290,13-670,0.5,1,chickpeas,Swap half the {from} for tinned chickpeas,Add the chickpeas for the last 10 minutes.
+18-488,13-670,0.5,1,chickpeas,Swap half the {from} for tinned chickpeas,Add the chickpeas for the last 10 minutes.
+18-289,18-290,1,1,chicken breast,Use chicken breast instead of {from},Breast cooks faster and dries out sooner; check it earlier.
+19-016,19-497,1,1,back bacon,Use back bacon instead of {from},
+12-495,13-570,1,1,firm tofu,Use firm tofu instead of {from},Press the tofu dry first so it browns.
+12-334,12-332,1,1,single cream,Use single cream instead of {from},Single cream can split if it boils hard; keep it at a gentle simmer.
+12-334,12-555,1,1,Greek yogurt,Use Greek yogurt instead of {from},Stir it in off the heat so it doesn't split.
+12-332,12-184,1,1,plain yogurt,Use plain yogurt instead of {from},Stir it in off the heat so it doesn't split.
+12-335,12-555,1,1,Greek yogurt,Use Greek yogurt instead of {from},Stir it in off the heat so it doesn't split.
+17-654,12-555,0.5,1,Greek yogurt,Swap half the {from} for Greek yogurt,
+17-685,17-041,1,0.8,rapeseed oil,Cook with rapeseed oil instead of {from},For frying and roasting. Not for baking or spreading.
+17-661,17-041,1,0.8,rapeseed oil,Cook with rapeseed oil instead of {from},For frying and roasting. Not for baking or spreading.
+17-640,17-041,1,1,rapeseed oil,Cook with rapeseed oil instead of {from},The flavour will be milder.
+17-031,17-041,1,1,rapeseed oil,Cook with rapeseed oil instead of {from},The flavour will be milder.
+17-038,17-041,1,1,rapeseed oil,Use rapeseed oil instead of {from},
+14-889,12-379,0.5,1,low-fat plain yogurt,Swap half the {from} for low-fat plain yogurt,Stir the yogurt in off the heat so it doesn't split.
+11-861,11-868,1,1,brown rice,Use brown rice instead of {from},Brown rice takes about 25 minutes to cook.
+11-857,11-868,1,1,brown rice,Use brown rice instead of {from},Brown rice takes about 25 minutes to cook.
+11-857,11-861,1,1,long-grain rice,Use long-grain rice instead of {from},
+11-716,11-718,1,1,wholewheat pasta,Use wholewheat pasta instead of {from},
+11-980,11-981,1,1,wholemeal bread,Use wholemeal bread instead of {from},
+11-886,11-889,0.5,1,wholemeal flour,Swap half the {from} for wholemeal flour,
+13-521,13-572,1,1,spinach,Use large-leaf spinach instead of {from},
+13-517,13-530,1,1,tinned tomatoes,Use tinned tomatoes instead of {from},"Best in cooked sauces, not salads."
+13-519,13-530,1,1,tinned tomatoes,Use tinned tomatoes instead of {from},"Best in cooked sauces, not salads."
+13-342,13-499,1,1,onion,Use onion instead of {from},
+12-526,12-346,1,1,mature cheddar,Use mature cheddar instead of {from},
+12-346,,0.5,0,,Use half the {from},A stronger mature cheddar keeps the flavour.
+12-596,12-313,1,1,semi-skimmed milk,Use semi-skimmed milk instead of {from},
+12-313,12-307,1,1,skimmed milk,Use skimmed milk instead of {from},
+17-063,,0.33,0,,Use a third less {from},Fine in most sauces and puddings; cakes may come out a little less tender.
+17-060,,0.33,0,,Use a third less {from},Fine in most sauces and puddings; cakes may come out a little less tender.
+17-367,,0.5,0,,Use half the {from},"Add herbs, lemon or black pepper for flavour."
+17-515,,0.5,0,,Use half the {from},
+17-726,,0.5,0,,Use half the {from},
+17-727,,0.5,0,,Use half the {from},
+17-774,17-377,0.5,1,water,Use half the {from} and make up the rest with water,
+17-721,,0.5,0,,Use half the {from},
+16-417,16-416,1,1,tuna in brine,Use tuna in brine instead of {from},

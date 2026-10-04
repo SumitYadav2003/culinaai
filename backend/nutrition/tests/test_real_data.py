@@ -228,3 +228,52 @@ class RealPriceDataTests(TestCase):
         result = calculate_nutrition([IngredientInput(i, g) for i, g, _ in items], servings)
         self.assertAlmostEqual(result.cost_gbp_per_serving, 0.54)
         self.assertEqual(result.cost_coverage_pct, 100.0)
+
+class DescribedNameTests(TestCase):
+    """Names as recipes write them: cut, prepared, or offering a choice."""
+
+    @classmethod
+    def setUpTestData(cls):
+        with open("/dev/null", "w") as quiet:
+            call_command("load_food_data", stdout=quiet)
+
+    def test_described_names_find_the_plain_food(self):
+        from nutrition.services import resolve_ingredients
+
+        expected = {
+            "boneless skinless chicken breast": "18-290",
+            "chicken breast, diced": "18-290",
+            "chicken breast fillets": "18-290",
+            "boneless chicken thighs": "18-289",
+            "chicken pieces": "18-488",  # not "Chicken pieces, coated, takeaway"
+            "chili flakes": "13-873",
+            "crushed red pepper flakes": "13-873",
+            "low-sodium chicken broth": "17-681",
+            "water or low-sodium chicken broth": "17-377",  # the first choice
+            "fresh parsley or coriander": "13-844",
+            "finely chopped onion": "13-499",
+        }
+        for name, code in expected.items():
+            with self.subTest(name=name):
+                food = resolve_ingredients([IngredientInput(name, 100)])[0].food
+                self.assertIsNotNone(food)
+                self.assertEqual(food.food_code, code)
+
+    def test_own_aliases_still_win_over_simplified_names(self):
+        from nutrition.services import resolve_ingredients
+
+        # "chopped tomatoes" means tinned; "fresh coriander" is the leaf, not the seed.
+        for name, code in {"chopped tomatoes": "13-530", "fresh coriander": "13-888", "ground ginger": "13-832"}.items():
+            with self.subTest(name=name):
+                self.assertEqual(resolve_ingredients([IngredientInput(name, 100)])[0].food.food_code, code)
+
+    def test_a_chicken_skillet_from_the_live_site_is_complete(self):
+        # The recipe from the screenshot of 4 October 2026: 'water or low-sodium chicken broth',
+        # 'chili flakes' and 'fresh parsley or coriander' were not found, so coverage fell below
+        # 85% and protein showed no level. Now everything is found and it is High protein.
+        items = [("boneless chicken breast", 300), ("basmati rice", 150), ("tomato", 150), ("spinach", 100),
+                 ("onion", 100), ("olive oil", 15), ("chili flakes", 1), ("salt", 4),
+                 ("water or low-sodium chicken broth", 400), ("fresh parsley or coriander", 5)]
+        result = calculate_nutrition([IngredientInput(n, g) for n, g in items], 2)
+        self.assertEqual(result.unmatched, [])
+        self.assertIn("High protein", result.claims)

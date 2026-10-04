@@ -12229,3 +12229,14 @@ textarea.recipe-input {
         padding: 7px 10px !important;
     }
 }
+/* "(required)" and "(optional)" next to the generate form's labels */
+.recipe-label .recipe-label-required {
+    color: var(--culina-orange-dark);
+}
+
+.generate-subsection-hint {
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0.85;
+}

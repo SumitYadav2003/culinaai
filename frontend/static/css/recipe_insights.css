@@ -331,6 +331,201 @@ small.culina-phone-only {
     color: #ffffff;
 }
 
+/* ---------- Meal style the user chose (everyday healthy or treat) ---------- */
+
+.culina-meal-style-note {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    margin: 0 0 1.25rem;
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
+    background: var(--culina-cream);
+    color: var(--culina-dark);
+    font-size: 0.92rem;
+}
+
+.culina-meal-style-note i {
+    margin-top: 0.15rem;
+    color: var(--culina-orange-dark);
+}
+
+.culina-meal-style-met {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.culina-meal-style-met i {
+    color: #15803d;
+}
+
+/* ---------- One dish, three ways ---------- */
+
+.culina-three-ways {
+    margin-top: 1.25rem;
+}
+
+.culina-three-ways-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 1rem;
+    margin-top: 0.9rem;
+}
+
+/* The line that says what the recipe above is, with its own figures */
+.culina-your-recipe {
+    margin: 0.25rem 0 0.9rem;
+    padding: 0.85rem 1rem;
+    background: #ffffff;
+    border: 1px dashed rgba(124, 74, 34, 0.3);
+    border-radius: 14px;
+}
+
+.culina-your-recipe p {
+    margin: 0;
+    color: var(--culina-dark);
+    font-size: 0.92rem;
+}
+
+.culina-your-recipe p i {
+    margin-right: 0.35rem;
+    color: var(--culina-orange-dark);
+}
+
+/* Label and value side by side, items in a row that wraps on narrow screens */
+.culina-your-recipe .culina-your-recipe-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 2rem;
+    margin: 0.7rem 0 0;
+    /* more specific than .culina-way-stats, which comes later in this file */
+}
+
+.culina-your-recipe .culina-your-recipe-stats div {
+    gap: 0.5rem;
+    align-items: baseline;
+    justify-content: flex-start;
+}
+
+.culina-your-recipe .culina-your-recipe-stats dd {
+    margin: 0;
+    text-align: left;
+}
+
+/* A version that is still high in something: a warning, so red as everywhere else */
+.culina-way-warning {
+    margin: 0;
+    color: var(--culina-warning-red-text, #991b1b);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.culina-way-warning i {
+    margin-right: 0.3rem;
+    color: var(--culina-warning-red, #dc2626);
+}
+
+.culina-way {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+    padding: 1rem;
+    background: #ffffff;
+    border: 1px solid rgba(124, 74, 34, 0.12);
+    border-radius: 16px;
+}
+
+.culina-way-title {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--culina-orange-dark);
+}
+
+.culina-swap-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--culina-dark);
+}
+
+.culina-swap-list li {
+    margin-bottom: 0.55rem;
+}
+
+.culina-swap-list strong {
+    display: block;
+    font-weight: 600;
+}
+
+.culina-swap-impact {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #166534;
+}
+
+.culina-swap-source {
+    display: inline-block;
+    margin: 0.15rem 0;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: #ffedd5;
+    color: #9a3412;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.culina-swap-list small {
+    display: block;
+    color: var(--culina-muted);
+}
+
+.culina-way-stats {
+    display: grid;
+    gap: 0.3rem;
+    margin: auto 0 0;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(124, 74, 34, 0.12);
+}
+
+.culina-way-stats div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.5rem;
+    justify-content: space-between;
+}
+
+.culina-way-stats dt {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--culina-brown);
+}
+
+.culina-way-stats dd {
+    margin: 0 0 0 auto;
+    text-align: right;
+    font-weight: 700;
+    color: var(--culina-dark);
+}
+
+.culina-way-stats small {
+    font-weight: 400;
+    color: var(--culina-muted);
+}
+
+.culina-way-tag {
+    align-self: flex-start;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+}
+
 /* ---------- How it was calculated, disclaimer ---------- */
 
 .culina-how-calculated {

@@ -28,6 +28,13 @@ Hand-checked links from everyday ingredient names ("chicken breast") to the CoFI
 represents them ("Chicken, light meat, raw"), with a note where a choice needed explaining.
 Load with `python manage.py load_ingredient_aliases` (after `load_cofid`).
 
+When a name matches nothing as written, `nutrition/services.py` tries simpler versions of it before
+giving up (`name_variants`): the part before a comma ("chicken breast, diced"), the name without words
+that describe the cut or how it is bought ("boneless", "skinless", "fillets", "diced", "fresh",
+"low-sodium" and similar), and each option of a choice in order ("water or chicken broth" tries water
+first). Words that change the food ("ground", "dried", "minced", "smoked", "lean") are kept. One
+known approximation: "low-sodium" stock matches ordinary stock, so its salt reads high.
+
 ## usda_supplement.csv
 
 Seven common ingredients that CoFID doesn't cover: cornflour, dry breadcrumbs, black beans (cooked),
@@ -192,3 +199,41 @@ Load with `python manage.py load_prices` (after `load_cofid`), or with `load_foo
 matcher handles, using the 381 ingredients of the 56,498 recipes in Ahn et al. (2011), ranked by
 their average share across 11 world cuisine regions. It led to 69 new aliases, 24 new priced foods
 and two matching rules (guesses must name the main food; vague one-word names are not guessed).
+
+## ingredient_swaps.csv
+
+The hand-checked swap list behind "One dish, three ways" (`recipes/swap_service.py`). 47 swaps, each
+from one food to another that does the same job in a dish, or to less of the same food:
+
+- `from_code`, `to_code`: CoFID food codes. An empty `to_code` means "use less", with nothing added.
+- `share`: how much of the original is replaced or removed (1 = all, 0.5 = half).
+- `ratio`: grams of the new food for each gram replaced. Most are 1. Butter to rapeseed oil is 0.8
+  (oil is all fat, butter about 80%). Mince to dried red lentils is 0.4, because 40 g of dried lentils
+  cooks up to about the weight of 100 g of mince.
+- `text`, `note`: what the page shows. `{from}` becomes the recipe's own name for the ingredient.
+
+Every food in the list is in `ingredient_prices.csv`, and a test checks this. Each swap was checked
+on the CoFID values before it was added; one was dropped (milk chocolate to plain chocolate) because
+plain chocolate in CoFID has more sugar, so it is not clearly healthier.
+
+How the three versions are chosen (all by code, at most three swaps each):
+
+- **Cheapest:** lowest cost per serving. **Greenest:** lowest kg CO2e per serving. Neither may turn
+  fat, saturates, sugars or salt to a worse traffic light.
+- **Healthiest:** lowest health score: 1 point for each medium and 2 for each high traffic light, plus
+  how close fat, saturates, sugars and salt are on average to the high level per 100 g, minus up to
+  half a point for fibre (the full half at 6 g per 100 g, the UK "high fibre" level). It may cost more.
+- A swap is skipped when the new food clashes with the user's allergies or diet, using the same
+  rules as the quality gates, or when it has no price (cheapest) or carbon figure (greenest).
+- Where a swap brings in or takes out a food with no figure (butter has no carbon category), the
+  page shows the version's figure but no change, because the change can't be worked out.
+
+AI swap ideas (`recipes/swap_suggestion_service.py`). After the final recipe is chosen, one small AI
+call suggests up to 8 swaps that suit that dish, beyond this list. The AI only names ingredients.
+A suggestion is used only if the original is an ingredient of the recipe found in the food data, the
+new ingredient is found in the food data and is a different food, the amount is all, half or "use
+less", the weight per 100 g replaced is 25 to 150 g, and the new ingredient is safe for the user's
+allergies and diet. Cooking notes with a health claim are dropped. Accepted ideas then compete with
+this list under the same rules, and are labelled "AI idea, checked by code" on the page. Each recipe
+stores how many ideas were suggested, accepted and rejected (with the reason) in `insights.ai_swaps`.
+If the AI call fails, the versions from this list are shown as before.

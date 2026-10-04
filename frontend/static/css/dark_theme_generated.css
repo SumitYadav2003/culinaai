@@ -2744,6 +2744,63 @@ html[data-theme="dark"] .culina-reason-allergy_diet {
 html[data-theme="dark"] .culina-add-back-button {
     color: #f5a981;
 }
+html[data-theme="dark"] .culina-meal-style-note {
+    background: #302312;
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-meal-style-note i {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-meal-style-met {
+    background: #14341f;
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-meal-style-met i {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .culina-your-recipe {
+    background: #291d14;
+}
+html[data-theme="dark"] .culina-your-recipe p {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-your-recipe p i {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-way-warning {
+    color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .culina-way-warning i {
+    color: var(--culina-warning-red, #eb8585);
+}
+html[data-theme="dark"] .culina-way {
+    background: #291d14;
+}
+html[data-theme="dark"] .culina-way-title {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-swap-list {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-swap-impact {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-swap-source {
+    background: #352714;
+    color: #f4b7a3;
+}
+html[data-theme="dark"] .culina-swap-list small {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .culina-way-stats dt {
+    color: #eaccb3;
+}
+html[data-theme="dark"] .culina-way-stats dd {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-way-stats small {
+    color: #dac3b2;
+}
 html[data-theme="dark"] .culina-how-calculated {
     color: #eae5e2;
 }
@@ -4745,4 +4802,7 @@ html[data-theme="dark"] .favourite-recipe-visual-badge {
 }
 html[data-theme="dark"] .favourite-recipe-visual-badge i {
     color: #f4aa77 !important;
+}
+html[data-theme="dark"] .recipe-label .recipe-label-required {
+    color: #f5a981;
 }

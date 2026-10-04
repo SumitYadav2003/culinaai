@@ -4,7 +4,8 @@ Every number and warning here comes from code (recipes/insight_service.py), not 
 
 Context:
     insights         the recipe's insights dict (may be empty for older recipes)
-    add_back_recipe  a saved Recipe, to show "Add it back" buttons (optional)
+    add_back_recipe  a saved Recipe, to show "Add it back" and "Cook this version" buttons (optional)
+    cook_versions    True on the generate page: "Cook this version" makes the version there (optional)
 {% endcomment %}
 
 <section class="culina-insights" aria-labelledby="culina-insights-title">
@@ -32,8 +33,21 @@ Context:
         </p>
     {% else %}
 
+        {% if insights.meal_style and insights.meal_style.met is not False %}
+            <p class="culina-meal-style-note{% if insights.meal_style.met %} culina-meal-style-met{% endif %}">
+                <i class="bi {% if insights.meal_style.met %}bi-check-circle-fill{% else %}bi-info-circle{% endif %}" aria-hidden="true"></i>
+                {{ insights.meal_style.text }}
+            </p>
+        {% endif %}
+
         {% if insights.allergens or insights.hidden_allergens or insights.flags %}
             <div class="culina-warning-panel" role="note" aria-label="Warnings">
+                {% if insights.meal_style and insights.meal_style.met is False %}
+                    <p class="culina-warning-line">
+                        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                        <strong>Not everyday healthy:</strong> {{ insights.meal_style.text }}
+                    </p>
+                {% endif %}
                 {% if insights.allergens %}
                     <p class="culina-warning-line">
                         <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
@@ -149,6 +163,83 @@ Context:
                     {% endfor %}
                 </ul>
                 <p class="culina-insights-note">What's missing is found by code. Each reason is checked against your settings and the calculated nutrition before it is shown.</p>
+            </div>
+        {% endif %}
+
+        {% if insights.three_ways %}
+            <div class="culina-insights-card culina-three-ways">
+                <h4>One dish, three ways</h4>
+
+                <div class="culina-your-recipe" role="note">
+                    <p>
+                        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                        {% if insights.basis.version %}
+                            <strong>The recipe above is the {{ insights.basis.version|lower }} version</strong>{% if insights.basis.based_on %} of {{ insights.basis.based_on }}{% endif %}, cooked with the swaps you chose.
+                        {% else %}
+                            <strong>The recipe above is your recipe</strong>, made from your ingredients{% if insights.basis.settings %} and settings ({{ insights.basis.settings|join:", " }}){% endif %}.
+                        {% endif %}
+                        The three cards below are not more recipes: each one is this same dish with up to three ingredients swapped. Your recipe stays as it is unless you choose one.
+                    </p>
+                    <dl class="culina-way-stats culina-your-recipe-stats">
+                        <div><dt>Cost</dt><dd>{% if insights.cost.per_serving is not None %}£{{ insights.cost.per_serving|floatformat:2 }}{% else %}No figure{% endif %}</dd></div>
+                        <div><dt>Carbon</dt><dd>{% if insights.carbon.per_serving is not None %}{{ insights.carbon.per_serving|floatformat:2 }} kg CO₂e{% else %}No figure{% endif %}</dd></div>
+                        <div><dt>Energy</dt><dd>{{ insights.nutrition_rows.0.amount|floatformat:0 }} kcal</dd></div>
+                    </dl>
+                </div>
+
+                <p class="culina-insights-muted">Swaps come from a hand-checked list, or are ideas from the AI for this dish that passed the code's checks (in the food data, safe for your allergies and diet). Every number is worked out by code. Changes are against your recipe, per serving.</p>
+                <div class="culina-three-ways-grid">
+                    {% for version in insights.three_ways %}
+                        <div class="culina-way culina-way-{{ version.goal }}">
+                            <span class="culina-way-title"><i class="bi {{ version.icon }}" aria-hidden="true"></i> {{ version.title }}</span>
+                            {% if version.swaps %}
+                                <ol class="culina-swap-list">
+                                    {% for swap in version.swaps %}
+                                        <li>
+                                            <strong>{{ swap.text }}</strong>
+                                            {% if swap.source == "ai" %}<span class="culina-swap-source">AI idea, checked by code</span>{% endif %}
+                                            <span class="culina-swap-impact">{{ swap.impact }}</span>
+                                            {% if swap.note %}<small>{{ swap.note }}</small>{% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                                <dl class="culina-way-stats">
+                                    {% for stat in version.stats %}
+                                        <div>
+                                            <dt>{{ stat.label }}</dt>
+                                            <dd>{{ stat.value|default:"No figure" }}{% if stat.change %} <small>{{ stat.change }}</small>{% endif %}</dd>
+                                        </div>
+                                    {% endfor %}
+                                </dl>
+                                {% if version.still_high %}
+                                    <p class="culina-way-warning"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> Still high in {{ version.still_high|join:" and " }} after these swaps.</p>
+                                {% endif %}
+                                {% if version.tag == "everyday" %}
+                                    <span class="culina-insights-tag culina-insights-tag-everyday culina-way-tag"><i class="bi bi-check2-circle"></i> Everyday healthy</span>
+                                {% elif version.tag == "treat" %}
+                                    <span class="culina-insights-tag culina-insights-tag-treat culina-way-tag"><i class="bi bi-cake2"></i> Treat</span>
+                                {% endif %}
+                                {% if add_back_recipe %}
+                                    <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form culina-way-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="modification_type" value="custom">
+                                        <input type="hidden" name="custom_instruction" value="{{ version.instruction }}">
+                                        <button type="submit" class="culina-add-back-button"><i class="bi bi-arrow-repeat"></i> Cook this version</button>
+                                    </form>
+                                {% elif cook_versions %}
+                                    <form method="post" action="{% url 'generate_recipe_version' %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form>
+                                        {% csrf_token %}
+                                        <input type="hidden" name="goal" value="{{ version.goal }}">
+                                        <button type="submit" class="culina-add-back-button"><i class="bi bi-arrow-repeat"></i> Cook this version</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <p class="culina-insights-muted">{{ version.message }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <p class="culina-insights-note">Per serving. Cheapest and greenest never turn fat, saturates, sugars or salt to a worse traffic light. Healthiest uses the UK traffic lights and fibre, and may cost more. Where no change is shown, a swapped ingredient has no price or carbon figure, so the change can't be worked out. Swaps skip anything that clashes with your allergies or diet.</p>
             </div>
         {% endif %}
 

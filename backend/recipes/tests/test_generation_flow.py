@@ -22,6 +22,7 @@ FORM = {
     "spice_level": "mild",
     "budget_level": "medium",
     "nutrition_goal": "balanced",
+    "meal_style": "any",
     "cooking_equipment": ["stove"],
 }
 
@@ -41,6 +42,10 @@ class GenerationFlowTests(TestCase):
 
     def setUp(self):
         self.client.force_login(self.user)
+        # No real AI call for swap ideas in tests (tests that need some patch it themselves).
+        ai_swaps = patch("recipes.swap_suggestion_service.ask_ai_for_swaps", return_value=None)
+        self.ask_ai_for_swaps = ai_swaps.start()
+        self.addCleanup(ai_swaps.stop)
 
     @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
     @patch("recipes.views.extract_recipe_structure", side_effect=structure_result)
