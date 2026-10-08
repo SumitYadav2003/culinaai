@@ -75,7 +75,8 @@ html[data-theme="dark"] .culina-chat-error {
 html[data-theme="dark"] .culina-cooking-mode {
     color: #ece3e0;
 }
-html[data-theme="dark"] .cooking-mode-hero,
+html[data-theme="dark"] .cooking-topbar,
+html[data-theme="dark"] .cooking-toolbar,
 html[data-theme="dark"] .cooking-step-sidebar,
 html[data-theme="dark"] .cooking-main-card,
 html[data-theme="dark"] .cooking-timer-card,
@@ -92,11 +93,8 @@ html[data-theme="dark"] .cooking-back-link:hover {
 html[data-theme="dark"] .cooking-eyebrow {
     color: #f4aa77;
 }
-html[data-theme="dark"] .cooking-mode-hero-copy h1 {
+html[data-theme="dark"] .cooking-topbar h1 {
     color: #e3e2eb;
-}
-html[data-theme="dark"] .cooking-mode-hero-copy p {
-    color: #d5c8be;
 }
 html[data-theme="dark"] .cooking-hero-meta span {
     color: #ece3e0;
@@ -108,12 +106,9 @@ html[data-theme="dark"] .cooking-finish-card span {
     color: #f4aa77;
 }
 html[data-theme="dark"] .sidebar-header h2,
-html[data-theme="dark"] .timer-header h2,
-html[data-theme="dark"] .current-step-header h2,
 html[data-theme="dark"] .cooking-finish-card h2 {
     color: #e3e2eb;
 }
-html[data-theme="dark"] .timer-header p,
 html[data-theme="dark"] .cooking-finish-card p {
     color: #d5c8be;
 }
@@ -137,12 +132,12 @@ html[data-theme="dark"] .step-complete-icon {
 html[data-theme="dark"] .cooking-step-link.completed .step-complete-icon {
     color: #91ecb2;
 }
-html[data-theme="dark"] .cooking-progress-card {
-    background: rgba(41, 29, 20, 0.7);
-}
 html[data-theme="dark"] .progress-topline span,
 html[data-theme="dark"] .progress-topline strong {
     color: #d5c8be;
+}
+html[data-theme="dark"] .progress-topline strong {
+    color: #e3e2eb;
 }
 html[data-theme="dark"] .current-step-card {
     background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 34%),
@@ -175,6 +170,82 @@ html[data-theme="dark"] .timer-tip i {
 }
 html[data-theme="dark"] .timer-tip p {
     color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-voice-toggle {
+    background: #291d14;
+    color: #ece3e0;
+}
+html[data-theme="dark"] .cooking-voice-english {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-voice-english select {
+    background: #291d14;
+    color: #ece3e0;
+}
+html[data-theme="dark"] .cooking-voice-status {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-toolbar-link {
+    color: #f6af92;
+}
+html[data-theme="dark"] .cooking-switch-text {
+    color: #ece3e0;
+}
+html[data-theme="dark"] .cooking-voice-notice {
+    background: var(--culina-warning-red-soft, #2c1f15);
+    color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .cooking-toolbar-panel {
+    background: rgba(41, 29, 20, 0.6);
+}
+html[data-theme="dark"] .cooking-toolbar-panel p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-toolbar-panel p strong {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .cooking-toolbar-panel a {
+    color: #f6af92;
+}
+html[data-theme="dark"] .cooking-voice-help-grid div {
+    background: rgba(41, 29, 20, 0.8);
+}
+html[data-theme="dark"] .cooking-voice-help-grid strong {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .cooking-voice-help-grid span {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .cooking-switch-track::after {
+    background: #291d14;
+}
+html[data-theme="dark"] .step-trouble-toggle {
+    color: #f6af92;
+}
+html[data-theme="dark"] .step-trouble-choices button,
+html[data-theme="dark"] .cooking-outcome-buttons button {
+    background: rgba(41, 29, 20, 0.85);
+    color: #ece3e0;
+}
+html[data-theme="dark"] .step-trouble-note,
+html[data-theme="dark"] .cooking-outcome small {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .step-feedback {
+    background: rgba(50, 37, 19, 0.92);
+}
+html[data-theme="dark"] .step-feedback > strong {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .step-feedback-row input {
+    background: #291d14;
+    color: #ece3e0;
+}
+html[data-theme="dark"] .cooking-finish-card .cooking-time-summary {
+    color: #e3e2eb;
+}
+html[data-theme="dark"] .cooking-outcome strong {
+    color: #e3e2eb;
 }
 
 /* ---------- from custom.css ---------- */
@@ -1331,6 +1402,17 @@ html[data-theme="dark"] .culina-nudge-good .user-search-icon {
 }
 html[data-theme="dark"] .culina-nudge-good .user-search-copy strong {
     color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-cooking-controls small,
+html[data-theme="dark"] .culina-cooking-forget p {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-cooking-btn {
+    background: #291d14;
+    color: #ece3e0;
+}
+html[data-theme="dark"] .culina-cooking-forget summary {
+    color: var(--culina-warning-red-text, #efa4a4);
 }
 
 /* ---------- from edit_saved_recipe.css ---------- */

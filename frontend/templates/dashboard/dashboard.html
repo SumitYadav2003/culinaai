@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Command Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=impact-1">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=cooking-profile-2">
 {% endblock %}
 
 {% block content %}
@@ -568,6 +568,170 @@
                             <p>{% if week.total < 2 %}Generate at least 2 recipes this week to see suggestions.{% else %}Nothing stands out this week.{% endif %}</p>
                         </div>
                     {% endif %}
+                </article>
+            </div>
+        </section>
+
+        <!-- What CulinaAI has learned from your cooking (recipes/cooking_learning_service.py) -->
+        <section class="user-analytics-section culina-cooking-profile" id="cooking-profile">
+            <div class="user-analytics-header">
+                <div>
+                    <span>
+                        <i class="bi bi-person-gear"></i>
+                        Your cooking profile
+                    </span>
+
+                    <h2>What CulinaAI has learned from your cooking</h2>
+
+                    <p>
+                        From cooking mode: how long each step was open, any “Had trouble?” choices and how dishes turned out.
+                        Learning from your cooking is <strong>{% if cooking_profile.learning %}on{% else %}off{% endif %}</strong>.
+                    </p>
+                </div>
+
+                <div class="user-analytics-status">
+                    <i class="bi bi-fire"></i>
+                    {{ cooking_profile.cooked }} cooking session{{ cooking_profile.cooked|pluralize }}
+                </div>
+            </div>
+
+            <div class="user-kpi-grid">
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-check2-all"></i>
+                    </div>
+
+                    <span>Dishes cooked</span>
+                    <h3>{% if cooking_profile.cooked %}{{ cooking_profile.finished }} of {{ cooking_profile.cooked }}{% else %}None yet{% endif %}</h3>
+                    <p>{% if cooking_profile.cooked %}Sessions where you finished every step, out of all sessions where you completed at least one.{% else %}Open a saved recipe and press Cook to start.{% endif %}</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-stopwatch-fill"></i>
+                    </div>
+
+                    <span>Your pace</span>
+                    <h3>{% if cooking_profile.pace.ratio %}{{ cooking_profile.pace.words }}{% else %}Not enough yet{% endif %}</h3>
+                    <p>
+                        {% if cooking_profile.pace.ratio %}
+                            Middle value over {{ cooking_profile.pace.steps }} completed steps where the recipe gives a time.
+                        {% else %}
+                            Needs {{ cooking_profile.pace.needed }} completed steps where the recipe gives a time ({{ cooking_profile.pace.steps }} so far).
+                        {% endif %}
+                    </p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-question-circle-fill"></i>
+                    </div>
+
+                    <span>Had trouble</span>
+                    <h3>{% if cooking_profile.trouble_total %}{{ cooking_profile.trouble_total }} step{{ cooking_profile.trouble_total|pluralize }}{% else %}None yet{% endif %}</h3>
+                    <p>
+                        {% if cooking_profile.trouble_total %}
+                            Most often: {{ cooking_profile.top_trouble|lower }}. {{ cooking_profile.went_fine }} step{{ cooking_profile.went_fine|pluralize }} went fine.
+                        {% else %}
+                            {% if cooking_profile.went_fine %}{{ cooking_profile.went_fine }} step{{ cooking_profile.went_fine|pluralize }} went fine. {% endif %}From “How did this step go?” in cooking mode.
+                        {% endif %}
+                    </p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-emoji-smile-fill"></i>
+                    </div>
+
+                    <span>How it turned out</span>
+                    <h3>{% if cooking_profile.rated %}{% for item in cooking_profile.outcomes %}{{ item.count }} {% if item.key == "great" %}great{% elif item.key == "ok" %}OK{% else %}not good{% endif %}{% if not forloop.last %} · {% endif %}{% endfor %}{% else %}Not rated yet{% endif %}</h3>
+                    <p>From “How did it turn out?” at the end of cooking mode.</p>
+                </article>
+            </div>
+
+            <div class="user-analytics-list-grid">
+                <article class="user-list-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Recent</span>
+                            <h3>What you said about steps</h3>
+                            <p>Your latest answers to “How did this step go?”, with your own words.</p>
+                        </div>
+
+                        <i class="bi bi-list-check"></i>
+                    </div>
+
+                    {% if cooking_profile.recent_trouble %}
+                        <div class="user-search-list">
+                            {% for item in cooking_profile.recent_trouble %}
+                                <div class="user-search-item">
+                                    <div class="user-search-icon"><i class="bi {% if item.trouble %}bi-flag{% else %}bi-chat-left-quote{% endif %}"></i></div>
+                                    <div class="user-search-copy">
+                                        <strong>{{ item.reason }}: step {{ item.number }}, {{ item.recipe }}</strong>
+                                        <span>{% if item.note %}“{{ item.note }}”{% else %}{{ item.step }}{% endif %}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="user-empty-mini">
+                            <i class="bi bi-hand-thumbs-up"></i>
+                            <p>Nothing yet. After each step in cooking mode, CulinaAI asks how it went.</p>
+                        </div>
+                    {% endif %}
+                </article>
+
+                <article class="user-list-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Your data</span>
+                            <h3>Learning controls</h3>
+                            <p>
+                                Hands-free voice used in {{ cooking_profile.voice_sessions }} session{{ cooking_profile.voice_sessions|pluralize }}.
+                                Steps you asked to hear again 2 or more times: {{ cooking_profile.repeated_steps }}.
+                            </p>
+                        </div>
+
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+
+                    <div class="culina-cooking-controls">
+                        <form method="post" action="{% url 'cooking_settings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{% url 'dashboard' %}#cooking-profile">
+                            {% if cooking_profile.learning %}
+                                <input type="hidden" name="learn" value="off">
+                                <button type="submit" class="culina-cooking-btn">
+                                    <i class="bi bi-pause-circle"></i>
+                                    Turn learning off
+                                </button>
+                                <small>Stops new records. What's already saved stays until you delete it.</small>
+                            {% else %}
+                                <input type="hidden" name="learn" value="on">
+                                <button type="submit" class="culina-cooking-btn">
+                                    <i class="bi bi-play-circle"></i>
+                                    Turn learning on
+                                </button>
+                                <small>Nothing is recorded while learning is off.</small>
+                            {% endif %}
+                        </form>
+
+                        {% if cooking_profile.cooked %}
+                            <details class="culina-cooking-forget">
+                                <summary>
+                                    <i class="bi bi-trash3"></i>
+                                    Delete my cooking history
+                                </summary>
+
+                                <form method="post" action="{% url 'cooking_forget' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{% url 'dashboard' %}#cooking-profile">
+                                    <p>This deletes all {{ cooking_profile.cooked }} cooking session{{ cooking_profile.cooked|pluralize }} and can't be undone.</p>
+                                    <button type="submit" class="culina-cooking-btn danger">Yes, delete it</button>
+                                </form>
+                            </details>
+                        {% endif %}
+                    </div>
                 </article>
             </div>
         </section>

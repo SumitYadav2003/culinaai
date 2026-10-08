@@ -743,3 +743,137 @@ class CookingChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender}: {self.message[:60]}"
+
+# ---------------------------------------------------------------------------
+# Learning from how the user cooks (cooking mode)
+# ---------------------------------------------------------------------------
+
+class CookingSettings(models.Model):
+    """
+    One row per user: whether cooking mode may record how they cook, and
+    which English the hands-free voice listens for and speaks.
+    Learning is on by default; cooking mode says so and has an off switch.
+    """
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="cooking_settings",
+    )
+
+    learn_from_cooking = models.BooleanField(default=True)
+
+    # "" means not chosen yet: cooking mode then uses the browser's language.
+    english = models.CharField(max_length=10, blank=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        state = "on" if self.learn_from_cooking else "off"
+        return f"{self.user.username}: learning {state}"
+
+
+class CookingSession(models.Model):
+    """One visit to cooking mode in which the user did something (a step, a timer, a voice command)."""
+
+    OUTCOME_GREAT = "great"
+    OUTCOME_OK = "ok"
+    OUTCOME_BAD = "bad"
+
+    OUTCOME_CHOICES = [
+        (OUTCOME_GREAT, "Turned out great"),
+        (OUTCOME_OK, "It was OK"),
+        (OUTCOME_BAD, "Didn't go well"),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="cooking_sessions",
+    )
+
+    # Kept if the recipe is deleted, so the profile doesn't lose what it learned.
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="cooking_sessions",
+    )
+
+    recipe_title = models.CharField(max_length=200)
+    cuisine_name = models.CharField(max_length=120, blank=True)
+
+    steps_total = models.PositiveSmallIntegerField(default=0)
+    steps_completed = models.PositiveSmallIntegerField(default=0)
+
+    # Sum of the time each step was open, in seconds.
+    active_seconds = models.PositiveIntegerField(default=0)
+
+    finished = models.BooleanField(default=False)
+    outcome = models.CharField(max_length=10, choices=OUTCOME_CHOICES, blank=True)
+    voice_used = models.BooleanField(default=False)
+
+    started_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-started_at"]
+        indexes = [models.Index(fields=["user", "started_at"])]
+
+    def __str__(self):
+        return f"{self.user.username}: {self.recipe_title} ({self.steps_completed}/{self.steps_total})"
+
+
+class CookingStepRecord(models.Model):
+    """What happened on one step of one cooking session."""
+
+    TROUBLE_LONGER = "longer"
+    TROUBLE_UNCLEAR = "unclear"
+    TROUBLE_TECHNIQUE = "technique"
+
+    TROUBLE_CHOICES = [
+        (TROUBLE_LONGER, "Took longer"),
+        (TROUBLE_UNCLEAR, "Instructions unclear"),
+        (TROUBLE_TECHNIQUE, "Tricky technique"),
+    ]
+
+    session = models.ForeignKey(
+        CookingSession,
+        on_delete=models.CASCADE,
+        related_name="steps",
+    )
+
+    number = models.PositiveSmallIntegerField()
+
+    # Copied from the recipe on the server, never from the browser.
+    text = models.TextField(blank=True)
+
+    planned_minutes = models.PositiveSmallIntegerField(default=0)
+
+    # True when the step's own text gives a time ("simmer for 10 minutes"),
+    # False when the timer is the recipe's total time shared across steps.
+    timer_from_text = models.BooleanField(default=False)
+
+    seconds_open = models.PositiveIntegerField(default=0)
+    timer_used = models.BooleanField(default=False)
+
+    # Times the user asked to hear this step again.
+    repeats = models.PositiveSmallIntegerField(default=0)
+
+    trouble = models.CharField(max_length=10, choices=TROUBLE_CHOICES, blank=True)
+
+    # From "How did this step go?" after the step: "Went fine", and the cook's own words.
+    went_fine = models.BooleanField(default=False)
+    note = models.CharField(max_length=300, blank=True)
+
+    completed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["session", "number"]
+        constraints = [
+            models.UniqueConstraint(fields=["session", "number"], name="unique_step_per_cooking_session"),
+        ]
+
+    def __str__(self):
+        return f"Step {self.number} of session {self.session_id}"
