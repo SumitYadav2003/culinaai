@@ -351,6 +351,63 @@ def estimate_step_minutes(step_text, default_minutes):
     return max(1, int(default_minutes or 3))
 
 
+# What kind of step this is, so learning never changes the wrong timer:
+# - "waiting": the oven, the pan or time does the work (bake, roast, simmer, rest,
+#   marinate...). These times stay exactly as the recipe says.
+# - "hands_on": the cook does the work (chop, mix, knead, shape...). These can be
+#   adjusted to the cook's pace.
+# - "cooking": active work at the hob (fry, sauté, stir). Heat-led, so not adjusted.
+NOT_A_METHOD = re.compile(
+    r"\b(?:roasting|baking)\s+(?:tin|tray|dish|sheet|pan|paper|powder|soda|parchment)\b",
+    re.IGNORECASE,
+)
+
+WAITING_PATTERN = re.compile(
+    r"\b(?:bake|baked|baking|roast|roasted|roasting|simmer|simmering|boil|boiling|rest|resting|"
+    r"marinate|marinating|chill|chilling|refrigerate|freeze|cool|cooling|prove|proving|rise|rising|"
+    r"steam|steaming|poach|poaching|braise|braising|stew|stewing|preheat|microwave|grill|grilling|"
+    r"broil|soak|soaking|slow[- ]cook|pressure[- ]cook|air[- ]fry|toast|toasting|leave\s+(?:it\s+)?to)\b",
+    re.IGNORECASE,
+)
+
+HANDS_ON_PATTERN = re.compile(
+    r"\b(?:chop|chopped|slice|sliced|dice|diced|mince|peel|grate|crush|mix|whisk|combine|knead|shape|"
+    r"roll|fold|assemble|mash|blend|season|coat|stuff|wrap|spread|layer|cut|trim|beat|rub|toss|arrange|"
+    r"form|portion|drain|rinse|wash|pat|tear|measure|weigh|prepare|prep)\b",
+    re.IGNORECASE,
+)
+
+
+def step_kind(step_text):
+    """'waiting', 'hands_on' or 'cooking' for one step (see above)."""
+    text = NOT_A_METHOD.sub(" ", step_text or "")
+    if WAITING_PATTERN.search(text):
+        return "waiting"
+    if HANDS_ON_PATTERN.search(text):
+        return "hands_on"
+    return "cooking"
+
+
+def adjust_step_timers(cooking_steps, ratio):
+    """
+    Scales the timers of hands-on steps by the cook's pace (for example 1.3 =
+    30% more time). Waiting and hob steps keep the recipe's time. Each adjusted
+    step keeps its original as recipe_minutes. Returns how many changed.
+    """
+    changed = 0
+    for step in cooking_steps:
+        if step.get("kind") != "hands_on":
+            continue
+        recipe_minutes = step["timer_minutes"]
+        adjusted = max(1, min(60, round(recipe_minutes * ratio)))
+        if adjusted != recipe_minutes:
+            step["recipe_minutes"] = recipe_minutes
+            step["timer_minutes"] = adjusted
+            step["adjusted"] = True
+            changed += 1
+    return changed
+
+
 def make_step_title(step_text):
     """
     Builds a short title from the step text.
@@ -401,6 +458,7 @@ def build_cooking_mode_context(recipe):
                 "timer_minutes": timer_minutes,
                 # True when the step itself says how long ("simmer for 10 minutes").
                 "timer_from_text": bool(TIME_PATTERN.search(step_text or "")),
+                "kind": step_kind(step_text),
             }
         )
 

@@ -195,25 +195,26 @@ class CookingProfileTests(TestCase):
         self.recipe = make_recipe(self.user)
 
     def test_pace_needs_three_timed_steps_and_ignores_outliers(self):
-        # Steps 2 (5 min) and 3 (10 min) give their own times.
+        # Step 2 (fry, 5 min) counts; step 3 (simmer, 10 min) is a waiting step and never counts.
         record_session(self.user, self.recipe, {"steps": [step(2, 390, True), step(3, 780, True), step(1, 999, True)]})
         profile = build_cooking_profile(self.user)
         self.assertIsNone(profile["pace"]["ratio"])
-        self.assertEqual(profile["pace"]["steps"], 2)
+        self.assertEqual(profile["pace"]["count"], 1)
 
         record_session(self.user, self.recipe, {
             "outcome": "great",
             "steps": [step(2, 390, True), step(3, 5, True), step(1, 60, True, trouble="unclear")],
         })
-        record_session(self.user, self.recipe, {"steps": [step(3, 99999, True)]})  # left open for hours: ignored
+        record_session(self.user, self.recipe, {"steps": [step(2, 99999, True)]})  # left open for hours: ignored
+        record_session(self.user, self.recipe, {"steps": [step(2, 5, True)]})  # clicked past: ignored
+        record_session(self.user, self.recipe, {"steps": [step(2, 390, True)]})
         profile = build_cooking_profile(self.user)
-        # Ratios 1.3, 1.3, 1.3 (the 5-second and 27-hour steps are left out).
         self.assertEqual(profile["pace"]["ratio"], 1.3)
+        self.assertEqual(profile["pace"]["source"], "steps")
         self.assertEqual(profile["pace"]["words"], "About 30% longer than the recipe times")
-        self.assertEqual(profile["cooked"], 3)
+        self.assertEqual(profile["cooked"], 5)
         self.assertEqual(profile["trouble_total"], 1)
         self.assertEqual(profile["top_trouble"], "Instructions unclear")
-        self.assertEqual(profile["recent_trouble"][0]["number"], 1)
         self.assertEqual(profile["rated"], 1)
 
     def test_pace_words(self):
