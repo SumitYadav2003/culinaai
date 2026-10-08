@@ -1600,3 +1600,32 @@ body:has(.culina-command-center) .command-hero {
 .culina-cooking-forget form {
     margin-top: 0.6rem;
 }
+
+.culina-cooking-using {
+    margin-bottom: 1.2rem;
+    padding: 1rem 1.2rem;
+    border-radius: 22px;
+    background: #f0fdf4;
+    border: 1px solid rgba(21, 128, 61, 0.3);
+}
+
+.culina-cooking-using strong {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #166534;
+    font-weight: 950;
+}
+
+.culina-cooking-using p {
+    margin: 0.35rem 0 0;
+    color: #14532d;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.culina-cooking-using-empty {
+    margin: 0 0 1.2rem;
+    color: #6f5948;
+    font-weight: 750;
+}

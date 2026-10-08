@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Command Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=cooking-profile-2">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=cooking-profile-3">
 {% endblock %}
 
 {% block content %}
@@ -595,6 +595,20 @@
                 </div>
             </div>
 
+            {% if cooking_profile.using %}
+                <div class="culina-cooking-using">
+                    <strong><i class="bi bi-person-check"></i> What CulinaAI is doing with this</strong>
+                    {% for line in cooking_profile.using %}
+                        <p>{{ line }}</p>
+                    {% endfor %}
+                </div>
+            {% elif cooking_profile.learning %}
+                <p class="culina-cooking-using-empty">
+                    Nothing is adjusted yet. CulinaAI starts adjusting timers and new recipes once it has enough of your cooking
+                    (a few timed steps, or the same kind of trouble at least twice).
+                </p>
+            {% endif %}
+
             <div class="user-kpi-grid">
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
@@ -614,10 +628,12 @@
                     <span>Your pace</span>
                     <h3>{% if cooking_profile.pace.ratio %}{{ cooking_profile.pace.words }}{% else %}Not enough yet{% endif %}</h3>
                     <p>
-                        {% if cooking_profile.pace.ratio %}
-                            Middle value over {{ cooking_profile.pace.steps }} completed steps where the recipe gives a time.
+                        {% if cooking_profile.pace.ratio and cooking_profile.pace.source == "steps" %}
+                            Middle value over {{ cooking_profile.pace.count }} completed steps where the recipe gives a time (oven and simmering steps left out).
+                        {% elif cooking_profile.pace.ratio %}
+                            Middle value over {{ cooking_profile.pace.count }} finished dishes, against the recipe's own step times.
                         {% else %}
-                            Needs {{ cooking_profile.pace.needed }} completed steps where the recipe gives a time ({{ cooking_profile.pace.steps }} so far).
+                            Needs {{ cooking_profile.pace.needed }} timed steps or 2 finished dishes in cooking mode.
                         {% endif %}
                     </p>
                 </article>

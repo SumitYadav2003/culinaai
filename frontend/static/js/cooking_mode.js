@@ -154,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let sendAgain = false;
   let sendTimeout = null;
   let outcome = "";
+  let usingAdjustedTimers = Boolean(config.timers_adjusted);
   let voiceUsed = false;
   let stepOpenedAt = Date.now();
 
@@ -190,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return {
       session_id: sessionId,
       voice_used: voiceUsed,
+      timers_adjusted: usingAdjustedTimers,
       outcome: outcome,
       steps: stepStats
         .map(function (stats, index) {
@@ -926,6 +928,49 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   setLearning(learning, false);
+
+  // ---------------------------------------------------------------------
+  // "Adjusted for you": switch hands-on timers between your pace and the recipe's
+  // ---------------------------------------------------------------------
+
+  const useRecipeTimesBtn = document.getElementById("useRecipeTimesBtn");
+  const stepTimerLabels = Array.from(document.querySelectorAll("[data-step-timer-label]"));
+
+  function applyTimerChoice() {
+    steps.forEach(function (step, index) {
+      if (step.recipe_minutes === undefined) {
+        return;
+      }
+
+      if (step.adjusted_minutes === undefined) {
+        step.adjusted_minutes = step.timer_minutes;
+      }
+
+      step.timer_minutes = usingAdjustedTimers ? step.adjusted_minutes : step.recipe_minutes;
+
+      if (stepTimerLabels[index]) {
+        stepTimerLabels[index].textContent =
+          step.timer_minutes + " min timer" + (usingAdjustedTimers ? " · adjusted" : "");
+      }
+    });
+
+    if (useRecipeTimesBtn) {
+      useRecipeTimesBtn.textContent = usingAdjustedTimers ? "Use the recipe's times" : "Use my adjusted times";
+      useRecipeTimesBtn.setAttribute("aria-pressed", usingAdjustedTimers ? "false" : "true");
+    }
+
+    if (!timerRunning) {
+      resetTimerForCurrentStep();
+    }
+  }
+
+  if (useRecipeTimesBtn) {
+    useRecipeTimesBtn.addEventListener("click", function () {
+      usingAdjustedTimers = !usingAdjustedTimers;
+      applyTimerChoice();
+      noteActivity();
+    });
+  }
 
   // ---------------------------------------------------------------------
   // Toolbar panels: "What can I say?" and "What's saved?"

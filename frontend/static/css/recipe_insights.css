@@ -643,3 +643,20 @@ small.culina-phone-only {
         display: block;
     }
 }
+
+
+/* "Adjusted for you": the recipe was written using the cook's history (cooking_learning_service.py) */
+.culina-personal-note {
+    background: #dcfce7;
+    color: #14532d;
+}
+
+.culina-personal-note i {
+    color: #15803d;
+}
+
+.culina-personal-note a {
+    margin-left: 0.25rem;
+    color: #c2410c;
+    font-weight: 800;
+}
