@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Small swaps, real difference | CulinaAI{% endblock %}
+
+{% block content %}
+{% comment %}
+How CulinaAI relates to four UN Sustainable Development Goals.
+- The swap example is worked out live by code (recipes/impact_service.swap_example).
+- "Your kitchen so far" uses the signed-in user's own recipes (build_impact_context).
+- Every claim points to a feature that exists; sources and limits are in "The fine print".
+Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.css.
+{% endcomment %}
+
+<section class="about-page-section sdg-page">
+
+    <!-- Hero -->
+    <div class="about-hero-wrap">
+        <div class="container">
+            <div class="about-hero-card">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-7">
+                        <span class="about-eyebrow">
+                            <i class="bi bi-globe-europe-africa"></i>
+                            Cooking and the UN goals
+                        </span>
+
+                        <h1>Small swaps. Real difference.</h1>
+
+                        <p>
+                            What you cook every day adds up: for your wallet, your health and the planet.
+                            CulinaAI shows you the numbers for every recipe, so the better choice is an easy one.
+                        </p>
+
+                        <div class="about-hero-actions">
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'generate_recipe' %}" class="about-primary-btn">
+                                    <i class="bi bi-magic"></i>
+                                    Cook something better
+                                </a>
+                                <a href="{% url 'dashboard' %}#impact" class="about-secondary-btn">
+                                    <i class="bi bi-speedometer2"></i>
+                                    See your impact
+                                </a>
+                            {% else %}
+                                <a href="{% url 'signup' %}" class="about-primary-btn">
+                                    <i class="bi bi-person-plus"></i>
+                                    Start cooking smarter
+                                </a>
+                                <a href="{% url 'about_culinaai' %}" class="about-secondary-btn">
+                                    <i class="bi bi-info-circle"></i>
+                                    About CulinaAI
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        {% if impact and impact.recipes %}
+                            <div class="sdg-hero-panel">
+                                <span class="sdg-hero-panel-label">Your kitchen so far</span>
+                                <div class="sdg-hero-stat">
+                                    <strong>{{ impact.recipes }}</strong>
+                                    <span>recipe{{ impact.recipes|pluralize }} with cost, health and carbon worked out</span>
+                                </div>
+                                {% if impact.judged %}
+                                    <div class="sdg-hero-stat">
+                                        <strong>{{ impact.everyday }} of {{ impact.judged }}</strong>
+                                        <span>everyday healthy</span>
+                                    </div>
+                                {% endif %}
+                                <div class="sdg-hero-stat">
+                                    {% if impact.versions.count and impact.versions.money is not None %}
+                                        <strong>£{{ impact.versions.money|floatformat:2 }}</strong>
+                                        <span>saved by the versions you cooked</span>
+                                    {% else %}
+                                        <strong>Next</strong>
+                                        <span>cook a cheaper or greener version and watch this grow</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="sdg-hero-panel">
+                                <span class="sdg-hero-panel-label">Every recipe shows</span>
+                                <div class="sdg-hero-stat"><strong>£</strong><span>what it costs per serving</span></div>
+                                <div class="sdg-hero-stat"><strong><i class="bi bi-heart-pulse"></i></strong><span>how healthy it is, on the UK traffic lights</span></div>
+                                <div class="sdg-hero-stat"><strong>CO₂e</strong><span>what it emits, and how to cut it</span></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- One swap, worked out -->
+    {% if example %}
+        <section class="about-content-section">
+            <div class="container">
+                <div class="about-section-heading text-center">
+                    <span>One swap, worked out</span>
+                    <h2>£{{ example.per_serving.money|floatformat:2 }} cheaper and {{ example.per_serving.carbon|floatformat:1 }} kg CO₂e lighter, per serving.</h2>
+                    <p>
+                        A real example, calculated by code from UK food data and supermarket prices
+                        each time this page loads.
+                    </p>
+                </div>
+
+                <div class="sdg-swap">
+                    <div class="sdg-dish">
+                        <span class="sdg-dish-label">Classic</span>
+                        <h3>{{ example.title }}</h3>
+                        <dl>
+                            <div><dt>Cost</dt><dd>£{{ example.before.cost|floatformat:2 }}</dd></div>
+                            <div><dt>Carbon</dt><dd>{{ example.before.carbon|floatformat:1 }} kg CO₂e</dd></div>
+                            <div><dt>Saturated fat</dt><dd>{{ example.before.saturates }} g</dd></div>
+                            <div><dt>Fibre</dt><dd>{{ example.before.fibre }} g</dd></div>
+                        </dl>
+                        <small>Per serving</small>
+                    </div>
+
+                    <div class="sdg-swap-arrow" aria-hidden="true">
+                        <i class="bi bi-arrow-right-circle-fill"></i>
+                    </div>
+
+                    <div class="sdg-dish sdg-dish-after">
+                        <span class="sdg-dish-label">One swap</span>
+                        <h3>{{ example.swap }}</h3>
+                        <dl>
+                            <div><dt>Cost</dt><dd>£{{ example.after.cost|floatformat:2 }}</dd></div>
+                            <div><dt>Carbon</dt><dd>{{ example.after.carbon|floatformat:1 }} kg CO₂e</dd></div>
+                            <div><dt>Saturated fat</dt><dd>{{ example.after.saturates }} g</dd></div>
+                            <div><dt>Fibre</dt><dd>{{ example.after.fibre }} g</dd></div>
+                        </dl>
+                        <small>{{ example.note }}</small>
+                    </div>
+                </div>
+
+                <!-- Your household: the sliders multiply the per-serving saving worked out above.
+                     Without JavaScript, the figures for a family of 4, once a week, still show. -->
+                <div class="sdg-year" data-sdg-household
+                     data-money="{{ example.per_serving_exact.money|stringformat:'s' }}"
+                     data-carbon="{{ example.per_serving_exact.carbon|stringformat:'s' }}">
+                    <p class="sdg-year-intro">Make it your household: what would this one swap add up to in a year?</p>
+
+                    <div class="sdg-sliders">
+                        <label class="sdg-slider">
+                            <span>People you cook for <strong data-sdg-people-value>{{ example.people }}</strong></span>
+                            <input type="range" min="1" max="8" step="1" value="{{ example.people }}" data-sdg-people
+                                   aria-label="People you cook for">
+                        </label>
+                        <label class="sdg-slider">
+                            <span>Times a week you cook it <strong data-sdg-times-value>1</strong></span>
+                            <input type="range" min="1" max="7" step="1" value="1" data-sdg-times
+                                   aria-label="Times a week you cook it">
+                        </label>
+                    </div>
+
+                    <div class="sdg-year-grid" aria-live="polite">
+                        <div>
+                            <strong data-sdg-money>£{{ example.year.money|floatformat:"0g" }}</strong>
+                            <span>saved in a year</span>
+                        </div>
+                        <div>
+                            <strong data-sdg-carbon>{{ example.year.carbon|floatformat:"0g" }} kg</strong>
+                            <span>CO₂e avoided in a year</span>
+                        </div>
+                        <div>
+                            <strong data-sdg-meals>{{ example.year.meals|floatformat:"0g" }}</strong>
+                            <span>servings a year</span>
+                        </div>
+                    </div>
+
+                    <p class="sdg-year-note">Per-serving saving × people × times a week × 52 weeks. Still the same family bolognese.</p>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- Four goals, one kitchen -->
+    <section class="about-services-section">
+        <div class="container">
+            <div class="about-section-heading text-center">
+                <span>Four goals, one kitchen</span>
+                <h2>Your everyday cooking touches four UN goals.</h2>
+                <p>Each one starts with something you can do tonight.</p>
+            </div>
+
+            <div class="sdg-goal-grid">
+                <article class="sdg-goal sdg-goal-1">
+                    <span class="sdg-goal-number">1</span>
+                    <h3>No Poverty</h3>
+                    <p class="sdg-goal-do">Spend less on good food.</p>
+                    <p>Supports food affordability: every recipe shows its cost per serving, and the Cheapest card shows what each swap saves.</p>
+                </article>
+
+                <article class="sdg-goal sdg-goal-2">
+                    <span class="sdg-goal-number">2</span>
+                    <h3>Zero Hunger</h3>
+                    <p class="sdg-goal-do">Turn what you have into a proper meal.</p>
+                    <p>Recipes start from your own ingredients, your Smart Pantry or a photo of your fridge.</p>
+                </article>
+
+                <article class="sdg-goal sdg-goal-3">
+                    <span class="sdg-goal-number">3</span>
+                    <h3>Good Health and Well-being</h3>
+                    <p class="sdg-goal-do">Know what's on your plate.</p>
+                    <p>UK traffic lights, allergen alerts and a Healthiest card, all checked by code.</p>
+                </article>
+
+                <article class="sdg-goal sdg-goal-12">
+                    <span class="sdg-goal-number">12</span>
+                    <h3>Responsible Consumption</h3>
+                    <p class="sdg-goal-do">Waste less, emit less.</p>
+                    <p>See each dish's carbon, cook the Greenest version, and use food before it expires.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Start with one -->
+    <section class="about-content-section">
+        <div class="container">
+            <div class="about-section-heading text-center">
+                <span>Start with one</span>
+                <h2>Three steps, next time you cook.</h2>
+            </div>
+
+            <div class="sdg-steps">
+                <div class="sdg-step">
+                    <span>1</span>
+                    <h3>Pick “Everyday healthy”</h3>
+                    <p>CulinaAI checks the recipe against the UK traffic lights and tries again if it misses.</p>
+                </div>
+                <div class="sdg-step">
+                    <span>2</span>
+                    <h3>Look at the three cards</h3>
+                    <p>Cheapest, healthiest and greenest: the same dish with up to three swaps.</p>
+                </div>
+                <div class="sdg-step">
+                    <span>3</span>
+                    <h3>Cook a version</h3>
+                    <p>Your dashboard adds up what your choices saved, week by week.</p>
+                </div>
+            </div>
+
+            <div class="text-center sdg-steps-cta">
+                <a href="{% if user.is_authenticated %}{% url 'generate_recipe' %}{% else %}{% url 'signup' %}{% endif %}" class="about-primary-btn">
+                    <i class="bi bi-magic"></i>
+                    Try it on your next recipe
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- The fine print -->
+    <section class="about-responsibility-section">
+        <div class="container">
+            <details class="sdg-fine-print">
+                <summary><i class="bi bi-shield-check"></i> The fine print: where the numbers come from, and what they can't do</summary>
+                <ul>
+                    <li><strong>Nutrition:</strong> UK CoFID 2021 food composition data, with a few USDA foods, each labelled. Raw ingredient weights, so cooking changes the real figures a little.</li>
+                    <li><strong>Health levels:</strong> UK front-of-pack traffic lights and UK nutrition claim conditions. Not medical or dietary advice.</li>
+                    <li><strong>Cost:</strong> ONS average prices (August 2026) and Tesco, Sainsbury's and Morrisons prices (October 2026). Prices vary by shop and week.</li>
+                    <li><strong>Carbon:</strong> global averages per kg of food from Poore &amp; Nemecek (2018), via Our World in Data. Beef uses the beef-herd figure; UK beef from dairy herds is about a third of that, so beef savings may read high.</li>
+                    <li><strong>The example:</strong> worked out by the same code as every recipe page. The yearly figure simply multiplies one serving's saving by 208 servings.</li>
+                    <li><strong>Your figures:</strong> from the recipes you generated, not the meals you ate.</li>
+                    <li><strong>The goals:</strong> CulinaAI gives people information and choices that relate to UN Sustainable Development Goals 1, 2, 3 and 12 (including targets 2.1, 12.3 and 12.8). It does not measure progress towards them.</li>
+                </ul>
+            </details>
+        </div>
+    </section>
+
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // "Make it your household": yearly saving = per-serving saving x people x times a week x 52.
+  // The per-serving figures come from the server (recipes/impact_service.swap_example).
+  (function () {
+    var box = document.querySelector("[data-sdg-household]");
+    if (!box) return;
+
+    var money = parseFloat(box.dataset.money);
+    var carbon = parseFloat(box.dataset.carbon);
+    var people = box.querySelector("[data-sdg-people]");
+    var times = box.querySelector("[data-sdg-times]");
+    var number = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 0 });
+
+    function update() {
+      var servings = Number(people.value) * Number(times.value) * 52;
+      box.querySelector("[data-sdg-people-value]").textContent = people.value;
+      box.querySelector("[data-sdg-times-value]").textContent = times.value;
+      box.querySelector("[data-sdg-money]").textContent = "£" + number.format(Math.round(money * servings));
+      box.querySelector("[data-sdg-carbon]").textContent = number.format(Math.round(carbon * servings)) + " kg";
+      box.querySelector("[data-sdg-meals]").textContent = number.format(servings);
+    }
+
+    people.addEventListener("input", update);
+    times.addEventListener("input", update);
+  })();
+</script>
+{% endblock %}

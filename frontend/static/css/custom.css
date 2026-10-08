@@ -6877,3 +6877,388 @@ body.modal-open .pantry-item-card:hover {
         grid-template-columns: 1fr !important;
     }
 }
+/* =========================================================
+   SDG impact page (templates/pages/sdg_impact.html)
+   Uses the About page's sections; only the extras live here.
+   Goal colours are the UN's own SDG colours, used for the numbers only.
+   ========================================================= */
+
+.sdg-hero-panel {
+    padding: 26px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sdg-hero-panel-label {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--culina-gold);
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sdg-hero-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sdg-hero-stat strong {
+    flex: 0 0 auto;
+    min-width: 92px;
+    color: var(--culina-white);
+    font-size: 1.7rem;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+}
+
+.sdg-hero-stat span {
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: 650;
+}
+
+/* One swap, worked out */
+.sdg-swap {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.sdg-dish {
+    height: 100%;
+    padding: 28px;
+    border-radius: 28px;
+    background: var(--culina-white);
+    border: 1px solid rgba(31, 26, 23, 0.08);
+    box-shadow: 0 18px 45px rgba(31, 26, 23, 0.08);
+}
+
+.sdg-dish-after {
+    background: #f0fdf4;
+    border-color: rgba(22, 163, 74, 0.35);
+}
+
+.sdg-dish-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--culina-orange-dark);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sdg-dish-after .sdg-dish-label {
+    color: #15803d;
+}
+
+.sdg-dish h3 {
+    margin-bottom: 16px;
+    color: var(--culina-dark);
+    font-size: 1.3rem;
+    font-weight: 950;
+}
+
+.sdg-dish dl {
+    margin: 0 0 12px;
+}
+
+.sdg-dish dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(31, 26, 23, 0.08);
+}
+
+.sdg-dish dt {
+    color: var(--culina-muted);
+    font-weight: 700;
+}
+
+.sdg-dish dd {
+    margin: 0;
+    color: var(--culina-dark);
+    font-weight: 900;
+}
+
+.sdg-dish small {
+    color: var(--culina-muted);
+}
+
+.sdg-swap-arrow {
+    color: var(--culina-green);
+    font-size: 2.6rem;
+}
+
+.sdg-year {
+    margin-top: 28px;
+    padding: 28px;
+    border-radius: 28px;
+    background: var(--culina-cream);
+    border: 1px solid rgba(124, 74, 34, 0.12);
+    text-align: center;
+}
+
+.sdg-year-intro {
+    margin-bottom: 18px;
+    color: var(--culina-dark);
+    font-weight: 750;
+}
+
+.sdg-year-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.sdg-year-grid strong {
+    display: block;
+    color: var(--culina-orange-dark);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 950;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+}
+
+.sdg-year-grid span {
+    color: var(--culina-muted);
+    font-weight: 700;
+}
+
+/* Four goals, one kitchen */
+.sdg-goal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.sdg-goal {
+    padding: 26px;
+    border-radius: 28px;
+    background: var(--culina-white);
+    border: 1px solid rgba(31, 26, 23, 0.08);
+    box-shadow: 0 18px 45px rgba(31, 26, 23, 0.06);
+}
+
+.sdg-goal-number {
+    width: 58px;
+    height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 18px;
+    font-size: 1.6rem;
+    font-weight: 950;
+}
+
+/* UN SDG colours; dark text where white would be hard to read */
+.sdg-goal-1 .sdg-goal-number {
+    background: #e5243b;
+    color: #ffffff;
+}
+
+.sdg-goal-2 .sdg-goal-number {
+    background: #dda63a;
+    color: #1f1a17;
+}
+
+.sdg-goal-3 .sdg-goal-number {
+    background: #4c9f38;
+    color: #ffffff;
+}
+
+.sdg-goal-12 .sdg-goal-number {
+    background: #bf8b2e;
+    color: #1f1a17;
+}
+
+.sdg-goal h3 {
+    margin-bottom: 10px;
+    color: var(--culina-dark);
+    font-size: 1.15rem;
+    font-weight: 950;
+}
+
+.sdg-goal p {
+    margin: 0;
+    color: var(--culina-muted);
+    line-height: 1.6;
+}
+
+.sdg-goal .sdg-goal-do {
+    margin-bottom: 8px;
+    color: var(--culina-dark);
+    font-weight: 800;
+}
+
+/* Start with one */
+.sdg-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.sdg-step {
+    padding: 26px;
+    border-radius: 28px;
+    background: var(--culina-cream);
+    border: 1px solid rgba(124, 74, 34, 0.12);
+}
+
+.sdg-step span {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--culina-orange), var(--culina-gold));
+    color: var(--culina-dark);
+    font-weight: 950;
+}
+
+.sdg-step h3 {
+    margin-bottom: 8px;
+    color: var(--culina-dark);
+    font-size: 1.15rem;
+    font-weight: 950;
+}
+
+.sdg-step p {
+    margin: 0;
+    color: var(--culina-muted);
+}
+
+.sdg-steps-cta {
+    margin-top: 32px;
+}
+
+.sdg-steps-cta .about-primary-btn {
+    display: inline-flex;
+}
+
+/* The fine print */
+.sdg-fine-print {
+    padding: 22px 26px;
+    border-radius: 24px;
+    background: var(--culina-white);
+    border: 1px solid rgba(31, 26, 23, 0.08);
+    color: var(--culina-dark);
+}
+
+.sdg-fine-print summary {
+    cursor: pointer;
+    color: var(--culina-orange-dark);
+    font-weight: 900;
+}
+
+.sdg-fine-print summary i {
+    margin-right: 6px;
+}
+
+.sdg-fine-print ul {
+    margin: 16px 0 0;
+    padding-left: 1.2rem;
+    color: var(--culina-muted);
+    line-height: 1.7;
+}
+
+.sdg-fine-print li {
+    margin-bottom: 8px;
+}
+
+.about-difference-list span a {
+    color: var(--culina-orange-dark);
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+@media (max-width: 991.98px) {
+    .sdg-goal-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sdg-swap {
+        grid-template-columns: 1fr;
+    }
+
+    .sdg-swap-arrow {
+        text-align: center;
+        transform: rotate(90deg);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .sdg-goal-grid,
+    .sdg-steps,
+    .sdg-year-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sdg-dish,
+    .sdg-goal,
+    .sdg-step,
+    .sdg-year {
+        padding: 20px;
+    }
+}
+
+/* Phones: the "Why different" row's wide gutter (g-5) was 12px wider than the screen,
+   on the About page too. A normal gutter on phones only; desktop is unchanged. */
+@media (max-width: 575.98px) {
+    .about-difference-section .row.g-5 {
+        --bs-gutter-x: 1.5rem;
+    }
+}
+
+/* SDG page: "Make it your household" sliders */
+.sdg-sliders {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 28px;
+    max-width: 760px;
+    margin: 0 auto 24px;
+    text-align: left;
+}
+
+.sdg-slider span {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    color: var(--culina-dark);
+    font-weight: 750;
+}
+
+.sdg-slider strong {
+    color: var(--culina-orange-dark);
+    font-size: 1.15rem;
+    font-weight: 950;
+}
+
+.sdg-slider input[type="range"] {
+    width: 100%;
+    accent-color: var(--culina-orange);
+    cursor: pointer;
+}
+
+.sdg-year-note {
+    margin: 18px 0 0;
+    color: var(--culina-muted);
+    font-size: 0.88rem;
+}
+
+@media (max-width: 575.98px) {
+    .sdg-sliders {
+        grid-template-columns: 1fr;
+    }
+}

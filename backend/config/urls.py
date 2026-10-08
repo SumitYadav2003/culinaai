@@ -57,10 +57,25 @@ def about_culinaai_view(request):
     return render(request, "pages/about_culinaai.html")
 
 
+def sdg_impact_view(request):
+    """
+    How CulinaAI relates to four UN Sustainable Development Goals (1, 2, 3, 12):
+    one swap worked out live by code, the signed-in user's own figures, and the
+    sources and limits behind every number.
+    """
+    from recipes.impact_service import build_impact_context, swap_example
+
+    context = {"example": swap_example()}
+    if request.user.is_authenticated:
+        context["impact"] = build_impact_context(request.user)["impact"]
+    return render(request, "pages/sdg_impact.html", context)
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_view, name="home"),
     path("about/", about_culinaai_view, name="about_culinaai"),
+    path("impact/", sdg_impact_view, name="sdg_impact"),
     path("", include("accounts.urls")),
     path("dashboard/", include("dashboard.urls")),
     path("recipes/", include("recipes.urls")),

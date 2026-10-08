@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Command Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=navbar-force-down-final-10">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=impact-1">
 {% endblock %}
 
 {% block content %}
@@ -410,6 +410,167 @@
                 {% endif %}
             </section>
         </div>
+
+        <!-- Health, cost and carbon impact (recipes/impact_service.py) -->
+        <section class="user-analytics-section culina-impact-section" id="impact">
+            <div class="user-analytics-header">
+                <div>
+                    <span>
+                        <i class="bi bi-globe-europe-africa"></i>
+                        Your impact
+                    </span>
+
+                    <h2>Health, cost and carbon across your recipes</h2>
+
+                    <p>
+                        Worked out by code from the figures on each recipe page. These are recipes you generated,
+                        not meals you ate. <a href="{% url 'sdg_impact' %}">How this relates to the UN Sustainable Development Goals</a>.
+                    </p>
+                </div>
+
+                <div class="user-analytics-status">
+                    <i class="bi bi-journal-check"></i>
+                    {{ impact.recipes }} recipe{{ impact.recipes|pluralize }}
+                </div>
+            </div>
+
+            <div class="user-kpi-grid">
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+
+                    <span>Everyday healthy</span>
+                    <h3>{% if impact.judged %}{{ impact.everyday }} of {{ impact.judged }}{% else %}No data yet{% endif %}</h3>
+                    <p>Recipes with no high fat, saturates, sugars or salt on the UK traffic lights.</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-currency-pound"></i>
+                    </div>
+
+                    <span>Average cost</span>
+                    <h3>{% if impact.average_cost is not None %}£{{ impact.average_cost|floatformat:2 }}{% else %}No data yet{% endif %}</h3>
+                    <p>Per serving, from ONS and Tesco, Sainsbury's and Morrisons prices.</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-cloud-haze2-fill"></i>
+                    </div>
+
+                    <span>Average carbon</span>
+                    <h3>{% if impact.average_carbon is not None %}{{ impact.average_carbon|floatformat:2 }} kg CO₂e{% else %}No data yet{% endif %}</h3>
+                    <p>Per serving, from global averages per kg of food (Poore &amp; Nemecek, 2018).</p>
+                </article>
+
+                <article class="user-kpi-card">
+                    <div class="user-kpi-icon">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </div>
+
+                    <span>Saved by versions</span>
+                    <h3>
+                        {% if impact.versions.count and impact.versions.money is not None %}
+                            £{{ impact.versions.money|floatformat:2 }}
+                        {% elif impact.versions.count and impact.versions.carbon is not None %}
+                            {{ impact.versions.carbon|floatformat:2 }} kg CO₂e
+                        {% else %}
+                            None yet
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if impact.versions.count %}
+                            {% if impact.versions.money is not None and impact.versions.carbon is not None %}And {{ impact.versions.carbon|floatformat:2 }} kg CO₂e. {% endif %}From {{ impact.versions.count }} cheaper, healthier or greener version{{ impact.versions.count|pluralize }} you cooked, compared with the recipe{{ impact.versions.count|pluralize }} {{ impact.versions.count|pluralize:"it,they" }} came from, for all servings. A negative figure means the versions cost or emit more.
+                        {% else %}
+                            Use “Cook this version” on a recipe's One dish, three ways card to see what it saves.
+                        {% endif %}
+                    </p>
+                </article>
+            </div>
+
+            <div class="user-analytics-list-grid">
+                <article class="user-list-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Last 7 days</span>
+                            <h3>This week's balance</h3>
+                            <p>Recipes from the last 7 days where every ingredient was found in the food data.</p>
+                        </div>
+
+                        <i class="bi bi-calendar-week-fill"></i>
+                    </div>
+
+                    {% if week.total %}
+                        <div class="user-search-list">
+                            <div class="user-search-item">
+                                <div class="user-search-icon"><i class="bi bi-check2-circle"></i></div>
+                                <div class="user-search-copy">
+                                    <strong>{{ week.everyday }} everyday healthy · {{ week.treat }} treat{{ week.treat|pluralize }}</strong>
+                                    <span>Out of {{ week.total }} recipe{{ week.total|pluralize }}</span>
+                                </div>
+                            </div>
+
+                            {% for item in week.high %}
+                                <div class="user-search-item">
+                                    <div class="user-search-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                                    <div class="user-search-copy">
+                                        <strong>High in {{ item.nutrient }}: {{ item.count }}</strong>
+                                        <span>Recipes with a high (red) traffic light for {{ item.nutrient }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="user-search-item">
+                                <div class="user-search-icon"><i class="bi bi-egg-fried"></i></div>
+                                <div class="user-search-copy">
+                                    <strong>Protein: {{ week.protein.High }} high · {{ week.protein.Good }} good · {{ week.protein.Low }} low</strong>
+                                    <span>UK claim levels; {{ week.low_fibre }} recipe{{ week.low_fibre|pluralize }} low in fibre</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="user-empty-mini">
+                            <i class="bi bi-calendar-week"></i>
+                            <p>No recipes with complete nutrition in the last 7 days. Generate a recipe to start.</p>
+                        </div>
+                    {% endif %}
+                </article>
+
+                <article class="user-list-card">
+                    <div class="user-card-header">
+                        <div>
+                            <span>Suggestions</span>
+                            <h3>What to try next</h3>
+                            <p>Simple rules on this week's recipes, pointing to features you already have.</p>
+                        </div>
+
+                        <i class="bi bi-lightbulb-fill"></i>
+                    </div>
+
+                    {% if week.nudges %}
+                        <div class="user-search-list">
+                            {% for nudge in week.nudges %}
+                                <div class="user-search-item{% if nudge.warning %} culina-nudge-warning{% else %} culina-nudge-good{% endif %}">
+                                    <div class="user-search-icon">
+                                        <i class="bi {% if nudge.warning %}bi-exclamation-triangle-fill{% else %}bi-check-circle-fill{% endif %}"></i>
+                                    </div>
+                                    <div class="user-search-copy">
+                                        <strong>{{ nudge.text }}</strong>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="user-empty-mini">
+                            <i class="bi bi-lightbulb"></i>
+                            <p>{% if week.total < 2 %}Generate at least 2 recipes this week to see suggestions.{% else %}Nothing stands out this week.{% endif %}</p>
+                        </div>
+                    {% endif %}
+                </article>
+            </div>
+        </section>
 
         <!-- Personal Analytics Dashboard -->
         <section class="user-analytics-section">

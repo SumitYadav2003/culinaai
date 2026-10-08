@@ -1491,3 +1491,46 @@ body:has(.culina-command-center) .command-hero {
         height: 40px !important;
     }
 }
+/* -------------------------------
+   Your impact (recipes/impact_service.py)
+   Reuses the analytics cards above; only the extras live here.
+-------------------------------- */
+
+.culina-impact-section {
+    margin-bottom: 1.5rem;
+}
+
+.user-analytics-header p a {
+    color: #c2410c;
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+/* Warnings are red everywhere on CulinaAI */
+.user-search-item.culina-nudge-warning {
+    background: var(--culina-warning-red-soft, #fef2f2);
+    border-color: var(--culina-warning-red, #dc2626);
+}
+
+.culina-nudge-warning .user-search-icon {
+    color: var(--culina-warning-red, #dc2626);
+    background: rgba(220, 38, 38, 0.12);
+}
+
+.culina-nudge-warning .user-search-copy strong {
+    color: var(--culina-warning-red-text, #991b1b);
+}
+
+.user-search-item.culina-nudge-good {
+    background: #f0fdf4;
+    border-color: rgba(21, 128, 61, 0.3);
+}
+
+.culina-nudge-good .user-search-icon {
+    color: #15803d;
+    background: rgba(21, 128, 61, 0.12);
+}
+
+.culina-nudge-good .user-search-copy strong {
+    color: #166534;
+}

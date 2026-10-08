@@ -582,6 +582,7 @@ class ProteinTradeoffTests(TestCase):
         self.assertIn("Use exactly these amounts for the swapped ingredients: chicken breast 150 g, chickpeas 150 g", notes)
         self.assertNotIn("adjust quantities", notes)
         self.assertEqual(preferences["expected"]["levels"]["protein"], "High")
+        self.assertEqual(preferences["expected"]["original"]["cost"], insights["cost"]["per_serving"])  # for the dashboard
 
         # If the AI then writes less chicken, the page says protein came out lower than the card.
         lighter = [{"name": "chicken breast", "display": "", "grams": 80}, {"name": "chickpeas", "display": "", "grams": 80},
