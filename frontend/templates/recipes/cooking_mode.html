@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Cooking Mode{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-tidy-3">
+<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-adjust-1">
 {% endblock %}
 
 {% block content %}
@@ -187,7 +187,7 @@
 
                             <span class="step-link-copy">
                                 <strong>{{ step.title }}</strong>
-                                <small>{{ step.timer_minutes }} min timer</small>
+                                <small data-step-timer-label>{{ step.timer_minutes }} min timer{% if step.adjusted %} · adjusted{% endif %}</small>
                             </span>
 
                             <i class="bi bi-check-circle-fill step-complete-icon"></i>
@@ -326,6 +326,21 @@
                     </button>
                 </div>
 
+                {% if timer_adjustment %}
+                    <div class="timer-adjusted" id="timerAdjusted">
+                        <span><i class="bi bi-person-check"></i> Adjusted for you</span>
+                        <p>
+                            You usually take about {{ timer_adjustment.percent }}% {% if timer_adjustment.longer %}longer{% else %}less time{% endif %}
+                            than recipe times{% if timer_adjustment.source == "steps" %} (from {{ timer_adjustment.count }} timed steps){% else %} (from {{ timer_adjustment.count }} finished dishes){% endif %},
+                            so hands-on steps get {% if timer_adjustment.longer %}more{% else %}less{% endif %} time.
+                            Oven, simmering and resting times stay as the recipe says.
+                        </p>
+                        <button type="button" class="timer-adjusted-btn" id="useRecipeTimesBtn" aria-pressed="false">
+                            Use the recipe's times
+                        </button>
+                    </div>
+                {% endif %}
+
                 <div class="timer-tip">
                     <i class="bi bi-lightbulb"></i>
                     <p>
@@ -390,6 +405,6 @@
 
 {% block extra_js %}
 <script src="{% static 'js/cooking_voice_commands.js' %}?v=voice-4"></script>
-<script src="{% static 'js/cooking_mode.js' %}?v=cooking-tidy-2"></script>
+<script src="{% static 'js/cooking_mode.js' %}?v=cooking-adjust-1"></script>
 <script src="{% static 'js/cooking_voice.js' %}?v=voice-4"></script>
 {% endblock %}

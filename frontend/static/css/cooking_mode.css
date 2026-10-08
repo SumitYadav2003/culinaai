@@ -406,6 +406,48 @@
     gap: 0.65rem;
 }
 
+/* "Adjusted for you": hands-on timers scaled to the cook's pace */
+
+.timer-adjusted {
+    margin-top: 1rem;
+    padding: 0.9rem;
+    border-radius: 20px;
+    background: rgba(22, 163, 74, 0.08);
+    border: 1px solid rgba(22, 163, 74, 0.25);
+}
+
+.timer-adjusted span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #15803d;
+    font-size: 0.78rem;
+    font-weight: 950;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.timer-adjusted p {
+    margin: 0.4rem 0 0.6rem;
+    color: #4b3a30;
+    font-size: 0.88rem;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.timer-adjusted-btn {
+    padding: 0;
+    border: 0;
+    color: #c2410c;
+    background: transparent;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.timer-adjusted-btn:hover {
+    text-decoration: underline;
+}
+
 .timer-tip {
     display: grid;
     grid-template-columns: auto 1fr;

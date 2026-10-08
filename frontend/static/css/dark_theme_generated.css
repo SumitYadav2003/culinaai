@@ -165,6 +165,15 @@ html[data-theme="dark"] .timer-display {
 html[data-theme="dark"] .timer-display-wrap small {
     color: #cbc1b9;
 }
+html[data-theme="dark"] .timer-adjusted span {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .timer-adjusted p {
+    color: #dfd4ce;
+}
+html[data-theme="dark"] .timer-adjusted-btn {
+    color: #f6af92;
+}
 html[data-theme="dark"] .timer-tip i {
     color: #f4aa77;
 }
@@ -1413,6 +1422,18 @@ html[data-theme="dark"] .culina-cooking-btn {
 }
 html[data-theme="dark"] .culina-cooking-forget summary {
     color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .culina-cooking-using {
+    background: #12301b;
+}
+html[data-theme="dark"] .culina-cooking-using strong {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .culina-cooking-using p {
+    color: #c5f1d7;
+}
+html[data-theme="dark"] .culina-cooking-using-empty {
+    color: #d5c8be;
 }
 
 /* ---------- from edit_saved_recipe.css ---------- */
@@ -3011,6 +3032,16 @@ html[data-theme="dark"] .culina-how-calculated summary {
 html[data-theme="dark"] .culina-insights-disclaimer {
     background: #302312;
     color: #dac3b2;
+}
+html[data-theme="dark"] .culina-personal-note {
+    background: #14341f;
+    color: #c5f1d7;
+}
+html[data-theme="dark"] .culina-personal-note i {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .culina-personal-note a {
+    color: #f6af92;
 }
 
 /* ---------- from recipe_loading.css ---------- */
