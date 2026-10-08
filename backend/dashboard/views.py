@@ -3,6 +3,7 @@ from django.db.models import Avg, Count
 from django.shortcuts import render
 
 from recipes.analytics_service import build_user_analytics_context
+from recipes.impact_service import build_impact_context
 from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 
 
@@ -203,5 +204,8 @@ def dashboard_view(request):
 
     # Add advanced analytics data into the same dashboard context.
     context.update(analytics_context)
+
+    # Health, cost and carbon impact, and this week's balance (impact_service.py).
+    context.update(build_impact_context(request.user))
 
     return render(request, "dashboard/dashboard.html", context)

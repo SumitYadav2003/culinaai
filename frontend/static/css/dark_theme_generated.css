@@ -995,6 +995,91 @@ html[data-theme="dark"] .culina-footer-badges i {
 html[data-theme="dark"] .culina-footer-link-list a:hover {
     color: #f4db77;
 }
+html[data-theme="dark"] .sdg-hero-panel-label {
+    color: #f4db77;
+}
+html[data-theme="dark"] .sdg-dish {
+    background: #291d14;
+}
+html[data-theme="dark"] .sdg-dish-after {
+    background: #12301b;
+}
+html[data-theme="dark"] .sdg-dish-label {
+    color: #f5a981;
+}
+html[data-theme="dark"] .sdg-dish-after .sdg-dish-label {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .sdg-dish h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-dish dt {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .sdg-dish dd {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-dish small {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .sdg-swap-arrow {
+    color: #9ff2be;
+}
+html[data-theme="dark"] .sdg-year {
+    background: #302312;
+}
+html[data-theme="dark"] .sdg-year-intro {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-year-grid strong {
+    color: #f5a981;
+}
+html[data-theme="dark"] .sdg-year-grid span {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .sdg-goal {
+    background: #291d14;
+}
+html[data-theme="dark"] .sdg-goal h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-goal p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .sdg-goal .sdg-goal-do {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-step {
+    background: #302312;
+}
+html[data-theme="dark"] .sdg-step h3 {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-step p {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .sdg-fine-print {
+    background: #291d14;
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-fine-print summary {
+    color: #f5a981;
+}
+html[data-theme="dark"] .sdg-fine-print ul {
+    color: #dac3b2;
+}
+html[data-theme="dark"] .about-difference-list span a {
+    color: #f5a981;
+}
+html[data-theme="dark"] .sdg-slider span {
+    color: #eae5e2;
+}
+html[data-theme="dark"] .sdg-slider strong {
+    color: #f5a981;
+}
+html[data-theme="dark"] .sdg-year-note {
+    color: #dac3b2;
+}
 
 /* ---------- from dashboard.css ---------- */
 
@@ -1224,6 +1309,27 @@ html[data-theme="dark"] .intelligence-copy p {
     color: #d5c8be;
 }
 html[data-theme="dark"] .intelligence-chip {
+    color: #bdf1d0;
+}
+html[data-theme="dark"] .user-analytics-header p a {
+    color: #f6af92;
+}
+html[data-theme="dark"] .user-search-item.culina-nudge-warning {
+    background: var(--culina-warning-red-soft, #2c1f15);
+}
+html[data-theme="dark"] .culina-nudge-warning .user-search-icon {
+    color: var(--culina-warning-red, #eb8585);
+}
+html[data-theme="dark"] .culina-nudge-warning .user-search-copy strong {
+    color: var(--culina-warning-red-text, #efa4a4);
+}
+html[data-theme="dark"] .user-search-item.culina-nudge-good {
+    background: #12301b;
+}
+html[data-theme="dark"] .culina-nudge-good .user-search-icon {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .culina-nudge-good .user-search-copy strong {
     color: #bdf1d0;
 }
 

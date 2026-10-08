@@ -1101,6 +1101,11 @@ def build_version_preferences(preferences, version, insights, recipe_title):
         "carbon": version.get("carbon"),
         "kcal": version.get("kcal"),
         "levels": version.get("levels") or {},
+        # The recipe it came from, so the dashboard can total what versions saved.
+        "original": {
+            "cost": (insights.get("cost") or {}).get("per_serving"),
+            "carbon": (insights.get("carbon") or {}).get("per_serving"),
+        },
     }
     return version_preferences
 
