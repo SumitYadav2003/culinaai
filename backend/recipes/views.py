@@ -50,7 +50,8 @@ from .models import (
     RecipeRating,
     PantryItem,
 )
-from .shopping_service import build_shopping_list_context
+from .shopping_service import build_shopping_list_context, extract_ingredient_items
+from .cooking_learning_service import ENGLISH_CHOICES, get_settings as get_cooking_settings
 from .insight_service import add_ai_swaps, build_insights, meal_style_correction
 from .structure_service import extract_recipe_structure
 
@@ -1791,6 +1792,23 @@ def cooking_mode_view(request, recipe_id):
     # Important: cooking mode service converts instructions into guided steps.
     context = build_cooking_mode_context(
         recipe=recipe,
+    )
+
+    # Learning from how the user cooks, and the hands-free voice (cooking_learning_service.py).
+    cooking_settings = get_cooking_settings(request.user)
+    context.update(
+        {
+            "learning": cooking_settings.learn_from_cooking,
+            "english_choices": ENGLISH_CHOICES,
+            "cooking_config": {
+                "learning": cooking_settings.learn_from_cooking,
+                "english": cooking_settings.english,
+                "estimated_minutes": context["estimated_total_minutes"],
+                "ingredients": extract_ingredient_items(recipe.ingredients_text)[:60],
+                "record_url": reverse("cooking_record", args=[recipe.id]),
+                "settings_url": reverse("cooking_settings"),
+            },
+        }
     )
 
     return render(request, "recipes/cooking_mode.html", context)

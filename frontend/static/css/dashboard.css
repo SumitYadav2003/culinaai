@@ -1534,3 +1534,69 @@ body:has(.culina-command-center) .command-hero {
 .culina-nudge-good .user-search-copy strong {
     color: #166534;
 }
+
+
+/* =========================================================
+   Your cooking profile (recipes/cooking_learning_service.py)
+   ========================================================= */
+
+.culina-cooking-profile {
+    margin-bottom: 1.5rem;
+}
+
+.culina-cooking-controls {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.culina-cooking-controls form {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+}
+
+.culina-cooking-controls small,
+.culina-cooking-forget p {
+    margin: 0;
+    color: #6f5948;
+    font-weight: 750;
+    line-height: 1.55;
+}
+
+.culina-cooking-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: fit-content;
+    min-height: 44px;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid rgba(80, 50, 30, 0.12);
+    border-radius: 999px;
+    color: #211714;
+    background: #ffffff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.culina-cooking-btn:hover {
+    transform: translateY(-1px);
+}
+
+.culina-cooking-btn.danger {
+    color: #ffffff;
+    border-color: transparent;
+    background: var(--culina-warning-red, #dc2626);
+}
+
+.culina-cooking-forget summary {
+    width: fit-content;
+    color: var(--culina-warning-red-text, #991b1b);
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.culina-cooking-forget form {
+    margin-top: 0.6rem;
+}

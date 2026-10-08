@@ -347,6 +347,57 @@ html[data-theme="dark"] .taste-score-ring span {
     color: var(--culina-dark-text-muted);
 }
 
+/* Cooking mode: orange "on" and "selected" states keep their colour and dark text */
+html[data-theme="dark"] .cooking-voice-toggle.is-on,
+html[data-theme="dark"] .step-trouble-choices button.selected,
+html[data-theme="dark"] .cooking-outcome-buttons button.selected {
+    color: #211714;
+    background: linear-gradient(135deg, #ffb429, #f97316);
+}
+
+html[data-theme="dark"] .culina-cooking-btn,
+html[data-theme="dark"] .cooking-voice-toggle,
+html[data-theme="dark"] .cooking-voice-english select,
+html[data-theme="dark"] .step-trouble-choices button,
+html[data-theme="dark"] .cooking-outcome-buttons button,
+html[data-theme="dark"] .cooking-voice-help-grid div,
+html[data-theme="dark"] .step-feedback-row input {
+    border-color: var(--culina-dark-border);
+}
+
+html[data-theme="dark"] .culina-cooking-btn:not(.danger),
+html[data-theme="dark"] .cooking-voice-toggle:not(.is-on) {
+    background: var(--culina-dark-surface-raised);
+}
+
+html[data-theme="dark"] .timer-btn.pause,
+html[data-theme="dark"] .timer-btn.reset,
+html[data-theme="dark"] .cooking-control-btn.secondary {
+    border: 1px solid var(--culina-dark-border);
+}
+
+html[data-theme="dark"] .cooking-captions {
+    border: 1px solid var(--culina-dark-border);
+    background: rgba(12, 9, 6, 0.96);
+}
+
+html[data-theme="dark"] .cooking-switch-track::after {
+    background: #ffffff;
+}
+
+html[data-theme="dark"] .cooking-switch-track {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+html[data-theme="dark"] .cooking-voice-notice {
+    border-color: var(--culina-warning-red);
+}
+
+html[data-theme="dark"] .culina-cooking-btn.danger {
+    color: #ffffff;
+    background: #dc2626;
+}
+
 /* ---------- Scrollbars ---------- */
 
 html[data-theme="dark"] * {

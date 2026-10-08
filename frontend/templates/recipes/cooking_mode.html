@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Cooking Mode{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-navbar-spacer-fix-1">
+<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-tidy-3">
 {% endblock %}
 
 {% block content %}
@@ -13,24 +13,22 @@
     <div class="cooking-navbar-spacer"></div>
     <div class="container">
 
-        <div class="cooking-mode-hero">
-            <div class="cooking-mode-hero-copy">
-                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-back-link">
-                    <i class="bi bi-arrow-left"></i>
-                    Back to recipe
-                </a>
+        <!-- Recipe and progress -->
+        <header class="cooking-topbar">
+            <div class="cooking-topbar-main">
+                <div class="cooking-topbar-links">
+                    <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-back-link">
+                        <i class="bi bi-arrow-left"></i>
+                        Back to recipe
+                    </a>
 
-                <span class="cooking-eyebrow">
-                    <i class="bi bi-play-circle-fill"></i>
-                    Interactive Cooking Mode
-                </span>
+                    <span class="cooking-eyebrow">
+                        <i class="bi bi-play-circle-fill"></i>
+                        Cooking mode
+                    </span>
+                </div>
 
                 <h1>{{ recipe.title }}</h1>
-
-                <p>
-                    Follow this recipe step by step, mark progress as you cook, and use the
-                    built-in timer to stay on track.
-                </p>
 
                 <div class="cooking-hero-meta">
                     <span>
@@ -57,30 +55,116 @@
                 </div>
             </div>
 
-            <div class="cooking-mode-summary">
-                <div class="summary-icon">
-                    <i class="bi bi-egg-fried"></i>
+            <div class="cooking-topbar-progress">
+                <div class="progress-topline">
+                    <span><strong id="completedStepsCount">0</strong> of {{ total_steps }} steps done</span>
+                    <strong id="progressPercentText">0%</strong>
                 </div>
 
-                <h2>Cooking session</h2>
-
-                <p>
-                    Complete each step in order. The progress bar updates as you mark steps done.
-                </p>
-
-                <div class="summary-progress">
-                    <div>
-                        <strong id="completedStepsCount">0</strong>
-                        <span>Completed</span>
-                    </div>
-
-                    <div>
-                        <strong>{{ total_steps }}</strong>
-                        <span>Total steps</span>
-                    </div>
+                <div class="cooking-progress-track">
+                    <div class="cooking-progress-fill" id="cookingProgressFill"></div>
                 </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Hands-free voice and learning from your cooking (cooking_voice.js, cooking_learning_service.py) -->
+        <section class="cooking-toolbar" id="cookingVoicePanel" aria-label="Hands-free voice and learning">
+            <div class="cooking-toolbar-row">
+                <button type="button" class="cooking-voice-toggle" id="voiceToggleBtn" aria-pressed="false">
+                    <span class="voice-dot" aria-hidden="true"></span>
+                    <i class="bi bi-mic-fill"></i>
+                    <span id="voiceToggleLabel">Hands-free voice</span>
+                </button>
+
+                <label class="cooking-voice-english" title="Which English to listen for">
+                    <i class="bi bi-translate" aria-hidden="true"></i>
+                    <span class="visually-hidden">My English</span>
+                    <select id="voiceEnglish">
+                        {% for code, label in english_choices %}
+                            <option value="{{ code }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <span class="cooking-voice-status" id="voiceStatus" aria-live="polite">Off</span>
+
+                <button type="button" class="cooking-toolbar-link" data-panel-toggle="voiceHelp" aria-expanded="false" aria-controls="voiceHelp" title="What can I say?">
+                    <i class="bi bi-chat-dots"></i>
+                    <span class="cooking-toolbar-link-text">What can I say?</span>
+                </button>
+
+                <div class="cooking-learning">
+                    <label class="cooking-switch" for="learningSwitch">
+                        <input type="checkbox" id="learningSwitch" {% if learning %}checked{% endif %}>
+                        <span class="cooking-switch-track" aria-hidden="true"></span>
+                        <span class="cooking-switch-text">Learning: <span id="learningState">{% if learning %}On{% else %}Off{% endif %}</span></span>
+                    </label>
+
+                    <button type="button" class="cooking-toolbar-link icon-only" data-panel-toggle="learningInfo" aria-expanded="false" aria-controls="learningInfo" title="What's saved?">
+                        <i class="bi bi-info-circle"></i>
+                        <span class="visually-hidden">What's saved?</span>
+                    </button>
+                </div>
+            </div>
+
+            <p class="cooking-voice-notice" id="voiceNotice" hidden></p>
+
+            <div class="cooking-toolbar-panel" id="voiceHelp" hidden>
+                <div class="cooking-voice-help-grid">
+                    <div>
+                        <strong>Steps</strong>
+                        <span>“Read the step” · “Read step 3” · “Next” · “What's next?” · “Carry on” · “Back” · “Where was I?”</span>
+                    </div>
+                    <div>
+                        <strong>Hearing it again</strong>
+                        <span>“Repeat” · “Say that again” · “Pardon?” · “Slower please” · “Louder”</span>
+                    </div>
+                    <div>
+                        <strong>Stopping</strong>
+                        <span>“Stop” · “Hang on” · “Hold on” · “That's enough” · “Stop listening”</span>
+                    </div>
+                    <div>
+                        <strong>Timer</strong>
+                        <span>“Start the timer” · “Set a timer for 5 minutes” · “Give me another 2 minutes” · “How long left?” · “Pause the timer”</span>
+                    </div>
+                    <div>
+                        <strong>The recipe</strong>
+                        <span>“How much salt?” · “How much cilantro?” · “What temperature?” · “What do I need for this step?” · “How many steps left?”</span>
+                    </div>
+                    <div>
+                        <strong>Finishing and trouble</strong>
+                        <span>“Done”, then tell it how the step went (“fine”, “it took longer”…) · “I'm having trouble” · “I don't understand”</span>
+                    </div>
+                </div>
+
+                <p>
+                    Works best in Chrome and Edge, and needs microphone permission. Those browsers send the sound to their
+                    own speech service to turn it into text; CulinaAI never receives or saves your voice recording. Wait for
+                    CulinaAI to finish talking before your next command, or say “stop” first. While hands-free is on, the
+                    screen stays awake where the browser allows it.
+                </p>
+            </div>
+
+            <div class="cooking-toolbar-panel" id="learningInfo" hidden>
+                <p>
+                    <strong>Learning from your cooking</strong> helps CulinaAI adjust future recipes to you. For each step it
+                    saves how long the step was open, whether you used the timer, how often you asked to hear it again, and
+                    your answer to “How did this step go?” (including anything you say or type about it). At the end, how the
+                    dish turned out. Nothing is saved while this is off. See it, or delete it, under
+                    <a href="{% url 'dashboard' %}#cooking-profile">Your cooking profile</a> on the dashboard.
+                </p>
+            </div>
+
+            <!-- Live captions: what CulinaAI heard and said, fixed to the bottom while hands-free is on -->
+            <div class="cooking-captions" aria-live="polite">
+                <span class="voice-dot" aria-hidden="true"></span>
+                <span class="cooking-captions-status" id="voiceCaptionStatus">Listening…</span>
+                <div class="cooking-captions-text">
+                    <span id="voiceHeard"></span>
+                    <strong id="voiceReply"></strong>
+                </div>
+            </div>
+        </section>
 
         <div class="cooking-mode-grid">
 
@@ -114,33 +198,13 @@
 
             <!-- Main Step Card -->
             <main class="cooking-main-card">
-                <div class="cooking-progress-card">
-                    <div class="progress-topline">
-                        <span id="stepCounterText">Step 1 of {{ total_steps }}</span>
-                        <strong id="progressPercentText">0%</strong>
-                    </div>
-
-                    <div class="cooking-progress-track">
-                        <div class="cooking-progress-fill" id="cookingProgressFill"></div>
-                    </div>
-                </div>
-
                 <article class="current-step-card">
                     <div class="current-step-header">
                         <div class="current-step-number" id="currentStepNumber">
                             1
                         </div>
 
-                        <div>
-                            <span>Current Step</span>
-                            <h2 id="currentStepTitle">
-                                {% if cooking_steps %}
-                                    {{ cooking_steps.0.title }}
-                                {% else %}
-                                    Cooking Step
-                                {% endif %}
-                            </h2>
-                        </div>
+                        <span id="currentStepTitle">Step 1 of {{ total_steps }}</span>
                     </div>
 
                     <p id="currentStepText" class="current-step-text">
@@ -151,7 +215,7 @@
                         {% endif %}
                     </p>
 
-                    <div class="step-action-row">
+                    <div class="step-action-row" id="stepActionRow">
                         <button type="button" class="cooking-control-btn secondary" id="previousStepBtn">
                             <i class="bi bi-arrow-left"></i>
                             Previous
@@ -167,6 +231,67 @@
                             <i class="bi bi-arrow-right"></i>
                         </button>
                     </div>
+
+                    <div class="step-trouble" id="stepTrouble" data-learning-only {% if not learning %}hidden{% endif %}>
+                        <button type="button" class="step-trouble-toggle" id="troubleToggleBtn" aria-expanded="false" aria-controls="troubleChoices">
+                            <i class="bi bi-question-circle"></i>
+                            Having trouble with this step?
+                        </button>
+
+                        <div class="step-trouble-choices" id="troubleChoices" hidden>
+                            <button type="button" data-trouble="longer" aria-pressed="false">
+                                <i class="bi bi-hourglass-split"></i>
+                                Taking longer
+                            </button>
+                            <button type="button" data-trouble="unclear" aria-pressed="false">
+                                <i class="bi bi-chat-square-text"></i>
+                                Instructions unclear
+                            </button>
+                            <button type="button" data-trouble="technique" aria-pressed="false">
+                                <i class="bi bi-hand-index-thumb"></i>
+                                Tricky technique
+                            </button>
+                        </div>
+
+                        <small class="step-trouble-note" id="troubleNote" aria-live="polite"></small>
+                    </div>
+
+                    <!-- Asked after each completed step while learning is on; replaces the buttons above (cooking_mode.js) -->
+                    <div class="step-feedback" id="stepFeedback" hidden>
+                        <strong id="feedbackTitle">How did this step go?</strong>
+
+                        <div class="step-trouble-choices">
+                            <button type="button" data-feedback="fine" aria-pressed="false">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                                Went fine
+                            </button>
+                            <button type="button" data-feedback="longer" aria-pressed="false">
+                                <i class="bi bi-hourglass-split"></i>
+                                Took longer
+                            </button>
+                            <button type="button" data-feedback="unclear" aria-pressed="false">
+                                <i class="bi bi-chat-square-text"></i>
+                                Instructions unclear
+                            </button>
+                            <button type="button" data-feedback="technique" aria-pressed="false">
+                                <i class="bi bi-hand-index-thumb"></i>
+                                Tricky technique
+                            </button>
+                        </div>
+
+                        <div class="step-feedback-row">
+                            <label class="visually-hidden" for="feedbackNote">Anything to add about this step</label>
+                            <input type="text" id="feedbackNote" maxlength="300" autocomplete="off"
+                                   placeholder="Anything to add? (optional) e.g. my pan was too small">
+
+                            <button type="button" class="cooking-control-btn primary" id="feedbackNextBtn">
+                                Next step
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <small class="step-trouble-note" id="feedbackSaved" aria-live="polite"></small>
+                    </div>
                 </article>
             </main>
 
@@ -175,14 +300,8 @@
                 <div class="timer-header">
                     <span>
                         <i class="bi bi-stopwatch-fill"></i>
-                        Cooking Timer
+                        Step timer
                     </span>
-
-                    <h2>Step timer</h2>
-
-                    <p>
-                        The timer changes based on the current step. You can start, pause or reset it anytime.
-                    </p>
                 </div>
 
                 <div class="timer-display-wrap">
@@ -210,7 +329,7 @@
                 <div class="timer-tip">
                     <i class="bi bi-lightbulb"></i>
                     <p>
-                        Tip: Read the next step while the timer is running so your cooking flow stays smooth.
+                        A running timer keeps going when you move to the next step, so you can prepare ahead.
                     </p>
                 </div>
             </aside>
@@ -229,6 +348,29 @@
                     You completed all cooking steps for this recipe. You can now return to the recipe page,
                     rate it, add feedback, or save notes for next time.
                 </p>
+
+                <p class="cooking-time-summary" id="cookingTimeSummary"></p>
+
+                <div class="cooking-outcome" id="cookingOutcome" data-learning-only {% if not learning %}hidden{% endif %}>
+                    <strong>How did it turn out?</strong>
+
+                    <div class="cooking-outcome-buttons">
+                        <button type="button" data-outcome="great" aria-pressed="false">
+                            <i class="bi bi-emoji-smile"></i>
+                            Turned out great
+                        </button>
+                        <button type="button" data-outcome="ok" aria-pressed="false">
+                            <i class="bi bi-emoji-neutral"></i>
+                            It was OK
+                        </button>
+                        <button type="button" data-outcome="bad" aria-pressed="false">
+                            <i class="bi bi-emoji-frown"></i>
+                            Didn't go well
+                        </button>
+                    </div>
+
+                    <small id="outcomeNote" aria-live="polite"></small>
+                </div>
             </div>
 
             <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-finish-btn">
@@ -241,9 +383,13 @@
 </section>
 
 <script id="cookingStepsData" type="application/json">{{ cooking_steps_json|safe }}</script>
+{{ cooking_config|json_script:"cookingConfig" }}
+<div hidden>{% csrf_token %}</div>
 
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/cooking_mode.js' %}?v=cooking-mode-final-1"></script>
+<script src="{% static 'js/cooking_voice_commands.js' %}?v=voice-4"></script>
+<script src="{% static 'js/cooking_mode.js' %}?v=cooking-tidy-2"></script>
+<script src="{% static 'js/cooking_voice.js' %}?v=voice-4"></script>
 {% endblock %}

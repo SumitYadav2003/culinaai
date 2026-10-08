@@ -13,6 +13,9 @@ from .models import (
     FridgeScan,
     CookingChatSession,
     CookingChatMessage,
+    CookingSession,
+    CookingSettings,
+    CookingStepRecord,
 )
 
 
@@ -408,3 +411,25 @@ class CookingChatMessageAdmin(admin.ModelAdmin):
     list_filter = ("sender", "created_at")
     search_fields = ("message", "session__recipe__title", "session__user__username")
     readonly_fields = ("created_at",)
+
+# Learning from how the user cooks (cooking_learning_service.py)
+
+
+class CookingStepRecordInline(admin.TabularInline):
+    model = CookingStepRecord
+    extra = 0
+    fields = ("number", "planned_minutes", "timer_from_text", "seconds_open", "timer_used", "repeats", "trouble", "went_fine", "note", "completed")
+    readonly_fields = fields
+
+
+@admin.register(CookingSession)
+class CookingSessionAdmin(admin.ModelAdmin):
+    list_display = ("user", "recipe_title", "steps_completed", "steps_total", "finished", "outcome", "voice_used", "started_at")
+    list_filter = ("finished", "outcome", "voice_used")
+    search_fields = ("user__username", "recipe_title")
+    inlines = [CookingStepRecordInline]
+
+
+@admin.register(CookingSettings)
+class CookingSettingsAdmin(admin.ModelAdmin):
+    list_display = ("user", "learn_from_cooking", "english", "updated_at")

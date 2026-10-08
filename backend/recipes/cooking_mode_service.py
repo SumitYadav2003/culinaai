@@ -399,6 +399,8 @@ def build_cooking_mode_context(recipe):
                 "title": make_step_title(step_text),
                 "text": step_text,
                 "timer_minutes": timer_minutes,
+                # True when the step itself says how long ("simmer for 10 minutes").
+                "timer_from_text": bool(TIME_PATTERN.search(step_text or "")),
             }
         )
 

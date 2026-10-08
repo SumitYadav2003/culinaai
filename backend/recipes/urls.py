@@ -1,5 +1,6 @@
 from django.urls import path
 
+from .cooking_learning_views import cooking_forget_view, cooking_record_view, cooking_settings_view
 from .views import (
     community_recipe_detail_view,
     community_recipes_view,
@@ -134,6 +135,21 @@ urlpatterns = [
         "saved/<int:recipe_id>/cook/",
         cooking_mode_view,
         name="cooking_mode",
+    ),
+    path(
+        "saved/<int:recipe_id>/cook/record/",
+        cooking_record_view,
+        name="cooking_record",
+    ),
+    path(
+        "cooking/settings/",
+        cooking_settings_view,
+        name="cooking_settings",
+    ),
+    path(
+        "cooking/forget/",
+        cooking_forget_view,
+        name="cooking_forget",
     ),
     path(
         "saved/<int:recipe_id>/assistant/ask/",
