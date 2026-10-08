@@ -51,7 +51,14 @@ from .models import (
     PantryItem,
 )
 from .shopping_service import build_shopping_list_context, extract_ingredient_items
-from .cooking_learning_service import ENGLISH_CHOICES, get_settings as get_cooking_settings
+from .cooking_learning_service import (
+    ENGLISH_CHOICES,
+    build_cooking_tips,
+    get_settings as get_cooking_settings,
+    personal_insight,
+    timer_adjustment,
+)
+from .cooking_mode_service import adjust_step_timers
 from .insight_service import add_ai_swaps, build_insights, meal_style_correction
 from .structure_service import extract_recipe_structure
 
@@ -393,6 +400,12 @@ def run_recipe_generation(request, preview_data):
     10 quality gates, meal style check, history and fallback.
     """
 
+    # Learning from how this user cooks: how the method should be explained for them
+    # (None while learning is off or there isn't enough history). Versions keep the
+    # tips of the recipe they came from.
+    if "cooking_tips" not in preview_data:
+        preview_data = dict(preview_data, cooking_tips=build_cooking_tips(request.user))
+
     request.session["recipe_preview_data"] = preview_data
     request.session["latest_recipe_preferences"] = preview_data
 
@@ -531,6 +544,11 @@ def run_recipe_generation(request, preview_data):
         # The AI's swap ideas for "One dish, three ways", checked by code (final recipe only).
         if not fallback_used:
             final_insights = add_ai_swaps(final_insights, preview_data)
+
+            # "Adjusted for you": what was asked for, and how many tips came back (counted by code).
+            personal = personal_insight(preview_data.get("cooking_tips"), final_ai_result.get("recipe_text", ""))
+            if personal:
+                final_insights = dict(final_insights, personal=personal)
 
         final_ai_result["insights"] = final_insights
         final_ai_result["validation_report"] = final_validation_report
@@ -1796,6 +1814,14 @@ def cooking_mode_view(request, recipe_id):
 
     # Learning from how the user cooks, and the hands-free voice (cooking_learning_service.py).
     cooking_settings = get_cooking_settings(request.user)
+
+    # Hands-on step timers adjusted to the cook's pace (waiting and hob steps never change).
+    adjustment = timer_adjustment(request.user)
+    adjusted_steps = adjust_step_timers(context["cooking_steps"], adjustment["applied"]) if adjustment else 0
+    if adjusted_steps:
+        context["cooking_steps_json"] = json.dumps(context["cooking_steps"])
+    context["timer_adjustment"] = adjustment if adjusted_steps else None
+
     context.update(
         {
             "learning": cooking_settings.learn_from_cooking,
@@ -1804,6 +1830,7 @@ def cooking_mode_view(request, recipe_id):
                 "learning": cooking_settings.learn_from_cooking,
                 "english": cooking_settings.english,
                 "estimated_minutes": context["estimated_total_minutes"],
+                "timers_adjusted": bool(adjusted_steps),
                 "ingredients": extract_ingredient_items(recipe.ingredients_text)[:60],
                 "record_url": reverse("cooking_record", args=[recipe.id]),
                 "settings_url": reverse("cooking_settings"),

@@ -814,6 +814,9 @@ class CookingSession(models.Model):
     outcome = models.CharField(max_length=10, choices=OUTCOME_CHOICES, blank=True)
     voice_used = models.BooleanField(default=False)
 
+    # True when cooking mode used timers adjusted to the cook's pace (for evaluating the adjustment).
+    timers_adjusted = models.BooleanField(default=False)
+
     started_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
