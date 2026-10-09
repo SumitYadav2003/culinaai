@@ -139,7 +139,7 @@ class RealPriceDataTests(TestCase):
 
         listed = [row["food_code"] for row in self.read_csv("ingredient_prices.csv")]
         foods = CofidFood.objects.filter(food_code__in=listed)
-        self.assertEqual(foods.count(), 216)
+        self.assertEqual(foods.count(), 219)
         unpriced = set(foods.filter(price_per_kg_gbp__isnull=True).values_list("food_code", flat=True))
         self.assertEqual(unpriced, set())
         # Priced with a stated assumption (one shop, a marketplace seller, or an assumed weight);
@@ -149,6 +149,7 @@ class RealPriceDataTests(TestCase):
             "11-985", "13-164", "13-244", "13-355",  # buns, beetroot, garlic, butternut squash
             "12-164", "13-115", "14-299", "13-243", "13-294", "13-339",  # gruyere, soya beans, peaches,
             "17-153",  # fenugreek leaves, dried shiitake, kombu, brewed coffee
+            "11-874", "USDA-174531", "USDA-174529",  # jasmine rice, fish sauce, oyster sauce (9 Oct 2026)
         })
         for food in foods.exclude(price_per_kg_gbp__isnull=True):
             with self.subTest(food=food.food_code):

@@ -401,6 +401,15 @@ def create_recipe_history_entry(
     )
 
 
+def failed_check_details(validation_report):
+    """{check name: its details} for the checks that failed, e.g. the allergy words found."""
+    return {
+        check.get("name"): check.get("details")
+        for check in validation_report.get("failed_checks", [])
+        if check.get("details")
+    }
+
+
 # Helper: the full generation pipeline, shared by the form and "Cook this version".
 def run_recipe_generation(request, preview_data):
     """
@@ -468,6 +477,9 @@ def run_recipe_generation(request, preview_data):
                             [],
                         )
                     ],
+                    # What each failed check objected to (e.g. the allergy words it found),
+                    # so a failed attempt can be explained later (evaluation report).
+                    "failed_details": failed_check_details(validation_report),
                 }
             )
 
@@ -560,6 +572,7 @@ def run_recipe_generation(request, preview_data):
                             [],
                         )
                     ],
+                    "failed_details": failed_check_details(fallback_validation_report),
                 }
             )
 

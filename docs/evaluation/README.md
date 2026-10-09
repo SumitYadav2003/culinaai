@@ -60,6 +60,34 @@ The AI gives a slightly different recipe every time, so for the dissertation it'
 better to run the benchmark two or three times and report the spread than to trust
 one run.
 
+### What the first run found, and what was changed (9 October 2026)
+
+The first full run (`results/benchmark_2026-10-09_1748.jsonl`) found these problems. Each was fixed
+and has a test in `backend/recipes/tests/test_benchmark_fixes.py`:
+
+- **A safe recipe failed the allergy check three times** (Indian, tree-nut allergy), so the safe
+  fallback recipe was shown. The check treated any mention of a nut as using it, including wording
+  like "respects your tree nut allergy" or "it skips cashews". It now accepts a mention only when the
+  words around it say the food is left out ("free of", "skips", "instead of", "nut-free", "a tree nut
+  allergy"), and still fails "garnish with almonds" or "instead of yoghurt, use cashews". The recipe
+  prompt also asks the AI not to name allergens in the match summary.
+- **The difficulty check counted "overnight" anywhere**, including "keeps in the fridge overnight" in
+  the storage advice. It now reads only the method, and ignores an optional "or overnight".
+- **Two "Everyday healthy" mince dishes stayed high in fat after three tries.** The note sent back to
+  the AI now gives the amount per serving, the limit, and the ingredients most of it comes from (for
+  example "beef mince, 250 g, 8.7 g saturated fat per serving"), and says it may use a lean version
+  or less of it.
+- **9 of 30 recipes had an ingredient with no food match**, which also left two "Everyday healthy"
+  recipes unchecked. Jasmine rice, flour tortillas, chilli powder variants, Chinese egg noodles, rice
+  vinegar, fish sauce, oyster sauce, chilli paste, ginger paste and British names for mince now match
+  (see `backend/nutrition/data/README.md`).
+- **Each failed check now saves what it objected to** (for example the allergy words it found), and
+  the report lists them, so a failure can be explained instead of guessed.
+- **The report counted a retry request on the last attempt**, which can't be retried. It now counts
+  only retries that happened.
+
+Compare the next runs with the first one to see whether these changes worked.
+
 ## A2. Report on real use
 
 ```bash

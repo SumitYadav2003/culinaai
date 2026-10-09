@@ -89,10 +89,20 @@ def quality_summary(rows):
     fallback = sum(1 for row in rows if is_fallback(row))
     failed = Counter()
     retry_for = Counter()
+    objections = {}
     for row in rows:
-        for step in row["attempt_history"]:
+        history = row["attempt_history"]
+        for number, step in enumerate(history):
             failed.update(step.get("failed_checks") or [])
-            retry_for.update(step.get("retry_for") or [])
+            # A request for another try only counts when another try followed.
+            if number < len(history) - 1:
+                retry_for.update(step.get("retry_for") or [])
+            for check, details in (step.get("failed_details") or {}).items():
+                words = objections.setdefault(check, Counter())
+                for key, value in (details or {}).items():
+                    # What was found, not what the user asked for ("user_allergies").
+                    if isinstance(value, list) and not key.startswith("user"):
+                        words.update(str(item) for item in value if isinstance(item, (str, int, float)))
     scores = [row["quality_score"] for row in rows if row["quality_score"] is not None]
     return {
         "recipes": total,
@@ -106,6 +116,7 @@ def quality_summary(rows):
         "errors": sum(1 for row in rows if is_error(row)),
         "failed_checks": failed.most_common(),
         "retry_for": retry_for.most_common(),
+        "objections": {check: words.most_common(8) for check, words in sorted(objections.items()) if words},
         "median_score": statistics.median(scores) if scores else None,
     }
 
@@ -513,8 +524,12 @@ def build_report(*, title, scope, rows, sessions=None, records=None, benchmark_l
         f"- Average attempts per recipe: {show(quality['average_attempts'])}",
         f"- Median final quality score: {show(quality['median_score'])} (target 85)",
         f"- Safe fallback recipe shown: {quality['fallback']}, of which after an AI error: {quality['errors']}",
-        f"- Checks that failed on some attempt: {counts_text(quality['failed_checks'])}",
         f"- Retries asked for by code after the gates passed: {counts_text(quality['retry_for'])}",
+        f"- Checks that failed on some attempt: {counts_text(quality['failed_checks'])}",
+    ]
+    for check, words in quality["objections"].items():
+        parts.append(f"  - {check} objected to: {counts_text(words)}")
+    parts += [
         "",
         "## 2. Safety cross-checks", "",
         "These use the allergen keyword lists and the diet word lists directly on the final ingredient list, "

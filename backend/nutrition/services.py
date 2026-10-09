@@ -295,6 +295,8 @@ DESCRIPTOR_PHRASES = [
     "low-sodium", "low sodium", "reduced-salt", "reduced salt", "low-salt", "low salt",
     "free-range", "free range", "skin-on", "skin on", "bone-in", "bone in",
 ]
+LEAN_FAT = re.compile(r"\b[1-5](?:\.\d)?\s*%\s*fat\b")
+
 DESCRIPTOR_WORDS = {
     "boneless", "skinless", "fillet", "fillets", "diced", "cubed", "chopped", "sliced", "grated",
     "crushed", "peeled", "trimmed", "pieces", "piece", "chunks", "large", "small", "medium",
@@ -316,8 +318,18 @@ def name_variants(name):
         if text and text not in variants:
             variants.append(text)
 
-    options = re.split(r"\s+or\s+|/", name.lower())
+    lowered = name.lower()
+
+    # "beef mince, 5% fat" or "5% fat minced beef": up to 5% fat is CoFID's extra lean mince,
+    # so that is tried first rather than ordinary mince.
+    if LEAN_FAT.search(lowered) and "mince" in lowered:
+        words = re.sub(r"[(),]", " ", LEAN_FAT.sub(" ", lowered)).split()
+        add("extra lean " + " ".join(word for word in words if word not in {"extra", "lean", "extra-lean"}))
+
+    options = re.split(r"\s+or\s+|/", lowered)
     for option in options:
+        # "lean beef mince (5% fat)" -> "lean beef mince"
+        option = re.sub(r"\([^)]*\)", " ", option)
         option = option.split(",")[0]
         add(option)
         for phrase in DESCRIPTOR_PHRASES:
