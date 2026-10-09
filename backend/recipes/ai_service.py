@@ -428,6 +428,7 @@ SHORT DESCRIPTION:
 
 MATCH SUMMARY:
 Explain how the recipe matches the user's ingredients, cuisine, meal type, diet, allergy restrictions, time, servings, difficulty and equipment.
+For allergies, only say that the restricted ingredients were left out. Don't name them or the foods a classic version would use.
 
 INGREDIENTS WITH QUANTITIES:
 Use bullet points with realistic quantities.

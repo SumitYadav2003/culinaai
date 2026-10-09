@@ -346,3 +346,33 @@ chilli flakes,13-873,"Dried chilli flakes; CoFID has no flakes entry, so chilli 
 chili flakes,13-873,"US spelling; chilli powder stands in for dried flakes"
 red pepper flakes,13-873,"US name for dried chilli flakes; chilli powder stands in"
 crushed red pepper,13-873,"US name for dried chilli flakes; chilli powder stands in"
+jasmine rice,11-874,"Thai fragrant rice, raw (jasmine rice is Thai fragrant rice)"
+thai jasmine rice,11-874,
+thai fragrant rice,11-874,
+flour tortilla,11-925,Wheat soft
+wheat tortilla,11-925,Wheat soft
+tortilla wrap,11-925,Wheat soft
+red chilli powder,13-873,
+red chili powder,13-873,US spelling
+kashmiri chilli powder,13-873,"Mild Indian chilli powder; CoFID has one chilli powder entry"
+kashmiri chili powder,13-873,"US spelling; CoFID has one chilli powder entry"
+chinese egg noodle,11-719,Dried raw
+rice vinegar,17-339,"CoFID has one vinegar entry; rice vinegar is similar"
+rice wine vinegar,17-339,"CoFID has one vinegar entry; rice vinegar is similar"
+fish sauce,USDA-174531,Not in CoFID; USDA value
+thai fish sauce,USDA-174531,Not in CoFID; USDA value
+nam pla,USDA-174531,Thai name for fish sauce; USDA value
+oyster sauce,USDA-174529,Not in CoFID; USDA value
+chilli paste,17-719,"Approximation: chilli sauce is the nearest CoFID food; pastes vary (some add oil, sugar or shrimp)"
+chili paste,17-719,"US spelling; approximation, chilli sauce is the nearest CoFID food"
+ginger paste,13-890,"Approximation: fresh ginger; jarred pastes add a little oil and salt"
+minced beef,18-469,British name for beef mince
+lean minced beef,18-508,Extra lean
+extra lean minced beef,18-508,
+5% fat beef mince,18-508,Extra lean
+beef mince (5% fat),18-508,Extra lean
+lean lamb mince,18-481,"CoFID has no lean lamb mince; ordinary lamb mince is used, so fat may read a little high"
+minced lamb,18-481,British name for lamb mince
+lean turkey mince,18-350,No raw mince entry; average raw turkey meat
+lean pork mince,18-606,"CoFID has no lean pork mince; ordinary pork mince is used, so fat may read a little high"
+minced pork,18-606,British name for pork mince

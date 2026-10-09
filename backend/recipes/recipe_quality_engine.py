@@ -329,6 +329,15 @@ COMPLEX_METHOD_TERMS = [
 ]
 
 
+# Headings that come after STEPS in a CulinaAI recipe (ai_service.py).
+STEPS_END_HEADINGS = (
+    "allergy", "nutrition", "estimated cost", "pairing", "chef tips", "storage", "substitution",
+)
+
+# "marinate for 20 minutes, or overnight" / "up to overnight": the long time is optional.
+OPTIONAL_TIME = r"\b(?:or|up to|or even|ideally|preferably)\s+overnight\b|\bovernight if you (?:have|like|can)\b"
+
+
 CUISINE_KEYWORDS = {
     "indian": [
         "masala",
@@ -619,13 +628,45 @@ def expand_allergy_terms(allergies: List[str]) -> List[str]:
     return sorted(expanded_terms)
 
 
-def is_safe_allergy_context(recipe_text: str, term: str) -> bool:
-    """
-    Returns True only when every occurrence of an allergy term appears in a safe
-    negated context such as 'no tomato', 'without tomato', or 'tomato-free'.
+# Phrases that say an ingredient is NOT in the dish ("no", "free of", "skips",
+# "instead of"). Only a short list of the excluded foods may follow them, so
+# "instead of yoghurt, use cashews" still counts cashews as used.
+NEGATION_CUES = [
+    "no", "not", "without", "free of", "free from", "avoid", "avoids", "avoided", "avoiding",
+    "does not contain", "doesn t contain", "contains no", "do not include", "does not include",
+    "not include", "exclude", "excludes", "excluded", "excluding", "skip", "skips", "skipped",
+    "skipping", "omit", "omits", "omitted", "omitting", "leave out", "leaves out", "left out",
+    "leaving out", "instead of", "in place of", "rather than", "replaces", "replaced", "replacing",
+    "swaps out", "swapped out", "removed", "removes", "allergic to", "allergy to", "allergies to",
+    "intolerant to", "never use", "not use", "not used", "no need for", "any trace of",
+]
 
-    This prevents false blocking when the recipe says:
-    'Allergy note: this recipe does not contain tomato.'
+# Words that may sit between a cue and the excluded food: "free of any tree nuts or peanuts".
+NEGATION_FILLER = {
+    "a", "an", "the", "any", "all", "of", "or", "and", "nor", "such", "as", "like", "including",
+    "usual", "traditional", "classic", "typical", "common", "other", "added", "extra", "whole",
+    "ground", "chopped", "toasted", "flaked", "roasted", "raw", "fresh", "dried", "tree", "nut",
+    "nuts", "type", "types", "kind", "kinds", "form", "forms",
+    # Allergen groups, so "no dairy products or nuts" reads as one list.
+    "dairy", "gluten", "wheat", "egg", "eggs", "soy", "soya", "sesame", "peanut", "peanuts", "fish",
+    "shellfish", "seafood", "meat", "mustard", "celery", "lupin", "sulphites", "molluscs",
+    "crustaceans", "products", "ingredients", "traces", "items", "foods", "allergens", "seeds",
+}
+
+# After the food: "tree nut-free", "a tree nut allergy", "nut allergies".
+SAFE_AFTER = r"(?:\s*-?\s*free\b|\s+allerg\w*|\s+intoleran\w*)"
+
+
+def is_safe_allergy_context(recipe_text: str, term: str, other_terms: List[str] = None) -> bool:
+    """
+    True only when every mention of an allergy term says it is NOT in the dish:
+    "no tomato", "free of tree nuts", "it skips cashews and almonds",
+    "tree nut-free", "suitable for a tree nut allergy", "instead of cashews".
+
+    Each mention is judged on its own words, so "Garnish with almonds (nut-free
+    option: leave them out)" still fails, and so does "instead of yoghurt, use
+    cashews". Added after the Phase 5 benchmark, where natural wording like
+    "respects your tree nut allergy" failed a safe Indian recipe three times.
     """
 
     clean_text = normalize_text(recipe_text)
@@ -640,31 +681,32 @@ def is_safe_allergy_context(recipe_text: str, term: str) -> bool:
     if not matches:
         return True
 
-    safe_patterns = [
-        rf"\bno\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bwithout\s+(?:any\s+)?(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\b{re.escape(clean_term)}\s*-?\s*free\b",
-        rf"\bfree\s+from\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bavoid(?:s|ed|ing)?\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bdoes\s+not\s+contain\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bdoesn\s*t\s+contain\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bcontains\s+no\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bdo\s+not\s+include\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bnot\s+include\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-        rf"\bexcluded\s+(?:[a-z0-9]+\s+){{0,4}}{re.escape(clean_term)}\b",
-    ]
+    # Other excluded foods can be listed together: "skips cashews and almonds".
+    filler = set(NEGATION_FILLER)
+    for other in other_terms or []:
+        filler.update(normalize_text(other).split())
 
     for match in matches:
-        start = max(match.start() - 90, 0)
-        end = min(match.end() + 90, len(clean_text))
-        context = clean_text[start:end]
+        after = clean_text[match.end():match.end() + 20]
+        if re.match(SAFE_AFTER, after):
+            continue
 
-        safe_context_found = any(
-            re.search(safe_pattern, context)
-            for safe_pattern in safe_patterns
-        )
+        # Walk back over filler words (at most 6) looking for a cue.
+        before_words = clean_text[:match.start()].replace("-", " ").split()[-12:]
+        safe = False
+        skipped = 0
+        while before_words and skipped <= 6:
+            for cue in NEGATION_CUES:
+                cue_words = cue.split()
+                if before_words[-len(cue_words):] == cue_words:
+                    safe = True
+                    break
+            if safe or before_words[-1] not in filler:
+                break
+            before_words.pop()
+            skipped += 1
 
-        if not safe_context_found:
+        if not safe:
             return False
 
     return True
@@ -677,6 +719,7 @@ def find_unsafe_allergy_terms(recipe_text: str, allergy_terms: List[str]) -> Lis
         if contains_term(recipe_text, term) and not is_safe_allergy_context(
             recipe_text,
             term,
+            allergy_terms,
         ):
             unsafe_terms.append(term)
 
@@ -1256,10 +1299,9 @@ def check_difficulty_match(
     """
 
     difficulty = normalize_text(preferences.get("difficulty"))
-    clean_text = normalize_text(recipe_text)
-    complex_terms_found = find_matching_terms(clean_text, COMPLEX_METHOD_TERMS)
 
     step_count = 0
+    step_lines = []
 
     in_steps_section = False
 
@@ -1270,11 +1312,20 @@ def check_difficulty_match(
             in_steps_section = True
             continue
 
-        if clean_line.startswith("allergy") or clean_line.startswith("nutrition"):
+        if clean_line.startswith(STEPS_END_HEADINGS):
             in_steps_section = False
+
+        if in_steps_section:
+            step_lines.append(clean_line)
 
         if in_steps_section and re.match(r"^(step\s*)?\d+[\).\s-]+", clean_line):
             step_count += 1
+
+    # Only the method counts: "keeps in the fridge overnight" in the storage
+    # advice doesn't make a dish hard, and nor does an optional "or overnight".
+    method_text = normalize_text("\n".join(step_lines) if step_lines else recipe_text)
+    method_text = re.sub(OPTIONAL_TIME, " ", method_text)
+    complex_terms_found = find_matching_terms(method_text, COMPLEX_METHOD_TERMS)
 
     if step_count == 0:
         for line in recipe_text.splitlines():

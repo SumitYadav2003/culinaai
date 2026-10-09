@@ -34,11 +34,19 @@ that describe the cut or how it is bought ("boneless", "skinless", "fillets", "d
 "low-sodium" and similar), and each option of a choice in order ("water or chicken broth" tries water
 first). Words that change the food ("ground", "dried", "minced", "smoked", "lean") are kept. One
 known approximation: "low-sodium" stock matches ordinary stock, so its salt reads high.
+Words in brackets are dropped ("lean beef mince (5% fat)"), and mince described as 5% fat or less
+("beef mince, 5% fat") is matched to CoFID's extra lean mince rather than ordinary mince.
+
+Added in October 2026, after the evaluation benchmark (docs/evaluation) listed the ingredients that
+most often had no match: jasmine rice, flour tortillas, red and Kashmiri chilli powder, Chinese egg
+noodles, rice vinegar, chilli paste, ginger paste, British names for mince ("minced beef") and lean
+mince ("5% fat beef mince"). Chilli paste, ginger paste, rice vinegar, lean lamb mince and lean pork
+mince are approximations, and their notes in the file say so.
 
 ## usda_supplement.csv
 
-Seven common ingredients that CoFID doesn't cover: cornflour, dry breadcrumbs, black beans (cooked),
-maple syrup, chia seeds, unsweetened oat drink and dry rice noodles. Values come from
+Nine common ingredients that CoFID doesn't cover: cornflour, dry breadcrumbs, black beans (cooked),
+maple syrup, chia seeds, unsweetened oat drink, dry rice noodles, fish sauce and oyster sauce. Values come from
 **USDA FoodData Central** (SR Legacy, and Foundation Foods for the oat drink), which is US government
 data in the public domain. Each row keeps its USDA FDC ID in the food code (e.g. `USDA-169698`), and
 the app labels these foods "USDA FoodData Central" so users can see they are not UK figures.
@@ -52,6 +60,10 @@ was not reachable from the build environment. Cross-checks on a second site:
 - Chia seeds: the second site uses a newer USDA entry (490 kcal instead of 486), so it is not a
   like-for-like check. The SR Legacy entry (FDC 170554) is used here.
 - Oat drink: not cross-checked. Worth confirming against the USDA site (FDC 2257046) when possible.
+- Fish sauce (FDC 174531) and oyster sauce (FDC 174529), added in October 2026 after the evaluation
+  benchmark found them among the most common unmatched ingredients: energy, protein, fat and
+  carbohydrate matched recipal.com exactly, and the sodium on recipal.com's per-tablespoon label
+  (1413 mg and 492 mg per 18 g) works out to the same per-100 g figures.
 
 Converted to match CoFID:
 
@@ -87,10 +99,10 @@ chart (https://ourworldindata.org/grapher/food-emissions-supply-chain), licensed
 ## carbon_food_map.csv
 
 Which carbon category each food counts as, with a note wherever the category is a stand-in (e.g. the
-wheat figure for pasta, the milk figure for yogurt). Of the 216 foods the ingredient aliases use, 127
+wheat figure for pasta, the milk figure for yogurt). Of the 219 foods the ingredient aliases use, 128
 have a category.
 
-The other 89 are left without one on purpose, because nothing in the 43 categories fits well enough
+The other 91 are left without one on purpose, because nothing in the 43 categories fits well enough
 and borrowing a figure would mislead. The list below covers the first 192; the foods added in the
 October 2026 coverage check (mostly spices, seeds, cheeses, seaweed and sauces) follow the same rule. Tap water and salt count as zero, since their footprint is
 negligible. The remaining foods are reported in the app as "no carbon figure", and the app says what
@@ -107,7 +119,7 @@ share of the recipe the estimate covers. They are:
   powder, cinnamon, coriander seeds (ground coriander), cumin, curry powder, garam masala, garlic powder, fresh and ground ginger,
   paprika, turmeric
 - sauces, stocks and baking: tomato puree, ketchup, mayonnaise, mustard (smooth and wholegrain),
-  pesto, curry paste, soy sauce, Worcestershire sauce, vinegar, gravy granules, stock cubes (beef,
+  pesto, curry paste, soy sauce, fish sauce, oyster sauce, Worcestershire sauce, vinegar, gravy granules, stock cubes (beef,
   chicken, vegetable, and stock made up from cubes), baking powder, yeast
 
 Beef uses the beef-herd figure (99.5). Beef from dairy herds, a large share of UK beef, is about a
@@ -119,7 +131,7 @@ Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_foo
 
 ## ingredient_prices.csv
 
-A price per kg for the 216 foods the ingredient aliases use. All 216 have a price; 11 are estimates. It is exported from
+A price per kg for the 219 foods the ingredient aliases use. All 219 have a price; 14 are estimates. It is exported from
 `docs/evaluation/CulinaAI_ingredient_prices.xlsx` with `scripts/export_prices.py`. The `status`
 column says where each price came from:
 

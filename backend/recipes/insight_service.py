@@ -16,7 +16,7 @@ The result is a plain dict, so it can be kept in the session and in a JSONField.
 
 import traceback
 
-from nutrition.services import IngredientInput, calculate_for_foods, resolve_ingredients
+from nutrition.services import TRAFFIC_LIGHT_THRESHOLDS, IngredientInput, calculate_for_foods, resolve_ingredients
 
 from .classic_service import compare_with_classic
 from .risk_service import NUTRIENT_LABELS, allergens_in, hidden_allergen_alerts, nutrition_flags, safety_flags
@@ -159,7 +159,41 @@ def high_nutrients(nutrition):
     return [NUTRIENT_LABELS[n] for n, light in nutrition["traffic_lights"].items() if light == "red"]
 
 
-def meal_style_check(nutrition, preferences):
+def high_nutrient_sources(result):
+    """
+    For each nutrient with a red traffic light: the amount per serving, the most a
+    serving can have to stop being red, and the ingredients it mostly comes from.
+    Used to tell the AI exactly what to change when "Everyday healthy" was missed.
+    """
+    if result is None or not result.servings or not result.total_grams:
+        return []
+    portion = result.total_grams / result.servings
+    highs = []
+    for nutrient, light in result.traffic_lights.items():
+        if light != "red":
+            continue
+        _, amber_max, portion_red = TRAFFIC_LIGHT_THRESHOLDS[nutrient]
+        limit = amber_max * portion / 100
+        if portion > 100:
+            limit = min(limit, portion_red)
+        sources = sorted(
+            (
+                {"name": item.name, "grams": round(item.grams),
+                 "per_serving": round((item.nutrients.get(nutrient) or 0) / result.servings, 1)}
+                for item in result.matched
+            ),
+            key=lambda source: -source["per_serving"],
+        )
+        highs.append({
+            "nutrient": NUTRIENT_LABELS[nutrient],
+            "per_serving": round(result.per_serving[nutrient], 1),
+            "limit": round(limit, 1),
+            "sources": [source for source in sources[:3] if source["per_serving"] > 0],
+        })
+    return highs
+
+
+def meal_style_check(nutrition, preferences, result=None):
     """
     Did the dish come out as the meal style the user asked for? Decided by the
     same traffic lights as the Everyday healthy / Treat tag, never by the AI.
@@ -194,6 +228,7 @@ def meal_style_check(nutrition, preferences):
         "met": False,
         "text": f"You asked for everyday healthy, but this dish is high in {' and '.join(high_nutrients(nutrition))}. "
                 "The healthiest version below shows swaps that bring it down.",
+        "highs": high_nutrient_sources(result),
     }
 
 
@@ -206,12 +241,30 @@ def meal_style_correction(insights):
     if style.get("chosen") != "everyday" or style.get("met") is not False:
         return ""
     highs = " and ".join(high_nutrients(insights["nutrition"]))
-    return (
+    lines = [
         f"The user asked for an everyday healthy dish, but it came out high in {highs} on the UK "
         "front-of-pack traffic lights. Use less oil, butter, ghee, cheese, cream, sugar, salt, stock cubes "
         "and processed meat, and no deep frying, so that fat, saturated fat, sugars and salt are all below "
         "the high levels."
-    )
+    ]
+    # The numbers and the main sources, so the AI changes what actually matters
+    # (the benchmark showed a general reminder wasn't enough for mince dishes).
+    for high in style.get("highs") or []:
+        line = (f"{high['nutrient'].capitalize()}: {high['per_serving']:g} g per serving; "
+                f"it must be {high['limit']:g} g or less.")
+        if high["sources"]:
+            line += " Most of it comes from " + ", ".join(
+                f"{source['name']} ({source['grams']} g in the recipe, {source['per_serving']:g} g per serving)"
+                for source in high["sources"]
+            ) + "."
+        lines.append(line)
+    if style.get("highs"):
+        lines.append(
+            "Keep the user's ingredients, but you may use less of them: for example a lean version "
+            "(extra-lean 5% fat mince), a smaller amount of the main source, and more vegetables, beans "
+            "or lentils to keep the portion filling. Check the new amounts against the limits above."
+        )
+    return "\n".join(lines)
 
 
 LEVEL_ORDER = {"Low": 0, "Good": 1, "High": 2}
@@ -337,7 +390,7 @@ def build_insights(structure_result, preferences, recipe_text):
             for claim in claims
         ],
         "tag": everyday_or_treat(nutrition),
-        "meal_style": meal_style_check(nutrition, preferences),
+        "meal_style": meal_style_check(nutrition, preferences, result),
         "cost": {
             "per_serving": result.cost_gbp_per_serving,
             "total": result.cost_gbp_total,
