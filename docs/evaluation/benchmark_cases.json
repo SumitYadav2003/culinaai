@@ -1,0 +1,587 @@
+{
+  "about": "Fixed test cases for the evaluation benchmark (python manage.py run_benchmark; see docs/evaluation/README.md): 6 cuisines x 5 variants (plain, everyday healthy, vegetarian, an allergy, treat with high protein). Change them only between benchmark runs, and say so in the report.",
+  "cases": [
+    {
+      "id": "thai-plain",
+      "ingredients": "chicken thighs, coconut milk, green beans, rice, lime",
+      "cuisine": "Thai",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "thai-everyday",
+      "ingredients": "chicken thighs, coconut milk, green beans, rice, lime",
+      "cuisine": "Thai",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Everyday healthy",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "thai-vegetarian",
+      "ingredients": "tofu, coconut milk, broccoli, rice, lime",
+      "cuisine": "Thai",
+      "meal_type": "Dinner",
+      "diet_preferences": [
+        "Vegetarian"
+      ],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "thai-allergy",
+      "ingredients": "chicken thighs, coconut milk, green beans, rice, lime",
+      "cuisine": "Thai",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "peanuts",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "thai-treat-protein",
+      "ingredients": "chicken thighs, coconut milk, green beans, rice, lime",
+      "cuisine": "Thai",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Treat",
+      "nutrition_goal": "High Protein",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "italian-plain",
+      "ingredients": "spaghetti, tomatoes, garlic, beef mince, onion",
+      "cuisine": "Italian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "italian-everyday",
+      "ingredients": "spaghetti, tomatoes, garlic, beef mince, onion",
+      "cuisine": "Italian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Everyday healthy",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "italian-vegetarian",
+      "ingredients": "penne, courgette, tomatoes, basil, mozzarella",
+      "cuisine": "Italian",
+      "meal_type": "Dinner",
+      "diet_preferences": [
+        "Vegetarian"
+      ],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "italian-allergy",
+      "ingredients": "spaghetti, tomatoes, garlic, beef mince, onion",
+      "cuisine": "Italian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "dairy",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "italian-treat-protein",
+      "ingredients": "spaghetti, tomatoes, garlic, beef mince, onion",
+      "cuisine": "Italian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Treat",
+      "nutrition_goal": "High Protein",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "indian-plain",
+      "ingredients": "chicken breast, onion, tomatoes, yoghurt, rice",
+      "cuisine": "Indian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "indian-everyday",
+      "ingredients": "chicken breast, onion, tomatoes, yoghurt, rice",
+      "cuisine": "Indian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Everyday healthy",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "indian-vegetarian",
+      "ingredients": "chickpeas, spinach, onion, tomatoes, rice",
+      "cuisine": "Indian",
+      "meal_type": "Dinner",
+      "diet_preferences": [
+        "Vegetarian"
+      ],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "indian-allergy",
+      "ingredients": "chicken breast, onion, tomatoes, yoghurt, rice",
+      "cuisine": "Indian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "tree nuts",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "indian-treat-protein",
+      "ingredients": "chicken breast, onion, tomatoes, yoghurt, rice",
+      "cuisine": "Indian",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Treat",
+      "nutrition_goal": "High Protein",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "mexican-plain",
+      "ingredients": "chicken breast, tortillas, peppers, onion, avocado",
+      "cuisine": "Mexican",
+      "meal_type": "Lunch",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "mexican-everyday",
+      "ingredients": "chicken breast, tortillas, peppers, onion, avocado",
+      "cuisine": "Mexican",
+      "meal_type": "Lunch",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Everyday healthy",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "mexican-vegetarian",
+      "ingredients": "black beans, sweetcorn, tortillas, peppers, avocado",
+      "cuisine": "Mexican",
+      "meal_type": "Lunch",
+      "diet_preferences": [
+        "Vegetarian"
+      ],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "mexican-allergy",
+      "ingredients": "chicken breast, tortillas, peppers, onion, avocado",
+      "cuisine": "Mexican",
+      "meal_type": "Lunch",
+      "diet_preferences": [],
+      "allergies": "dairy",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "mexican-treat-protein",
+      "ingredients": "chicken breast, tortillas, peppers, onion, avocado",
+      "cuisine": "Mexican",
+      "meal_type": "Lunch",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Treat",
+      "nutrition_goal": "High Protein",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "chinese-plain",
+      "ingredients": "pork mince, noodles, pak choi, garlic, ginger",
+      "cuisine": "Chinese",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "chinese-everyday",
+      "ingredients": "pork mince, noodles, pak choi, garlic, ginger",
+      "cuisine": "Chinese",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Everyday healthy",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "chinese-vegetarian",
+      "ingredients": "tofu, noodles, broccoli, carrots, ginger",
+      "cuisine": "Chinese",
+      "meal_type": "Dinner",
+      "diet_preferences": [
+        "Vegetarian"
+      ],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "chinese-allergy",
+      "ingredients": "pork mince, noodles, pak choi, garlic, ginger",
+      "cuisine": "Chinese",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "sesame, peanuts",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "chinese-treat-protein",
+      "ingredients": "pork mince, noodles, pak choi, garlic, ginger",
+      "cuisine": "Chinese",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Treat",
+      "nutrition_goal": "High Protein",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "moroccan-plain",
+      "ingredients": "lamb mince, chickpeas, carrots, onion, couscous",
+      "cuisine": "Moroccan",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "moroccan-everyday",
+      "ingredients": "lamb mince, chickpeas, carrots, onion, couscous",
+      "cuisine": "Moroccan",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Everyday healthy",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "moroccan-vegetarian",
+      "ingredients": "chickpeas, sweet potato, carrots, onion, couscous",
+      "cuisine": "Moroccan",
+      "meal_type": "Dinner",
+      "diet_preferences": [
+        "Vegetarian"
+      ],
+      "allergies": "None provided",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "moroccan-allergy",
+      "ingredients": "lamb mince, chickpeas, carrots, onion, couscous",
+      "cuisine": "Moroccan",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "gluten",
+      "meal_style": "No preference",
+      "nutrition_goal": "Balanced",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    },
+    {
+      "id": "moroccan-treat-protein",
+      "ingredients": "lamb mince, chickpeas, carrots, onion, couscous",
+      "cuisine": "Moroccan",
+      "meal_type": "Dinner",
+      "diet_preferences": [],
+      "allergies": "None provided",
+      "meal_style": "Treat",
+      "nutrition_goal": "High Protein",
+      "cooking_time_minutes": 40,
+      "servings": 2,
+      "difficulty": "easy",
+      "spice_level": "Medium",
+      "budget_level": "Moderate Budget",
+      "cooking_equipment": [
+        "Stove / Hob",
+        "Oven"
+      ]
+    }
+  ]
+}
