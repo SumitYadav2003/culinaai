@@ -1,0 +1,215 @@
+{
+  "about": "Well-known dishes with ingredient names written as a recipe would list them, and the cuisine check result we expect. Used by tests and by the evaluation report.",
+  "dishes": [
+    {
+      "cuisine": "Thai",
+      "dish": "green curry",
+      "expected": "typical",
+      "ingredients": [
+        "boneless chicken thighs",
+        "Thai green curry paste",
+        "coconut milk",
+        "fish sauce",
+        "palm sugar",
+        "kaffir lime leaves",
+        "Thai basil",
+        "green beans",
+        "vegetable oil",
+        "jasmine rice"
+      ]
+    },
+    {
+      "cuisine": "Thai",
+      "dish": "pad thai",
+      "expected": "typical",
+      "ingredients": [
+        "flat rice noodles",
+        "prawns",
+        "eggs",
+        "tamarind paste",
+        "fish sauce",
+        "brown sugar",
+        "garlic",
+        "spring onions",
+        "bean sprouts",
+        "roasted peanuts",
+        "lime wedges"
+      ]
+    },
+    {
+      "cuisine": "Italian",
+      "dish": "carbonara",
+      "expected": "typical",
+      "ingredients": [
+        "spaghetti",
+        "pancetta",
+        "eggs",
+        "pecorino romano",
+        "black pepper",
+        "salt"
+      ]
+    },
+    {
+      "cuisine": "Italian",
+      "dish": "mushroom risotto",
+      "expected": "typical",
+      "ingredients": [
+        "arborio rice",
+        "chicken stock",
+        "onion",
+        "white wine",
+        "butter",
+        "parmesan",
+        "mushrooms",
+        "olive oil"
+      ]
+    },
+    {
+      "cuisine": "Indian",
+      "dish": "chana masala",
+      "expected": "typical",
+      "ingredients": [
+        "chickpeas",
+        "onion",
+        "tomatoes",
+        "ginger garlic paste",
+        "green chilli",
+        "cumin seeds",
+        "ground coriander",
+        "turmeric powder",
+        "garam masala",
+        "fresh coriander",
+        "vegetable oil"
+      ]
+    },
+    {
+      "cuisine": "Indian",
+      "dish": "butter chicken",
+      "expected": "typical",
+      "ingredients": [
+        "chicken breast",
+        "yoghurt",
+        "ginger",
+        "garlic",
+        "kashmiri chilli powder",
+        "garam masala",
+        "butter",
+        "double cream",
+        "tomato puree",
+        "kasuri methi"
+      ]
+    },
+    {
+      "cuisine": "Mexican",
+      "dish": "chicken tacos",
+      "expected": "very",
+      "ingredients": [
+        "chicken breast",
+        "corn tortillas",
+        "red onion",
+        "fresh coriander",
+        "lime",
+        "avocado",
+        "jalapeño",
+        "cumin",
+        "smoked paprika",
+        "sour cream"
+      ]
+    },
+    {
+      "cuisine": "Chinese",
+      "dish": "egg fried rice",
+      "expected": "typical",
+      "ingredients": [
+        "cooked rice",
+        "eggs",
+        "spring onions",
+        "soy sauce",
+        "sesame oil",
+        "frozen peas",
+        "garlic",
+        "vegetable oil"
+      ]
+    },
+    {
+      "cuisine": "Japanese",
+      "dish": "teriyaki salmon",
+      "expected": "very",
+      "ingredients": [
+        "salmon fillets",
+        "soy sauce",
+        "mirin",
+        "honey",
+        "ginger",
+        "garlic",
+        "sesame seeds",
+        "spring onions",
+        "steamed rice"
+      ]
+    },
+    {
+      "cuisine": "Moroccan",
+      "dish": "chicken tagine",
+      "expected": "very",
+      "ingredients": [
+        "chicken thighs",
+        "onion",
+        "garlic",
+        "ground cumin",
+        "ground cinnamon",
+        "ground ginger",
+        "preserved lemon",
+        "green olives",
+        "chicken stock",
+        "fresh coriander",
+        "olive oil"
+      ]
+    },
+    {
+      "cuisine": "Greek",
+      "dish": "greek salad",
+      "expected": "typical",
+      "ingredients": [
+        "tomatoes",
+        "cucumber",
+        "red onion",
+        "feta",
+        "kalamata olives",
+        "dried oregano",
+        "olive oil",
+        "red wine vinegar"
+      ]
+    },
+    {
+      "cuisine": "British",
+      "dish": "shepherd's pie",
+      "expected": "typical",
+      "ingredients": [
+        "lamb mince",
+        "onion",
+        "carrot",
+        "peas",
+        "worcestershire sauce",
+        "beef stock",
+        "potatoes",
+        "butter",
+        "milk",
+        "thyme"
+      ]
+    },
+    {
+      "cuisine": "Thai",
+      "dish": "bolognese labelled Thai",
+      "expected": "less",
+      "ingredients": [
+        "spaghetti",
+        "beef mince",
+        "chopped tomatoes",
+        "onion",
+        "garlic",
+        "oregano",
+        "parmesan"
+      ]
+    }
+  ]
+}

@@ -49,3 +49,6 @@ temp/
 
 # Local SQLite databases (CI and local testing)
 *.sqlite3
+
+# User study answers and consent forms (docs/evaluation/README.md)
+docs/evaluation/user_study/private/

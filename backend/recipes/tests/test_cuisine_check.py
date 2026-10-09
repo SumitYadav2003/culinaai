@@ -5,6 +5,7 @@ the real generate view (AI calls mocked).
 """
 
 import csv
+import json
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -184,41 +185,10 @@ class CuisineFlowTests(TestCase):
         self.assertEqual(generate.call_count, 1)
 
 
-# Well-known dishes, with ingredient names written the way a recipe would list them.
-CLASSIC_DISHES = [
-    ("Thai", "green curry", "typical", ["boneless chicken thighs", "Thai green curry paste", "coconut milk",
-                                        "fish sauce", "palm sugar", "kaffir lime leaves", "Thai basil", "green beans",
-                                        "vegetable oil", "jasmine rice"]),
-    ("Thai", "pad thai", "typical", ["flat rice noodles", "prawns", "eggs", "tamarind paste", "fish sauce",
-                                     "brown sugar", "garlic", "spring onions", "bean sprouts", "roasted peanuts",
-                                     "lime wedges"]),
-    ("Italian", "carbonara", "typical", ["spaghetti", "pancetta", "eggs", "pecorino romano", "black pepper", "salt"]),
-    ("Italian", "mushroom risotto", "typical", ["arborio rice", "chicken stock", "onion", "white wine", "butter",
-                                                "parmesan", "mushrooms", "olive oil"]),
-    ("Indian", "chana masala", "typical", ["chickpeas", "onion", "tomatoes", "ginger garlic paste", "green chilli",
-                                           "cumin seeds", "ground coriander", "turmeric powder", "garam masala",
-                                           "fresh coriander", "vegetable oil"]),
-    ("Indian", "butter chicken", "typical", ["chicken breast", "yoghurt", "ginger", "garlic",
-                                             "kashmiri chilli powder", "garam masala", "butter", "double cream",
-                                             "tomato puree", "kasuri methi"]),
-    ("Mexican", "chicken tacos", "very", ["chicken breast", "corn tortillas", "red onion", "fresh coriander",
-                                             "lime", "avocado", "jalapeño", "cumin", "smoked paprika",
-                                             "sour cream"]),
-    ("Chinese", "egg fried rice", "typical", ["cooked rice", "eggs", "spring onions", "soy sauce", "sesame oil",
-                                              "frozen peas", "garlic", "vegetable oil"]),
-    ("Japanese", "teriyaki salmon", "very", ["salmon fillets", "soy sauce", "mirin", "honey", "ginger", "garlic",
-                                                "sesame seeds", "spring onions", "steamed rice"]),
-    ("Moroccan", "chicken tagine", "very", ["chicken thighs", "onion", "garlic", "ground cumin",
-                                               "ground cinnamon", "ground ginger", "preserved lemon", "green olives",
-                                               "chicken stock", "fresh coriander", "olive oil"]),
-    ("Greek", "greek salad", "typical", ["tomatoes", "cucumber", "red onion", "feta", "kalamata olives",
-                                         "dried oregano", "olive oil", "red wine vinegar"]),
-    ("British", "shepherd's pie", "typical", ["lamb mince", "onion", "carrot", "peas", "worcestershire sauce",
-                                              "beef stock", "potatoes", "butter", "milk", "thyme"]),
-    # A spaghetti bolognese labelled Thai should be caught and retried.
-    ("Thai", "bolognese labelled Thai", "less", ["spaghetti", "beef mince", "chopped tomatoes", "onion", "garlic",
-                                                  "oregano", "parmesan"]),
-]
+# Well-known dishes, with ingredient names written the way a recipe would list them
+# (recipes/data/classic_dishes.json, also used by the evaluation report).
+with open(DATA_DIR / "classic_dishes.json", encoding="utf-8") as handle:
+    CLASSIC_DISHES = [(d["cuisine"], d["dish"], d["expected"], d["ingredients"]) for d in json.load(handle)["dishes"]]
 
 
 class ClassicDishesTests(SimpleTestCase):
