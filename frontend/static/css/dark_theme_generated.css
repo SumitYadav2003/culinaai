@@ -3043,6 +3043,28 @@ html[data-theme="dark"] .culina-personal-note i {
 html[data-theme="dark"] .culina-personal-note a {
     color: #f6af92;
 }
+html[data-theme="dark"] .culina-cuisine-note {
+    background: #302312;
+    color: #eae5e2;
+}
+html[data-theme="dark"] .culina-cuisine-note i {
+    color: #f5a981;
+}
+html[data-theme="dark"] .culina-cuisine-note small {
+    color: #d5c8be;
+}
+html[data-theme="dark"] .culina-cuisine-typical,
+html[data-theme="dark"] .culina-cuisine-very {
+    background: #14341f;
+    color: #c5f1d7;
+}
+html[data-theme="dark"] .culina-cuisine-typical i,
+html[data-theme="dark"] .culina-cuisine-very i {
+    color: #aff2c8;
+}
+html[data-theme="dark"] .culina-cuisine-unchecked {
+    color: #d5c8be;
+}
 
 /* ---------- from recipe_loading.css ---------- */
 
