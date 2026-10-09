@@ -258,13 +258,31 @@ def meal_style_correction(insights):
                 for source in high["sources"]
             ) + "."
         lines.append(line)
-    if style.get("highs"):
+    highs_found = {high["nutrient"] for high in style.get("highs") or []}
+    for nutrient, advice in MEAL_STYLE_ADVICE.items():
+        if nutrient in highs_found:
+            lines.append(advice)
+    if highs_found:
         lines.append(
-            "Keep the user's ingredients, but you may use less of them: for example a lean version "
-            "(extra-lean 5% fat mince), a smaller amount of the main source, and more vegetables, beans "
-            "or lentils to keep the portion filling. Check the new amounts against the limits above."
+            "Keep the user's ingredients, but you may use less of them, and name any lighter version "
+            "exactly as it is sold (for example \"5% fat beef mince\", \"light coconut milk\", "
+            "\"reduced-salt soy sauce\") so it can be checked. Check the new amounts against the limits above."
         )
     return "\n".join(lines)
+
+
+# What to change for each high nutrient. Names are ones the food data recognises,
+# so the next check can see the change.
+MEAL_STYLE_ADVICE = {
+    "fat": "For fat: use a lean version of the main source (5% fat beef mince, skinless chicken) or less of it, "
+           "light coconut milk instead of full-fat, less oil (1 tbsp is plenty for two), and more vegetables, "
+           "beans or lentils to keep the portion filling.",
+    "saturated fat": "For saturated fat: use less fatty meat, butter, ghee, cheese, cream and coconut milk "
+                     "(light coconut milk has about half the saturated fat).",
+    "sugars": "For sugars: use less sugar, honey, syrup and sweet sauces; let the vegetables and spices carry the flavour.",
+    "salt": "For salt: use less of the salty sauces (soy, fish and oyster sauce) or reduced-salt soy sauce, "
+            "no added salt or stock cube, and lime, garlic, ginger, chilli and herbs for flavour instead.",
+}
 
 
 LEVEL_ORDER = {"Low": 0, "Good": 1, "High": 2}

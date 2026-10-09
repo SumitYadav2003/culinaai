@@ -297,13 +297,17 @@ EQUIPMENT_KEYWORDS = {
         "in a blender",
         "food processor",
         "mixer grinder",
-        "grinder",
+        "spice grinder",
         "grind into a paste",
         "blend into a paste",
         "blend until smooth",
-        "puree",
-        "purée",
-        "smooth paste",
+        # The verb only: "tomato puree" and "garlic puree" are shop-bought, and a
+        # pepper grinder or mashing garlic "to a smooth paste" needs no blender.
+        "puree the",
+        "puree it",
+        "puree until",
+        "puree everything",
+        "blitz",
     ],
     "pressure cooker": [
         "pressure cooker",

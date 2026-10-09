@@ -86,7 +86,25 @@ and has a test in `backend/recipes/tests/test_benchmark_fixes.py`:
 - **The report counted a retry request on the last attempt**, which can't be retried. It now counts
   only retries that happened.
 
-Compare the next runs with the first one to see whether these changes worked.
+### The second run, and what was changed after it
+
+With those fixes (`results/benchmark_2026-10-09_1855.jsonl`): every recipe passed the quality gates
+first time, no fallback was needed, 28 of 30 recipes had every ingredient matched (21 before), and
+"Everyday healthy" could be checked for all 6 recipes and was met by 4 (2 of 4 before). What was
+left, and changed:
+
+- **Thai and Chinese "Everyday healthy" were still not met after three tries.** The note to the AI
+  now adds advice for the nutrient that is high (for salt: less soy, fish and oyster sauce, or
+  reduced-salt soy sauce). Light coconut milk and reduced-salt soy sauce were added to the food
+  data; before, the lighter versions matched nothing or the ordinary versions, so a recipe that used
+  them still read as high.
+- **The equipment check counted "tomato puree" and "pepper grinder" as needing a blender.** It now
+  looks for blending as a step ("puree the", "blend until smooth").
+- **The report listed the equipment the user had chosen as objections.** It now lists only what a
+  check found, plus the step count when the difficulty check fails on it. The "Everyday healthy"
+  column now says which nutrient was high, by how much, and where it came from.
+
+Compare the next runs with these two to see whether the changes worked.
 
 ## A2. Report on real use
 

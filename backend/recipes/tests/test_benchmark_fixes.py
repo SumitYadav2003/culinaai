@@ -165,7 +165,9 @@ class FoodDataTests(TestCase):
         note = meal_style_correction(insights)
         self.assertIn("Saturated fat: 11.9 g per serving; it must be 6 g or less.", note)
         self.assertIn("Most of it comes from beef mince (250 g in the recipe, 8.7 g per serving)", note)
-        self.assertIn("extra-lean 5% fat mince", note)
+        self.assertIn("5% fat beef mince", note)
+        self.assertIn("For saturated fat:", note)
+        self.assertNotIn("For salt:", note)  # only advice for what is actually high
 
     def test_the_suggested_change_really_meets_everyday_healthy(self):
         lean = build_insights(bolognese("5% fat beef mince"), EVERYDAY, "")
@@ -214,3 +216,59 @@ class ReportCountTests(SimpleTestCase):
         row = {"id": 1, "insights": {}, "attempts": 3, "attempt_history": history, "quality_score": 90,
                "allergies": "", "diets": [], "cuisine": ""}
         self.assertEqual(ev.quality_summary([row])["retry_for"], [("Meal Style", 2)])
+
+
+class SecondRunTests(TestCase):
+    """Found by the second benchmark run (9 October 2026)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        with open("/dev/null", "w") as quiet:
+            call_command("load_food_data", stdout=quiet)
+
+    def test_lighter_versions_are_matched_so_a_retry_can_be_checked(self):
+        for name, food in [("light coconut milk", "Coconut milk, reduced fat, retail"),
+                           ("reduced-salt soy sauce", "Soy sauce, reduced salt (shoyu, low sodium)"),
+                           ("low sodium soy sauce", "Soy sauce, reduced salt (shoyu, low sodium)"),
+                           ("light soy sauce", "Soy sauce, light and dark varieties")]:  # light is not low salt
+            with self.subTest(name=name):
+                self.assertEqual(resolve_ingredients([IngredientInput(name, 100)])[0].food.name, food)
+        reduced = calculate_nutrition([IngredientInput("reduced-salt soy sauce", 100)], 1)
+        ordinary = calculate_nutrition([IngredientInput("soy sauce", 100)], 1)
+        self.assertLess(reduced.per_100g["salt_g"], ordinary.per_100g["salt_g"])
+
+    def test_salt_advice_names_the_sauces(self):
+        items = [("chicken breast", 300), ("soy sauce", 45), ("fish sauce", 30), ("rice", 150), ("broccoli", 200)]
+        insights = build_insights({"structure": {"servings": 2, "ingredients": [
+            {"name": name, "grams": grams, "display": f"{grams} g"} for name, grams in items
+        ]}, "warnings": []}, EVERYDAY, "")
+        note = meal_style_correction(insights)
+        self.assertIn("Salt:", note)
+        self.assertIn("For salt: use less of the salty sauces", note)
+        self.assertIn("reduced-salt soy sauce", note)
+
+
+class EquipmentWordingTests(SimpleTestCase):
+    def test_shop_bought_puree_and_a_pepper_grinder_are_not_a_blender(self):
+        from recipes.recipe_quality_engine import check_equipment_match
+
+        preferences = {"cooking_equipment": ["Stove / Hob", "Oven"]}
+        text = ("STEPS:\n1. Stir in 2 tbsp tomato puree and the garlic puree.\n"
+                "2. Mash the garlic to a smooth paste.\n3. Finish with a few turns of the pepper grinder.")
+        self.assertTrue(check_equipment_match(preferences, text)["passed"])
+        blended = check_equipment_match(preferences, "STEPS:\n1. Puree the tomatoes in a blender.")
+        self.assertFalse(blended["passed"])
+        self.assertIn("blender", blended["details"]["unavailable_equipment_found"])
+
+    def test_report_lists_what_was_found_not_what_was_chosen(self):
+        history = [{"score": 90, "passed": True, "failed_checks": ["Equipment Compatibility"], "failed_details": {
+            "Equipment Compatibility": {"selected_equipment": ["Stove / Hob", "Oven"],
+                                        "selected_equipment_keys": ["oven", "stove"],
+                                        "unavailable_equipment_found": ["blender"]},
+            "Difficulty Match": {"difficulty": "easy", "complex_terms_found": [], "estimated_step_count": 11},
+        }}]
+        row = {"id": 1, "insights": {}, "attempts": 1, "attempt_history": history, "quality_score": 90,
+               "allergies": "", "diets": [], "cuisine": ""}
+        objections = ev.quality_summary([row])["objections"]
+        self.assertEqual(objections["Equipment Compatibility"], [("blender", 1)])
+        self.assertEqual(objections["Difficulty Match"], [("step count 11", 1)])

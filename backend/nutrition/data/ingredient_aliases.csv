@@ -376,3 +376,14 @@ minced lamb,18-481,British name for lamb mince
 lean turkey mince,18-350,No raw mince entry; average raw turkey meat
 lean pork mince,18-606,"CoFID has no lean pork mince; ordinary pork mince is used, so fat may read a little high"
 minced pork,18-606,British name for pork mince
+reduced-salt soy sauce,USDA-172473,"Not in CoFID; USDA low-sodium shoyu (about a third less salt than ordinary soy sauce)"
+reduced salt soy sauce,USDA-172473,USDA low-sodium shoyu
+low-sodium soy sauce,USDA-172473,USDA low-sodium shoyu
+low sodium soy sauce,USDA-172473,USDA low-sodium shoyu
+low-salt soy sauce,USDA-172473,USDA low-sodium shoyu
+low salt soy sauce,USDA-172473,USDA low-sodium shoyu
+less salt soy sauce,USDA-172473,USDA low-sodium shoyu
+light coconut milk,14-890,Reduced fat (retail); "light" coconut milk is the reduced-fat kind
+reduced fat coconut milk,14-890,
+reduced-fat coconut milk,14-890,
+low fat coconut milk,14-890,
