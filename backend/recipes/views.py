@@ -5,6 +5,7 @@ import uuid
 import traceback
 from datetime import timedelta
 from collections import Counter
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
@@ -457,6 +458,7 @@ def run_recipe_generation(request, preview_data):
                     "attempt_number": attempt_number,
                     "score": validation_report.get("score"),
                     "status": validation_report.get("status"),
+                    "passed": not validation_report.get("should_regenerate"),
                     "risk_level": validation_report.get("risk_level"),
                     "hard_fail": validation_report.get("hard_fail"),
                     "failed_checks": [
@@ -484,6 +486,10 @@ def run_recipe_generation(request, preview_data):
                 if fix
             ]
             style_fix = "\n".join(fixes)
+
+            # Recorded for the evaluation: which code checks asked for another try.
+            if fixes:
+                validation_attempt_history[-1]["retry_for"] = [fix.split(":", 1)[0].lstrip("- ") for fix in fixes]
 
             if not validation_report.get("should_regenerate"):
                 validated_attempt = (ai_result, validation_report, insights)
@@ -544,6 +550,7 @@ def run_recipe_generation(request, preview_data):
                     "attempt_number": max_regeneration_attempts + 1,
                     "score": fallback_validation_report.get("score"),
                     "status": "Safe fallback recipe generated",
+                    "fallback": True,
                     "risk_level": fallback_validation_report.get("risk_level"),
                     "hard_fail": fallback_validation_report.get("hard_fail"),
                     "failed_checks": [
@@ -583,7 +590,13 @@ def run_recipe_generation(request, preview_data):
         generated_image_path = ""
         generated_image_prompt = ""
 
+        # The evaluation benchmark turns images off (settings.CULINAAI_SKIP_IMAGES) to save cost.
+        skip_image = getattr(settings, "CULINAAI_SKIP_IMAGES", False)
+
         try:
+            if skip_image:
+                raise LookupError("images skipped")
+
             image_result = generate_recipe_image_base64(
                 recipe_title=generated_recipe_title,
                 preferences=preview_data,
@@ -597,8 +610,9 @@ def run_recipe_generation(request, preview_data):
             print("CULINAAI IMAGE SAVE DEBUG - exists:", default_storage.exists(generated_image_path) if generated_image_path else "N/A")
 
         except Exception as image_gen_error:
-            print("CULINAAI IMAGE GENERATION ERROR:", repr(image_gen_error))
-            traceback.print_exc()
+            if not skip_image:
+                print("CULINAAI IMAGE GENERATION ERROR:", repr(image_gen_error))
+                traceback.print_exc()
 
             generated_image_path = ""
             generated_image_prompt = ""
@@ -720,6 +734,8 @@ def run_recipe_generation(request, preview_data):
                     "attempt_number": 1,
                     "score": fallback_validation_report.get("score"),
                     "status": fallback_validation_report.get("status"),
+                    "fallback": True,
+                    "error": True,
                     "risk_level": fallback_validation_report.get("risk_level"),
                     "hard_fail": fallback_validation_report.get("hard_fail"),
                     "failed_checks": [
