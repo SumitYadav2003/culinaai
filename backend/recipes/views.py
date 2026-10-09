@@ -59,6 +59,7 @@ from .cooking_learning_service import (
     timer_adjustment,
 )
 from .cooking_mode_service import adjust_step_timers
+from .cuisine_service import cuisine_correction, recipe_cuisine_check
 from .insight_service import add_ai_swaps, build_insights, meal_style_correction
 from .structure_service import extract_recipe_structure
 
@@ -183,11 +184,21 @@ def build_recipe_insights(recipe_text, preferences):
 
     try:
         structure_result = extract_recipe_structure(recipe_text, preferences)
-        return build_insights(structure_result, preferences, recipe_text)
+        insights = build_insights(structure_result, preferences, recipe_text)
     except Exception as error:
         print("CULINAAI INSIGHTS ERROR:", repr(error))
         traceback.print_exc()
-        return build_insights(None, preferences, recipe_text)
+        insights = build_insights(None, preferences, recipe_text)
+
+    # Does it use the ingredients typical of the chosen cuisine? (cuisine_service.py, published data)
+    try:
+        cuisine = recipe_cuisine_check(preferences, insights, recipe_text)
+        if cuisine:
+            insights = dict(insights, cuisine=cuisine)
+    except Exception as error:
+        print("CULINAAI CUISINE CHECK ERROR:", repr(error))
+
+    return insights
 
 
 # Helper: builds validation preferences for AI-modified recipes.
@@ -462,8 +473,17 @@ def run_recipe_generation(request, preview_data):
             final_validation_report = validation_report
             final_insights = insights
 
-            # Meal style is checked by code from the traffic lights.
-            style_fix = meal_style_correction(insights)
+            # Meal style is checked by code from the traffic lights, and cuisine
+            # from published recipe data; either can ask the AI to try again.
+            fixes = [
+                f"- {label}: {fix}"
+                for label, fix in (
+                    ("Meal Style", meal_style_correction(insights)),
+                    ("Cuisine", cuisine_correction(insights)),
+                )
+                if fix
+            ]
+            style_fix = "\n".join(fixes)
 
             if not validation_report.get("should_regenerate"):
                 validated_attempt = (ai_result, validation_report, insights)
@@ -479,7 +499,7 @@ def run_recipe_generation(request, preview_data):
                     correction_prompt=(
                         (validation_report.get("correction_prompt", "") + "\n"
                          if validation_report.get("failed_checks") else "")
-                        + f"- Meal Style: {style_fix}"
+                        + style_fix
                     ),
                 )
 

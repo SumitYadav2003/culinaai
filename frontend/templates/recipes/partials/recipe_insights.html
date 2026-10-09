@@ -36,6 +36,24 @@ Context:
         </p>
     {% endif %}
 
+    {% if insights.cuisine %}
+        <div class="culina-cuisine-note culina-cuisine-{% if insights.cuisine.available %}{{ insights.cuisine.level }}{% else %}unchecked{% endif %}">
+            <i class="bi {% if insights.cuisine.level == 'typical' or insights.cuisine.level == 'very' %}bi-globe-americas{% else %}bi-globe2{% endif %}" aria-hidden="true"></i>
+            <div>
+                <strong>Cuisine check:</strong> {{ insights.cuisine.text }}
+                {% if insights.cuisine.available %}
+                    {% if insights.cuisine.excluded %}
+                        Leaves out {{ insights.cuisine.excluded|join:", " }} because of your diet or allergies.
+                    {% endif %}
+                    <small>
+                        Typical ingredients only, not taste or technique. Compared with {{ insights.cuisine.recipes|floatformat:"0g" }} real
+                        {{ insights.cuisine.region_name }} recipes in Ahn et al. (2011), <em>Scientific Reports</em>; the study groups cuisines by region.
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
     {% if not insights.available %}
         <p class="culina-insights-empty">
             <i class="bi bi-info-circle"></i>
