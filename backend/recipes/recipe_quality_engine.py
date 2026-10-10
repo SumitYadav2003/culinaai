@@ -1138,6 +1138,44 @@ def check_time_match(
     )
 
 
+# The headings of a CulinaAI recipe (ai_service.py), in the order they appear.
+RECIPE_HEADINGS = (
+    "recipe title", "short description", "match summary", "ingredients", "cooking time", "servings",
+    "difficulty", "steps", "allergy", "estimated cost", "pairing", "chef tips", "storage", "substitution",
+)
+
+# The parts that say what the cook uses and does.
+COOKING_SECTIONS = ("recipe title", "ingredients", "steps")
+
+
+def sections_text(recipe_text: str, wanted: tuple) -> str:
+    """
+    The text of the wanted sections only ("steps", "ingredients"...). Text before
+    the first heading is kept. When the recipe has no known headings at all, the
+    whole text is returned, so older or unusual formats are still checked.
+    """
+    kept = []
+    current = None
+    found_heading = False
+
+    for line in recipe_text.splitlines():
+        clean_line = line.strip().lower().lstrip("#* ")
+        heading = next(
+            # A short line that starts with a heading name and has a colon: "STORAGE ADVICE:".
+            (name for name in RECIPE_HEADINGS
+             if clean_line.startswith(name) and ":" in clean_line and len(clean_line) <= len(name) + 25),
+            None,
+        )
+        if heading:
+            current = heading
+            found_heading = True
+            continue
+        if current is None or current in wanted:
+            kept.append(line)
+
+    return "\n".join(kept) if found_heading else recipe_text
+
+
 def get_selected_equipment_keys(selected_equipment: List[str]) -> Set[str]:
     """
     Converts selected equipment labels into validation keys.
@@ -1190,9 +1228,13 @@ def check_equipment_match(
     selected_keys = get_selected_equipment_keys(selected_equipment)
     unavailable_equipment_found = []
 
+    # Only what the cook has to do: "reheat in the microwave" in the storage
+    # advice or "no blender needed" in the summary doesn't need the equipment.
+    cooking_text = sections_text(recipe_text, COOKING_SECTIONS)
+
     for equipment_key, keywords in EQUIPMENT_KEYWORDS.items():
         if equipment_key not in selected_keys:
-            matched_terms = find_matching_terms(recipe_text, keywords)
+            matched_terms = find_matching_terms(cooking_text, keywords)
 
             if matched_terms:
                 unavailable_equipment_found.extend(matched_terms)

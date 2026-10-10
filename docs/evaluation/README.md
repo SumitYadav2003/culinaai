@@ -104,6 +104,12 @@ left, and changed:
   check found, plus the step count when the difficulty check fails on it. The "Everyday healthy"
   column now says which nutrient was high, by how much, and where it came from.
 
+The second run's report, re-made with the clearer columns, showed why the two missed: Thai was high
+in saturated fat (8.5 g per serving, limit 6 g, mostly from coconut milk) and Chinese in salt (2 g,
+limit 1.8 g, mostly from light soy sauce, which is not a reduced-salt soy sauce). It also showed the
+equipment check failing a recipe for "microwave", most likely from reheating advice in the storage
+section; the equipment check now reads only the title, ingredients and steps.
+
 Compare the next runs with these two to see whether the changes worked.
 
 ## A2. Report on real use

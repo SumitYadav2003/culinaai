@@ -272,3 +272,27 @@ class EquipmentWordingTests(SimpleTestCase):
         objections = ev.quality_summary([row])["objections"]
         self.assertEqual(objections["Equipment Compatibility"], [("blender", 1)])
         self.assertEqual(objections["Difficulty Match"], [("step count 11", 1)])
+
+
+class ThirdLookTests(SimpleTestCase):
+    """Found by re-reading the second run's report (10 October 2026)."""
+
+    RECIPE = (
+        "RECIPE TITLE:\nThai Chicken\nMATCH SUMMARY:\nNo blender or microwave needed.\n"
+        "INGREDIENTS WITH QUANTITIES:\n- 2 chicken thighs\nSTEPS:\n1. Fry the chicken in a pan for 10 minutes.\n"
+        "STORAGE ADVICE:\nReheat in the microwave until piping hot.\nSUBSTITUTIONS:\nUse an air fryer if you have one."
+    )
+
+    def test_equipment_in_storage_advice_or_summary_is_not_needed(self):
+        from recipes.recipe_quality_engine import check_equipment_match
+
+        preferences = {"cooking_equipment": ["Stove / Hob", "Oven"]}
+        self.assertTrue(check_equipment_match(preferences, self.RECIPE)["passed"])
+        in_method = self.RECIPE.replace("Fry the chicken in a pan", "Microwave the rice")
+        self.assertEqual(check_equipment_match(preferences, in_method)["details"]["unavailable_equipment_found"],
+                         ["microwave"])
+
+    def test_text_without_headings_is_still_checked(self):
+        from recipes.recipe_quality_engine import check_equipment_match
+
+        self.assertFalse(check_equipment_match({"cooking_equipment": ["Oven"]}, "Cook the rice in the microwave.")["passed"])
