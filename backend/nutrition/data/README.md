@@ -41,12 +41,15 @@ Added in October 2026, after the evaluation benchmark (docs/evaluation) listed t
 most often had no match: jasmine rice, flour tortillas, red and Kashmiri chilli powder, Chinese egg
 noodles, rice vinegar, chilli paste, ginger paste, British names for mince ("minced beef") and lean
 mince ("5% fat beef mince"). Chilli paste, ginger paste, rice vinegar, lean lamb mince and lean pork
-mince are approximations, and their notes in the file say so.
+mince are approximations, and their notes in the file say so. After the second run, reduced-salt
+soy sauce and light (reduced-fat) coconut milk were added too, so a recipe that uses them to meet
+"Everyday healthy" can be checked; before, they matched the ordinary versions or nothing.
 
 ## usda_supplement.csv
 
-Nine common ingredients that CoFID doesn't cover: cornflour, dry breadcrumbs, black beans (cooked),
-maple syrup, chia seeds, unsweetened oat drink, dry rice noodles, fish sauce and oyster sauce. Values come from
+Ten common ingredients that CoFID doesn't cover: cornflour, dry breadcrumbs, black beans (cooked),
+maple syrup, chia seeds, unsweetened oat drink, dry rice noodles, fish sauce, oyster sauce and
+reduced-salt soy sauce. Values come from
 **USDA FoodData Central** (SR Legacy, and Foundation Foods for the oat drink), which is US government
 data in the public domain. Each row keeps its USDA FDC ID in the food code (e.g. `USDA-169698`), and
 the app labels these foods "USDA FoodData Central" so users can see they are not UK figures.
@@ -64,6 +67,10 @@ was not reachable from the build environment. Cross-checks on a second site:
   benchmark found them among the most common unmatched ingredients: energy, protein, fat and
   carbohydrate matched recipal.com exactly, and the sodium on recipal.com's per-tablespoon label
   (1413 mg and 492 mg per 18 g) works out to the same per-100 g figures.
+- Reduced-salt soy sauce (FDC 172473, "Soy sauce made from soy and wheat (shoyu), low sodium"): energy,
+  protein, fat and carbohydrate matched recipal.com, and its sodium of 9175 mg per 255 g cup is the same
+  3598 mg per 100 g. It has about a third less salt than CoFID's ordinary soy sauce (9.0 g vs 13.75 g
+  per 100 g), so a recipe that switches to it is credited for the change.
 
 Converted to match CoFID:
 
@@ -99,10 +106,10 @@ chart (https://ourworldindata.org/grapher/food-emissions-supply-chain), licensed
 ## carbon_food_map.csv
 
 Which carbon category each food counts as, with a note wherever the category is a stand-in (e.g. the
-wheat figure for pasta, the milk figure for yogurt). Of the 219 foods the ingredient aliases use, 128
+wheat figure for pasta, the milk figure for yogurt). Of the 221 foods the ingredient aliases use, 128
 have a category.
 
-The other 91 are left without one on purpose, because nothing in the 43 categories fits well enough
+The other 93 are left without one on purpose, because nothing in the 43 categories fits well enough
 and borrowing a figure would mislead. The list below covers the first 192; the foods added in the
 October 2026 coverage check (mostly spices, seeds, cheeses, seaweed and sauces) follow the same rule. Tap water and salt count as zero, since their footprint is
 negligible. The remaining foods are reported in the app as "no carbon figure", and the app says what
@@ -112,14 +119,14 @@ share of the recipe the estimate covers. They are:
   creme fraiche
 - fish with no category: cod, mackerel, fresh sardines, tinned sardines, tinned tuna (the 43
   categories only cover farmed fish)
-- plant foods with no category: coconut milk, desiccated coconut, coconut oil, sesame oil, oat drink,
+- plant foods with no category: coconut milk (full and reduced fat), desiccated coconut, coconut oil, sesame oil, oat drink,
   Quorn, quinoa, chia seeds, sesame seeds, raisins, dates
 - sweet foods: honey, maple syrup, milk chocolate, cocoa powder
 - herbs and spices: basil, coriander, mint, parsley, mixed herbs, oregano, black pepper, chilli
   powder, cinnamon, coriander seeds (ground coriander), cumin, curry powder, garam masala, garlic powder, fresh and ground ginger,
   paprika, turmeric
 - sauces, stocks and baking: tomato puree, ketchup, mayonnaise, mustard (smooth and wholegrain),
-  pesto, curry paste, soy sauce, fish sauce, oyster sauce, Worcestershire sauce, vinegar, gravy granules, stock cubes (beef,
+  pesto, curry paste, soy sauce (ordinary and reduced salt), fish sauce, oyster sauce, Worcestershire sauce, vinegar, gravy granules, stock cubes (beef,
   chicken, vegetable, and stock made up from cubes), baking powder, yeast
 
 Beef uses the beef-herd figure (99.5). Beef from dairy herds, a large share of UK beef, is about a
@@ -131,7 +138,7 @@ Load with `python manage.py load_carbon` (after `load_cofid`), or with `load_foo
 
 ## ingredient_prices.csv
 
-A price per kg for the 219 foods the ingredient aliases use. All 219 have a price; 14 are estimates. It is exported from
+A price per kg for the 221 foods the ingredient aliases use. All 221 have a price; 16 are estimates. It is exported from
 `docs/evaluation/CulinaAI_ingredient_prices.xlsx` with `scripts/export_prices.py`. The `status`
 column says where each price came from:
 

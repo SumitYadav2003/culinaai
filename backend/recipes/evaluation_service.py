@@ -61,6 +61,9 @@ def history_row(entry):
 
 TARGET_SCORE = 85  # recipe_quality_engine.TARGET_VALIDATION_SCORE
 
+# Detail keys that say what a failed check found.
+OBJECTION_KEYS = ("conflict", "found", "missing", "issues", "claims", "count")
+
 
 def attempt_passed(step):
     """Did this attempt pass the quality gates? Older records have no "passed", so it's worked out."""
@@ -100,9 +103,14 @@ def quality_summary(rows):
             for check, details in (step.get("failed_details") or {}).items():
                 words = objections.setdefault(check, Counter())
                 for key, value in (details or {}).items():
-                    # What was found, not what the user asked for ("user_allergies").
-                    if isinstance(value, list) and not key.startswith("user"):
+                    # What was found ("conflicting_terms", "unavailable_equipment_found"),
+                    # not what the user chose ("selected_equipment", "user_allergies").
+                    if not any(word in key for word in OBJECTION_KEYS):
+                        continue
+                    if isinstance(value, list):
                         words.update(str(item) for item in value if isinstance(item, (str, int, float)))
+                    elif isinstance(value, (int, float)) and "count" in key:
+                        words[f"{key.replace('estimated_', '').replace('_', ' ')} {value}"] += 1
     scores = [row["quality_score"] for row in rows if row["quality_score"] is not None]
     return {
         "recipes": total,
@@ -479,14 +487,22 @@ def benchmark_table(lines, rows_by_id):
         cuisine = insights.get("cuisine") or {}
         style = insights.get("meal_style") or {}
         allergy = allergy_check(row)
+        style_text = "-"
+        if style.get("chosen") == "everyday":
+            style_text = {True: "met", False: "not met", None: "not checked"}[style.get("met")]
+            if style.get("met") is False and style.get("highs"):
+                style_text += ": " + "; ".join(
+                    f"{high['nutrient']} {high['per_serving']:g} g (max {high['limit']:g})"
+                    + (f", mostly {high['sources'][0]['name']}" if high["sources"] else "")
+                    for high in style["highs"]
+                )
         out.append([
             line["case"],
             row["attempts"],
             show(row["quality_score"]),
             show(line.get("seconds"), "s"),
             LEVEL_WORDS.get(cuisine.get("level"), "not checked"),
-            {True: "met", False: "not met", None: "not checked"}[style.get("met")] if style.get("chosen") == "everyday"
-            else "-",
+            style_text,
             "-" if allergy is None else ("FOUND: " + ", ".join(allergy["found"]) if allergy["found"] else "clear"),
         ])
     return table(["Case", "Attempts", "Score", "Time", "Cuisine", "Everyday healthy", "Allergy"], out)
