@@ -4,9 +4,9 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=form-labels-1">
-<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=form-labels-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
             <div class="col-lg-4">
                 <div class="generate-intro-card generate-intro-card-horizontal">
                     <span class="hero-badge">
-                        <i class="bi bi-magic"></i>
+                        <i class="icon-chef-hat"></i>
                         AI Recipe Generator
                     </span>
 
@@ -36,19 +36,19 @@
 
                     <div class="generate-benefits">
                         <div>
-                            <i class="bi bi-basket2"></i>
+                            <i class="icon-shopping-basket"></i>
                             Use ingredients you already have
                         </div>
                         <div>
-                            <i class="bi bi-shield-check"></i>
+                            <i class="icon-shield-check"></i>
                             Include allergies and dietary restrictions
                         </div>
                         <div>
-                            <i class="bi bi-clock-history"></i>
+                            <i class="icon-history"></i>
                             Control cooking time and difficulty
                         </div>
                         <div>
-                            <i class="bi bi-bookmark-heart"></i>
+                            <i class="icon-bookmark"></i>
                             Save generated recipes later
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="generate-ai-flow-card">
                         <div class="ai-flow-header">
                             <div class="ai-flow-icon">
-                                <i class="bi bi-cpu"></i>
+                                <i class="icon-settings"></i>
                             </div>
 
                             <div>
@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="ai-image-badge">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                                 CulinaAI
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                                         <!-- Fridge Scanner Shortcut Card -->
                     <div class="fridge-scanner-generator-link-card">
                         <div class="fridge-scanner-generator-icon">
-                            <i class="bi bi-camera-fill"></i>
+                            <i class="icon-camera"></i>
                         </div>
 
                         <div class="fridge-scanner-generator-content">
@@ -155,7 +155,7 @@
                         </div>
 
                         <a href="{% url 'fridge_scan_upload' %}" class="fridge-scanner-generator-btn">
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                             Use Fridge Scanner
                         </a>
                     </div>
@@ -166,7 +166,7 @@
                         <!-- Row 1 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-basket2"></i>
+                                <i class="icon-shopping-basket"></i>
                                 Main Recipe Details
                             </div>
 
@@ -182,7 +182,7 @@
                                             data-voice-mode="replace"
                                             title="Speak ingredients"
                                         >
-                                            <i class="bi bi-mic-fill"></i>
+                                            <i class="icon-mic"></i>
                                             Speak
                                         </button>
                                     </div>
@@ -213,7 +213,7 @@
                         <!-- Row 2 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-clock-history"></i>
+                                <i class="icon-history"></i>
                                 Cooking Setup
                             </div>
 
@@ -238,7 +238,7 @@
                         <!-- Row 3 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-sliders"></i>
+                                <i class="icon-sliders-horizontal"></i>
                                 Taste and Goal
                             </div>
 
@@ -272,7 +272,7 @@
                         <!-- Row 4 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="icon-shield-check"></i>
                                 Diet and Safety Preferences
                             </div>
 
@@ -297,7 +297,7 @@
                                                 data-voice-mode="append"
                                                 title="Speak diet preference"
                                             >
-                                                <i class="bi bi-mic-fill"></i>
+                                                <i class="icon-mic"></i>
                                                 Speak
                                             </button>
                                         </div>
@@ -327,7 +327,7 @@
                                             data-voice-mode="replace"
                                             title="Speak allergies or restricted ingredients"
                                         >
-                                            <i class="bi bi-mic-fill"></i>
+                                            <i class="icon-mic"></i>
                                             Speak
                                         </button>
                                     </div>
@@ -344,14 +344,14 @@
                         <!-- Row 5 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-tools"></i>
+                                <i class="icon-wrench"></i>
                                 Equipment and Utensils
                             </div>
 
                             <div class="row g-3 equipment-utensils-row">
                                 <div class="col-lg-6">
                                     <div class="generate-subsection-label">
-                                        <i class="bi bi-lightning-charge"></i>
+                                        <i class="icon-zap"></i>
                                         Kitchen Equipment <span class="generate-subsection-hint">(optional)</span>
                                     </div>
 
@@ -377,7 +377,7 @@
                                                 data-voice-mode="append"
                                                 title="Speak kitchen equipment"
                                             >
-                                                <i class="bi bi-mic-fill"></i>
+                                                <i class="icon-mic"></i>
                                                 Speak
                                             </button>
                                         </div>
@@ -398,7 +398,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="generate-subsection-label">
-                                        <i class="bi bi-cup-hot"></i>
+                                        <i class="icon-coffee"></i>
                                         Utensils <span class="generate-subsection-hint">(optional)</span>
                                     </div>
 
@@ -494,7 +494,7 @@
                                                 data-voice-mode="append"
                                                 title="Speak utensils"
                                             >
-                                                <i class="bi bi-mic-fill"></i>
+                                                <i class="icon-mic"></i>
                                                 Speak
                                             </button>
                                         </div>
@@ -518,7 +518,7 @@
                         <!-- Row 6 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-pencil-square"></i>
+                                <i class="icon-pencil"></i>
                                 Additional Instructions
                             </div>
 
@@ -532,7 +532,7 @@
                                     data-voice-mode="replace"
                                     title="Speak additional instructions"
                                 >
-                                    <i class="bi bi-mic-fill"></i>
+                                    <i class="icon-mic"></i>
                                     Speak
                                 </button>
                             </div>
@@ -547,7 +547,7 @@
                         <div class="voice-status-message" data-voice-status hidden></div>
 
                         <button type="submit" class="btn recipe-generate-btn">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
                             Preview Recipe Request
                         </button>
                     </form>
@@ -558,7 +558,7 @@
         {% if generation_preview %}
             <div id="recipe-preview" class="generation-preview-card">
                 <span class="section-label">
-                    <i class="bi bi-eye"></i>
+                    <i class="icon-eye"></i>
                     Request Preview
                 </span>
 
@@ -566,7 +566,7 @@
 
                 <div class="ai-summary-card">
                     <div class="ai-summary-icon">
-                        <i class="bi bi-cpu"></i>
+                        <i class="icon-settings"></i>
                     </div>
 
                     <div>
@@ -680,21 +680,21 @@
                         <div class="ai-result-header">
                             <div>
                                 <span class="section-label">
-                                    <i class="bi bi-robot"></i>
+                                    <i class="icon-chef-hat"></i>
                                     AI Generated Recipe
                                 </span>
                                 <h3>Your personalised recipe is ready.</h3>
                             </div>
 
                             <div class="ai-result-badge">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                                 Generated by CulinaAI
                             </div>
 
                             <form method="post" action="{% url 'save_generated_recipe' %}" class="save-recipe-form">
                                 {% csrf_token %}
                                 <button type="submit" class="btn save-recipe-btn">
-                                    <i class="bi bi-bookmark-heart"></i>
+                                    <i class="icon-bookmark"></i>
                                     Save Recipe
                                 </button>
                             </form>
@@ -707,7 +707,7 @@
                                     <div class="validation-dashboard-header">
                                         <div>
                                             <span class="validation-mini-label">
-                                                <i class="bi bi-shield-lock"></i>
+                                                <i class="icon-shield"></i>
                                                 CulinaAI Verification Engine
                                             </span>
 
@@ -733,7 +733,7 @@
                                                 validation-status-danger
                                             {% endif %}
                                         ">
-                                            <i class="bi bi-patch-check-fill"></i>
+                                            <i class="icon-badge-check"></i>
                                             {{ validation.badge }}
                                         </div>
                                     </div>
@@ -795,7 +795,7 @@
                                     {% if ai_recipe_result.validation_attempt_history %}
                                         <div class="validation-attempts-panel">
                                             <div class="validation-subheading">
-                                                <i class="bi bi-arrow-repeat"></i>
+                                                <i class="icon-refresh-cw"></i>
                                                 Generation and Correction History
                                             </div>
 
@@ -844,7 +844,7 @@
 
                                     <div class="validation-checks-panel">
                                         <div class="validation-subheading">
-                                            <i class="bi bi-list-check"></i>
+                                            <i class="icon-list-checks"></i>
                                             Detailed Validation Breakdown
                                         </div>
 
@@ -859,9 +859,9 @@
                                                 ">
                                                     <div class="check-icon">
                                                         {% if check.passed %}
-                                                            <i class="bi bi-check-circle-fill"></i>
+                                                            <i class="icon-circle-check"></i>
                                                         {% else %}
-                                                            <i class="bi bi-exclamation-triangle-fill"></i>
+                                                            <i class="icon-triangle-alert"></i>
                                                         {% endif %}
                                                     </div>
 
@@ -915,7 +915,7 @@
                                     </div>
 
                                     <div class="validation-disclaimer-card">
-                                        <i class="bi bi-info-circle"></i>
+                                        <i class="icon-info"></i>
                                         <p>
                                             CulinaAI verifies whether the recipe is compliant with the user’s selected
                                             constraints. It does not replace professional medical, allergy or nutritional advice.
@@ -928,7 +928,7 @@
                         <div class="verified-recipe-output-header">
                             <div>
                                 <span class="section-label">
-                                    <i class="bi bi-journal-check"></i>
+                                    <i class="icon-notebook"></i>
                                     Final Verified Recipe
                                 </span>
                                 <h3>Recipe Output</h3>
@@ -945,7 +945,7 @@
                                     >
 
                                     <div class="final-recipe-image-badge">
-                                        <i class="bi bi-stars"></i>
+                                        <i class="icon-utensils"></i>
                                         AI Food Image
                                     </div>
                                 </div>
@@ -957,7 +957,7 @@
                                     >
 
                                     <div class="final-recipe-image-badge">
-                                        <i class="bi bi-stars"></i>
+                                        <i class="icon-utensils"></i>
                                         AI Food Image
                                     </div>
                                 </div>
@@ -984,7 +984,7 @@
         <div class="culina-loading-card">
             <div class="culina-loading-content">
                 <div class="culina-loading-badge">
-                    <i class="bi bi-stars"></i>
+                    <i class="icon-utensils"></i>
                     CulinaAI is cooking
                 </div>
 
@@ -1031,7 +1031,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-1"></script>
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
-<script src="{% static 'js/voice_input.js' %}?v=voice-input-1"></script>
+<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-1-g1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1-g1"></script>
+<script src="{% static 'js/voice_input.js' %}?v=voice-input-1-g1"></script>
 {% endblock %}

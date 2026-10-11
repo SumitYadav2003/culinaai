@@ -52,9 +52,9 @@ NUTRIENT_WORDS = {"fat_g": "fat", "saturates_g": "saturates", "sugars_g": "sugar
 HIGH_FIBRE_PER_100G = 6.0  # UK "high fibre" claim condition
 
 VERSIONS = [
-    ("cheapest", "Cheapest", "bi-piggy-bank"),
-    ("healthiest", "Healthiest", "bi-heart-pulse"),
-    ("greenest", "Greenest", "bi-tree"),
+    ("cheapest", "Cheapest", "icon-piggy-bank"),
+    ("healthiest", "Healthiest", "icon-heart-pulse"),
+    ("greenest", "Greenest", "icon-trees"),
 ]
 
 NO_SWAP_MESSAGES = {

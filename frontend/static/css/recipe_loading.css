@@ -12,9 +12,9 @@
     justify-content: center;
     padding: 1.5rem;
     background:
-        radial-gradient(circle at 20% 20%, rgba(255, 184, 77, 0.28), transparent 28rem),
-        radial-gradient(circle at 80% 80%, rgba(255, 120, 0, 0.22), transparent 30rem),
-        rgba(24, 13, 6, 0.78);
+        radial-gradient(circle at 20% 20%, rgba(79, 143, 95, 0.28), transparent 28rem),
+        radial-gradient(circle at 80% 80%, rgba(45, 106, 62, 0.22), transparent 30rem),
+        rgba(14, 16, 14, 0.78);
     backdrop-filter: blur(18px);
 }
 
@@ -24,14 +24,14 @@
 
 .culina-loading-card {
     width: min(640px, 100%);
-    border-radius: 34px;
+    border-radius: 12px;
     padding: 2rem;
     position: relative;
     overflow: hidden;
     background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(255, 246, 233, 0.97));
-    border: 1px solid rgba(255, 152, 0, 0.28);
-    box-shadow: 0 34px 90px rgba(47, 24, 5, 0.38);
+        rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(45, 106, 62, 0.28);
+    box-shadow: 0 34px 90px rgba(24, 28, 24, 0.38);
     text-align: center;
 }
 
@@ -43,7 +43,7 @@
     border-radius: 50%;
     top: -8rem;
     right: -6rem;
-    background: rgba(255, 152, 0, 0.12);
+    background: rgba(45, 106, 62, 0.12);
 }
 
 .culina-loading-card::after {
@@ -54,7 +54,7 @@
     border-radius: 50%;
     bottom: -7rem;
     left: -5rem;
-    background: rgba(255, 193, 7, 0.14);
+    background: rgba(45, 106, 62, 0.14);
 }
 
 .culina-loading-content {
@@ -68,27 +68,27 @@
     gap: 0.45rem;
     padding: 0.45rem 0.85rem;
     border-radius: 999px;
-    background: rgba(255, 152, 0, 0.12);
-    color: #9a4f00;
+    background: rgba(45, 106, 62, 0.12);
+    color: #2d6a3e;
     font-size: 0.82rem;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
     margin-bottom: 1rem;
 }
 
 .culina-loading-title {
     margin: 0;
     font-size: clamp(1.55rem, 3vw, 2.4rem);
-    font-weight: 950;
-    color: #2b1608;
+    font-weight: 700;
+    color: #181b18;
     line-height: 1.1;
 }
 
 .culina-loading-subtitle {
     max-width: 480px;
     margin: 0.8rem auto 1.6rem;
-    color: #795b43;
+    color: #576557;
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.6;
@@ -109,8 +109,8 @@
     height: 36px;
     border-radius: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, #ffe5be, #ffb547);
-    box-shadow: inset 0 -10px 20px rgba(116, 56, 0, 0.16);
+    background: #d6e7da;
+    box-shadow: inset 0 -10px 20px rgba(31, 77, 43, 0.16);
 }
 
 .culina-loader-pot {
@@ -120,9 +120,9 @@
     width: 112px;
     height: 76px;
     transform: translateX(-50%);
-    border-radius: 22px 22px 34px 34px;
-    background: linear-gradient(145deg, #ff9800, #ff6f00);
-    box-shadow: 0 18px 34px rgba(255, 111, 0, 0.34);
+    border-radius: 12px 12px 12px 12px;
+    background: #2d6a3e;
+    box-shadow: 0 18px 34px rgba(45, 106, 62, 0.34);
     animation: culinaPotBounce 1.8s ease-in-out infinite;
 }
 
@@ -133,7 +133,7 @@
     top: 24px;
     width: 24px;
     height: 18px;
-    border: 7px solid #ff8f00;
+    border: 7px solid #2d6a3e;
     border-radius: 999px;
 }
 
@@ -153,7 +153,7 @@
     height: 18px;
     transform: translateX(-50%) rotate(-4deg);
     border-radius: 999px;
-    background: linear-gradient(135deg, #3d2415, #6b3510);
+    background: #173a22;
     animation: culinaLidMove 1.8s ease-in-out infinite;
 }
 
@@ -166,7 +166,7 @@
     height: 16px;
     transform: translateX(-50%);
     border-radius: 999px 999px 0 0;
-    background: #4b2a18;
+    background: #173a22;
 }
 
 .culina-steam {
@@ -175,7 +175,7 @@
     width: 14px;
     height: 48px;
     border-radius: 999px;
-    background: linear-gradient(to top, rgba(255, 152, 0, 0.04), rgba(255, 152, 0, 0.34));
+    background: rgba(45, 106, 62, 0.04);
     filter: blur(0.5px);
     opacity: 0;
     animation: culinaSteam 2.1s ease-in-out infinite;
@@ -201,8 +201,8 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #ff9800;
-    box-shadow: 0 0 0 8px rgba(255, 152, 0, 0.12);
+    background: #2d6a3e;
+    box-shadow: 0 0 0 8px rgba(45, 106, 62, 0.12);
     animation: culinaOrbit 2.6s linear infinite;
 }
 
@@ -232,28 +232,28 @@
     height: 12px;
     border-radius: 999px;
     overflow: hidden;
-    background: #f2dec4;
-    box-shadow: inset 0 2px 6px rgba(75, 42, 5, 0.1);
+    background: #d6e7da;
+    box-shadow: inset 0 2px 6px rgba(23, 58, 34, 0.1);
 }
 
 .culina-loading-progress-bar {
     width: 24%;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, #ff9800, #ffc107, #ff6f00);
+    background: #2d6a3e;
     animation: culinaProgress 4.2s ease-in-out infinite;
 }
 
 .culina-loading-step {
     min-height: 1.6rem;
-    color: #4b2a05;
-    font-weight: 900;
+    color: #173a22;
+    font-weight: 700;
     font-size: 1rem;
 }
 
 .culina-loading-mini {
     margin-top: 1rem;
-    color: #96745b;
+    color: #708170;
     font-weight: 700;
     font-size: 0.9rem;
 }
@@ -340,7 +340,7 @@
 @media (max-width: 575px) {
     .culina-loading-card {
         padding: 1.35rem;
-        border-radius: 26px;
+        border-radius: 12px;
     }
 
     .culina-chef-loader {

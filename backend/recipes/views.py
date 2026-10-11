@@ -3739,19 +3739,19 @@ def quality_recipe_evidence_view(request, recipe_id):
         if passed is True or raw_status in ["passed", "pass", "success", "verified"]:
             status_label = "Passed"
             css_class = "check-passed"
-            icon = "bi-check-circle-fill"
+            icon = "icon-circle-check"
         elif hard_fail is True or passed is False or "fail" in raw_status:
             status_label = "Failed"
             css_class = "check-failed"
-            icon = "bi-x-circle-fill"
+            icon = "icon-circle-x"
         elif "warning" in raw_status or "review" in raw_status or "moderate" in raw_status:
             status_label = "Warning"
             css_class = "check-warning"
-            icon = "bi-exclamation-triangle-fill"
+            icon = "icon-triangle-alert"
         else:
             status_label = "Recorded"
             css_class = "check-info"
-            icon = "bi-info-circle-fill"
+            icon = "icon-info"
 
         return {
             "label": str(check_name).replace("_", " ").title(),
@@ -3797,7 +3797,7 @@ def quality_recipe_evidence_view(request, recipe_id):
                                 "score_text": "",
                                 "status_label": "Recorded",
                                 "css_class": "check-info",
-                                "icon": "bi-info-circle-fill",
+                                "icon": "icon-info",
                             }
                         )
 
@@ -3813,7 +3813,7 @@ def quality_recipe_evidence_view(request, recipe_id):
                             "score_text": "",
                             "status_label": "Warning",
                             "css_class": "check-warning",
-                            "icon": "bi-exclamation-triangle-fill",
+                            "icon": "icon-triangle-alert",
                         }
                     )
 
@@ -3826,7 +3826,7 @@ def quality_recipe_evidence_view(request, recipe_id):
                 "score_text": f"{recipe.quality_score}/100" if recipe.quality_score is not None else "Not stored",
                 "status_label": "Recorded",
                 "css_class": "check-info",
-                "icon": "bi-speedometer2",
+                "icon": "icon-layout-dashboard",
             },
             {
                 "label": "Validation Status",
@@ -3834,7 +3834,7 @@ def quality_recipe_evidence_view(request, recipe_id):
                 "score_text": "",
                 "status_label": "Recorded",
                 "css_class": "check-info",
-                "icon": "bi-patch-check-fill",
+                "icon": "icon-badge-check",
             },
             {
                 "label": "Risk Level",
@@ -3842,7 +3842,7 @@ def quality_recipe_evidence_view(request, recipe_id):
                 "score_text": "",
                 "status_label": "Recorded",
                 "css_class": "check-info",
-                "icon": "bi-shield-exclamation",
+                "icon": "icon-shield-alert",
             },
             {
                 "label": "Validation Attempts",
@@ -3850,7 +3850,7 @@ def quality_recipe_evidence_view(request, recipe_id):
                 "score_text": str(recipe.validation_attempts or 0),
                 "status_label": "Recorded",
                 "css_class": "check-info",
-                "icon": "bi-arrow-repeat",
+                "icon": "icon-refresh-cw",
             },
         ]
 

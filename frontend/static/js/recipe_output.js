@@ -164,7 +164,7 @@ function buildHeroCard(title, description, cookingTime, servings, difficulty) {
 
     hero.innerHTML = `
         <div class="culina-recipe-top-badge">
-            <i class="bi bi-stars"></i>
+            <i class="icon-utensils"></i>
             Final AI Recipe
         </div>
 
@@ -176,7 +176,7 @@ function buildHeroCard(title, description, cookingTime, servings, difficulty) {
 
         <div class="culina-recipe-summary-grid">
             <div class="culina-summary-pill">
-                <i class="bi bi-clock-history"></i>
+                <i class="icon-history"></i>
                 <div>
                     <span>Cooking Time</span>
                     <strong>${escapeHtml(cookingTime)}</strong>
@@ -184,7 +184,7 @@ function buildHeroCard(title, description, cookingTime, servings, difficulty) {
             </div>
 
             <div class="culina-summary-pill">
-                <i class="bi bi-people"></i>
+                <i class="icon-users"></i>
                 <div>
                     <span>Servings</span>
                     <strong>${escapeHtml(servings)}</strong>
@@ -192,7 +192,7 @@ function buildHeroCard(title, description, cookingTime, servings, difficulty) {
             </div>
 
             <div class="culina-summary-pill">
-                <i class="bi bi-speedometer2"></i>
+                <i class="icon-layout-dashboard"></i>
                 <div>
                     <span>Difficulty</span>
                     <strong>${escapeHtml(difficulty)}</strong>
@@ -215,7 +215,7 @@ function buildSectionCard(section) {
     header.className = "culina-recipe-section-header";
     header.innerHTML = `
         <div class="culina-section-icon">
-            <i class="bi ${config.icon}"></i>
+            <i class="${config.icon}"></i>
         </div>
 
         <div>
@@ -281,7 +281,7 @@ function buildList(items, iconClass) {
         const li = document.createElement("li");
         li.innerHTML = `
             <span class="culina-list-dot">
-                <i class="bi ${iconClass}"></i>
+                <i class="${iconClass}"></i>
             </span>
             <span>${escapeHtml(cleanedItem)}</span>
         `;
@@ -312,80 +312,80 @@ function getSectionConfig(heading) {
         "MATCH SUMMARY": {
             title: "Why this recipe matches your request",
             label: "Smart Match",
-            icon: "bi-bullseye",
-            listIcon: "bi-check2",
+            icon: "icon-target",
+            listIcon: "icon-check",
             extraClass: "",
             panelClass: "culina-safe-style"
         },
         "INGREDIENTS WITH QUANTITIES": {
             title: "Ingredients you will need",
             label: "Ingredient Basket",
-            icon: "bi-basket2",
-            listIcon: "bi-check2-circle",
+            icon: "icon-shopping-basket",
+            listIcon: "icon-circle-check",
             extraClass: "",
             panelClass: ""
         },
         "STEPS": {
             title: "Step-by-step cooking method",
             label: "Chef Guidance",
-            icon: "bi-list-ol",
-            listIcon: "bi-arrow-right",
+            icon: "icon-list-ordered",
+            listIcon: "icon-arrow-right",
             extraClass: "",
             panelClass: ""
         },
         "ALLERGY AND DIET NOTES": {
             title: "Allergy and diet notes",
             label: "Safety Check",
-            icon: "bi-shield-check",
-            listIcon: "bi-exclamation-circle",
+            icon: "icon-shield-check",
+            listIcon: "icon-circle-alert",
             extraClass: "",
             panelClass: "culina-warning-style"
         },
         "ESTIMATED COST": {
             title: "Estimated cost breakdown",
             label: "Budget Insight",
-            icon: "bi-cash-coin",
-            listIcon: "bi-currency-pound",
+            icon: "icon-coins",
+            listIcon: "icon-pound-sterling",
             extraClass: "culina-money-style",
             panelClass: ""
         },
         "PAIRING SUGGESTIONS": {
             title: "Pairing suggestions",
             label: "Serve It With",
-            icon: "bi-cup-hot",
-            listIcon: "bi-stars",
+            icon: "icon-coffee",
+            listIcon: "icon-utensils",
             extraClass: "culina-pairing-style",
             panelClass: ""
         },
         "CHEF TIPS": {
             title: "Chef tips",
             label: "Pro Cooking Advice",
-            icon: "bi-lightbulb",
-            listIcon: "bi-magic",
+            icon: "icon-lightbulb",
+            listIcon: "icon-chef-hat",
             extraClass: "culina-tips-style",
             panelClass: ""
         },
         "STORAGE ADVICE": {
             title: "Storage advice",
             label: "Keep It Fresh",
-            icon: "bi-box-seam",
-            listIcon: "bi-archive",
+            icon: "icon-package",
+            listIcon: "icon-archive",
             extraClass: "",
             panelClass: "culina-safe-style"
         },
         "SUBSTITUTIONS": {
             title: "Substitutions",
             label: "Flexible Alternatives",
-            icon: "bi-arrow-repeat",
-            listIcon: "bi-arrow-left-right",
+            icon: "icon-refresh-cw",
+            listIcon: "icon-arrow-left-right",
             extraClass: "",
             panelClass: ""
         },
         "RECIPE OVERVIEW": {
             title: "Recipe overview",
             label: "CulinaAI Notes",
-            icon: "bi-journal-text",
-            listIcon: "bi-dot",
+            icon: "icon-notebook-text",
+            listIcon: "icon-dot",
             extraClass: "",
             panelClass: ""
         }
@@ -394,8 +394,8 @@ function getSectionConfig(heading) {
     return configMap[heading] || {
         title: titleCase(heading),
         label: "Recipe Section",
-        icon: "bi-journal-richtext",
-        listIcon: "bi-check2",
+        icon: "icon-book-open-text",
+        listIcon: "icon-check",
         extraClass: "",
         panelClass: ""
     };

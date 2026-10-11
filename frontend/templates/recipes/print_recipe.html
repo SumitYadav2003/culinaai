@@ -4,8 +4,8 @@
 {% block title %}CulinaAI | Print {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipe_print.css' %}?v=recipe-print-premium-final-1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-print-final-1">
+<link rel="stylesheet" href="{% static 'css/recipe_print.css' %}?v=recipe-print-premium-final-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-print-final-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
             <header class="recipe-print-header premium-print-header">
                 <div class="recipe-print-header-copy">
                     <span class="recipe-print-brand">
-                        <i class="bi bi-stars"></i>
+                        <i class="icon-utensils"></i>
                         CulinaAI Recipe Export
                     </span>
 
@@ -36,12 +36,12 @@
 
                 <div class="recipe-print-actions">
                     <button type="button" class="btn recipe-print-btn" onclick="window.print()">
-                        <i class="bi bi-printer"></i>
+                        <i class="icon-printer"></i>
                         Print / Save PDF
                     </button>
 
                     <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn recipe-print-back-btn">
-                        <i class="bi bi-arrow-left"></i>
+                        <i class="icon-arrow-left"></i>
                         Back to Recipe
                     </a>
                 </div>
@@ -86,7 +86,7 @@
             <section class="premium-recipe-hero-block">
                 <div class="premium-recipe-heading">
                     <span class="premium-recipe-label">
-                        <i class="bi bi-handbag"></i>
+                        <i class="icon-shopping-bag"></i>
                         Full AI Recipe
                     </span>
 
@@ -104,7 +104,7 @@
                             </div>
 
                             <div class="premium-recipe-image-badge">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                                 AI Food Image
                             </div>
                         </div>
@@ -112,7 +112,7 @@
 
                     <div class="premium-recipe-title-card">
                         <span class="premium-title-badge">
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                             Final AI Recipe
                         </span>
 
@@ -135,7 +135,7 @@
             <!-- Diet Preferences -->
             <section class="recipe-print-block premium-print-block">
                 <h2>
-                    <i class="bi bi-tags"></i>
+                    <i class="icon-tags"></i>
                     Diet Preferences
                 </h2>
 
@@ -151,7 +151,7 @@
             <!-- User Ingredients Summary -->
             <section class="recipe-print-block premium-print-block">
                 <h2>
-                    <i class="bi bi-basket2"></i>
+                    <i class="icon-shopping-basket"></i>
                     User Ingredients Provided
                 </h2>
 
@@ -163,7 +163,7 @@
             <!-- Allergy Notes -->
             <section class="recipe-print-block premium-print-block">
                 <h2>
-                    <i class="bi bi-shield-exclamation"></i>
+                    <i class="icon-shield-alert"></i>
                     Allergy & Safety Notes
                 </h2>
 
@@ -192,7 +192,7 @@
             {% if recipe.is_modified_version and recipe.original_recipe %}
                 <section class="recipe-print-block recipe-print-origin premium-print-block">
                     <h2>
-                        <i class="bi bi-arrow-repeat"></i>
+                        <i class="icon-refresh-cw"></i>
                         Modification Information
                     </h2>
 
@@ -238,5 +238,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-print-final-1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-print-final-1-g1"></script>
 {% endblock %}

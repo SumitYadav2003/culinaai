@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Command Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=cooking-profile-3">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=cooking-profile-3-g1">
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
             <div class="command-hero-content">
                 <div class="command-hero-copy">
                     <span class="command-eyebrow">
-                        <i class="bi bi-cpu-fill"></i>
+                        <i class="icon-settings"></i>
                         CulinaAI Command Center
                     </span>
 
@@ -35,12 +35,12 @@
 
                     <div class="command-hero-actions">
                         <a href="{% url 'generate_recipe' %}" class="btn command-primary-btn">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
                             Generate Recipe
                         </a>
 
                         <a href="{% url 'saved_recipes' %}" class="btn command-secondary-btn">
-                            <i class="bi bi-bookmark-heart"></i>
+                            <i class="icon-bookmark"></i>
                             Open Recipe Library
                         </a>
                     </div>
@@ -66,7 +66,7 @@
 
                         <div class="robot-body">
                             <div class="robot-core">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                             </div>
                         </div>
 
@@ -76,12 +76,12 @@
 
                     <div class="robot-status-strip">
                         <span>
-                            <i class="bi bi-circle-fill"></i>
+                            <i class="icon-circle"></i>
                             Personalisation active
                         </span>
 
                         <span>
-                            <i class="bi bi-shield-check"></i>
+                            <i class="icon-shield-check"></i>
                             Secure workspace
                         </span>
                     </div>
@@ -111,7 +111,7 @@
                 </p>
 
                 <div class="command-profile-pill">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Active cooking profile
                 </div>
 
@@ -132,7 +132,7 @@
             <div class="command-analytics-grid">
                 <article class="analytics-card analytics-card-orange">
                     <div class="analytics-icon">
-                        <i class="bi bi-journal-richtext"></i>
+                        <i class="icon-book-open-text"></i>
                     </div>
 
                     <div>
@@ -144,7 +144,7 @@
 
                 <article class="analytics-card analytics-card-pink">
                     <div class="analytics-icon">
-                        <i class="bi bi-heart-fill"></i>
+                        <i class="icon-heart"></i>
                     </div>
 
                     <div>
@@ -156,7 +156,7 @@
 
                 <article class="analytics-card analytics-card-green">
                     <div class="analytics-icon">
-                        <i class="bi bi-stars"></i>
+                        <i class="icon-utensils"></i>
                     </div>
 
                     <div>
@@ -168,7 +168,7 @@
 
                 <article class="analytics-card analytics-card-blue">
                     <div class="analytics-icon">
-                        <i class="bi bi-chat-square-heart"></i>
+                        <i class="icon-message-square"></i>
                     </div>
 
                     <div>
@@ -180,7 +180,7 @@
 
                 <article class="analytics-card analytics-card-purple">
                     <div class="analytics-icon">
-                        <i class="bi bi-arrow-repeat"></i>
+                        <i class="icon-refresh-cw"></i>
                     </div>
 
                     <div>
@@ -192,7 +192,7 @@
 
                 <article class="analytics-card analytics-card-dark">
                     <div class="analytics-icon">
-                        <i class="bi bi-graph-up-arrow"></i>
+                        <i class="icon-trending-up"></i>
                     </div>
 
                     <div>
@@ -215,14 +215,14 @@
                         <h2>Start your next cooking task</h2>
                     </div>
 
-                    <i class="bi bi-lightning-charge-fill"></i>
+                    <i class="icon-zap"></i>
                 </div>
 
                 <div class="command-action-list">
 
                     <a href="{% url 'generate_recipe' %}" class="command-action-card">
                         <div class="command-action-icon">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
                         </div>
 
                         <div class="command-action-copy">
@@ -230,12 +230,12 @@
                             <p>Create a personalised recipe from ingredients, diet needs and preferences.</p>
                         </div>
 
-                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        <i class="icon-arrow-right command-action-arrow"></i>
                     </a>
 
                     <a href="{% url 'fridge_scan_upload' %}" class="command-action-card">
                         <div class="command-action-icon">
-                            <i class="bi bi-camera-fill"></i>
+                            <i class="icon-camera"></i>
                         </div>
 
                         <div class="command-action-copy">
@@ -243,12 +243,12 @@
                             <p>Upload a fridge photo, detect visible ingredients, and use them for pantry or recipe generation.</p>
                         </div>
 
-                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        <i class="icon-arrow-right command-action-arrow"></i>
                     </a>
 
                     <a href="{% url 'recipe_history' %}" class="command-action-card">
                         <div class="command-action-icon">
-                            <i class="bi bi-clock-history"></i>
+                            <i class="icon-history"></i>
                         </div>
 
                         <div class="command-action-copy">
@@ -256,12 +256,12 @@
                             <p>View every recipe you generated automatically, even if you did not save it.</p>
                         </div>
 
-                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        <i class="icon-arrow-right command-action-arrow"></i>
                     </a>
 
                     <a href="{% url 'pantry_list' %}" class="command-action-card">
                         <div class="command-action-icon">
-                            <i class="bi bi-basket2-fill"></i>
+                            <i class="icon-shopping-basket"></i>
                         </div>
 
                         <div class="command-action-copy">
@@ -269,12 +269,12 @@
                             <p>Manage ingredients, expiry tracking and pantry-aware recipe generation.</p>
                         </div>
 
-                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        <i class="icon-arrow-right command-action-arrow"></i>
                     </a>
 
                     <a href="{% url 'saved_recipes' %}" class="command-action-card">
                         <div class="command-action-icon">
-                            <i class="bi bi-journal-bookmark-fill"></i>
+                            <i class="icon-book-open"></i>
                         </div>
 
                         <div class="command-action-copy">
@@ -282,12 +282,12 @@
                             <p>Search, filter, view and manage your saved AI-generated recipes.</p>
                         </div>
 
-                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        <i class="icon-arrow-right command-action-arrow"></i>
                     </a>
 
                     <a href="{% url 'favourite_recipes' %}" class="command-action-card">
                         <div class="command-action-icon">
-                            <i class="bi bi-heart-fill"></i>
+                            <i class="icon-heart"></i>
                         </div>
 
                         <div class="command-action-copy">
@@ -295,13 +295,13 @@
                             <p>Open the recipes you liked most and want to cook again.</p>
                         </div>
 
-                        <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                        <i class="icon-arrow-right command-action-arrow"></i>
                     </a>
 
                     {% if latest_modified_recipe %}
                         <a href="{% url 'saved_recipe_detail' latest_modified_recipe.id %}" class="command-action-card">
                             <div class="command-action-icon">
-                                <i class="bi bi-arrow-repeat"></i>
+                                <i class="icon-refresh-cw"></i>
                             </div>
 
                             <div class="command-action-copy">
@@ -312,12 +312,12 @@
                                 </p>
                             </div>
 
-                            <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                            <i class="icon-arrow-right command-action-arrow"></i>
                         </a>
                     {% else %}
                         <a href="{% url 'saved_recipes' %}" class="command-action-card">
                             <div class="command-action-icon">
-                                <i class="bi bi-arrow-repeat"></i>
+                                <i class="icon-refresh-cw"></i>
                             </div>
 
                             <div class="command-action-copy">
@@ -328,7 +328,7 @@
                                 </p>
                             </div>
 
-                            <i class="bi bi-arrow-right-short command-action-arrow"></i>
+                            <i class="icon-arrow-right command-action-arrow"></i>
                         </a>
                     {% endif %}
                 </div>
@@ -342,7 +342,7 @@
                         <h2>Your latest recipe work</h2>
                     </div>
 
-                    <i class="bi bi-clock-history"></i>
+                    <i class="icon-history"></i>
                 </div>
 
                 {% if recent_recipes %}
@@ -351,9 +351,9 @@
                             <a href="{% url 'saved_recipe_detail' recipe.id %}" class="timeline-item">
                                 <div class="timeline-dot">
                                     {% if recipe.is_modified_version %}
-                                        <i class="bi bi-arrow-repeat"></i>
+                                        <i class="icon-refresh-cw"></i>
                                     {% else %}
-                                        <i class="bi bi-egg-fried"></i>
+                                        <i class="icon-egg-fried"></i>
                                     {% endif %}
                                 </div>
 
@@ -385,14 +385,14 @@
                                     </p>
                                 </div>
 
-                                <i class="bi bi-arrow-right-short timeline-arrow"></i>
+                                <i class="icon-arrow-right timeline-arrow"></i>
                             </a>
                         {% endfor %}
                     </div>
                 {% else %}
                     <div class="command-empty-state">
                         <div class="empty-orbit">
-                            <i class="bi bi-egg-fried"></i>
+                            <i class="icon-egg-fried"></i>
                         </div>
 
                         <h3>No recipes yet</h3>
@@ -403,7 +403,7 @@
                         </p>
 
                         <a href="{% url 'generate_recipe' %}" class="btn command-primary-btn">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
                             Generate First Recipe
                         </a>
                     </div>
@@ -416,7 +416,7 @@
             <div class="user-analytics-header">
                 <div>
                     <span>
-                        <i class="bi bi-globe-europe-africa"></i>
+                        <i class="icon-earth"></i>
                         Your impact
                     </span>
 
@@ -429,7 +429,7 @@
                 </div>
 
                 <div class="user-analytics-status">
-                    <i class="bi bi-journal-check"></i>
+                    <i class="icon-notebook"></i>
                     {{ impact.recipes }} recipe{{ impact.recipes|pluralize }}
                 </div>
             </div>
@@ -437,7 +437,7 @@
             <div class="user-kpi-grid">
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-heart-pulse-fill"></i>
+                        <i class="icon-heart-pulse"></i>
                     </div>
 
                     <span>Everyday healthy</span>
@@ -447,7 +447,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-currency-pound"></i>
+                        <i class="icon-pound-sterling"></i>
                     </div>
 
                     <span>Average cost</span>
@@ -457,7 +457,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-cloud-haze2-fill"></i>
+                        <i class="icon-cloud"></i>
                     </div>
 
                     <span>Average carbon</span>
@@ -467,7 +467,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-arrow-repeat"></i>
+                        <i class="icon-refresh-cw"></i>
                     </div>
 
                     <span>Saved by versions</span>
@@ -499,13 +499,13 @@
                             <p>Recipes from the last 7 days where every ingredient was found in the food data.</p>
                         </div>
 
-                        <i class="bi bi-calendar-week-fill"></i>
+                        <i class="icon-calendar-days"></i>
                     </div>
 
                     {% if week.total %}
                         <div class="user-search-list">
                             <div class="user-search-item">
-                                <div class="user-search-icon"><i class="bi bi-check2-circle"></i></div>
+                                <div class="user-search-icon"><i class="icon-circle-check"></i></div>
                                 <div class="user-search-copy">
                                     <strong>{{ week.everyday }} everyday healthy · {{ week.treat }} treat{{ week.treat|pluralize }}</strong>
                                     <span>Out of {{ week.total }} recipe{{ week.total|pluralize }}</span>
@@ -514,7 +514,7 @@
 
                             {% for item in week.high %}
                                 <div class="user-search-item">
-                                    <div class="user-search-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                                    <div class="user-search-icon"><i class="icon-triangle-alert"></i></div>
                                     <div class="user-search-copy">
                                         <strong>High in {{ item.nutrient }}: {{ item.count }}</strong>
                                         <span>Recipes with a high (red) traffic light for {{ item.nutrient }}</span>
@@ -523,7 +523,7 @@
                             {% endfor %}
 
                             <div class="user-search-item">
-                                <div class="user-search-icon"><i class="bi bi-egg-fried"></i></div>
+                                <div class="user-search-icon"><i class="icon-egg-fried"></i></div>
                                 <div class="user-search-copy">
                                     <strong>Protein: {{ week.protein.High }} high · {{ week.protein.Good }} good · {{ week.protein.Low }} low</strong>
                                     <span>UK claim levels; {{ week.low_fibre }} recipe{{ week.low_fibre|pluralize }} low in fibre</span>
@@ -532,7 +532,7 @@
                         </div>
                     {% else %}
                         <div class="user-empty-mini">
-                            <i class="bi bi-calendar-week"></i>
+                            <i class="icon-calendar-days"></i>
                             <p>No recipes with complete nutrition in the last 7 days. Generate a recipe to start.</p>
                         </div>
                     {% endif %}
@@ -546,7 +546,7 @@
                             <p>Simple rules on this week's recipes, pointing to features you already have.</p>
                         </div>
 
-                        <i class="bi bi-lightbulb-fill"></i>
+                        <i class="icon-lightbulb"></i>
                     </div>
 
                     {% if week.nudges %}
@@ -554,7 +554,7 @@
                             {% for nudge in week.nudges %}
                                 <div class="user-search-item{% if nudge.warning %} culina-nudge-warning{% else %} culina-nudge-good{% endif %}">
                                     <div class="user-search-icon">
-                                        <i class="bi {% if nudge.warning %}bi-exclamation-triangle-fill{% else %}bi-check-circle-fill{% endif %}"></i>
+                                        <i class="{% if nudge.warning %}icon-triangle-alert{% else %}icon-circle-check{% endif %}"></i>
                                     </div>
                                     <div class="user-search-copy">
                                         <strong>{{ nudge.text }}</strong>
@@ -564,7 +564,7 @@
                         </div>
                     {% else %}
                         <div class="user-empty-mini">
-                            <i class="bi bi-lightbulb"></i>
+                            <i class="icon-lightbulb"></i>
                             <p>{% if week.total < 2 %}Generate at least 2 recipes this week to see suggestions.{% else %}Nothing stands out this week.{% endif %}</p>
                         </div>
                     {% endif %}
@@ -577,7 +577,7 @@
             <div class="user-analytics-header">
                 <div>
                     <span>
-                        <i class="bi bi-person-gear"></i>
+                        <i class="icon-user-cog"></i>
                         Your cooking profile
                     </span>
 
@@ -590,14 +590,14 @@
                 </div>
 
                 <div class="user-analytics-status">
-                    <i class="bi bi-fire"></i>
+                    <i class="icon-flame"></i>
                     {{ cooking_profile.cooked }} cooking session{{ cooking_profile.cooked|pluralize }}
                 </div>
             </div>
 
             {% if cooking_profile.using %}
                 <div class="culina-cooking-using">
-                    <strong><i class="bi bi-person-check"></i> What CulinaAI is doing with this</strong>
+                    <strong><i class="icon-user-check"></i> What CulinaAI is doing with this</strong>
                     {% for line in cooking_profile.using %}
                         <p>{{ line }}</p>
                     {% endfor %}
@@ -612,7 +612,7 @@
             <div class="user-kpi-grid">
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-check2-all"></i>
+                        <i class="icon-check-check"></i>
                     </div>
 
                     <span>Dishes cooked</span>
@@ -622,7 +622,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-stopwatch-fill"></i>
+                        <i class="icon-timer"></i>
                     </div>
 
                     <span>Your pace</span>
@@ -640,7 +640,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-question-circle-fill"></i>
+                        <i class="icon-circle-help"></i>
                     </div>
 
                     <span>Had trouble</span>
@@ -656,7 +656,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-emoji-smile-fill"></i>
+                        <i class="icon-smile"></i>
                     </div>
 
                     <span>How it turned out</span>
@@ -674,14 +674,14 @@
                             <p>Your latest answers to “How did this step go?”, with your own words.</p>
                         </div>
 
-                        <i class="bi bi-list-check"></i>
+                        <i class="icon-list-checks"></i>
                     </div>
 
                     {% if cooking_profile.recent_trouble %}
                         <div class="user-search-list">
                             {% for item in cooking_profile.recent_trouble %}
                                 <div class="user-search-item">
-                                    <div class="user-search-icon"><i class="bi {% if item.trouble %}bi-flag{% else %}bi-chat-left-quote{% endif %}"></i></div>
+                                    <div class="user-search-icon"><i class="{% if item.trouble %}icon-flag{% else %}icon-quote{% endif %}"></i></div>
                                     <div class="user-search-copy">
                                         <strong>{{ item.reason }}: step {{ item.number }}, {{ item.recipe }}</strong>
                                         <span>{% if item.note %}“{{ item.note }}”{% else %}{{ item.step }}{% endif %}</span>
@@ -691,7 +691,7 @@
                         </div>
                     {% else %}
                         <div class="user-empty-mini">
-                            <i class="bi bi-hand-thumbs-up"></i>
+                            <i class="icon-thumbs-up"></i>
                             <p>Nothing yet. After each step in cooking mode, CulinaAI asks how it went.</p>
                         </div>
                     {% endif %}
@@ -708,7 +708,7 @@
                             </p>
                         </div>
 
-                        <i class="bi bi-shield-lock-fill"></i>
+                        <i class="icon-shield"></i>
                     </div>
 
                     <div class="culina-cooking-controls">
@@ -718,14 +718,14 @@
                             {% if cooking_profile.learning %}
                                 <input type="hidden" name="learn" value="off">
                                 <button type="submit" class="culina-cooking-btn">
-                                    <i class="bi bi-pause-circle"></i>
+                                    <i class="icon-circle-pause"></i>
                                     Turn learning off
                                 </button>
                                 <small>Stops new records. What's already saved stays until you delete it.</small>
                             {% else %}
                                 <input type="hidden" name="learn" value="on">
                                 <button type="submit" class="culina-cooking-btn">
-                                    <i class="bi bi-play-circle"></i>
+                                    <i class="icon-circle-play"></i>
                                     Turn learning on
                                 </button>
                                 <small>Nothing is recorded while learning is off.</small>
@@ -735,7 +735,7 @@
                         {% if cooking_profile.cooked %}
                             <details class="culina-cooking-forget">
                                 <summary>
-                                    <i class="bi bi-trash3"></i>
+                                    <i class="icon-trash-2"></i>
                                     Delete my cooking history
                                 </summary>
 
@@ -757,7 +757,7 @@
             <div class="user-analytics-header">
                 <div>
                     <span>
-                        <i class="bi bi-bar-chart-line-fill"></i>
+                        <i class="icon-chart-column"></i>
                         Personal Analytics Dashboard
                     </span>
 
@@ -770,7 +770,7 @@
                 </div>
 
                 <div class="user-analytics-status">
-                    <i class="bi bi-activity"></i>
+                    <i class="icon-activity"></i>
                     {{ activity_label|default:"New User" }}
                 </div>
             </div>
@@ -778,7 +778,7 @@
             <div class="user-kpi-grid">
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-magic"></i>
+                        <i class="icon-chef-hat"></i>
                     </div>
 
                     <span>Total Recipes Generated</span>
@@ -788,7 +788,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-pie-chart-fill"></i>
+                        <i class="icon-chart-pie"></i>
                     </div>
 
                     <span>Favourite Cuisine</span>
@@ -798,7 +798,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-stopwatch-fill"></i>
+                        <i class="icon-timer"></i>
                     </div>
 
                     <span>Average Cooking Time</span>
@@ -814,7 +814,7 @@
 
                 <article class="user-kpi-card">
                     <div class="user-kpi-icon">
-                        <i class="bi bi-lightning-charge-fill"></i>
+                        <i class="icon-zap"></i>
                     </div>
 
                     <span>Usage Insight</span>
@@ -832,7 +832,7 @@
                             <p>Shows which cuisines appear most often in your activity.</p>
                         </div>
 
-                        <i class="bi bi-pie-chart-fill"></i>
+                        <i class="icon-chart-pie"></i>
                     </div>
 
                     <div class="user-chart-wrap">
@@ -848,7 +848,7 @@
                             <p>Shows your most frequently used recipe ingredients.</p>
                         </div>
 
-                        <i class="bi bi-bar-chart-fill"></i>
+                        <i class="icon-chart-column"></i>
                     </div>
 
                     <div class="user-chart-wrap">
@@ -864,7 +864,7 @@
                             <p>Tracks your recipe generation activity over the last 30 days.</p>
                         </div>
 
-                        <i class="bi bi-graph-up-arrow"></i>
+                        <i class="icon-trending-up"></i>
                     </div>
 
                     <div class="user-chart-wrap user-chart-wrap-wide">
@@ -882,7 +882,7 @@
                             <p>Based on saved recipes, favourites and generated recipe history.</p>
                         </div>
 
-                        <i class="bi bi-basket2-fill"></i>
+                        <i class="icon-shopping-basket"></i>
                     </div>
 
                     {% if favourite_ingredients %}
@@ -904,7 +904,7 @@
                         </div>
                     {% else %}
                         <div class="user-empty-mini">
-                            <i class="bi bi-basket2"></i>
+                            <i class="icon-shopping-basket"></i>
                             <p>No favourite ingredients yet. Generate more recipes to build this list.</p>
                         </div>
                     {% endif %}
@@ -918,7 +918,7 @@
                             <p>Shows your latest generated recipe inputs from automatic history.</p>
                         </div>
 
-                        <i class="bi bi-search-heart-fill"></i>
+                        <i class="icon-search"></i>
                     </div>
 
                     {% if recent_searches %}
@@ -926,7 +926,7 @@
                             {% for search in recent_searches %}
                                 <div class="user-search-item">
                                     <div class="user-search-icon">
-                                        <i class="bi bi-clock-history"></i>
+                                        <i class="icon-history"></i>
                                     </div>
 
                                     <div class="user-search-copy">
@@ -949,7 +949,7 @@
                         </div>
                     {% else %}
                         <div class="user-empty-mini">
-                            <i class="bi bi-search"></i>
+                            <i class="icon-search"></i>
                             <p>No recent searches yet. Generate recipes to start tracking activity.</p>
                         </div>
                     {% endif %}
@@ -968,7 +968,7 @@
                         <h2>Your cooking profile</h2>
                     </div>
 
-                    <i class="bi bi-pie-chart-fill"></i>
+                    <i class="icon-chart-pie"></i>
                 </div>
 
                 <div class="taste-profile-main">
@@ -1018,13 +1018,13 @@
                         <h2>Latest recipe refinement</h2>
                     </div>
 
-                    <i class="bi bi-arrow-repeat"></i>
+                    <i class="icon-refresh-cw"></i>
                 </div>
 
                 {% if latest_modified_recipe %}
                     <a href="{% url 'saved_recipe_detail' latest_modified_recipe.id %}" class="journey-feature-link">
                         <div class="journey-feature-icon">
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                         </div>
 
                         <div>
@@ -1038,11 +1038,11 @@
                             {% endif %}
                         </div>
 
-                        <i class="bi bi-arrow-right-short"></i>
+                        <i class="icon-arrow-right"></i>
                     </a>
                 {% else %}
                     <div class="journey-empty-box">
-                        <i class="bi bi-arrow-repeat"></i>
+                        <i class="icon-refresh-cw"></i>
 
                         <h3>No AI refinements yet</h3>
 
@@ -1053,13 +1053,13 @@
 
                         <a href="{% url 'saved_recipes' %}">
                             Choose a saved recipe
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="icon-arrow-right"></i>
                         </a>
                     </div>
                 {% endif %}
 
                 <div class="journey-note">
-                    <i class="bi bi-info-circle"></i>
+                    <i class="icon-info"></i>
 
                     <p>
                         Recipe refinement creates stronger dissertation evidence because it
@@ -1076,13 +1076,13 @@
                         <h2>Feedback and next action</h2>
                     </div>
 
-                    <i class="bi bi-clipboard-data-fill"></i>
+                    <i class="icon-clipboard-list"></i>
                 </div>
 
                 {% if latest_feedback %}
                     <div class="latest-feedback-box">
                         <div class="latest-feedback-icon">
-                            <i class="bi bi-chat-square-heart"></i>
+                            <i class="icon-message-square"></i>
                         </div>
 
                         <div>
@@ -1094,7 +1094,7 @@
                 {% else %}
                     <div class="latest-feedback-box empty-feedback-box">
                         <div class="latest-feedback-icon">
-                            <i class="bi bi-chat-square-heart"></i>
+                            <i class="icon-message-square"></i>
                         </div>
 
                         <div>
@@ -1109,7 +1109,7 @@
 
                 <div class="smart-next-step-box">
                     <div class="smart-next-icon">
-                        <i class="bi {{ smart_tip_icon }}"></i>
+                        <i class="{{ smart_tip_icon }}"></i>
                     </div>
 
                     <div>
@@ -1125,7 +1125,7 @@
         <section class="command-intelligence-panel">
             <div class="intelligence-copy">
                 <span class="command-eyebrow">
-                    <i class="bi bi-robot"></i>
+                    <i class="icon-chef-hat"></i>
                     AI Food Intelligence
                 </span>
 
@@ -1142,62 +1142,62 @@
 
             <div class="intelligence-grid">
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     AI Generation
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Automatic History
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Saved Recipes
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Favourites
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Ratings
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Feedback
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Smart Pantry
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     AI Refrigerator Scanner
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Pantry Shopping
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Analytics Dashboard
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Recipe Modification
                 </div>
 
                 <div class="intelligence-chip">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="icon-circle-check"></i>
                     Version Comparison
                 </div>
             </div>
@@ -1235,7 +1235,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const emptyBox = document.createElement("div");
         emptyBox.className = "user-empty-mini user-chart-empty";
-        emptyBox.innerHTML = "<i class='bi bi-info-circle'></i><p>" + message + "</p>";
+        emptyBox.innerHTML = "<i class='icon-info'></i><p>" + message + "</p>";
 
         wrapper.appendChild(emptyBox);
     }

@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Fridge Scan History{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=history-delete-final-1">
+<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=history-delete-final-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-3">
                     <div class="fridge-hero-icon">
-                        <i class="bi bi-clock-history"></i>
+                        <i class="icon-history"></i>
                     </div>
 
                     <div>
@@ -33,7 +33,7 @@
                 </div>
 
                 <a href="{% url 'fridge_scan_upload' %}" class="fridge-btn-primary text-decoration-none">
-                    <i class="bi bi-camera me-2"></i>
+                    <i class="icon-camera me-2"></i>
                     New Fridge Scan
                 </a>
             </div>
@@ -117,7 +117,7 @@
                                         <a href="{% url 'fridge_scan_confirm' scan.id %}"
                                             class="fridge-history-open-btn"
                                          >
-                                            <i class="bi bi-folder2-open"></i>
+                                            <i class="icon-folder-open"></i>
                                                 Open Scan
                                         </a>
 
@@ -127,7 +127,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#deleteFridgeScanModal{{ scan.id }}"
                                     >
-                                        <i class="bi bi-trash3"></i>
+                                        <i class="icon-trash-2"></i>
                                         Delete
                                     </button>
                                 </div>
@@ -144,7 +144,7 @@
             <div class="modal-body text-center">
 
                 <div class="fridge-delete-modal-icon">
-                    <i class="bi bi-trash3"></i>
+                    <i class="icon-trash-2"></i>
                 </div>
 
                 <h2 id="deleteFridgeScanModalLabel{{ scan.id }}">
@@ -161,7 +161,7 @@
 
                     <div class="fridge-delete-modal-actions">
                         <button type="submit" class="fridge-delete-confirm-btn">
-                            <i class="bi bi-trash3"></i>
+                            <i class="icon-trash-2"></i>
                             Yes, Delete
                         </button>
 
@@ -191,7 +191,7 @@
             <div class="fridge-card">
                 <div class="fridge-card-body text-center p-5">
                     <div class="fridge-hero-icon mx-auto mb-3">
-                        <i class="bi bi-camera"></i>
+                        <i class="icon-camera"></i>
                     </div>
 
                     <h4 class="fw-bold mt-3">

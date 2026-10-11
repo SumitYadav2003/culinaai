@@ -12,7 +12,7 @@ Why a script?
     matching dark rule, so new pages only need the script to be re-run.
 
 What it changes (hue is kept, only lightness flips):
-    - light backgrounds  -> dark surfaces   (cream -> dark brown, pale green -> dark green)
+    - light backgrounds  -> dark surfaces   (off-white -> dark grey, pale green -> dark green)
     - dark text          -> light text      (near-black -> cream, dark orange -> light orange)
     - light borders      -> subtle dark borders
     Brand colours in the middle (orange buttons, gold, green badges) are left alone.
@@ -31,7 +31,7 @@ import tinycss2
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CSS_DIR = PROJECT_ROOT / "frontend" / "static" / "css"
 OUTPUT_FILE = CSS_DIR / "dark_theme_generated.css"
-SKIP_FILES = {"dark_mode.css", "dark_theme_generated.css"}
+SKIP_FILES = {"dark_mode.css", "dark_theme_generated.css", "site.css"}  # site.css has its own dark tokens
 DARK_PREFIX = 'html[data-theme="dark"]'
 
 # Which properties hold which kind of colour.
@@ -48,8 +48,10 @@ COLOUR_PATTERN = re.compile(
 )
 VARIABLE_PATTERN = re.compile(r"var\(\s*(--[a-z0-9-]+)\s*\)")
 
-# Warm brown hue used for neutral colours, so greys and whites match the site's brown dark theme.
-WARM_HUE = 26 / 360
+# Neutral hue for greys and whites in dark mode: a faint green, to match the green accent
+# (was a warm brown before the October 2026 palette change).
+WARM_HUE = 120 / 360
+NEUTRAL_SATURATION = 0.08
 
 
 # ---------------------------------------------------------------------------
@@ -95,7 +97,7 @@ def with_new_lightness(colour, new_lightness, max_saturation):
     red, green, blue, alpha = colour
     hue, lightness, saturation = colorsys.rgb_to_hls(red, green, blue)
     if saturation < 0.12 or lightness > 0.97 or lightness < 0.03:
-        hue, saturation = WARM_HUE, 0.35
+        hue, saturation = WARM_HUE, NEUTRAL_SATURATION
     saturation = min(saturation, max_saturation)
     red, green, blue = colorsys.hls_to_rgb(hue, new_lightness, saturation)
     return format_colour(red, green, blue, alpha)

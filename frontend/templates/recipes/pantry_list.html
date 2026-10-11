@@ -19,17 +19,17 @@
 
       <div class="pantry-hero-actions">
           <a href="{% url 'dashboard' %}" class="pantry-secondary-btn">
-            <i class="bi bi-speedometer2"></i>
+            <i class="icon-layout-dashboard"></i>
             Dashboard
           </a>
 
           <a href="{% url 'fridge_scan_upload' %}" class="pantry-secondary-btn">
-            <i class="bi bi-camera-fill"></i>
+            <i class="icon-camera"></i>
             AI Fridge Scanner
           </a>
 
             <a href="{% url 'generate_recipe' %}?from_pantry=1" class="pantry-primary-btn">
-              <i class="bi bi-basket2"></i>
+              <i class="icon-shopping-basket"></i>
               Generate from Pantry
             </a>
     </div>  
@@ -39,7 +39,7 @@
     <div class="pantry-stats-grid">
       <div class="pantry-stat-card">
         <span class="pantry-stat-icon">
-          <i class="bi bi-box-seam"></i>
+          <i class="icon-package"></i>
         </span>
         <div>
           <h3>{{ total_items }}</h3>
@@ -49,7 +49,7 @@
 
       <div class="pantry-stat-card">
         <span class="pantry-stat-icon">
-          <i class="bi bi-check-circle"></i>
+          <i class="icon-circle-check"></i>
         </span>
         <div>
           <h3>{{ available_items_count }}</h3>
@@ -59,7 +59,7 @@
 
       <div class="pantry-stat-card pantry-warning-stat">
         <span class="pantry-stat-icon">
-          <i class="bi bi-exclamation-triangle"></i>
+          <i class="icon-triangle-alert"></i>
         </span>
         <div>
           <h3>{{ expiring_soon_count }}</h3>
@@ -69,7 +69,7 @@
 
       <div class="pantry-stat-card pantry-danger-stat">
         <span class="pantry-stat-icon">
-          <i class="bi bi-x-circle"></i>
+          <i class="icon-circle-x"></i>
         </span>
         <div>
           <h3>{{ expired_items_count }}</h3>
@@ -83,7 +83,7 @@
       <div class="pantry-alert-card">
         <div class="pantry-alert-header">
           <div class="pantry-alert-icon">
-            <i class="bi bi-lightbulb"></i>
+            <i class="icon-lightbulb"></i>
           </div>
 
           <div>
@@ -100,7 +100,7 @@
 
           <div class="pantry-alert-panel pantry-alert-danger-panel">
             <h3>
-              <i class="bi bi-x-circle"></i>
+              <i class="icon-circle-x"></i>
               Expired Items
             </h3>
 
@@ -120,7 +120,7 @@
 
           <div class="pantry-alert-panel pantry-alert-warning-panel">
             <h3>
-              <i class="bi bi-exclamation-triangle"></i>
+              <i class="icon-triangle-alert"></i>
               Expiring Soon
             </h3>
 
@@ -146,7 +146,7 @@
 
           <div class="pantry-alert-panel pantry-alert-priority-panel">
             <h3>
-              <i class="bi bi-stars"></i>
+              <i class="icon-utensils"></i>
               Priority Ingredients
             </h3>
 
@@ -169,7 +169,7 @@
         {% if expiring_soon_items or priority_pantry_items %}
           <div class="pantry-alert-action-row">
             <a href="{% url 'generate_recipe' %}?from_pantry=1" class="pantry-primary-btn">
-              <i class="bi bi-basket2"></i>
+              <i class="icon-shopping-basket"></i>
               Generate Using Pantry Items
             </a>
           </div>
@@ -182,7 +182,7 @@
       <div class="pantry-recommendation-card">
         <div class="pantry-recommendation-header">
           <div class="pantry-recommendation-icon">
-            <i class="bi bi-magic"></i>
+            <i class="icon-chef-hat"></i>
           </div>
 
           <div>
@@ -216,20 +216,20 @@
 
               {% if recommendation.ingredients %}
                 <div class="pantry-recommendation-ingredients">
-                  <i class="bi bi-basket2"></i>
+                  <i class="icon-shopping-basket"></i>
                   <span>{{ recommendation.ingredients }}</span>
                 </div>
               {% endif %}
 
               <div class="pantry-recommendation-meta">
                 <span>
-                  <i class="bi bi-cpu"></i>
+                  <i class="icon-settings"></i>
                   {{ recommendation.source }}
                 </span>
 
                 {% if recommendation.difficulty %}
                   <span>
-                    <i class="bi bi-speedometer2"></i>
+                    <i class="icon-layout-dashboard"></i>
                     {{ recommendation.difficulty|title }}
                   </span>
                 {% endif %}
@@ -241,7 +241,7 @@
       href="{% url 'generate_recipe' %}?recommendation={{ recommendation.query|urlencode }}"
       class="pantry-primary-btn pantry-recommendation-btn"
     >
-      <i class="bi bi-stars"></i>
+      <i class="icon-utensils"></i>
       Generate This Recipe
     </a>
   {% else %}
@@ -249,7 +249,7 @@
       href="{% url 'generate_recipe' %}?from_pantry=1"
       class="pantry-primary-btn pantry-recommendation-btn"
     >
-      <i class="bi bi-basket2"></i>
+      <i class="icon-shopping-basket"></i>
       Generate This Recipe
     </a>
   {% endif %}
@@ -264,7 +264,7 @@
     <div class="pantry-bulk-card">
       <div class="pantry-bulk-header">
         <div class="pantry-bulk-icon">
-          <i class="bi bi-list-check"></i>
+          <i class="icon-list-checks"></i>
         </div>
 
         <div>
@@ -282,7 +282,7 @@
         <input type="hidden" name="pantry_action" value="bulk_add">
 
         <div class="pantry-bulk-help">
-          <i class="bi bi-info-circle"></i>
+          <i class="icon-info"></i>
           Example: Rice in one row, Paneer in another row, Salt in another row.
           Do not write “rice, paneer, salt” in one ingredient box.
         </div>
@@ -373,7 +373,7 @@
                   onclick="removeBulkPantryRow(this)"
                   aria-label="Remove row"
                 >
-                  <i class="bi bi-x-lg"></i>
+                  <i class="icon-x"></i>
                 </button>
               </div>
             </div>
@@ -386,12 +386,12 @@
             class="pantry-secondary-btn"
             onclick="addBulkPantryRow()"
           >
-            <i class="bi bi-plus-circle"></i>
+            <i class="icon-circle-plus"></i>
             Add Another Row
           </button>
 
           <button type="submit" class="pantry-primary-btn">
-            <i class="bi bi-check2-circle"></i>
+            <i class="icon-circle-check"></i>
             Save Bulk Items
           </button>
         </div>
@@ -489,7 +489,7 @@
           </div>
 
           <button type="submit" class="pantry-primary-btn w-100">
-            <i class="bi bi-plus-circle"></i>
+            <i class="icon-circle-plus"></i>
             Add to Pantry
           </button>
         </form>
@@ -541,7 +541,7 @@
 
                 <div class="pantry-item-meta">
                   <span>
-                    <i class="bi bi-calendar-event"></i>
+                    <i class="icon-calendar"></i>
                     {% if item.expiry_date %}
                       Expires: {{ item.expiry_date|date:"d M Y" }}
                     {% else %}
@@ -550,7 +550,7 @@
                   </span>
 
                   <span>
-                    <i class="bi bi-toggle-on"></i>
+                    <i class="icon-toggle-right"></i>
                     {% if item.is_available %}
                       Available
                     {% else %}
@@ -572,7 +572,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#editPantryItemModal{{ item.id }}"
                   >
-                    <i class="bi bi-pencil-square"></i>
+                    <i class="icon-pencil"></i>
                     Edit
                   </button>
 
@@ -582,7 +582,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#deletePantryItemModal{{ item.id }}"
                   >
-                    <i class="bi bi-trash3"></i>
+                    <i class="icon-trash-2"></i>
                     Delete
                   </button>
                 </div>
@@ -606,7 +606,7 @@
 
                     <div class="pantry-edit-modal-header">
                       <div class="pantry-edit-modal-icon">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="icon-pencil"></i>
                       </div>
 
                       <div>
@@ -712,7 +712,7 @@
 
                       <div class="pantry-edit-modal-actions">
                         <button type="submit" class="pantry-primary-btn">
-                          <i class="bi bi-check-circle"></i>
+                          <i class="icon-circle-check"></i>
                           Save Changes
                         </button>
 
@@ -746,7 +746,7 @@
                   <div class="modal-body">
 
                     <div class="pantry-delete-modal-icon">
-                      <i class="bi bi-trash3"></i>
+                      <i class="icon-trash-2"></i>
                     </div>
 
                     <h2 id="deletePantryItemModalLabel{{ item.id }}">
@@ -784,7 +784,7 @@
 
                       <div class="pantry-delete-modal-actions">
                         <button type="submit" class="pantry-danger-action-btn">
-                          <i class="bi bi-trash3"></i>
+                          <i class="icon-trash-2"></i>
                           Yes, Delete
                         </button>
 
@@ -806,7 +806,7 @@
 
         {% else %}
           <div class="pantry-empty-state">
-            <i class="bi bi-basket"></i>
+            <i class="icon-shopping-basket"></i>
             <h3>No pantry items yet</h3>
             <p>
               Add your first ingredient to start building your Smart Pantry.

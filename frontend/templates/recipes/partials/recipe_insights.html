@@ -11,20 +11,20 @@ Context:
 <section class="culina-insights" aria-labelledby="culina-insights-title">
     <div class="culina-insights-header">
         <div>
-            <span class="culina-insights-label"><i class="bi bi-clipboard2-pulse"></i> Health, cost and carbon</span>
+            <span class="culina-insights-label"><i class="icon-clipboard-list"></i> Health, cost and carbon</span>
             <h3 id="culina-insights-title">What's in this dish</h3>
             <p class="culina-insights-sub">Worked out by code from UK food data and published prices, not estimated by the AI.</p>
         </div>
         {% if insights.tag == "everyday" %}
-            <span class="culina-insights-tag culina-insights-tag-everyday"><i class="bi bi-check2-circle"></i> Everyday healthy</span>
+            <span class="culina-insights-tag culina-insights-tag-everyday"><i class="icon-circle-check"></i> Everyday healthy</span>
         {% elif insights.tag == "treat" %}
-            <span class="culina-insights-tag culina-insights-tag-treat"><i class="bi bi-cake2"></i> Treat</span>
+            <span class="culina-insights-tag culina-insights-tag-treat"><i class="icon-cake"></i> Treat</span>
         {% endif %}
     </div>
 
     {% if insights.personal %}
         <p class="culina-meal-style-note culina-personal-note">
-            <i class="bi bi-person-check" aria-hidden="true"></i>
+            <i class="icon-user-check" aria-hidden="true"></i>
             <span>
                 <strong>Adjusted for you:</strong>
                 written with {% if insights.personal.summary %}{{ insights.personal.summary }}{% else %}{{ insights.personal.reasons|join:", " }}{% endif %}, from how you've cooked before{% if insights.personal.examples %} (for example “{{ insights.personal.examples.0 }}”){% endif %}.
@@ -38,7 +38,7 @@ Context:
 
     {% if insights.cuisine %}
         <div class="culina-cuisine-note culina-cuisine-{% if insights.cuisine.available %}{{ insights.cuisine.level }}{% else %}unchecked{% endif %}">
-            <i class="bi {% if insights.cuisine.level == 'typical' or insights.cuisine.level == 'very' %}bi-globe-americas{% else %}bi-globe2{% endif %}" aria-hidden="true"></i>
+            <i class="{% if insights.cuisine.level == 'typical' or insights.cuisine.level == 'very' %}icon-earth{% else %}icon-globe{% endif %}" aria-hidden="true"></i>
             <div>
                 <strong>Cuisine check:</strong> {{ insights.cuisine.text }}
                 {% if insights.cuisine.available %}
@@ -56,7 +56,7 @@ Context:
 
     {% if not insights.available %}
         <p class="culina-insights-empty">
-            <i class="bi bi-info-circle"></i>
+            <i class="icon-info"></i>
             {% if insights.version %}
                 Nutrition could not be worked out for this recipe.
             {% else %}
@@ -67,7 +67,7 @@ Context:
 
         {% if insights.meal_style and insights.meal_style.met is not False %}
             <p class="culina-meal-style-note{% if insights.meal_style.met %} culina-meal-style-met{% endif %}">
-                <i class="bi {% if insights.meal_style.met %}bi-check-circle-fill{% else %}bi-info-circle{% endif %}" aria-hidden="true"></i>
+                <i class="{% if insights.meal_style.met %}icon-circle-check{% else %}icon-info{% endif %}" aria-hidden="true"></i>
                 {{ insights.meal_style.text }}
             </p>
         {% endif %}
@@ -76,26 +76,26 @@ Context:
             <div class="culina-warning-panel" role="note" aria-label="Warnings">
                 {% if insights.meal_style and insights.meal_style.met is False %}
                     <p class="culina-warning-line">
-                        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                        <i class="icon-triangle-alert" aria-hidden="true"></i>
                         <strong>Not everyday healthy:</strong> {{ insights.meal_style.text }}
                     </p>
                 {% endif %}
                 {% if insights.allergens %}
                     <p class="culina-warning-line">
-                        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                        <i class="icon-triangle-alert" aria-hidden="true"></i>
                         <strong>Contains:</strong>
                         {% for allergen in insights.allergens %}{{ allergen }}{% if not forloop.last %}, {% endif %}{% endfor %}
                     </p>
                 {% endif %}
                 {% for alert in insights.hidden_allergens %}
                     <p class="culina-warning-line">
-                        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                        <i class="icon-triangle-alert" aria-hidden="true"></i>
                         <strong>Hidden allergen:</strong> {{ alert.text }}
                     </p>
                 {% endfor %}
                 {% for flag in insights.flags %}
                     <p class="culina-warning-line">
-                        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                        <i class="icon-triangle-alert" aria-hidden="true"></i>
                         <strong>{{ flag.title }}:</strong> {{ flag.text }}
                     </p>
                 {% endfor %}
@@ -140,7 +140,7 @@ Context:
                 {% if insights.benefits %}
                     <ul class="culina-benefit-list">
                         {% for benefit in insights.benefits %}
-                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><strong>{% if benefit.name %}{{ benefit.name }}{% elif benefit.claim == "Source of protein" %}Good source of protein{% elif benefit.claim == "Source of fibre" %}Good source of fibre{% else %}{{ benefit.claim }}{% endif %}.</strong> {{ benefit.text }}</li>
+                            <li><i class="icon-circle-check" aria-hidden="true"></i><strong>{% if benefit.name %}{{ benefit.name }}{% elif benefit.claim == "Source of protein" %}Good source of protein{% elif benefit.claim == "Source of fibre" %}Good source of fibre{% else %}{{ benefit.claim }}{% endif %}.</strong> {{ benefit.text }}</li>
                         {% endfor %}
                     </ul>
                     <p class="culina-insights-note">Only claims the numbers qualify for, using the UK nutrition claim conditions.</p>
@@ -152,7 +152,7 @@ Context:
 
                 <div class="culina-cost-carbon">
                     <div>
-                        <span class="culina-cost-carbon-label"><i class="bi bi-currency-pound"></i> Cost</span>
+                        <span class="culina-cost-carbon-label"><i class="icon-pound-sterling"></i> Cost</span>
                         {% if insights.cost.per_serving is not None %}
                             <strong>About £{{ insights.cost.per_serving|floatformat:2 }}</strong> per serving
                             {% if insights.cost.unmatched %}<small>No price yet for: {{ insights.cost.unmatched|join:", " }}</small>{% endif %}
@@ -161,7 +161,7 @@ Context:
                         {% endif %}
                     </div>
                     <div>
-                        <span class="culina-cost-carbon-label"><i class="bi bi-cloud-haze2"></i> Carbon</span>
+                        <span class="culina-cost-carbon-label"><i class="icon-cloud"></i> Carbon</span>
                         {% if insights.carbon.per_serving is not None %}
                             <strong>About {{ insights.carbon.per_serving|floatformat:2 }} kg CO<sub>2</sub>e</strong> per serving
                             {% if insights.carbon.unmatched %}<small>No figure for: {{ insights.carbon.unmatched|join:", " }}</small>{% endif %}
@@ -188,7 +188,7 @@ Context:
                                     {% csrf_token %}
                                     <input type="hidden" name="modification_type" value="custom">
                                     <input type="hidden" name="custom_instruction" value="Add {{ item.ingredient }} back into the recipe, as in the classic {{ insights.classic.classic_name }}.">
-                                    <button type="submit" class="culina-add-back-button"><i class="bi bi-plus-circle"></i> Add it back</button>
+                                    <button type="submit" class="culina-add-back-button"><i class="icon-circle-plus"></i> Add it back</button>
                                 </form>
                             {% endif %}
                         </li>
@@ -204,7 +204,7 @@ Context:
 
                 <div class="culina-your-recipe" role="note">
                     <p>
-                        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                        <i class="icon-info" aria-hidden="true"></i>
                         {% if insights.basis.version %}
                             <strong>The recipe above is the {{ insights.basis.version|lower }} version</strong>{% if insights.basis.based_on %} of {{ insights.basis.based_on }}{% endif %}, cooked with the swaps you chose.
                         {% else %}
@@ -216,7 +216,7 @@ Context:
                         <p class="culina-your-recipe-expected">The card estimated {% if insights.basis.expected.cost is not None %}£{{ insights.basis.expected.cost|floatformat:2 }}, {% endif %}{% if insights.basis.expected.carbon is not None %}{{ insights.basis.expected.carbon|floatformat:2 }} kg CO₂e, {% endif %}{{ insights.basis.expected.kcal }} kcal{% for nutrient, level in insights.basis.expected.levels.items %}, {{ nutrient }} {{ level }}{% endfor %} per serving. The figures below are for the recipe as written, so they can differ a little.</p>
                     {% endif %}
                     {% for problem in insights.basis.problems %}
-                        <p class="culina-way-warning"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ problem }}</p>
+                        <p class="culina-way-warning"><i class="icon-triangle-alert" aria-hidden="true"></i> {{ problem }}</p>
                     {% endfor %}
                     <dl class="culina-way-stats culina-your-recipe-stats">
                         <div><dt>Cost</dt><dd>{% if insights.cost.per_serving is not None %}£{{ insights.cost.per_serving|floatformat:2 }}{% else %}No figure{% endif %}</dd></div>
@@ -229,7 +229,7 @@ Context:
                 <div class="culina-three-ways-grid">
                     {% for version in insights.three_ways %}
                         <div class="culina-way culina-way-{{ version.goal }}">
-                            <span class="culina-way-title"><i class="bi {{ version.icon }}" aria-hidden="true"></i> {{ version.title }}</span>
+                            <span class="culina-way-title"><i class="{{ version.icon }}" aria-hidden="true"></i> {{ version.title }}</span>
                             {% if version.swaps %}
                                 <ol class="culina-swap-list">
                                     {% for swap in version.swaps %}
@@ -238,7 +238,7 @@ Context:
                                             {% if swap.source == "ai" %}<span class="culina-swap-source">AI idea, checked by code</span>{% endif %}
                                             <span class="culina-swap-impact">{{ swap.impact }}</span>
                                             {% for tradeoff in swap.tradeoffs %}
-                                                <span class="culina-swap-tradeoff"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ tradeoff }}</span>
+                                                <span class="culina-swap-tradeoff"><i class="icon-triangle-alert" aria-hidden="true"></i> {{ tradeoff }}</span>
                                             {% endfor %}
                                             {% if swap.note %}<small>{{ swap.note }}</small>{% endif %}
                                         </li>
@@ -253,25 +253,25 @@ Context:
                                     {% endfor %}
                                 </dl>
                                 {% if version.still_high %}
-                                    <p class="culina-way-warning"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> Still high in {{ version.still_high|join:" and " }} after these swaps.</p>
+                                    <p class="culina-way-warning"><i class="icon-triangle-alert" aria-hidden="true"></i> Still high in {{ version.still_high|join:" and " }} after these swaps.</p>
                                 {% endif %}
                                 {% if version.tag == "everyday" %}
-                                    <span class="culina-insights-tag culina-insights-tag-everyday culina-way-tag"><i class="bi bi-check2-circle"></i> Everyday healthy</span>
+                                    <span class="culina-insights-tag culina-insights-tag-everyday culina-way-tag"><i class="icon-circle-check"></i> Everyday healthy</span>
                                 {% elif version.tag == "treat" %}
-                                    <span class="culina-insights-tag culina-insights-tag-treat culina-way-tag"><i class="bi bi-cake2"></i> Treat</span>
+                                    <span class="culina-insights-tag culina-insights-tag-treat culina-way-tag"><i class="icon-cake"></i> Treat</span>
                                 {% endif %}
                                 {% if add_back_recipe %}
                                     <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form culina-way-form">
                                         {% csrf_token %}
                                         <input type="hidden" name="modification_type" value="custom">
                                         <input type="hidden" name="custom_instruction" value="{{ version.instruction }}">
-                                        <button type="submit" class="culina-add-back-button"><i class="bi bi-arrow-repeat"></i> Cook this version</button>
+                                        <button type="submit" class="culina-add-back-button"><i class="icon-refresh-cw"></i> Cook this version</button>
                                     </form>
                                 {% elif cook_versions %}
                                     <form method="post" action="{% url 'generate_recipe_version' %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form>
                                         {% csrf_token %}
                                         <input type="hidden" name="goal" value="{{ version.goal }}">
-                                        <button type="submit" class="culina-add-back-button"><i class="bi bi-arrow-repeat"></i> Cook this version</button>
+                                        <button type="submit" class="culina-add-back-button"><i class="icon-refresh-cw"></i> Cook this version</button>
                                     </form>
                                 {% endif %}
                             {% else %}
@@ -303,5 +303,5 @@ Context:
         </details>
     {% endif %}
 
-    <p class="culina-insights-disclaimer"><i class="bi bi-shield-exclamation" aria-hidden="true"></i> {{ insights.disclaimer|default:"Nutrition values are estimates. They are not medical or dietary advice. Always check the labels on the products you buy, especially for allergens." }}</p>
+    <p class="culina-insights-disclaimer"><i class="icon-shield-alert" aria-hidden="true"></i> {{ insights.disclaimer|default:"Nutrition values are estimates. They are not medical or dietary advice. Always check the labels on the products you buy, especially for allergens." }}</p>
 </section>

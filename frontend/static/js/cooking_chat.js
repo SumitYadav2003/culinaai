@@ -71,10 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function messageIcon(sender) {
     if (sender === "user") {
-      return "bi-person-fill";
+      return "icon-user";
     }
 
-    return "bi-robot";
+    return "icon-chef-hat";
   }
 
   function addMessage(sender, message, createdAt) {
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     wrapper.innerHTML = `
       <div class="culina-chat-message-avatar">
-        <i class="bi ${messageIcon(safeSender)}"></i>
+        <i class="${messageIcon(safeSender)}"></i>
       </div>
 
       <div class="culina-chat-bubble">

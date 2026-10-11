@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Delete Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=delete-recipe-confirm-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=delete-recipe-confirm-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -22,11 +22,11 @@
         <div class="delete-recipe-card">
 
             <div class="delete-warning-icon">
-                <i class="bi bi-exclamation-triangle-fill"></i>
+                <i class="icon-triangle-alert"></i>
             </div>
 
             <span class="section-label">
-                <i class="bi bi-trash3"></i>
+                <i class="icon-trash-2"></i>
                 Delete Saved Recipe
             </span>
 
@@ -56,7 +56,7 @@
 
             {% if modified_versions_count > 0 %}
                 <div class="delete-context-warning">
-                    <i class="bi bi-info-circle-fill"></i>
+                    <i class="icon-info"></i>
 
                     <p>
                         This recipe has {{ modified_versions_count }} modified version{% if modified_versions_count != 1 %}s{% endif %}
@@ -67,7 +67,7 @@
 
             <div class="delete-recipe-actions">
                 <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn delete-cancel-btn">
-                    <i class="bi bi-arrow-left"></i>
+                    <i class="icon-arrow-left"></i>
                     Cancel
                 </a>
 
@@ -75,7 +75,7 @@
                     {% csrf_token %}
 
                     <button type="submit" class="btn delete-confirm-btn">
-                        <i class="bi bi-trash3-fill"></i>
+                        <i class="icon-trash-2"></i>
                         Yes, Delete Recipe
                     </button>
                 </form>

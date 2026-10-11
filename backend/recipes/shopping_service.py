@@ -20,7 +20,7 @@ CATEGORY_DEFINITIONS = [
     {
         "key": "fresh_produce",
         "title": "Fresh Produce",
-        "icon": "bi-basket2-fill",
+        "icon": "icon-shopping-basket",
         "description": "Vegetables, fruits and fresh herbs.",
         "keywords": [
             "tomato",
@@ -53,7 +53,7 @@ CATEGORY_DEFINITIONS = [
     {
         "key": "protein",
         "title": "Protein",
-        "icon": "bi-egg-fried",
+        "icon": "icon-egg-fried",
         "description": "Meat, eggs, tofu, paneer, beans and protein-rich items.",
         "keywords": [
             "chicken",
@@ -78,7 +78,7 @@ CATEGORY_DEFINITIONS = [
     {
         "key": "dairy",
         "title": "Dairy & Chilled",
-        "icon": "bi-snow2",
+        "icon": "icon-snowflake",
         "description": "Milk, cheese, yoghurt, cream and chilled items.",
         "keywords": [
             "milk",
@@ -97,7 +97,7 @@ CATEGORY_DEFINITIONS = [
     {
         "key": "pantry",
         "title": "Pantry Staples",
-        "icon": "bi-box-seam-fill",
+        "icon": "icon-package",
         "description": "Rice, pasta, flour, oil, sauces and cupboard items.",
         "keywords": [
             "rice",
@@ -122,7 +122,7 @@ CATEGORY_DEFINITIONS = [
     {
         "key": "spices",
         "title": "Spices & Seasoning",
-        "icon": "bi-stars",
+        "icon": "icon-utensils",
         "description": "Salt, spices, herbs and flavour boosters.",
         "keywords": [
             "salt",
@@ -147,7 +147,7 @@ CATEGORY_DEFINITIONS = [
     {
         "key": "other",
         "title": "Other Items",
-        "icon": "bi-bag-check-fill",
+        "icon": "icon-shopping-bag",
         "description": "Everything else needed for the recipe.",
         "keywords": [],
     },

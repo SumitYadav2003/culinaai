@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Confirm Fridge Scan{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-confirm-validation-1">
+<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-confirm-validation-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-3">
                     <div class="fridge-hero-icon">
-                        <i class="bi bi-check2-square"></i>
+                        <i class="icon-square-check"></i>
                     </div>
 
                     <div>
@@ -35,7 +35,7 @@
                 </div>
 
                 <a href="{% url 'fridge_scan_upload' %}" class="fridge-btn-outline text-decoration-none">
-                    <i class="bi bi-camera me-2"></i>
+                    <i class="icon-camera me-2"></i>
                     New Scan
                 </a>
             </div>
@@ -43,7 +43,7 @@
 
         <div class="fridge-safety-note mb-4">
             <strong>
-                <i class="bi bi-shield-check me-2"></i>
+                <i class="icon-shield-check me-2"></i>
                 Professional validation completed:
             </strong>
             CulinaAI checks whether the uploaded image appears to be food, refrigerator,
@@ -53,17 +53,17 @@
 
             <div class="d-flex flex-wrap gap-2 mt-3">
                 <span class="fridge-badge-green">
-                    <i class="bi bi-check-circle me-1"></i>
+                    <i class="icon-circle-check me-1"></i>
                     Image validated
                 </span>
 
                 <span class="fridge-badge-orange">
-                    <i class="bi bi-eye me-1"></i>
+                    <i class="icon-eye me-1"></i>
                     Human review required
                 </span>
 
                 <span class="fridge-badge-dark">
-                    <i class="bi bi-shield-lock me-1"></i>
+                    <i class="icon-shield me-1"></i>
                     Safe confirmation flow
                 </span>
             </div>
@@ -114,7 +114,7 @@
 
                         <div class="alert alert-info mt-4 mb-0 rounded-4">
                             <strong>
-                                <i class="bi bi-info-circle me-1"></i>
+                                <i class="icon-info me-1"></i>
                                 Scan note:
                             </strong>
                             Ingredients are detected from visible image content only.
@@ -170,7 +170,7 @@
 
                         <div class="alert alert-light border rounded-4 mb-4">
                             <strong>
-                                <i class="bi bi-pencil-square me-1"></i>
+                                <i class="icon-pencil me-1"></i>
                                 Confirmation required:
                             </strong>
                             Please check the detected list carefully. Only the ingredients left
@@ -202,7 +202,7 @@
 
                             <div class="alert alert-warning rounded-4 mb-4">
                                 <strong>
-                                    <i class="bi bi-calendar-event me-1"></i>
+                                    <i class="icon-calendar me-1"></i>
                                     Expiry tracking note:
                                 </strong>
                                 Expiry dates cannot be reliably detected from refrigerator images.
@@ -218,7 +218,7 @@
                                     value="add_to_pantry"
                                     class="fridge-btn-green"
                                 >
-                                    <i class="bi bi-box-seam me-2"></i>
+                                    <i class="icon-package me-2"></i>
                                     Add to Pantry
                                 </button>
 
@@ -228,7 +228,7 @@
                                     value="generate_recipe"
                                     class="fridge-btn-primary"
                                 >
-                                    <i class="bi bi-magic me-2"></i>
+                                    <i class="icon-chef-hat me-2"></i>
                                     Generate Recipe
                                 </button>
 
@@ -251,7 +251,7 @@
 
         <div class="fridge-safety-note mt-4">
             <strong>
-                <i class="bi bi-shield-check me-2"></i>
+                <i class="icon-shield-check me-2"></i>
                 Safety note:
             </strong>
             CulinaAI does not blindly trust the image scan. The image is validated,

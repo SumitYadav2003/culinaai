@@ -12,7 +12,7 @@
         <div class="history-hero-card">
             <div class="history-hero-content">
                 <span class="history-eyebrow">
-                    <i class="bi bi-clock-history"></i>
+                    <i class="icon-history"></i>
                     Automatic Recipe History
                 </span>
 
@@ -29,12 +29,12 @@
 
                 <div class="history-hero-actions">
                     <a href="{% url 'generate_recipe' %}" class="btn history-primary-btn">
-                        <i class="bi bi-magic"></i>
+                        <i class="icon-chef-hat"></i>
                         Generate New Recipe
                     </a>
 
                     <a href="{% url 'dashboard' %}" class="btn history-secondary-btn">
-                        <i class="bi bi-speedometer2"></i>
+                        <i class="icon-layout-dashboard"></i>
                         Back to Dashboard
                     </a>
                 </div>
@@ -45,7 +45,7 @@
         <div class="history-stats-grid">
             <div class="history-stat-card">
                 <div class="history-stat-icon">
-                    <i class="bi bi-journal-richtext"></i>
+                    <i class="icon-book-open-text"></i>
                 </div>
 
                 <div>
@@ -57,7 +57,7 @@
 
             <div class="history-stat-card">
                 <div class="history-stat-icon">
-                    <i class="bi bi-bookmark-heart-fill"></i>
+                    <i class="icon-bookmark"></i>
                 </div>
 
                 <div>
@@ -112,12 +112,12 @@
                 <div class="col-lg-2">
                     <div class="history-filter-actions">
                         <button type="submit" class="btn history-primary-btn">
-                            <i class="bi bi-search"></i>
+                            <i class="icon-search"></i>
                             Filter
                         </button>
 
                         <a href="{% url 'recipe_history' %}" class="btn history-secondary-btn">
-                            <i class="bi bi-arrow-counterclockwise"></i>
+                            <i class="icon-rotate-ccw"></i>
                             Reset
                         </a>
                     </div>
@@ -145,12 +145,12 @@
 
                             {% if history_item.saved_recipe %}
                                 <span class="history-card-badge">
-                                    <i class="bi bi-check-circle-fill"></i>
+                                    <i class="icon-circle-check"></i>
                                     Saved to Library
                                 </span>
                             {% else %}
                                 <span class="history-card-badge">
-                                    <i class="bi bi-clock-history"></i>
+                                    <i class="icon-history"></i>
                                     Auto History
                                 </span>
                             {% endif %}
@@ -165,33 +165,33 @@
 
                             <div class="history-meta-list">
                                 <span>
-                                    <i class="bi bi-basket2"></i>
+                                    <i class="icon-shopping-basket"></i>
                                     {{ history_item.ingredients_text|truncatechars:28 }}
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-globe2"></i>
+                                    <i class="icon-globe"></i>
                                     {{ history_item.cuisine_name|default:"Any cuisine" }}
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-egg-fried"></i>
+                                    <i class="icon-egg-fried"></i>
                                     {{ history_item.meal_type_name|default:"Any meal type" }}
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-clock"></i>
+                                    <i class="icon-clock"></i>
                                     {{ history_item.cooking_time_minutes }} min
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-bar-chart"></i>
+                                    <i class="icon-chart-column"></i>
                                     {{ history_item.difficulty|title }}
                                 </span>
 
                                 {% if history_item.servings %}
                                     <span>
-                                        <i class="bi bi-people"></i>
+                                        <i class="icon-users"></i>
                                         Serves {{ history_item.servings }}
                                     </span>
                                 {% endif %}
@@ -203,12 +203,12 @@
                                     class="history-view-link"
                                 >
                                     View Full History Recipe
-                                    <i class="bi bi-arrow-right"></i>
+                                    <i class="icon-arrow-right"></i>
                                 </a>
 
                                 {% if history_item.saved_recipe %}
                                     <div class="history-saved-pill">
-                                        <i class="bi bi-bookmark-check-fill"></i>
+                                        <i class="icon-bookmark-check"></i>
                                         Already saved
                                     </div>
                                 {% endif %}
@@ -220,7 +220,7 @@
         {% else %}
             <div class="history-empty-state">
                 <div class="history-empty-icon">
-                    <i class="bi bi-clock-history"></i>
+                    <i class="icon-history"></i>
                 </div>
 
                 <h2>No recipe history yet</h2>
@@ -231,7 +231,7 @@
                 </p>
 
                 <a href="{% url 'generate_recipe' %}" class="btn history-primary-btn">
-                    <i class="bi bi-magic"></i>
+                    <i class="icon-chef-hat"></i>
                     Generate First Recipe
                 </a>
             </div>

@@ -6,9 +6,9 @@
 .culina-cooking-mode {
     min-height: 100vh;
     padding: 3rem 0 4.5rem;
-    color: #211714;
+    color: #191c19;
     background:
-        linear-gradient(rgba(20, 14, 10, 0.72), rgba(20, 14, 10, 0.72)),
+        linear-gradient(rgba(14, 16, 14, 0.72), rgba(14, 16, 14, 0.72)),
         url("../images/home-hero-bg.jpg");
     background-size: cover;
     background-position: center;
@@ -37,7 +37,7 @@
 .cooking-main-card,
 .cooking-timer-card,
 .cooking-finish-card {
-    background: rgba(255, 250, 243, 0.96);
+    background: rgba(248, 250, 248, 0.96);
     border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow: 0 26px 66px rgba(0, 0, 0, 0.18);
 }
@@ -51,7 +51,7 @@
     align-items: end;
     margin-bottom: 1rem;
     padding: 1.2rem 1.5rem;
-    border-radius: 30px;
+    border-radius: 12px;
 }
 
 .cooking-topbar-links {
@@ -65,31 +65,31 @@
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    color: #6f5948;
-    font-weight: 900;
+    color: #556255;
+    font-weight: 700;
 }
 
 .cooking-back-link:hover {
-    color: #f97316;
+    color: #2d6a3e;
 }
 
 .cooking-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #f97316;
+    color: #2d6a3e;
     font-size: 0.78rem;
-    font-weight: 950;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
 }
 
 .cooking-topbar h1 {
     margin: 0.4rem 0 0.7rem;
-    color: #16151f;
+    color: #181c18;
     font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-    font-weight: 950;
-    letter-spacing: -0.04em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     line-height: 1.08;
 }
 
@@ -105,11 +105,11 @@
     gap: 0.4rem;
     padding: 0.42rem 0.75rem;
     border-radius: 999px;
-    color: #211714;
-    background: rgba(249, 115, 22, 0.12);
-    border: 1px solid rgba(249, 115, 22, 0.14);
+    color: #191c19;
+    background: rgba(45, 106, 62, 0.12);
+    border: 1px solid rgba(45, 106, 62, 0.14);
     font-size: 0.8rem;
-    font-weight: 950;
+    font-weight: 700;
 }
 
 .cooking-topbar-progress {
@@ -129,7 +129,7 @@
 .cooking-finish-card {
     min-width: 0;
     padding: 1.3rem;
-    border-radius: 34px;
+    border-radius: 12px;
 }
 
 .sidebar-header,
@@ -144,24 +144,24 @@
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    color: #f97316;
+    color: #2d6a3e;
     font-size: 0.76rem;
-    font-weight: 950;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
 }
 
 .sidebar-header h2,
 .cooking-finish-card h2 {
     margin: 0.35rem 0 0;
-    color: #16151f;
-    font-weight: 950;
+    color: #181c18;
+    font-weight: 700;
     letter-spacing: -0.03em;
 }
 
 .cooking-finish-card p {
     margin: 0.5rem 0 0;
-    color: #6f5948;
+    color: #556255;
     font-weight: 750;
     line-height: 1.6;
 }
@@ -181,9 +181,9 @@
     gap: 0.75rem;
     align-items: center;
     padding: 0.85rem;
-    border: 1px solid rgba(80, 50, 30, 0.08);
-    border-radius: 20px;
-    color: #211714;
+    border: 1px solid rgba(31, 77, 43, 0.08);
+    border-radius: 12px;
+    color: #191c19;
     background: rgba(255, 255, 255, 0.7);
     text-align: left;
     cursor: pointer;
@@ -193,8 +193,8 @@
 .cooking-step-link:hover,
 .cooking-step-link.active {
     transform: translateY(-1px);
-    border-color: rgba(249, 115, 22, 0.32);
-    background: rgba(255, 244, 229, 0.92);
+    border-color: rgba(45, 106, 62, 0.32);
+    background: rgba(238, 245, 239, 0.92);
 }
 
 .step-link-number {
@@ -203,10 +203,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px;
-    color: #211714;
-    background: rgba(249, 115, 22, 0.14);
-    font-weight: 950;
+    border-radius: 10px;
+    color: #191c19;
+    background: rgba(45, 106, 62, 0.14);
+    font-weight: 700;
 }
 
 .step-link-copy {
@@ -216,23 +216,23 @@
 .step-link-copy strong {
     display: block;
     font-size: 0.9rem;
-    font-weight: 950;
+    font-weight: 700;
     overflow-wrap: anywhere;
 }
 
 .step-link-copy small {
     display: block;
     margin-top: 0.15rem;
-    color: #7b6a5c;
-    font-weight: 800;
+    color: #647364;
+    font-weight: 700;
 }
 
 .step-complete-icon {
-    color: rgba(34, 197, 94, 0.25);
+    color: rgba(45, 106, 62, 0.25);
 }
 
 .cooking-step-link.completed .step-complete-icon {
-    color: #22c55e;
+    color: #2d6a3e;
 }
 
 .progress-topline {
@@ -245,27 +245,27 @@
 
 .progress-topline span,
 .progress-topline strong {
-    color: #6f5948;
+    color: #556255;
     font-size: 0.9rem;
-    font-weight: 950;
+    font-weight: 700;
 }
 
 .progress-topline strong {
-    color: #16151f;
+    color: #181c18;
 }
 
 .cooking-progress-track {
     height: 12px;
     overflow: hidden;
     border-radius: 999px;
-    background: rgba(249, 115, 22, 0.12);
+    background: rgba(45, 106, 62, 0.12);
 }
 
 .cooking-progress-fill {
     width: 0%;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, #ffb429, #f97316);
+    background: #4f8f5f;
     transition: width 0.25s ease;
 }
 
@@ -275,11 +275,11 @@
 
 .current-step-card {
     padding: clamp(1.1rem, 2.2vw, 1.7rem);
-    border-radius: 30px;
+    border-radius: 12px;
     background:
-        radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(45, 106, 62, 0.14), transparent 34%),
         rgba(255, 255, 255, 0.74);
-    border: 1px solid rgba(80, 50, 30, 0.08);
+    border: 1px solid rgba(31, 77, 43, 0.08);
 }
 
 .current-step-header {
@@ -295,19 +295,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 26px;
-    color: #211714;
-    background: linear-gradient(135deg, #ffb429, #f97316);
-    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.22);
+    border-radius: 12px;
+    color: #191c19;
+    background: #4f8f5f;
+    box-shadow: 0 16px 34px rgba(45, 106, 62, 0.22);
     font-size: 1.8rem;
-    font-weight: 950;
+    font-weight: 700;
 }
 
 .current-step-text {
     margin: 0;
-    color: #4b3a30;
+    color: #394239;
     font-size: clamp(1.2rem, 2vw, 1.55rem);
-    font-weight: 850;
+    font-weight: 700;
     line-height: 1.7;
 }
 
@@ -337,7 +337,7 @@
     padding: 0.7rem 0.9rem;
     border: 0;
     border-radius: 999px;
-    font-weight: 950;
+    font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -351,21 +351,21 @@
 .cooking-control-btn.primary,
 .timer-btn.start,
 .cooking-finish-btn {
-    color: #211714;
-    background: linear-gradient(135deg, #ffb429, #f97316);
+    color: #191c19;
+    background: #4f8f5f;
 }
 
 .cooking-control-btn.complete {
-    color: #064e3b;
-    background: rgba(34, 197, 94, 0.16);
+    color: #173a22;
+    background: rgba(45, 106, 62, 0.16);
 }
 
 .cooking-control-btn.secondary,
 .timer-btn.pause,
 .timer-btn.reset {
-    color: #211714;
+    color: #191c19;
     background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(80, 50, 30, 0.1);
+    border: 1px solid rgba(31, 77, 43, 0.1);
 }
 
 .cooking-control-btn:disabled {
@@ -379,25 +379,25 @@
     place-items: center;
     margin: 1.2rem 0;
     padding: 1.2rem;
-    border-radius: 28px;
+    border-radius: 12px;
     background:
-        radial-gradient(circle, rgba(249, 115, 22, 0.12), transparent 55%),
+        radial-gradient(circle, rgba(45, 106, 62, 0.12), transparent 55%),
         rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(80, 50, 30, 0.08);
+    border: 1px solid rgba(31, 77, 43, 0.08);
 }
 
 .timer-display {
-    color: #16151f;
+    color: #181c18;
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 950;
-    letter-spacing: -0.04em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     line-height: 1;
 }
 
 .timer-display-wrap small {
     margin-top: 0.45rem;
-    color: #7b6a5c;
-    font-weight: 900;
+    color: #647364;
+    font-weight: 700;
 }
 
 .timer-controls {
@@ -411,25 +411,25 @@
 .timer-adjusted {
     margin-top: 1rem;
     padding: 0.9rem;
-    border-radius: 20px;
-    background: rgba(22, 163, 74, 0.08);
-    border: 1px solid rgba(22, 163, 74, 0.25);
+    border-radius: 12px;
+    background: rgba(45, 106, 62, 0.08);
+    border: 1px solid rgba(45, 106, 62, 0.25);
 }
 
 .timer-adjusted span {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    color: #15803d;
+    color: #1f4d2b;
     font-size: 0.78rem;
-    font-weight: 950;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
 }
 
 .timer-adjusted p {
     margin: 0.4rem 0 0.6rem;
-    color: #4b3a30;
+    color: #394239;
     font-size: 0.88rem;
     font-weight: 750;
     line-height: 1.55;
@@ -438,9 +438,9 @@
 .timer-adjusted-btn {
     padding: 0;
     border: 0;
-    color: #c2410c;
+    color: #2d6a3e;
     background: transparent;
-    font-weight: 900;
+    font-weight: 700;
     cursor: pointer;
 }
 
@@ -455,17 +455,17 @@
     align-items: flex-start;
     margin-top: 1rem;
     padding: 0.9rem;
-    border-radius: 20px;
-    background: rgba(249, 115, 22, 0.09);
+    border-radius: 12px;
+    background: rgba(45, 106, 62, 0.09);
 }
 
 .timer-tip i {
-    color: #f97316;
+    color: #2d6a3e;
 }
 
 .timer-tip p {
     margin: 0;
-    color: #6f5948;
+    color: #556255;
     font-weight: 750;
     line-height: 1.55;
 }
@@ -483,7 +483,7 @@
 }
 
 .cooking-finish-btn {
-    color: #211714;
+    color: #191c19;
 }
 
 /* -------------------------------
@@ -551,7 +551,7 @@
     .cooking-main-card,
     .cooking-timer-card,
     .cooking-finish-card {
-        border-radius: 24px;
+        border-radius: 12px;
     }
 
     .current-step-number {
@@ -587,7 +587,7 @@
 .cooking-toolbar {
     margin-bottom: 1.5rem;
     padding: 0.7rem 0.8rem;
-    border-radius: 26px;
+    border-radius: 12px;
 }
 
 .cooking-toolbar-row {
@@ -603,11 +603,11 @@
     gap: 0.5rem;
     min-height: 44px;
     padding: 0.6rem 1.05rem;
-    border: 1px solid rgba(80, 50, 30, 0.12);
+    border: 1px solid rgba(31, 77, 43, 0.12);
     border-radius: 999px;
-    color: #211714;
+    color: #191c19;
     background: #ffffff;
-    font-weight: 950;
+    font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
 }
@@ -618,7 +618,7 @@
 
 .cooking-voice-toggle.is-on {
     border-color: transparent;
-    background: linear-gradient(135deg, #ffb429, #f97316);
+    background: #4f8f5f;
 }
 
 .cooking-voice-toggle:disabled {
@@ -632,21 +632,21 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: rgba(80, 50, 30, 0.25);
+    background: rgba(31, 77, 43, 0.25);
 }
 
 .cooking-toolbar.is-listening .voice-dot {
-    background: #16a34a;
+    background: #2d6a3e;
     animation: cooking-voice-pulse 1.4s ease-in-out infinite;
 }
 
 .cooking-toolbar.is-speaking .voice-dot {
-    background: #f97316;
+    background: #2d6a3e;
 }
 
 @keyframes cooking-voice-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45); }
-    50% { box-shadow: 0 0 0 7px rgba(22, 163, 74, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(45, 106, 62, 0.45); }
+    50% { box-shadow: 0 0 0 7px rgba(45, 106, 62, 0.0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -660,18 +660,18 @@
     align-items: center;
     gap: 0.4rem;
     margin: 0;
-    color: #6f5948;
+    color: #556255;
 }
 
 .cooking-voice-english select {
     min-height: 40px;
     padding: 0.35rem 0.6rem;
-    border: 1px solid rgba(80, 50, 30, 0.14);
-    border-radius: 14px;
-    color: #211714;
+    border: 1px solid rgba(31, 77, 43, 0.14);
+    border-radius: 10px;
+    color: #191c19;
     background: #ffffff;
     font-size: 0.88rem;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .cooking-voice-status[hidden] {
@@ -681,10 +681,10 @@
 .cooking-voice-status {
     padding: 0.3rem 0.7rem;
     border-radius: 999px;
-    color: #6f5948;
-    background: rgba(249, 115, 22, 0.1);
+    color: #556255;
+    background: rgba(45, 106, 62, 0.1);
     font-size: 0.78rem;
-    font-weight: 950;
+    font-weight: 700;
 }
 
 .cooking-toolbar-link {
@@ -695,18 +695,18 @@
     padding: 0.35rem 0.6rem;
     border: 0;
     border-radius: 12px;
-    color: #c2410c;
+    color: #2d6a3e;
     background: transparent;
-    font-weight: 900;
+    font-weight: 700;
     cursor: pointer;
 }
 
 .cooking-toolbar-link:hover,
 .cooking-toolbar-link.active {
-    background: rgba(249, 115, 22, 0.1);
+    background: rgba(45, 106, 62, 0.1);
 }
 
-.cooking-toolbar-link.icon-only {
+.cooking-toolbar-link.is-icon-only {
     padding: 0.35rem 0.5rem;
     font-size: 1.05rem;
 }
@@ -720,28 +720,28 @@
 
 .cooking-switch-text {
     margin-left: 0.55rem;
-    color: #211714;
+    color: #191c19;
     font-size: 0.9rem;
-    font-weight: 900;
+    font-weight: 700;
     white-space: nowrap;
 }
 
 .cooking-voice-notice {
     margin: 0.6rem 0.2rem 0.2rem;
     padding: 0.65rem 0.9rem;
-    border-radius: 16px;
+    border-radius: 10px;
     color: var(--culina-warning-red-text, #991b1b);
-    background: var(--culina-warning-red-soft, #fef2f2);
+    background: var(--culina-warning-red-soft, #f7f9f7);
     border: 1px solid var(--culina-warning-red, #dc2626);
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .cooking-toolbar-panel {
     margin-top: 0.7rem;
     padding: 0.9rem;
-    border-radius: 20px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(80, 50, 30, 0.08);
+    border: 1px solid rgba(31, 77, 43, 0.08);
 }
 
 .cooking-toolbar-panel[hidden] {
@@ -750,19 +750,19 @@
 
 .cooking-toolbar-panel p {
     margin: 0;
-    color: #6f5948;
+    color: #556255;
     font-size: 0.88rem;
     font-weight: 750;
     line-height: 1.6;
 }
 
 .cooking-toolbar-panel p strong {
-    color: #16151f;
+    color: #181c18;
 }
 
 .cooking-toolbar-panel a {
-    color: #c2410c;
-    font-weight: 900;
+    color: #2d6a3e;
+    font-weight: 700;
 }
 
 .cooking-voice-help-grid {
@@ -774,20 +774,20 @@
 
 .cooking-voice-help-grid div {
     padding: 0.7rem 0.8rem;
-    border-radius: 16px;
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(80, 50, 30, 0.08);
+    border: 1px solid rgba(31, 77, 43, 0.08);
 }
 
 .cooking-voice-help-grid strong {
     display: block;
     margin-bottom: 0.2rem;
-    color: #16151f;
-    font-weight: 950;
+    color: #181c18;
+    font-weight: 700;
 }
 
 .cooking-voice-help-grid span {
-    color: #6f5948;
+    color: #556255;
     font-size: 0.86rem;
     font-weight: 750;
     line-height: 1.55;
@@ -806,9 +806,9 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0.6rem 0.95rem;
-    border-radius: 22px;
-    color: #fffaf3;
-    background: rgba(33, 23, 20, 0.94);
+    border-radius: 12px;
+    color: #f8faf8;
+    background: rgba(25, 28, 25, 0.94);
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
 }
 
@@ -817,9 +817,9 @@
 }
 
 .cooking-captions-status {
-    color: rgba(255, 250, 243, 0.85);
+    color: rgba(248, 250, 248, 0.85);
     font-size: 0.82rem;
-    font-weight: 900;
+    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -838,16 +838,16 @@
 }
 
 .cooking-captions-text span {
-    color: rgba(255, 250, 243, 0.7);
+    color: rgba(248, 250, 248, 0.7);
     font-size: 0.82rem;
-    font-weight: 800;
+    font-weight: 700;
     overflow-wrap: anywhere;
 }
 
 .cooking-captions-text strong {
-    color: #fffaf3;
+    color: #f8faf8;
     font-size: 0.96rem;
-    font-weight: 850;
+    font-weight: 700;
     line-height: 1.45;
     overflow-wrap: anywhere;
 }
@@ -881,7 +881,7 @@ body.cooking-captions-on .culina-cooking-mode {
     width: 52px;
     height: 30px;
     border-radius: 999px;
-    background: rgba(80, 50, 30, 0.22);
+    background: rgba(31, 77, 43, 0.22);
     transition: background 0.2s ease;
 }
 
@@ -899,7 +899,7 @@ body.cooking-captions-on .culina-cooking-mode {
 }
 
 .cooking-switch input:checked + .cooking-switch-track {
-    background: #16a34a;
+    background: #2d6a3e;
 }
 
 .cooking-switch input:checked + .cooking-switch-track::after {
@@ -907,7 +907,7 @@ body.cooking-captions-on .culina-cooking-mode {
 }
 
 .cooking-switch input:focus-visible + .cooking-switch-track {
-    outline: 3px solid rgba(249, 115, 22, 0.55);
+    outline: 3px solid rgba(45, 106, 62, 0.55);
     outline-offset: 2px;
 }
 
@@ -923,9 +923,9 @@ body.cooking-captions-on .culina-cooking-mode {
     gap: 0.4rem;
     padding: 0;
     border: 0;
-    color: #c2410c;
+    color: #2d6a3e;
     background: transparent;
-    font-weight: 900;
+    font-weight: 700;
     cursor: pointer;
 }
 
@@ -948,11 +948,11 @@ body.cooking-captions-on .culina-cooking-mode {
     gap: 0.4rem;
     min-height: 42px;
     padding: 0.55rem 0.9rem;
-    border: 1px solid rgba(80, 50, 30, 0.12);
+    border: 1px solid rgba(31, 77, 43, 0.12);
     border-radius: 999px;
-    color: #211714;
+    color: #191c19;
     background: rgba(255, 255, 255, 0.85);
-    font-weight: 900;
+    font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
 }
@@ -965,15 +965,15 @@ body.cooking-captions-on .culina-cooking-mode {
 .step-trouble-choices button.selected,
 .cooking-outcome-buttons button.selected {
     border-color: transparent;
-    background: linear-gradient(135deg, #ffb429, #f97316);
+    background: #4f8f5f;
 }
 
 .step-trouble-note,
 .cooking-outcome small {
     display: block;
     margin-top: 0.5rem;
-    color: #6f5948;
-    font-weight: 800;
+    color: #556255;
+    font-weight: 700;
 }
 
 .step-trouble-note:empty,
@@ -986,9 +986,9 @@ body.cooking-captions-on .culina-cooking-mode {
 .step-feedback {
     margin-top: 1.2rem;
     padding: 1rem 1.1rem;
-    border-radius: 22px;
-    background: rgba(255, 244, 229, 0.92);
-    border: 1px solid rgba(249, 115, 22, 0.28);
+    border-radius: 12px;
+    background: rgba(238, 245, 239, 0.92);
+    border: 1px solid rgba(45, 106, 62, 0.28);
 }
 
 .step-feedback[hidden] {
@@ -996,9 +996,9 @@ body.cooking-captions-on .culina-cooking-mode {
 }
 
 .step-feedback > strong {
-    color: #16151f;
+    color: #181c18;
     font-size: 1.05rem;
-    font-weight: 950;
+    font-weight: 700;
 }
 
 .step-feedback-row {
@@ -1013,23 +1013,23 @@ body.cooking-captions-on .culina-cooking-mode {
     min-width: 0;
     min-height: 48px;
     padding: 0.6rem 1rem;
-    border: 1px solid rgba(80, 50, 30, 0.14);
+    border: 1px solid rgba(31, 77, 43, 0.14);
     border-radius: 999px;
-    color: #211714;
+    color: #191c19;
     background: #ffffff;
     font-weight: 750;
 }
 
 .step-feedback-row input:focus {
-    outline: 3px solid rgba(249, 115, 22, 0.35);
+    outline: 3px solid rgba(45, 106, 62, 0.35);
     outline-offset: 1px;
 }
 
 /* Finish card additions */
 
 .cooking-finish-card .cooking-time-summary {
-    color: #16151f;
-    font-weight: 850;
+    color: #181c18;
+    font-weight: 700;
 }
 
 .cooking-finish-card .cooking-time-summary:empty {
@@ -1041,8 +1041,8 @@ body.cooking-captions-on .culina-cooking-mode {
 }
 
 .cooking-outcome strong {
-    color: #16151f;
-    font-weight: 950;
+    color: #181c18;
+    font-weight: 700;
 }
 
 @media (max-width: 991px) {

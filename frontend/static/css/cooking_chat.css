@@ -10,15 +10,15 @@
     gap: 0.45rem;
     border-radius: 999px;
     padding: 0.72rem 1.15rem;
-    font-weight: 950;
-    color: #211714;
-    background: linear-gradient(135deg, #ffb429, #f97316);
+    font-weight: 700;
+    color: #191c19;
+    background: #4f8f5f;
     border: 0;
-    box-shadow: 0 14px 28px rgba(249, 115, 22, 0.2);
+    box-shadow: 0 14px 28px rgba(45, 106, 62, 0.2);
 }
 
 .culina-chat-launch-btn:hover {
-    color: #211714;
+    color: #191c19;
     transform: translateY(-1px);
 }
 
@@ -33,8 +33,8 @@
 .culina-chat-modal-content {
     overflow: hidden;
     border: 0;
-    border-radius: 30px;
-    background: #fffaf3;
+    border-radius: 12px;
+    background: #f8faf8;
     box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
 }
 
@@ -44,10 +44,10 @@
     gap: 1rem;
     align-items: center;
     padding: 1.25rem;
-    color: #fffaf3;
+    color: #f8faf8;
     background:
-        radial-gradient(circle at top right, rgba(249, 115, 22, 0.34), transparent 34%),
-        linear-gradient(145deg, #211714, #33251d);
+        radial-gradient(circle at top right, rgba(45, 106, 62, 0.34), transparent 34%),
+        linear-gradient(145deg, #191c19, #252b25);
     border: 0;
 }
 
@@ -57,11 +57,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 22px;
-    color: #211714;
-    background: linear-gradient(135deg, #ffb429, #f97316);
+    border-radius: 12px;
+    color: #191c19;
+    background: #4f8f5f;
     font-size: 1.35rem;
-    box-shadow: 0 16px 34px rgba(249, 115, 22, 0.22);
+    box-shadow: 0 16px 34px rgba(45, 106, 62, 0.22);
 }
 
 .culina-chat-title {
@@ -72,25 +72,25 @@
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    color: #ffb429;
+    color: #4f8f5f;
     font-size: 0.76rem;
-    font-weight: 950;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
 }
 
 .culina-chat-title h2 {
     margin: 0.25rem 0 0;
-    color: #fffaf3;
+    color: #f8faf8;
     font-size: clamp(1.2rem, 2vw, 1.75rem);
-    font-weight: 950;
+    font-weight: 700;
     letter-spacing: -0.03em;
     overflow-wrap: anywhere;
 }
 
 .culina-chat-title p {
     margin: 0.3rem 0 0;
-    color: rgba(255, 250, 243, 0.78);
+    color: rgba(248, 250, 248, 0.78);
     font-size: 0.88rem;
     font-weight: 750;
     line-height: 1.5;
@@ -103,7 +103,7 @@
 
 .culina-chat-body {
     padding: 0;
-    background: #fffaf3;
+    background: #f8faf8;
 }
 
 .culina-chat-layout {
@@ -116,21 +116,21 @@
 .culina-chat-sidebar {
     min-width: 0;
     padding: 1rem;
-    background: rgba(249, 115, 22, 0.07);
-    border-right: 1px solid rgba(80, 50, 30, 0.08);
+    background: rgba(45, 106, 62, 0.07);
+    border-right: 1px solid rgba(31, 77, 43, 0.08);
     overflow-y: auto;
 }
 
 .culina-chat-sidebar h3 {
     margin: 0;
-    color: #211714;
+    color: #191c19;
     font-size: 1rem;
-    font-weight: 950;
+    font-weight: 700;
 }
 
 .culina-chat-sidebar p {
     margin: 0.35rem 0 1rem;
-    color: #6f5948;
+    color: #556255;
     font-size: 0.84rem;
     font-weight: 750;
     line-height: 1.55;
@@ -148,9 +148,9 @@
     align-items: center;
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid rgba(80, 50, 30, 0.08);
-    border-radius: 18px;
-    color: #211714;
+    border: 1px solid rgba(31, 77, 43, 0.08);
+    border-radius: 12px;
+    color: #191c19;
     background: rgba(255, 255, 255, 0.78);
     text-align: left;
     cursor: pointer;
@@ -159,8 +159,8 @@
 
 .culina-chat-quick-btn:hover {
     transform: translateY(-1px);
-    border-color: rgba(249, 115, 22, 0.28);
-    background: #fffaf3;
+    border-color: rgba(45, 106, 62, 0.28);
+    background: #f8faf8;
 }
 
 .culina-chat-quick-btn i {
@@ -169,15 +169,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #211714;
-    border-radius: 15px;
-    background: rgba(249, 115, 22, 0.13);
+    color: #191c19;
+    border-radius: 10px;
+    background: rgba(45, 106, 62, 0.13);
 }
 
 .culina-chat-quick-btn span {
-    color: #211714;
+    color: #191c19;
     font-size: 0.86rem;
-    font-weight: 950;
+    font-weight: 700;
     line-height: 1.35;
 }
 
@@ -186,8 +186,8 @@
     min-width: 0;
     flex-direction: column;
     background:
-        radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 32%),
-        #fffaf3;
+        radial-gradient(circle at top right, rgba(45, 106, 62, 0.08), transparent 32%),
+        #f8faf8;
 }
 
 .culina-chat-messages {
@@ -204,25 +204,25 @@
     max-width: 520px;
     padding: 1.25rem;
     text-align: center;
-    border-radius: 24px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.75);
-    border: 1px dashed rgba(80, 50, 30, 0.16);
+    border: 1px dashed rgba(31, 77, 43, 0.16);
 }
 
 .culina-chat-empty i {
-    color: #f97316;
+    color: #2d6a3e;
     font-size: 2rem;
 }
 
 .culina-chat-empty h3 {
     margin: 0.65rem 0 0.35rem;
-    color: #211714;
-    font-weight: 950;
+    color: #191c19;
+    font-weight: 700;
 }
 
 .culina-chat-empty p {
     margin: 0;
-    color: #6f5948;
+    color: #556255;
     font-weight: 750;
     line-height: 1.6;
 }
@@ -249,27 +249,27 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px;
-    color: #211714;
-    background: rgba(249, 115, 22, 0.14);
+    border-radius: 10px;
+    color: #191c19;
+    background: rgba(45, 106, 62, 0.14);
 }
 
 .culina-chat-message.user .culina-chat-message-avatar {
-    color: #fffaf3;
-    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: #f8faf8;
+    background: #2d6a3e;
 }
 
 .culina-chat-bubble {
     min-width: 0;
     padding: 0.85rem 0.95rem;
-    border-radius: 22px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(80, 50, 30, 0.08);
+    border: 1px solid rgba(31, 77, 43, 0.08);
 }
 
 .culina-chat-message.user .culina-chat-bubble {
-    color: #fffaf3;
-    background: linear-gradient(135deg, #211714, #3b2a20);
+    color: #f8faf8;
+    background: #191c19;
     border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -282,19 +282,19 @@
 }
 
 .culina-chat-message.user .culina-chat-bubble p {
-    color: #fffaf3;
+    color: #f8faf8;
 }
 
 .culina-chat-meta {
     display: block;
     margin-top: 0.45rem;
-    color: #9a8472;
+    color: #7e8e7e;
     font-size: 0.72rem;
-    font-weight: 850;
+    font-weight: 700;
 }
 
 .culina-chat-message.user .culina-chat-meta {
-    color: rgba(255, 250, 243, 0.65);
+    color: rgba(248, 250, 248, 0.65);
 }
 
 .culina-chat-loading {
@@ -302,9 +302,9 @@
     align-items: center;
     gap: 0.55rem;
     margin: 0 1.1rem 0.85rem;
-    color: #6f5948;
+    color: #556255;
     font-size: 0.86rem;
-    font-weight: 900;
+    font-weight: 700;
 }
 
 .culina-chat-loading.show {
@@ -320,7 +320,7 @@
     width: 7px;
     height: 7px;
     border-radius: 999px;
-    background: #f97316;
+    background: #2d6a3e;
     animation: chatDotPulse 1s ease-in-out infinite;
 }
 
@@ -346,8 +346,8 @@
 
 .culina-chat-input-wrap {
     padding: 1rem;
-    background: rgba(255, 250, 243, 0.98);
-    border-top: 1px solid rgba(80, 50, 30, 0.08);
+    background: rgba(248, 250, 248, 0.98);
+    border-top: 1px solid rgba(31, 77, 43, 0.08);
 }
 
 .culina-chat-form {
@@ -363,17 +363,17 @@
     max-height: 140px;
     resize: vertical;
     padding: 0.9rem 1rem;
-    border: 1px solid rgba(80, 50, 30, 0.13);
-    border-radius: 22px;
-    color: #211714;
+    border: 1px solid rgba(31, 77, 43, 0.13);
+    border-radius: 12px;
+    color: #191c19;
     background: #fff;
     font-weight: 750;
     outline: none;
 }
 
 .culina-chat-input:focus {
-    border-color: rgba(249, 115, 22, 0.45);
-    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.08);
+    border-color: rgba(45, 106, 62, 0.45);
+    box-shadow: 0 0 0 4px rgba(45, 106, 62, 0.08);
 }
 
 .culina-chat-send-btn {
@@ -385,9 +385,9 @@
     padding: 0.8rem 1.1rem;
     border: 0;
     border-radius: 999px;
-    color: #211714;
-    background: linear-gradient(135deg, #ffb429, #f97316);
-    font-weight: 950;
+    color: #191c19;
+    background: #4f8f5f;
+    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -401,7 +401,7 @@
     margin-top: 0.55rem;
     color: #b91c1c;
     font-size: 0.84rem;
-    font-weight: 850;
+    font-weight: 700;
 }
 
 .culina-chat-error.show {
@@ -416,7 +416,7 @@
 
     .culina-chat-sidebar {
         border-right: 0;
-        border-bottom: 1px solid rgba(80, 50, 30, 0.08);
+        border-bottom: 1px solid rgba(31, 77, 43, 0.08);
         max-height: 220px;
     }
 

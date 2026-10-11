@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (wrapper) {
             wrapper.innerHTML = `
                 <div class="quality-empty-chart quality-empty-chart-professional">
-                    <i class="bi bi-bar-chart-line"></i>
+                    <i class="icon-chart-column"></i>
                     <strong>No data available yet</strong>
                     <p>${message}</p>
                 </div>

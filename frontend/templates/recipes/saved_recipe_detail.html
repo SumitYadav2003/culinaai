@@ -4,10 +4,10 @@
 {% block title %}CulinaAI | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-inline-recipe-image-1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
-<link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=pantry-match-badge-fix-1">
-<link rel="stylesheet" href="{% static 'css/cooking_chat.css' %}?v=cooking-chat-height-fix-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-inline-recipe-image-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=pantry-match-badge-fix-1-g1">
+<link rel="stylesheet" href="{% static 'css/cooking_chat.css' %}?v=cooking-chat-height-fix-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
         <div class="recipe-detail-hero">
 
             <a href="{% url 'saved_recipes' %}" class="recipe-back-link">
-                <i class="bi bi-arrow-left"></i>
+                <i class="icon-arrow-left"></i>
                 Back to Saved Recipes
             </a>
 
@@ -27,10 +27,10 @@
                 <div class="recipe-detail-title-area">
                     <span class="section-label">
                         {% if recipe.is_public %}
-                            <i class="bi bi-people-fill"></i>
+                            <i class="icon-users"></i>
                             Community Shared Recipe
                         {% else %}
-                            <i class="bi bi-journal-richtext"></i>
+                            <i class="icon-book-open-text"></i>
                             Saved AI Recipe
                         {% endif %}
                     </span>
@@ -51,18 +51,18 @@
 
                         {% if recipe.is_public %}
                             <div class="recipe-detail-badge recipe-detail-community-badge">
-                                <i class="bi bi-people-fill"></i>
+                                <i class="icon-users"></i>
                                 Shared with Community
                             </div>
                         {% else %}
                             <div class="recipe-detail-badge">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                                 CulinaAI Generated
                             </div>
                         {% endif %}
 
                         <a href="{% url 'edit_saved_recipe' recipe.id %}" class="btn recipe-edit-btn">
-                            <i class="bi bi-pencil-square"></i>
+                            <i class="icon-pencil"></i>
                             Edit Recipe
                         </a>
 
@@ -71,12 +71,12 @@
 
                             {% if is_favourite %}
                                 <button type="submit" class="btn recipe-favourite-btn active">
-                                    <i class="bi bi-heart-fill"></i>
+                                    <i class="icon-heart"></i>
                                     Remove Favourite
                                 </button>
                             {% else %}
                                 <button type="submit" class="btn recipe-favourite-btn">
-                                    <i class="bi bi-heart"></i>
+                                    <i class="icon-heart"></i>
                                     Add to Favourites
                                 </button>
                             {% endif %}
@@ -87,12 +87,12 @@
 
                             {% if recipe.is_public %}
                                 <button type="submit" class="btn recipe-community-remove-btn">
-                                    <i class="bi bi-eye-slash"></i>
+                                    <i class="icon-eye-off"></i>
                                     Remove from Community
                                 </button>
                             {% else %}
                                 <button type="submit" class="btn recipe-community-add-btn">
-                                    <i class="bi bi-people-fill"></i>
+                                    <i class="icon-users"></i>
                                     Add to Community
                                 </button>
                             {% endif %}
@@ -100,18 +100,18 @@
 
                         {% if recipe.is_public %}
                             <a href="{% url 'community_recipe_detail' recipe.id %}" class="btn recipe-community-view-btn">
-                                <i class="bi bi-box-arrow-up-right"></i>
+                                <i class="icon-external-link"></i>
                                 View Public Page
                             </a>
                         {% endif %}
 
                         <button type="button" class="btn recipe-shopping-list-btn" data-bs-toggle="modal" data-bs-target="#shoppingListModal">
-                            <i class="bi bi-bag-check"></i>
+                            <i class="icon-shopping-bag"></i>
                             Shopping List
                         </button>
 
                         <a href="{% url 'cooking_mode' recipe.id %}" class="btn btn-warning fw-bold rounded-pill px-4 py-2">
-                            <i class="bi bi-play-circle"></i>
+                            <i class="icon-circle-play"></i>
                                 Start Cooking Mode
                         </a>
 
@@ -120,13 +120,13 @@
                             class="btn culina-chat-launch-btn"
                             data-bs-toggle="modal"
                             data-bs-target="#cookingAssistantModal">
-                            <i class="bi bi-robot"></i>
+                            <i class="icon-chef-hat"></i>
                             Ask CulinaAI Assistant
                         </button>
 
 
                         <a href="{% url 'print_saved_recipe' recipe.id %}" class="btn recipe-print-export-btn">
-                            <i class="bi bi-printer"></i>
+                            <i class="icon-printer"></i>
                             Print / Export
                         </a>
 
@@ -134,44 +134,44 @@
                             {% csrf_token %}
 
                             <button type="submit" class="btn recipe-unsave-btn">
-                                <i class="bi bi-bookmark-dash"></i>
+                                <i class="icon-bookmark-minus"></i>
                                 Unsave Recipe
                             </button>
                         </form>
 
                         <button type="button" class="btn recipe-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal">
-                            <i class="bi bi-trash3"></i>
+                            <i class="icon-trash-2"></i>
                             Delete Recipe
                         </button>
                     </div>
 
                     <div class="recipe-detail-meta">
                         <span>
-                            <i class="bi bi-clock"></i>
+                            <i class="icon-clock"></i>
                             {{ recipe.cooking_time_minutes }} minutes
                         </span>
 
                         <span>
-                            <i class="bi bi-bar-chart"></i>
+                            <i class="icon-chart-column"></i>
                             {{ recipe.difficulty|title }}
                         </span>
 
                         {% if recipe.cuisine %}
                             <span>
-                                <i class="bi bi-globe2"></i>
+                                <i class="icon-globe"></i>
                                 {{ recipe.cuisine.name }}
                             </span>
                         {% endif %}
 
                         {% if recipe.meal_type %}
                             <span>
-                                <i class="bi bi-egg-fried"></i>
+                                <i class="icon-egg-fried"></i>
                                 {{ recipe.meal_type.name }}
                             </span>
                         {% endif %}
 
                         <span>
-                            <i class="bi bi-calendar-check"></i>
+                            <i class="icon-calendar-check"></i>
                             Saved {{ recipe.created_at|date:"d M Y" }}
                         </span>
                     </div>
@@ -182,9 +182,9 @@
             <section class="recipe-community-share-panel {% if recipe.is_public %}recipe-community-share-panel-active{% endif %}" aria-label="Community sharing status">
                 <div class="recipe-community-share-icon">
                     {% if recipe.is_public %}
-                        <i class="bi bi-broadcast-pin"></i>
+                        <i class="icon-radio"></i>
                     {% else %}
-                        <i class="bi bi-lock-fill"></i>
+                        <i class="icon-lock"></i>
                     {% endif %}
                 </div>
 
@@ -201,23 +201,23 @@
 
                         <div class="recipe-community-share-stats">
                             <span>
-                                <i class="bi bi-eye-fill"></i>
+                                <i class="icon-eye"></i>
                                 {{ recipe.community_views }} views
                             </span>
 
                             <span>
-                                <i class="bi bi-star-fill"></i>
+                                <i class="icon-star"></i>
                                 {{ recipe.average_rating }}/5 average rating
                             </span>
 
                             <span>
-                                <i class="bi bi-chat-heart-fill"></i>
+                                <i class="icon-message-circle"></i>
                                 {{ recipe.feedback_count }} feedback comments
                             </span>
 
                             {% if recipe.public_shared_at %}
                                 <span>
-                                    <i class="bi bi-calendar2-check-fill"></i>
+                                    <i class="icon-calendar-check"></i>
                                     Shared {{ recipe.public_shared_at|date:"d M Y" }}
                                 </span>
                             {% endif %}
@@ -242,7 +242,7 @@
                 <section class="saved-recipe-image-showcase" aria-label="AI-generated recipe image">
                     <div class="saved-recipe-image-copy">
                         <span class="section-label">
-                            <i class="bi bi-image-fill"></i>
+                            <i class="icon-image"></i>
                             AI Food Visual
                         </span>
 
@@ -255,20 +255,20 @@
 
                         <div class="saved-recipe-image-meta">
                             <span>
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                                 AI-generated visual
                             </span>
 
                             {% if recipe.cuisine %}
                                 <span>
-                                    <i class="bi bi-globe2"></i>
+                                    <i class="icon-globe"></i>
                                     {{ recipe.cuisine.name }} style
                                 </span>
                             {% endif %}
 
                             {% if recipe.meal_type %}
                                 <span>
-                                    <i class="bi bi-egg-fried"></i>
+                                    <i class="icon-egg-fried"></i>
                                     {{ recipe.meal_type.name }}
                                 </span>
                             {% endif %}
@@ -279,7 +279,7 @@
                         <img src="{{ recipe.generated_image.url }}" alt="AI-generated image for {{ recipe.title }}">
 
                         <div class="saved-recipe-image-badge">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
                             CulinaAI Visual
                         </div>
                     </div>
@@ -292,7 +292,7 @@
                     <div class="saved-validation-header">
                         <div>
                             <span class="saved-validation-mini-label">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="icon-shield-check"></i>
                                 Stored CulinaAI Verification Evidence
                             </span>
 
@@ -316,7 +316,7 @@
                                 saved-validation-badge-danger
                             {% endif %}
                         ">
-                            <i class="bi bi-patch-check-fill"></i>
+                            <i class="icon-badge-check"></i>
                             {{ recipe.validation_badge|default:"Verified" }}
                         </div>
                     </div>
@@ -390,7 +390,7 @@
                     {% if recipe.validation_attempt_history %}
                         <div class="saved-validation-sub-panel">
                             <div class="saved-validation-subheading">
-                                <i class="bi bi-arrow-repeat"></i>
+                                <i class="icon-refresh-cw"></i>
                                 Generation and Correction History
                             </div>
 
@@ -440,7 +440,7 @@
                     {% if recipe.validation_report.checks %}
                         <div class="saved-validation-sub-panel">
                             <div class="saved-validation-subheading">
-                                <i class="bi bi-list-check"></i>
+                                <i class="icon-list-checks"></i>
                                 Detailed Validation Breakdown
                             </div>
 
@@ -455,9 +455,9 @@
                                     ">
                                         <div class="saved-check-icon">
                                             {% if check.passed %}
-                                                <i class="bi bi-check-circle-fill"></i>
+                                                <i class="icon-circle-check"></i>
                                             {% else %}
-                                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                                <i class="icon-triangle-alert"></i>
                                             {% endif %}
                                         </div>
 
@@ -512,7 +512,7 @@
                     {% endif %}
 
                     <div class="saved-validation-disclaimer">
-                        <i class="bi bi-info-circle"></i>
+                        <i class="icon-info"></i>
                         <p>
                             CulinaAI verifies recipe compliance with the selected constraints.
                             It does not replace professional medical, allergy or nutritional advice.
@@ -522,7 +522,7 @@
             {% else %}
                 <section class="saved-validation-panel saved-validation-empty-panel" aria-label="Validation evidence unavailable">
                     <div class="saved-validation-empty-icon">
-                        <i class="bi bi-shield-exclamation"></i>
+                        <i class="icon-shield-alert"></i>
                     </div>
 
                     <div>
@@ -541,7 +541,7 @@
                     {% if recipe.personal_notes %}
                         <div class="recipe-detail-side-card recipe-personal-notes-card">
                             <h3>
-                                <i class="bi bi-journal-bookmark-fill"></i>
+                                <i class="icon-book-open"></i>
                                 Personal Notes
                             </h3>
 
@@ -550,7 +550,7 @@
                             </div>
 
                             <a href="{% url 'edit_saved_recipe' recipe.id %}" class="recipe-notes-edit-link">
-                                <i class="bi bi-pencil-square"></i>
+                                <i class="icon-pencil"></i>
                                 Update notes
                             </a>
                         </div>
@@ -558,7 +558,7 @@
 
                     <div class="recipe-detail-side-card">
                         <h3>
-                            <i class="bi bi-basket2"></i>
+                            <i class="icon-shopping-basket"></i>
                             Ingredients Used
                         </h3>
 
@@ -567,13 +567,13 @@
 
                     <div class="recipe-detail-side-card">
                         <h3>
-                            <i class="bi bi-shield-exclamation"></i>
+                            <i class="icon-shield-alert"></i>
                             Allergy & Safety Notes
                         </h3>
 
                         {% if recipe.allergy_notes %}
                             <div class="recipe-warning-box">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                <i class="icon-triangle-alert"></i>
 
                                 <div>
                                     <strong>Review before cooking</strong>
@@ -582,7 +582,7 @@
                             </div>
                         {% else %}
                             <div class="recipe-safe-box">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="icon-shield-check"></i>
 
                                 <div>
                                     <strong>No allergy notes provided</strong>
@@ -594,19 +594,19 @@
 
                     <div class="recipe-detail-side-card">
                         <h3>
-                            <i class="bi bi-tags"></i>
+                            <i class="icon-tags"></i>
                             Diet Preferences
                         </h3>
 
                         <div class="recipe-detail-tags">
                             {% for diet in recipe.diet_preferences.all %}
                                 <span>
-                                    <i class="bi bi-check2-circle"></i>
+                                    <i class="icon-circle-check"></i>
                                     {{ diet.name }}
                                 </span>
                             {% empty %}
                                 <span>
-                                    <i class="bi bi-info-circle"></i>
+                                    <i class="icon-info"></i>
                                     No diet preference
                                 </span>
                             {% endfor %}
@@ -618,7 +618,7 @@
 <div class="recipe-detail-main-card">
     <div class="recipe-detail-main-header">
         <span class="section-label">
-            <i class="bi bi-robot"></i>
+            <i class="icon-chef-hat"></i>
             Full AI Recipe
         </span>
 
@@ -633,7 +633,7 @@
         >
 
         <div class="saved-recipe-flow-image-badge">
-            <i class="bi bi-stars"></i>
+            <i class="icon-utensils"></i>
             AI Food Image
         </div>
     </div>
@@ -658,7 +658,7 @@
                     <div class="culina-comparison-header">
                         <div>
                             <span class="section-label">
-                                <i class="bi bi-columns-gap"></i>
+                                <i class="icon-layout-grid"></i>
                                 Recipe Comparison
                             </span>
 
@@ -671,7 +671,7 @@
                         </div>
 
                         <div class="culina-comparison-badge">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
 
                             {% if recipe.modification_type %}
                                 {{ recipe.get_modification_type_display }} version
@@ -699,7 +699,7 @@
                         </div>
 
                         <a href="{% url 'saved_recipe_detail' original_recipe.id %}" class="culina-comparison-source-link">
-                            <i class="bi bi-box-arrow-up-right"></i>
+                            <i class="icon-external-link"></i>
                             View Original Recipe
                         </a>
                     </div>
@@ -708,7 +708,7 @@
                         <article class="culina-comparison-card culina-comparison-original">
                             <div class="culina-comparison-card-header">
                                 <span>
-                                    <i class="bi bi-journal-text"></i>
+                                    <i class="icon-notebook-text"></i>
                                     Original Recipe
                                 </span>
 
@@ -719,12 +719,12 @@
 
                             <div class="culina-comparison-meta">
                                 <span>
-                                    <i class="bi bi-clock"></i>
+                                    <i class="icon-clock"></i>
                                     {{ original_recipe.cooking_time_minutes }} min
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-bar-chart"></i>
+                                    <i class="icon-chart-column"></i>
                                     {{ original_recipe.difficulty|title }}
                                 </span>
                             </div>
@@ -740,7 +740,7 @@
                         <article class="culina-comparison-card culina-comparison-modified">
                             <div class="culina-comparison-card-header">
                                 <span>
-                                    <i class="bi bi-stars"></i>
+                                    <i class="icon-utensils"></i>
                                     Modified Recipe
                                 </span>
 
@@ -751,12 +751,12 @@
 
                             <div class="culina-comparison-meta">
                                 <span>
-                                    <i class="bi bi-clock"></i>
+                                    <i class="icon-clock"></i>
                                     {{ recipe.cooking_time_minutes }} min
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-bar-chart"></i>
+                                    <i class="icon-chart-column"></i>
                                     {{ recipe.difficulty|title }}
                                 </span>
                             </div>
@@ -778,7 +778,7 @@
             <div class="recipe-feedback-header">
                 <div>
                     <span class="section-label">
-                        <i class="bi bi-chat-square-heart"></i>
+                        <i class="icon-message-square"></i>
                         Recipe Feedback
                     </span>
 
@@ -792,7 +792,7 @@
 
                 {% if user_rating %}
                     <div class="current-rating-badge">
-                        <i class="bi bi-star-fill"></i>
+                        <i class="icon-star"></i>
                         Your rating: {{ user_rating.rating }}/5
                     </div>
                 {% endif %}
@@ -804,7 +804,7 @@
                 <div class="feedback-form-grid">
                     <div class="feedback-rating-field">
                         <label for="{{ feedback_form.rating.id_for_label }}">
-                            <i class="bi bi-star"></i>
+                            <i class="icon-star"></i>
                             Rating
                         </label>
 
@@ -813,7 +813,7 @@
 
                     <div class="feedback-comment-field">
                         <label for="{{ feedback_form.comment.id_for_label }}">
-                            <i class="bi bi-pencil-square"></i>
+                            <i class="icon-pencil"></i>
                             Feedback comment
                         </label>
 
@@ -822,7 +822,7 @@
                 </div>
 
                 <button type="submit" class="btn recipe-feedback-submit-btn">
-                    <i class="bi bi-send"></i>
+                    <i class="icon-send"></i>
                     Submit Feedback
                 </button>
             </form>
@@ -832,7 +832,7 @@
                     <div class="feedback-history-header">
                         <div>
                             <h3>
-                                <i class="bi bi-chat-left-text"></i>
+                                <i class="icon-message-square-text"></i>
                                 Your feedback history
                             </h3>
 
@@ -848,7 +848,7 @@
                         {% for feedback in user_feedback_items %}
                             <div class="feedback-history-item">
                                 <div class="feedback-history-icon">
-                                    <i class="bi bi-chat-heart"></i>
+                                    <i class="icon-message-circle"></i>
                                 </div>
 
                                 <div class="feedback-history-content">
@@ -866,7 +866,7 @@
         <section id="culina-modify-recipe" class="culina-modify-recipe" aria-labelledby="culina-modify-title">
             <div class="culina-modify-copy">
                 <span class="section-label">
-                    <i class="bi bi-magic"></i>
+                    <i class="icon-chef-hat"></i>
                     Modify Recipe
                 </span>
 
@@ -879,22 +879,22 @@
 
                 <div class="culina-modify-options">
                     <span>
-                        <i class="bi bi-heart-pulse"></i>
+                        <i class="icon-heart-pulse"></i>
                         Healthier
                     </span>
 
                     <span>
-                        <i class="bi bi-cash-coin"></i>
+                        <i class="icon-coins"></i>
                         Cheaper
                     </span>
 
                     <span>
-                        <i class="bi bi-stopwatch"></i>
+                        <i class="icon-timer"></i>
                         Quicker
                     </span>
 
                     <span>
-                        <i class="bi bi-flower1"></i>
+                        <i class="icon-flower"></i>
                         Vegetarian
                     </span>
                 </div>
@@ -902,7 +902,7 @@
                 <div class="culina-modify-workflow">
                     <div class="culina-modify-workflow-card">
                         <div class="culina-modify-workflow-icon">
-                            <i class="bi bi-ui-checks-grid"></i>
+                            <i class="icon-list-checks"></i>
                         </div>
 
                         <div>
@@ -913,7 +913,7 @@
 
                     <div class="culina-modify-workflow-card">
                         <div class="culina-modify-workflow-icon">
-                            <i class="bi bi-cpu"></i>
+                            <i class="icon-settings"></i>
                         </div>
 
                         <div>
@@ -924,7 +924,7 @@
 
                     <div class="culina-modify-workflow-card">
                         <div class="culina-modify-workflow-icon">
-                            <i class="bi bi-journal-check"></i>
+                            <i class="icon-notebook"></i>
                         </div>
 
                         <div>
@@ -942,7 +942,7 @@
                             <span class="orbit-dot orbit-dot-three"></span>
 
                             <div class="culina-modify-visual-core">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                             </div>
                         </div>
 
@@ -966,7 +966,7 @@
             <div class="culina-modify-panel">
                 <div class="culina-modify-panel-header">
                     <div class="culina-modify-panel-icon">
-                        <i class="bi bi-stars"></i>
+                        <i class="icon-utensils"></i>
                     </div>
 
                     <div>
@@ -980,7 +980,7 @@
 
                     <div class="culina-modify-field">
                         <label for="{{ modify_form.modification_type.id_for_label }}">
-                            <i class="bi bi-sliders"></i>
+                            <i class="icon-sliders-horizontal"></i>
                             Modification type
                         </label>
 
@@ -991,7 +991,7 @@
 
                     <div class="culina-modify-field">
                         <label for="{{ modify_form.custom_instruction.id_for_label }}">
-                            <i class="bi bi-pencil-square"></i>
+                            <i class="icon-pencil"></i>
                             Custom instruction
                         </label>
 
@@ -1001,7 +1001,7 @@
                     </div>
 
                     <button type="submit" class="btn culina-modify-submit">
-                        <i class="bi bi-stars"></i>
+                        <i class="icon-utensils"></i>
                         Request Recipe Modification
                     </button>
                 </form>
@@ -1010,7 +1010,7 @@
                     <div id="culina-modified-preview" class="culina-modified-preview">
                         <div class="culina-modified-preview-header">
                             <span>
-                                <i class="bi bi-sparkles"></i>
+                                <i class="icon-utensils"></i>
                                 AI Modified Preview
                             </span>
 
@@ -1028,7 +1028,7 @@
                             {% csrf_token %}
 
                             <button type="submit" class="btn culina-save-modified-btn">
-                                <i class="bi bi-bookmark-check-fill"></i>
+                                <i class="icon-bookmark-check"></i>
                                 Save Modified Recipe
                             </button>
                         </form>
@@ -1041,7 +1041,7 @@
         <section id="culina-email-share" class="culina-email-share" aria-labelledby="culina-email-title">
             <div class="culina-email-copy">
                 <span class="section-label">
-                    <i class="bi bi-envelope-paper-heart"></i>
+                    <i class="icon-mail"></i>
                     Email Recipe
                 </span>
 
@@ -1056,7 +1056,7 @@
                 <div class="culina-email-highlights">
                     <article class="culina-email-highlight">
                         <span>
-                            <i class="bi bi-send-check"></i>
+                            <i class="icon-send"></i>
                         </span>
 
                         <div>
@@ -1067,7 +1067,7 @@
 
                     <article class="culina-email-highlight">
                         <span>
-                            <i class="bi bi-journal-richtext"></i>
+                            <i class="icon-book-open-text"></i>
                         </span>
 
                         <div>
@@ -1078,7 +1078,7 @@
 
                     <article class="culina-email-highlight">
                         <span>
-                            <i class="bi bi-shield-lock"></i>
+                            <i class="icon-shield"></i>
                         </span>
 
                         <div>
@@ -1092,7 +1092,7 @@
             <div class="culina-email-panel">
                 <div class="culina-email-panel-header">
                     <div class="culina-email-panel-icon">
-                        <i class="bi bi-envelope-open-heart"></i>
+                        <i class="icon-mail-open"></i>
                     </div>
 
                     <div>
@@ -1106,7 +1106,7 @@
 
                     <div class="culina-email-field">
                         <label for="{{ email_form.recipient_email.id_for_label }}">
-                            <i class="bi bi-envelope"></i>
+                            <i class="icon-mail"></i>
                             Recipient email
                         </label>
 
@@ -1117,7 +1117,7 @@
 
                     <div class="culina-email-field">
                         <label for="{{ email_form.message.id_for_label }}">
-                            <i class="bi bi-chat-left-heart"></i>
+                            <i class="icon-message-square"></i>
                             Optional message
                         </label>
 
@@ -1127,7 +1127,7 @@
                     </div>
 
                     <button type="submit" class="btn culina-email-submit">
-                        <i class="bi bi-send-fill"></i>
+                        <i class="icon-send"></i>
                         Send Recipe Email
                     </button>
                 </form>
@@ -1142,7 +1142,7 @@
                     <div class="modal-header culina-shopping-modal-header">
                         <div class="culina-shopping-heading">
                             <div class="culina-shopping-heading-icon">
-                                <i class="bi bi-bag-check-fill"></i>
+                                <i class="icon-shopping-bag"></i>
                             </div>
 
                             <div>
@@ -1197,7 +1197,7 @@
 
                                 <div class="culina-pantry-shopping-panel culina-pantry-missing-panel">
                                     <div class="culina-pantry-panel-header">
-                                        <i class="bi bi-cart-plus"></i>
+                                        <i class="icon-shopping-cart"></i>
 
                                         <div>
                                             <h3>Need to Buy</h3>
@@ -1210,7 +1210,7 @@
                                             {% for item in pantry_missing_items %}
                                                 <div class="culina-shopping-simple-item culina-shopping-missing-item">
                                                     <span class="culina-shopping-simple-icon">
-                                                        <i class="bi bi-bag-plus"></i>
+                                                        <i class="icon-shopping-bag"></i>
                                                     </span>
 
                                                     <span class="culina-shopping-name" data-shopping-item-name>
@@ -1225,7 +1225,7 @@
                                         </div>
                                     {% else %}
                                         <div class="culina-shopping-empty-mini">
-                                            <i class="bi bi-check2-circle"></i>
+                                            <i class="icon-circle-check"></i>
 
                                             <p>
                                                 Great! Your Smart Pantry already covers this recipe.
@@ -1236,7 +1236,7 @@
 
                                 <div class="culina-pantry-shopping-panel culina-pantry-available-panel">
                                     <div class="culina-pantry-panel-header">
-                                        <i class="bi bi-house-check"></i>
+                                        <i class="icon-house"></i>
 
                                         <div>
                                             <h3>Already in Pantry</h3>
@@ -1249,7 +1249,7 @@
                                             {% for item in pantry_available_items %}
                                                 <div class="culina-shopping-simple-item culina-shopping-available-item">
                                                     <span class="culina-shopping-simple-icon">
-                                                        <i class="bi bi-check2-circle"></i>
+                                                        <i class="icon-circle-check"></i>
                                                     </span>
 
                                                     <span class="culina-shopping-name">
@@ -1264,7 +1264,7 @@
                                         </div>
                                     {% else %}
                                         <div class="culina-shopping-empty-mini">
-                                            <i class="bi bi-basket"></i>
+                                            <i class="icon-shopping-basket"></i>
 
                                             <p>
                                                 No matching pantry ingredients found yet.
@@ -1276,7 +1276,7 @@
                             </div>
                         {% else %}
                             <div class="culina-shopping-empty">
-                                <i class="bi bi-basket"></i>
+                                <i class="icon-shopping-basket"></i>
 
                                 <h3>No ingredients found</h3>
 
@@ -1292,17 +1292,17 @@
                         <span class="culina-shopping-copy-feedback" data-shopping-copy-feedback></span>
 
                         <button type="button" class="btn culina-shopping-copy-btn" data-shopping-copy-button>
-                            <i class="bi bi-copy"></i>
+                            <i class="icon-copy"></i>
                             Copy List
                         </button>
 
                         <button type="button" class="btn culina-shopping-print-btn" data-shopping-print-button>
-                            <i class="bi bi-printer"></i>
+                            <i class="icon-printer"></i>
                             Print List
                         </button>
 
                         <button type="button" class="btn culina-shopping-cancel-btn" data-bs-dismiss="modal">
-                            <i class="bi bi-x-circle"></i>
+                            <i class="icon-circle-x"></i>
                             Close
                         </button>
                     </div>
@@ -1352,13 +1352,13 @@
                 <div class="modal-content culina-delete-modal-content">
 
                     <div class="culina-delete-modal-icon">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <i class="icon-triangle-alert"></i>
                     </div>
 
                     <div class="modal-header culina-delete-modal-header">
                         <div>
                             <span class="section-label">
-                                <i class="bi bi-trash3"></i>
+                                <i class="icon-trash-2"></i>
                                 Delete Saved Recipe
                             </span>
 
@@ -1397,7 +1397,7 @@
 
                     <div class="modal-footer culina-delete-modal-footer">
                         <button type="button" class="btn delete-cancel-btn" data-bs-dismiss="modal">
-                            <i class="bi bi-x-circle"></i>
+                            <i class="icon-circle-x"></i>
                             Cancel
                         </button>
 
@@ -1405,7 +1405,7 @@
                             {% csrf_token %}
 
                             <button type="submit" class="btn delete-confirm-btn">
-                                <i class="bi bi-trash3-fill"></i>
+                                <i class="icon-trash-2"></i>
                                 Yes, Delete Recipe
                             </button>
                         </form>
@@ -1438,12 +1438,12 @@
         >
             <div class="modal-header culina-chat-header">
                 <div class="culina-chat-avatar">
-                    <i class="bi bi-robot"></i>
+                    <i class="icon-chef-hat"></i>
                 </div>
 
                 <div class="culina-chat-title">
                     <span>
-                        <i class="bi bi-stars"></i>
+                        <i class="icon-utensils"></i>
                         Advanced AI Cooking Assistant
                     </span>
 
@@ -1485,7 +1485,7 @@
                                     data-prompt-key="{{ prompt.key }}"
                                     data-prompt-text="{{ prompt.prompt }}"
                                 >
-                                    <i class="bi {{ prompt.icon }}"></i>
+                                    <i class="{{ prompt.icon }}"></i>
                                     <span>{{ prompt.label }}</span>
                                 </button>
                             {% endfor %}
@@ -1503,9 +1503,9 @@
                                     <div class="culina-chat-message {{ message.sender }}">
                                         <div class="culina-chat-message-avatar">
                                             {% if message.sender == "user" %}
-                                                <i class="bi bi-person-fill"></i>
+                                                <i class="icon-user"></i>
                                             {% else %}
-                                                <i class="bi bi-robot"></i>
+                                                <i class="icon-chef-hat"></i>
                                             {% endif %}
                                         </div>
 
@@ -1519,7 +1519,7 @@
                                 {% endfor %}
                             {% else %}
                                 <div class="culina-chat-empty" data-cooking-chat-empty>
-                                    <i class="bi bi-chat-heart"></i>
+                                    <i class="icon-message-circle"></i>
 
                                     <h3>No assistant messages yet</h3>
 
@@ -1560,7 +1560,7 @@
                                     class="culina-chat-send-btn"
                                     data-cooking-chat-send
                                 >
-                                    <i class="bi bi-send-fill"></i>
+                                    <i class="icon-send"></i>
                                     Send
                                 </button>
                             </form>
@@ -1582,7 +1582,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
-<script src="{% static 'js/recipe_shopping.js' %}?v=shopping-copy-print-fix-1"></script>
-<script src="{% static 'js/cooking_chat.js' %}?v=cooking-chat-error-hide-1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1-g1"></script>
+<script src="{% static 'js/recipe_shopping.js' %}?v=shopping-copy-print-fix-1-g1"></script>
+<script src="{% static 'js/cooking_chat.js' %}?v=cooking-chat-error-hide-1-g1"></script>
 {% endblock %}
