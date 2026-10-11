@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from openai import OpenAI
 
@@ -644,7 +646,91 @@ Give practical tips to improve the final result.
 
 STORAGE ADVICE:
 Explain how to store leftovers safely.
+
+COMPARISON TABLE:
+Return the comparison using this exact pipe-table format.
+Do not add any extra columns. Keep each cell short.
+
+| Change Area | Original Recipe | Modified Recipe | What Changed |
+| Ingredients | Short original ingredient summary | Short modified ingredient summary | Explain the ingredient change |
+| Cooking Method | Short original method summary | Short modified method summary | Explain the method change |
+| Cuisine / Style | Original style | Modified style | Explain the style change |
+| Time / Difficulty | Original time or difficulty | Modified time or difficulty | Explain the practical change |
+| Health / Budget / Diet | Original health, budget or diet point | Modified health, budget or diet point | Explain the user benefit |
 """.strip()
+
+
+def parse_comparison_table(comparison_text):
+    """
+    Turns the AI's pipe table into rows the page can show as a table:
+    [{"area", "original", "modified", "change"}, ...]
+    """
+    rows = []
+    for line in str(comparison_text or "").splitlines():
+        line = line.strip()
+        if "|" not in line:
+            continue
+        columns = [column.strip() for column in line.strip("|").split("|")]
+        if len(columns) < 4:
+            continue
+        if columns[0].lower() == "change area":
+            continue  # header row
+        if all(set(column.replace(" ", "").replace(":", "")) <= {"-"} for column in columns):
+            continue  # markdown separator row like | --- | --- |
+        rows.append({
+            "area": columns[0].strip("*"),
+            "original": columns[1],
+            "modified": columns[2],
+            "change": columns[3],
+        })
+    return rows[:8]
+
+
+def split_modified_recipe_and_comparison(ai_output_text):
+    """
+    Separates the changed recipe from the comparison table at the end, so the
+    recipe text is shown as a recipe and the table is shown as a table.
+    """
+    output_text = str(ai_output_text or "").strip()
+    if not output_text:
+        return "", []
+    parts = re.split(r"\n\s*\**\s*COMPARISON TABLE\s*\**\s*:?\s*\**\s*\n", output_text, maxsplit=1, flags=re.IGNORECASE)
+    recipe_text = parts[0].strip()
+    comparison_rows = parse_comparison_table(parts[1]) if len(parts) > 1 else []
+    return recipe_text, comparison_rows
+
+
+def section_value(recipe_text, heading):
+    """First line under a heading such as 'COOKING TIME:' in the AI's recipe text."""
+    match = re.search(
+        rf"^\s*\**\s*{heading}\s*\**\s*:\s*\**\s*(.*?)\s*$\n?\s*(.*)$",
+        str(recipe_text or ""),
+        flags=re.IGNORECASE | re.MULTILINE,
+    )
+    if not match:
+        return ""
+    return (match.group(1) or match.group(2) or "").strip(" -*")
+
+
+def basic_comparison_rows(recipe, modified_recipe_text):
+    """
+    Used only when the AI leaves the table out: compares what can be read
+    reliably from both versions (title, time and difficulty).
+    """
+    rows = []
+    new_title = section_value(modified_recipe_text, "MODIFIED RECIPE TITLE")
+    if new_title and new_title.lower() != (recipe.title or "").lower():
+        rows.append({"area": "Recipe", "original": recipe.title, "modified": new_title, "change": ""})
+    new_time = section_value(modified_recipe_text, "COOKING TIME")
+    if new_time and getattr(recipe, "cooking_time_minutes", None):
+        rows.append({"area": "Time", "original": f"{recipe.cooking_time_minutes} minutes", "modified": new_time, "change": ""})
+    new_difficulty = section_value(modified_recipe_text, "DIFFICULTY")
+    if new_difficulty and getattr(recipe, "difficulty", ""):
+        rows.append({"area": "Difficulty", "original": recipe.difficulty.capitalize(), "modified": new_difficulty.capitalize(), "change": ""})
+    what_changed = section_value(modified_recipe_text, "WHAT CHANGED")
+    if what_changed:
+        rows.append({"area": "Summary", "original": "", "modified": what_changed, "change": ""})
+    return rows
 
 
 def modify_ai_recipe(recipe, modification_type, custom_instruction=""):
@@ -666,13 +752,19 @@ def modify_ai_recipe(recipe, modification_type, custom_instruction=""):
     response = client.responses.create(
         model="gpt-4.1-mini",
         input=prompt,
-        max_output_tokens=1400,
+        max_output_tokens=2000,
         temperature=0.3,
     )
 
+    modified_recipe_text, comparison_rows = split_modified_recipe_and_comparison(response.output_text)
+    if not comparison_rows:
+        comparison_rows = basic_comparison_rows(recipe, modified_recipe_text)
+
     return {
         "prompt": prompt,
-        "modified_recipe_text": response.output_text,
+        "raw_modified_response": response.output_text,
+        "modified_recipe_text": modified_recipe_text,
+        "comparison_rows": comparison_rows,
     }
 
 

@@ -1099,6 +1099,7 @@ def generate_recipe_view(request):
             "preview_data": preview_data,
             "ai_recipe_result": ai_recipe_result,
             "generation_preview": preview_data is not None,
+            "change_choices": CHANGE_CHOICES,
         },
     )
 
@@ -1204,6 +1205,157 @@ def generate_recipe_version_view(request):
     recipe_title = extract_recipe_title(request.session.get("latest_ai_recipe_text", ""))
     version_preferences = build_version_preferences(preferences, version, insights, recipe_title)
     run_recipe_generation(request, version_preferences)
+    return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
+
+# What each quick change asks for. Where a setting can enforce it, the setting is
+# changed too, so the quality checks hold the new recipe to it (a vegetarian
+# change is checked as vegetarian, a quicker one against the shorter time).
+RECIPE_CHANGES = {
+    "healthier": "Make it healthier: less fat, saturated fat, sugar and salt, with more vegetables.",
+    "cheaper": "Make it cheaper: use lower-cost ingredients and fewer extras.",
+    "quicker": "Make it quicker to cook, with fewer and shorter steps.",
+    "vegetarian": "Make it vegetarian: no meat or fish.",
+    "spicier": "Make it spicier.",
+    "simpler": "Make it simpler, with fewer ingredients and easy steps.",
+    "custom": "",
+}
+SPICE_ORDER = ["Mild", "Medium", "Spicy", "Extra Spicy"]
+# The quick changes shown as buttons (typing your own change counts as "custom").
+CHANGE_CHOICES = [
+    ("healthier", "Healthier"),
+    ("cheaper", "Cheaper"),
+    ("quicker", "Quicker"),
+    ("vegetarian", "Vegetarian"),
+    ("spicier", "Spicier"),
+    ("simpler", "Simpler"),
+]
+
+
+def build_change_preferences(preferences, change, instruction, recipe_title, recipe_text):
+    """
+    The user's settings for a changed version of the recipe just generated: the
+    same dish, with the change described to the AI and, where possible, made a
+    setting the checks can see.
+    """
+    changed = copy.deepcopy(preferences)
+    for key in ("recipe_version", "based_on_title", "expected"):
+        changed.pop(key, None)
+
+    if change == "healthier":
+        changed["meal_style"] = "Everyday healthy"
+    elif change == "cheaper":
+        changed["budget_level"] = "Low Budget"
+    elif change == "quicker":
+        minutes = int(changed.get("cooking_time_minutes") or 30)
+        changed["cooking_time_minutes"] = max(10, round(minutes * 0.6 / 5) * 5)
+    elif change == "vegetarian":
+        diets = [d for d in changed.get("diet_preferences") or [] if d]
+        if not any("vegetarian" in d.lower() or "vegan" in d.lower() for d in diets):
+            diets.append("Vegetarian")
+        changed["diet_preferences"] = diets
+    elif change == "spicier":
+        current = changed.get("spice_level") or "Medium"
+        position = SPICE_ORDER.index(current) if current in SPICE_ORDER else 1
+        changed["spice_level"] = SPICE_ORDER[min(position + 1, len(SPICE_ORDER) - 1)]
+    elif change == "simpler":
+        changed["difficulty"] = "easy"
+
+    request_text = " ".join(part for part in (RECIPE_CHANGES.get(change, ""), instruction) if part)
+    # The last recipe, shortened, so the AI changes that dish rather than inventing a new one.
+    previous = " ".join((recipe_text or "").split())[:1500]
+    change_note = (
+        f"Change request: {request_text} Change the user's last recipe, \"{recipe_title}\", and keep it "
+        f"the same kind of dish unless the change needs otherwise. The last recipe was: {previous}"
+    )
+    notes = preferences.get("additional_notes") or ""
+    changed["additional_notes"] = change_note if notes in ("", "None provided") else f"{notes} | {change_note}"
+    return changed
+
+
+# View: "Change this recipe" on the generate page. Makes a changed version of the
+# recipe just generated, straight away, through the same pipeline and checks.
+@login_required
+@require_POST
+def change_generated_recipe_view(request):
+    preferences = request.session.get("latest_recipe_preferences")
+    recipe_text = request.session.get("latest_ai_recipe_text", "")
+    change = request.POST.get("modification_type", "").strip()
+    instruction = request.POST.get("custom_instruction", "").strip()[:300]
+
+    if instruction and change not in RECIPE_CHANGES:
+        change = "custom"
+    if not preferences or not recipe_text:
+        messages.error(request, "That recipe is no longer available. Generate it again, then change it.")
+        return redirect("generate_recipe")
+    if change not in RECIPE_CHANGES or (change == "custom" and not instruction):
+        messages.error(request, "Choose a change, or describe the change you want.")
+        return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
+    recipe_title = extract_recipe_title(recipe_text)
+    run_recipe_generation(
+        request,
+        build_change_preferences(preferences, change, instruction, recipe_title, recipe_text),
+    )
+    return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
+
+def recipe_email_body(sender_name, title, recipe_text, note=""):
+    """The plain-text email for a recipe."""
+    parts = [f"{sender_name} sent you a recipe from CulinaAI.", ""]
+    if note:
+        parts += [note, ""]
+    parts += [
+        title,
+        "",
+        recipe_text.strip(),
+        "",
+        "Allergy and nutrition information is a guide. Always check ingredient labels.",
+        "",
+        "CulinaAI",
+    ]
+    return "\n".join(parts)
+
+
+def send_recipe_email_safely(request, recipient, title, body):
+    """Sends a recipe email and tells the user whether it went. Never raises."""
+    try:
+        send_mail(
+            subject=f"Recipe: {title}",
+            message=body,
+            from_email=None,
+            recipient_list=[recipient],
+            fail_silently=False,
+        )
+    except Exception as error:
+        print("CULINAAI RECIPE EMAIL ERROR:", repr(error))
+        messages.error(request, "The email couldn't be sent just now. Please try again in a moment.")
+        return False
+    messages.success(request, f"Recipe sent to {recipient}.")
+    return True
+
+
+# View: emails the recipe just generated (before it is saved).
+@login_required
+@require_POST
+def email_generated_recipe_view(request):
+    recipe_text = request.session.get("latest_ai_recipe_text", "")
+    form = RecipeEmailForm(request.POST)
+
+    if not recipe_text:
+        messages.error(request, "That recipe is no longer available. Generate it again to email it.")
+        return redirect("generate_recipe")
+    if not form.is_valid():
+        messages.error(request, "Enter a valid email address, for example name@example.com.")
+        return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
+    title = extract_recipe_title(recipe_text)
+    send_recipe_email_safely(
+        request,
+        form.cleaned_data["recipient_email"],
+        title,
+        recipe_email_body(request.user.username, title, recipe_text, form.cleaned_data.get("message", "").strip()),
+    )
     return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
 
@@ -1761,6 +1913,7 @@ def saved_recipe_detail_view(request, recipe_id):
         "feedback_form": feedback_form,
         "email_form": email_form,
         "modify_form": modify_form,
+        "change_choices": CHANGE_CHOICES,
         "modified_recipe_preview": modified_recipe_preview,
         "user_rating": user_rating,
         "user_feedback_items": user_feedback_items,
@@ -2055,45 +2208,19 @@ def send_recipe_email_view(request, recipe_id):
     form = RecipeEmailForm(request.POST)
 
     if form.is_valid():
-        recipient_email = form.cleaned_data["recipient_email"]
-        optional_message = form.cleaned_data.get("message", "").strip()
-
-        subject = f"CulinaAI Recipe: {recipe.title}"
-
-        email_body = f"""
-Hello,
-
-{request.user.username} has shared a CulinaAI recipe with you.
-
-{optional_message}
-
-Recipe: {recipe.title}
-
-Ingredients:
-{recipe.ingredients_text}
-
-Allergy and safety notes:
-{recipe.allergy_notes or "No allergy notes provided. Please check ingredients manually before cooking."}
-
-Recipe instructions:
-{recipe.instructions_text}
-
-Enjoy cooking,
-CulinaAI
-"""
-
-        # Important: Django email backend sends the recipe to the recipient.
-        send_mail(
-            subject=subject,
-            message=email_body,
-            from_email=None,
-            recipient_list=[recipient_email],
-            fail_silently=False,
+        send_recipe_email_safely(
+            request,
+            form.cleaned_data["recipient_email"],
+            recipe.title,
+            recipe_email_body(
+                request.user.username,
+                recipe.title,
+                recipe.instructions_text or recipe.ingredients_text,
+                form.cleaned_data.get("message", "").strip(),
+            ),
         )
-
-        messages.success(request, f"Recipe sent successfully to {recipient_email}.")
     else:
-        messages.error(request, "Please enter a valid email address before sending.")
+        messages.error(request, "Enter a valid email address, for example name@example.com.")
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
@@ -2163,7 +2290,11 @@ def modify_saved_recipe_view(request, recipe_id):
         is_saved=True,
     )
 
-    form = RecipeModifyForm(request.POST)
+    data = request.POST.copy()
+    # Typing your own change without picking one of the quick changes means "custom".
+    if data.get("custom_instruction", "").strip() and not data.get("modification_type"):
+        data["modification_type"] = "custom"
+    form = RecipeModifyForm(data)
 
     if form.is_valid():
         modification_type = form.cleaned_data["modification_type"]

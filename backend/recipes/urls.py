@@ -11,6 +11,8 @@ from .views import (
     favourite_recipes_view,
     generate_recipe_view,
     generate_recipe_version_view,
+    change_generated_recipe_view,
+    email_generated_recipe_view,
     modify_saved_recipe_view,
     print_saved_recipe_view,
     quality_dashboard_view,
@@ -46,6 +48,8 @@ from .fridge_scanner_views import (
 urlpatterns = [
     path("generate/", generate_recipe_view, name="generate_recipe"),
     path("generate/version/", generate_recipe_version_view, name="generate_recipe_version"),
+    path("generate/change/", change_generated_recipe_view, name="change_generated_recipe"),
+    path("generate/email/", email_generated_recipe_view, name="email_generated_recipe"),
     path("save-generated/", save_generated_recipe_view, name="save_generated_recipe"),
 
     # Smart Pantry.

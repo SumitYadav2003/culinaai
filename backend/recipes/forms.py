@@ -228,11 +228,11 @@ class RecipeFeedbackForm(forms.Form):
     rating = forms.ChoiceField(
         label="Recipe rating",
         choices=[
-            ("5", "5 - Excellent"),
+            ("5", "5 - Loved it"),
             ("4", "4 - Good"),
-            ("3", "3 - Okay"),
-            ("2", "2 - Needs improvement"),
-            ("1", "1 - Poor"),
+            ("3", "3 - OK"),
+            ("2", "2 - Not great"),
+            ("1", "1 - Didn't like it"),
         ],
         widget=forms.Select(
             attrs={

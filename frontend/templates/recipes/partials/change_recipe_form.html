@@ -1,0 +1,30 @@
+{# The quick "change this recipe" form, used on the saved recipe page and the generate page. #}
+<form method="post" action="{{ action }}" class="rp-change-form" data-busy-form {% if loading_form %}data-recipe-loading-form{% endif %}>
+    {% csrf_token %}
+
+    <fieldset class="rp-chips">
+        <legend class="visually-hidden">What do you want to change?</legend>
+        {% for value, label in change_choices %}
+            <label class="rp-chip">
+                <input type="radio" name="modification_type" value="{{ value }}" {% if value == "custom" %}data-custom-choice{% endif %} />
+                <span>{{ label }}</span>
+            </label>
+        {% endfor %}
+    </fieldset>
+
+    <div class="rp-inline-field">
+        <label class="visually-hidden" for="{{ field_id }}">Describe your own change</label>
+        <input
+            type="text"
+            id="{{ field_id }}"
+            name="custom_instruction"
+            maxlength="300"
+            class="rp-input"
+            placeholder="Or describe it, e.g. use chicken instead of beef"
+            data-custom-text
+        />
+        <button type="submit" class="site-btn site-btn-primary" data-busy-text="Changing your recipe…">
+            Change recipe
+        </button>
+    </div>
+</form>
