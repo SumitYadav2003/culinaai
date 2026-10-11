@@ -4,9 +4,10 @@
 {% block title %}CulinaAI | Generate Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=form-labels-1">
-<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=form-labels-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-1">
 {% endblock %}
 
 {% block content %}
@@ -21,7 +22,7 @@
             <div class="col-lg-4">
                 <div class="generate-intro-card generate-intro-card-horizontal">
                     <span class="hero-badge">
-                        <i class="bi bi-magic"></i>
+                        <i class="icon-chef-hat"></i>
                         AI Recipe Generator
                     </span>
 
@@ -36,19 +37,19 @@
 
                     <div class="generate-benefits">
                         <div>
-                            <i class="bi bi-basket2"></i>
+                            <i class="icon-shopping-basket"></i>
                             Use ingredients you already have
                         </div>
                         <div>
-                            <i class="bi bi-shield-check"></i>
+                            <i class="icon-shield-check"></i>
                             Include allergies and dietary restrictions
                         </div>
                         <div>
-                            <i class="bi bi-clock-history"></i>
+                            <i class="icon-history"></i>
                             Control cooking time and difficulty
                         </div>
                         <div>
-                            <i class="bi bi-bookmark-heart"></i>
+                            <i class="icon-bookmark"></i>
                             Save generated recipes later
                         </div>
                     </div>
@@ -57,7 +58,7 @@
                     <div class="generate-ai-flow-card">
                         <div class="ai-flow-header">
                             <div class="ai-flow-icon">
-                                <i class="bi bi-cpu"></i>
+                                <i class="icon-settings"></i>
                             </div>
 
                             <div>
@@ -100,7 +101,7 @@
                             </div>
 
                             <div class="ai-image-badge">
-                                <i class="bi bi-stars"></i>
+                                <i class="icon-utensils"></i>
                                 CulinaAI
                             </div>
                         </div>
@@ -138,7 +139,7 @@
                                         <!-- Fridge Scanner Shortcut Card -->
                     <div class="fridge-scanner-generator-link-card">
                         <div class="fridge-scanner-generator-icon">
-                            <i class="bi bi-camera-fill"></i>
+                            <i class="icon-camera"></i>
                         </div>
 
                         <div class="fridge-scanner-generator-content">
@@ -155,7 +156,7 @@
                         </div>
 
                         <a href="{% url 'fridge_scan_upload' %}" class="fridge-scanner-generator-btn">
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                             Use Fridge Scanner
                         </a>
                     </div>
@@ -166,7 +167,7 @@
                         <!-- Row 1 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-basket2"></i>
+                                <i class="icon-shopping-basket"></i>
                                 Main Recipe Details
                             </div>
 
@@ -182,7 +183,7 @@
                                             data-voice-mode="replace"
                                             title="Speak ingredients"
                                         >
-                                            <i class="bi bi-mic-fill"></i>
+                                            <i class="icon-mic"></i>
                                             Speak
                                         </button>
                                     </div>
@@ -213,7 +214,7 @@
                         <!-- Row 2 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-clock-history"></i>
+                                <i class="icon-history"></i>
                                 Cooking Setup
                             </div>
 
@@ -238,7 +239,7 @@
                         <!-- Row 3 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-sliders"></i>
+                                <i class="icon-sliders-horizontal"></i>
                                 Taste and Goal
                             </div>
 
@@ -272,7 +273,7 @@
                         <!-- Row 4 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="icon-shield-check"></i>
                                 Diet and Safety Preferences
                             </div>
 
@@ -297,7 +298,7 @@
                                                 data-voice-mode="append"
                                                 title="Speak diet preference"
                                             >
-                                                <i class="bi bi-mic-fill"></i>
+                                                <i class="icon-mic"></i>
                                                 Speak
                                             </button>
                                         </div>
@@ -327,7 +328,7 @@
                                             data-voice-mode="replace"
                                             title="Speak allergies or restricted ingredients"
                                         >
-                                            <i class="bi bi-mic-fill"></i>
+                                            <i class="icon-mic"></i>
                                             Speak
                                         </button>
                                     </div>
@@ -344,14 +345,14 @@
                         <!-- Row 5 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-tools"></i>
+                                <i class="icon-wrench"></i>
                                 Equipment and Utensils
                             </div>
 
                             <div class="row g-3 equipment-utensils-row">
                                 <div class="col-lg-6">
                                     <div class="generate-subsection-label">
-                                        <i class="bi bi-lightning-charge"></i>
+                                        <i class="icon-zap"></i>
                                         Kitchen Equipment <span class="generate-subsection-hint">(optional)</span>
                                     </div>
 
@@ -377,7 +378,7 @@
                                                 data-voice-mode="append"
                                                 title="Speak kitchen equipment"
                                             >
-                                                <i class="bi bi-mic-fill"></i>
+                                                <i class="icon-mic"></i>
                                                 Speak
                                             </button>
                                         </div>
@@ -398,7 +399,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="generate-subsection-label">
-                                        <i class="bi bi-cup-hot"></i>
+                                        <i class="icon-coffee"></i>
                                         Utensils <span class="generate-subsection-hint">(optional)</span>
                                     </div>
 
@@ -494,7 +495,7 @@
                                                 data-voice-mode="append"
                                                 title="Speak utensils"
                                             >
-                                                <i class="bi bi-mic-fill"></i>
+                                                <i class="icon-mic"></i>
                                                 Speak
                                             </button>
                                         </div>
@@ -518,7 +519,7 @@
                         <!-- Row 6 -->
                         <div class="horizontal-form-section">
                             <div class="horizontal-section-heading">
-                                <i class="bi bi-pencil-square"></i>
+                                <i class="icon-pencil"></i>
                                 Additional Instructions
                             </div>
 
@@ -532,7 +533,7 @@
                                     data-voice-mode="replace"
                                     title="Speak additional instructions"
                                 >
-                                    <i class="bi bi-mic-fill"></i>
+                                    <i class="icon-mic"></i>
                                     Speak
                                 </button>
                             </div>
@@ -547,7 +548,7 @@
                         <div class="voice-status-message" data-voice-status hidden></div>
 
                         <button type="submit" class="btn recipe-generate-btn">
-                            <i class="bi bi-magic"></i>
+                            <i class="icon-chef-hat"></i>
                             Preview Recipe Request
                         </button>
                     </form>
@@ -558,7 +559,7 @@
         {% if generation_preview %}
             <div id="recipe-preview" class="generation-preview-card">
                 <span class="section-label">
-                    <i class="bi bi-eye"></i>
+                    <i class="icon-eye"></i>
                     Request Preview
                 </span>
 
@@ -566,7 +567,7 @@
 
                 <div class="ai-summary-card">
                     <div class="ai-summary-icon">
-                        <i class="bi bi-cpu"></i>
+                        <i class="icon-settings"></i>
                     </div>
 
                     <div>
@@ -679,261 +680,21 @@
                     <div class="ai-recipe-result-card">
                         <div class="ai-result-header">
                             <div>
-                                <span class="section-label">
-                                    <i class="bi bi-robot"></i>
-                                    AI Generated Recipe
-                                </span>
-                                <h3>Your personalised recipe is ready.</h3>
-                            </div>
-
-                            <div class="ai-result-badge">
-                                <i class="bi bi-stars"></i>
-                                Generated by CulinaAI
+                                <h3>Your recipe is ready</h3>
                             </div>
 
                             <form method="post" action="{% url 'save_generated_recipe' %}" class="save-recipe-form">
                                 {% csrf_token %}
                                 <button type="submit" class="btn save-recipe-btn">
-                                    <i class="bi bi-bookmark-heart"></i>
+                                    <i class="icon-bookmark"></i>
                                     Save Recipe
                                 </button>
                             </form>
                         </div>
 
-                        {% with validation=ai_recipe_result.validation_report %}
-                            {% if validation %}
-                                <div class="culina-validation-dashboard">
+                        {% include "recipes/partials/check_summary.html" with report=ai_recipe_result.validation_report %}
 
-                                    <div class="validation-dashboard-header">
-                                        <div>
-                                            <span class="validation-mini-label">
-                                                <i class="bi bi-shield-lock"></i>
-                                                CulinaAI Verification Engine
-                                            </span>
-
-                                            <h3>Constraint-Based Recipe Validation</h3>
-
-                                            <p>
-                                                This recipe was checked against your selected ingredients, diet,
-                                                allergies, cooking time, difficulty, equipment, utensils and output structure
-                                                before being shown as the final result.
-                                            </p>
-                                        </div>
-
-                                        <div class="validation-status-pill
-                                            {% if validation.hard_fail %}
-                                                validation-status-danger
-                                            {% elif validation.score >= 90 %}
-                                                validation-status-excellent
-                                            {% elif validation.score >= 85 %}
-                                                validation-status-success
-                                            {% elif validation.score >= 75 %}
-                                                validation-status-warning
-                                            {% else %}
-                                                validation-status-danger
-                                            {% endif %}
-                                        ">
-                                            <i class="bi bi-patch-check-fill"></i>
-                                            {{ validation.badge }}
-                                        </div>
-                                    </div>
-
-                                    <div class="validation-score-layout">
-                                        <div class="validation-score-card
-                                            {% if validation.hard_fail %}
-                                                score-danger
-                                            {% elif validation.score >= 90 %}
-                                                score-excellent
-                                            {% elif validation.score >= 85 %}
-                                                score-success
-                                            {% elif validation.score >= 75 %}
-                                                score-warning
-                                            {% else %}
-                                                score-danger
-                                            {% endif %}
-                                        ">
-                                            <div class="score-ring">
-                                                <span>{{ validation.score }}</span>
-                                                <small>/100</small>
-                                            </div>
-
-                                            <h4>{{ validation.status }}</h4>
-
-                                            <p>
-                                                Risk Level:
-                                                <strong>{{ validation.risk_level }}</strong>
-                                            </p>
-                                        </div>
-
-                                        <div class="validation-metric-grid">
-                                            <div class="validation-metric-card">
-                                                <span>Target Score</span>
-                                                <strong>{{ validation.target_score }}/100</strong>
-                                                <small>Required benchmark</small>
-                                            </div>
-
-                                            <div class="validation-metric-card">
-                                                <span>Checks Passed</span>
-                                                <strong>{{ validation.passed_count }}</strong>
-                                                <small>{{ validation.failed_count }} warning/failure item(s)</small>
-                                            </div>
-
-                                            <div class="validation-metric-card">
-                                                <span>Correction Attempts</span>
-                                                <strong>{{ ai_recipe_result.validation_attempt_history|length }}</strong>
-                                                <small>Auto-regeneration pipeline</small>
-                                            </div>
-
-                                            <div class="validation-metric-card">
-                                                <span>Validation Mode</span>
-                                                <strong>Strict</strong>
-                                                <small>Safety-first checking</small>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {% if ai_recipe_result.validation_attempt_history %}
-                                        <div class="validation-attempts-panel">
-                                            <div class="validation-subheading">
-                                                <i class="bi bi-arrow-repeat"></i>
-                                                Generation and Correction History
-                                            </div>
-
-                                            <div class="validation-attempt-timeline">
-                                                {% for attempt in ai_recipe_result.validation_attempt_history %}
-                                                    <div class="validation-attempt-item
-                                                        {% if attempt.hard_fail %}
-                                                            attempt-danger
-                                                        {% elif attempt.score >= 85 %}
-                                                            attempt-success
-                                                        {% else %}
-                                                            attempt-warning
-                                                        {% endif %}
-                                                    ">
-                                                        <div class="attempt-number">
-                                                            {{ attempt.attempt_number }}
-                                                        </div>
-
-                                                        <div class="attempt-content">
-                                                            <div>
-                                                                <strong>Attempt {{ attempt.attempt_number }}</strong>
-                                                                <span>{{ attempt.status }}</span>
-                                                            </div>
-
-                                                            <p>
-                                                                Score: {{ attempt.score }}/100 |
-                                                                Risk: {{ attempt.risk_level }}
-                                                            </p>
-
-                                                            {% if attempt.failed_checks %}
-                                                                <small>
-                                                                    Issues:
-                                                                    {% for failed_check in attempt.failed_checks %}
-                                                                        {{ failed_check }}{% if not forloop.last %}, {% endif %}
-                                                                    {% endfor %}
-                                                                </small>
-                                                            {% else %}
-                                                                <small>No validation issues detected.</small>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    {% endif %}
-
-                                    <div class="validation-checks-panel">
-                                        <div class="validation-subheading">
-                                            <i class="bi bi-list-check"></i>
-                                            Detailed Validation Breakdown
-                                        </div>
-
-                                        <div class="validation-check-grid">
-                                            {% for check in validation.checks %}
-                                                <div class="validation-check-card
-                                                    {% if check.passed %}
-                                                        check-passed
-                                                    {% else %}
-                                                        check-failed
-                                                    {% endif %}
-                                                ">
-                                                    <div class="check-icon">
-                                                        {% if check.passed %}
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                        {% else %}
-                                                            <i class="bi bi-exclamation-triangle-fill"></i>
-                                                        {% endif %}
-                                                    </div>
-
-                                                    <div class="check-content">
-                                                        <div class="check-title-row">
-                                                            <h5>{{ check.name }}</h5>
-                                                            <span>{{ check.score }}/{{ check.max_score }}</span>
-                                                        </div>
-
-                                                        <small>{{ check.category }} • {{ check.severity|title }}</small>
-
-                                                        <p>{{ check.message }}</p>
-
-                                                        {% if check.details.conflicting_terms %}
-                                                            <div class="check-detail-warning">
-                                                                <strong>Conflicting terms:</strong>
-                                                                {% for term in check.details.conflicting_terms %}
-                                                                    {{ term }}{% if not forloop.last %}, {% endif %}
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% endif %}
-
-                                                        {% if check.details.missing_ingredients %}
-                                                            <div class="check-detail-note">
-                                                                <strong>Missing ingredients:</strong>
-                                                                {% for ingredient in check.details.missing_ingredients %}
-                                                                    {{ ingredient }}{% if not forloop.last %}, {% endif %}
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% endif %}
-
-                                                        {% if check.details.unavailable_equipment_found %}
-                                                            <div class="check-detail-warning">
-                                                                <strong>Unavailable equipment detected:</strong>
-                                                                {% for equipment in check.details.unavailable_equipment_found %}
-                                                                    {{ equipment }}{% if not forloop.last %}, {% endif %}
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% endif %}
-
-                                                        {% if check.details.match_percentage %}
-                                                            <div class="check-detail-note">
-                                                                <strong>Ingredient match:</strong>
-                                                                {{ check.details.match_percentage }}%
-                                                            </div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-
-                                    <div class="validation-disclaimer-card">
-                                        <i class="bi bi-info-circle"></i>
-                                        <p>
-                                            CulinaAI verifies whether the recipe is compliant with the user’s selected
-                                            constraints. It does not replace professional medical, allergy or nutritional advice.
-                                        </p>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
-
-                        <div class="verified-recipe-output-header">
-                            <div>
-                                <span class="section-label">
-                                    <i class="bi bi-journal-check"></i>
-                                    Final Verified Recipe
-                                </span>
-                                <h3>Recipe Output</h3>
-                            </div>
-                        </div>
+                        <p class="rp-jump"><a href="#rp-generate-tools">Not quite right? Change it</a></p>
 
                         <div class="final-recipe-with-image-layout">
 
@@ -945,7 +706,7 @@
                                     >
 
                                     <div class="final-recipe-image-badge">
-                                        <i class="bi bi-stars"></i>
+                                        <i class="icon-utensils"></i>
                                         AI Food Image
                                     </div>
                                 </div>
@@ -957,7 +718,7 @@
                                     >
 
                                     <div class="final-recipe-image-badge">
-                                        <i class="bi bi-stars"></i>
+                                        <i class="icon-utensils"></i>
                                         AI Food Image
                                     </div>
                                 </div>
@@ -973,6 +734,22 @@
                         </div>
 
                         {% include "recipes/partials/recipe_insights.html" with insights=ai_recipe_result.insights cook_versions=True %}
+
+                        <div class="rp-tools rp-tools-two" id="rp-generate-tools">
+                            <section class="rp-tool" aria-labelledby="rp-gen-change-title">
+                                <h2 id="rp-gen-change-title">Change this recipe</h2>
+                                <p class="rp-muted">Pick a change and CulinaAI makes a new version straight away, with the same checks.</p>
+                                {% url 'change_generated_recipe' as change_action %}
+                                {% include "recipes/partials/change_recipe_form.html" with action=change_action field_id="rp-gen-change-text" loading_form=True %}
+                            </section>
+
+                            <section class="rp-tool" aria-labelledby="rp-gen-email-title">
+                                <h2 id="rp-gen-email-title">Email this recipe</h2>
+                                <p class="rp-muted">Send it to yourself or someone else, even before you save it.</p>
+                                {% url 'email_generated_recipe' as email_action %}
+                                {% include "recipes/partials/email_recipe_form.html" with action=email_action field_id="rp-gen-email" %}
+                            </section>
+                        </div>
                     </div>
                 {% endif %}
             </div>
@@ -984,7 +761,7 @@
         <div class="culina-loading-card">
             <div class="culina-loading-content">
                 <div class="culina-loading-badge">
-                    <i class="bi bi-stars"></i>
+                    <i class="icon-utensils"></i>
                     CulinaAI is cooking
                 </div>
 
@@ -1031,7 +808,8 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-1"></script>
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
-<script src="{% static 'js/voice_input.js' %}?v=voice-input-1"></script>
+<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-1-g1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1-g1"></script>
+<script src="{% static 'js/voice_input.js' %}?v=voice-input-1-g1"></script>
+<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-1"></script>
 {% endblock %}

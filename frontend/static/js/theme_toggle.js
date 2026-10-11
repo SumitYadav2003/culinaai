@@ -31,7 +31,7 @@
         const label = button.querySelector("span");
         const nextTheme = theme === "dark" ? "light" : "dark";
 
-        icon.className = nextTheme === "dark" ? "bi bi-moon-stars" : "bi bi-sun";
+        icon.className = nextTheme === "dark" ? "icon-moon" : "icon-sun";
         label.textContent = nextTheme === "dark" ? "Dark" : "Light";
         button.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
     }

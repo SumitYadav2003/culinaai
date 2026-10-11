@@ -1,0 +1,30 @@
+{% load recipe_checks %}
+{% with summary=report|check_summary %}
+    {% if summary %}
+        <div class="rp-checks rp-checks-{{ summary.state }}">
+            <div class="rp-checks-line">
+                {% if summary.state == "warning" %}
+                    <i class="icon-triangle-alert" aria-hidden="true"></i>
+                {% else %}
+                    <i class="icon-circle-check" aria-hidden="true"></i>
+                {% endif %}
+                <p>
+                    <strong>{{ summary.headline }}</strong>
+                    {% for note in summary.notes %}{% if forloop.first and summary.state == "note" %}Worth knowing: {% endif %}{{ note }} {% endfor %}
+                    {% if summary.state == "warning" %}Read the ingredients carefully before cooking.{% endif %}
+                </p>
+            </div>
+            <details class="rp-checks-details">
+                <summary>{{ summary.passed }} of {{ summary.total }} checks passed</summary>
+                <ul>
+                    {% for check in summary.checks %}
+                        <li class="{% if check.passed %}is-passed{% else %}is-failed{% endif %}">
+                            <i class="{% if check.passed %}icon-check{% else %}icon-circle-alert{% endif %}" aria-hidden="true"></i>
+                            <span><strong>{{ check.name }}</strong> {{ check.text }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </details>
+        </div>
+    {% endif %}
+{% endwith %}

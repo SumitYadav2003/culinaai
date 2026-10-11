@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         activeButton = button;
 
         button.classList.add("voice-listening");
-        button.innerHTML = '<i class="bi bi-mic-fill"></i> Listening...';
+        button.innerHTML = '<i class="icon-mic"></i> Listening...';
 
         showVoiceStatus(
             "Listening now... speak clearly into your microphone.",
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         activeButton.classList.remove("voice-listening");
-        activeButton.innerHTML = '<i class="bi bi-mic-fill"></i> Speak';
+        activeButton.innerHTML = '<i class="icon-mic"></i> Speak';
         activeButton = null;
     }
 

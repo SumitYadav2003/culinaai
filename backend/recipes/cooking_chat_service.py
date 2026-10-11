@@ -38,7 +38,7 @@ QUICK_PROMPTS = [
     {
         "key": "substitute_ingredient",
         "label": "Suggest ingredient substitute",
-        "icon": "bi-arrow-left-right",
+        "icon": "icon-arrow-left-right",
         "prompt": (
             "I do not have one of the ingredients in this recipe. "
             "Suggest the best ingredient substitutes and explain which one fits this recipe best."
@@ -47,7 +47,7 @@ QUICK_PROMPTS = [
     {
         "key": "use_pantry",
         "label": "Use my pantry items",
-        "icon": "bi-basket2",
+        "icon": "icon-shopping-basket",
         "prompt": (
             "Check my available pantry items and suggest how I can adapt this recipe using what I already have."
         ),
@@ -55,7 +55,7 @@ QUICK_PROMPTS = [
     {
         "key": "explain_step",
         "label": "Explain a step simply",
-        "icon": "bi-list-check",
+        "icon": "icon-list-checks",
         "prompt": (
             "Explain the cooking steps in a simpler beginner-friendly way and highlight any steps where I should be careful."
         ),
@@ -63,7 +63,7 @@ QUICK_PROMPTS = [
     {
         "key": "fix_mistake",
         "label": "Fix cooking mistake",
-        "icon": "bi-tools",
+        "icon": "icon-wrench",
         "prompt": (
             "Help me fix a cooking problem while making this recipe. "
             "Give practical rescue tips for common mistakes like too spicy, too dry, too watery, burnt, bland or overcooked."
@@ -72,7 +72,7 @@ QUICK_PROMPTS = [
     {
         "key": "make_cheaper",
         "label": "Make it cheaper",
-        "icon": "bi-cash-coin",
+        "icon": "icon-coins",
         "prompt": (
             "Suggest budget-friendly changes for this recipe without losing the main taste and texture."
         ),
@@ -80,7 +80,7 @@ QUICK_PROMPTS = [
     {
         "key": "make_healthier",
         "label": "Make it healthier",
-        "icon": "bi-heart-pulse",
+        "icon": "icon-heart-pulse",
         "prompt": (
             "Suggest healthier changes for this recipe while keeping it tasty and realistic for home cooking."
         ),
@@ -88,7 +88,7 @@ QUICK_PROMPTS = [
     {
         "key": "less_spicy",
         "label": "Make it less spicy",
-        "icon": "bi-emoji-smile",
+        "icon": "icon-smile",
         "prompt": (
             "Suggest how to make this recipe less spicy and how to balance the flavour if it is already too spicy."
         ),
@@ -96,7 +96,7 @@ QUICK_PROMPTS = [
     {
         "key": "more_protein",
         "label": "Increase protein",
-        "icon": "bi-lightning-charge",
+        "icon": "icon-zap",
         "prompt": (
             "Suggest how to increase the protein in this recipe using practical ingredients."
         ),

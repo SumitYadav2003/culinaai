@@ -480,9 +480,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (completeStepBtn) {
       if (completedSteps.has(currentStepIndex)) {
-        completeStepBtn.innerHTML = "<i class='bi bi-check2-circle'></i> Completed";
+        completeStepBtn.innerHTML = "<i class='icon-circle-check'></i> Completed";
       } else {
-        completeStepBtn.innerHTML = "<i class='bi bi-check2-circle'></i> Mark as Completed";
+        completeStepBtn.innerHTML = "<i class='icon-circle-check'></i> Mark as Completed";
       }
     }
 
@@ -523,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
     renderProgress();
 
     if (index === currentStepIndex && completeStepBtn) {
-      completeStepBtn.innerHTML = "<i class='bi bi-check2-circle'></i> Completed";
+      completeStepBtn.innerHTML = "<i class='icon-circle-check'></i> Completed";
     }
   }
 
@@ -717,7 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (feedbackNextBtn) {
       feedbackNextBtn.innerHTML =
-        index < steps.length - 1 ? "Next step <i class='bi bi-arrow-right'></i>" : "Save <i class='bi bi-check2'></i>";
+        index < steps.length - 1 ? "Next step <i class='icon-arrow-right'></i>" : "Save <i class='icon-check'></i>";
     }
 
     renderFeedback();

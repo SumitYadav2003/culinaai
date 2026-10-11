@@ -15,7 +15,7 @@
 
     /* Warning red, used for all warnings and risk flags in both themes */
     --culina-warning-red: #dc2626;
-    --culina-warning-red-soft: #fef2f2;
+    --culina-warning-red-soft: #f7f9f7;
     --culina-warning-red-text: #991b1b;
 }
 
@@ -23,13 +23,13 @@ html[data-theme="dark"] {
     color-scheme: dark;
 
     /* Dark palette */
-    --culina-dark-page: #130f0b;
-    --culina-dark-surface: #241a12;
-    --culina-dark-surface-raised: #2e2117;
-    --culina-dark-border: rgba(255, 181, 71, 0.18);
-    --culina-dark-text: #f3e6d6;
-    --culina-dark-text-muted: #cdb9a4;
-    --culina-dark-accent: #ffb547;
+    --culina-dark-page: #0e100e;
+    --culina-dark-surface: #191d19;
+    --culina-dark-surface-raised: #202520;
+    --culina-dark-border: rgba(79, 143, 95, 0.18);
+    --culina-dark-text: #d6e7da;
+    --culina-dark-text-muted: #b4bdb4;
+    --culina-dark-accent: #4f8f5f;
 
     --culina-warning-red: #f87171;
     --culina-warning-red-soft: rgba(220, 38, 38, 0.16);
@@ -42,7 +42,7 @@ html[data-theme="dark"] {
     --bs-border-color: var(--culina-dark-border);
     --bs-heading-color: var(--culina-dark-text);
     --bs-link-color: var(--culina-dark-accent);
-    --bs-link-hover-color: #ffd08a;
+    --bs-link-hover-color: #a9cdb1;
     --bs-emphasis-color: #ffffff;
     --bs-tertiary-bg: var(--culina-dark-surface);
     --bs-secondary-bg: var(--culina-dark-surface-raised);
@@ -52,8 +52,8 @@ html[data-theme="dark"] {
 
 html[data-theme="dark"] body {
     background:
-        radial-gradient(circle at top left, rgba(255, 152, 0, 0.1), transparent 34rem),
-        linear-gradient(135deg, #130f0b 0%, #1a120c 45%, #211309 100%) !important;
+        radial-gradient(circle at top left, rgba(45, 106, 62, 0.1), transparent 34rem),
+        linear-gradient(135deg, #0e100e 0%, #121412 45%, #141614 100%) !important;
     color: var(--culina-dark-text);
 }
 
@@ -64,21 +64,21 @@ html[data-theme="dark"] section {
 }
 
 html[data-theme="dark"] ::selection {
-    background: rgba(255, 152, 0, 0.35);
+    background: rgba(45, 106, 62, 0.35);
     color: #ffffff;
 }
 
 /* ---------- Navbar ---------- */
 
 html[data-theme="dark"] .culina-navbar {
-    background: rgba(21, 15, 10, 0.94) !important;
+    background: rgba(14, 17, 14, 0.94) !important;
     border-color: var(--culina-dark-border) !important;
     box-shadow: 0 16px 45px rgba(0, 0, 0, 0.36) !important;
 }
 
 html[data-theme="dark"] .culina-navbar .nav-link,
 html[data-theme="dark"] .culina-navbar .navbar-brand {
-    color: #fff4e8 !important;
+    color: #f5f7f5 !important;
 }
 
 html[data-theme="dark"] .culina-navbar .nav-link:hover,
@@ -98,30 +98,30 @@ html[data-theme="dark"] .navbar-toggler-icon {
     gap: 0.45rem;
     margin: 0 0.5rem;
     padding: 0.48rem 0.85rem;
-    border: 1px solid rgba(249, 115, 22, 0.3);
+    border: 1px solid rgba(45, 106, 62, 0.3);
     border-radius: 999px;
     font-weight: 700;
     font-size: 0.86rem;
-    color: #4b2a05;
-    background: linear-gradient(135deg, #fff8ef, #ffe5bd);
-    box-shadow: 0 10px 24px rgba(255, 152, 0, 0.16);
+    color: #173a22;
+    background: #f6f8f6;
+    box-shadow: 0 10px 24px rgba(45, 106, 62, 0.16);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .culina-theme-toggle:hover {
     transform: translateY(-1px);
-    box-shadow: 0 14px 32px rgba(255, 152, 0, 0.24);
+    box-shadow: 0 14px 32px rgba(45, 106, 62, 0.24);
 }
 
 .culina-theme-toggle:focus-visible {
-    outline: 3px solid #f97316;
+    outline: 3px solid #2d6a3e;
     outline-offset: 2px;
 }
 
 html[data-theme="dark"] .culina-theme-toggle {
-    color: #ffe7c2;
-    background: linear-gradient(135deg, #2a190d, #4a2608);
-    border-color: rgba(255, 181, 71, 0.42);
+    color: #d6e7da;
+    background: #1a1d1a;
+    border-color: rgba(79, 143, 95, 0.42);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
 }
 
@@ -181,14 +181,14 @@ html[data-theme="dark"] .form-select,
 html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]),
 html[data-theme="dark"] textarea,
 html[data-theme="dark"] select {
-    background-color: rgba(18, 13, 9, 0.92) !important;
-    color: #fff8ef !important;
-    border-color: rgba(255, 181, 71, 0.28) !important;
+    background-color: rgba(13, 14, 13, 0.92) !important;
+    color: #f6f8f6 !important;
+    border-color: rgba(79, 143, 95, 0.28) !important;
 }
 
 html[data-theme="dark"] input::placeholder,
 html[data-theme="dark"] textarea::placeholder {
-    color: #a8927c !important;
+    color: #8a9a8a !important;
 }
 
 html[data-theme="dark"] .form-control:focus,
@@ -196,8 +196,8 @@ html[data-theme="dark"] .form-select:focus,
 html[data-theme="dark"] input:focus,
 html[data-theme="dark"] textarea:focus,
 html[data-theme="dark"] select:focus {
-    border-color: #ff9800 !important;
-    box-shadow: 0 0 0 0.22rem rgba(255, 152, 0, 0.18) !important;
+    border-color: #2d6a3e !important;
+    box-shadow: 0 0 0 0.22rem rgba(45, 106, 62, 0.18) !important;
 }
 
 html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
@@ -233,15 +233,15 @@ html[data-theme="dark"] .dropdown-item {
 
 html[data-theme="dark"] .dropdown-item:hover,
 html[data-theme="dark"] .dropdown-item:focus {
-    background-color: rgba(255, 152, 0, 0.14);
+    background-color: rgba(45, 106, 62, 0.14);
     color: #ffffff;
 }
 
 html[data-theme="dark"] .table {
     --bs-table-bg: transparent;
     --bs-table-color: var(--culina-dark-text);
-    --bs-table-striped-bg: rgba(255, 244, 232, 0.04);
-    --bs-table-hover-bg: rgba(255, 152, 0, 0.08);
+    --bs-table-striped-bg: rgba(245, 247, 245, 0.04);
+    --bs-table-hover-bg: rgba(45, 106, 62, 0.08);
     color: var(--culina-dark-text);
 }
 
@@ -261,9 +261,9 @@ html[data-theme="dark"] .btn-close {
 html[data-theme="dark"] .btn-light,
 html[data-theme="dark"] .btn-outline-dark,
 html[data-theme="dark"] .btn-outline-secondary {
-    background: rgba(255, 244, 232, 0.08);
-    color: #fff3e4;
-    border-color: rgba(255, 181, 71, 0.28);
+    background: rgba(245, 247, 245, 0.08);
+    color: #eef5ef;
+    border-color: rgba(79, 143, 95, 0.28);
 }
 
 /* ---------- Alerts and warnings (always red) ---------- */
@@ -283,9 +283,9 @@ html[data-theme="dark"] .btn-outline-secondary {
 }
 
 html[data-theme="dark"] .alert-success {
-    background: rgba(22, 163, 74, 0.16) !important;
-    color: #bbf7d0 !important;
-    border-color: rgba(34, 197, 94, 0.4) !important;
+    background: rgba(45, 106, 62, 0.16) !important;
+    color: #d6e7da !important;
+    border-color: rgba(45, 106, 62, 0.4) !important;
 }
 
 html[data-theme="dark"] .alert-light {
@@ -295,9 +295,9 @@ html[data-theme="dark"] .alert-light {
 }
 
 html[data-theme="dark"] .alert-info {
-    background: rgba(255, 152, 0, 0.12) !important;
-    color: #ffe0b2 !important;
-    border-color: rgba(255, 181, 71, 0.35) !important;
+    background: rgba(220, 38, 38, 0.12) !important;
+    color: #fca5a5 !important;
+    border-color: rgba(252, 165, 165, 0.35) !important;
 }
 
 html[data-theme="dark"] .text-danger {
@@ -305,38 +305,38 @@ html[data-theme="dark"] .text-danger {
 }
 
 html[data-theme="dark"] .text-success {
-    color: #4ade80 !important;
+    color: #4f8f5f !important;
 }
 
 /* ---------- Fixes the generator can't work out ---------- */
 
 /* Sign Up keeps its orange button in the navbar */
 html[data-theme="dark"] .culina-signup-action {
-    background: linear-gradient(135deg, #f97316, #facc15) !important;
-    color: #211714 !important;
+    background: #2d6a3e !important;
+    color: #191c19 !important;
 }
 
 /* Profile picture fallback letter sits on an orange circle */
 html[data-theme="dark"] .profile-clean-preview-fallback {
-    color: #1f1a17 !important;
+    color: #191d19 !important;
 }
 
 /* Active favourite button keeps dark text on its red-orange background, as in light mode */
 html[data-theme="dark"] .recipe-favourite-btn.active,
 html[data-theme="dark"] .recipe-favourite-btn.active i {
-    color: #1f1a17 !important;
+    color: #191d19 !important;
 }
 
 /* Community page label sits on an orange-to-gold pill */
 html[data-theme="dark"] .community-detail-header .section-label {
-    color: #1f1a17 !important;
+    color: #191d19 !important;
 }
 
 /* Dashboard taste score ring: dark centre, light text */
 html[data-theme="dark"] .taste-score-ring {
     background:
         radial-gradient(circle, var(--culina-dark-surface-raised) 55%, transparent 56%),
-        conic-gradient(#f97316 var(--taste-score, 0%), rgba(249, 115, 22, 0.22) 0);
+        conic-gradient(#2d6a3e var(--taste-score, 0%), rgba(45, 106, 62, 0.22) 0);
 }
 
 html[data-theme="dark"] .taste-score-ring strong {
@@ -351,8 +351,8 @@ html[data-theme="dark"] .taste-score-ring span {
 html[data-theme="dark"] .cooking-voice-toggle.is-on,
 html[data-theme="dark"] .step-trouble-choices button.selected,
 html[data-theme="dark"] .cooking-outcome-buttons button.selected {
-    color: #211714;
-    background: linear-gradient(135deg, #ffb429, #f97316);
+    color: #191c19;
+    background: #4f8f5f;
 }
 
 html[data-theme="dark"] .culina-cooking-btn,
@@ -378,7 +378,7 @@ html[data-theme="dark"] .cooking-control-btn.secondary {
 
 html[data-theme="dark"] .cooking-captions {
     border: 1px solid var(--culina-dark-border);
-    background: rgba(12, 9, 6, 0.96);
+    background: rgba(8, 10, 8, 0.96);
 }
 
 html[data-theme="dark"] .cooking-switch-track::after {
@@ -401,7 +401,7 @@ html[data-theme="dark"] .culina-cooking-btn.danger {
 /* ---------- Scrollbars ---------- */
 
 html[data-theme="dark"] * {
-    scrollbar-color: #9c5a12 #21150d;
+    scrollbar-color: #2d6a3e #151915;
 }
 
 /* ---------- Images keep their own colours ---------- */

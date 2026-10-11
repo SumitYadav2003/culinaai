@@ -14,7 +14,7 @@
                 <div class="row align-items-center g-5">
                     <div class="col-lg-7">
                         <span class="about-eyebrow">
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                             About CulinaAI
                         </span>
 
@@ -32,20 +32,20 @@
                         <div class="about-hero-actions">
                             {% if user.is_authenticated %}
                                 <a href="{% url 'dashboard' %}" class="about-primary-btn">
-                                    <i class="bi bi-speedometer2"></i>
+                                    <i class="icon-layout-dashboard"></i>
                                     Open Dashboard
                                 </a>
                                 <a href="{% url 'pantry_list' %}" class="about-secondary-btn">
-                                    <i class="bi bi-basket2"></i>
+                                    <i class="icon-shopping-basket"></i>
                                     Manage Pantry
                                 </a>
                             {% else %}
                                 <a href="{% url 'signup' %}" class="about-primary-btn">
-                                    <i class="bi bi-person-plus"></i>
+                                    <i class="icon-user-plus"></i>
                                     Start Using CulinaAI
                                 </a>
                                 <a href="{% url 'login' %}" class="about-secondary-btn">
-                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    <i class="icon-log-in"></i>
                                     Login
                                 </a>
                             {% endif %}
@@ -62,9 +62,9 @@
                             <p>AI-assisted recipe generation and meal personalisation system.</p>
 
                             <div class="about-brand-tags">
-                                <span><i class="bi bi-calendar2-check"></i> Established 2026</span>
-                                <span><i class="bi bi-cpu"></i> AI Food Technology</span>
-                                <span><i class="bi bi-shield-check"></i> User-Centred Cooking</span>
+                                <span><i class="icon-calendar-check"></i> Established 2026</span>
+                                <span><i class="icon-settings"></i> AI Food Technology</span>
+                                <span><i class="icon-shield-check"></i> User-Centred Cooking</span>
                             </div>
                         </div>
                     </div>
@@ -73,28 +73,28 @@
 
             <div class="about-stats-grid">
                 <div class="about-stat-card">
-                    <i class="bi bi-calendar-event"></i>
+                    <i class="icon-calendar"></i>
                     <span>Established</span>
                     <strong>2026</strong>
                     <p>Created as a modern AI-assisted cooking platform.</p>
                 </div>
 
                 <div class="about-stat-card">
-                    <i class="bi bi-magic"></i>
+                    <i class="icon-chef-hat"></i>
                     <span>Platform Focus</span>
                     <strong>Personalisation</strong>
                     <p>Recipes are generated around user ingredients, diet, time and preferences.</p>
                 </div>
 
                 <div class="about-stat-card">
-                    <i class="bi bi-basket2"></i>
+                    <i class="icon-shopping-basket"></i>
                     <span>Kitchen Support</span>
                     <strong>Smart Pantry</strong>
                     <p>Users can track ingredients, expiry dates and recipe opportunities.</p>
                 </div>
 
                 <div class="about-stat-card">
-                    <i class="bi bi-chat-dots"></i>
+                    <i class="icon-message-circle"></i>
                     <span>Cooking Help</span>
                     <strong>AI Assistant</strong>
                     <p>Users can ask recipe-specific cooking questions while preparing meals.</p>
@@ -119,7 +119,7 @@
                 <div class="col-lg-4">
                     <div class="about-info-card">
                         <div class="about-card-icon orange">
-                            <i class="bi bi-lightbulb"></i>
+                            <i class="icon-lightbulb"></i>
                         </div>
                         <h3>Our Purpose</h3>
                         <p>
@@ -132,7 +132,7 @@
                 <div class="col-lg-4">
                     <div class="about-info-card">
                         <div class="about-card-icon green">
-                            <i class="bi bi-person-heart"></i>
+                            <i class="icon-user"></i>
                         </div>
                         <h3>User-Centred Design</h3>
                         <p>
@@ -145,7 +145,7 @@
                 <div class="col-lg-4">
                     <div class="about-info-card">
                         <div class="about-card-icon gold">
-                            <i class="bi bi-robot"></i>
+                            <i class="icon-chef-hat"></i>
                         </div>
                         <h3>AI-Powered Support</h3>
                         <p>
@@ -172,49 +172,49 @@
 
             <div class="about-services-grid">
                 <div class="about-service-card">
-                    <i class="bi bi-stars"></i>
+                    <i class="icon-utensils"></i>
                     <h3>AI Recipe Generation</h3>
                     <p>Generate personalised recipes using ingredients, cuisine, meal type, diet, allergies and time preferences.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-basket"></i>
+                    <i class="icon-shopping-basket"></i>
                     <h3>Smart Pantry Support</h3>
                     <p>Track pantry ingredients, expiry dates and recipe possibilities based on what users already have.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-bookmark-heart"></i>
+                    <i class="icon-bookmark"></i>
                     <h3>Saved Recipes & Favourites</h3>
                     <p>Save generated recipes, organise favourites and return to previous cooking ideas anytime.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-chat-square-text"></i>
+                    <i class="icon-message-square-text"></i>
                     <h3>AI Cooking Assistant</h3>
                     <p>Ask recipe-specific questions for cooking guidance, substitutions, timing and preparation support.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-printer"></i>
+                    <i class="icon-printer"></i>
                     <h3>Recipe Print & Export</h3>
                     <p>View recipes in a professional format and print or save them as PDF for offline use.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-mic"></i>
+                    <i class="icon-mic"></i>
                     <h3>Voice Input</h3>
                     <p>Use browser-based voice input to add ingredients, allergies, equipment and notes more easily.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-people"></i>
+                    <i class="icon-users"></i>
                     <h3>Community Recipe Discovery</h3>
                     <p>Explore public recipes shared by users and discover different recipe ideas from the community.</p>
                 </div>
 
                 <div class="about-service-card">
-                    <i class="bi bi-shield-exclamation"></i>
+                    <i class="icon-shield-alert"></i>
                     <h3>Allergy & Diet Awareness</h3>
                     <p>Support safer cooking decisions by considering allergies, diet preferences and ingredient restrictions.</p>
                 </div>
@@ -267,32 +267,32 @@
                 <div class="col-lg-6">
                     <div class="about-difference-list">
                         <div>
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <span>Creates recipes around user-provided ingredients.</span>
                         </div>
 
                         <div>
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <span>Considers allergies, diet preferences and cooking limitations.</span>
                         </div>
 
                         <div>
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <span>Connects recipe generation with pantry, history and saved recipes.</span>
                         </div>
 
                         <div>
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <span>Provides AI cooking help after the recipe is generated.</span>
                         </div>
 
                         <div>
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <span>Supports practical actions such as printing, saving and voice input.</span>
                         </div>
 
                         <div>
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <span>Shows cost, health and carbon for every recipe. <a href="{% url 'sdg_impact' %}">How this relates to the UN goals</a>.</span>
                         </div>
                     </div>
@@ -306,7 +306,7 @@
         <div class="container">
             <div class="about-responsibility-card">
                 <div class="about-responsibility-icon">
-                    <i class="bi bi-shield-check"></i>
+                    <i class="icon-shield-check"></i>
                 </div>
 
                 <div>

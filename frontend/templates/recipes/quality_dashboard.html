@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Quality Control Center{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=professional-admin-charts-1">
+<link rel="stylesheet" href="{% static 'css/quality_dashboard.css' %}?v=professional-admin-charts-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
         <div class="quality-hero-panel">
             <div class="quality-hero-copy">
                 <span class="quality-eyebrow">
-                    <i class="bi bi-shield-check"></i>
+                    <i class="icon-shield-check"></i>
                     Staff Quality Control
                 </span>
 
@@ -35,12 +35,12 @@
 
                 <div class="quality-hero-actions">
                     <a href="{% url 'home' %}" class="quality-soft-btn">
-                        <i class="bi bi-house-door"></i>
+                        <i class="icon-house"></i>
                         Home
                     </a>
 
                     <a href="{% url 'logout' %}" class="quality-primary-btn">
-                        <i class="bi bi-box-arrow-right"></i>
+                        <i class="icon-log-out"></i>
                         Logout
                     </a>
                 </div>
@@ -48,7 +48,7 @@
 
             <div class="quality-status-card">
                 <div class="quality-status-orb">
-                    <i class="bi bi-robot"></i>
+                    <i class="icon-chef-hat"></i>
                 </div>
 
                 <span>Validation Engine</span>
@@ -60,17 +60,17 @@
 
                 <div class="quality-status-list">
                     <div>
-                        <i class="bi bi-check-circle-fill"></i>
+                        <i class="icon-circle-check"></i>
                         Allergy checks
                     </div>
 
                     <div>
-                        <i class="bi bi-check-circle-fill"></i>
+                        <i class="icon-circle-check"></i>
                         Diet compliance
                     </div>
 
                     <div>
-                        <i class="bi bi-check-circle-fill"></i>
+                        <i class="icon-circle-check"></i>
                         Score monitoring
                     </div>
                 </div>
@@ -81,7 +81,7 @@
         <div class="quality-summary-grid">
             <article class="quality-metric-card metric-warm">
                 <div class="metric-icon">
-                    <i class="bi bi-stars"></i>
+                    <i class="icon-utensils"></i>
                 </div>
 
                 <div>
@@ -93,7 +93,7 @@
 
             <article class="quality-metric-card metric-green">
                 <div class="metric-icon">
-                    <i class="bi bi-patch-check-fill"></i>
+                    <i class="icon-badge-check"></i>
                 </div>
 
                 <div>
@@ -105,7 +105,7 @@
 
             <article class="quality-metric-card metric-blue">
                 <div class="metric-icon">
-                    <i class="bi bi-speedometer2"></i>
+                    <i class="icon-layout-dashboard"></i>
                 </div>
 
                 <div>
@@ -117,7 +117,7 @@
 
             <article class="quality-metric-card metric-purple">
                 <div class="metric-icon">
-                    <i class="bi bi-arrow-repeat"></i>
+                    <i class="icon-refresh-cw"></i>
                 </div>
 
                 <div>
@@ -136,7 +136,7 @@
                     <h2>Quality analytics overview</h2>
                 </div>
 
-                <i class="bi bi-graph-up-arrow"></i>
+                <i class="icon-trending-up"></i>
             </div>
 
             <div class="quality-chart-grid">
@@ -146,7 +146,7 @@
                             <span>Score Distribution</span>
                             <h3>Validation score distribution</h3>
                         </div>
-                        <i class="bi bi-bar-chart-fill"></i>
+                        <i class="icon-chart-column"></i>
                     </div>
 
                     <div class="quality-chart-canvas-wrap">
@@ -160,7 +160,7 @@
                             <span>Risk Levels</span>
                             <h3>Safety risk classification</h3>
                         </div>
-                        <i class="bi bi-pie-chart-fill"></i>
+                        <i class="icon-chart-pie"></i>
                     </div>
 
                     <div class="quality-chart-canvas-wrap doughnut-wrap">
@@ -174,7 +174,7 @@
                             <span>Generation Trend</span>
                             <h3>AI recipe activity over the last 7 days</h3>
                         </div>
-                        <i class="bi bi-activity"></i>
+                        <i class="icon-activity"></i>
                     </div>
 
                     <div class="quality-chart-canvas-wrap">
@@ -188,7 +188,7 @@
                             <span>Validation Health</span>
                             <h3>Validation process overview</h3>
                         </div>
-                        <i class="bi bi-heart-pulse-fill"></i>
+                        <i class="icon-heart-pulse"></i>
                     </div>
 
                     <div class="quality-chart-canvas-wrap">
@@ -202,7 +202,7 @@
                             <span>Top Cuisines</span>
                             <h3>Most generated cuisine categories</h3>
                         </div>
-                        <i class="bi bi-egg-fried"></i>
+                        <i class="icon-egg-fried"></i>
                     </div>
 
                     <div class="quality-chart-canvas-wrap">
@@ -216,7 +216,7 @@
                             <span>Top Meal Types</span>
                             <h3>Most selected meal types</h3>
                         </div>
-                        <i class="bi bi-cup-hot-fill"></i>
+                        <i class="icon-coffee"></i>
                     </div>
 
                     <div class="quality-chart-canvas-wrap">
@@ -230,7 +230,7 @@
             <span>Common Issues</span>
             <h3>Repeated validation signals</h3>
         </div>
-        <i class="bi bi-exclamation-circle-fill"></i>
+        <i class="icon-circle-alert"></i>
     </div>
 
     <div class="quality-issue-progress-list">
@@ -250,7 +250,7 @@
             </div>
         {% empty %}
             <div class="quality-empty-chart quality-empty-chart-professional">
-                <i class="bi bi-check-circle"></i>
+                <i class="icon-circle-check"></i>
                 <strong>No repeated issues detected</strong>
                 <p>Validation issue patterns will appear here when repeated signals are found.</p>
             </div>
@@ -288,7 +288,7 @@
                     <h2>System performance intelligence</h2>
                 </div>
 
-                <i class="bi bi-activity"></i>
+                <i class="icon-activity"></i>
             </div>
 
             <div class="advanced-analytics-grid">
@@ -351,7 +351,7 @@
                         <h2>Recipes needing attention</h2>
                     </div>
 
-                    <i class="bi bi-flag-fill"></i>
+                    <i class="icon-flag"></i>
                 </div>
 
                 <div class="review-summary-box">
@@ -388,7 +388,7 @@
                         </div>
                     {% empty %}
                         <div class="review-empty-box">
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <p>No recipes currently require staff review.</p>
                         </div>
                     {% endfor %}
@@ -402,7 +402,7 @@
                         <h2>Common validation signals</h2>
                     </div>
 
-                    <i class="bi bi-list-check"></i>
+                    <i class="icon-list-checks"></i>
                 </div>
 
                 <div class="quality-health-box">
@@ -419,7 +419,7 @@
                         </div>
                     {% empty %}
                         <div class="review-empty-box">
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="icon-circle-check"></i>
                             <p>No repeated validation issues detected yet.</p>
                         </div>
                     {% endfor %}
@@ -438,7 +438,7 @@
                         <h2>Validation score breakdown</h2>
                     </div>
 
-                    <i class="bi bi-bar-chart-fill"></i>
+                    <i class="icon-chart-column"></i>
                 </div>
 
                 <div class="score-breakdown-list">
@@ -488,31 +488,31 @@
                         <h2>Validation risk levels</h2>
                     </div>
 
-                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <i class="icon-triangle-alert"></i>
                 </div>
 
                 <div class="risk-grid">
                     <div class="risk-card low-risk">
-                        <i class="bi bi-shield-check"></i>
+                        <i class="icon-shield-check"></i>
                         <span>Low Risk</span>
                         <strong>{{ low_risk_count }}</strong>
                     </div>
 
                     <div class="risk-card medium-risk">
-                        <i class="bi bi-shield-exclamation"></i>
+                        <i class="icon-shield-alert"></i>
                         <span>Medium Risk</span>
                         <strong>{{ medium_risk_count }}</strong>
                     </div>
 
                     <div class="risk-card high-risk">
-                        <i class="bi bi-shield-x"></i>
+                        <i class="icon-shield-x"></i>
                         <span>High Risk</span>
                         <strong>{{ high_risk_count }}</strong>
                     </div>
                 </div>
 
                 <div class="quality-note-box">
-                    <i class="bi bi-info-circle-fill"></i>
+                    <i class="icon-info"></i>
                     <p>
                         Risk levels are stored from the validation engine and help staff review
                         whether generated recipes require further attention.
@@ -528,7 +528,7 @@
                         <h2>Attempt monitoring</h2>
                     </div>
 
-                    <i class="bi bi-diagram-3-fill"></i>
+                    <i class="icon-network"></i>
                 </div>
 
                 <div class="attempt-grid">
@@ -560,7 +560,7 @@
                         <h2>Why this dashboard matters</h2>
                     </div>
 
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="icon-graduation-cap"></i>
                 </div>
 
                 <p>
@@ -570,10 +570,10 @@
                 </p>
 
                 <div class="evidence-chip-grid">
-                    <span><i class="bi bi-check-circle-fill"></i> Quality scoring</span>
-                    <span><i class="bi bi-check-circle-fill"></i> Risk tracking</span>
-                    <span><i class="bi bi-check-circle-fill"></i> Regeneration evidence</span>
-                    <span><i class="bi bi-check-circle-fill"></i> Staff monitoring</span>
+                    <span><i class="icon-circle-check"></i> Quality scoring</span>
+                    <span><i class="icon-circle-check"></i> Risk tracking</span>
+                    <span><i class="icon-circle-check"></i> Regeneration evidence</span>
+                    <span><i class="icon-circle-check"></i> Staff monitoring</span>
                 </div>
             </section>
         </div>
@@ -586,12 +586,12 @@
                     <h2>Saved AI recipe records</h2>
                 </div>
 
-                <i class="bi bi-table"></i>
+                <i class="icon-table"></i>
             </div>
 
             <form method="get" action="{% url 'quality_dashboard' %}#quality-records" class="quality-filter-form">
                 <div class="quality-search-box">
-                    <i class="bi bi-search"></i>
+                    <i class="icon-search"></i>
 
                     <input
                         type="text"
@@ -627,12 +627,12 @@
                     </select>
 
                     <button type="submit">
-                        <i class="bi bi-funnel-fill"></i>
+                        <i class="icon-funnel"></i>
                         Apply
                     </button>
 
                     <a href="{% url 'quality_dashboard' %}#quality-records">
-                        <i class="bi bi-arrow-counterclockwise"></i>
+                        <i class="icon-rotate-ccw"></i>
                         Reset
                     </a>
                 </div>
@@ -665,7 +665,7 @@
                                 <td>
                                     <div class="recipe-name-cell">
                                         <div class="recipe-mini-icon">
-                                            <i class="bi bi-egg-fried"></i>
+                                            <i class="icon-egg-fried"></i>
                                         </div>
 
                                         <div>
@@ -718,7 +718,7 @@
 
                                 <td>
                                     <a href="{% url 'quality_recipe_evidence' recipe.id %}" class="evidence-link-btn">
-                                        <i class="bi bi-file-earmark-text"></i>
+                                        <i class="icon-file-text"></i>
                                         View Evidence
                                     </a>
                                 </td>
@@ -727,7 +727,7 @@
                             <tr>
                                 <td colspan="8">
                                     <div class="empty-quality-state">
-                                        <i class="bi bi-inbox"></i>
+                                        <i class="icon-inbox"></i>
                                         <h3>No saved AI recipes found yet</h3>
                                         <p>
                                             Once AI-generated recipes are saved, validation records will appear here.
@@ -755,5 +755,5 @@
 {{ top_meal_type_chart_data|json_script:"topMealTypeData" }}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{% static 'js/quality_dashboard_charts.js' %}?v=culina-theme-charts-1"></script>
+<script src="{% static 'js/quality_dashboard_charts.js' %}?v=culina-theme-charts-1-g1"></script>
 {% endblock %}

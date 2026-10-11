@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Saved Recipes{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-recipe-images-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-recipe-images-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
         <div class="saved-recipes-hero">
             <div>
                 <span class="section-label">
-                    <i class="bi bi-bookmark-heart"></i>
+                    <i class="icon-bookmark"></i>
                     Saved Recipe Library
                 </span>
 
@@ -29,7 +29,7 @@
             </div>
 
             <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-action-btn">
-                <i class="bi bi-magic"></i>
+                <i class="icon-chef-hat"></i>
                 Generate New Recipe
             </a>
         </div>
@@ -38,7 +38,7 @@
             <form method="get" action="{% url 'saved_recipes' %}" class="saved-recipes-filter-form">
                 <div class="filter-field filter-search-field">
                     <label for="recipe-search">
-                        <i class="bi bi-search"></i>
+                        <i class="icon-search"></i>
                         Search recipe
                     </label>
 
@@ -53,7 +53,7 @@
 
                 <div class="filter-field">
                     <label for="recipe-cuisine">
-                        <i class="bi bi-globe2"></i>
+                        <i class="icon-globe"></i>
                         Cuisine
                     </label>
 
@@ -70,7 +70,7 @@
 
                 <div class="filter-field">
                     <label for="recipe-meal-type">
-                        <i class="bi bi-egg-fried"></i>
+                        <i class="icon-egg-fried"></i>
                         Meal type
                     </label>
 
@@ -87,7 +87,7 @@
 
                 <div class="filter-field">
                     <label for="recipe-difficulty">
-                        <i class="bi bi-bar-chart"></i>
+                        <i class="icon-chart-column"></i>
                         Difficulty
                     </label>
 
@@ -104,12 +104,12 @@
 
                 <div class="filter-actions">
                     <button type="submit" class="btn saved-filter-btn">
-                        <i class="bi bi-funnel"></i>
+                        <i class="icon-funnel"></i>
                         Apply Filters
                     </button>
 
                     <a href="{% url 'saved_recipes' %}" class="btn saved-reset-btn">
-                        <i class="bi bi-arrow-counterclockwise"></i>
+                        <i class="icon-rotate-ccw"></i>
                         Reset
                     </a>
                 </div>
@@ -124,12 +124,12 @@
                             <div class="saved-recipe-top">
                                 {% if recipe.is_public %}
                                     <span class="saved-recipe-badge saved-recipe-community-badge">
-                                        <i class="bi bi-people-fill"></i>
+                                        <i class="icon-users"></i>
                                         Community Recipe
                                     </span>
                                 {% else %}
                                     <span class="saved-recipe-badge">
-                                        <i class="bi bi-stars"></i>
+                                        <i class="icon-utensils"></i>
                                         AI Recipe
                                     </span>
                                 {% endif %}
@@ -148,7 +148,7 @@
                                         >
 
                                         <span class="saved-recipe-image-badge">
-                                            <i class="bi bi-image-fill"></i>
+                                            <i class="icon-image"></i>
                                             AI Visual
                                         </span>
                                     </div>
@@ -156,7 +156,7 @@
                             {% else %}
                                 <div class="saved-recipe-image-placeholder">
                                     <div>
-                                        <i class="bi bi-image"></i>
+                                        <i class="icon-image"></i>
                                         <span>No image saved</span>
                                     </div>
                                 </div>
@@ -170,18 +170,18 @@
 
                             <div class="saved-recipe-meta">
                                 <span>
-                                    <i class="bi bi-clock"></i>
+                                    <i class="icon-clock"></i>
                                     {{ recipe.cooking_time_minutes }} min
                                 </span>
 
                                 <span>
-                                    <i class="bi bi-bar-chart"></i>
+                                    <i class="icon-chart-column"></i>
                                     {{ recipe.difficulty|title }}
                                 </span>
 
                                 {% if recipe.cuisine %}
                                     <span>
-                                        <i class="bi bi-globe2"></i>
+                                        <i class="icon-globe"></i>
                                         {{ recipe.cuisine.name }}
                                     </span>
                                 {% endif %}
@@ -190,7 +190,7 @@
                             {% if recipe.is_public %}
                                 <div class="saved-community-status-strip">
                                     <div>
-                                        <i class="bi bi-broadcast-pin"></i>
+                                        <i class="icon-radio"></i>
                                     </div>
 
                                     <div>
@@ -207,7 +207,7 @@
                             {% else %}
                                 <div class="saved-community-status-strip saved-community-private-strip">
                                     <div>
-                                        <i class="bi bi-lock-fill"></i>
+                                        <i class="icon-lock"></i>
                                     </div>
 
                                     <div>
@@ -225,7 +225,7 @@
                                 <div class="saved-recipe-validation-strip">
                                     <div class="saved-validation-main">
                                         <div class="saved-validation-icon">
-                                            <i class="bi bi-shield-check"></i>
+                                            <i class="icon-shield-check"></i>
                                         </div>
 
                                         <div>
@@ -243,20 +243,20 @@
 
                                     <div class="saved-validation-tags">
                                         <span>
-                                            <i class="bi bi-check-circle"></i>
+                                            <i class="icon-circle-check"></i>
                                             {{ recipe.validation_badge|default:recipe.validation_status }}
                                         </span>
 
                                         {% if recipe.validation_risk_level %}
                                             <span>
-                                                <i class="bi bi-activity"></i>
+                                                <i class="icon-activity"></i>
                                                 Risk: {{ recipe.validation_risk_level }}
                                             </span>
                                         {% endif %}
 
                                         {% if recipe.validation_attempts %}
                                             <span>
-                                                <i class="bi bi-arrow-repeat"></i>
+                                                <i class="icon-refresh-cw"></i>
                                                 Attempts: {{ recipe.validation_attempts }}
                                             </span>
                                         {% endif %}
@@ -266,7 +266,7 @@
                                 <div class="saved-recipe-validation-strip saved-recipe-validation-missing">
                                     <div class="saved-validation-main">
                                         <div class="saved-validation-icon">
-                                            <i class="bi bi-info-circle"></i>
+                                            <i class="icon-info"></i>
                                         </div>
 
                                         <div>
@@ -283,7 +283,7 @@
 
                             <div class="saved-recipe-footer saved-recipe-community-footer">
                                 <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn saved-recipe-view-btn">
-                                    <i class="bi bi-eye"></i>
+                                    <i class="icon-eye"></i>
                                     View Recipe
                                 </a>
 
@@ -292,12 +292,12 @@
 
                                     {% if recipe.is_public %}
                                         <button type="submit" class="btn saved-community-remove-btn">
-                                            <i class="bi bi-eye-slash"></i>
+                                            <i class="icon-eye-off"></i>
                                             Remove from Community
                                         </button>
                                     {% else %}
                                         <button type="submit" class="btn saved-community-add-btn">
-                                            <i class="bi bi-people-fill"></i>
+                                            <i class="icon-users"></i>
                                             Add to Community
                                         </button>
                                     {% endif %}
@@ -307,7 +307,7 @@
                                     {% csrf_token %}
 
                                     <button type="submit" class="btn saved-recipe-unsave-btn">
-                                        <i class="bi bi-bookmark-dash"></i>
+                                        <i class="icon-bookmark-minus"></i>
                                         Unsave
                                     </button>
                                 </form>
@@ -319,7 +319,7 @@
         {% else %}
             <div class="saved-empty-state">
                 <div class="empty-state-icon">
-                    <i class="bi bi-journal-richtext"></i>
+                    <i class="icon-book-open-text"></i>
                 </div>
 
                 <h3>No saved recipes yet</h3>
@@ -329,7 +329,7 @@
                 </p>
 
                 <a href="{% url 'generate_recipe' %}" class="btn btn-showcase">
-                    <i class="bi bi-magic"></i>
+                    <i class="icon-chef-hat"></i>
                     Generate First Recipe
                 </a>
             </div>

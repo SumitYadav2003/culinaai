@@ -4,8 +4,8 @@
 {% block title %}CulinaAI Community | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-recipe-images-1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=community-recipe-images-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -15,14 +15,14 @@
 
         <div class="community-detail-hero">
             <a href="{% url 'home' %}#shared-recipes" class="community-back-link">
-    <i class="bi bi-arrow-left"></i>
+    <i class="icon-arrow-left"></i>
     Back to Shared Recipes
 </a>
 
             <div class="community-detail-header">
                 <div>
                     <span class="section-label">
-                        <i class="bi bi-people-fill"></i>
+                        <i class="icon-users"></i>
                         Community Shared Recipe
                     </span>
 
@@ -39,59 +39,59 @@
                 </div>
 
                 <div class="community-detail-badge">
-                    <i class="bi bi-broadcast-pin"></i>
+                    <i class="icon-radio"></i>
                     Public Recipe
                 </div>
             </div>
 
             <div class="community-detail-meta">
                 <span>
-                    <i class="bi bi-person-circle"></i>
+                    <i class="icon-circle-user"></i>
                     Shared by {{ recipe.user.username }}
                 </span>
 
                 <span>
-                    <i class="bi bi-eye"></i>
+                    <i class="icon-eye"></i>
                     {{ recipe.community_views }} views
                 </span>
 
                 <span>
-                    <i class="bi bi-star-fill"></i>
+                    <i class="icon-star"></i>
                     {{ average_rating }}/5 average rating
                 </span>
 
                 <span>
-                    <i class="bi bi-chat-left-text"></i>
+                    <i class="icon-message-square-text"></i>
                     {{ feedback_count }} feedback comments
                 </span>
 
                 <span>
-                    <i class="bi bi-clock"></i>
+                    <i class="icon-clock"></i>
                     {{ recipe.cooking_time_minutes }} minutes
                 </span>
 
                 <span>
-                    <i class="bi bi-bar-chart"></i>
+                    <i class="icon-chart-column"></i>
                     {{ recipe.difficulty|title }}
                 </span>
 
                 {% if recipe.cuisine %}
                     <span>
-                        <i class="bi bi-globe2"></i>
+                        <i class="icon-globe"></i>
                         {{ recipe.cuisine.name }}
                     </span>
                 {% endif %}
 
                 {% if recipe.meal_type %}
                     <span>
-                        <i class="bi bi-egg-fried"></i>
+                        <i class="icon-egg-fried"></i>
                         {{ recipe.meal_type.name }}
                     </span>
                 {% endif %}
 
                 {% if recipe.public_shared_at %}
                     <span>
-                        <i class="bi bi-calendar-check"></i>
+                        <i class="icon-calendar-check"></i>
                         Shared {{ recipe.public_shared_at|date:"d M Y" }}
                     </span>
                 {% endif %}
@@ -100,7 +100,7 @@
             <section class="community-detail-image-showcase" aria-label="Community recipe image">
                 <div class="community-detail-image-copy">
                     <span class="section-label">
-                        <i class="bi bi-image-fill"></i>
+                        <i class="icon-image"></i>
                         Recipe Visual
                     </span>
 
@@ -113,12 +113,12 @@
 
                     <div class="community-detail-image-meta">
                         <span>
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                             CulinaAI Visual
                         </span>
 
                         <span>
-                            <i class="bi bi-people-fill"></i>
+                            <i class="icon-users"></i>
                             Community Shared
                         </span>
                     </div>
@@ -138,7 +138,7 @@
                     {% endif %}
 
                     <div class="community-detail-image-badge">
-                        <i class="bi bi-stars"></i>
+                        <i class="icon-utensils"></i>
                         AI Recipe Image
                     </div>
                 </div>
@@ -150,7 +150,7 @@
 
                 <div class="community-author-card">
                     <div class="community-author-avatar">
-                        <i class="bi bi-person-fill"></i>
+                        <i class="icon-user"></i>
                     </div>
 
                     <span>Recipe Owner</span>
@@ -165,7 +165,7 @@
                     {% if is_owner %}
                         <div style="margin-top: 18px;">
                             <a href="{% url 'saved_recipe_detail' recipe.id %}" class="recipe-community-public-btn">
-                                <i class="bi bi-journal-richtext"></i>
+                                <i class="icon-book-open-text"></i>
                                 Open My Saved Recipe
                             </a>
                         </div>
@@ -174,7 +174,7 @@
 
                 <div class="community-detail-side-card">
                     <h3>
-                        <i class="bi bi-basket2"></i>
+                        <i class="icon-shopping-basket"></i>
                         Ingredients Used
                     </h3>
 
@@ -183,7 +183,7 @@
 
                 <div class="community-detail-side-card">
                     <h3>
-                        <i class="bi bi-shield-exclamation"></i>
+                        <i class="icon-shield-alert"></i>
                         Allergy & Safety Notes
                     </h3>
 
@@ -199,19 +199,19 @@
 
                 <div class="community-detail-side-card">
                     <h3>
-                        <i class="bi bi-tags"></i>
+                        <i class="icon-tags"></i>
                         Diet Preferences
                     </h3>
 
                     <div class="community-detail-tags">
                         {% for diet in recipe.diet_preferences.all %}
                             <span>
-                                <i class="bi bi-check-circle"></i>
+                                <i class="icon-circle-check"></i>
                                 {{ diet.name }}
                             </span>
                         {% empty %}
                             <span>
-                                <i class="bi bi-info-circle"></i>
+                                <i class="icon-info"></i>
                                 No diet preference
                             </span>
                         {% endfor %}
@@ -221,7 +221,7 @@
                 {% if recipe.quality_score %}
                     <div class="community-detail-side-card">
                         <h3>
-                            <i class="bi bi-shield-check"></i>
+                            <i class="icon-shield-check"></i>
                             CulinaAI Validation
                         </h3>
 
@@ -239,7 +239,7 @@
 
                 <div class="community-recipe-content-card">
                     <h2>
-                        <i class="bi bi-journal-text"></i>
+                        <i class="icon-notebook-text"></i>
                         Full Recipe
                     </h2>
 
@@ -254,7 +254,7 @@
                     <div class="community-section-header">
                         <div>
                             <span class="section-label">
-                                <i class="bi bi-chat-square-heart"></i>
+                                <i class="icon-message-square"></i>
                                 Community Evaluation
                             </span>
 
@@ -297,7 +297,7 @@
                         <div class="community-feedback-form-grid">
                             <div class="community-feedback-field">
                                 <label for="{{ feedback_form.rating.id_for_label }}">
-                                    <i class="bi bi-star"></i>
+                                    <i class="icon-star"></i>
                                     Rating
                                 </label>
 
@@ -306,7 +306,7 @@
 
                             <div class="community-feedback-field">
                                 <label for="{{ feedback_form.comment.id_for_label }}">
-                                    <i class="bi bi-pencil-square"></i>
+                                    <i class="icon-pencil"></i>
                                     Feedback Comment
                                 </label>
 
@@ -315,7 +315,7 @@
                         </div>
 
                         <button type="submit" class="btn community-feedback-submit-btn">
-                            <i class="bi bi-send-fill"></i>
+                            <i class="icon-send"></i>
                             Submit Community Feedback
                         </button>
                     </form>
@@ -325,14 +325,14 @@
                             {% for feedback in feedback_items %}
                                 <div class="community-feedback-item">
                                     <div class="community-feedback-icon">
-                                        <i class="bi bi-chat-heart"></i>
+                                        <i class="icon-message-circle"></i>
                                     </div>
 
                                     <div>
                                         <strong>{{ feedback.user.username }}</strong>
 
                                         <span>
-                                            <i class="bi bi-calendar-check"></i>
+                                            <i class="icon-calendar-check"></i>
                                             {{ feedback.created_at|date:"d M Y, H:i" }}
                                         </span>
 
@@ -343,7 +343,7 @@
                         </div>
                     {% else %}
                         <div class="community-empty-state">
-                            <i class="bi bi-chat-square-heart"></i>
+                            <i class="icon-message-square"></i>
 
                             <h3>No feedback yet</h3>
 
@@ -360,7 +360,7 @@
                             <div class="community-section-header">
                                 <div>
                                     <span class="section-label">
-                                        <i class="bi bi-grid-3x3-gap"></i>
+                                        <i class="icon-layout-grid"></i>
                                         Related Recipes
                                     </span>
 
@@ -377,7 +377,7 @@
                                     <article class="community-recipe-card">
                                         <div class="community-recipe-top">
                                             <span class="community-recipe-badge">
-                                                <i class="bi bi-people-fill"></i>
+                                                <i class="icon-users"></i>
                                                 Community
                                             </span>
 
@@ -405,7 +405,7 @@
                                                 {% endif %}
 
                                                 <span class="community-related-image-badge">
-                                                    <i class="bi bi-image-fill"></i>
+                                                    <i class="icon-image"></i>
                                                     AI Visual
                                                 </span>
                                             </div>
@@ -418,18 +418,18 @@
                                         </p>
 
                                         <div class="community-recipe-owner">
-                                            <i class="bi bi-person-circle"></i>
+                                            <i class="icon-circle-user"></i>
                                             Shared by {{ related.user.username }}
                                         </div>
 
                                         <div class="community-recipe-stats">
                                             <span>
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-eye"></i>
                                                 {{ related.community_views }} views
                                             </span>
 
                                             <span>
-                                                <i class="bi bi-star-fill"></i>
+                                                <i class="icon-star"></i>
                                                 {% if related.average_rating_value %}
                                                     {{ related.average_rating_value|floatformat:1 }}/5
                                                 {% else %}
@@ -438,14 +438,14 @@
                                             </span>
 
                                             <span>
-                                                <i class="bi bi-chat-left-text"></i>
+                                                <i class="icon-message-square-text"></i>
                                                 {{ related.feedback_total }} feedback
                                             </span>
                                         </div>
 
                                         <div class="community-card-footer">
                                             <a href="{% url 'community_recipe_detail' related.id %}" class="community-view-btn">
-                                                <i class="bi bi-eye-fill"></i>
+                                                <i class="icon-eye"></i>
                                                 View Recipe
                                             </a>
                                         </div>
@@ -464,5 +464,5 @@
 
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1-g1"></script>
 {% endblock %}

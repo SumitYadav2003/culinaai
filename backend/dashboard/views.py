@@ -134,7 +134,7 @@ def dashboard_view(request):
             "Generate and save your first AI recipe to unlock personalised "
             "dashboard insights."
         )
-        smart_tip_icon = "bi-magic"
+        smart_tip_icon = "icon-chef-hat"
 
     elif modified_count == 0:
         smart_tip_title = "Try your first AI refinement"
@@ -142,7 +142,7 @@ def dashboard_view(request):
             "Modify a saved recipe to make it healthier, quicker, cheaper, "
             "vegetarian or custom."
         )
-        smart_tip_icon = "bi-arrow-repeat"
+        smart_tip_icon = "icon-refresh-cw"
 
     elif feedback_count == 0:
         smart_tip_title = "Add evaluation feedback"
@@ -150,7 +150,7 @@ def dashboard_view(request):
             "Rate and review recipes to build stronger evidence for recipe "
             "quality evaluation."
         )
-        smart_tip_icon = "bi-chat-square-heart"
+        smart_tip_icon = "icon-message-square"
 
     else:
         smart_tip_title = "Your CulinaAI profile is active"
@@ -158,7 +158,7 @@ def dashboard_view(request):
             "You are using saved recipes, AI refinements, favourites and "
             "feedback together."
         )
-        smart_tip_icon = "bi-graph-up-arrow"
+        smart_tip_icon = "icon-trending-up"
 
     context = {
         "saved_recipes_count": saved_count,

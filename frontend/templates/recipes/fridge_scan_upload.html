@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | AI Refrigerator Scanner{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-video-loader-final-2">
+<link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-video-loader-final-2-g1">
 {% endblock %}
 
 {% block content %}
@@ -16,12 +16,12 @@
             <div class="fridge-page-title-row">
                 <div class="fridge-page-title-wrap">
                     <div class="fridge-page-icon-box">
-                        <i class="bi bi-camera-fill"></i>
+                        <i class="icon-camera"></i>
                     </div>
 
                     <div class="fridge-page-copy">
                         <span class="fridge-page-badge">
-                            <i class="bi bi-stars"></i>
+                            <i class="icon-utensils"></i>
                             AI-Powered Pantry Input
                         </span>
 
@@ -36,7 +36,7 @@
 
                 <div class="fridge-page-actions">
                     <a href="{% url 'fridge_scan_history' %}" class="fridge-outline-btn">
-                        <i class="bi bi-clock-history"></i>
+                        <i class="icon-history"></i>
                         Scan History
                     </a>
                 </div>
@@ -68,7 +68,7 @@
                             <div class="scanner-upload-shell">
                                 <div class="scanner-upload-topline">
                                     <div class="scanner-upload-mini-icon">
-                                        <i class="bi bi-image"></i>
+                                        <i class="icon-image"></i>
                                     </div>
 
                                     <div>
@@ -94,16 +94,16 @@
                                 </div>
 
                                 <div class="scanner-support-chips">
-                                    <span><i class="bi bi-brightness-high"></i> Use bright lighting</span>
-                                    <span><i class="bi bi-grid-3x3-gap"></i> Keep items visible</span>
-                                    <span><i class="bi bi-sliders"></i> Confirm ingredients before use</span>
+                                    <span><i class="icon-sun"></i> Use bright lighting</span>
+                                    <span><i class="icon-layout-grid"></i> Keep items visible</span>
+                                    <span><i class="icon-sliders-horizontal"></i> Confirm ingredients before use</span>
                                 </div>
                             </div>
 
                             <div class="scanner-feature-strip">
                                 <div class="scanner-feature-mini">
                                     <div class="scanner-feature-mini-icon">
-                                        <i class="bi bi-shield-check"></i>
+                                        <i class="icon-shield-check"></i>
                                     </div>
 
                                     <div>
@@ -117,7 +117,7 @@
 
                                 <div class="scanner-feature-mini">
                                     <div class="scanner-feature-mini-icon">
-                                        <i class="bi bi-basket2"></i>
+                                        <i class="icon-shopping-basket"></i>
                                     </div>
 
                                     <div>
@@ -136,12 +136,12 @@
                                     class="scanner-primary-btn"
                                     data-fridge-scanner-submit
                                 >
-                                    <i class="bi bi-magic"></i>
+                                    <i class="icon-chef-hat"></i>
                                     Scan Refrigerator
                                 </button>
 
                                 <a href="{% url 'pantry_list' %}" class="scanner-secondary-btn">
-                                    <i class="bi bi-basket"></i>
+                                    <i class="icon-shopping-basket"></i>
                                     Open Pantry
                                 </a>
                             </div>
@@ -265,7 +265,7 @@
         <div class="fridge-scan-loading-card">
 
             <div class="fridge-scan-loading-badge">
-                <i class="bi bi-stars"></i>
+                <i class="icon-utensils"></i>
                 CulinaAI Vision Scanner
             </div>
 
@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         submitButton.disabled = true;
         submitButton.classList.add("is-loading");
-        submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Scanning...';
+        submitButton.innerHTML = '<i class="icon-hourglass"></i> Scanning...';
 
         stepText.textContent = steps[0];
 

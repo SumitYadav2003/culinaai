@@ -21,7 +21,7 @@ Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.
                 <div class="row align-items-center g-4">
                     <div class="col-lg-7">
                         <span class="about-eyebrow">
-                            <i class="bi bi-globe-europe-africa"></i>
+                            <i class="icon-earth"></i>
                             Cooking and the UN goals
                         </span>
 
@@ -35,20 +35,20 @@ Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.
                         <div class="about-hero-actions">
                             {% if user.is_authenticated %}
                                 <a href="{% url 'generate_recipe' %}" class="about-primary-btn">
-                                    <i class="bi bi-magic"></i>
+                                    <i class="icon-chef-hat"></i>
                                     Cook something better
                                 </a>
                                 <a href="{% url 'dashboard' %}#impact" class="about-secondary-btn">
-                                    <i class="bi bi-speedometer2"></i>
+                                    <i class="icon-layout-dashboard"></i>
                                     See your impact
                                 </a>
                             {% else %}
                                 <a href="{% url 'signup' %}" class="about-primary-btn">
-                                    <i class="bi bi-person-plus"></i>
+                                    <i class="icon-user-plus"></i>
                                     Start cooking smarter
                                 </a>
                                 <a href="{% url 'about_culinaai' %}" class="about-secondary-btn">
-                                    <i class="bi bi-info-circle"></i>
+                                    <i class="icon-info"></i>
                                     About CulinaAI
                                 </a>
                             {% endif %}
@@ -83,7 +83,7 @@ Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.
                             <div class="sdg-hero-panel">
                                 <span class="sdg-hero-panel-label">Every recipe shows</span>
                                 <div class="sdg-hero-stat"><strong>£</strong><span>what it costs per serving</span></div>
-                                <div class="sdg-hero-stat"><strong><i class="bi bi-heart-pulse"></i></strong><span>how healthy it is, on the UK traffic lights</span></div>
+                                <div class="sdg-hero-stat"><strong><i class="icon-heart-pulse"></i></strong><span>how healthy it is, on the UK traffic lights</span></div>
                                 <div class="sdg-hero-stat"><strong>CO₂e</strong><span>what it emits, and how to cut it</span></div>
                             </div>
                         {% endif %}
@@ -120,7 +120,7 @@ Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.
                     </div>
 
                     <div class="sdg-swap-arrow" aria-hidden="true">
-                        <i class="bi bi-arrow-right-circle-fill"></i>
+                        <i class="icon-circle-arrow-right"></i>
                     </div>
 
                     <div class="sdg-dish sdg-dish-after">
@@ -246,7 +246,7 @@ Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.
 
             <div class="text-center sdg-steps-cta">
                 <a href="{% if user.is_authenticated %}{% url 'generate_recipe' %}{% else %}{% url 'signup' %}{% endif %}" class="about-primary-btn">
-                    <i class="bi bi-magic"></i>
+                    <i class="icon-chef-hat"></i>
                     Try it on your next recipe
                 </a>
             </div>
@@ -257,7 +257,7 @@ Styles: the About page's (custom.css) plus the .sdg- rules at the end of custom.
     <section class="about-responsibility-section">
         <div class="container">
             <details class="sdg-fine-print">
-                <summary><i class="bi bi-shield-check"></i> The fine print: where the numbers come from, and what they can't do</summary>
+                <summary><i class="icon-shield-check"></i> The fine print: where the numbers come from, and what they can't do</summary>
                 <ul>
                     <li><strong>Nutrition:</strong> UK CoFID 2021 food composition data, with a few USDA foods, each labelled. Raw ingredient weights, so cooking changes the real figures a little.</li>
                     <li><strong>Health levels:</strong> UK front-of-pack traffic lights and UK nutrition claim conditions. Not medical or dietary advice.</li>

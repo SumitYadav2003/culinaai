@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Edit Saved Recipe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/edit_saved_recipe.css' %}?v=edit-saved-recipe-classic-1">
+<link rel="stylesheet" href="{% static 'css/edit_saved_recipe.css' %}?v=edit-saved-recipe-classic-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
         <div class="edit-recipe-hero">
             <div>
                 <span class="edit-recipe-kicker">
-                    <i class="bi bi-pencil-square"></i>
+                    <i class="icon-pencil"></i>
                     Personal Recipe Notes
                 </span>
 
@@ -30,7 +30,7 @@
             </div>
 
             <a href="{% url 'saved_recipe_detail' recipe.id %}" class="edit-recipe-back-btn">
-                <i class="bi bi-arrow-left"></i>
+                <i class="icon-arrow-left"></i>
                 Back to recipe
             </a>
         </div>
@@ -43,7 +43,7 @@
                         <span>Edit Details</span>
                         <h2>Your personal version</h2>
                     </div>
-                    <i class="bi bi-journal-text"></i>
+                    <i class="icon-notebook-text"></i>
                 </div>
 
                 <form method="post" class="edit-recipe-form" novalidate>
@@ -86,7 +86,7 @@
 
                     <div class="edit-recipe-actions">
                         <button type="submit" class="edit-recipe-save-btn">
-                            <i class="bi bi-check2-circle"></i>
+                            <i class="icon-circle-check"></i>
                             Save changes
                         </button>
 
@@ -99,7 +99,7 @@
 
             <aside class="edit-recipe-side-card">
                 <div class="edit-recipe-side-icon">
-                    <i class="bi bi-lightbulb-fill"></i>
+                    <i class="icon-lightbulb"></i>
                 </div>
 
                 <h2>Why add notes?</h2>
@@ -111,17 +111,17 @@
 
                 <div class="edit-recipe-tip-list">
                     <div>
-                        <i class="bi bi-check-circle-fill"></i>
+                        <i class="icon-circle-check"></i>
                         Track changes you want to try next time.
                     </div>
 
                     <div>
-                        <i class="bi bi-check-circle-fill"></i>
+                        <i class="icon-circle-check"></i>
                         Keep serving ideas and meal prep notes.
                     </div>
 
                     <div>
-                        <i class="bi bi-check-circle-fill"></i>
+                        <i class="icon-circle-check"></i>
                         Make saved recipes easier to recognise.
                     </div>
                 </div>

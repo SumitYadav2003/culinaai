@@ -1,0 +1,19 @@
+{# One-line email form: the recipe is sent to the address typed in. #}
+<form method="post" action="{{ action }}" class="rp-email-form" data-busy-form>
+    {% csrf_token %}
+    <label class="visually-hidden" for="{{ field_id }}">Email address</label>
+    <div class="rp-inline-field">
+        <input
+            type="email"
+            id="{{ field_id }}"
+            name="recipient_email"
+            class="rp-input"
+            placeholder="Send this recipe to an email address"
+            autocomplete="email"
+            required
+        />
+        <button type="submit" class="site-btn site-btn-secondary" data-busy-text="Sending…">
+            <i class="icon-send" aria-hidden="true"></i> Send
+        </button>
+    </div>
+</form>

@@ -10,7 +10,7 @@
     padding: 1.75rem;
     background: #ffffff;
     border: 1px solid rgba(124, 74, 34, 0.12);
-    border-radius: 24px;
+    border-radius: 12px;
     box-shadow: var(--shadow-soft);
 }
 
@@ -30,7 +30,7 @@
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-    text-transform: uppercase;
+    text-transform: none;
     color: var(--culina-orange-dark);
 }
 
@@ -64,8 +64,8 @@
 }
 
 .culina-insights-tag-everyday {
-    background: #dcfce7;
-    color: #166534;
+    background: #eef5ef;
+    color: #1f4d2b;
 }
 
 .culina-insights-tag-treat {
@@ -83,10 +83,10 @@
 .culina-warning-panel {
     margin-bottom: 1.25rem;
     padding: 1rem 1.15rem;
-    background: var(--culina-warning-red-soft, #fef2f2);
+    background: var(--culina-warning-red-soft, #f7f9f7);
     border: 1px solid var(--culina-warning-red, #dc2626);
     border-left-width: 5px;
-    border-radius: 16px;
+    border-radius: 10px;
 }
 
 .culina-warning-line {
@@ -120,7 +120,7 @@
     padding: 1.25rem;
     background: var(--culina-cream);
     border: 1px solid rgba(124, 74, 34, 0.1);
-    border-radius: 18px;
+    border-radius: 12px;
 }
 
 .culina-insights-card h4 {
@@ -169,7 +169,7 @@
 
 .culina-nutrition-table thead th {
     font-size: 0.78rem;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 0.03em;
     color: var(--culina-muted);
 }
@@ -208,19 +208,19 @@ small.culina-phone-only {
 }
 
 .culina-light-green {
-    background: #15803d;
+    background: #1f4d2b;
     color: #ffffff;
 }
 
 /* Protein or fibre below the "good" level: neutral, not green (low is not a good thing here) */
 .culina-light-grey {
-    background: #e7e1db;
-    color: #3f3833;
+    background: #dfe3df;
+    color: #353d35;
 }
 
 .culina-light-amber {
     background: #f59e0b;
-    color: #1f1a17;
+    color: #191d19;
 }
 
 .culina-light-red {
@@ -262,7 +262,7 @@ small.culina-phone-only {
     display: block;
     font-size: 0.78rem;
     font-weight: 700;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 0.03em;
     color: var(--culina-brown);
 }
@@ -308,12 +308,12 @@ small.culina-phone-only {
 }
 
 .culina-reason-healthier_swap {
-    background: #dcfce7;
-    color: #166534;
+    background: #eef5ef;
+    color: #1f4d2b;
 }
 
 .culina-reason-allergy_diet {
-    background: var(--culina-warning-red-soft, #fef2f2);
+    background: var(--culina-warning-red-soft, #f7f9f7);
     color: var(--culina-warning-red-text, #991b1b);
 }
 
@@ -345,7 +345,7 @@ small.culina-phone-only {
     align-items: flex-start;
     margin: 0 0 1.25rem;
     padding: 0.75rem 1rem;
-    border-radius: 14px;
+    border-radius: 10px;
     background: var(--culina-cream);
     color: var(--culina-dark);
     font-size: 0.92rem;
@@ -357,12 +357,12 @@ small.culina-phone-only {
 }
 
 .culina-meal-style-met {
-    background: #dcfce7;
-    color: #166534;
+    background: #eef5ef;
+    color: #1f4d2b;
 }
 
 .culina-meal-style-met i {
-    color: #15803d;
+    color: #1f4d2b;
 }
 
 /* ---------- One dish, three ways ---------- */
@@ -384,7 +384,7 @@ small.culina-phone-only {
     padding: 0.85rem 1rem;
     background: #ffffff;
     border: 1px dashed rgba(124, 74, 34, 0.3);
-    border-radius: 14px;
+    border-radius: 10px;
 }
 
 .culina-your-recipe p {
@@ -449,7 +449,7 @@ small.culina-phone-only {
     padding: 1rem;
     background: #ffffff;
     border: 1px solid rgba(124, 74, 34, 0.12);
-    border-radius: 16px;
+    border-radius: 10px;
 }
 
 .culina-way-title {
@@ -459,7 +459,7 @@ small.culina-phone-only {
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-    text-transform: uppercase;
+    text-transform: none;
     color: var(--culina-orange-dark);
 }
 
@@ -482,7 +482,7 @@ small.culina-phone-only {
     display: block;
     font-size: 0.85rem;
     font-weight: 700;
-    color: #166534;
+    color: #1f4d2b;
 }
 
 .culina-swap-source {
@@ -532,7 +532,7 @@ small.culina-phone-only {
 .culina-way-stats dt {
     font-size: 0.78rem;
     font-weight: 700;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 0.03em;
     color: var(--culina-brown);
 }
@@ -575,7 +575,7 @@ small.culina-phone-only {
 .culina-insights-disclaimer {
     margin: 1.25rem 0 0;
     padding: 0.85rem 1rem;
-    border-radius: 14px;
+    border-radius: 10px;
     background: var(--culina-cream);
     color: var(--culina-muted);
     font-size: 0.85rem;
@@ -584,7 +584,7 @@ small.culina-phone-only {
 @media (max-width: 575.98px) {
     .culina-insights {
         padding: 0.9rem;
-        border-radius: 18px;
+        border-radius: 12px;
     }
 
     .culina-insights-card {
@@ -631,7 +631,7 @@ small.culina-phone-only {
 @media print {
     .culina-insights {
         box-shadow: none;
-        border-color: #cccccc;
+        border-color: #c8d0c8;
     }
 
     .culina-add-back-form,
@@ -647,18 +647,18 @@ small.culina-phone-only {
 
 /* "Adjusted for you": the recipe was written using the cook's history (cooking_learning_service.py) */
 .culina-personal-note {
-    background: #dcfce7;
-    color: #14532d;
+    background: #eef5ef;
+    color: #1f4d2b;
 }
 
 .culina-personal-note i {
-    color: #15803d;
+    color: #1f4d2b;
 }
 
 .culina-personal-note a {
     margin-left: 0.25rem;
     color: #c2410c;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 
@@ -669,7 +669,7 @@ small.culina-phone-only {
     align-items: flex-start;
     margin: 0 0 1.25rem;
     padding: 0.75rem 1rem;
-    border-radius: 14px;
+    border-radius: 10px;
     background: var(--culina-cream);
     color: var(--culina-dark);
     font-size: 0.92rem;
@@ -683,21 +683,21 @@ small.culina-phone-only {
 .culina-cuisine-note small {
     display: block;
     margin-top: 0.3rem;
-    color: #6f5948;
+    color: #556255;
     font-size: 0.8rem;
 }
 
 .culina-cuisine-typical,
 .culina-cuisine-very {
-    background: #dcfce7;
-    color: #14532d;
+    background: #eef5ef;
+    color: #1f4d2b;
 }
 
 .culina-cuisine-typical i,
 .culina-cuisine-very i {
-    color: #15803d;
+    color: #1f4d2b;
 }
 
 .culina-cuisine-unchecked {
-    color: #6f5948;
+    color: #556255;
 }

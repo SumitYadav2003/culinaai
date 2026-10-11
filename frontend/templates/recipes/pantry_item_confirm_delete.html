@@ -17,7 +17,7 @@
 
       <div class="pantry-hero-actions">
         <a href="{% url 'pantry_list' %}" class="pantry-secondary-btn">
-          <i class="bi bi-arrow-left"></i>
+          <i class="icon-arrow-left"></i>
           Back to Pantry
         </a>
       </div>
@@ -26,7 +26,7 @@
     <div class="pantry-delete-wrapper">
       <div class="pantry-delete-card">
         <div class="pantry-delete-icon">
-          <i class="bi bi-trash3"></i>
+          <i class="icon-trash-2"></i>
         </div>
 
         <h2>Remove {{ pantry_item.ingredient_name }}?</h2>
@@ -64,7 +64,7 @@
           {% csrf_token %}
 
           <button type="submit" class="pantry-danger-action-btn">
-            <i class="bi bi-trash3"></i>
+            <i class="icon-trash-2"></i>
             Yes, Delete Item
           </button>
 

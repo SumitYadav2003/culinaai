@@ -93,16 +93,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.setAttribute("aria-label", "Hide password");
 
                 if (icon) {
-                    icon.classList.remove("bi-eye");
-                    icon.classList.add("bi-eye-slash");
+                    icon.classList.remove("icon-eye");
+                    icon.classList.add("icon-eye-off");
                 }
             } else {
                 passwordInput.type = "password";
                 button.setAttribute("aria-label", "Show password");
 
                 if (icon) {
-                    icon.classList.remove("bi-eye-slash");
-                    icon.classList.add("bi-eye");
+                    icon.classList.remove("icon-eye-off");
+                    icon.classList.add("icon-eye");
                 }
             }
         });

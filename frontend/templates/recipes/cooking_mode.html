@@ -4,7 +4,7 @@
 {% block title %}CulinaAI | Cooking Mode{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-adjust-1">
+<link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-adjust-1-g1">
 {% endblock %}
 
 {% block content %}
@@ -18,12 +18,12 @@
             <div class="cooking-topbar-main">
                 <div class="cooking-topbar-links">
                     <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-back-link">
-                        <i class="bi bi-arrow-left"></i>
+                        <i class="icon-arrow-left"></i>
                         Back to recipe
                     </a>
 
                     <span class="cooking-eyebrow">
-                        <i class="bi bi-play-circle-fill"></i>
+                        <i class="icon-circle-play"></i>
                         Cooking mode
                     </span>
                 </div>
@@ -32,23 +32,23 @@
 
                 <div class="cooking-hero-meta">
                     <span>
-                        <i class="bi bi-list-check"></i>
+                        <i class="icon-list-checks"></i>
                         {{ total_steps }} steps
                     </span>
 
                     <span>
-                        <i class="bi bi-clock"></i>
+                        <i class="icon-clock"></i>
                         {{ estimated_total_minutes }} minutes
                     </span>
 
                     <span>
-                        <i class="bi bi-bar-chart"></i>
+                        <i class="icon-chart-column"></i>
                         {{ recipe.difficulty|title }}
                     </span>
 
                     {% if recipe.cuisine %}
                         <span>
-                            <i class="bi bi-globe2"></i>
+                            <i class="icon-globe"></i>
                             {{ recipe.cuisine.name }}
                         </span>
                     {% endif %}
@@ -72,12 +72,12 @@
             <div class="cooking-toolbar-row">
                 <button type="button" class="cooking-voice-toggle" id="voiceToggleBtn" aria-pressed="false">
                     <span class="voice-dot" aria-hidden="true"></span>
-                    <i class="bi bi-mic-fill"></i>
+                    <i class="icon-mic"></i>
                     <span id="voiceToggleLabel">Hands-free voice</span>
                 </button>
 
                 <label class="cooking-voice-english" title="Which English to listen for">
-                    <i class="bi bi-translate" aria-hidden="true"></i>
+                    <i class="icon-languages" aria-hidden="true"></i>
                     <span class="visually-hidden">My English</span>
                     <select id="voiceEnglish">
                         {% for code, label in english_choices %}
@@ -89,7 +89,7 @@
                 <span class="cooking-voice-status" id="voiceStatus" aria-live="polite">Off</span>
 
                 <button type="button" class="cooking-toolbar-link" data-panel-toggle="voiceHelp" aria-expanded="false" aria-controls="voiceHelp" title="What can I say?">
-                    <i class="bi bi-chat-dots"></i>
+                    <i class="icon-message-circle"></i>
                     <span class="cooking-toolbar-link-text">What can I say?</span>
                 </button>
 
@@ -100,8 +100,8 @@
                         <span class="cooking-switch-text">Learning: <span id="learningState">{% if learning %}On{% else %}Off{% endif %}</span></span>
                     </label>
 
-                    <button type="button" class="cooking-toolbar-link icon-only" data-panel-toggle="learningInfo" aria-expanded="false" aria-controls="learningInfo" title="What's saved?">
-                        <i class="bi bi-info-circle"></i>
+                    <button type="button" class="cooking-toolbar-link is-is-icon-only" data-panel-toggle="learningInfo" aria-expanded="false" aria-controls="learningInfo" title="What's saved?">
+                        <i class="icon-info"></i>
                         <span class="visually-hidden">What's saved?</span>
                     </button>
                 </div>
@@ -190,7 +190,7 @@
                                 <small data-step-timer-label>{{ step.timer_minutes }} min timer{% if step.adjusted %} · adjusted{% endif %}</small>
                             </span>
 
-                            <i class="bi bi-check-circle-fill step-complete-icon"></i>
+                            <i class="icon-circle-check step-complete-icon"></i>
                         </button>
                     {% endfor %}
                 </div>
@@ -217,38 +217,38 @@
 
                     <div class="step-action-row" id="stepActionRow">
                         <button type="button" class="cooking-control-btn secondary" id="previousStepBtn">
-                            <i class="bi bi-arrow-left"></i>
+                            <i class="icon-arrow-left"></i>
                             Previous
                         </button>
 
                         <button type="button" class="cooking-control-btn complete" id="completeStepBtn">
-                            <i class="bi bi-check2-circle"></i>
+                            <i class="icon-circle-check"></i>
                             Mark as Completed
                         </button>
 
                         <button type="button" class="cooking-control-btn primary" id="nextStepBtn">
                             Next
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="icon-arrow-right"></i>
                         </button>
                     </div>
 
                     <div class="step-trouble" id="stepTrouble" data-learning-only {% if not learning %}hidden{% endif %}>
                         <button type="button" class="step-trouble-toggle" id="troubleToggleBtn" aria-expanded="false" aria-controls="troubleChoices">
-                            <i class="bi bi-question-circle"></i>
+                            <i class="icon-circle-help"></i>
                             Having trouble with this step?
                         </button>
 
                         <div class="step-trouble-choices" id="troubleChoices" hidden>
                             <button type="button" data-trouble="longer" aria-pressed="false">
-                                <i class="bi bi-hourglass-split"></i>
+                                <i class="icon-hourglass"></i>
                                 Taking longer
                             </button>
                             <button type="button" data-trouble="unclear" aria-pressed="false">
-                                <i class="bi bi-chat-square-text"></i>
+                                <i class="icon-message-square-text"></i>
                                 Instructions unclear
                             </button>
                             <button type="button" data-trouble="technique" aria-pressed="false">
-                                <i class="bi bi-hand-index-thumb"></i>
+                                <i class="icon-pointer"></i>
                                 Tricky technique
                             </button>
                         </div>
@@ -262,19 +262,19 @@
 
                         <div class="step-trouble-choices">
                             <button type="button" data-feedback="fine" aria-pressed="false">
-                                <i class="bi bi-hand-thumbs-up"></i>
+                                <i class="icon-thumbs-up"></i>
                                 Went fine
                             </button>
                             <button type="button" data-feedback="longer" aria-pressed="false">
-                                <i class="bi bi-hourglass-split"></i>
+                                <i class="icon-hourglass"></i>
                                 Took longer
                             </button>
                             <button type="button" data-feedback="unclear" aria-pressed="false">
-                                <i class="bi bi-chat-square-text"></i>
+                                <i class="icon-message-square-text"></i>
                                 Instructions unclear
                             </button>
                             <button type="button" data-feedback="technique" aria-pressed="false">
-                                <i class="bi bi-hand-index-thumb"></i>
+                                <i class="icon-pointer"></i>
                                 Tricky technique
                             </button>
                         </div>
@@ -286,7 +286,7 @@
 
                             <button type="button" class="cooking-control-btn primary" id="feedbackNextBtn">
                                 Next step
-                                <i class="bi bi-arrow-right"></i>
+                                <i class="icon-arrow-right"></i>
                             </button>
                         </div>
 
@@ -299,7 +299,7 @@
             <aside class="cooking-timer-card">
                 <div class="timer-header">
                     <span>
-                        <i class="bi bi-stopwatch-fill"></i>
+                        <i class="icon-timer"></i>
                         Step timer
                     </span>
                 </div>
@@ -311,24 +311,24 @@
 
                 <div class="timer-controls">
                     <button type="button" class="timer-btn start" id="startTimerBtn">
-                        <i class="bi bi-play-fill"></i>
+                        <i class="icon-play"></i>
                         Start
                     </button>
 
                     <button type="button" class="timer-btn pause" id="pauseTimerBtn">
-                        <i class="bi bi-pause-fill"></i>
+                        <i class="icon-pause"></i>
                         Pause
                     </button>
 
                     <button type="button" class="timer-btn reset" id="resetTimerBtn">
-                        <i class="bi bi-arrow-counterclockwise"></i>
+                        <i class="icon-rotate-ccw"></i>
                         Reset
                     </button>
                 </div>
 
                 {% if timer_adjustment %}
                     <div class="timer-adjusted" id="timerAdjusted">
-                        <span><i class="bi bi-person-check"></i> Adjusted for you</span>
+                        <span><i class="icon-user-check"></i> Adjusted for you</span>
                         <p>
                             You usually take about {{ timer_adjustment.percent }}% {% if timer_adjustment.longer %}longer{% else %}less time{% endif %}
                             than recipe times{% if timer_adjustment.source == "steps" %} (from {{ timer_adjustment.count }} timed steps){% else %} (from {{ timer_adjustment.count }} finished dishes){% endif %},
@@ -342,7 +342,7 @@
                 {% endif %}
 
                 <div class="timer-tip">
-                    <i class="bi bi-lightbulb"></i>
+                    <i class="icon-lightbulb"></i>
                     <p>
                         A running timer keeps going when you move to the next step, so you can prepare ahead.
                     </p>
@@ -353,7 +353,7 @@
         <div class="cooking-finish-card" id="cookingFinishCard">
             <div>
                 <span>
-                    <i class="bi bi-trophy-fill"></i>
+                    <i class="icon-trophy"></i>
                     Cooking Complete
                 </span>
 
@@ -371,15 +371,15 @@
 
                     <div class="cooking-outcome-buttons">
                         <button type="button" data-outcome="great" aria-pressed="false">
-                            <i class="bi bi-emoji-smile"></i>
+                            <i class="icon-smile"></i>
                             Turned out great
                         </button>
                         <button type="button" data-outcome="ok" aria-pressed="false">
-                            <i class="bi bi-emoji-neutral"></i>
+                            <i class="icon-meh"></i>
                             It was OK
                         </button>
                         <button type="button" data-outcome="bad" aria-pressed="false">
-                            <i class="bi bi-emoji-frown"></i>
+                            <i class="icon-frown"></i>
                             Didn't go well
                         </button>
                     </div>
@@ -389,7 +389,7 @@
             </div>
 
             <a href="{% url 'saved_recipe_detail' recipe.id %}" class="cooking-finish-btn">
-                <i class="bi bi-star"></i>
+                <i class="icon-star"></i>
                 Review recipe
             </a>
         </div>
@@ -404,7 +404,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/cooking_voice_commands.js' %}?v=voice-4"></script>
-<script src="{% static 'js/cooking_mode.js' %}?v=cooking-adjust-1"></script>
-<script src="{% static 'js/cooking_voice.js' %}?v=voice-4"></script>
+<script src="{% static 'js/cooking_voice_commands.js' %}?v=voice-4-g1"></script>
+<script src="{% static 'js/cooking_mode.js' %}?v=cooking-adjust-1-g1"></script>
+<script src="{% static 'js/cooking_voice.js' %}?v=voice-4-g1"></script>
 {% endblock %}
