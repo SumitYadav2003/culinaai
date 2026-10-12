@@ -34,35 +34,51 @@ def clean_text(value):
     return str(value).strip().lower()
 
 
+# Words that describe amounts, sizes or preparation rather than the food itself.
+NOT_FOOD_WORDS = {
+    "g", "gram", "grams", "kg", "ml", "l", "litre", "litres", "cup", "cups",
+    "tbsp", "tablespoon", "tablespoons", "tsp", "teaspoon", "teaspoons",
+    "oz", "lb", "pinch", "handful", "piece", "pieces", "pack", "packet",
+    "can", "cans", "tin", "tins", "clove", "cloves", "slice", "slices",
+    "small", "medium", "large", "fresh", "chopped", "diced", "sliced", "minced",
+    "grated", "crushed", "cubed", "peeled", "finely", "roughly", "optional",
+    "about", "of", "to", "taste",
+}
+
+
+def ingredient_name(item):
+    """
+    The food in one ingredient line: "2 tbsp fresh coriander, chopped" -> "coriander".
+    """
+    text = str(item).split(",")[0]
+    text = re.sub(r"\(.*?\)", " ", text).lower()
+    text = re.sub(r"[\d½¼¾⅓⅔/.\-–]+", " ", text)
+    words = [word for word in re.findall(r"[a-z']+", text) if word not in NOT_FOOD_WORDS]
+    return " ".join(words).strip()
+
+
 def split_ingredients(ingredients_text):
     """
-    Splits recipe ingredient text into clean ingredient names.
+    Splits recipe ingredient text into food names.
+
+    A list with one ingredient per line is read line by line, so "1 aubergine,
+    cubed" stays one ingredient; a single line is split at the commas
+    ("chicken, rice, onion"). Amounts, sizes and preparation words are dropped.
     """
 
     if not ingredients_text:
         return []
 
-    text = str(ingredients_text)
-
-    separators = ["\n", ",", ";", "|"]
-
-    for separator in separators:
-        text = text.replace(separator, ",")
+    lines = [line for line in str(ingredients_text).splitlines() if line.strip()]
+    if len(lines) <= 1:
+        lines = re.split(r"[,;|]", str(ingredients_text))
 
     ingredients = []
-
-    for item in text.split(","):
-        clean_item = item.strip()
-
-        if not clean_item:
-            continue
-
-        clean_item = re.sub(r"^[\-\*\•]\s*", "", clean_item)
-        clean_item = re.sub(r"^\d+[\.\)]\s*", "", clean_item)
-        clean_item = clean_item.strip()
-
-        if clean_item:
-            ingredients.append(clean_item)
+    for line in lines:
+        line = re.sub(r"^\s*([\-\*\•]|\d+[\.\)])\s+", "", line)
+        name = ingredient_name(line)
+        if name:
+            ingredients.append(name)
 
     return ingredients
 
@@ -211,7 +227,7 @@ def build_user_analytics_context(user):
             cooking_times.append(history_item.cooking_time_minutes)
 
         for ingredient in split_ingredients(history_item.ingredients_text):
-            ingredient_counter[ingredient.title()] += 1
+            ingredient_counter[ingredient.capitalize()] += 1
 
     for recipe in saved_recipes:
         if recipe.cuisine:
@@ -221,7 +237,7 @@ def build_user_analytics_context(user):
             cooking_times.append(recipe.cooking_time_minutes)
 
         for ingredient in split_ingredients(recipe.ingredients_text):
-            ingredient_counter[ingredient.title()] += 1
+            ingredient_counter[ingredient.capitalize()] += 1
 
     for favourite in favourite_recipes:
         recipe = favourite.recipe
@@ -230,7 +246,7 @@ def build_user_analytics_context(user):
             cuisine_counter[recipe.cuisine.name] += 2
 
         for ingredient in split_ingredients(recipe.ingredients_text):
-            ingredient_counter[ingredient.title()] += 2
+            ingredient_counter[ingredient.capitalize()] += 2
 
     favourite_cuisine = get_top_counter_label(cuisine_counter)
 

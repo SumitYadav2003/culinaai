@@ -1,239 +1,99 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | Recipe History{% endblock %}
+{% block title %}History | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-1">
+{% endblock %}
 
 {% block content %}
 
-<section class="history-page-section">
+<section class="rl-page">
     <div class="container">
 
-        <!-- History Hero -->
-        <div class="history-hero-card">
-            <div class="history-hero-content">
-                <span class="history-eyebrow">
-                    <i class="icon-history"></i>
-                    Automatic Recipe History
-                </span>
-
-                <h1>
-                    Every AI recipe you generate,
-                    <span>saved automatically.</span>
-                </h1>
-
+        <header class="rl-head">
+            <div>
+                <h1>History</h1>
                 <p>
-                    CulinaAI keeps a private history of your generated recipes, even when
-                    you do not manually save them. This helps you revisit ideas, save
-                    recipes later, and supports future personalisation features.
+                    Every recipe you make is kept here, even if you didn't save it.
+                    {% if total_history_count %}{{ total_history_count }} so far{% if saved_from_history_count %}, {{ saved_from_history_count }} saved{% endif %}.{% endif %}
                 </p>
-
-                <div class="history-hero-actions">
-                    <a href="{% url 'generate_recipe' %}" class="btn history-primary-btn">
-                        <i class="icon-chef-hat"></i>
-                        Generate New Recipe
-                    </a>
-
-                    <a href="{% url 'dashboard' %}" class="btn history-secondary-btn">
-                        <i class="icon-layout-dashboard"></i>
-                        Back to Dashboard
-                    </a>
-                </div>
             </div>
-        </div>
+            <a href="{% url 'generate_recipe' %}" class="site-btn site-btn-primary">
+                <i class="icon-plus" aria-hidden="true"></i> New recipe
+            </a>
+        </header>
 
-        <!-- History Stats -->
-        <div class="history-stats-grid">
-            <div class="history-stat-card">
-                <div class="history-stat-icon">
-                    <i class="icon-book-open-text"></i>
-                </div>
-
-                <div>
-                    <span>Total History</span>
-                    <strong>{{ total_history_count|default:"0" }}</strong>
-                    <p>AI recipes generated and stored automatically.</p>
-                </div>
+        <form method="get" action="{% url 'recipe_history' %}" class="rl-filters" role="search">
+            <label class="visually-hidden" for="history-search">Search your history</label>
+            <div class="rl-search">
+                <i class="icon-search" aria-hidden="true"></i>
+                <input type="search" id="history-search" name="q" value="{{ search_query }}" placeholder="Search by name or ingredient">
             </div>
 
-            <div class="history-stat-card">
-                <div class="history-stat-icon">
-                    <i class="icon-bookmark"></i>
-                </div>
+            <label class="visually-hidden" for="history-cuisine">Cuisine</label>
+            <select id="history-cuisine" name="cuisine">
+                <option value="">Any cuisine</option>
+                {% for cuisine in cuisine_options %}
+                    <option value="{{ cuisine }}" {% if cuisine_filter == cuisine %}selected{% endif %}>{{ cuisine }}</option>
+                {% endfor %}
+            </select>
 
-                <div>
-                    <span>Saved Later</span>
-                    <strong>{{ saved_from_history_count|default:"0" }}</strong>
-                    <p>History recipes saved into your recipe library.</p>
-                </div>
-            </div>
-        </div>
+            <label class="visually-hidden" for="history-difficulty">Difficulty</label>
+            <select id="history-difficulty" name="difficulty">
+                <option value="">Any difficulty</option>
+                {% for value, label in difficulty_choices %}
+                    <option value="{{ value }}" {% if difficulty_filter == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
 
-        <!-- Search and Filters -->
-        <form method="get" class="history-filter-card">
-            <div class="row g-3 align-items-end">
-                <div class="col-lg-5">
-                    <label for="history-search">Search history</label>
-                    <input
-                        type="text"
-                        id="history-search"
-                        name="q"
-                        class="form-control"
-                        placeholder="Search by title, ingredient, cuisine or meal type"
-                        value="{{ search_query }}"
-                    >
-                </div>
-
-                <div class="col-lg-3">
-                    <label for="history-cuisine">Cuisine</label>
-                    <select id="history-cuisine" name="cuisine" class="form-select">
-                        <option value="">All cuisines</option>
-
-                        {% for cuisine in cuisine_options %}
-                            <option value="{{ cuisine }}" {% if cuisine_filter == cuisine %}selected{% endif %}>
-                                {{ cuisine }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-2">
-                    <label for="history-difficulty">Difficulty</label>
-                    <select id="history-difficulty" name="difficulty" class="form-select">
-                        <option value="">All levels</option>
-
-                        {% for value, label in difficulty_choices %}
-                            <option value="{{ value }}" {% if difficulty_filter == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="history-filter-actions">
-                        <button type="submit" class="btn history-primary-btn">
-                            <i class="icon-search"></i>
-                            Filter
-                        </button>
-
-                        <a href="{% url 'recipe_history' %}" class="btn history-secondary-btn">
-                            <i class="icon-rotate-ccw"></i>
-                            Reset
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <button type="submit" class="site-btn site-btn-secondary">Search</button>
+            {% if search_query or cuisine_filter or difficulty_filter %}
+                <a href="{% url 'recipe_history' %}" class="rl-clear">Clear</a>
+            {% endif %}
         </form>
 
-        <!-- History Cards -->
         {% if history_items %}
-            <div class="history-list-grid">
-                {% for history_item in history_items %}
-                    <article class="history-card">
-
-                        <div class="history-card-image">
-                            {% if history_item.generated_image %}
-                                <img
-                                    src="{{ history_item.generated_image.url }}"
-                                    alt="{{ history_item.title }}"
-                                >
-                            {% endif %}
-
-                            <span class="history-card-date">
-                                {{ history_item.created_at|date:"d M Y" }}
+            <ul class="rl-grid">
+                {% for item in history_items %}
+                    <li>
+                        <a class="rl-card" href="{% url 'recipe_history_detail' item.id %}">
+                            <span class="rl-image">
+                                {% if item.generated_image %}
+                                    <img src="{{ item.generated_image.url }}" alt="" loading="lazy">
+                                {% else %}
+                                    <i class="icon-cooking-pot" aria-hidden="true"></i>
+                                {% endif %}
                             </span>
-
-                            {% if history_item.saved_recipe %}
-                                <span class="history-card-badge">
-                                    <i class="icon-circle-check"></i>
-                                    Saved to Library
+                            <span class="rl-body">
+                                <span class="rl-title">{{ item.title }}</span>
+                                <span class="rl-meta">
+                                    <span><i class="icon-clock" aria-hidden="true"></i> {{ item.cooking_time_minutes }} min</span>
+                                    <span>{{ item.difficulty|title }}</span>
+                                    {% if item.cuisine_name and item.cuisine_name != "Any cuisine" %}<span>{{ item.cuisine_name }}</span>{% endif %}
                                 </span>
-                            {% else %}
-                                <span class="history-card-badge">
-                                    <i class="icon-history"></i>
-                                    Auto History
+                                <span class="rl-tags">
+                                    {% if item.saved_recipe_id %}<span class="rl-tag rl-tag-shared">Saved</span>{% endif %}
+                                    <span class="rl-date">{{ item.created_at|date:"j M Y" }}</span>
                                 </span>
-                            {% endif %}
-                        </div>
-
-                        <div class="history-card-body">
-                            <h3>{{ history_item.title }}</h3>
-
-                            <p>
-                                {{ history_item.recipe_text|truncatechars:135 }}
-                            </p>
-
-                            <div class="history-meta-list">
-                                <span>
-                                    <i class="icon-shopping-basket"></i>
-                                    {{ history_item.ingredients_text|truncatechars:28 }}
-                                </span>
-
-                                <span>
-                                    <i class="icon-globe"></i>
-                                    {{ history_item.cuisine_name|default:"Any cuisine" }}
-                                </span>
-
-                                <span>
-                                    <i class="icon-egg-fried"></i>
-                                    {{ history_item.meal_type_name|default:"Any meal type" }}
-                                </span>
-
-                                <span>
-                                    <i class="icon-clock"></i>
-                                    {{ history_item.cooking_time_minutes }} min
-                                </span>
-
-                                <span>
-                                    <i class="icon-chart-column"></i>
-                                    {{ history_item.difficulty|title }}
-                                </span>
-
-                                {% if history_item.servings %}
-                                    <span>
-                                        <i class="icon-users"></i>
-                                        Serves {{ history_item.servings }}
-                                    </span>
-                                {% endif %}
-                            </div>
-
-                            <div class="history-card-actions">
-                                <a
-                                    href="{% url 'recipe_history_detail' history_item.id %}"
-                                    class="history-view-link"
-                                >
-                                    View Full History Recipe
-                                    <i class="icon-arrow-right"></i>
-                                </a>
-
-                                {% if history_item.saved_recipe %}
-                                    <div class="history-saved-pill">
-                                        <i class="icon-bookmark-check"></i>
-                                        Already saved
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </article>
+                            </span>
+                        </a>
+                    </li>
                 {% endfor %}
+            </ul>
+        {% elif search_query or cuisine_filter or difficulty_filter %}
+            <div class="rl-empty">
+                <h2>Nothing matches</h2>
+                <p>Try a different word, or clear the filters.</p>
+                <a href="{% url 'recipe_history' %}" class="site-btn site-btn-secondary">Clear filters</a>
             </div>
         {% else %}
-            <div class="history-empty-state">
-                <div class="history-empty-icon">
-                    <i class="icon-history"></i>
-                </div>
-
-                <h2>No recipe history yet</h2>
-
-                <p>
-                    Generate your first AI recipe and CulinaAI will automatically store it
-                    here, even before you save it to your recipe library.
-                </p>
-
-                <a href="{% url 'generate_recipe' %}" class="btn history-primary-btn">
-                    <i class="icon-chef-hat"></i>
-                    Generate First Recipe
-                </a>
+            <div class="rl-empty">
+                <i class="icon-history" aria-hidden="true"></i>
+                <h2>No recipes yet</h2>
+                <p>Recipes you make show up here automatically.</p>
+                <a href="{% url 'generate_recipe' %}" class="site-btn site-btn-primary">Make a recipe</a>
             </div>
         {% endif %}
 

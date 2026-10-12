@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | Cooking Mode{% endblock %}
+{% block title %}Cooking: {{ recipe.title }} | CulinaAI{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/cooking_mode.css' %}?v=cooking-adjust-1-g2">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-1">
 {% endblock %}
 
 {% block content %}
@@ -171,8 +172,7 @@
             <!-- Step Sidebar -->
             <aside class="cooking-step-sidebar">
                 <div class="sidebar-header">
-                    <span>Recipe Steps</span>
-                    <h2>Step checklist</h2>
+                    <h2>Steps</h2>
                 </div>
 
                 <div class="cooking-step-list" id="cookingStepList">

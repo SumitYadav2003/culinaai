@@ -1,0 +1,31 @@
+{# One item in the pantry list (recipes/pantry_list.html). #}
+<li class="pt-item{% if not item.is_available %} pt-used{% endif %}">
+                                <div class="pt-item-text">
+                                    <strong>{{ item.ingredient_name }}</strong>
+                                    <small>
+                                        {% if item.quantity %}{{ item.quantity|floatformat:"-2" }}{% if item.unit == "pcs" or item.unit == "other" %}{% elif item.unit == "pack" %} pack{{ item.quantity|pluralize }}{% else %} {{ item.unit }}{% endif %} · {% endif %}{{ item.get_category_display }}
+                                        {% if item.expiry_date %} · use by {{ item.expiry_date|date:"j M Y" }}{% endif %}
+                                        {% if not item.is_available %} · used up{% endif %}
+                                    </small>
+                                    {% if item.notes %}<small class="pt-notes">{{ item.notes }}</small>{% endif %}
+                                </div>
+                                {% if item.is_available %}
+                                    {% if item.expiry_status == "Expired" %}
+                                        <span class="pt-status pt-status-expired">Past its date</span>
+                                    {% elif item.expiry_status == "Expires today" %}
+                                        <span class="pt-status pt-status-soon">Today</span>
+                                    {% elif item.expiry_status == "Expiring soon" %}
+                                        <span class="pt-status pt-status-soon">Soon</span>
+                                    {% elif item.expiry_status == "Fresh" %}
+                                        <span class="pt-status pt-status-fresh">Fresh</span>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="pt-item-actions">
+                                    <button type="button" class="pt-icon-btn" data-bs-toggle="modal" data-bs-target="#editPantryItemModal{{ item.id }}" title="Edit">
+                                        <i class="icon-pencil" aria-hidden="true"></i><span class="visually-hidden">Edit {{ item.ingredient_name }}</span>
+                                    </button>
+                                    <button type="button" class="pt-icon-btn pt-icon-danger" data-bs-toggle="modal" data-bs-target="#deletePantryItemModal{{ item.id }}" title="Delete">
+                                        <i class="icon-trash-2" aria-hidden="true"></i><span class="visually-hidden">Delete {{ item.ingredient_name }}</span>
+                                    </button>
+                                </div>
+                            </li>

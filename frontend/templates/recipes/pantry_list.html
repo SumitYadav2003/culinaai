@@ -1,872 +1,276 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}CulinaAI | Smart Pantry{% endblock %}
+{% block title %}Pantry | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-1">
+{% endblock %}
 
 {% block content %}
-<section class="pantry-page-section">
-  <div class="container">
 
-    <!-- Hero Section -->
-    <div class="pantry-hero-card">
-      <div>
-        <p class="pantry-eyebrow">Smart Pantry</p>
-        <h1>Track Your Ingredients</h1>
-        <p>
-          Add ingredients you already have, track expiry dates, and use them
-          for smarter recipe recommendations.
-        </p>
-      </div>
+<section class="ap-page">
+    <div class="container">
 
-      <div class="pantry-hero-actions">
-          <a href="{% url 'dashboard' %}" class="pantry-secondary-btn">
-            <i class="icon-layout-dashboard"></i>
-            Dashboard
-          </a>
-
-          <a href="{% url 'fridge_scan_upload' %}" class="pantry-secondary-btn">
-            <i class="icon-camera"></i>
-            AI Fridge Scanner
-          </a>
-
-            <a href="{% url 'generate_recipe' %}?from_pantry=1" class="pantry-primary-btn">
-              <i class="icon-shopping-basket"></i>
-              Generate from Pantry
-            </a>
-    </div>  
-    </div>
-
-    <!-- Stats -->
-    <div class="pantry-stats-grid">
-      <div class="pantry-stat-card">
-        <span class="pantry-stat-icon">
-          <i class="icon-package"></i>
-        </span>
-        <div>
-          <h3>{{ total_items }}</h3>
-          <p>Total Items</p>
-        </div>
-      </div>
-
-      <div class="pantry-stat-card">
-        <span class="pantry-stat-icon">
-          <i class="icon-circle-check"></i>
-        </span>
-        <div>
-          <h3>{{ available_items_count }}</h3>
-          <p>Available</p>
-        </div>
-      </div>
-
-      <div class="pantry-stat-card pantry-warning-stat">
-        <span class="pantry-stat-icon">
-          <i class="icon-triangle-alert"></i>
-        </span>
-        <div>
-          <h3>{{ expiring_soon_count }}</h3>
-          <p>Expiring Soon</p>
-        </div>
-      </div>
-
-      <div class="pantry-stat-card pantry-danger-stat">
-        <span class="pantry-stat-icon">
-          <i class="icon-circle-x"></i>
-        </span>
-        <div>
-          <h3>{{ expired_items_count }}</h3>
-          <p>Expired</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Smart Expiry Alert -->
-    {% if expired_items or expiring_soon_items or priority_pantry_items %}
-      <div class="pantry-alert-card">
-        <div class="pantry-alert-header">
-          <div class="pantry-alert-icon">
-            <i class="icon-lightbulb"></i>
-          </div>
-
-          <div>
-            <p class="pantry-alert-label">Smart Pantry Insight</p>
-            <h2>Use These Ingredients First</h2>
-            <p>
-              CulinaAI checks your pantry expiry dates and highlights ingredients that need attention.
-              Expired ingredients are shown as warnings and excluded from recipe generation.
-            </p>
-          </div>
-        </div>
-
-        <div class="pantry-alert-grid">
-
-          <div class="pantry-alert-panel pantry-alert-danger-panel">
-            <h3>
-              <i class="icon-circle-x"></i>
-              Expired Items
-            </h3>
-
-            {% if expired_items %}
-              <ul>
-                {% for item in expired_items %}
-                  <li>
-                    <strong>{{ item.ingredient_name }}</strong>
-                    <span>Expired on {{ item.expiry_date|date:"d M Y" }}</span>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <p class="pantry-alert-empty">No expired items.</p>
-            {% endif %}
-          </div>
-
-          <div class="pantry-alert-panel pantry-alert-warning-panel">
-            <h3>
-              <i class="icon-triangle-alert"></i>
-              Expiring Soon
-            </h3>
-
-            {% if expiring_soon_items %}
-              <ul>
-                {% for item in expiring_soon_items %}
-                  <li>
-                    <strong>{{ item.ingredient_name }}</strong>
-                    <span>
-                      {% if item.days_until_expiry == 0 %}
-                        Expires today
-                      {% else %}
-                        Expires in {{ item.days_until_expiry }} day{{ item.days_until_expiry|pluralize }}
-                      {% endif %}
-                    </span>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <p class="pantry-alert-empty">No items expiring soon.</p>
-            {% endif %}
-          </div>
-
-          <div class="pantry-alert-panel pantry-alert-priority-panel">
-            <h3>
-              <i class="icon-utensils"></i>
-              Priority Ingredients
-            </h3>
-
-            {% if priority_pantry_items %}
-              <ul>
-                {% for item in priority_pantry_items %}
-                  <li>
-                    <strong>{{ item.ingredient_name }}</strong>
-                    <span>{{ item.expiry_status }}</span>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <p class="pantry-alert-empty">Add expiry dates to get priority suggestions.</p>
-            {% endif %}
-          </div>
-
-        </div>
-
-        {% if expiring_soon_items or priority_pantry_items %}
-          <div class="pantry-alert-action-row">
-            <a href="{% url 'generate_recipe' %}?from_pantry=1" class="pantry-primary-btn">
-              <i class="icon-shopping-basket"></i>
-              Generate Using Pantry Items
-            </a>
-          </div>
-        {% endif %}
-      </div>
-    {% endif %}
-
-    <!-- Personalised Recommendations -->
-    {% if personalised_recommendations %}
-      <div class="pantry-recommendation-card">
-        <div class="pantry-recommendation-header">
-          <div class="pantry-recommendation-icon">
-            <i class="icon-chef-hat"></i>
-          </div>
-
-          <div>
-            <p class="pantry-recommendation-label">Personalised Recommendation Engine</p>
-            <h2>Recommended for You</h2>
-            <p>
-              CulinaAI suggests recipe ideas using your pantry, expiry dates, saved recipes,
-              favourites and previous recipe history.
-            </p>
-          </div>
-        </div>
-
-        <div class="pantry-recommendation-grid">
-          {% for recommendation in personalised_recommendations %}
-            <div class="pantry-recommendation-item">
-              <div class="pantry-recommendation-top">
-                <span class="pantry-recommendation-badge">
-                  {{ recommendation.badge }}
-                </span>
-
-                <span class="pantry-recommendation-score">
-                  {{ recommendation.score }}%
-                </span>
-              </div>
-
-              <h3>{{ recommendation.title }}</h3>
-
-              <p class="pantry-recommendation-reason">
-                {{ recommendation.reason }}
-              </p>
-
-              {% if recommendation.ingredients %}
-                <div class="pantry-recommendation-ingredients">
-                  <i class="icon-shopping-basket"></i>
-                  <span>{{ recommendation.ingredients }}</span>
-                </div>
-              {% endif %}
-
-              <div class="pantry-recommendation-meta">
-                <span>
-                  <i class="icon-settings"></i>
-                  {{ recommendation.source }}
-                </span>
-
-                {% if recommendation.difficulty %}
-                  <span>
-                    <i class="icon-layout-dashboard"></i>
-                    {{ recommendation.difficulty|title }}
-                  </span>
+        <header class="ap-head">
+            <div>
+                <h1>Pantry</h1>
+                <p>
+                    {% if total_items %}
+                        {{ available_items_count }} item{{ available_items_count|pluralize }} in your pantry{% if expiring_soon_count %} · {{ expiring_soon_count }} going out of date soon{% endif %}{% if expired_items_count %} · {{ expired_items_count }} past {{ expired_items_count|pluralize:"its,their" }} date{% endif %}.
+                    {% else %}
+                        Keep a list of what's in your kitchen, then make a recipe from it.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="ap-head-actions">
+                {% if available_items_count %}
+                    <a href="{% url 'generate_recipe' %}?from_pantry=1" class="site-btn site-btn-primary">Make a recipe from my pantry</a>
                 {% endif %}
-              </div>
-
-             <div class="pantry-recommendation-actions">
-  {% if recommendation.query %}
-    <a
-      href="{% url 'generate_recipe' %}?recommendation={{ recommendation.query|urlencode }}"
-      class="pantry-primary-btn pantry-recommendation-btn"
-    >
-      <i class="icon-utensils"></i>
-      Generate This Recipe
-    </a>
-  {% else %}
-    <a
-      href="{% url 'generate_recipe' %}?from_pantry=1"
-      class="pantry-primary-btn pantry-recommendation-btn"
-    >
-      <i class="icon-shopping-basket"></i>
-      Generate This Recipe
-    </a>
-  {% endif %}
-</div>
+                <a href="{% url 'fridge_scan_upload' %}" class="site-btn site-btn-secondary">
+                    <i class="icon-camera" aria-hidden="true"></i> Scan my fridge
+                </a>
             </div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endif %}
+        </header>
 
-    <!-- Bulk Add Pantry Items -->
-    <div class="pantry-bulk-card">
-      <div class="pantry-bulk-header">
-        <div class="pantry-bulk-icon">
-          <i class="icon-list-checks"></i>
-        </div>
-
-        <div>
-          <p class="pantry-bulk-label">Quick Pantry Entry</p>
-          <h2>Bulk Add Pantry Items</h2>
-          <p>
-            Add multiple ingredients at once. Use one ingredient per row so each item has
-            its own quantity, unit, category and expiry date.
-          </p>
-        </div>
-      </div>
-
-      <form method="post" class="pantry-bulk-form">
-        {% csrf_token %}
-        <input type="hidden" name="pantry_action" value="bulk_add">
-
-        <div class="pantry-bulk-help">
-          <i class="icon-info"></i>
-          Example: Rice in one row, Paneer in another row, Salt in another row.
-          Do not write “rice, paneer, salt” in one ingredient box.
-        </div>
-
-
-        <div class="pantry-bulk-table">
-          <div class="pantry-bulk-row pantry-bulk-heading">
-            <div>Ingredient</div>
-            <div>Quantity</div>
-            <div>Unit</div>
-            <div>Category</div>
-            <div>Expiry Date</div>
-            <div>Notes</div>
-            <div></div>
-          </div>
-
-          <div id="bulkPantryRows">
-            <div class="pantry-bulk-row pantry-bulk-input-row">
-              <div>
-                <input
-                  type="text"
-                  name="bulk_ingredient_name"
-                  class="form-control"
-                  placeholder="Rice"
-                >
-              </div>
-
-              <div>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  name="bulk_quantity"
-                  class="form-control"
-                  placeholder="1"
-                >
-              </div>
-
-              <div>
-                <select name="bulk_unit" class="form-select">
-                  <option value="g">grams</option>
-                  <option value="kg">kilograms</option>
-                  <option value="ml">millilitres</option>
-                  <option value="l">litres</option>
-                  <option value="pcs">pieces</option>
-                  <option value="tbsp">tablespoon</option>
-                  <option value="tsp">teaspoon</option>
-                  <option value="pack">pack</option>
-                  <option value="other">other</option>
-                </select>
-              </div>
-
-              <div>
-                <select name="bulk_category" class="form-select">
-                  <option value="other">Other</option>
-                  <option value="vegetable">Vegetable</option>
-                  <option value="fruit">Fruit</option>
-                  <option value="dairy">Dairy</option>
-                  <option value="grain">Grain</option>
-                  <option value="protein">Protein</option>
-                  <option value="spice">Spice</option>
-                  <option value="sauce">Sauce</option>
-                  <option value="frozen">Frozen</option>
-                </select>
-              </div>
-
-              <div>
-                <input
-                  type="date"
-                  name="bulk_expiry_date"
-                  class="form-control"
-                >
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  name="bulk_notes"
-                  class="form-control"
-                  placeholder="Optional"
-                >
-              </div>
-
-              <div>
-                <button
-                  type="button"
-                  class="pantry-bulk-remove-btn"
-                  onclick="removeBulkPantryRow(this)"
-                  aria-label="Remove row"
-                >
-                  <i class="icon-x"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pantry-bulk-actions">
-          <button
-            type="button"
-            class="pantry-secondary-btn"
-            onclick="addBulkPantryRow()"
-          >
-            <i class="icon-circle-plus"></i>
-            Add Another Row
-          </button>
-
-          <button type="submit" class="pantry-primary-btn">
-            <i class="icon-circle-check"></i>
-            Save Bulk Items
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div class="pantry-layout-grid">
-
-      <!-- Add Item Form -->
-      <div class="pantry-form-card">
-        <h2>Add Single Pantry Item</h2>
-        <p>
-          Use this form when you only want to add one ingredient.
-        </p>
-
-        <form method="post" novalidate>
-          {% csrf_token %}
-          <input type="hidden" name="pantry_action" value="single_add">
-
-          {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-              {% for error in form.non_field_errors %}
-                <div>{{ error }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.ingredient_name.id_for_label }}">
-              {{ form.ingredient_name.label }}
-            </label>
-            {{ form.ingredient_name }}
-            {% for error in form.ingredient_name.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label" for="{{ form.quantity.id_for_label }}">
-                {{ form.quantity.label }}
-              </label>
-              {{ form.quantity }}
-              {% for error in form.quantity.errors %}
-                <div class="text-danger small mt-1">{{ error }}</div>
-              {% endfor %}
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label class="form-label" for="{{ form.unit.id_for_label }}">
-                {{ form.unit.label }}
-              </label>
-              {{ form.unit }}
-              {% for error in form.unit.errors %}
-                <div class="text-danger small mt-1">{{ error }}</div>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.category.id_for_label }}">
-              {{ form.category.label }}
-            </label>
-            {{ form.category }}
-            {% for error in form.category.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.expiry_date.id_for_label }}">
-              {{ form.expiry_date.label }}
-            </label>
-            {{ form.expiry_date }}
-            {% for error in form.expiry_date.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.notes.id_for_label }}">
-              {{ form.notes.label }}
-            </label>
-            {{ form.notes }}
-            {% for error in form.notes.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="form-check mb-4">
-            {{ form.is_available }}
-            <label class="form-check-label" for="{{ form.is_available.id_for_label }}">
-              {{ form.is_available.label }}
-            </label>
-          </div>
-
-          <button type="submit" class="pantry-primary-btn w-100">
-            <i class="icon-circle-plus"></i>
-            Add to Pantry
-          </button>
-        </form>
-      </div>
-
-      <!-- Pantry List -->
-      <div class="pantry-list-card">
-        <h2>Your Pantry Items</h2>
-        <p>
-          Ingredients are sorted by expiry date, so urgent items appear first.
-        </p>
-
-        {% if pantry_items %}
-
-          <!-- Pantry Item Cards -->
-          <div class="pantry-items-list">
-            {% for item in pantry_items %}
-              <div class="pantry-item-card">
-
-                <div class="pantry-item-main">
-                  <div>
-                    <h3>{{ item.ingredient_name }}</h3>
-                    <p>
-  {% if item.quantity %}
-    {{ item.quantity }} {{ item.get_unit_display }}
-  {% else %}
-    Quantity not specified
-  {% endif %}
-  · {{ item.get_category_display }}
-</p>
-                  </div>
-
-                  <span class="pantry-status-pill
-                    {% if item.expiry_status == 'Expired' %}
-                      pantry-status-expired
-                    {% elif item.expiry_status == 'Expires today' %}
-                      pantry-status-today
-                    {% elif item.expiry_status == 'Expiring soon' %}
-                      pantry-status-soon
-                    {% elif item.expiry_status == 'Fresh' %}
-                      pantry-status-fresh
-                    {% else %}
-                      pantry-status-none
-                    {% endif %}
-                  ">
-                    {{ item.expiry_status }}
-                  </span>
+        <!-- Add one item -->
+        <section class="ap-card pt-add" aria-labelledby="pt-add-title">
+            <h2 id="pt-add-title" class="visually-hidden">Add to your pantry</h2>
+            <form method="post" class="ap-form pt-add-form" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="pantry_action" value="single_add">
+                <input type="hidden" name="is_available" value="on">
+                <div class="pt-field pt-field-name">
+                    <label for="{{ form.ingredient_name.id_for_label }}">Ingredient</label>
+                    <input type="text" name="ingredient_name" id="{{ form.ingredient_name.id_for_label }}" maxlength="120" placeholder="e.g. rice" value="{{ form.ingredient_name.value|default_if_none:'' }}" required>
                 </div>
-
-                <div class="pantry-item-meta">
-                  <span>
-                    <i class="icon-calendar"></i>
-                    {% if item.expiry_date %}
-                      Expires: {{ item.expiry_date|date:"d M Y" }}
-                    {% else %}
-                      No expiry date
-                    {% endif %}
-                  </span>
-
-                  <span>
-                    <i class="icon-toggle-right"></i>
-                    {% if item.is_available %}
-                      Available
-                    {% else %}
-                      Not available
-                    {% endif %}
-                  </span>
+                <div class="pt-field">
+                    <label for="{{ form.quantity.id_for_label }}">Amount</label>
+                    <input type="number" name="quantity" id="{{ form.quantity.id_for_label }}" step="0.01" min="0" placeholder="Optional" value="{{ form.quantity.value|default_if_none:'' }}">
                 </div>
-
-                {% if item.notes %}
-                  <p class="pantry-item-notes">
-                    {{ item.notes }}
-                  </p>
-                {% endif %}
-
-                <div class="pantry-item-actions">
-                  <button
-                    type="button"
-                    class="pantry-edit-action"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editPantryItemModal{{ item.id }}"
-                  >
-                    <i class="icon-pencil"></i>
-                    Edit
-                  </button>
-
-                  <button
-                    type="button"
-                    class="pantry-delete-action"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deletePantryItemModal{{ item.id }}"
-                  >
-                    <i class="icon-trash-2"></i>
-                    Delete
-                  </button>
+                <div class="pt-field">
+                    <label for="{{ form.unit.id_for_label }}">Unit</label>
+                    {{ form.unit }}
                 </div>
-
-              </div>
+                <div class="pt-field">
+                    <label for="{{ form.category.id_for_label }}">Type</label>
+                    {{ form.category }}
+                </div>
+                <div class="pt-field">
+                    <label for="{{ form.expiry_date.id_for_label }}">Use by</label>
+                    <input type="date" name="expiry_date" id="{{ form.expiry_date.id_for_label }}" value="{{ form.expiry_date.value|default_if_none:'' }}">
+                </div>
+                <button type="submit" class="site-btn site-btn-primary pt-add-btn">Add</button>
+            </form>
+            {% for field in form %}
+                {% for error in field.errors %}<p class="ap-error">{{ field.label }}: {{ error }}</p>{% endfor %}
             {% endfor %}
-          </div>
+            {% for error in form.non_field_errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
 
-          <!-- Edit Modals kept outside cards to prevent flickering -->
-          {% for item in pantry_items %}
-            <div
-              class="modal fade pantry-edit-modal"
-              id="editPantryItemModal{{ item.id }}"
-              tabindex="-1"
-              aria-labelledby="editPantryItemModalLabel{{ item.id }}"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content pantry-edit-modal-content">
-                  <div class="modal-body">
-
-                    <div class="pantry-edit-modal-header">
-                      <div class="pantry-edit-modal-icon">
-                        <i class="icon-pencil"></i>
-                      </div>
-
-                      <div>
-                        <p class="pantry-edit-modal-label">Smart Pantry</p>
-                        <h2 id="editPantryItemModalLabel{{ item.id }}">
-                          Edit {{ item.ingredient_name }}
-                        </h2>
-                        <p>
-                          Update quantity, category, expiry date, availability, or notes.
-                        </p>
-                      </div>
-                    </div>
-
-                    <form method="post" action="{% url 'pantry_item_update' item.id %}">
-                      {% csrf_token %}
-
-                      <div class="mb-3">
-                        <label class="form-label">Ingredient name</label>
-                        <input
-                          type="text"
-                          name="ingredient_name"
-                          class="form-control"
-                          value="{{ item.ingredient_name }}"
-                          required
-                        />
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Quantity</label>
-                          <input
-                            type="number"
-                            name="quantity"
-                            class="form-control"
-                            value="{{ item.quantity|default_if_none:'' }}"
-                            step="0.01"
-                            min="0"
-                          />
+            <details class="pt-bulk">
+                <summary>Add several at once</summary>
+                <form method="post" class="ap-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pantry_action" value="bulk_add">
+                    <p class="ap-small">One ingredient per row. Empty rows are skipped.</p>
+                    <div id="bulkPantryRows">
+                        <div class="pt-bulk-row pantry-bulk-input-row">
+                            <input type="text" name="bulk_ingredient_name" placeholder="Ingredient" aria-label="Ingredient">
+                            <input type="number" step="0.01" min="0" name="bulk_quantity" placeholder="Amount" aria-label="Amount">
+                            <select name="bulk_unit" aria-label="Unit">
+                                {% for value, label in unit_choices %}<option value="{{ value }}"{% if value == "pcs" %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                            </select>
+                            <select name="bulk_category" aria-label="Type">
+                                {% for value, label in category_choices %}<option value="{{ value }}"{% if value == "other" %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                            </select>
+                            <input type="date" name="bulk_expiry_date" aria-label="Use by">
+                            <input type="hidden" name="bulk_notes" value="">
+                            <button type="button" class="pt-icon-btn" onclick="removeBulkPantryRow(this)" aria-label="Remove row">
+                                <i class="icon-x" aria-hidden="true"></i>
+                            </button>
                         </div>
-
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Unit</label>
-                          <select name="unit" class="form-select">
-                            <option value="g" {% if item.unit == "g" %}selected{% endif %}>grams</option>
-                            <option value="kg" {% if item.unit == "kg" %}selected{% endif %}>kilograms</option>
-                            <option value="ml" {% if item.unit == "ml" %}selected{% endif %}>millilitres</option>
-                            <option value="l" {% if item.unit == "l" %}selected{% endif %}>litres</option>
-                            <option value="pcs" {% if item.unit == "pcs" %}selected{% endif %}>pieces</option>
-                            <option value="tbsp" {% if item.unit == "tbsp" %}selected{% endif %}>tablespoons</option>
-                            <option value="tsp" {% if item.unit == "tsp" %}selected{% endif %}>teaspoons</option>
-                            <option value="pack" {% if item.unit == "pack" %}selected{% endif %}>pack</option>
-                            <option value="other" {% if item.unit == "other" %}selected{% endif %}>other</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="mb-3">
-                        <label class="form-label">Category</label>
-                        <select name="category" class="form-select">
-                          <option value="vegetable" {% if item.category == "vegetable" %}selected{% endif %}>Vegetable</option>
-                          <option value="fruit" {% if item.category == "fruit" %}selected{% endif %}>Fruit</option>
-                          <option value="dairy" {% if item.category == "dairy" %}selected{% endif %}>Dairy</option>
-                          <option value="grain" {% if item.category == "grain" %}selected{% endif %}>Grain / Rice / Pasta</option>
-                          <option value="protein" {% if item.category == "protein" %}selected{% endif %}>Protein</option>
-                          <option value="spice" {% if item.category == "spice" %}selected{% endif %}>Spice / Seasoning</option>
-                          <option value="sauce" {% if item.category == "sauce" %}selected{% endif %}>Sauce / Condiment</option>
-                          <option value="frozen" {% if item.category == "frozen" %}selected{% endif %}>Frozen</option>
-                          <option value="other" {% if item.category == "other" %}selected{% endif %}>Other</option>
-                        </select>
-                      </div>
-
-                      <div class="mb-3">
-                        <label class="form-label">Expiry date</label>
-                        <input
-                          type="date"
-                          name="expiry_date"
-                          class="form-control"
-                          value="{% if item.expiry_date %}{{ item.expiry_date|date:'Y-m-d' }}{% endif %}"
-                        />
-                      </div>
-
-                      <div class="mb-3">
-                        <label class="form-label">Notes</label>
-                        <textarea
-                          name="notes"
-                          class="form-control"
-                          rows="3"
-                        >{{ item.notes }}</textarea>
-                      </div>
-
-                      <div class="form-check mb-4">
-                        <input
-                          type="checkbox"
-                          name="is_available"
-                          class="form-check-input"
-                          id="editAvailable{{ item.id }}"
-                          {% if item.is_available %}checked{% endif %}
-                        />
-                        <label class="form-check-label" for="editAvailable{{ item.id }}">
-                          Currently available
-                        </label>
-                      </div>
-
-                      <div class="pantry-edit-modal-actions">
-                        <button type="submit" class="pantry-primary-btn">
-                          <i class="icon-circle-check"></i>
-                          Save Changes
-                        </button>
-
-                        <button
-                          type="button"
-                          class="pantry-secondary-light-btn"
-                          data-bs-dismiss="modal"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-
-          <!-- Delete Modals kept outside cards to prevent flickering -->
-          {% for item in pantry_items %}
-            <div
-              class="modal fade pantry-delete-modal"
-              id="deletePantryItemModal{{ item.id }}"
-              tabindex="-1"
-              aria-labelledby="deletePantryItemModalLabel{{ item.id }}"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content pantry-delete-modal-content">
-                  <div class="modal-body">
-
-                    <div class="pantry-delete-modal-icon">
-                      <i class="icon-trash-2"></i>
                     </div>
-
-                    <h2 id="deletePantryItemModalLabel{{ item.id }}">
-                      Delete {{ item.ingredient_name }}?
-                    </h2>
-
-                    <p>
-                      This ingredient will be permanently removed from your Smart Pantry.
-                      This action cannot be undone.
-                    </p>
-
-                    <div class="pantry-delete-modal-summary">
-                      <span>Quantity</span>
-                      <strong>
-  {% if item.quantity %}
-    {{ item.quantity }} {{ item.get_unit_display }}
-  {% else %}
-    Quantity not specified
-  {% endif %}
-</strong>
+                    <div class="ap-actions">
+                        <button type="button" class="site-btn site-btn-secondary" onclick="addBulkPantryRow()">Add another row</button>
+                        <button type="submit" class="site-btn site-btn-primary">Save all</button>
                     </div>
+                </form>
+            </details>
+        </section>
 
-                    <div class="pantry-delete-modal-summary">
-                      <span>Category</span>
-                      <strong>{{ item.get_category_display }}</strong>
-                    </div>
-
-                    <div class="pantry-delete-modal-summary">
-                      <span>Expiry Status</span>
-                      <strong>{{ item.expiry_status }}</strong>
-                    </div>
-
-                    <form method="post" action="{% url 'pantry_item_delete' item.id %}">
-                      {% csrf_token %}
-
-                      <div class="pantry-delete-modal-actions">
-                        <button type="submit" class="pantry-danger-action-btn">
-                          <i class="icon-trash-2"></i>
-                          Yes, Delete
-                        </button>
-
-                        <button
-                          type="button"
-                          class="pantry-secondary-light-btn"
-                          data-bs-dismiss="modal"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-
-        {% else %}
-          <div class="pantry-empty-state">
-            <i class="icon-shopping-basket"></i>
-            <h3>No pantry items yet</h3>
-            <p>
-              Add your first ingredient to start building your Smart Pantry.
-            </p>
-          </div>
+        {% if expired_items or expiring_soon_items %}
+            <!-- Use these first -->
+            <section class="pt-first" aria-labelledby="pt-first-title">
+                <h2 id="pt-first-title"><i class="icon-triangle-alert" aria-hidden="true"></i> Use these first</h2>
+                <ul>
+                    {% for item in expiring_soon_items %}
+                        <li><strong>{{ item.ingredient_name }}</strong> {% if item.days_until_expiry == 0 %}goes out of date today{% else %}in {{ item.days_until_expiry }} day{{ item.days_until_expiry|pluralize }}{% endif %}</li>
+                    {% endfor %}
+                    {% for item in expired_items %}
+                        <li class="pt-expired"><strong>{{ item.ingredient_name }}</strong> was due {{ item.expiry_date|date:"j M" }}, so it's left out of recipes</li>
+                    {% endfor %}
+                </ul>
+            </section>
         {% endif %}
 
-      </div>
+        <div class="ap-grid ap-grid-main pt-grid">
+            <!-- The pantry list -->
+            <section class="ap-card" aria-labelledby="pt-list-title">
+                <div class="ap-card-head">
+                    <h2 id="pt-list-title">In your pantry</h2>
+                    {% if pantry_items %}<span class="ap-small">Soonest use-by first</span>{% endif %}
+                </div>
+
+                {% if pantry_items %}
+                    <ul class="pt-list">
+                        {% for item in pantry_items %}{% if item.is_available %}
+                            {% include "recipes/partials/pantry_row.html" %}
+                        {% endif %}{% endfor %}
+                        {% for item in pantry_items %}{% if not item.is_available %}
+                            {% include "recipes/partials/pantry_row.html" %}
+                        {% endif %}{% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="ap-empty">
+                        <p>Your pantry is empty. Add what you have above, or scan your fridge to fill it in one go.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- Ideas -->
+            <section class="ap-card" aria-labelledby="pt-ideas-title">
+                <div class="ap-card-head">
+                    <h2 id="pt-ideas-title">Ideas from what you have</h2>
+                </div>
+                {% if personalised_recommendations %}
+                    <ul class="pt-ideas">
+                        {% for idea in personalised_recommendations|slice:":3" %}
+                            <li>
+                                <strong>{{ idea.title }}</strong>
+                                <p>{{ idea.reason }}</p>
+                                {% if idea.ingredients %}<small>{{ idea.ingredients }}</small>{% endif %}
+                                {% if idea.saved_recipe %}
+                                    <a href="{% url 'saved_recipe_detail' idea.saved_recipe.id %}">Open recipe</a>
+                                {% elif idea.query %}
+                                    <a href="{% url 'generate_recipe' %}?recommendation={{ idea.query|urlencode }}">Make a recipe with these</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="ap-muted">Add a few ingredients and ideas will show up here.</p>
+                {% endif %}
+            </section>
+        </div>
+
+        <!-- Edit and delete boxes, kept outside the list -->
+        {% for item in pantry_items %}
+            <div class="modal fade" id="editPantryItemModal{{ item.id }}" tabindex="-1" aria-labelledby="editPantryItemModalLabel{{ item.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content ap-modal">
+                        <form method="post" action="{% url 'pantry_item_update' item.id %}" class="ap-form">
+                            {% csrf_token %}
+                            <div class="ap-modal-head">
+                                <h2 id="editPantryItemModalLabel{{ item.id }}">Edit {{ item.ingredient_name }}</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="ap-modal-body">
+                                <div>
+                                    <label for="edit-name-{{ item.id }}">Ingredient</label>
+                                    <input type="text" id="edit-name-{{ item.id }}" name="ingredient_name" value="{{ item.ingredient_name }}" maxlength="120" required>
+                                </div>
+                                <div class="pt-two">
+                                    <div>
+                                        <label for="edit-qty-{{ item.id }}">Amount</label>
+                                        <input type="number" id="edit-qty-{{ item.id }}" name="quantity" value="{{ item.quantity|default_if_none:'' }}" step="0.01" min="0">
+                                    </div>
+                                    <div>
+                                        <label for="edit-unit-{{ item.id }}">Unit</label>
+                                        <select id="edit-unit-{{ item.id }}" name="unit">
+                                            {% for value, label in unit_choices %}<option value="{{ value }}"{% if item.unit == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="pt-two">
+                                    <div>
+                                        <label for="edit-cat-{{ item.id }}">Type</label>
+                                        <select id="edit-cat-{{ item.id }}" name="category">
+                                            {% for value, label in category_choices %}<option value="{{ value }}"{% if item.category == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="edit-date-{{ item.id }}">Use by</label>
+                                        <input type="date" id="edit-date-{{ item.id }}" name="expiry_date" value="{% if item.expiry_date %}{{ item.expiry_date|date:'Y-m-d' }}{% endif %}">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="edit-notes-{{ item.id }}">Notes</label>
+                                    <textarea id="edit-notes-{{ item.id }}" name="notes" rows="2" placeholder="e.g. brand, where it's kept">{{ item.notes }}</textarea>
+                                </div>
+                                <label class="ap-check"><input type="checkbox" name="is_available" {% if item.is_available %}checked{% endif %}> I still have this</label>
+                            </div>
+                            <div class="ap-modal-foot">
+                                <button type="button" class="site-btn site-btn-quiet" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="site-btn site-btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="deletePantryItemModal{{ item.id }}" tabindex="-1" aria-labelledby="deletePantryItemModalLabel{{ item.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content ap-modal">
+                        <form method="post" action="{% url 'pantry_item_delete' item.id %}">
+                            {% csrf_token %}
+                            <div class="ap-modal-head">
+                                <h2 id="deletePantryItemModalLabel{{ item.id }}">Delete {{ item.ingredient_name }}?</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="ap-modal-body">
+                                <p class="ap-muted">It will be removed from your pantry. You can't undo this.</p>
+                            </div>
+                            <div class="ap-modal-foot">
+                                <button type="button" class="site-btn site-btn-quiet" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="site-btn site-btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
     </div>
-  </div>
 </section>
 
 <script>
-  function addBulkPantryRow() {
-    const rowsContainer = document.getElementById("bulkPantryRows");
-
-    if (!rowsContainer) {
-      return;
+    function addBulkPantryRow() {
+        const rows = document.getElementById("bulkPantryRows");
+        const first = rows && rows.querySelector(".pantry-bulk-input-row");
+        if (!first) {
+            return;
+        }
+        const row = first.cloneNode(true);
+        row.querySelectorAll("input:not([type=hidden])").forEach(function (input) { input.value = ""; });
+        row.querySelectorAll("select").forEach(function (select) {
+            select.value = select.name === "bulk_unit" ? "pcs" : "other";
+        });
+        rows.appendChild(row);
+        row.querySelector("input").focus();
     }
 
-    const firstRow = rowsContainer.querySelector(".pantry-bulk-input-row");
-
-    if (!firstRow) {
-      return;
+    function removeBulkPantryRow(button) {
+        const rows = document.getElementById("bulkPantryRows");
+        const row = button.closest(".pantry-bulk-input-row");
+        if (!rows || !row) {
+            return;
+        }
+        if (rows.querySelectorAll(".pantry-bulk-input-row").length > 1) {
+            row.remove();
+        } else {
+            row.querySelectorAll("input:not([type=hidden])").forEach(function (input) { input.value = ""; });
+        }
     }
-
-    const newRow = firstRow.cloneNode(true);
-
-    newRow.querySelectorAll("input").forEach(function (input) {
-      input.value = "";
-    });
-
-    newRow.querySelectorAll("select").forEach(function (select) {
-      select.selectedIndex = 0;
-    });
-
-    rowsContainer.appendChild(newRow);
-  }
-
-  function removeBulkPantryRow(button) {
-    const rowsContainer = document.getElementById("bulkPantryRows");
-    const row = button.closest(".pantry-bulk-input-row");
-
-    if (!rowsContainer || !row) {
-      return;
-    }
-
-    const totalRows = rowsContainer.querySelectorAll(".pantry-bulk-input-row").length;
-
-    if (totalRows > 1) {
-      row.remove();
-    } else {
-      row.querySelectorAll("input").forEach(function (input) {
-        input.value = "";
-      });
-
-      row.querySelectorAll("select").forEach(function (select) {
-        select.selectedIndex = 0;
-      });
-    }
-  }
 </script>
+
 {% endblock %}

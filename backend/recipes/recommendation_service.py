@@ -223,16 +223,6 @@ def build_pantry_based_recommendations(profile):
     pantry_ingredients = profile.get("pantry_ingredients", [])
     expiring_soon_ingredients = profile.get("expiring_soon_ingredients", [])
 
-    preferred_cuisine = get_top_counter_value(
-        profile.get("preferred_cuisines"),
-        "Personalised",
-    )
-
-    preferred_meal_type = get_top_counter_value(
-        profile.get("preferred_meal_types"),
-        "Meal",
-    )
-
     preferred_difficulty = get_top_counter_value(
         profile.get("preferred_difficulties"),
         "easy",
@@ -251,11 +241,8 @@ def build_pantry_based_recommendations(profile):
 
         recommendations.append(
             {
-                "title": f"Use-First {ingredient.title()} {preferred_meal_type}",
-                "reason": (
-                    f"{ingredient.title()} is expiring soon, so CulinaAI recommends "
-                    "using it first to reduce food waste."
-                ),
+                "title": f"Use up the {ingredient}",
+                "reason": "It's going out of date soon, so cook it first.",
                 "ingredients": ", ".join(ingredient_list),
                 "score": 95 - index,
                 "badge": "Use First",
@@ -270,11 +257,8 @@ def build_pantry_based_recommendations(profile):
 
     recommendations.append(
         {
-            "title": f"{preferred_cuisine} Smart Pantry Recipe",
-            "reason": (
-                "This recommendation is based on ingredients currently available "
-                "in your Smart Pantry."
-            ),
+            "title": "Cook from your pantry",
+            "reason": "A recipe from what you already have.",
             "ingredients": ", ".join(pantry_main_items),
             "score": 84,
             "badge": "Pantry Match",
@@ -289,11 +273,8 @@ def build_pantry_based_recommendations(profile):
 
     recommendations.append(
         {
-            "title": f"Quick {preferred_cuisine} Pantry Bowl",
-            "reason": (
-                "A quick recipe idea using your available pantry ingredients and "
-                "your previous recipe preferences."
-            ),
+            "title": "Something quick",
+            "reason": "A short list of what you have, for a fast meal.",
             "ingredients": ", ".join(quick_items),
             "score": 80,
             "badge": "Quick Idea",
@@ -361,10 +342,7 @@ def build_saved_recipe_matches(user, profile):
         recommendations.append(
             {
                 "title": recipe.title,
-                "reason": (
-                    "This saved recipe matches ingredients currently available "
-                    "in your Smart Pantry."
-                ),
+                "reason": "One of your saved recipes, and you have some of what it needs.",
                 "ingredients": ", ".join(matched_ingredients),
                 "score": min(score, 92),
                 "badge": "Saved Match",

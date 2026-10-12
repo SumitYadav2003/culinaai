@@ -1005,7 +1005,7 @@ def generate_recipe_view(request):
 
             messages.info(
                 request,
-                "Recommended ingredients have been added to the recipe generator.",
+                "Added the ingredients from that idea.",
             )
 
         elif pantry_mode:
@@ -1044,14 +1044,14 @@ def generate_recipe_view(request):
 
                 messages.info(
                     request,
-                    "Your available Smart Pantry ingredients have been added to the recipe generator. Expired items are excluded.",
+                    f"Added {len(pantry_ingredients)} item{'s' if len(pantry_ingredients) != 1 else ''} from your pantry. Anything past its date is left out.",
                 )
             else:
                 form = RecipeGenerationForm()
 
                 messages.warning(
                     request,
-                    "You do not have any available non-expired pantry ingredients yet. Add pantry items first.",
+                    "Your pantry has nothing in date yet. Add a few items first.",
                 )
 
         elif fridge_scanned_ingredients:
@@ -1075,14 +1075,14 @@ def generate_recipe_view(request):
 
                 messages.info(
                     request,
-                    "Your confirmed refrigerator scan ingredients have been added to the recipe generator.",
+                    "Added the ingredients from your fridge scan.",
                 )
             else:
                 form = RecipeGenerationForm()
 
                 messages.warning(
                     request,
-                    "No confirmed refrigerator ingredients were found. Please enter ingredients manually.",
+                    "No ingredients came through from the fridge scan. Type them in instead.",
                 )
 
         else:
@@ -1469,7 +1469,7 @@ def save_history_recipe_view(request, history_id):
     if history_item.saved_recipe and history_item.saved_recipe.is_saved:
         messages.info(
             request,
-            "This history recipe is already saved in your recipe library.",
+            "This recipe is already in your saved recipes.",
         )
         return redirect(
             "saved_recipe_detail",
@@ -1525,7 +1525,7 @@ def save_history_recipe_view(request, history_id):
 
     messages.success(
         request,
-        "Recipe saved from history into your recipe library.",
+        "Saved. You'll find it in Saved recipes.",
     )
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
@@ -1554,7 +1554,7 @@ def delete_recipe_history_view(request, history_id):
 
     messages.success(
         request,
-        f'"{history_title}" was removed from your recipe history.',
+        f'Deleted "{history_title}" from your history.',
     )
 
     return redirect("recipe_history")
@@ -4198,20 +4198,21 @@ def pantry_list_view(request):
             if added_count:
                 messages.success(
                     request,
-                    f"{added_count} pantry item{'s' if added_count > 1 else ''} added successfully.",
+                    f"Added {added_count} item{'s' if added_count > 1 else ''} to your pantry.",
                 )
 
             if error_rows:
                 messages.error(
                     request,
-                    "Some bulk rows were not added. Please check row(s): "
-                    + ", ".join(str(row) for row in error_rows),
+                    "Some rows weren't added. Check row "
+                    + ", ".join(str(row) for row in error_rows)
+                    + ".",
                 )
 
             if not added_count and not error_rows:
                 messages.info(
                     request,
-                    "No pantry items were added because all bulk rows were empty.",
+                    "Nothing was added because all the rows were empty.",
                 )
 
             return redirect("pantry_list")
@@ -4226,13 +4227,13 @@ def pantry_list_view(request):
 
             messages.success(
                 request,
-                f"{pantry_item.ingredient_name} has been added to your Smart Pantry.",
+                f"Added {pantry_item.ingredient_name} to your pantry.",
             )
             return redirect("pantry_list")
 
         messages.error(
             request,
-            "Please correct the errors below and try again.",
+            "That item couldn't be added. Check the details and try again.",
         )
 
     else:
@@ -4276,6 +4277,8 @@ def pantry_list_view(request):
 
     context = {
         "form": form,
+        "unit_choices": PantryItem.UNIT_CHOICES,
+        "category_choices": PantryItem.CATEGORY_CHOICES,
         "pantry_items": pantry_items,
         "total_items": pantry_items.count(), #items for counting are displayed here
         "available_items_count": available_pantry_items.count(),
@@ -4323,7 +4326,7 @@ def pantry_item_update_view(request, item_id):
 
             messages.success(
                 request,
-                f"{updated_item.ingredient_name} has been updated successfully.",
+                f"Saved your changes to {updated_item.ingredient_name}.",
             )
             return redirect("pantry_list")
 
@@ -4370,7 +4373,7 @@ def pantry_item_delete_view(request, item_id):
 
         messages.success(
             request,
-            f"{item_name} has been removed from your Smart Pantry.",
+            f"Removed {item_name} from your pantry.",
         )
         return redirect("pantry_list")
 
