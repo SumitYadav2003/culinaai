@@ -1,5 +1,5 @@
 {# The quick "change this recipe" form, used on the saved recipe page and the generate page. #}
-<form method="post" action="{{ action }}" class="rp-change-form" data-busy-form {% if loading_form %}data-recipe-loading-form{% endif %}>
+<form method="post" action="{{ action }}" class="rp-change-form" data-busy-form {% if loading_form %}data-recipe-loading-form data-loading-title="Changing your recipe" data-loading-text="The new version is written, checked against your diet and allergies, and its nutrition and cost are worked out. This usually takes under a minute." data-loading-steps="Reading your recipe…|Making the change…|Checking it against your diet and allergies…|Working out nutrition, cost and carbon…|Almost ready…"{% endif %}>
     {% csrf_token %}
 
     <fieldset class="rp-chips">

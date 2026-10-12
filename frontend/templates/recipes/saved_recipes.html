@@ -4,7 +4,7 @@
 {% block title %}Saved recipes | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-1">
+<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-2">
 {% endblock %}
 
 {% block content %}
@@ -24,6 +24,11 @@
                 <i class="icon-plus" aria-hidden="true"></i> New recipe
             </a>
         </header>
+
+        <nav class="rl-tabs" aria-label="Show">
+            <a href="{% url 'saved_recipes' %}" class="is-active" aria-current="page">All saved</a>
+            <a href="{% url 'favourite_recipes' %}"><i class="icon-heart" aria-hidden="true"></i> Favourites{% if favourite_count %} ({{ favourite_count }}){% endif %}</a>
+        </nav>
 
         <form method="get" action="{% url 'saved_recipes' %}" class="rl-filters" role="search">
             <label class="visually-hidden" for="recipe-search">Search your recipes</label>
@@ -65,7 +70,7 @@
         {% if recipes %}
             <ul class="rl-grid">
                 {% for recipe in recipes %}
-                    <li>
+                    <li class="rl-item">
                         <a class="rl-card" href="{% url 'saved_recipe_detail' recipe.id %}">
                             <span class="rl-image">
                                 {% if recipe.generated_image %}
@@ -88,6 +93,7 @@
                                 </span>
                             </span>
                         </a>
+                        {% include "recipes/partials/favourite_button.html" %}
                     </li>
                 {% endfor %}
             </ul>

@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1-g2">
 <link rel="stylesheet" href="{% static 'css/recipe_shopping.css' %}?v=pantry-match-badge-fix-1-g1">
 <link rel="stylesheet" href="{% static 'css/cooking_chat.css' %}?v=cooking-chat-height-fix-1-g1">
-<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-2">
+<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-3">
+<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g2">
 {% endblock %}
 
 {% block content %}
@@ -61,12 +62,12 @@
                     {% csrf_token %}
                     <button
                         type="submit"
-                        class="site-btn site-btn-secondary rp-icon-btn {% if is_favourite %}is-on{% endif %}"
+                        class="site-btn site-btn-secondary rp-fav-btn {% if is_favourite %}is-on{% endif %}"
                         aria-pressed="{% if is_favourite %}true{% else %}false{% endif %}"
                         title="{% if is_favourite %}Remove from favourites{% else %}Add to favourites{% endif %}"
                     >
                         <i class="icon-heart" aria-hidden="true"></i>
-                        <span class="visually-hidden">{% if is_favourite %}Remove from favourites{% else %}Add to favourites{% endif %}</span>
+                        {% if is_favourite %}In favourites{% else %}Favourite{% endif %}
                     </button>
                 </form>
 
@@ -306,7 +307,7 @@
                 <h2 id="rp-change-title">Change this recipe</h2>
                 <p class="rp-muted">Pick a change and CulinaAI rewrites the recipe. You can look before you save it.</p>
                 {% url 'modify_saved_recipe' recipe.id as change_action %}
-                {% include "recipes/partials/change_recipe_form.html" with action=change_action field_id="rp-change-text" %}
+                {% include "recipes/partials/change_recipe_form.html" with action=change_action field_id="rp-change-text" loading_form=True %}
             </section>
 
             <section id="culina-email-share" class="rp-tool" aria-labelledby="rp-email-title">
@@ -777,11 +778,14 @@
 
 </section>
 
+{% include "recipes/partials/loading_overlay.html" %}
+
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/recipe_output.js' %}?v=recipe-output-2"></script>
 <script src="{% static 'js/recipe_shopping.js' %}?v=shopping-2"></script>
 <script src="{% static 'js/cooking_chat.js' %}?v=cooking-chat-2"></script>
-<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-2"></script>
+<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-3"></script>
+<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-3"></script>
 {% endblock %}

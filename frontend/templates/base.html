@@ -88,6 +88,7 @@
               <li><a class="site-nav-link {% if current_url == 'dashboard' %}is-active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a></li>
               <li><a class="site-nav-link {% if current_url == 'generate_recipe' %}is-active{% endif %}" href="{% url 'generate_recipe' %}">New recipe</a></li>
               <li><a class="site-nav-link {% if current_url == 'saved_recipes' or current_url == 'saved_recipe_detail' %}is-active{% endif %}" href="{% url 'saved_recipes' %}">Saved</a></li>
+              <li><a class="site-nav-link {% if current_url == 'favourite_recipes' %}is-active{% endif %}" href="{% url 'favourite_recipes' %}">Favourites</a></li>
               <li><a class="site-nav-link {% if current_url == 'pantry_list' %}is-active{% endif %}" href="{% url 'pantry_list' %}">Pantry</a></li>
               <li><a class="site-nav-link {% if current_url == 'recipe_history' or current_url == 'recipe_history_detail' %}is-active{% endif %}" href="{% url 'recipe_history' %}">History</a></li>
             </ul>
@@ -108,7 +109,6 @@
 
                 <ul class="dropdown-menu dropdown-menu-end site-account-menu">
                   <li><a class="dropdown-item" href="{% url 'profile_summary' %}"><i class="icon-user" aria-hidden="true"></i> Profile</a></li>
-                  <li><a class="dropdown-item" href="{% url 'favourite_recipes' %}"><i class="icon-heart" aria-hidden="true"></i> Favourites</a></li>
                   <li><a class="dropdown-item" href="{% url 'fridge_scan_upload' %}"><i class="icon-camera" aria-hidden="true"></i> Scan your fridge</a></li>
                   {% if user.is_staff or user.is_superuser %}
                     <li><a class="dropdown-item" href="{% url 'quality_dashboard' %}"><i class="icon-clipboard-list" aria-hidden="true"></i> Recipe quality</a></li>

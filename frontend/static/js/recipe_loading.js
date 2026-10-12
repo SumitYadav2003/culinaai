@@ -11,13 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  const steps = [
+  const loadingTitle = document.querySelector("[data-culina-loading-title]");
+  const loadingText = document.querySelector("[data-culina-loading-text]");
+
+  // Used when the form doesn't bring its own steps (data-loading-steps="a|b|c").
+  const defaultSteps = [
     "Reading your ingredients…",
     "Writing the recipe…",
     "Checking it against your diet and allergies…",
     "Working out nutrition, cost and carbon…",
     "Almost ready…"
   ];
+  let steps = defaultSteps;
 
   let stepIndex = 0;
   let stepInterval = null;
@@ -29,6 +34,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadingStep.textContent = steps[stepIndex % steps.length];
     stepIndex += 1;
+  }
+
+  // Each form can describe what it's doing: making a recipe, changing one, cooking a version.
+  function useFormText(form) {
+    if (form.dataset.loadingTitle && loadingTitle) {
+      loadingTitle.textContent = form.dataset.loadingTitle;
+    }
+    if (form.dataset.loadingText && loadingText) {
+      loadingText.textContent = form.dataset.loadingText;
+    }
+    steps = form.dataset.loadingSteps ? form.dataset.loadingSteps.split("|") : defaultSteps;
   }
 
   function showLoading() {
@@ -50,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
+        useFormText(form);
+
         const submitButton = form.querySelector(
           "button[type='submit'], input[type='submit']"
         );
@@ -60,9 +78,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (submitButton.tagName.toLowerCase() === "button") {
             submitButton.innerHTML =
-              '<span class="spinner-border spinner-border-sm me-2"></span>Making your recipe…';
+              '<span class="spinner-border spinner-border-sm me-2"></span>' + (submitButton.dataset.busyText || "Working…");
           } else {
-            submitButton.value = "Making your recipe…";
+            submitButton.value = submitButton.dataset.busyText || "Working…";
           }
         }
 

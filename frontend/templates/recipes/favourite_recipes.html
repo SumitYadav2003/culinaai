@@ -4,7 +4,7 @@
 {% block title %}Favourites | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-1">
+<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-2">
 {% endblock %}
 
 {% block content %}
@@ -17,11 +17,15 @@
                 <h1>Favourites</h1>
                 <p>
                     {% if favourite_recipes %}{{ favourite_recipes|length }} recipe{{ favourite_recipes|length|pluralize }}{% if has_active_filters %} match your filters{% endif %}.{% endif %}
-                    Tap the heart on any saved recipe to add it here.
+                    Tap the heart on any saved recipe to add it here, and tap it again to take it off.
                 </p>
             </div>
-            <a href="{% url 'saved_recipes' %}" class="site-btn site-btn-secondary">All saved recipes</a>
         </header>
+
+        <nav class="rl-tabs" aria-label="Show">
+            <a href="{% url 'saved_recipes' %}">All saved</a>
+            <a href="{% url 'favourite_recipes' %}" class="is-active" aria-current="page"><i class="icon-heart" aria-hidden="true"></i> Favourites</a>
+        </nav>
 
         <form method="get" action="{% url 'favourite_recipes' %}#favourite-results" class="rl-filters" role="search">
             <label class="visually-hidden" for="favourite-search">Search your favourites</label>
@@ -86,13 +90,7 @@
                                     </span>
                                 </span>
                             </a>
-                            <form method="post" action="{% url 'toggle_favourite_recipe' favourite.recipe.id %}" class="rl-unfavourite">
-                                {% csrf_token %}
-                                <button type="submit" title="Remove from favourites">
-                                    <i class="icon-heart" aria-hidden="true"></i>
-                                    <span class="visually-hidden">Remove {{ favourite.recipe.title }} from favourites</span>
-                                </button>
-                            </form>
+                            {% include "recipes/partials/favourite_button.html" with recipe=favourite.recipe is_fav=True %}
                         </li>
                     {% endfor %}
                 </ul>

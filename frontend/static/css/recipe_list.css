@@ -220,33 +220,70 @@
     }
 }
 
-/* Favourites: a heart in the corner of the card removes it */
+/* Tabs: all saved recipes / favourites */
+.rl-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--site-line);
+}
+
+.rl-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: -1px;
+    padding: 8px 14px;
+    border-bottom: 2px solid transparent;
+    color: var(--site-muted);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.rl-tabs a:hover {
+    color: var(--site-ink);
+}
+
+.rl-tabs a.is-active {
+    border-bottom-color: var(--site-accent);
+    color: var(--site-ink);
+}
+
+/* The heart in the corner of a card adds or removes a favourite */
 .rl-item {
     position: relative;
 }
 
-.rl-unfavourite {
+.rl-fav-form {
     position: absolute;
     top: 10px;
     right: 10px;
     margin: 0;
 }
 
-.rl-unfavourite button {
+.rl-fav {
     display: grid;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     place-items: center;
     border: 1px solid var(--site-line);
     border-radius: 50%;
     background: var(--site-surface);
+    color: var(--site-muted);
+    box-shadow: 0 1px 3px rgba(28, 36, 30, 0.12);
+}
+
+.rl-fav:hover {
     color: var(--site-danger);
 }
 
-.rl-unfavourite button i::before {
-    font-weight: 700;
+.rl-fav.is-on {
+    border-color: var(--site-danger);
+    background: var(--site-danger);
+    color: #ffffff;
 }
 
-.rl-unfavourite button:hover {
-    border-color: var(--site-danger);
+.rl-fav.is-on:hover {
+    background: var(--site-surface);
+    color: var(--site-danger);
 }

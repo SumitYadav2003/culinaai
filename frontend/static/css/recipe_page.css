@@ -814,3 +814,14 @@ a.rp-origin:hover {
         display: block;
     }
 }
+
+
+/* Favourite button on a recipe: outline heart, filled red once it's a favourite */
+.rp-fav-btn.is-on {
+    border-color: var(--site-danger);
+    color: var(--site-danger);
+}
+
+.rp-fav-btn.is-on i {
+    color: var(--site-danger);
+}
