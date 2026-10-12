@@ -1,0 +1,29 @@
+{% load static %}<!doctype html>
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Something went wrong | CulinaAI</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}">
+    <style>
+        body { margin: 0; background: #f5f7f5; color: #1e221e; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+        main { max-width: 520px; margin: 0 auto; padding: 96px 24px; text-align: center; }
+        h1 { margin: 16px 0 10px; font-size: 1.8rem; }
+        p { color: #576557; line-height: 1.6; }
+        a { display: inline-block; margin-top: 12px; padding: 10px 20px; border-radius: 8px; background: #1f4d2b; color: #fff; font-weight: 600; text-decoration: none; }
+        @media (prefers-color-scheme: dark) {
+            body { background: #131613; color: #e9ebe9; }
+            p { color: #a2aea2; }
+            a { background: #2d6a3e; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <img src="{% static 'images/logo.svg' %}" alt="CulinaAI" width="48" height="48">
+        <h1>Something went wrong on our side</h1>
+        <p>It's not something you did. Please try again in a minute. If you were making a recipe, it may still have been saved in your history.</p>
+        <a href="/">Go to the home page</a>
+    </main>
+</body>
+</html>

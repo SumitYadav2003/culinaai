@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page not found | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-2">
+{% endblock %}
+
+{% block content %}
+<section class="ap-page er-page">
+    <div class="container">
+        <div class="er-box">
+            <p class="er-code">404</p>
+            <h1>We couldn't find that page</h1>
+            <p>The link may be old, or the page may have been moved or deleted. If it was one of your recipes, it may have been removed.</p>
+            <div class="ap-actions er-actions">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="site-btn site-btn-primary">Go to your dashboard</a>
+                    <a href="{% url 'saved_recipes' %}" class="site-btn site-btn-secondary">Saved recipes</a>
+                {% else %}
+                    <a href="{% url 'home' %}" class="site-btn site-btn-primary">Go to the home page</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

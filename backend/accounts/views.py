@@ -43,18 +43,18 @@ def signup_view(request):
             if email_sent:
                 messages.success(
                     request,
-                    "Your CulinaAI account has been created successfully. A welcome email has been sent to your inbox.",
+                    "Your account is ready. We've sent a welcome email too.",
                 )
             else:
                 messages.success(
                     request,
-                    "Your CulinaAI account has been created successfully. Please log in to continue.",
+                    "Your account is ready.",
                 )
 
             login_url = reverse("login") + "?registered=1"
             return redirect(login_url)
 
-        messages.error(request, "Please correct the errors below.")
+        messages.error(request, "Something needs fixing. Check the form below.")
     else:
         form = SignUpForm()
 
@@ -99,7 +99,6 @@ def login_view(request):
 
             return redirect("dashboard")
 
-        messages.error(request, "Invalid username or password.")
     else:
         form = LoginForm()
 
@@ -116,7 +115,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    messages.success(request, "You have been logged out successfully.")
+    messages.success(request, "You're logged out. See you next time.")
     return redirect("home")
 
 
@@ -160,14 +159,14 @@ def profile_summary_view(request):
 
                 messages.success(
                     request,
-                    "Your password has been changed successfully. Please use your new password next time you log in.",
+                    "Password changed. Use the new one next time you log in.",
                 )
 
                 return redirect("profile_summary")
 
             messages.error(
                 request,
-                "Please correct the password errors below.",
+                "Your password wasn't changed. Check the form below.",
             )
 
         else:
@@ -189,14 +188,14 @@ def profile_summary_view(request):
 
                 messages.success(
                     request,
-                    "Your profile has been updated successfully.",
+                    "Saved your details.",
                 )
 
                 return redirect("profile_summary")
 
             messages.error(
                 request,
-                "Please correct the errors below before saving your profile.",
+                "Your details weren't saved. Check the form below.",
             )
 
     saved_recipes = Recipe.objects.filter(

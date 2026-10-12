@@ -1,132 +1,52 @@
-{% extends "base.html" %}
+{% extends "accounts/_auth_base.html" %}
 
-{% block title %}CulinaAI | Sign Up{% endblock %}
+{% block title %}Create an account | CulinaAI{% endblock %}
 
-{% block content %}
-<section class="auth-section">
-    <div class="auth-overlay"></div>
+{% block auth_title %}Create an account{% endblock %}
+{% block auth_lead %}It's free. Save recipes, keep a pantry and cook step by step.{% endblock %}
 
-    <div class="container auth-container">
-        <div class="row align-items-center justify-content-center g-5">
-            <div class="col-lg-6">
-                <div class="auth-copy">
-                    <span class="hero-badge">
-                        <i class="icon-user-plus"></i>
-                        Join CulinaAI
-                    </span>
+{% block auth_body %}
+    <form method="post" class="ap-form ap-form-stack" novalidate>
+        {% csrf_token %}
+        {% for error in form.non_field_errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
 
-                    <h1>
-                        Start your personalised AI cooking journey.
-                    </h1>
-
-                    <p>
-                        Create your account to generate, save and favourite personalised recipes
-                        based on ingredients, dietary needs, cuisine choices and cooking preferences.
-                    </p>
-
-                    <div class="auth-benefits">
-                        <div>
-                            <i class="icon-chef-hat"></i>
-                            AI-powered recipe generation
-                        </div>
-                        <div>
-                            <i class="icon-heart"></i>
-                            Save favourite recipe ideas
-                        </div>
-                        <div>
-                            <i class="icon-shield-check"></i>
-                            Support for diet and allergy preferences
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-5">
-                <div class="auth-card">
-                    <div class="auth-card-header">
-                        <div class="auth-icon">
-                            <i class="icon-utensils"></i>
-                        </div>
-                        <h2>Create Account</h2>
-                        <p>Sign up to access your CulinaAI dashboard.</p>
-                    </div>
-
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-
-                        <div class="mb-3">
-                            <label class="auth-label">Full Name</label>
-                            {{ form.full_name }}
-                            {% for error in form.full_name.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="auth-label">Email Address</label>
-                            {{ form.email }}
-                            {% for error in form.email.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="auth-label">Password</label>
-
-                            <div class="culina-password-wrap">
-                                {{ form.password1 }}
-
-                                <button
-                                    type="button"
-                                    class="culina-password-toggle"
-                                    data-culina-password-toggle
-                                    data-target-id="id_password1"
-                                    aria-label="Show password"
-                                >
-                                    <i class="icon-eye"></i>
-                                </button>
-                            </div>
-
-                            {% for error in form.password1.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="auth-label">Confirm Password</label>
-
-                            <div class="culina-password-wrap">
-                                {{ form.password2 }}
-
-                                <button
-                                    type="button"
-                                    class="culina-password-toggle"
-                                    data-culina-password-toggle
-                                    data-target-id="id_password2"
-                                    aria-label="Show password"
-                                >
-                                    <i class="icon-eye"></i>
-                                </button>
-                            </div>
-
-                            {% for error in form.password2.errors %}
-                                <div class="auth-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <button type="submit" class="btn auth-submit">
-                            <i class="icon-user-check"></i>
-                            Create My Account
-                        </button>
-                    </form>
-
-                    <div class="auth-switch">
-                        Already have an account?
-                        <a href="{% url 'login' %}">Login</a>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <label for="{{ form.full_name.id_for_label }}">Your name</label>
+            {{ form.full_name }}
+            {% for error in form.full_name.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
         </div>
-    </div>
-</section>
+
+        <div>
+            <label for="{{ form.email.id_for_label }}">Email address</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            <div class="au-password">
+                {{ form.password1 }}
+                <button type="button" class="au-eye" data-culina-password-toggle data-target-id="{{ form.password1.id_for_label }}" aria-label="Show password">
+                    <i class="icon-eye" aria-hidden="true"></i>
+                </button>
+            </div>
+            <p class="ap-small">At least 8 characters. Not just numbers, and not a common password like "password123".</p>
+            {% for error in form.password1.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ form.password2.id_for_label }}">Type the password again</label>
+            <div class="au-password">
+                {{ form.password2 }}
+                <button type="button" class="au-eye" data-culina-password-toggle data-target-id="{{ form.password2.id_for_label }}" aria-label="Show password">
+                    <i class="icon-eye" aria-hidden="true"></i>
+                </button>
+            </div>
+            {% for error in form.password2.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <button type="submit" class="site-btn site-btn-primary au-submit">Create account</button>
+    </form>
 {% endblock %}
+
+{% block auth_foot %}Already have an account? <a href="{% url 'login' %}">Log in</a>{% endblock %}

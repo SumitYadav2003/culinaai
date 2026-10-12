@@ -1,223 +1,43 @@
-{% extends "base.html" %}
+{% extends "accounts/_auth_base.html" %}
 
-{% block title %}CulinaAI | Login{% endblock %}
+{% block title %}Log in | CulinaAI{% endblock %}
 
-{% block content %}
-<section class="auth-section login-auth-section">
-    <div class="auth-overlay"></div>
+{% block auth_title %}Log in{% endblock %}
+{% block auth_lead %}Welcome back. Your recipes are where you left them.{% endblock %}
 
-    <div class="container auth-container">
-        <div class="row align-items-center justify-content-center g-5">
-            <div class="col-lg-6">
-                <div class="auth-copy">
-                    <span class="hero-badge">
-                        <i class="icon-log-in"></i>
-                        Welcome Back
-                    </span>
+{% block auth_body %}
+    {% if just_registered %}
+        <p class="au-note"><i class="icon-circle-check" aria-hidden="true"></i> Your account is ready. Log in to start cooking.</p>
+    {% endif %}
 
-                    <h1>
-                        Continue your AI-powered cooking experience.
-                    </h1>
+    <form method="post" class="ap-form ap-form-stack" novalidate>
+        {% csrf_token %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
 
-                    <p>
-                        Login to access your dashboard, generate personalised recipes,
-                        manage saved meals and continue building your favourite recipe collection.
-                    </p>
+        {% for error in form.non_field_errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
 
-                    <div class="auth-benefits">
-                        <div>
-                            <i class="icon-layout-dashboard"></i>
-                            Access your personal dashboard
-                        </div>
-
-                        <div>
-                            <i class="icon-bookmark"></i>
-                            View saved and favourite recipes
-                        </div>
-
-                        <div>
-                            <i class="icon-utensils"></i>
-                            Continue generating AI meal ideas
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-5">
-
-                {% if just_registered %}
-                    <div class="culina-flip-scene">
-                        <div class="culina-flip-card" data-auth-flip-card>
-
-                            <div class="culina-flip-face culina-flip-front">
-                                <div class="auth-card culina-success-login-card">
-                                    <div class="auth-card-header">
-                                        <div class="auth-icon">
-                                            <i class="icon-circle-check"></i>
-                                        </div>
-
-                                        <span class="culina-account-created-badge">
-                                            Account Created Successfully
-                                        </span>
-
-                                        <h2>Welcome to CulinaAI</h2>
-                                        <p>Your account is ready. The login form will appear now.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="culina-flip-face culina-flip-back">
-                                <div class="auth-card">
-                                    <div class="auth-card-header">
-                                        <div class="auth-icon">
-                                            <i class="icon-circle-user"></i>
-                                        </div>
-
-                                        <h2>Login</h2>
-                                        <p>Please login to continue to your CulinaAI dashboard.</p>
-                                    </div>
-
-                                    <form method="post" novalidate>
-                                        {% csrf_token %}
-
-                                        {% if next %}
-                                            <input type="hidden" name="next" value="{{ next }}">
-                                        {% endif %}
-
-                                        <div class="mb-3">
-                                            <label class="auth-label">Email Address</label>
-                                            {{ form.username }}
-
-                                            {% for error in form.username.errors %}
-                                                <div class="auth-error">{{ error }}</div>
-                                            {% endfor %}
-                                        </div>
-
-                                        <div class="mb-2">
-                                            <div class="auth-password-row">
-                                                <label class="auth-label">Password</label>
-
-                                                <a href="{% url 'password_reset' %}" class="auth-forgot-link">
-                                                    Forgot password?
-                                                </a>
-                                            </div>
-
-                                            <div class="culina-password-wrap">
-                                                {{ form.password }}
-
-                                                <button
-                                                    type="button"
-                                                    class="culina-password-toggle"
-                                                    data-culina-password-toggle
-                                                    data-target-id="id_password"
-                                                    aria-label="Show password"
-                                                >
-                                                    <i class="icon-eye"></i>
-                                                </button>
-                                            </div>
-
-                                            {% for error in form.password.errors %}
-                                                <div class="auth-error">{{ error }}</div>
-                                            {% endfor %}
-                                        </div>
-
-                                        {% if form.non_field_errors %}
-                                            {% for error in form.non_field_errors %}
-                                                <div class="auth-error mb-3">{{ error }}</div>
-                                            {% endfor %}
-                                        {% endif %}
-
-                                        <button type="submit" class="btn auth-submit mt-4">
-                                            <i class="icon-log-in"></i>
-                                            Login to Continue
-                                        </button>
-                                    </form>
-
-                                    <div class="auth-switch">
-                                        New to CulinaAI?
-                                        <a href="{% url 'signup' %}">Create an account</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="auth-card">
-                        <div class="auth-card-header">
-                            <div class="auth-icon">
-                                <i class="icon-circle-user"></i>
-                            </div>
-
-                            <h2>Login</h2>
-                            <p>Access your CulinaAI account.</p>
-                        </div>
-
-                        <form method="post" novalidate>
-                            {% csrf_token %}
-
-                            {% if next %}
-                                <input type="hidden" name="next" value="{{ next }}">
-                            {% endif %}
-
-                            <div class="mb-3">
-                                <label class="auth-label">Email Address</label>
-                                {{ form.username }}
-
-                                {% for error in form.username.errors %}
-                                    <div class="auth-error">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-
-                            <div class="mb-2">
-                                <div class="auth-password-row">
-                                    <label class="auth-label">Password</label>
-
-                                    <a href="{% url 'password_reset' %}" class="auth-forgot-link">
-                                        Forgot password?
-                                    </a>
-                                </div>
-
-                                <div class="culina-password-wrap">
-                                    {{ form.password }}
-
-                                    <button
-                                        type="button"
-                                        class="culina-password-toggle"
-                                        data-culina-password-toggle
-                                        data-target-id="id_password"
-                                        aria-label="Show password"
-                                    >
-                                        <i class="icon-eye"></i>
-                                    </button>
-                                </div>
-
-                                {% for error in form.password.errors %}
-                                    <div class="auth-error">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-
-                            {% if form.non_field_errors %}
-                                {% for error in form.non_field_errors %}
-                                    <div class="auth-error mb-3">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-
-                            <button type="submit" class="btn auth-submit mt-4">
-                                <i class="icon-log-in"></i>
-                                Login to Continue
-                            </button>
-                        </form>
-
-                        <div class="auth-switch">
-                            New to CulinaAI?
-                            <a href="{% url 'signup' %}">Create an account</a>
-                        </div>
-                    </div>
-                {% endif %}
-
-            </div>
+        <div>
+            <label for="{{ form.username.id_for_label }}">Email address</label>
+            {{ form.username }}
+            {% for error in form.username.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
         </div>
-    </div>
-</section>
+
+        <div>
+            <div class="au-label-row">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                <a href="{% url 'password_reset' %}">Forgot it?</a>
+            </div>
+            <div class="au-password">
+                {{ form.password }}
+                <button type="button" class="au-eye" data-culina-password-toggle data-target-id="{{ form.password.id_for_label }}" aria-label="Show password">
+                    <i class="icon-eye" aria-hidden="true"></i>
+                </button>
+            </div>
+            {% for error in form.password.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <button type="submit" class="site-btn site-btn-primary au-submit">Log in</button>
+    </form>
 {% endblock %}
+
+{% block auth_foot %}New to CulinaAI? <a href="{% url 'signup' %}">Create an account</a>{% endblock %}
