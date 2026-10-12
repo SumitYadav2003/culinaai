@@ -12,7 +12,7 @@ class SignUpForm(UserCreationForm):
         label="Full name",
         widget=forms.TextInput(attrs={
             "class": "form-control auth-input",
-            "placeholder": "Enter your full name, e.g. Sumit Yadav",
+            "placeholder": "e.g. Alex Morgan",
         })
     )
 
@@ -20,21 +20,21 @@ class SignUpForm(UserCreationForm):
         required=True,
         widget=forms.EmailInput(attrs={
             "class": "form-control auth-input",
-            "placeholder": "Enter your email address",
+            "placeholder": "you@example.com",
         })
     )
 
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             "class": "form-control auth-input password-toggle-input",
-            "placeholder": "Create a password",
+            "placeholder": "",
         })
     )
 
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             "class": "form-control auth-input password-toggle-input",
-            "placeholder": "Confirm your password",
+            "placeholder": "",
         })
     )
 
@@ -46,7 +46,7 @@ class SignUpForm(UserCreationForm):
         email = self.cleaned_data.get("email", "").strip().lower()
 
         if User.objects.filter(email__iexact=email).exists():
-            raise forms.ValidationError("This email address is already used by another account.")
+            raise forms.ValidationError("There's already an account with that email. Try logging in.")
 
         return email
 
@@ -96,18 +96,23 @@ class SignUpForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
+    error_messages = {
+        **AuthenticationForm.error_messages,
+        "invalid_login": "That email and password don't match. Check them, or reset your password.",
+    }
+
     username = forms.EmailField(
         label="Email address",
         widget=forms.EmailInput(attrs={
             "class": "form-control auth-input",
-            "placeholder": "Enter your email address",
+            "placeholder": "you@example.com",
         })
     )
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             "class": "form-control auth-input password-toggle-input",
-            "placeholder": "Enter your password",
+            "placeholder": "",
         })
     )
 
@@ -121,7 +126,7 @@ class LoginForm(AuthenticationForm):
                 # Django internally authenticates by username.
                 self.cleaned_data["username"] = user.username
             else:
-                raise forms.ValidationError("No account found with this email address.")
+                raise forms.ValidationError("There's no account with that email. Check it, or create an account.")
 
         return super().clean()
 
@@ -135,7 +140,7 @@ class UserAccountUpdateForm(forms.ModelForm):
         required=False,
         widget=forms.TextInput(attrs={
             "class": "profile-edit-input",
-            "placeholder": "Enter your first name",
+            "placeholder": "",
         }),
     )
 
@@ -143,21 +148,21 @@ class UserAccountUpdateForm(forms.ModelForm):
         required=False,
         widget=forms.TextInput(attrs={
             "class": "profile-edit-input",
-            "placeholder": "Enter your last name",
+            "placeholder": "",
         }),
     )
 
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             "class": "profile-edit-input",
-            "placeholder": "Enter your username",
+            "placeholder": "",
         }),
     )
 
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             "class": "profile-edit-input",
-            "placeholder": "Enter your email address",
+            "placeholder": "you@example.com",
         }),
     )
 
@@ -177,7 +182,7 @@ class UserAccountUpdateForm(forms.ModelForm):
         ).first()
 
         if existing_user:
-            raise forms.ValidationError("This username is already taken.")
+            raise forms.ValidationError("That username is taken. Try another.")
 
         return username
 
@@ -189,7 +194,7 @@ class UserAccountUpdateForm(forms.ModelForm):
         ).first()
 
         if existing_user:
-            raise forms.ValidationError("This email address is already used by another account.")
+            raise forms.ValidationError("Another account already uses that email.")
 
         return email
 
@@ -212,7 +217,7 @@ class UserProfileUpdateForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(attrs={
             "class": "profile-edit-textarea",
-            "placeholder": "Write a short bio about your cooking preferences...",
+            "placeholder": "e.g. Vegetarian, love spicy food, cooking for two",
             "rows": 4,
         }),
     )
@@ -231,7 +236,7 @@ class CulinaPasswordChangeForm(PasswordChangeForm):
         label="Current password",
         widget=forms.PasswordInput(attrs={
             "class": "profile-edit-input password-toggle-input",
-            "placeholder": "Enter your current password",
+            "placeholder": "",
         }),
     )
 
@@ -239,7 +244,7 @@ class CulinaPasswordChangeForm(PasswordChangeForm):
         label="New password",
         widget=forms.PasswordInput(attrs={
             "class": "profile-edit-input password-toggle-input",
-            "placeholder": "Enter your new password",
+            "placeholder": "",
         }),
     )
 
@@ -247,6 +252,6 @@ class CulinaPasswordChangeForm(PasswordChangeForm):
         label="Confirm new password",
         widget=forms.PasswordInput(attrs={
             "class": "profile-edit-input password-toggle-input",
-            "placeholder": "Confirm your new password",
+            "placeholder": "",
         }),
     )

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Please try again | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-2">
+{% endblock %}
+
+{% block content %}
+<section class="ap-page er-page">
+    <div class="container">
+        <div class="er-box">
+            <h1>That didn't go through</h1>
+            <p>The page was open for a long time, or your browser blocked cookies, so we couldn't check it was really you. Go back, refresh the page and try again.</p>
+            <div class="ap-actions er-actions">
+                <a href="javascript:history.back()" class="site-btn site-btn-primary">Go back</a>
+                <a href="{% url 'home' %}" class="site-btn site-btn-secondary">Home page</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

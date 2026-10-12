@@ -535,7 +535,7 @@ def run_recipe_generation(request, preview_data):
         if not final_ai_result or not final_validation_report:
             messages.error(
                 request,
-                "CulinaAI could not generate a recipe. Please try again.",
+                "The recipe couldn't be made just now. Please try again.",
             )
             return
 
@@ -677,17 +677,17 @@ def run_recipe_generation(request, preview_data):
         if fallback_used:
             messages.warning(
                 request,
-                "CulinaAI detected unsafe AI output and automatically created a safe corrected recipe using the validation engine.",
+                "The first recipe didn't pass the safety checks, so you're seeing a simpler one that does.",
             )
         elif len(validation_attempt_history) > 1:
             messages.success(
                 request,
-                "CulinaAI checked, corrected and validated the recipe before showing the final result.",
+                "Your recipe is ready. It was rewritten once to fit everything you asked for.",
             )
         else:
             messages.success(
                 request,
-                "Recipe generated, validated and added to your history successfully.",
+                "Your recipe is ready. It's also kept in your history.",
             )
 
     except Exception as error:
@@ -813,12 +813,7 @@ def run_recipe_generation(request, preview_data):
 
             messages.warning(
                 request,
-                (
-                    "CulinaAI could not complete the live AI generation pipeline, "
-                    "so it used its safe fallback recipe generator. The recipe is "
-                    "still available, and the real technical error has been printed "
-                    "in the terminal for debugging."
-                ),
+                "The recipe service is busy, so you're seeing a simpler recipe made from your ingredients. Try again in a minute for a full one.",
             )
 
         except Exception as fallback_error:
@@ -827,11 +822,7 @@ def run_recipe_generation(request, preview_data):
 
             messages.error(
                 request,
-                (
-                    "Recipe preview is ready, but both live AI generation and "
-                    "the fallback generator failed. Please check the terminal "
-                    "for the exact error."
-                ),
+                "The recipe couldn't be made just now. Please try again in a minute.",
             )
 
 
@@ -1625,7 +1616,7 @@ def save_generated_recipe_view(request):
     if not recipe_text or not preferences:
         messages.error(
             request,
-            "No generated recipe found to save. Please generate a recipe first.",
+            "There's no recipe to save. Make one first.",
         )
         return redirect("generate_recipe")
 
@@ -1707,7 +1698,7 @@ def save_generated_recipe_view(request):
 
     messages.success(
         request,
-        "Recipe saved successfully with CulinaAI validation evidence.",
+        "Saved. You'll find it in Saved recipes.",
     )
 
     return redirect("saved_recipes")
@@ -1971,11 +1962,11 @@ def edit_saved_recipe_view(request, recipe_id):
             form.save()
             messages.success(
                 request,
-                "Your recipe title and personal notes have been updated.",
+                "Saved your changes.",
             )
             return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
-        messages.error(request, "Please correct the errors below.")
+        messages.error(request, "Something needs fixing. Check the form below.")
     else:
         form = SavedRecipeEditForm(instance=recipe)
 
@@ -2184,12 +2175,12 @@ def submit_recipe_feedback_view(request, recipe_id):
 
         messages.success(
             request,
-            "Thank you. Your rating and feedback have been saved.",
+            "Thanks, your rating is saved.",
         )
     else:
         messages.error(
             request,
-            "Please check your rating and feedback before submitting.",
+            "Choose a rating from 1 to 5.",
         )
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
@@ -2256,10 +2247,10 @@ def toggle_favourite_recipe_view(request, recipe_id):
     )
 
     if created:
-        messages.success(request, "Recipe added to favourites.")
+        messages.success(request, "Added to favourites.")
     else:
         favourite.delete()
-        messages.info(request, "Recipe removed from favourites.")
+        messages.info(request, "Removed from favourites.")
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 
@@ -2322,7 +2313,7 @@ def modify_saved_recipe_view(request, recipe_id):
             if not modified_recipe_text:
                 messages.error(
                     request,
-                    "AI modification did not return a valid recipe. Please try again.",
+                    "The change didn't work this time. Please try again.",
                 )
                 return redirect(
                     f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe"
@@ -2495,12 +2486,12 @@ def modify_saved_recipe_view(request, recipe_id):
             if quality_score is not None:
                 messages.success(
                     request,
-                    f"AI modification generated and validated successfully. Quality score: {quality_score}/100.",
+                    "Here's your changed recipe. Save it to keep it.",
                 )
             else:
                 messages.warning(
                     request,
-                    "AI modification generated successfully, but validation evidence could not be completed. Check the terminal for details.",
+                    "Here's your changed recipe. It couldn't be fully checked, so read it carefully before you cook.",
                 )
 
         except Exception as error:
@@ -2509,14 +2500,14 @@ def modify_saved_recipe_view(request, recipe_id):
 
             messages.error(
                 request,
-                "AI modification failed. Please check your OpenAI API key, billing credits, or connection.",
+                "The recipe couldn't be changed just now. Please try again in a minute.",
             )
 
         return redirect(
             f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modified-preview"
         )
 
-    messages.error(request, "Please check the recipe modification form and try again.")
+    messages.error(request, "Choose a change, or describe the change you want.")
     return redirect(
         f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe"
     )
@@ -2555,13 +2546,13 @@ def save_modified_recipe_view(request, recipe_id):
     modified_preview = request.session.get("modified_recipe_preview")
 
     if not modified_preview:
-        messages.error(request, "No modified recipe preview found to save.")
+        messages.error(request, "There's no changed recipe to save. It may have expired, so make the change again.")
         return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
 
     if modified_preview.get("recipe_id") != original_recipe.id:
         messages.error(
             request,
-            "This modified recipe preview does not match the current recipe.",
+            "That changed recipe belongs to a different recipe. Make the change again.",
         )
         return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
 
@@ -2578,7 +2569,7 @@ def save_modified_recipe_view(request, recipe_id):
     )
 
     if not modified_recipe_text:
-        messages.error(request, "Modified recipe text is empty and cannot be saved.")
+        messages.error(request, "The changed recipe was empty, so it wasn't saved. Please try again.")
         return redirect("saved_recipe_detail", recipe_id=original_recipe.id)
 
     # Important: use the new modified recipe image if it was generated.
@@ -2667,7 +2658,7 @@ def save_modified_recipe_view(request, recipe_id):
 
     messages.success(
         request,
-        "Modified recipe saved successfully with CulinaAI validation evidence.",
+        "Saved as a new recipe. Your original is unchanged.",
     )
     return redirect("saved_recipe_detail", recipe_id=new_recipe.id)
 
@@ -2720,7 +2711,7 @@ def delete_saved_recipe_view(request, recipe_id):
 
     messages.success(
         request,
-        f'"{recipe_title}" was deleted from your saved recipes.',
+        f'Deleted "{recipe_title}".',
     )
 
     return redirect("saved_recipes")
@@ -2802,7 +2793,7 @@ def toggle_community_recipe_view(request, recipe_id):
 
         messages.info(
             request,
-            "Recipe removed from the community. It is now private again.",
+            "Stopped sharing. Only you can see this recipe now.",
         )
     else:
         # Important: setting is_public=True shares this recipe with the community.
@@ -2818,7 +2809,7 @@ def toggle_community_recipe_view(request, recipe_id):
 
         messages.success(
             request,
-            "Recipe added to the community successfully.",
+            "Shared. Other cooks can now see, rate and comment on it.",
         )
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
@@ -3116,12 +3107,12 @@ def submit_community_recipe_feedback_view(request, recipe_id):
 
         messages.success(
             request,
-            "Thank you. Your community rating and feedback have been saved.",
+            "Thanks, your rating is posted.",
         )
     else:
         messages.error(
             request,
-            "Please check your rating and feedback before submitting.",
+            "Choose a rating from 1 to 5.",
         )
 
     return redirect("community_recipe_detail", recipe_id=recipe.id)
@@ -3167,7 +3158,7 @@ def quality_dashboard_view(request):
     if not (request.user.is_staff or request.user.is_superuser):
         messages.error(
             request,
-            "You do not have permission to access the CulinaAI quality dashboard.",
+            "That page is only for site admins.",
         )
         return redirect("home")
 
@@ -3717,7 +3708,7 @@ def quality_recipe_evidence_view(request, recipe_id):
     if not (request.user.is_staff or request.user.is_superuser):
         messages.error(
             request,
-            "You do not have permission to access this validation evidence page.",
+            "That page is only for site admins.",
         )
         return redirect("home")
 
@@ -4063,7 +4054,7 @@ def unsave_recipe_view(request, recipe_id):
 
     messages.success(
         request,
-        f'"{recipe_title}" has been removed from your saved recipes.',
+        f'Removed "{recipe_title}" from your saved recipes.',
     )
 
     return redirect("saved_recipes")
@@ -4332,7 +4323,7 @@ def pantry_item_update_view(request, item_id):
 
         messages.error(
             request,
-            "Please correct the errors below and try again.",
+            "Your changes weren't saved. Check the details and try again.",
         )
 
     else:

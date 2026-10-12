@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+Shared layout for log in, sign up and password reset: one small centred card.
+Pages fill in auth_title, auth_lead and auth_body, and optionally auth_foot.
+{% endcomment %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-2">
+{% endblock %}
+
+{% block content %}
+<section class="ap-page au-page">
+    <div class="container">
+        <div class="au-card">
+            <a href="{% url 'home' %}" class="au-logo" aria-label="CulinaAI home">
+                <img src="{% static 'images/logo.svg' %}" alt="" width="40" height="40">
+            </a>
+            <h1>{% block auth_title %}{% endblock %}</h1>
+            <p class="au-lead">{% block auth_lead %}{% endblock %}</p>
+            {% block auth_body %}{% endblock %}
+        </div>
+        <p class="au-foot">{% block auth_foot %}{% endblock %}</p>
+    </div>
+</section>
+{% endblock %}

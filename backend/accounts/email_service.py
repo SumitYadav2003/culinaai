@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
+from django.utils.html import escape
 
 
 logger = logging.getLogger(__name__)
@@ -29,15 +30,14 @@ def send_welcome_email(request, user):
     plain_message = f"""
 Hi {full_name},
 
-Welcome to CulinaAI!
+Welcome to CulinaAI. Your account is ready.
 
-Your account has been created successfully. You can now log in to generate personalised recipes, save your favourite meals, and manage your recipe history.
+Tell CulinaAI what's in your kitchen and it will make a recipe that fits your diet and allergies, with the nutrition and cost worked out. You can save recipes, keep a pantry list and cook step by step.
 
-Login here:
+Log in here:
 {login_url}
 
-Regards,
-CulinaAI Team
+CulinaAI
 """.strip()
 
     html_message = f"""
@@ -46,52 +46,25 @@ CulinaAI Team
 <head>
     <meta charset="utf-8">
 </head>
-<body style="margin:0; padding:0; background:#f6f3ef; font-family:Arial, sans-serif;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f3ef; padding:30px 0;">
+<body style="margin:0; padding:0; background:#f5f7f5; font-family:Arial, Helvetica, sans-serif; color:#1e221e;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f5f7f5; padding:32px 12px;">
         <tr>
             <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:18px; overflow:hidden; box-shadow:0 12px 35px rgba(0,0,0,0.08);">
-                    <tr>
-                        <td style="background:linear-gradient(135deg,#f28c28,#f7c948); padding:28px; text-align:center;">
-                            <h1 style="margin:0; color:#1f1b16; font-size:30px;">
-                                Welcome to CulinaAI
-                            </h1>
-                            <p style="margin:8px 0 0; color:#2b241d; font-size:16px;">
-                                Your AI-assisted cooking journey starts here.
-                            </p>
-                        </td>
-                    </tr>
-
+                <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:560px; background:#ffffff; border:1px solid #dfe3df; border-radius:12px;">
                     <tr>
                         <td style="padding:32px;">
-                            <h2 style="margin:0 0 12px; color:#1f1b16;">
-                                Hi {full_name},
-                            </h2>
-
-                            <p style="font-size:16px; line-height:1.6; color:#4f4a45;">
-                                Your CulinaAI account has been created successfully.
-                                You can now log in to generate personalised recipes,
-                                save your favourite meals, and manage your recipe history.
+                            <p style="margin:0 0 20px; color:#1f4d2b; font-size:15px; font-weight:bold;">CulinaAI</p>
+                            <h1 style="margin:0 0 16px; font-size:24px; line-height:1.3;">Welcome, {escape(full_name)}</h1>
+                            <p style="margin:0 0 16px; font-size:16px; line-height:1.6; color:#3d453d;">
+                                Your account is ready. Tell CulinaAI what's in your kitchen and it will make a recipe
+                                that fits your diet and allergies, with the nutrition and cost worked out.
                             </p>
-
-                            <div style="text-align:center; margin:32px 0;">
-                                <a href="{login_url}"
-                                   style="display:inline-block; background:#f28c28; color:#ffffff; text-decoration:none; padding:14px 28px; border-radius:999px; font-weight:bold; font-size:16px;">
-                                    Login to CulinaAI
-                                </a>
-                            </div>
-
-                            <p style="font-size:14px; line-height:1.6; color:#777;">
-                                If the button does not work, copy and paste this link into your browser:
+                            <p style="margin:28px 0;">
+                                <a href="{login_url}" style="display:inline-block; background:#1f4d2b; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:8px; font-weight:bold; font-size:16px;">Log in</a>
                             </p>
-
-                            <p style="font-size:14px; line-height:1.6; color:#f28c28; word-break:break-all;">
-                                {login_url}
-                            </p>
-
-                            <p style="font-size:16px; line-height:1.6; color:#4f4a45; margin-top:28px;">
-                                Regards,<br>
-                                <strong>CulinaAI Team</strong>
+                            <p style="margin:0; font-size:13px; line-height:1.6; color:#576557;">
+                                If the button doesn't work, copy this link into your browser:<br>
+                                <span style="word-break:break-all;">{login_url}</span>
                             </p>
                         </td>
                     </tr>
