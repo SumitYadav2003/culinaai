@@ -1963,7 +1963,7 @@ html[data-theme="dark"] .fridge-history-open-btn:hover {
 }
 html[data-theme="dark"] .fridge-history-delete-btn {
     border: 1px solid rgba(99, 40, 33, 0.9);
-    background: #1d251d;
+    background: #301612;
     color: #f19e97;
 }
 html[data-theme="dark"] .fridge-history-delete-btn:hover {
@@ -1971,10 +1971,10 @@ html[data-theme="dark"] .fridge-history-delete-btn:hover {
     color: #efa4a4;
 }
 html[data-theme="dark"] .fridge-delete-modal-content {
-    background: #1d221d;
+    background: #1e231e;
 }
 html[data-theme="dark"] .fridge-delete-modal-icon {
-    background: #1d251d;
+    background: #301612;
     color: #f19e97;
 }
 html[data-theme="dark"] .fridge-delete-modal-content h2 {
@@ -1984,7 +1984,7 @@ html[data-theme="dark"] .fridge-delete-modal-content p {
     color: #c5cec5;
 }
 html[data-theme="dark"] .fridge-delete-cancel-btn {
-    background: #1d221d;
+    background: #1e231e;
     border: 1px solid rgba(99, 33, 33, 0.95);
     color: #e5e9e5;
 }
@@ -1997,7 +1997,7 @@ html[data-theme="dark"] .fridge-history-open-btn:hover {
     color: #e5e9e5 !important;
 }
 html[data-theme="dark"] .fridge-history-delete-btn {
-    background: #1d251d !important;
+    background: #301612 !important;
     border: 1px solid rgba(99, 40, 33, 0.95) !important;
     color: #f19e97 !important;
 }
@@ -2007,10 +2007,10 @@ html[data-theme="dark"] .fridge-history-delete-btn:hover {
 }
 html[data-theme="dark"] .fridge-delete-modal-content {
     background: radial-gradient(circle at top right, rgba(252, 165, 165, 0.14), transparent 34%),
-        linear-gradient(135deg, #1d221d 0%, #1e241e 100%) !important;
+        linear-gradient(135deg, #1e231e 0%, #1e231e 100%) !important;
 }
 html[data-theme="dark"] .fridge-delete-modal-icon {
-    background: #1d251d !important;
+    background: #301612 !important;
     color: #f19e97 !important;
 }
 html[data-theme="dark"] .fridge-delete-modal-content h2 {
@@ -2020,7 +2020,7 @@ html[data-theme="dark"] .fridge-delete-modal-content p {
     color: #c5cec5 !important;
 }
 html[data-theme="dark"] .fridge-delete-cancel-btn {
-    background: #1d221d !important;
+    background: #1e231e !important;
     border: 1px solid rgba(99, 33, 33, 0.95) !important;
     color: #e5e9e5 !important;
 }
@@ -3513,7 +3513,7 @@ html[data-theme="dark"] .culina-text-panel {
     color: #e4e8e4 !important;
 }
 html[data-theme="dark"] .culina-warning-style {
-    background: rgba(30, 36, 30, 0.98) !important;
+    background: rgba(30, 35, 30, 0.98) !important;
 }
 html[data-theme="dark"] .culina-safe-style {
     background: rgba(27, 39, 27, 0.98) !important;
@@ -3584,7 +3584,7 @@ html[data-theme="dark"] .recipe-print-text {
     color: #d0d7d0 !important;
 }
 html[data-theme="dark"] .recipe-print-warning {
-    background: rgba(30, 36, 30, 0.96) !important;
+    background: rgba(30, 35, 30, 0.96) !important;
     color: #edb1b1 !important;
 }
 html[data-theme="dark"] .recipe-print-origin {
@@ -4360,7 +4360,7 @@ html[data-theme="dark"] .recipe-delete-btn {
 html[data-theme="dark"] .delete-recipe-section {
     background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.10), transparent 30%),
         radial-gradient(circle at bottom right, rgba(220, 38, 38, 0.1), transparent 32%),
-        linear-gradient(135deg, #1e241e 0%, #1e231e 100%) !important;
+        linear-gradient(135deg, #1e231e 0%, #1e231e 100%) !important;
 }
 html[data-theme="dark"] .delete-recipe-card {
     background: rgba(28, 33, 28, 0.94) !important;
@@ -4372,7 +4372,7 @@ html[data-theme="dark"] .delete-recipe-card > p {
     color: #c1cac1 !important;
 }
 html[data-theme="dark"] .delete-recipe-preview {
-    background: #1e241e !important;
+    background: #1e231e !important;
 }
 html[data-theme="dark"] .delete-recipe-preview span {
     color: #efa4a4 !important;
@@ -4416,7 +4416,7 @@ html[data-theme="dark"] .culina-delete-modal-body > p {
     color: #c7cfc7 !important;
 }
 html[data-theme="dark"] .culina-delete-modal-preview {
-    background: rgba(30, 36, 30, 0.96) !important;
+    background: rgba(30, 35, 30, 0.96) !important;
 }
 html[data-theme="dark"] .culina-delete-modal-preview span {
     color: #eb8585 !important;

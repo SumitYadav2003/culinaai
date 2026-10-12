@@ -83,7 +83,7 @@
 .culina-warning-panel {
     margin-bottom: 1.25rem;
     padding: 1rem 1.15rem;
-    background: var(--culina-warning-red-soft, #f7f9f7);
+    background: var(--culina-warning-red-soft, #fef2f2);
     border: 1px solid var(--culina-warning-red, #dc2626);
     border-left-width: 5px;
     border-radius: 10px;
@@ -313,7 +313,7 @@ small.culina-phone-only {
 }
 
 .culina-reason-allergy_diet {
-    background: var(--culina-warning-red-soft, #f7f9f7);
+    background: var(--culina-warning-red-soft, #fef2f2);
     color: var(--culina-warning-red-text, #991b1b);
 }
 

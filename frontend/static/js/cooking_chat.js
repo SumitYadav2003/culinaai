@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cleanQuickPromptKey = String(quickPromptKey || "").trim();
 
     if (!cleanQuestion && !cleanQuickPromptKey) {
-      showError("Please type a question or choose a quick prompt.");
+      showError("Type a question, or pick one of the common questions.");
       return;
     }
 
@@ -197,10 +197,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 }
     } catch (error) {
-      showError("Sorry, the cooking assistant could not respond right now.");
+      showError("The assistant couldn't answer just now. Please try again.");
       addMessage(
         "assistant",
-        "Sorry, I could not respond right now. Please try again.",
+        "I couldn't answer just now. Please try again.",
         "Just now"
       );
     } finally {

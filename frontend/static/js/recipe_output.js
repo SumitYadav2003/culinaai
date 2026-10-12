@@ -1,464 +1,315 @@
 /* =========================================================
-   CULINAAI PREMIUM RECIPE OUTPUT FORMATTER
-   Purpose:
-   - Reads plain AI recipe text.
-   - Converts it into cards, badges, icons and step sections.
-   - Does not change backend AI generation logic.
+   CulinaAI recipe layout
+   Reads the plain recipe text the AI writes (RECIPE TITLE:, STEPS: ...)
+   and lays it out as a normal recipe: title and facts, ingredients next
+   to the method, then a few short notes. Nothing is sent anywhere and
+   the saved text is not changed.
+
+   Options on the [data-culina-recipe-output] element:
+   - data-title-shown  the page already shows the title, time and difficulty,
+                       so only the description and servings are added here.
+   If no headings are found, the text is left exactly as it is.
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
-    const outputBlocks = document.querySelectorAll("[data-culina-recipe-output]");
-
-    outputBlocks.forEach(function (outputBlock) {
+    document.querySelectorAll("[data-culina-recipe-output]").forEach(function (outputBlock) {
         const rawText = outputBlock.innerText || outputBlock.textContent || "";
-
         if (!rawText.trim()) {
             return;
         }
 
         const sections = parseRecipeSections(rawText);
-
-        if (!sections.length) {
-            return;
+        if (!sections.some(function (section) { return section.known; })) {
+            return; // older recipes without headings stay as plain text
         }
 
-       const recipeBook = buildRecipeBook(sections);
+        const imageCard = findImageCard(outputBlock);
+        const card = buildRecipeCard(sections, {
+            titleShown: outputBlock.hasAttribute("data-title-shown"),
+            image: imageCard
+        });
 
-attachSideImageToRecipeBook(outputBlock, recipeBook);
-
-outputBlock.innerHTML = "";
-outputBlock.appendChild(recipeBook);
+        // The old layout's classes carry heavy styles, so the block starts clean.
+        outputBlock.innerHTML = "";
+        outputBlock.className = "rc-ready";
+        outputBlock.appendChild(card);
     });
 });
 
 
+/* The AI's headings, and the name each one gets on the page. */
+const RECIPE_HEADINGS = {
+    "RECIPE TITLE": "title",
+    "MODIFIED RECIPE TITLE": "title",
+    "SHORT DESCRIPTION": "description",
+    "WHAT CHANGED": "changed",
+    "MATCH SUMMARY": "match",
+    "INGREDIENTS WITH QUANTITIES": "ingredients",
+    "INGREDIENTS": "ingredients",
+    "COOKING TIME": "time",
+    "SERVINGS": "servings",
+    "DIFFICULTY": "difficulty",
+    "STEPS": "steps",
+    "INSTRUCTIONS": "steps",
+    "METHOD": "steps",
+    "ALLERGY AND DIET NOTES": "allergy",
+    "ESTIMATED COST": "cost",
+    "PAIRING SUGGESTIONS": "pairing",
+    "CHEF TIPS": "tips",
+    "STORAGE ADVICE": "storage",
+    "SUBSTITUTIONS": "swaps"
+};
 
-function attachSideImageToRecipeBook(outputBlock, recipeBook) {
-    const imageCard = outputBlock.previousElementSibling;
+/* The sentence the generation prompt asks for, said in plain words. */
+const STOCK_ALLERGY_LINE = /^the user-provided restricted ingredients have been excluded from this recipe\.?$/i;
 
-    if (!imageCard || !imageCard.matches("[data-culina-recipe-image]")) {
-        return;
-    }
 
-    const heroCard = recipeBook.querySelector(".culina-recipe-hero-card");
-
-    if (!heroCard) {
-        return;
-    }
-
-    const imageHeroLayout = document.createElement("div");
-    imageHeroLayout.className = "culina-recipe-image-hero-layout";
-
-    imageCard.remove();
-    heroCard.remove();
-
-    imageHeroLayout.appendChild(imageCard);
-    imageHeroLayout.appendChild(heroCard);
-
-    recipeBook.prepend(imageHeroLayout);
+function cleanHeading(line) {
+    return line.replace(/^[#*\s]+/, "").replace(/[*\s]+$/, "").replace(/\*+/g, "").trim();
 }
 
 
 function parseRecipeSections(rawText) {
-    const sectionHeadings = [
-        "RECIPE TITLE",
-        "SHORT DESCRIPTION",
-        "MATCH SUMMARY",
-        "INGREDIENTS WITH QUANTITIES",
-        "COOKING TIME",
-        "SERVINGS",
-        "DIFFICULTY",
-        "STEPS",
-        "ALLERGY AND DIET NOTES",
-        "ESTIMATED COST",
-        "PAIRING SUGGESTIONS",
-        "CHEF TIPS",
-        "STORAGE ADVICE",
-        "SUBSTITUTIONS"
-    ];
-
-    const lines = rawText
-        .split(/\r?\n/)
-        .map(function (line) {
-            return line.trim();
-        })
-        .filter(function (line) {
-            return line.length > 0;
-        });
-
     const sections = [];
-    let currentSection = null;
+    let current = null;
 
-    lines.forEach(function (line) {
-        const normalisedLine = line.replace(/:$/, "").trim().toUpperCase();
-
-        if (sectionHeadings.includes(normalisedLine)) {
-            currentSection = {
-                heading: normalisedLine,
-                items: []
-            };
-
-            sections.push(currentSection);
+    rawText.split(/\r?\n/).forEach(function (rawLine) {
+        const line = rawLine.trim();
+        if (!line) {
             return;
         }
 
-        if (!currentSection) {
-            currentSection = {
-                heading: "RECIPE OVERVIEW",
-                items: []
-            };
+        // "COOKING TIME:" on its own line, or "COOKING TIME: 25 minutes".
+        const match = cleanHeading(line).match(/^([A-Za-z /&]+?)\s*:\s*(.*)$/);
+        const heading = match ? match[1].toUpperCase() : cleanHeading(line).replace(/:$/, "").toUpperCase();
+        const key = RECIPE_HEADINGS[heading];
 
-            sections.push(currentSection);
+        if (key && (match || cleanHeading(line).toUpperCase() === heading)) {
+            current = { key: key, known: true, items: [] };
+            sections.push(current);
+            const rest = match ? match[2].replace(/\*+/g, "").trim() : "";
+            if (rest) {
+                current.items.push(rest);
+            }
+            return;
         }
 
-        currentSection.items.push(line);
+        if (!current) {
+            current = { key: "intro", known: false, items: [] };
+            sections.push(current);
+        }
+        current.items.push(line);
     });
 
     return sections;
 }
 
 
-function buildRecipeBook(sections) {
-    const book = document.createElement("div");
-    book.className = "culina-recipe-book";
+function section(sections, key) {
+    return sections.find(function (s) { return s.key === key; });
+}
 
-    const titleSection = findSection(sections, "RECIPE TITLE");
-    const descriptionSection = findSection(sections, "SHORT DESCRIPTION");
-    const cookingTimeSection = findSection(sections, "COOKING TIME");
-    const servingsSection = findSection(sections, "SERVINGS");
-    const difficultySection = findSection(sections, "DIFFICULTY");
+function firstLine(sections, key) {
+    const found = section(sections, key);
+    return found && found.items.length ? found.items[0] : "";
+}
 
-    book.appendChild(
-        buildHeroCard(
-            getFirstItem(titleSection, "Personalised CulinaAI Recipe"),
-            getJoinedText(descriptionSection),
-            getFirstItem(cookingTimeSection, "Not specified"),
-            getFirstItem(servingsSection, "Not specified"),
-            getFirstItem(difficultySection, "Not specified")
-        )
-    );
+function joined(sections, key) {
+    const found = section(sections, key);
+    return found ? found.items.join(" ") : "";
+}
 
-    sections.forEach(function (section) {
-        const hiddenHeadings = [
-            "RECIPE TITLE",
-            "SHORT DESCRIPTION",
-            "COOKING TIME",
-            "SERVINGS",
-            "DIFFICULTY"
-        ];
+function stripBullet(text) {
+    return text.replace(/^([-•*]|\d+[.)])\s*/, "").trim();
+}
 
-        if (hiddenHeadings.includes(section.heading)) {
+function servingsText(value) {
+    const clean = value.replace(/\.$/, "").trim();
+    if (/^\d+$/.test(clean)) {
+        return "Serves " + clean;
+    }
+    if (/^\d+\s+servings?$/i.test(clean)) {
+        return "Serves " + clean.split(/\s+/)[0];
+    }
+    return clean;
+}
+
+function capitalise(value) {
+    const clean = value.replace(/\.$/, "").trim();
+    return clean.charAt(0).toUpperCase() + clean.slice(1);
+}
+
+
+function findImageCard(outputBlock) {
+    const before = outputBlock.previousElementSibling;
+    if (before && before.matches("[data-culina-recipe-image]")) {
+        return before;
+    }
+    return null;
+}
+
+
+function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) {
+        node.className = className;
+    }
+    if (text !== undefined) {
+        node.textContent = text;
+    }
+    return node;
+}
+
+function iconItem(icon, text) {
+    const li = el("li");
+    const i = el("i", icon);
+    i.setAttribute("aria-hidden", "true");
+    li.appendChild(i);
+    li.appendChild(document.createTextNode(" " + text));
+    return li;
+}
+
+
+function buildRecipeCard(sections, options) {
+    const card = el("article", "rc");
+
+    /* Title, description and facts */
+    const head = el("header", "rc-head");
+    if (options.image) {
+        options.image.remove();
+        options.image.className = "rc-image";
+        head.classList.add("rc-head-with-image");
+        head.appendChild(options.image);
+    }
+
+    const headText = el("div", "rc-head-text");
+    const title = firstLine(sections, "title");
+    if (title && !options.titleShown) {
+        headText.appendChild(el("h2", "rc-title", title.replace(/\*+/g, "")));
+    }
+
+    const description = joined(sections, "description");
+    if (description) {
+        headText.appendChild(el("p", "rc-desc", description));
+    }
+
+    const facts = el("ul", "rc-facts");
+    const time = firstLine(sections, "time");
+    const servings = firstLine(sections, "servings");
+    const difficulty = firstLine(sections, "difficulty");
+    if (time && !options.titleShown) {
+        facts.appendChild(iconItem("icon-clock", time.replace(/\.$/, "")));
+    }
+    if (servings) {
+        facts.appendChild(iconItem("icon-users", servingsText(servings)));
+    }
+    if (difficulty && !options.titleShown) {
+        facts.appendChild(iconItem("icon-chart-column", capitalise(difficulty)));
+    }
+    if (facts.children.length) {
+        headText.appendChild(facts);
+    }
+
+    const changed = joined(sections, "changed");
+    if (changed) {
+        const note = el("p", "rc-changed");
+        note.appendChild(el("strong", "", "What changed: "));
+        note.appendChild(document.createTextNode(changed));
+        headText.appendChild(note);
+    }
+
+    if (headText.children.length || options.image) {
+        head.appendChild(headText);
+        card.appendChild(head);
+    }
+
+    /* Ingredients next to the method */
+    const body = el("div", "rc-body");
+    const ingredients = section(sections, "ingredients");
+    if (ingredients && ingredients.items.length) {
+        const block = el("section", "rc-ingredients");
+        block.appendChild(el("h3", "", "Ingredients"));
+        const list = el("ul", "rc-ingredient-list");
+        ingredients.items.forEach(function (item) {
+            const text = stripBullet(item);
+            if (!text) {
+                return;
+            }
+            // "For the sauce:" style sub-headings
+            list.appendChild(el("li", /:$/.test(text) ? "rc-sub" : "", text));
+        });
+        block.appendChild(list);
+        body.appendChild(block);
+    }
+
+    const steps = section(sections, "steps");
+    if (steps && steps.items.length) {
+        const block = el("section", "rc-method");
+        block.appendChild(el("h3", "", "Method"));
+        const list = el("ol", "rc-steps");
+        steps.items.forEach(function (item) {
+            const text = stripBullet(item);
+            if (text) {
+                list.appendChild(el("li", "", text));
+            }
+        });
+        block.appendChild(list);
+        body.appendChild(block);
+    }
+
+    // Text before any heading (older recipes): show it as plain paragraphs.
+    const intro = section(sections, "intro");
+    if (intro && intro.items.length && !(steps && steps.items.length)) {
+        const block = el("section", "rc-method");
+        intro.items.forEach(function (item) { block.appendChild(el("p", "", item)); });
+        body.appendChild(block);
+    }
+
+    if (body.children.length) {
+        card.appendChild(body);
+    }
+
+    /* Short notes underneath */
+    const notes = [
+        ["tips", "Tips"],
+        ["swaps", "Swaps"],
+        ["pairing", "Serve it with"],
+        ["storage", "Leftovers"],
+        ["allergy", "Allergies and diet"],
+        ["match", "Why it suits you"]
+    ];
+    const extras = el("div", "rc-notes");
+    notes.forEach(function (pair) {
+        const found = section(sections, pair[0]);
+        if (!found || !found.items.length) {
             return;
         }
-
-        book.appendChild(buildSectionCard(section));
-    });
-
-    return book;
-}
-
-
-function buildHeroCard(title, description, cookingTime, servings, difficulty) {
-    const hero = document.createElement("div");
-    hero.className = "culina-recipe-hero-card";
-
-    hero.innerHTML = `
-        <div class="culina-recipe-top-badge">
-            <i class="icon-utensils"></i>
-            Final AI Recipe
-        </div>
-
-        <h2 class="culina-recipe-title">${escapeHtml(title)}</h2>
-
-        <p class="culina-recipe-description">
-            ${escapeHtml(description || "A personalised recipe prepared by CulinaAI based on the selected ingredients and preferences.")}
-        </p>
-
-        <div class="culina-recipe-summary-grid">
-            <div class="culina-summary-pill">
-                <i class="icon-history"></i>
-                <div>
-                    <span>Cooking Time</span>
-                    <strong>${escapeHtml(cookingTime)}</strong>
-                </div>
-            </div>
-
-            <div class="culina-summary-pill">
-                <i class="icon-users"></i>
-                <div>
-                    <span>Servings</span>
-                    <strong>${escapeHtml(servings)}</strong>
-                </div>
-            </div>
-
-            <div class="culina-summary-pill">
-                <i class="icon-layout-dashboard"></i>
-                <div>
-                    <span>Difficulty</span>
-                    <strong>${escapeHtml(difficulty)}</strong>
-                </div>
-            </div>
-        </div>
-    `;
-
-    return hero;
-}
-
-
-function buildSectionCard(section) {
-    const config = getSectionConfig(section.heading);
-
-    const card = document.createElement("div");
-    card.className = `culina-recipe-section-card ${config.extraClass}`;
-
-    const header = document.createElement("div");
-    header.className = "culina-recipe-section-header";
-    header.innerHTML = `
-        <div class="culina-section-icon">
-            <i class="${config.icon}"></i>
-        </div>
-
-        <div>
-            <span>${escapeHtml(config.label)}</span>
-            <h3>${escapeHtml(config.title)}</h3>
-        </div>
-    `;
-
-    card.appendChild(header);
-
-    if (!section.items.length) {
-        const emptyNote = document.createElement("div");
-        emptyNote.className = "culina-recipe-empty-note";
-        emptyNote.textContent = "No details provided for this section.";
-        card.appendChild(emptyNote);
-        return card;
-    }
-
-    if (section.heading === "STEPS") {
-        card.appendChild(buildSteps(section.items));
-        return card;
-    }
-
-    if (shouldUseList(section.heading, section.items)) {
-        card.appendChild(buildList(section.items, config.listIcon));
-        return card;
-    }
-
-    card.appendChild(buildTextPanel(section.items, config.panelClass));
-    return card;
-}
-
-
-function buildSteps(items) {
-    const stepsWrap = document.createElement("div");
-    stepsWrap.className = "culina-step-list";
-
-    items.forEach(function (item, index) {
-        const cleanedStep = item.replace(/^\d+\.\s*/, "").trim();
-
-        const step = document.createElement("div");
-        step.className = "culina-step-card";
-
-        step.innerHTML = `
-            <div class="culina-step-number">${index + 1}</div>
-            <p>${escapeHtml(cleanedStep)}</p>
-        `;
-
-        stepsWrap.appendChild(step);
-    });
-
-    return stepsWrap;
-}
-
-
-function buildList(items, iconClass) {
-    const list = document.createElement("ul");
-    list.className = "culina-recipe-list";
-
-    items.forEach(function (item) {
-        const cleanedItem = item.replace(/^-\s*/, "").trim();
-
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <span class="culina-list-dot">
-                <i class="${iconClass}"></i>
-            </span>
-            <span>${escapeHtml(cleanedItem)}</span>
-        `;
-
-        list.appendChild(li);
-    });
-
-    return list;
-}
-
-
-function buildTextPanel(items, extraClass) {
-    const panel = document.createElement("div");
-    panel.className = `culina-text-panel ${extraClass}`;
-
-    items.forEach(function (item) {
-        const paragraph = document.createElement("p");
-        paragraph.textContent = item;
-        panel.appendChild(paragraph);
-    });
-
-    return panel;
-}
-
-
-function getSectionConfig(heading) {
-    const configMap = {
-        "MATCH SUMMARY": {
-            title: "Why this recipe matches your request",
-            label: "Smart Match",
-            icon: "icon-target",
-            listIcon: "icon-check",
-            extraClass: "",
-            panelClass: "culina-safe-style"
-        },
-        "INGREDIENTS WITH QUANTITIES": {
-            title: "Ingredients you will need",
-            label: "Ingredient Basket",
-            icon: "icon-shopping-basket",
-            listIcon: "icon-circle-check",
-            extraClass: "",
-            panelClass: ""
-        },
-        "STEPS": {
-            title: "Step-by-step cooking method",
-            label: "Chef Guidance",
-            icon: "icon-list-ordered",
-            listIcon: "icon-arrow-right",
-            extraClass: "",
-            panelClass: ""
-        },
-        "ALLERGY AND DIET NOTES": {
-            title: "Allergy and diet notes",
-            label: "Safety Check",
-            icon: "icon-shield-check",
-            listIcon: "icon-circle-alert",
-            extraClass: "",
-            panelClass: "culina-warning-style"
-        },
-        "ESTIMATED COST": {
-            title: "Estimated cost breakdown",
-            label: "Budget Insight",
-            icon: "icon-coins",
-            listIcon: "icon-pound-sterling",
-            extraClass: "culina-money-style",
-            panelClass: ""
-        },
-        "PAIRING SUGGESTIONS": {
-            title: "Pairing suggestions",
-            label: "Serve It With",
-            icon: "icon-coffee",
-            listIcon: "icon-utensils",
-            extraClass: "culina-pairing-style",
-            panelClass: ""
-        },
-        "CHEF TIPS": {
-            title: "Chef tips",
-            label: "Pro Cooking Advice",
-            icon: "icon-lightbulb",
-            listIcon: "icon-chef-hat",
-            extraClass: "culina-tips-style",
-            panelClass: ""
-        },
-        "STORAGE ADVICE": {
-            title: "Storage advice",
-            label: "Keep It Fresh",
-            icon: "icon-package",
-            listIcon: "icon-archive",
-            extraClass: "",
-            panelClass: "culina-safe-style"
-        },
-        "SUBSTITUTIONS": {
-            title: "Substitutions",
-            label: "Flexible Alternatives",
-            icon: "icon-refresh-cw",
-            listIcon: "icon-arrow-left-right",
-            extraClass: "",
-            panelClass: ""
-        },
-        "RECIPE OVERVIEW": {
-            title: "Recipe overview",
-            label: "CulinaAI Notes",
-            icon: "icon-notebook-text",
-            listIcon: "icon-dot",
-            extraClass: "",
-            panelClass: ""
+        const block = el("section", "rc-note");
+        block.appendChild(el("h3", "", pair[1]));
+        const items = found.items.map(function (item) {
+            return STOCK_ALLERGY_LINE.test(item.trim())
+                ? "Anything you said you can't eat has been left out. Always check the labels."
+                : item;
+        });
+        if (items.length > 1 || /^[-•*]/.test(items[0])) {
+            const list = el("ul", "");
+            items.forEach(function (item) {
+                const text = stripBullet(item);
+                if (text) {
+                    list.appendChild(el("li", "", text));
+                }
+            });
+            block.appendChild(list);
+        } else {
+            block.appendChild(el("p", "", items[0]));
         }
-    };
-
-    return configMap[heading] || {
-        title: titleCase(heading),
-        label: "Recipe Section",
-        icon: "icon-book-open-text",
-        listIcon: "icon-check",
-        extraClass: "",
-        panelClass: ""
-    };
-}
-
-
-function shouldUseList(heading, items) {
-    const listSections = [
-        "INGREDIENTS WITH QUANTITIES",
-        "ESTIMATED COST",
-        "PAIRING SUGGESTIONS",
-        "CHEF TIPS",
-        "SUBSTITUTIONS"
-    ];
-
-    if (listSections.includes(heading)) {
-        return true;
-    }
-
-    return items.every(function (item) {
-        return item.startsWith("-");
+        extras.appendChild(block);
     });
-}
-
-
-function findSection(sections, heading) {
-    return sections.find(function (section) {
-        return section.heading === heading;
-    });
-}
-
-
-function getFirstItem(section, fallback) {
-    if (!section || !section.items.length) {
-        return fallback;
+    if (extras.children.length) {
+        card.appendChild(extras);
     }
 
-    return section.items[0];
-}
-
-
-function getJoinedText(section) {
-    if (!section || !section.items.length) {
-        return "";
-    }
-
-    return section.items.join(" ");
-}
-
-
-function titleCase(text) {
-    return text
-        .toLowerCase()
-        .split(" ")
-        .map(function (word) {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-        })
-        .join(" ");
-}
-
-
-function escapeHtml(value) {
-    const div = document.createElement("div");
-    div.textContent = value;
-    return div.innerHTML;
+    // The AI's own cost guess is left out: the cost shown under the recipe is
+    // worked out from real shop prices, and two different figures would confuse.
+    return card;
 }

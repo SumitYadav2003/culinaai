@@ -28,7 +28,8 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CSS_DIR = PROJECT_ROOT / "frontend" / "static" / "css"
-SKIP = {"dark_theme_generated.css"}
+# Generated, or already written in the new colours with the tokens in site.css.
+SKIP = {"dark_theme_generated.css", "site.css", "recipe_page.css", "recipe_card.css", "generate_page.css", "recipe_list.css"}
 SEMANTIC_WARM = {"recipe_insights.css"}  # orange there means "caution"
 
 COLOUR = re.compile(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b|rgba?\([^)]*\)")
@@ -91,6 +92,15 @@ def new_colour(text, semantic_warm, warning=False):
 
     if light >= 0.995:
         return text  # white stays white
+    if light > 0.95 and sat >= 0.3:
+        # Pale tints behind warnings: pale red stays pale red, and in warning
+        # rules a pale orange becomes pale red too.
+        if degrees < 15 or degrees >= 330:
+            return text
+        if 15 <= degrees < 65 and semantic_warm:
+            return text
+        if 15 <= degrees < 65 and warning:
+            return fmt(hex_rgb(REDS[-1][1]), alpha)
     neutral = sat < 0.3 or light < 0.14 or light > 0.95
     if neutral:
         # Very light warm tints (creams) become an almost-white grey.

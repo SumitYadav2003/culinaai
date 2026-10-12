@@ -217,7 +217,7 @@
     padding: 18px !important;
     border-radius: 12px !important;
     color: #7f1d1d !important;
-    background: rgba(245, 247, 245, 0.96) !important;
+    background: rgba(254, 242, 242, 0.96) !important;
     border: 1px solid rgba(220, 38, 38, 0.16) !important;
     font-weight: 700 !important;
     line-height: 1.75 !important;
@@ -868,7 +868,7 @@
 }
 
 .recipe-print-warning {
-    background: #f9faf9;
+    background: #fef2f2;
     border: 1px solid #fee2e2;
     border-radius: 12px;
     padding: 1.1rem 1.15rem;

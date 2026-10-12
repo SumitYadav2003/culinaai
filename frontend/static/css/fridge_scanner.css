@@ -762,7 +762,7 @@
 
 .fridge-history-delete-btn {
     border: none;
-    background: #f6f8f6;
+    background: #fff1ef;
     color: #b42318;
     border: 1px solid rgba(244, 171, 163, 0.9);
     box-shadow: 0 10px 22px rgba(180, 35, 24, 0.06);
@@ -777,7 +777,7 @@
 .fridge-delete-modal-content {
     border: none;
     border-radius: 12px;
-    background: #fbfcfb;
+    background: #fef2f2;
     box-shadow: 0 30px 70px rgba(23, 27, 23, 0.22);
 }
 
@@ -793,7 +793,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f6f8f6;
+    background: #fff1ef;
     color: #b42318;
     font-size: 2rem;
 }
@@ -833,7 +833,7 @@
 }
 
 .fridge-delete-cancel-btn {
-    background: #fdfdfd;
+    background: #fef2f2;
     color: #171a17;
     border: 1px solid rgba(252, 165, 165, 0.95);
 }
@@ -919,7 +919,7 @@
 }
 
 .fridge-history-delete-btn {
-    background: #f6f8f6 !important;
+    background: #fff1ef !important;
     color: #b42318 !important;
     border: 1px solid rgba(244, 171, 163, 0.95) !important;
     box-shadow: 0 10px 22px rgba(180, 35, 24, 0.08) !important;
@@ -949,7 +949,7 @@
     border-radius: 12px !important;
     background:
         radial-gradient(circle at top right, rgba(252, 165, 165, 0.14), transparent 34%),
-        linear-gradient(135deg, #fbfcfb 0%, #f5f7f5 100%) !important;
+        linear-gradient(135deg, #fef2f2 0%, #fef2f2 100%) !important;
     box-shadow: 0 30px 80px rgba(23, 27, 23, 0.3) !important;
     overflow: hidden !important;
 }
@@ -966,7 +966,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: #f6f8f6 !important;
+    background: #fff1ef !important;
     color: #b42318 !important;
     font-size: 2rem !important;
     box-shadow: 0 16px 32px rgba(180, 35, 24, 0.10) !important;
@@ -1023,7 +1023,7 @@
 }
 
 .fridge-delete-cancel-btn {
-    background: #fdfdfd !important;
+    background: #fef2f2 !important;
     color: #171a17 !important;
     border: 1px solid rgba(252, 165, 165, 0.95) !important;
 }

@@ -1,0 +1,495 @@
+/* =========================================================
+   New recipe page (templates/recipes/generate.html): the form,
+   and the recipe that was just made. Uses the tokens in site.css.
+   ========================================================= */
+
+.gp-page {
+    padding: calc(var(--site-nav-height, 64px) + 28px) 0 64px;
+    background: var(--site-page);
+    color: var(--site-ink);
+}
+
+.gp-container {
+    max-width: 1000px;
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+/* ---------- Form ---------- */
+
+.gp-form-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.gp-form-again {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--site-line);
+}
+
+.gp-head {
+    margin-bottom: 20px;
+}
+
+.gp-head h1,
+.gp-head h2 {
+    margin: 0 0 6px;
+    color: var(--site-ink);
+    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.gp-head h2 {
+    font-size: 1.5rem;
+}
+
+.gp-head p {
+    margin: 0 0 8px;
+    color: var(--site-muted);
+    font-size: 1.02rem;
+}
+
+.gp-head .gp-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    font-size: 0.95rem;
+}
+
+.gp-shortcuts a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--site-accent-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.gp-shortcuts a:hover {
+    text-decoration: underline;
+}
+
+.gp-form {
+    display: grid;
+    gap: 14px;
+}
+
+.gp-section {
+    min-width: 0;
+    margin: 0;
+    padding: 20px 22px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+}
+
+.gp-section legend,
+.gp-more summary {
+    float: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 0;
+    color: var(--site-ink);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.gp-section legend + * {
+    clear: both;
+}
+
+.gp-more summary {
+    float: none;
+}
+
+.gp-num {
+    display: inline-grid;
+    flex: none;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--site-accent-soft);
+    color: var(--site-accent-ink);
+    font-size: 0.85rem;
+}
+
+.gp-optional {
+    color: var(--site-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.gp-more summary {
+    margin: 0;
+    cursor: pointer;
+    list-style: none;
+}
+
+.gp-more summary::-webkit-details-marker {
+    display: none;
+}
+
+.gp-more summary::after {
+    content: "Show";
+    margin-left: auto;
+    color: var(--site-accent-ink);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.gp-more[open] summary {
+    margin-bottom: 16px;
+}
+
+.gp-more[open] summary::after {
+    content: "Hide";
+}
+
+.gp-form label,
+.gp-sublabel {
+    display: block;
+    margin: 0 0 6px;
+    color: var(--site-ink);
+    font-size: 0.93rem;
+    font-weight: 600;
+}
+
+.gp-label-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.gp-gap-top {
+    margin-top: 16px !important;
+}
+
+.gp-voice {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+    padding: 3px 10px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: 999px;
+    background: var(--site-surface);
+    color: var(--site-ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.gp-voice:hover {
+    border-color: var(--site-accent);
+}
+
+.gp-voice:disabled {
+    opacity: 0.5;
+}
+
+/* Inputs from Django widgets keep their old classes, so these are scoped */
+.gp-form .recipe-input,
+.gp-form .gp-input {
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: var(--site-radius);
+    background-color: var(--site-surface);
+    color: var(--site-ink);
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.gp-form textarea.recipe-input {
+    min-height: 0;
+    resize: vertical;
+}
+
+.gp-form .recipe-input:focus,
+.gp-form .gp-input:focus {
+    border-color: var(--site-accent);
+    outline: 2px solid var(--site-accent-soft);
+    outline-offset: 0;
+    box-shadow: none;
+}
+
+.gp-form .recipe-input::placeholder,
+.gp-form .gp-input::placeholder {
+    color: var(--site-muted);
+    opacity: 0.85;
+}
+
+.gp-input-small {
+    margin-top: 10px;
+}
+
+.gp-hint {
+    margin: 6px 0 0;
+    color: var(--site-muted);
+    font-size: 0.88rem;
+}
+
+.gp-error {
+    margin: 8px 0 0;
+    color: var(--site-danger);
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+/* Meal style: three cards to pick from */
+.gp-choices {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.gp-form .gp-choice {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+}
+
+.gp-choice input {
+    position: absolute;
+    opacity: 0;
+}
+
+.gp-choice > span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    height: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+}
+
+.gp-choice strong {
+    color: var(--site-ink);
+    font-size: 0.97rem;
+}
+
+.gp-choice small {
+    color: var(--site-muted);
+    font-size: 0.83rem;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.gp-choice input:checked + span {
+    border-color: var(--site-accent);
+    background: var(--site-accent-soft);
+    box-shadow: inset 0 0 0 1px var(--site-accent);
+}
+
+.gp-choice input:focus-visible + span {
+    outline: 2px solid var(--site-focus);
+    outline-offset: 2px;
+}
+
+.gp-row {
+    display: grid;
+    gap: 12px 14px;
+    margin-top: 16px;
+}
+
+.gp-row-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gp-more .gp-row {
+    margin-top: 0;
+}
+
+/* Chips for diet, equipment and utensils */
+.gp-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gp-chips ul,
+.gp-chips li {
+    display: contents;
+}
+
+.gp-form .gp-chip {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+}
+
+.gp-chip input {
+    position: absolute;
+    opacity: 0;
+}
+
+.gp-chip span {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: 999px;
+    background: var(--site-surface);
+    color: var(--site-ink);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.gp-chip input:checked + span {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #ffffff;
+}
+
+.gp-chip input:focus-visible + span {
+    outline: 2px solid var(--site-focus);
+    outline-offset: 2px;
+}
+
+.gp-submit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    margin-top: 6px;
+}
+
+.gp-submit p {
+    flex: 1 1 260px;
+    margin: 0;
+    color: var(--site-muted);
+    font-size: 0.9rem;
+}
+
+.gp-form .voice-status-message {
+    padding: 10px 14px;
+    border-radius: var(--site-radius);
+    background: var(--site-subtle);
+    color: var(--site-ink);
+    font-size: 0.92rem;
+}
+
+/* ---------- The recipe that was just made ---------- */
+
+.gp-result-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-bottom: 4px;
+}
+
+.gp-kicker {
+    margin: 0 0 4px;
+    color: var(--site-accent-ink);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.gp-asked {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--site-muted);
+    font-size: 0.93rem;
+}
+
+.gp-result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gp-recipe {
+    margin-top: 16px;
+    padding: 28px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+}
+
+.gp-recipe .culina-insights.ri {
+    margin-top: 32px;
+    padding: 24px 0 0;
+    border: 0;
+    border-top: 1px solid var(--site-line);
+    border-radius: 0;
+}
+
+.gp-request {
+    margin-top: 20px;
+}
+
+.gp-request summary {
+    color: var(--site-accent-ink);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.gp-request dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin: 12px 0 0;
+    padding: 16px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+}
+
+.gp-request dt {
+    color: var(--site-muted);
+    font-size: 0.83rem;
+    font-weight: 600;
+}
+
+.gp-request dd {
+    margin: 2px 0 0;
+    font-size: 0.93rem;
+    overflow-wrap: anywhere;
+}
+
+.gp-request-wide {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 767.98px) {
+    .gp-choices,
+    .gp-request dl {
+        grid-template-columns: 1fr;
+    }
+
+    .gp-row-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gp-section {
+        padding: 16px;
+    }
+
+    .gp-recipe {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 420px) {
+    .gp-row-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .gp-more .gp-optional {
+        display: none;
+    }
+}

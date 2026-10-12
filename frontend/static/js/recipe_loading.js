@@ -12,12 +12,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const steps = [
-    "Reading your ingredients...",
-    "Checking cuisine, diet and allergies...",
-    "Building a personalised recipe...",
-    "Validating safety and recipe quality...",
-    "Preparing cooking guidance...",
-    "Almost ready..."
+    "Reading your ingredients…",
+    "Writing the recipe…",
+    "Checking it against your diet and allergies…",
+    "Working out nutrition, cost and carbon…",
+    "Almost ready…"
   ];
 
   let stepIndex = 0;
@@ -61,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (submitButton.tagName.toLowerCase() === "button") {
             submitButton.innerHTML =
-              '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+              '<span class="spinner-border spinner-border-sm me-2"></span>Making your recipe…';
           } else {
-            submitButton.value = "Generating...";
+            submitButton.value = "Making your recipe…";
           }
         }
 

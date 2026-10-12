@@ -38,9 +38,9 @@ class RecipeGenerationForm(forms.Form):
     # ("No preference" is a real answer, not a default they skipped past).
     MEAL_STYLE_CHOICES = [
         ("", "Choose one"),
-        ("any", "No preference"),
         ("everyday", "Everyday healthy"),
         ("treat", "Treat"),
+        ("any", "No preference"),
     ]
 
     EQUIPMENT_CHOICES = [
@@ -59,11 +59,12 @@ class RecipeGenerationForm(forms.Form):
 
     ingredients = forms.CharField(
         label="Available Ingredients",
+        error_messages={"required": "Add at least one ingredient."},
         widget=forms.Textarea(
             attrs={
                 "class": "form-control recipe-input",
-                "rows": 4,
-                "placeholder": "Example: chicken, rice, tomatoes, garlic, spinach",
+                "rows": 3,
+                "placeholder": "e.g. chicken, rice, tomatoes, garlic, spinach",
             }
         ),
     )
@@ -107,7 +108,7 @@ class RecipeGenerationForm(forms.Form):
             attrs={
                 "class": "form-control recipe-input",
                 "rows": 3,
-                "placeholder": "Example: peanuts, shellfish, dairy, gluten",
+                "placeholder": "e.g. peanuts, shellfish, milk, gluten",
             }
         ),
     )
@@ -218,7 +219,7 @@ class RecipeGenerationForm(forms.Form):
             attrs={
                 "class": "form-control recipe-input",
                 "rows": 3,
-                "placeholder": "Example: make it spicy, high protein, low budget, suitable for dinner",
+                "placeholder": "e.g. less oil, no mushrooms, something the kids will eat",
             }
         ),
     )

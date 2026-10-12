@@ -1,275 +1,116 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | Favourite Recipes{% endblock %}
+{% block title %}Favourites | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=favourite-filter-page-final-orange-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-1">
 {% endblock %}
 
 {% block content %}
 
-<section class="saved-recipes-section favourite-recipes-section" data-clear-favourite-filters-on-refresh="true">
-    <div class="container">
+<section class="rl-page" data-clear-favourite-filters-on-refresh="true">
+    <div class="container rl-container">
 
-        <!-- Favourite Recipes Header -->
-        <div class="saved-recipes-header">
+        <header class="rl-head">
             <div>
-                <span class="section-label">
-                    <i class="icon-heart"></i>
-                    Favourite Recipes
-                </span>
-
-                <h1>Your favourite recipe collection</h1>
-
+                <h1>Favourites</h1>
                 <p>
-                    Quickly revisit the AI-generated recipes you liked most.
-                    Search and filter your favourites by ingredients, cuisine,
-                    meal type and difficulty.
+                    {% if favourite_recipes %}{{ favourite_recipes|length }} recipe{{ favourite_recipes|length|pluralize }}{% if has_active_filters %} match your filters{% endif %}.{% endif %}
+                    Tap the heart on any saved recipe to add it here.
                 </p>
             </div>
+            <a href="{% url 'saved_recipes' %}" class="site-btn site-btn-secondary">All saved recipes</a>
+        </header>
 
-            <div class="saved-recipes-header-actions">
-                <a href="{% url 'saved_recipes' %}" class="btn saved-recipes-secondary-btn">
-                    <i class="icon-book-open-text"></i>
-                    Saved Recipes
-                </a>
-
-                <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-primary-btn">
-                    <i class="icon-utensils"></i>
-                    Generate New Recipe
-                </a>
-            </div>
-        </div>
-
-        <!-- Favourite Search and Filter Panel -->
-        <div class="recipe-filter-panel">
-            <form method="get" action="{% url 'favourite_recipes' %}#favourite-results" class="recipe-filter-form">
-
-                <div class="recipe-filter-search">
-                    <label for="favourite-search">
-                        <i class="icon-search"></i>
-                        Search favourites
-                    </label>
-
-                    <input
-                        type="text"
-                        id="favourite-search"
-                        name="q"
-                        value="{{ search_query }}"
-                        placeholder="Search by title, ingredient, cuisine or diet..."
-                        class="form-control"
-                    >
-                </div>
-
-                <div class="recipe-filter-grid">
-                    <div class="recipe-filter-field">
-                        <label for="favourite-cuisine">
-                            <i class="icon-globe"></i>
-                            Cuisine
-                        </label>
-
-                        <select id="favourite-cuisine" name="cuisine" class="form-select">
-                            <option value="">All cuisines</option>
-
-                            {% for cuisine in cuisines %}
-                                <option value="{{ cuisine.id }}" {% if cuisine.id|stringformat:"s" == selected_cuisine %}selected{% endif %}>
-                                    {{ cuisine.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="recipe-filter-field">
-                        <label for="favourite-meal-type">
-                            <i class="icon-egg-fried"></i>
-                            Meal type
-                        </label>
-
-                        <select id="favourite-meal-type" name="meal_type" class="form-select">
-                            <option value="">All meal types</option>
-
-                            {% for meal_type in meal_types %}
-                                <option value="{{ meal_type.id }}" {% if meal_type.id|stringformat:"s" == selected_meal_type %}selected{% endif %}>
-                                    {{ meal_type.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="recipe-filter-field">
-                        <label for="favourite-difficulty">
-                            <i class="icon-chart-column"></i>
-                            Difficulty
-                        </label>
-
-                        <select id="favourite-difficulty" name="difficulty" class="form-select">
-                            <option value="">All difficulties</option>
-
-                            {% for difficulty_value, difficulty_label in difficulties %}
-                                <option value="{{ difficulty_value }}" {% if difficulty_value == selected_difficulty %}selected{% endif %}>
-                                    {{ difficulty_label }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="recipe-filter-actions">
-                    <button type="submit" class="btn recipe-filter-submit-btn">
-                        <i class="icon-funnel"></i>
-                        Apply Filters
-                    </button>
-
-                    {% if has_active_filters %}
-                        <a href="{% url 'favourite_recipes' %}#favourite-results" class="btn recipe-filter-clear-btn">
-                            <i class="icon-circle-x"></i>
-                            Clear Filters
-                        </a>
-                    {% endif %}
-                </div>
-            </form>
-        </div>
-
-        <!-- Favourite Results Summary -->
-        <div id="favourite-results" class="recipe-results-summary">
-            <div>
-                <i class="icon-heart-pulse"></i>
-
-                <span>
-                    Showing <strong>{{ favourite_recipes|length }}</strong>
-                    favourite recipe{% if favourite_recipes|length != 1 %}s{% endif %}
-                </span>
+        <form method="get" action="{% url 'favourite_recipes' %}#favourite-results" class="rl-filters" role="search">
+            <label class="visually-hidden" for="favourite-search">Search your favourites</label>
+            <div class="rl-search">
+                <i class="icon-search" aria-hidden="true"></i>
+                <input type="search" id="favourite-search" name="q" value="{{ search_query }}" placeholder="Search by name, ingredient or diet">
             </div>
 
+            <label class="visually-hidden" for="favourite-cuisine">Cuisine</label>
+            <select id="favourite-cuisine" name="cuisine">
+                <option value="">Any cuisine</option>
+                {% for cuisine in cuisines %}
+                    <option value="{{ cuisine.id }}" {% if cuisine.id|stringformat:"s" == selected_cuisine %}selected{% endif %}>{{ cuisine.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="visually-hidden" for="favourite-meal-type">Meal</label>
+            <select id="favourite-meal-type" name="meal_type">
+                <option value="">Any meal</option>
+                {% for meal_type in meal_types %}
+                    <option value="{{ meal_type.id }}" {% if meal_type.id|stringformat:"s" == selected_meal_type %}selected{% endif %}>{{ meal_type.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="visually-hidden" for="favourite-difficulty">Difficulty</label>
+            <select id="favourite-difficulty" name="difficulty">
+                <option value="">Any difficulty</option>
+                {% for difficulty_value, difficulty_label in difficulties %}
+                    <option value="{{ difficulty_value }}" {% if difficulty_value == selected_difficulty %}selected{% endif %}>{{ difficulty_label }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="site-btn site-btn-secondary">Search</button>
             {% if has_active_filters %}
-                <span class="active-filter-pill">
-                    <i class="icon-funnel"></i>
-                    Filters active
-                </span>
+                <a href="{% url 'favourite_recipes' %}" class="rl-clear">Clear</a>
             {% endif %}
-        </div>
+        </form>
 
-        <!-- Favourite Recipe Cards -->
-        {% if favourite_recipes %}
-            <div class="saved-recipes-grid">
-                {% for favourite in favourite_recipes %}
-                    <article class="saved-recipe-card favourite-recipe-card">
-
-                        <div class="saved-recipe-card-top">
-                            <div class="saved-recipe-icon favourite-recipe-icon">
-                                <i class="icon-heart"></i>
-                            </div>
-
-                            <div class="saved-recipe-card-badge">
-                                Favourite
-                            </div>
-                        </div>
-
-                        <h2>{{ favourite.recipe.title }}</h2>
-
-                        <p>
-                            {% if favourite.recipe.description %}
-                                {{ favourite.recipe.description|truncatechars:135 }}
-                            {% else %}
-                                A saved AI-generated recipe marked as one of your favourites.
-                            {% endif %}
-                        </p>
-
-                        <div class="saved-recipe-meta">
-                            <span>
-                                <i class="icon-clock"></i>
-                                {{ favourite.recipe.cooking_time_minutes }} min
-                            </span>
-
-                            <span>
-                                <i class="icon-chart-column"></i>
-                                {{ favourite.recipe.difficulty|title }}
-                            </span>
-
-                            {% if favourite.recipe.cuisine %}
-                                <span>
-                                    <i class="icon-globe"></i>
-                                    {{ favourite.recipe.cuisine.name }}
+        <div id="favourite-results">
+            {% if favourite_recipes %}
+                <ul class="rl-grid">
+                    {% for favourite in favourite_recipes %}
+                        <li class="rl-item">
+                            <a class="rl-card" href="{% url 'saved_recipe_detail' favourite.recipe.id %}">
+                                <span class="rl-image">
+                                    {% if favourite.recipe.generated_image %}
+                                        <img src="{{ favourite.recipe.generated_image.url }}" alt="" loading="lazy">
+                                    {% else %}
+                                        <i class="icon-cooking-pot" aria-hidden="true"></i>
+                                    {% endif %}
                                 </span>
-                            {% endif %}
-
-                            {% if favourite.recipe.meal_type %}
-                                <span>
-                                    <i class="icon-egg-fried"></i>
-                                    {{ favourite.recipe.meal_type.name }}
+                                <span class="rl-body">
+                                    <span class="rl-title">{{ favourite.recipe.title }}</span>
+                                    <span class="rl-meta">
+                                        <span><i class="icon-clock" aria-hidden="true"></i> {{ favourite.recipe.cooking_time_minutes }} min</span>
+                                        <span>{{ favourite.recipe.difficulty|title }}</span>
+                                        {% if favourite.recipe.cuisine %}<span>{{ favourite.recipe.cuisine.name }}</span>{% endif %}
+                                    </span>
+                                    <span class="rl-tags">
+                                        {% for diet in favourite.recipe.diet_preferences.all %}<span class="rl-tag">{{ diet.name }}</span>{% endfor %}
+                                        <span class="rl-date">Added {{ favourite.created_at|date:"j M Y" }}</span>
+                                    </span>
                                 </span>
-                            {% endif %}
-                        </div>
-
-                        <div class="saved-recipe-tags">
-                            {% for diet in favourite.recipe.diet_preferences.all %}
-                                <span>
-                                    <i class="icon-circle-check"></i>
-                                    {{ diet.name }}
-                                </span>
-                            {% empty %}
-                                <span>
-                                    <i class="icon-info"></i>
-                                    No diet preference
-                                </span>
-                            {% endfor %}
-                        </div>
-
-                        <div class="saved-recipe-card-footer">
-                            <a href="{% url 'saved_recipe_detail' favourite.recipe.id %}" class="btn saved-recipe-view-btn">
-                                <i class="icon-eye"></i>
-                                View Recipe
                             </a>
-
-                            <form method="post" action="{% url 'toggle_favourite_recipe' favourite.recipe.id %}">
+                            <form method="post" action="{% url 'toggle_favourite_recipe' favourite.recipe.id %}" class="rl-unfavourite">
                                 {% csrf_token %}
-
-                                <button type="submit" class="btn saved-recipe-favourite-remove-btn">
-                                    <i class="icon-heart-crack"></i>
-                                    Remove
+                                <button type="submit" title="Remove from favourites">
+                                    <i class="icon-heart" aria-hidden="true"></i>
+                                    <span class="visually-hidden">Remove {{ favourite.recipe.title }} from favourites</span>
                                 </button>
                             </form>
-                        </div>
-
-                        <div class="saved-recipe-date">
-                            <i class="icon-calendar"></i>
-                            Favourited {{ favourite.created_at|date:"d M Y" }}
-                        </div>
-                    </article>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="empty-saved-recipes-card">
-                <div class="empty-saved-recipes-icon">
-                    <i class="icon-heart"></i>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% elif has_active_filters %}
+                <div class="rl-empty">
+                    <h2>No favourites match</h2>
+                    <p>Try a different word, or clear the filters.</p>
+                    <a href="{% url 'favourite_recipes' %}" class="site-btn site-btn-secondary">Clear filters</a>
                 </div>
-
-                {% if has_active_filters %}
-                    <h2>No favourite recipes match your filters</h2>
-
-                    <p>
-                        Try changing your search term or clearing the filters to see more favourite recipes.
-                    </p>
-
-                    <a href="{% url 'favourite_recipes' %}" class="btn saved-recipes-primary-btn">
-                        <i class="icon-circle-x"></i>
-                        Clear Filters
-                    </a>
-                {% else %}
-                    <h2>No favourite recipes yet</h2>
-
-                    <p>
-                        Open any saved recipe and click “Add to Favourites” to build your favourite recipe collection.
-                    </p>
-
-                    <a href="{% url 'favourite_recipes' %}#favourite-results" class="btn saved-recipes-primary-btn">
-                        <i class="icon-book-open-text"></i>
-                        Browse Saved Recipes
-                    </a>
-                {% endif %}
-            </div>
-        {% endif %}
+            {% else %}
+                <div class="rl-empty">
+                    <i class="icon-heart" aria-hidden="true"></i>
+                    <h2>No favourites yet</h2>
+                    <p>Open a saved recipe and tap the heart to keep it here.</p>
+                    <a href="{% url 'saved_recipes' %}" class="site-btn site-btn-primary">Go to saved recipes</a>
+                </div>
+            {% endif %}
+        </div>
 
     </div>
 </section>

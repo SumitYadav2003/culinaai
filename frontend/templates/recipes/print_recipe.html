@@ -1,242 +1,74 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | Print {{ recipe.title }}{% endblock %}
+{% block title %}Print: {{ recipe.title }} | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipe_print.css' %}?v=recipe-print-premium-final-1-g1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-print-final-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-2">
 {% endblock %}
 
 {% block content %}
 
-<section class="recipe-print-section premium-print-page">
+<section class="rp-page pr-page">
     <div class="container">
-
-        <article class="recipe-print-document premium-print-document">
-
-            <!-- Print Page Header -->
-            <header class="recipe-print-header premium-print-header">
-                <div class="recipe-print-header-copy">
-                    <span class="recipe-print-brand">
-                        <i class="icon-utensils"></i>
-                        CulinaAI Recipe Export
-                    </span>
-
+        <article class="pr-sheet">
+            <header class="pr-head">
+                <div>
+                    <p class="pr-brand">CulinaAI</p>
                     <h1>{{ recipe.title }}</h1>
-
-                    <p>
-                        {% if recipe.description %}
-                            {{ recipe.description }}
-                        {% else %}
-                            A personalised AI-generated recipe saved from CulinaAI.
-                        {% endif %}
-                    </p>
+                    <ul class="rp-facts">
+                        <li><i class="icon-clock" aria-hidden="true"></i> {{ recipe.cooking_time_minutes }} min</li>
+                        <li><i class="icon-chart-column" aria-hidden="true"></i> {{ recipe.difficulty|title }}</li>
+                        {% if recipe.cuisine %}<li><i class="icon-globe" aria-hidden="true"></i> {{ recipe.cuisine.name }}</li>{% endif %}
+                        {% if recipe.meal_type %}<li><i class="icon-egg-fried" aria-hidden="true"></i> {{ recipe.meal_type.name }}</li>{% endif %}
+                        {% for diet in recipe.diet_preferences.all %}<li>{{ diet.name }}</li>{% endfor %}
+                    </ul>
                 </div>
-
-                <div class="recipe-print-actions">
-                    <button type="button" class="btn recipe-print-btn" onclick="window.print()">
-                        <i class="icon-printer"></i>
-                        Print / Save PDF
+                <div class="pr-actions">
+                    <button type="button" class="site-btn site-btn-primary" onclick="window.print()">
+                        <i class="icon-printer" aria-hidden="true"></i> Print or save as PDF
                     </button>
-
-                    <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn recipe-print-back-btn">
-                        <i class="icon-arrow-left"></i>
-                        Back to Recipe
-                    </a>
+                    <a href="{% url 'saved_recipe_detail' recipe.id %}" class="site-btn site-btn-secondary">Back to recipe</a>
                 </div>
             </header>
 
-            <!-- Recipe Meta -->
-            <section class="recipe-print-meta-grid" aria-label="Recipe details">
-                <div>
-                    <span>Cooking Time</span>
-                    <strong>{{ recipe.cooking_time_minutes }} minutes</strong>
-                </div>
+            {% if recipe.allergy_notes %}
+                <p class="rp-avoid">
+                    <i class="icon-triangle-alert" aria-hidden="true"></i>
+                    <span><strong>Made without:</strong> {{ recipe.allergy_notes }}. Check the labels of anything you buy.</span>
+                </p>
+            {% endif %}
 
-                <div>
-                    <span>Difficulty</span>
-                    <strong>{{ recipe.difficulty|title }}</strong>
-                </div>
+            {% if recipe.is_modified_version and recipe.original_recipe %}
+                <p class="pr-origin">
+                    {% if recipe.modification_type %}{{ recipe.get_modification_type_display }} version{% else %}Changed version{% endif %}
+                    of {{ recipe.original_recipe.title }}{% if recipe.modification_instruction %}: "{{ recipe.modification_instruction }}"{% endif %}
+                </p>
+            {% endif %}
 
-                <div>
-                    <span>Cuisine</span>
-                    <strong>
-                        {% if recipe.cuisine %}
-                            {{ recipe.cuisine.name }}
-                        {% else %}
-                            Not specified
-                        {% endif %}
-                    </strong>
-                </div>
-
-                <div>
-                    <span>Meal Type</span>
-                    <strong>
-                        {% if recipe.meal_type %}
-                            {{ recipe.meal_type.name }}
-                        {% else %}
-                            Not specified
-                        {% endif %}
-                    </strong>
-                </div>
-            </section>
-
-            <!-- Premium Image + Recipe Title Design -->
-            <section class="premium-recipe-hero-block">
-                <div class="premium-recipe-heading">
-                    <span class="premium-recipe-label">
-                        <i class="icon-shopping-bag"></i>
-                        Full AI Recipe
-                    </span>
-
-                    <h2>Cooking instructions and chef guidance</h2>
-                </div>
-
-                <div class="premium-recipe-showcase {% if not recipe.generated_image %}no-image-layout{% endif %}">
-                    {% if recipe.generated_image %}
-                        <div class="premium-recipe-image-card">
-                            <div class="premium-recipe-image-frame">
-                                <img
-                                    src="{{ recipe.generated_image.url }}"
-                                    alt="AI-generated image for {{ recipe.title }}"
-                                >
-                            </div>
-
-                            <div class="premium-recipe-image-badge">
-                                <i class="icon-utensils"></i>
-                                AI Food Image
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    <div class="premium-recipe-title-card">
-                        <span class="premium-title-badge">
-                            <i class="icon-utensils"></i>
-                            Final AI Recipe
-                        </span>
-
-                        <h3>{{ recipe.title }}</h3>
-
-                        <div class="premium-title-summary">
-                            {% if recipe.description %}
-                                <p>{{ recipe.description }}</p>
-                            {% else %}
-                                <p>
-                                    A personalised AI-generated recipe created by CulinaAI,
-                                    carefully tailored to user preferences, ingredients and cooking needs.
-                                </p>
-                            {% endif %}
-                        </div>
+            <div class="pr-recipe">
+                {% if recipe.generated_image %}
+                    <div data-culina-recipe-image>
+                        <img src="{{ recipe.generated_image.url }}" alt="Photo of {{ recipe.title }}">
                     </div>
-                </div>
-            </section>
+                {% endif %}
 
-            <!-- Diet Preferences -->
-            <section class="recipe-print-block premium-print-block">
-                <h2>
-                    <i class="icon-tags"></i>
-                    Diet Preferences
-                </h2>
-
-                <div class="recipe-print-tags">
-                    {% for diet in recipe.diet_preferences.all %}
-                        <span>{{ diet.name }}</span>
-                    {% empty %}
-                        <span>No diet preference</span>
-                    {% endfor %}
-                </div>
-            </section>
-
-            <!-- User Ingredients Summary -->
-            <section class="recipe-print-block premium-print-block">
-                <h2>
-                    <i class="icon-shopping-basket"></i>
-                    User Ingredients Provided
-                </h2>
-
-                <div class="recipe-print-text premium-print-text">
-                    {{ recipe.ingredients_text|linebreaks }}
-                </div>
-            </section>
-
-            <!-- Allergy Notes -->
-            <section class="recipe-print-block premium-print-block">
-                <h2>
-                    <i class="icon-shield-alert"></i>
-                    Allergy & Safety Notes
-                </h2>
-
-                <div class="recipe-print-warning">
-                    {% if recipe.allergy_notes %}
-                        {{ recipe.allergy_notes|linebreaks }}
-                    {% else %}
-                        <p>No allergy notes were provided. Please still check all ingredients manually before cooking.</p>
-                    {% endif %}
-                </div>
-            </section>
-
-            <!-- Premium Formatted Full AI Recipe -->
-            <section class="recipe-print-block premium-print-block premium-print-recipe-output-block">
-                <div
-                    class="recipe-print-text premium-print-text culina-readable-recipe"
-                    data-culina-recipe-output
-                >
+                <div data-culina-recipe-output data-title-shown>
                     {{ recipe.instructions_text|linebreaks }}
                 </div>
-            </section>
+            </div>
 
             {% include "recipes/partials/recipe_insights.html" with insights=recipe.insights %}
 
-            <!-- Modification Information -->
-            {% if recipe.is_modified_version and recipe.original_recipe %}
-                <section class="recipe-print-block recipe-print-origin premium-print-block">
-                    <h2>
-                        <i class="icon-refresh-cw"></i>
-                        Modification Information
-                    </h2>
-
-                    <p>
-                        This recipe was modified from:
-                        <strong>{{ recipe.original_recipe.title }}</strong>
-                    </p>
-
-                    {% if recipe.modification_type %}
-                        <p>
-                            Modification type:
-                            <strong>{{ recipe.get_modification_type_display }}</strong>
-                        </p>
-                    {% endif %}
-
-                    {% if recipe.modification_instruction %}
-                        <p>
-                            User instruction:
-                            <strong>{{ recipe.modification_instruction }}</strong>
-                        </p>
-                    {% endif %}
-                </section>
-            {% endif %}
-
-            <!-- Footer -->
-            <footer class="recipe-print-footer premium-print-footer">
-                <p>
-                    Generated by CulinaAI for
-                    {% if user.get_full_name %}
-                        {{ user.get_full_name }}
-                    {% else %}
-                        {{ user.username }}
-                    {% endif %}.
-                    Exported on {% now "d M Y" %}.
-                </p>
+            <footer class="pr-foot">
+                Printed from CulinaAI on {% now "j M Y" %}. Nutrition and cost are estimates.
             </footer>
-
         </article>
-
     </div>
 </section>
 
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-print-final-1-g1"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-print-2"></script>
 {% endblock %}
