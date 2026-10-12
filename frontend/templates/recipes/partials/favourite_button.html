@@ -1,0 +1,23 @@
+{% comment %}
+Heart on a recipe card: adds or removes it from favourites and comes back to this page.
+Context: recipe, and either favourite_ids (a set of recipe ids) or is_fav=True.
+{% endcomment %}
+{% if is_fav or recipe.id in favourite_ids %}
+    <form method="post" action="{% url 'toggle_favourite_recipe' recipe.id %}" class="rl-fav-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="rl-fav is-on" aria-pressed="true" title="Remove from favourites">
+            <i class="icon-heart" aria-hidden="true"></i>
+            <span class="visually-hidden">Remove {{ recipe.title }} from favourites</span>
+        </button>
+    </form>
+{% else %}
+    <form method="post" action="{% url 'toggle_favourite_recipe' recipe.id %}" class="rl-fav-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="rl-fav" aria-pressed="false" title="Add to favourites">
+            <i class="icon-heart" aria-hidden="true"></i>
+            <span class="visually-hidden">Add {{ recipe.title }} to favourites</span>
+        </button>
+    </form>
+{% endif %}

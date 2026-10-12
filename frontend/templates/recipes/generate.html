@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g2">
-<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-2">
+<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-3">
 <link rel="stylesheet" href="{% static 'css/generate_page.css' %}?v=generate-page-1">
 {% endblock %}
 
@@ -248,62 +248,22 @@
                 <div class="voice-status-message" data-voice-status hidden></div>
 
                 <div class="gp-submit">
-                    <button type="submit" class="site-btn site-btn-primary site-btn-lg">Make my recipe</button>
+                    <button type="submit" class="site-btn site-btn-primary site-btn-lg" data-busy-text="Making your recipe…">Make my recipe</button>
                     <p>Takes about a minute. The recipe is checked against your diet and allergies before you see it.</p>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Recipe Generation Loading Overlay -->
-    <div class="culina-loading-overlay" data-culina-loading-overlay>
-        <div class="culina-loading-card">
-            <div class="culina-loading-content">
-                <div class="culina-chef-loader" aria-hidden="true">
-                    <span class="culina-steam culina-steam-one"></span>
-                    <span class="culina-steam culina-steam-two"></span>
-                    <span class="culina-steam culina-steam-three"></span>
-
-                    <span class="culina-orbit-dot culina-dot-one"></span>
-                    <span class="culina-orbit-dot culina-dot-two"></span>
-                    <span class="culina-orbit-dot culina-dot-three"></span>
-
-                    <div class="culina-loader-lid"></div>
-                    <div class="culina-loader-pot"></div>
-                    <div class="culina-loader-plate"></div>
-                </div>
-
-                <h2 class="culina-loading-title">Making your recipe</h2>
-
-                <p class="culina-loading-subtitle">
-                    It's written, then checked against your diet and allergies, and the
-                    nutrition and cost are worked out. This usually takes under a minute.
-                </p>
-
-                <div class="culina-loading-progress-wrap">
-                    <div class="culina-loading-progress">
-                        <div class="culina-loading-progress-bar"></div>
-                    </div>
-                </div>
-
-                <div class="culina-loading-step" data-culina-loading-step>
-                    Reading your ingredients...
-                </div>
-
-                <div class="culina-loading-mini">
-                    Please keep this page open.
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include "recipes/partials/loading_overlay.html" %}
 
 </section>
 
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-2"></script>
+<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-3"></script>
 <script src="{% static 'js/recipe_output.js' %}?v=recipe-output-2"></script>
 <script src="{% static 'js/voice_input.js' %}?v=voice-input-1-g1"></script>
-<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-2"></script>
+<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-3"></script>
 {% endblock %}

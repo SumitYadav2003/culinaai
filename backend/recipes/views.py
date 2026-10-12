@@ -12,6 +12,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.mail import send_mail
 from django.db.models import Avg, Count, F, Q
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -1738,8 +1739,15 @@ def saved_recipes_view(request):
     if difficulty:
         recipes = recipes.filter(difficulty=difficulty)
 
+    # Which of these recipes are favourites, for the heart on each card.
+    favourite_ids = set(
+        FavouriteRecipe.objects.filter(user=request.user).values_list("recipe_id", flat=True)
+    )
+
     context = {
         "recipes": recipes,
+        "favourite_ids": favourite_ids,
+        "favourite_count": len(favourite_ids),
         "cuisines": Cuisine.objects.all().order_by("name"),
         "meal_types": MealType.objects.all().order_by("name"),
         "difficulty_choices": Recipe.DIFFICULTY_CHOICES,
@@ -2247,10 +2255,19 @@ def toggle_favourite_recipe_view(request, recipe_id):
     )
 
     if created:
-        messages.success(request, "Added to favourites.")
+        messages.success(request, f'Added "{recipe.title}" to favourites.')
     else:
         favourite.delete()
-        messages.info(request, "Removed from favourites.")
+        messages.info(request, f'Removed "{recipe.title}" from favourites.')
+
+    # Go back to the page the heart was pressed on (saved list, favourites or the recipe).
+    next_url = request.POST.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(
+        url=next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return redirect(next_url)
 
     return redirect("saved_recipe_detail", recipe_id=recipe.id)
 

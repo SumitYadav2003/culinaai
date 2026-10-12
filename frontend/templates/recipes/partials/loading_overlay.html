@@ -1,0 +1,42 @@
+{% comment %}
+Full-screen "please wait" box shown while a recipe is being made or changed
+(js/recipe_loading.js). Any form with data-recipe-loading-form opens it. A form
+can set its own data-loading-title, data-loading-text and data-loading-steps
+(steps separated by "|"); otherwise the text below is used.
+{% endcomment %}
+<div class="culina-loading-overlay" data-culina-loading-overlay role="status" aria-live="polite">
+    <div class="culina-loading-card">
+        <div class="culina-loading-content">
+            <div class="culina-chef-loader" aria-hidden="true">
+                <span class="culina-steam culina-steam-one"></span>
+                <span class="culina-steam culina-steam-two"></span>
+                <span class="culina-steam culina-steam-three"></span>
+
+                <span class="culina-orbit-dot culina-dot-one"></span>
+                <span class="culina-orbit-dot culina-dot-two"></span>
+                <span class="culina-orbit-dot culina-dot-three"></span>
+
+                <div class="culina-loader-lid"></div>
+                <div class="culina-loader-pot"></div>
+                <div class="culina-loader-plate"></div>
+            </div>
+
+            <h2 class="culina-loading-title" data-culina-loading-title>Making your recipe</h2>
+
+            <p class="culina-loading-subtitle" data-culina-loading-text>
+                It's written, then checked against your diet and allergies, and the
+                nutrition and cost are worked out. This usually takes under a minute.
+            </p>
+
+            <div class="culina-loading-progress-wrap">
+                <div class="culina-loading-progress">
+                    <div class="culina-loading-progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="culina-loading-step" data-culina-loading-step>Reading your ingredients…</div>
+
+            <div class="culina-loading-mini">Please keep this page open.</div>
+        </div>
+    </div>
+</div>

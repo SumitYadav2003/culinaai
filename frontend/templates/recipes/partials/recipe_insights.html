@@ -146,11 +146,11 @@ Context:
                             <span class="culina-reason-chip culina-reason-{{ item.reason }}">{{ item.label }}</span>
                             <span class="culina-classic-detail">{{ item.detail }}</span>
                             {% if add_back_recipe and item.can_add_back %}
-                                <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form">
+                                <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form" data-recipe-loading-form data-loading-title="Changing your recipe" data-loading-text="The new version is written, checked against your diet and allergies, and its nutrition and cost are worked out. This usually takes under a minute." data-loading-steps="Reading your recipe…|Making the change…|Checking it against your diet and allergies…|Working out nutrition, cost and carbon…|Almost ready…">
                                     {% csrf_token %}
                                     <input type="hidden" name="modification_type" value="custom">
                                     <input type="hidden" name="custom_instruction" value="Add {{ item.ingredient }} back into the recipe, as in the classic {{ insights.classic.classic_name }}.">
-                                    <button type="submit" class="culina-add-back-button"><i class="icon-circle-plus" aria-hidden="true"></i> Add it back</button>
+                                    <button type="submit" class="culina-add-back-button" data-busy-text="Adding it…"><i class="icon-circle-plus" aria-hidden="true"></i> Add it back</button>
                                 </form>
                             {% endif %}
                         </li>
@@ -213,17 +213,17 @@ Context:
                                         <span class="ri-tag ri-tag-treat"><i class="icon-cake" aria-hidden="true"></i> Treat</span>
                                     {% endif %}
                                     {% if add_back_recipe %}
-                                        <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form culina-way-form">
+                                        <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form data-loading-title="Making this version" data-loading-text="The recipe is rewritten with these swaps and checked again. This usually takes under a minute." data-loading-steps="Swapping the ingredients…|Rewriting the method…|Checking it against your diet and allergies…|Working out nutrition, cost and carbon…|Almost ready…">
                                             {% csrf_token %}
                                             <input type="hidden" name="modification_type" value="custom">
                                             <input type="hidden" name="custom_instruction" value="{{ version.instruction }}">
-                                            <button type="submit" class="culina-add-back-button">Cook this version</button>
+                                            <button type="submit" class="culina-add-back-button" data-busy-text="Making it…">Cook this version</button>
                                         </form>
                                     {% elif cook_versions %}
-                                        <form method="post" action="{% url 'generate_recipe_version' %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form>
+                                        <form method="post" action="{% url 'generate_recipe_version' %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form data-loading-title="Making this version" data-loading-text="The recipe is rewritten with these swaps and checked again. This usually takes under a minute." data-loading-steps="Swapping the ingredients…|Rewriting the method…|Checking it against your diet and allergies…|Working out nutrition, cost and carbon…|Almost ready…">
                                             {% csrf_token %}
                                             <input type="hidden" name="goal" value="{{ version.goal }}">
-                                            <button type="submit" class="culina-add-back-button">Cook this version</button>
+                                            <button type="submit" class="culina-add-back-button" data-busy-text="Making it…">Cook this version</button>
                                         </form>
                                     {% endif %}
                                 </div>
