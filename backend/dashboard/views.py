@@ -11,23 +11,10 @@ from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 @login_required
 def dashboard_view(request):
     """
-    Displays the logged-in user's CulinaAI dashboard.
-
-    The dashboard is designed as a professional user analytics hub.
-
-    It now includes:
-    - saved recipes count
-    - favourite recipes count
-    - total AI recipe generations
-    - AI-modified recipes
-    - feedback and ratings
-    - taste profile
-    - favourite cuisine
-    - average cooking time
-    - favourite ingredients
-    - recent searches
-    - weekly/monthly activity data
-    - chart-ready analytics data
+    The logged-in user's dashboard: their numbers, latest recipes, one
+    suggestion, the ingredients they use most, health/cost/carbon across their
+    recipes (impact_service.py) and what cooking mode has learned
+    (cooking_learning_service.py).
     """
 
     saved_recipes = Recipe.objects.filter(
@@ -128,37 +115,26 @@ def dashboard_view(request):
         "meal_type",
     ).order_by("-created_at").first()
 
+    # One suggestion for what to do next, based on what the user has tried.
     if saved_count == 0:
-        smart_tip_title = "Build your recipe library"
-        smart_tip_text = (
-            "Generate and save your first AI recipe to unlock personalised "
-            "dashboard insights."
-        )
-        smart_tip_icon = "icon-chef-hat"
+        smart_tip_title = "Save your first recipe"
+        smart_tip_text = "Make a recipe and press Save. Your recipes and numbers will show up here."
+        smart_tip_icon = "icon-bookmark"
 
     elif modified_count == 0:
-        smart_tip_title = "Try your first AI refinement"
-        smart_tip_text = (
-            "Modify a saved recipe to make it healthier, quicker, cheaper, "
-            "vegetarian or custom."
-        )
+        smart_tip_title = "Try changing a recipe"
+        smart_tip_text = "Open a saved recipe and make it healthier, quicker, cheaper or vegetarian."
         smart_tip_icon = "icon-refresh-cw"
 
     elif feedback_count == 0:
-        smart_tip_title = "Add evaluation feedback"
-        smart_tip_text = (
-            "Rate and review recipes to build stronger evidence for recipe "
-            "quality evaluation."
-        )
-        smart_tip_icon = "icon-message-square"
+        smart_tip_title = "Rate a recipe you've cooked"
+        smart_tip_text = "Your ratings help CulinaAI suggest recipes you'll like."
+        smart_tip_icon = "icon-star"
 
     else:
-        smart_tip_title = "Your CulinaAI profile is active"
-        smart_tip_text = (
-            "You are using saved recipes, AI refinements, favourites and "
-            "feedback together."
-        )
-        smart_tip_icon = "icon-trending-up"
+        smart_tip_title = "Try something new"
+        smart_tip_text = "Pick a cuisine you haven't cooked yet on the New recipe page."
+        smart_tip_icon = "icon-compass"
 
     context = {
         "saved_recipes_count": saved_count,

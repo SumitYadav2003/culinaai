@@ -491,27 +491,15 @@ def build_validation_error_message(parsed_response):
         return rejection_reason
 
     if image_context in INVALID_IMAGE_CONTEXTS:
-        return (
-            "This does not appear to be a refrigerator, pantry, grocery, "
-            "kitchen counter, or visible food storage image. Please upload a clear food-related image."
-        )
+        return "That photo doesn't look like a fridge, cupboard or food. Try a clear photo of your fridge."
 
     if image_quality == "poor":
-        return (
-            "The image quality is too poor for reliable ingredient detection. "
-            "Please upload a brighter and clearer image."
-        )
+        return "The photo is too dark or blurry to read. Try again in better light."
 
     if confidence < MIN_IMAGE_CONFIDENCE:
-        return (
-            "CulinaAI could not confidently verify this as a valid food or refrigerator image. "
-            "Please upload a clearer fridge, pantry, grocery, or food storage image."
-        )
+        return "It isn't clear that this is a photo of food. Try a clearer photo of your fridge or cupboard."
 
-    return (
-        "The uploaded image could not be validated for ingredient scanning. "
-        "Please upload a clearer refrigerator or food-related image."
-    )
+    return "That photo couldn't be used. Try a clearer photo of your fridge or cupboard."
 
 
 def validate_ai_image_response(parsed_response):
@@ -855,12 +843,11 @@ def scan_fridge_image(fridge_scan):
 
         if not detected_items:
             fridge_scan.error_message = (
-                "The image was accepted as food-related, but no clear cooking ingredients were detected. "
-                "Please upload a clearer image or enter ingredients manually."
+                "No ingredients could be picked out of that photo. Try a clearer one, or type the list in."
             )
         elif image_quality == "acceptable" or confidence < 75:
             fridge_scan.error_message = (
-                "Some ingredients may be unclear. Please carefully review and edit the detected list before using it."
+                "Some items were hard to make out. Check the list carefully before you use it."
             )
         else:
             fridge_scan.error_message = ""
@@ -878,7 +865,7 @@ def scan_fridge_image(fridge_scan):
         return {
             "success": True,
             "detected_items": detected_items,
-            "message": "Fridge scan completed and validated successfully.",
+            "message": "Scan finished.",
             "validation": {
                 "is_valid_food_storage_image": True,
                 "image_context": parsed_response.get("image_context", "unclear"),

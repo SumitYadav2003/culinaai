@@ -378,24 +378,24 @@ class FridgeScanUploadForm(forms.ModelForm):
             ),
         }
         labels = {
-            "image": "Upload refrigerator image",
+            "image": "Photo of your fridge or cupboard",
         }
         help_texts = {
-            "image": "Upload a clear fridge photo in JPG, PNG or WEBP format.",
+            "image": "JPG, PNG or WEBP, up to 5 MB.",
         }
 
     def clean_image(self):
         image = self.cleaned_data.get("image")
 
         if not image:
-            raise forms.ValidationError("Please upload a refrigerator image.")
+            raise forms.ValidationError("Choose a photo first.")
 
         max_size_mb = 5
         max_size_bytes = max_size_mb * 1024 * 1024
 
         if image.size > max_size_bytes:
             raise forms.ValidationError(
-                f"Image size must be less than {max_size_mb} MB."
+                f"That photo is too large. It needs to be under {max_size_mb} MB."
             )
 
         allowed_content_types = [
@@ -408,7 +408,7 @@ class FridgeScanUploadForm(forms.ModelForm):
 
         if content_type and content_type not in allowed_content_types:
             raise forms.ValidationError(
-                "Only JPG, PNG or WEBP refrigerator images are allowed."
+                "Use a JPG, PNG or WEBP photo."
             )
 
         return image
@@ -423,15 +423,15 @@ class FridgeScanConfirmForm(forms.Form):
     """
 
     confirmed_items_text = forms.CharField(
-        label="Confirm detected ingredients",
+        label="Ingredients found",
         widget=forms.Textarea(
             attrs={
                 "class": "form-control",
                 "rows": 8,
-                "placeholder": "Example:\nMilk\nTomatoes\nCheese\nSpinach",
+                "placeholder": "One per line, e.g.\nMilk\nTomatoes\nSpinach",
             }
         ),
-        help_text="Keep one ingredient per line. Remove anything incorrect and add anything missing.",
+        help_text="One per line. Delete anything that's wrong and add anything that was missed.",
     )
 
     def __init__(self, *args, detected_items=None, **kwargs):

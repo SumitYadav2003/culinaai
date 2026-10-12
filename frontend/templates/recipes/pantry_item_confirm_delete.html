@@ -1,80 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}CulinaAI | Delete Pantry Item{% endblock %}
+{% block title %}Delete {{ pantry_item.ingredient_name }} | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-1">
+{% endblock %}
 
 {% block content %}
-<section class="pantry-page-section">
-  <div class="container">
 
-    <div class="pantry-hero-card pantry-small-hero pantry-delete-hero">
-      <div>
-        <p class="pantry-eyebrow">Smart Pantry</p>
-        <h1>Delete Pantry Item</h1>
-        <p>
-          Confirm whether you want to remove this ingredient from your Smart Pantry.
-        </p>
-      </div>
+<section class="ap-page">
+    <div class="container ap-narrow">
+        <a href="{% url 'pantry_list' %}" class="ap-back"><i class="icon-arrow-left" aria-hidden="true"></i> Pantry</a>
 
-      <div class="pantry-hero-actions">
-        <a href="{% url 'pantry_list' %}" class="pantry-secondary-btn">
-          <i class="icon-arrow-left"></i>
-          Back to Pantry
-        </a>
-      </div>
-    </div>
+        <div class="ap-card ap-confirm">
+            <h1>Delete {{ pantry_item.ingredient_name }}?</h1>
+            <p class="ap-muted">
+                {% if pantry_item.quantity %}{{ pantry_item.quantity|floatformat:"-2" }} {{ pantry_item.get_unit_display }} · {% endif %}{{ pantry_item.get_category_display }}{% if pantry_item.expiry_date %} · use by {{ pantry_item.expiry_date|date:"j M Y" }}{% endif %}
+            </p>
+            <p>It will be removed from your pantry. You can't undo this.</p>
 
-    <div class="pantry-delete-wrapper">
-      <div class="pantry-delete-card">
-        <div class="pantry-delete-icon">
-          <i class="icon-trash-2"></i>
+            <form method="post" class="ap-actions">
+                {% csrf_token %}
+                <button type="submit" class="site-btn site-btn-danger">Delete</button>
+                <a href="{% url 'pantry_list' %}" class="site-btn site-btn-quiet">Cancel</a>
+            </form>
         </div>
-
-        <h2>Remove {{ pantry_item.ingredient_name }}?</h2>
-
-        <p>
-          This item will be permanently removed from your pantry list.
-          This action cannot be undone.
-        </p>
-
-        <div class="pantry-delete-summary">
-          <div>
-            <span>Ingredient</span>
-            <strong>{{ pantry_item.ingredient_name }}</strong>
-          </div>
-
-          <div>
-            <span>Quantity</span>
-            <strong>
-              {{ pantry_item.quantity|default:"-" }} {{ pantry_item.get_unit_display }}
-            </strong>
-          </div>
-
-          <div>
-            <span>Category</span>
-            <strong>{{ pantry_item.get_category_display }}</strong>
-          </div>
-
-          <div>
-            <span>Expiry Status</span>
-            <strong>{{ pantry_item.expiry_status }}</strong>
-          </div>
-        </div>
-
-        <form method="post" class="pantry-delete-actions">
-          {% csrf_token %}
-
-          <button type="submit" class="pantry-danger-action-btn">
-            <i class="icon-trash-2"></i>
-            Yes, Delete Item
-          </button>
-
-          <a href="{% url 'pantry_list' %}" class="pantry-secondary-light-btn">
-            Cancel
-          </a>
-        </form>
-      </div>
     </div>
-
-  </div>
 </section>
+
 {% endblock %}

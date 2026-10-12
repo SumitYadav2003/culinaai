@@ -1,122 +1,69 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}CulinaAI | Edit Pantry Item{% endblock %}
+{% block title %}Edit {{ pantry_item.ingredient_name }} | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-1">
+{% endblock %}
 
 {% block content %}
-<section class="pantry-page-section">
-  <div class="container">
 
-    <div class="pantry-hero-card pantry-small-hero">
-      <div>
-        <p class="pantry-eyebrow">Smart Pantry</p>
-        <h1>Edit Pantry Item</h1>
-        <p>
-          Update ingredient quantity, category, expiry date, availability status,
-          or notes for your pantry item.
-        </p>
-      </div>
+<section class="ap-page">
+    <div class="container ap-narrow">
+        <a href="{% url 'pantry_list' %}" class="ap-back"><i class="icon-arrow-left" aria-hidden="true"></i> Pantry</a>
 
-      <div class="pantry-hero-actions">
-        <a href="{% url 'pantry_list' %}" class="pantry-secondary-btn">
-          <i class="icon-arrow-left"></i>
-          Back to Pantry
-        </a>
-      </div>
+        <div class="ap-card">
+            <h1 class="ap-card-title">Edit {{ pantry_item.ingredient_name }}</h1>
+
+            <form method="post" class="ap-form ap-form-stack" novalidate>
+                {% csrf_token %}
+                {% for error in form.non_field_errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+
+                <div>
+                    <label for="{{ form.ingredient_name.id_for_label }}">Ingredient</label>
+                    {{ form.ingredient_name }}
+                    {% for error in form.ingredient_name.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+                </div>
+
+                <div class="pt-two">
+                    <div>
+                        <label for="{{ form.quantity.id_for_label }}">Amount</label>
+                        {{ form.quantity }}
+                        {% for error in form.quantity.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div>
+                        <label for="{{ form.unit.id_for_label }}">Unit</label>
+                        {{ form.unit }}
+                    </div>
+                </div>
+
+                <div class="pt-two">
+                    <div>
+                        <label for="{{ form.category.id_for_label }}">Type</label>
+                        {{ form.category }}
+                    </div>
+                    <div>
+                        <label for="{{ form.expiry_date.id_for_label }}">Use by</label>
+                        {{ form.expiry_date }}
+                        {% for error in form.expiry_date.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="{{ form.notes.id_for_label }}">Notes</label>
+                    {{ form.notes }}
+                </div>
+
+                <label class="ap-check">{{ form.is_available }} I still have this</label>
+
+                <div class="ap-actions">
+                    <button type="submit" class="site-btn site-btn-primary">Save</button>
+                    <a href="{% url 'pantry_list' %}" class="site-btn site-btn-quiet">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="pantry-edit-wrapper">
-      <div class="pantry-form-card pantry-edit-card">
-        <h2>Update {{ pantry_item.ingredient_name }}</h2>
-        <p>
-          Make changes below and save the updated pantry item.
-        </p>
-
-        <form method="post" novalidate>
-          {% csrf_token %}
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.ingredient_name.id_for_label }}">
-              {{ form.ingredient_name.label }}
-            </label>
-            {{ form.ingredient_name }}
-            {% for error in form.ingredient_name.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label" for="{{ form.quantity.id_for_label }}">
-                {{ form.quantity.label }}
-              </label>
-              {{ form.quantity }}
-              {% for error in form.quantity.errors %}
-                <div class="text-danger small mt-1">{{ error }}</div>
-              {% endfor %}
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label class="form-label" for="{{ form.unit.id_for_label }}">
-                {{ form.unit.label }}
-              </label>
-              {{ form.unit }}
-              {% for error in form.unit.errors %}
-                <div class="text-danger small mt-1">{{ error }}</div>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.category.id_for_label }}">
-              {{ form.category.label }}
-            </label>
-            {{ form.category }}
-            {% for error in form.category.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.expiry_date.id_for_label }}">
-              {{ form.expiry_date.label }}
-            </label>
-            {{ form.expiry_date }}
-            {% for error in form.expiry_date.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="{{ form.notes.id_for_label }}">
-              {{ form.notes.label }}
-            </label>
-            {{ form.notes }}
-            {% for error in form.notes.errors %}
-              <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-          </div>
-
-          <div class="form-check mb-4">
-            {{ form.is_available }}
-            <label class="form-check-label" for="{{ form.is_available.id_for_label }}">
-              {{ form.is_available.label }}
-            </label>
-          </div>
-
-          <div class="pantry-form-actions">
-            <button type="submit" class="pantry-primary-btn">
-              <i class="icon-circle-check"></i>
-              Save Changes
-            </button>
-
-            <a href="{% url 'pantry_list' %}" class="pantry-secondary-light-btn">
-              Cancel
-            </a>
-          </div>
-        </form>
-      </div>
-    </div>
-
-  </div>
 </section>
+
 {% endblock %}

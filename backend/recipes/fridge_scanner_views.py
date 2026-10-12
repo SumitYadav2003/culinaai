@@ -96,40 +96,19 @@ def fridge_scan_upload_view(request):
 
             detected_items = scan_result.get("detected_items", [])
             detected_count = len(detected_items)
-            validation = scan_result.get("validation", {})
             result_message = scan_result.get("message", "")
 
             if scan_result.get("success"):
-                confidence = validation.get("confidence")
-                image_quality = validation.get("image_quality", "unknown")
-                image_context = validation.get("image_context", "food image")
-
                 if detected_count > 0:
                     messages.success(
                         request,
-                        (
-                            f"Fridge scan validated successfully. "
-                            f"{detected_count} possible ingredient(s) were detected."
-                        ),
+                        f"Found {detected_count} possible ingredient{'s' if detected_count != 1 else ''}. Check the list before you use it.",
                     )
-
-                    if confidence is not None:
-                        messages.info(
-                            request,
-                            (
-                                f"Image context: {image_context}. "
-                                f"Image quality: {image_quality}. "
-                                f"Validation confidence: {confidence}%."
-                            ),
-                        )
 
                 else:
                     messages.warning(
                         request,
-                        (
-                            "The image was accepted as food-related, but no clear ingredients "
-                            "were detected. You can still enter the ingredient list manually."
-                        ),
+                        "No ingredients could be picked out of that photo. You can type the list in below.",
                     )
 
                 if fridge_scan.error_message:
@@ -143,17 +122,14 @@ def fridge_scan_upload_view(request):
             messages.error(
                 request,
                 result_message
-                or (
-                    "The image failed refrigerator scanner validation. "
-                    "Please upload a clear refrigerator, pantry, grocery, or food storage image."
-                ),
+                or "That photo doesn't look like a fridge or food. Try a clear photo of your fridge or cupboard.",
             )
 
             return redirect("fridge_scan_upload")
 
         messages.error(
             request,
-            "Please upload a valid JPG, PNG, or WEBP image within the allowed file size.",
+            "Choose a JPG, PNG or WEBP photo that isn't too large.",
         )
 
     else:
@@ -193,10 +169,7 @@ def fridge_scan_confirm_view(request, scan_id):
         messages.error(
             request,
             fridge_scan.error_message
-            or (
-                "This scan failed validation and cannot be used. "
-                "Please upload a clearer refrigerator or food-related image."
-            ),
+            or "That scan couldn't be used. Try a clearer photo of your fridge or cupboard.",
         )
 
         return redirect("fridge_scan_upload")
@@ -233,10 +206,7 @@ def fridge_scan_confirm_view(request, scan_id):
             if action == "save_only" and list_already_saved:
                 messages.info(
                     request,
-                    (
-                        "This ingredient list is already saved. "
-                        "Edit, add, or remove an ingredient before saving again."
-                    ),
+                    "No changes to save.",
                 )
 
                 return redirect("fridge_scan_confirm", scan_id=fridge_scan.id)
@@ -262,27 +232,19 @@ def fridge_scan_confirm_view(request, scan_id):
                 if created_count > 0:
                     messages.success(
                         request,
-                        (
-                            f"{created_count} ingredient(s) added to your pantry. "
-                            "Expiry dates cannot be detected from the refrigerator image, "
-                            "so please edit the new pantry items and add expiry dates to enable "
-                            "Expired, Expiring Soon, and Priority Ingredients tracking."
-                        ),
+                        f"Added {created_count} item{'s' if created_count != 1 else ''} to your pantry. A photo can't show use-by dates, so add them with the pencil button if you want reminders.",
                     )
 
                 if skipped_count > 0:
                     messages.info(
                         request,
-                        f"{skipped_count} duplicate pantry item(s) were skipped.",
+                        f"{skipped_count} {'was' if skipped_count == 1 else 'were'} already in your pantry, so skipped.",
                     )
 
                 if created_count == 0 and skipped_count == 0:
                     messages.warning(
                         request,
-                        (
-                            "No valid ingredients were added to pantry. "
-                            "Please check the confirmed list and try again."
-                        ),
+                        "Nothing was added to your pantry. Check the list and try again.",
                     )
 
                 return redirect("pantry_list")
@@ -291,23 +253,18 @@ def fridge_scan_confirm_view(request, scan_id):
                 request.session["fridge_scanned_ingredients"] = confirmed_items
                 request.session.modified = True
 
-                messages.success(
-                    request,
-                    "Confirmed fridge ingredients are ready for recipe generation.",
-                )
-
                 return redirect("generate_recipe")
 
             messages.success(
                 request,
-                "Your edited ingredient list has been saved successfully.",
+                "List saved.",
             )
 
             return redirect("fridge_scan_confirm", scan_id=fridge_scan.id)
 
         messages.error(
             request,
-            "Please check the confirmed ingredient list and try again.",
+            "Check the list and try again.",
         )
 
     else:
@@ -372,7 +329,7 @@ def fridge_scan_delete_view(request, scan_id):
 
     messages.success(
         request,
-        "Fridge scan deleted successfully.",
+        "Scan deleted.",
     )
 
     return redirect("fridge_scan_history")

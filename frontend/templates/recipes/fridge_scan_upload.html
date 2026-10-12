@@ -1,273 +1,79 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | AI Refrigerator Scanner{% endblock %}
+{% block title %}Scan your fridge | CulinaAI{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-video-loader-final-2-g2">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-1">
 {% endblock %}
 
 {% block content %}
-<section class="fridge-scanner-page">
-    <div class="container fridge-scanner-container">
 
-        <!-- Hero -->
-        <div class="fridge-page-hero">
-            <div class="fridge-page-title-row">
-                <div class="fridge-page-title-wrap">
-                    <div class="fridge-page-icon-box">
-                        <i class="icon-camera"></i>
-                    </div>
+<section class="ap-page">
+    <div class="container ap-narrow">
 
-                    <div class="fridge-page-copy">
-                        <span class="fridge-page-badge">
-                            <i class="icon-utensils"></i>
-                            AI-Powered Pantry Input
-                        </span>
-
-                        <h1>AI Refrigerator Scanner</h1>
-
-                        <p>
-                            Upload a refrigerator photo and CulinaAI will detect visible food ingredients.
-                            You can confirm the list before adding items to pantry or generating a recipe.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="fridge-page-actions">
-                    <a href="{% url 'fridge_scan_history' %}" class="fridge-outline-btn">
-                        <i class="icon-history"></i>
-                        Scan History
-                    </a>
-                </div>
+        <header class="ap-head">
+            <div>
+                <h1>Scan your fridge</h1>
+                <p>Upload a photo of your fridge or cupboard. You'll see what was found and can change the list before using it.</p>
             </div>
-        </div>
+            {% if recent_scans %}
+                <a href="{% url 'fridge_scan_history' %}" class="site-btn site-btn-secondary">Past scans</a>
+            {% endif %}
+        </header>
 
-        <div class="row g-4 align-items-stretch">
-
-            <!-- Left Card -->
-            <div class="col-lg-7 d-flex">
-                <div class="scanner-card scanner-upload-card w-100">
-                    <div class="scanner-card-head">
-                        <span class="scanner-section-label">Upload Image</span>
-                        <h2>Scan Your Refrigerator</h2>
-                        <p>Use a bright and clear image where food items are visible.</p>
-                    </div>
-
-                    <div class="scanner-card-body">
-
-                        <form
-                            method="post"
-                            enctype="multipart/form-data"
-                            class="scanner-upload-form"
-                            id="fridgeScannerUploadForm"
-                            data-fridge-scanner-form
-                        >
-                            {% csrf_token %}
-
-                            <div class="scanner-upload-shell">
-                                <div class="scanner-upload-topline">
-                                    <div class="scanner-upload-mini-icon">
-                                        <i class="icon-image"></i>
-                                    </div>
-
-                                    <div>
-                                        <h5>Upload refrigerator image</h5>
-                                        <p>JPG, PNG or WEBP format works best.</p>
-                                    </div>
-                                </div>
-
-                                <div class="scanner-file-input-wrap">
-                                    {{ form.image }}
-
-                                    {% if form.image.help_text %}
-                                        <div class="form-text scanner-help-text">
-                                            {{ form.image.help_text }}
-                                        </div>
-                                    {% endif %}
-
-                                    {% for error in form.image.errors %}
-                                        <div class="scanner-error-text">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="scanner-support-chips">
-                                    <span><i class="icon-sun"></i> Use bright lighting</span>
-                                    <span><i class="icon-layout-grid"></i> Keep items visible</span>
-                                    <span><i class="icon-sliders-horizontal"></i> Confirm ingredients before use</span>
-                                </div>
-                            </div>
-
-                            <div class="scanner-feature-strip">
-                                <div class="scanner-feature-mini">
-                                    <div class="scanner-feature-mini-icon">
-                                        <i class="icon-shield-check"></i>
-                                    </div>
-
-                                    <div>
-                                        <h6>Manual confirmation</h6>
-                                        <p>
-                                            Detected ingredients are never used blindly.
-                                            You review them first.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="scanner-feature-mini">
-                                    <div class="scanner-feature-mini-icon">
-                                        <i class="icon-shopping-basket"></i>
-                                    </div>
-
-                                    <div>
-                                        <h6>Pantry ready</h6>
-                                        <p>
-                                            Confirmed ingredients can be saved directly into
-                                            your smart pantry.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="scanner-upload-actions">
-                                <button
-                                    type="submit"
-                                    class="scanner-primary-btn"
-                                    data-fridge-scanner-submit
-                                >
-                                    <i class="icon-chef-hat"></i>
-                                    Scan Refrigerator
-                                </button>
-
-                                <a href="{% url 'pantry_list' %}" class="scanner-secondary-btn">
-                                    <i class="icon-shopping-basket"></i>
-                                    Open Pantry
-                                </a>
-                            </div>
-                        </form>
-
-                    </div>
+        <section class="ap-card" aria-labelledby="fs-upload-title">
+            <h2 id="fs-upload-title" class="visually-hidden">Upload a photo</h2>
+            <form method="post" enctype="multipart/form-data" class="ap-form ap-form-stack" id="fridgeScannerUploadForm" data-fridge-scanner-form>
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+                    {{ form.image }}
+                    <p class="ap-small">{{ form.image.help_text }}</p>
+                    {% for error in form.image.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
                 </div>
-            </div>
 
-            <!-- Right Card -->
-            <div class="col-lg-5 d-flex">
-                <div class="scanner-card scanner-workflow-card w-100">
-                    <div class="scanner-card-head">
-                        <span class="scanner-section-label">Safe Workflow</span>
-                        <h2>How It Works</h2>
-                        <p>The scanner suggests ingredients, but you stay in control.</p>
-                    </div>
+                <ul class="fs-tips">
+                    <li><i class="icon-sun" aria-hidden="true"></i> Use good light, with the door wide open.</li>
+                    <li><i class="icon-scan" aria-hidden="true"></i> Keep labels and shelves in view.</li>
+                    <li><i class="icon-list-checks" aria-hidden="true"></i> Nothing is used until you've checked the list.</li>
+                </ul>
 
-                    <div class="scanner-card-body scanner-workflow-body">
-
-                        <div class="scanner-step-list">
-                            <div class="scanner-step-item">
-                                <div class="scanner-step-no">1</div>
-                                <div>
-                                    <h5>Upload fridge photo</h5>
-                                    <p>Choose a clear image of refrigerator items.</p>
-                                </div>
-                            </div>
-
-                            <div class="scanner-step-item">
-                                <div class="scanner-step-no">2</div>
-                                <div>
-                                    <h5>AI validates image</h5>
-                                    <p>CulinaAI checks whether it is food, fridge or pantry related.</p>
-                                </div>
-                            </div>
-
-                            <div class="scanner-step-item">
-                                <div class="scanner-step-no">3</div>
-                                <div>
-                                    <h5>AI detects ingredients</h5>
-                                    <p>Useful cooking items, sauces and pantry ingredients are identified.</p>
-                                </div>
-                            </div>
-
-                            <div class="scanner-step-item">
-                                <div class="scanner-step-no">4</div>
-                                <div>
-                                    <h5>You confirm the list</h5>
-                                    <p>Remove wrong items and add missing ingredients before use.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="scanner-illustration-box scanner-real-fridge-box">
-                            <img
-                                src="{% static 'images/fridgeimage.png' %}"
-                                alt="Smart fridge to recipe flow"
-                                class="scanner-real-fridge-image"
-                            >
-                        </div>
-
-                    </div>
+                <div class="ap-actions">
+                    <button type="submit" class="site-btn site-btn-primary" data-fridge-scanner-submit>Scan photo</button>
+                    <a href="{% url 'pantry_list' %}" class="site-btn site-btn-quiet">Back to pantry</a>
                 </div>
-            </div>
-        </div>
+            </form>
+        </section>
 
         {% if recent_scans %}
-        <div class="scanner-card scanner-recent-card mt-4">
-            <div class="scanner-card-head">
-                <span class="scanner-section-label">Recent Activity</span>
-                <h2>Recent Scans</h2>
-                <p>Open earlier refrigerator scans and continue from where you left off.</p>
-            </div>
-
-            <div class="scanner-card-body">
-                <div class="table-responsive">
-                    <table class="table scanner-table align-middle">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Detected</th>
-                                <th>Confirmed</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {% for scan in recent_scans %}
-                            <tr>
-                                <td>{{ scan.created_at|date:"d M Y, H:i" }}</td>
-
-                                <td>
-                                    <span class="scanner-status-badge">
-                                        {{ scan.get_scan_status_display }}
-                                    </span>
-                                </td>
-
-                                <td>{{ scan.detected_count }}</td>
-                                <td>{{ scan.confirmed_count }}</td>
-
-                                <td class="text-end">
-                                    <a href="{% url 'fridge_scan_confirm' scan.id %}" class="scanner-table-btn">
-                                        Open
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <section class="ap-card fs-recent" aria-labelledby="fs-recent-title">
+                <div class="ap-card-head">
+                    <h2 id="fs-recent-title">Recent scans</h2>
+                    <a href="{% url 'fridge_scan_history' %}">See all</a>
                 </div>
-            </div>
-        </div>
+                <ul class="ap-rows">
+                    {% for scan in recent_scans %}
+                        <li>
+                            <a href="{% url 'fridge_scan_confirm' scan.id %}" class="ap-row">
+                                <span class="ap-row-text">
+                                    <strong>{{ scan.created_at|date:"j M Y, H:i" }}</strong>
+                                    <small>{% if scan.scan_status == "failed" %}Couldn't be used{% else %}{{ scan.detected_count }} found{% if scan.confirmed_count %} · {{ scan.confirmed_count }} kept{% endif %}{% endif %}</small>
+                                </span>
+                                <i class="icon-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
         {% endif %}
 
     </div>
 
-    <!-- Premium Fridge Scanning Loading Overlay -->
+    <!-- Shown while the photo is being scanned -->
     <div class="fridge-scan-loading-overlay" data-fridge-scanner-overlay hidden>
         <div class="fridge-scan-loading-card">
-
-            <div class="fridge-scan-loading-badge">
-                <i class="icon-utensils"></i>
-                CulinaAI Vision Scanner
-            </div>
 
             <div class="fridge-scan-video-wrap">
                 <video
@@ -285,12 +91,10 @@
                 <div class="fridge-scan-video-glow"></div>
             </div>
 
-            <h2>Scanning your refrigerator...</h2>
+            <h2>Looking at your photo…</h2>
 
             <p>
-                CulinaAI Vision is analysing your fridge image, checking image quality,
-                identifying visible cooking ingredients, detecting sauces and pantry items,
-                and preparing your editable confirmation list.
+                Picking out the food you can cook with. You'll be able to check and change the list next.
             </p>
 
             <div class="fridge-scan-progress">
@@ -298,11 +102,11 @@
             </div>
 
             <div class="fridge-scan-step-text" data-fridge-scanner-step>
-                Validating uploaded image...
+                Checking the photo…
             </div>
 
             <div class="fridge-scan-mini-note">
-                Please wait. Do not refresh or close the page while the scan is running.
+                This usually takes 10 to 20 seconds. Please keep this page open.
             </div>
         </div>
     </div>
@@ -320,12 +124,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const steps = [
-        "Validating uploaded image...",
-        "Checking if the image is refrigerator or food related...",
-        "Scanning shelves and visible food containers...",
-        "Detecting vegetables, dairy, sauces and pantry items...",
-        "Filtering packaging, bottles and non-cooking items...",
-        "Preparing your editable confirmation list..."
+        "Checking the photo…",
+        "Looking along the shelves…",
+        "Picking out vegetables, dairy and sauces…",
+        "Leaving out packaging and drinks…",
+        "Making your list…"
     ];
 
     let stepIndex = 0;
@@ -337,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         submitButton.disabled = true;
         submitButton.classList.add("is-loading");
-        submitButton.innerHTML = '<i class="icon-hourglass"></i> Scanning...';
+        submitButton.textContent = "Scanning…";
 
         stepText.textContent = steps[0];
 

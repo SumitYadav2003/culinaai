@@ -29,7 +29,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CSS_DIR = PROJECT_ROOT / "frontend" / "static" / "css"
 # Generated, or already written in the new colours with the tokens in site.css.
-SKIP = {"dark_theme_generated.css", "site.css", "recipe_page.css", "recipe_card.css", "generate_page.css", "recipe_list.css"}
+SKIP = {"dark_theme_generated.css", "site.css", "recipe_page.css", "recipe_card.css", "generate_page.css", "recipe_list.css", "app_pages.css"}
 SEMANTIC_WARM = {"recipe_insights.css"}  # orange there means "caution"
 
 COLOUR = re.compile(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b|rgba?\([^)]*\)")
