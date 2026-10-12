@@ -260,3 +260,54 @@ class GeneratePageTests(TestCase):
         session.save()
         response = self.client.post(reverse("change_generated_recipe"), {}, follow=True)
         self.assertIn("Choose a change, or describe the change you want.", response.content.decode())
+
+
+class RecipeListAndSharedPageTests(TestCase):
+    """Saved list, favourites, the shared page and the print page after the redesign."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user("cook", "cook@example.com", "pass-12345")
+        cls.other = User.objects.create_user("friend", "friend@example.com", "pass-12345")
+        cls.recipe = Recipe.objects.create(
+            user=cls.user, title="Grilled Chicken Burger", ingredients_text="chicken breast, burger bun",
+            instructions_text=RECIPE_TEXT, cooking_time_minutes=25, difficulty="easy",
+            allergy_notes="peanuts", is_public=True,
+        )
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_saved_list_is_simple_cards(self):
+        html = self.client.get(reverse("saved_recipes")).content.decode()
+        self.assertIn("Saved recipes", html)
+        self.assertIn(reverse("saved_recipe_detail", args=[self.recipe.id]), html)
+        self.assertIn("Shared", html)
+        for old in ("Older Recipe", "Validation not stored", "Private Recipe", "CulinaAI Verified"):
+            self.assertNotIn(old, html)
+
+    def test_empty_search_says_so(self):
+        html = self.client.get(reverse("saved_recipes"), {"q": "no such dish"}).content.decode()
+        self.assertIn("No recipes match", html)
+
+    def test_saved_recipe_shows_what_is_avoided_and_lays_out_the_recipe(self):
+        html = self.client.get(reverse("saved_recipe_detail", args=[self.recipe.id])).content.decode()
+        self.assertIn("You're avoiding:", html)
+        self.assertIn("data-culina-recipe-output data-title-shown", html)
+        self.assertIn("What you asked for", html)
+        self.assertNotIn("Advanced AI Cooking Assistant", html)
+
+    def test_shared_page(self):
+        self.client.force_login(self.other)
+        html = self.client.get(reverse("community_recipe_detail", args=[self.recipe.id])).content.decode()
+        self.assertIn("Shared by cook", html)
+        self.assertIn("Made without:", html)
+        self.assertIn("Ratings and comments", html)
+        self.assertNotIn("Quality Score", html)
+        self.assertNotIn("Open in your recipes", html)  # only the owner sees this
+
+    def test_print_page(self):
+        html = self.client.get(reverse("print_saved_recipe", args=[self.recipe.id])).content.decode()
+        self.assertIn("Print or save as PDF", html)
+        self.assertIn("Made without:", html)
+        self.assertNotIn("Final AI Recipe", html)

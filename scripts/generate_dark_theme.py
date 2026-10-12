@@ -31,7 +31,7 @@ import tinycss2
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CSS_DIR = PROJECT_ROOT / "frontend" / "static" / "css"
 OUTPUT_FILE = CSS_DIR / "dark_theme_generated.css"
-SKIP_FILES = {"dark_mode.css", "dark_theme_generated.css", "site.css", "recipe_page.css"}  # these use the dark tokens in site.css
+SKIP_FILES = {"dark_mode.css", "dark_theme_generated.css", "site.css", "recipe_page.css", "recipe_card.css", "generate_page.css", "recipe_list.css"}  # these use the dark tokens in site.css
 DARK_PREFIX = 'html[data-theme="dark"]'
 
 # Which properties hold which kind of colour.

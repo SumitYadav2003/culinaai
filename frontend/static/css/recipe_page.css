@@ -11,12 +11,6 @@
     background: var(--site-page);
 }
 
-.rp-page > .container {
-    max-width: 1200px;
-    padding-right: 24px;
-    padding-left: 24px;
-}
-
 .rp-back {
     display: inline-flex;
     align-items: center;
@@ -563,17 +557,148 @@ a.rp-origin:hover {
 }
 
 /* Side cards on the saved recipe page get the calmer look */
-.rp-page .recipe-detail-side-card {
+/* The recipe itself: one white panel, no card inside a card */
+.rp-recipe-main {
+    padding: 28px;
     border: 1px solid var(--site-line);
-    box-shadow: none;
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
 }
 
-.rp-page .recipe-detail-tags span {
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: var(--site-subtle);
+.rp-recipe-main .culina-insights.ri {
+    margin-top: 32px;
+    padding: 24px 0 0;
+    border: 0;
+    border-top: 1px solid var(--site-line);
+    border-radius: 0;
+}
+
+.rp-avoid {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 10px 14px;
+    border: 1px solid var(--site-danger);
+    border-left-width: 4px;
+    border-radius: var(--site-radius);
+    background: var(--site-danger-soft);
+    color: var(--site-danger);
+    font-size: 0.95rem;
+}
+
+.rp-avoid i {
+    margin-top: 3px;
+}
+
+.rp-notes {
+    margin: 16px 0 0;
+    padding: 14px 16px;
+    border-radius: var(--site-radius);
+    background: var(--site-accent-soft);
+}
+
+.rp-notes h2 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px;
     color: var(--site-ink);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.rp-notes p {
+    margin: 0 0 4px;
+    color: var(--site-ink);
+}
+
+.rp-notes a {
+    color: var(--site-accent-ink);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.rp-asked {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--site-line);
+}
+
+.rp-asked summary {
+    color: var(--site-accent-ink);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.rp-asked dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin: 12px 0 0;
+}
+
+.rp-asked dt {
+    color: var(--site-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.rp-asked dd {
+    margin: 2px 0 0;
+    color: var(--site-ink);
+    font-size: 0.93rem;
+}
+
+/* Shared recipe page: comments and more recipes */
+.rp-reviews {
+    margin-top: 24px;
+}
+
+.rp-comments {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rp-comments li {
+    padding: 12px 0;
+    border-top: 1px solid var(--site-line);
+}
+
+.rp-comments p {
+    margin: 0;
+    color: var(--site-ink);
+}
+
+.rp-comments .rp-comment-meta {
+    margin-bottom: 2px;
+    color: var(--site-muted);
     font-size: 0.88rem;
+}
+
+.rp-no-comments {
+    margin: 12px 0 0;
+}
+
+.rp-related {
+    margin-top: 40px;
+}
+
+.rp-related h2 {
+    margin: 0 0 16px;
+    color: var(--site-ink);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+@media (max-width: 767.98px) {
+    .rp-recipe-main {
+        padding: 18px;
+    }
+
+    .rp-asked dl {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 991.98px) {
@@ -598,5 +723,94 @@ a.rp-origin:hover {
 
     .rp-actions .site-btn-primary {
         flex: 1 1 100%;
+    }
+}
+
+
+/* ---------- Print page ---------- */
+
+.pr-sheet {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+}
+
+.pr-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--site-line);
+}
+
+.pr-brand {
+    margin: 0 0 6px;
+    color: var(--site-accent-ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.pr-head h1 {
+    margin: 0 0 8px;
+    color: var(--site-ink);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.pr-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pr-origin {
+    margin: 12px 0 0;
+    color: var(--site-muted);
+}
+
+.pr-recipe {
+    margin-top: 24px;
+}
+
+.pr-foot {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid var(--site-line);
+    color: var(--site-muted);
+    font-size: 0.85rem;
+}
+
+@media print {
+    .site-nav,
+    .site-footer,
+    .pr-actions,
+    .ri-way-foot form,
+    .ri .culina-add-back-form {
+        display: none !important;
+    }
+
+    .pr-page {
+        padding: 0;
+        background: #ffffff;
+    }
+
+    .pr-sheet {
+        max-width: none;
+        padding: 0;
+        border: 0;
+    }
+
+    .rc-steps li,
+    .rc-ingredient-list li {
+        break-inside: avoid;
+    }
+
+    .ri-details:not([open]) > *:not(summary) {
+        display: block;
     }
 }

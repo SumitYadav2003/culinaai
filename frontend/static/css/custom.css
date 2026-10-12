@@ -4678,7 +4678,7 @@ img {
 .pantry-delete-summary div {
   padding: 1rem;
   border-radius: 12px;
-  background: #f8faf8;
+  background: #fef2f2;
   border: 1px solid rgba(127, 29, 29, 0.08);
 }
 
@@ -4827,7 +4827,7 @@ img {
   margin-bottom: 0.75rem;
   padding: 0.95rem 1rem;
   border-radius: 12px;
-  background: #f8faf8;
+  background: #fef2f2;
   border: 1px solid rgba(127, 29, 29, 0.08);
   text-align: left;
 }
@@ -5133,7 +5133,7 @@ body.modal-open .pantry-item-card:hover {
 .pantry-alert-panel {
   padding: 1.15rem;
   border-radius: 12px;
-  background: #f8faf8;
+  background: #fef2f2;
   border: 1px solid rgba(127, 29, 29, 0.08);
 }
 

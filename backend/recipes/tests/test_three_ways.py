@@ -299,9 +299,16 @@ class FormRulesTests(TestCase):
 
     def test_labels_say_required_and_optional(self):
         html = self.client.get(reverse("generate_recipe")).content.decode()
-        self.assertEqual(html.count("(required)"), 2)  # ingredients and meal style
-        self.assertIn('<option value="" selected>Choose one</option>', html)
-        self.assertGreaterEqual(html.count("(optional)"), 13)
+        # Ingredients (1) and meal style (2) are the only required questions...
+        self.assertIn("Only the first two questions are required.", html)
+        self.assertIn("What do you have?", html)
+        self.assertIn("What kind of meal?", html)
+        # ...and no meal style is picked for the user.
+        self.assertEqual(html.count('name="meal_style"'), 3)
+        self.assertNotIn('name="meal_style" value="any" checked', html)
+        self.assertNotIn('name="meal_style" value="everyday" checked', html)
+        # The other sections are marked optional.
+        self.assertEqual(html.count('class="gp-optional"'), 2)
 
     @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
     @patch("recipes.views.extract_recipe_structure", return_value=structure(2))

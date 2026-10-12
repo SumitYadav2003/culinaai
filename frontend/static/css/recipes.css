@@ -1873,7 +1873,7 @@ textarea.recipe-input {
 .recipe-warning-box {
     border: 1px solid rgba(239, 68, 68, 0.18);
     background:
-        rgba(247, 249, 247, 0.98);
+        rgba(254, 242, 242, 0.98);
     box-shadow: 0 16px 40px rgba(239, 68, 68, 0.08);
 }
 
@@ -3548,7 +3548,7 @@ textarea.recipe-input {
     background:
         radial-gradient(circle at top left, rgba(239, 68, 68, 0.10), transparent 30%),
         radial-gradient(circle at bottom right, rgba(220, 38, 38, 0.1), transparent 32%),
-        linear-gradient(135deg, #f5f7f5 0%, #f7f9f7 100%) !important;
+        linear-gradient(135deg, #fef2f2 0%, #fff1f2 100%) !important;
 }
 
 .delete-recipe-card {
@@ -3598,7 +3598,7 @@ textarea.recipe-input {
     padding: 22px !important;
     border-radius: 12px !important;
     text-align: left !important;
-    background: #f5f7f5 !important;
+    background: #fef2f2 !important;
     border: 1px solid rgba(220, 38, 38, 0.14) !important;
 }
 
@@ -3836,7 +3836,7 @@ textarea.recipe-input {
     border-radius: 12px !important;
     text-align: left !important;
     background:
-        rgba(245, 247, 245, 0.96) !important;
+        rgba(254, 242, 242, 0.96) !important;
     border: 1px solid rgba(220, 38, 38, 0.14) !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78) !important;
 }
@@ -4012,7 +4012,7 @@ textarea.recipe-input {
     background:
         radial-gradient(circle at top left, rgba(244, 63, 94, 0.10), transparent 28%),
         radial-gradient(circle at bottom right, rgba(45, 106, 62, 0.1), transparent 34%),
-        linear-gradient(135deg, #f5f7f5 0%, #f7f9f7 100%) !important;
+        linear-gradient(135deg, #f5f7f5 0%, #fff1f2 100%) !important;
 }
 
 .favourite-recipe-card {
@@ -4082,7 +4082,7 @@ textarea.recipe-input {
     background:
         radial-gradient(circle at top left, rgba(244, 63, 94, 0.14), transparent 30%),
         radial-gradient(circle at top right, rgba(45, 106, 62, 0.12), transparent 28%),
-        linear-gradient(135deg, #f5f7f5 0%, #f7f9f7 45%, #ffffff 100%) !important;
+        linear-gradient(135deg, #f5f7f5 0%, #fff1f2 45%, #ffffff 100%) !important;
 }
 
 /* Header */

@@ -985,7 +985,7 @@ def generate_recipe_view(request):
 
         messages.error(
             request,
-            "Please correct the recipe generation form and try again.",
+            "Something's missing. Check the questions marked in red.",
         )
 
     else:
@@ -1100,6 +1100,7 @@ def generate_recipe_view(request):
             "ai_recipe_result": ai_recipe_result,
             "generation_preview": preview_data is not None,
             "change_choices": CHANGE_CHOICES,
+            "utensil_choices": UTENSIL_CHOICES,
         },
     )
 
@@ -1222,6 +1223,12 @@ RECIPE_CHANGES = {
 }
 SPICE_ORDER = ["Mild", "Medium", "Spicy", "Extra Spicy"]
 # The quick changes shown as buttons (typing your own change counts as "custom").
+# Utensils offered on the New recipe form (sent as "utensils" and passed to the AI).
+UTENSIL_CHOICES = [
+    "Frying Pan", "Saucepan", "Deep Pot", "Tawa / Griddle", "Wok / Kadhai",
+    "Mixing Bowl", "Knife", "Chopping Board", "Spatula", "Measuring Cups",
+]
+
 CHANGE_CHOICES = [
     ("healthier", "Healthier"),
     ("cheaper", "Cheaper"),

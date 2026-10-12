@@ -1,6 +1,8 @@
 {% comment %}
-Health, cost, carbon and safety panel for one recipe.
+Nutrition, cost, carbon and safety for one recipe.
 Every number and warning here comes from code (recipes/insight_service.py), not from the AI.
+The main figures are shown first, like the label on a food pack; the full table,
+sources and rules are folded into "Full nutrition and sources".
 
 Context:
     insights         the recipe's insights dict (may be empty for older recipes)
@@ -8,55 +10,83 @@ Context:
     cook_versions    True on the generate page: "Cook this version" makes the version there (optional)
 {% endcomment %}
 
-<section class="culina-insights" aria-labelledby="culina-insights-title">
-    <div class="culina-insights-header">
-        <div>
-            <span class="culina-insights-label"><i class="icon-clipboard-list"></i> Health, cost and carbon</span>
-            <h3 id="culina-insights-title">What's in this dish</h3>
-            <p class="culina-insights-sub">Worked out by code from UK food data and published prices, not estimated by the AI.</p>
-        </div>
+<section class="culina-insights ri" aria-labelledby="culina-insights-title">
+    <div class="ri-head">
+        <h3 id="culina-insights-title">Nutrition, cost and carbon</h3>
         {% if insights.tag == "everyday" %}
-            <span class="culina-insights-tag culina-insights-tag-everyday"><i class="icon-circle-check"></i> Everyday healthy</span>
+            <span class="ri-tag ri-tag-everyday"><i class="icon-circle-check" aria-hidden="true"></i> Everyday healthy</span>
         {% elif insights.tag == "treat" %}
-            <span class="culina-insights-tag culina-insights-tag-treat"><i class="icon-cake"></i> Treat</span>
+            <span class="ri-tag ri-tag-treat"><i class="icon-cake" aria-hidden="true"></i> Treat</span>
         {% endif %}
     </div>
 
-    {% if insights.personal %}
-        <p class="culina-meal-style-note culina-personal-note">
-            <i class="icon-user-check" aria-hidden="true"></i>
-            <span>
-                <strong>Adjusted for you:</strong>
-                written with {% if insights.personal.summary %}{{ insights.personal.summary }}{% else %}{{ insights.personal.reasons|join:", " }}{% endif %}, from how you've cooked before{% if insights.personal.examples %} (for example “{{ insights.personal.examples.0 }}”){% endif %}.
-                {% if insights.personal.tips_found %}
-                    Look for the {{ insights.personal.tips_found }} “Tip:” line{{ insights.personal.tips_found|pluralize }} in the method.
-                {% endif %}
-                <a href="{% url 'dashboard' %}#cooking-profile">Your cooking profile</a>
-            </span>
-        </p>
-    {% endif %}
-
-    {% if insights.cuisine %}
-        <div class="culina-cuisine-note culina-cuisine-{% if insights.cuisine.available %}{{ insights.cuisine.level }}{% else %}unchecked{% endif %}">
-            <i class="{% if insights.cuisine.level == 'typical' or insights.cuisine.level == 'very' %}icon-earth{% else %}icon-globe{% endif %}" aria-hidden="true"></i>
-            <div>
-                <strong>Cuisine check:</strong> {{ insights.cuisine.text }}
-                {% if insights.cuisine.available %}
-                    {% if insights.cuisine.excluded %}
-                        Leaves out {{ insights.cuisine.excluded|join:", " }} because of your diet or allergies.
-                    {% endif %}
-                    <small>
-                        Typical ingredients only, not taste or technique. Compared with {{ insights.cuisine.recipes|floatformat:"0g" }} real
-                        {{ insights.cuisine.region_name }} recipes in Ahn et al. (2011), <em>Scientific Reports</em>; the study groups cuisines by region.
-                    </small>
-                {% endif %}
-            </div>
+    {% if insights.allergens or insights.hidden_allergens or insights.flags or insights.meal_style.met is False %}
+        <div class="culina-warning-panel ri-warnings" role="note" aria-label="Warnings">
+            {% if insights.meal_style and insights.meal_style.met is False %}
+                <p class="culina-warning-line">
+                    <i class="icon-triangle-alert" aria-hidden="true"></i>
+                    <span><strong>Not everyday healthy:</strong> {{ insights.meal_style.text }}</span>
+                </p>
+            {% endif %}
+            {% if insights.allergens %}
+                <p class="culina-warning-line">
+                    <i class="icon-triangle-alert" aria-hidden="true"></i>
+                    <span><strong>Contains:</strong> {% for allergen in insights.allergens %}{{ allergen }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+                </p>
+            {% endif %}
+            {% for alert in insights.hidden_allergens %}
+                <p class="culina-warning-line">
+                    <i class="icon-triangle-alert" aria-hidden="true"></i>
+                    <span><strong>Hidden allergen:</strong> {{ alert.text }}</span>
+                </p>
+            {% endfor %}
+            {% for flag in insights.flags %}
+                <p class="culina-warning-line">
+                    <i class="icon-triangle-alert" aria-hidden="true"></i>
+                    <span><strong>{{ flag.title }}:</strong> {{ flag.text }}</span>
+                </p>
+            {% endfor %}
         </div>
     {% endif %}
 
+    {% if insights.meal_style and insights.meal_style.met is not False or insights.cuisine or insights.personal %}
+        <ul class="ri-lines">
+            {% if insights.meal_style and insights.meal_style.met is not False %}
+                <li class="culina-meal-style-note{% if insights.meal_style.met %} culina-meal-style-met{% endif %}">
+                    <i class="{% if insights.meal_style.met %}icon-circle-check{% else %}icon-info{% endif %}" aria-hidden="true"></i>
+                    <span>{{ insights.meal_style.text }}</span>
+                </li>
+            {% endif %}
+            {% if insights.cuisine %}
+                <li class="culina-cuisine-note culina-cuisine-{% if insights.cuisine.available %}{{ insights.cuisine.level }}{% else %}unchecked{% endif %}">
+                    <i class="icon-globe" aria-hidden="true"></i>
+                    <span>
+                        <strong>Cuisine check:</strong> {{ insights.cuisine.text }}
+                        {% if insights.cuisine.available and insights.cuisine.excluded %}
+                            Leaves out {{ insights.cuisine.excluded|join:", " }} because of your diet or allergies.
+                        {% endif %}
+                    </span>
+                </li>
+            {% endif %}
+            {% if insights.personal %}
+                <li class="culina-personal-note">
+                    <i class="icon-user-check" aria-hidden="true"></i>
+                    <span>
+                        <strong>Adjusted for you:</strong>
+                        written with {% if insights.personal.summary %}{{ insights.personal.summary }}{% else %}{{ insights.personal.reasons|join:", " }}{% endif %}, from how you've cooked before{% if insights.personal.examples %} (for example “{{ insights.personal.examples.0 }}”){% endif %}.
+                        {% if insights.personal.tips_found %}
+                            Look for the {{ insights.personal.tips_found }} “Tip:” line{{ insights.personal.tips_found|pluralize }} in the method.
+                        {% endif %}
+                        <a href="{% url 'dashboard' %}#cooking-profile">Your cooking profile</a>
+                    </span>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
     {% if not insights.available %}
-        <p class="culina-insights-empty">
-            <i class="icon-info"></i>
+        <p class="culina-insights-empty ri-empty">
+            <i class="icon-info" aria-hidden="true"></i>
             {% if insights.version %}
                 Nutrition could not be worked out for this recipe.
             {% else %}
@@ -65,117 +95,49 @@ Context:
         </p>
     {% else %}
 
-        {% if insights.meal_style and insights.meal_style.met is not False %}
-            <p class="culina-meal-style-note{% if insights.meal_style.met %} culina-meal-style-met{% endif %}">
-                <i class="{% if insights.meal_style.met %}icon-circle-check{% else %}icon-info{% endif %}" aria-hidden="true"></i>
-                {{ insights.meal_style.text }}
-            </p>
-        {% endif %}
-
-        {% if insights.allergens or insights.hidden_allergens or insights.flags %}
-            <div class="culina-warning-panel" role="note" aria-label="Warnings">
-                {% if insights.meal_style and insights.meal_style.met is False %}
-                    <p class="culina-warning-line">
-                        <i class="icon-triangle-alert" aria-hidden="true"></i>
-                        <strong>Not everyday healthy:</strong> {{ insights.meal_style.text }}
-                    </p>
-                {% endif %}
-                {% if insights.allergens %}
-                    <p class="culina-warning-line">
-                        <i class="icon-triangle-alert" aria-hidden="true"></i>
-                        <strong>Contains:</strong>
-                        {% for allergen in insights.allergens %}{{ allergen }}{% if not forloop.last %}, {% endif %}{% endfor %}
-                    </p>
-                {% endif %}
-                {% for alert in insights.hidden_allergens %}
-                    <p class="culina-warning-line">
-                        <i class="icon-triangle-alert" aria-hidden="true"></i>
-                        <strong>Hidden allergen:</strong> {{ alert.text }}
-                    </p>
-                {% endfor %}
-                {% for flag in insights.flags %}
-                    <p class="culina-warning-line">
-                        <i class="icon-triangle-alert" aria-hidden="true"></i>
-                        <strong>{{ flag.title }}:</strong> {{ flag.text }}
-                    </p>
-                {% endfor %}
+        <!-- At a glance, like the label on a food pack -->
+        <div class="ri-label" aria-label="Per serving">
+            <div class="ri-label-cell ri-label-energy">
+                <span>Energy</span>
+                <strong>{{ insights.nutrition_rows.0.amount|floatformat:0 }} kcal</strong>
+                <small>per serving{% if insights.nutrition_rows.0.ri_pct is not None %} · {{ insights.nutrition_rows.0.ri_pct }}% RI{% endif %}</small>
             </div>
-        {% endif %}
-
-        <div class="culina-insights-grid">
-            <div class="culina-insights-card">
-                <h4>Per serving <small>({{ insights.nutrition.servings }} serving{{ insights.nutrition.servings|pluralize }})</small></h4>
-                <p class="culina-insights-energy">
-                    <strong>{{ insights.nutrition_rows.0.amount|floatformat:0 }} kcal</strong>
-                    <span>{{ insights.energy_kj_per_serving }} kJ{% if insights.nutrition_rows.0.ri_pct is not None %} · {{ insights.nutrition_rows.0.ri_pct }}% of reference intake{% endif %}</span>
-                </p>
-                <div class="culina-table-scroll"><table class="culina-nutrition-table">
-                    <thead>
-                        <tr><th scope="col">Nutrient</th><th scope="col">Amount</th><th scope="col" class="culina-wide-col">Level</th><th scope="col" class="culina-wide-col">% RI</th></tr>
-                    </thead>
-                    <tbody>
-                        {% for row in insights.nutrition_rows|slice:"1:" %}
-                            <tr>
-                                <th scope="row">{{ row.label }}</th>
-                                <td>
-                                    {{ row.amount|floatformat:1 }} {{ row.unit }}
-                                    {% if row.light %}<span class="culina-light culina-light-{{ row.light }} culina-phone-only">{% if row.light_label == "Source" %}Good{% else %}{{ row.light_label }}{% endif %}</span>{% endif %}
-                                    {% if row.ri_pct is not None %}<small class="culina-phone-only">{{ row.ri_pct }}% RI{{ row.ri_mark }}</small>{% endif %}
-                                </td>
-                                <td class="culina-wide-col">
-                                    {% if row.light %}
-                                        <span class="culina-light culina-light-{{ row.light }}">{% if row.light_label == "Source" %}Good{% else %}{{ row.light_label }}{% endif %}</span>
-                                    {% endif %}
-                                </td>
-                                <td class="culina-wide-col">{% if row.ri_pct is not None %}{{ row.ri_pct }}%{{ row.ri_mark }}{% endif %}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table></div>
-                <p class="culina-insights-note">Low, medium and high use the UK front-of-pack levels per 100 g (fat, saturates, sugars and salt). For protein and fibre, higher is better: High and Good follow the UK nutrition claim rules (Good is the "source of" level), and Low means below that; carbohydrate has no official level. % RI is the share of an adult's daily reference intake on UK food labels. *Fibre is compared with the UK recommendation of 30 g a day (SACN), which is advice rather than a label reference intake.</p>
-            </div>
-
-            <div class="culina-insights-card">
-                <h4>Health benefits</h4>
-                {% if insights.benefits %}
-                    <ul class="culina-benefit-list">
-                        {% for benefit in insights.benefits %}
-                            <li><i class="icon-circle-check" aria-hidden="true"></i><strong>{% if benefit.name %}{{ benefit.name }}{% elif benefit.claim == "Source of protein" %}Good source of protein{% elif benefit.claim == "Source of fibre" %}Good source of fibre{% else %}{{ benefit.claim }}{% endif %}.</strong> {{ benefit.text }}</li>
-                        {% endfor %}
-                    </ul>
-                    <p class="culina-insights-note">Only claims the numbers qualify for, using the UK nutrition claim conditions.</p>
-                {% elif insights.nutrition.is_complete %}
-                    <p class="culina-insights-muted">This dish doesn't meet the conditions for any nutrition claim.</p>
-                {% else %}
-                    <p class="culina-insights-muted">Not shown, because some ingredients weren't found in the food data.</p>
-                {% endif %}
-
-                <div class="culina-cost-carbon">
-                    <div>
-                        <span class="culina-cost-carbon-label"><i class="icon-pound-sterling"></i> Cost</span>
-                        {% if insights.cost.per_serving is not None %}
-                            <strong>About £{{ insights.cost.per_serving|floatformat:2 }}</strong> per serving
-                            {% if insights.cost.unmatched %}<small>No price yet for: {{ insights.cost.unmatched|join:", " }}</small>{% endif %}
-                        {% else %}
-                            <span class="culina-insights-muted">No prices found</span>
-                        {% endif %}
+            {% for row in insights.nutrition_rows %}
+                {% if row.label == "Fat" or row.label == "Saturates" or row.label == "Sugars" or row.label == "Salt" %}
+                    <div class="ri-label-cell ri-light-{{ row.light|default:'none' }}">
+                        <span>{{ row.label }}</span>
+                        <strong>{{ row.amount|floatformat:1 }} {{ row.unit }}</strong>
+                        <small>{{ row.light_label|default:"No level" }}</small>
                     </div>
-                    <div>
-                        <span class="culina-cost-carbon-label"><i class="icon-cloud"></i> Carbon</span>
-                        {% if insights.carbon.per_serving is not None %}
-                            <strong>About {{ insights.carbon.per_serving|floatformat:2 }} kg CO<sub>2</sub>e</strong> per serving
-                            {% if insights.carbon.unmatched %}<small>No figure for: {{ insights.carbon.unmatched|join:", " }}</small>{% endif %}
-                        {% else %}
-                            <span class="culina-insights-muted">No carbon figures found</span>
-                        {% endif %}
-                    </div>
-                </div>
-                <p class="culina-insights-note">{{ insights.cost.note }} {{ insights.carbon.note }}</p>
-            </div>
+                {% endif %}
+            {% endfor %}
         </div>
 
+        <dl class="ri-figures">
+            <div>
+                <dt>Cost</dt>
+                <dd>{% if insights.cost.per_serving is not None %}About £{{ insights.cost.per_serving|floatformat:2 }} a serving{% else %}No prices found{% endif %}</dd>
+            </div>
+            <div>
+                <dt>Carbon</dt>
+                <dd>{% if insights.carbon.per_serving is not None %}About {{ insights.carbon.per_serving|floatformat:2 }} kg CO<sub>2</sub>e a serving{% else %}No figures found{% endif %}</dd>
+            </div>
+            <div>
+                <dt>Good for</dt>
+                <dd>
+                    {% if insights.benefits %}
+                        {% for benefit in insights.benefits %}{% if benefit.name %}{{ benefit.name }}{% elif benefit.claim == "Source of protein" %}Good source of protein{% elif benefit.claim == "Source of fibre" %}Good source of fibre{% else %}{{ benefit.claim }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    {% elif insights.nutrition.is_complete %}
+                        No nutrition claims
+                    {% else %}
+                        Not worked out (some ingredients weren't found)
+                    {% endif %}
+                </dd>
+            </div>
+        </dl>
+
         {% if insights.classic.is_classic and insights.classic.items %}
-            <div class="culina-insights-card culina-classic">
+            <div class="ri-block culina-classic">
                 <h4>Compared with the classic {{ insights.classic.classic_name }}</h4>
                 <ul class="culina-classic-list">
                     {% for item in insights.classic.items %}
@@ -188,63 +150,52 @@ Context:
                                     {% csrf_token %}
                                     <input type="hidden" name="modification_type" value="custom">
                                     <input type="hidden" name="custom_instruction" value="Add {{ item.ingredient }} back into the recipe, as in the classic {{ insights.classic.classic_name }}.">
-                                    <button type="submit" class="culina-add-back-button"><i class="icon-circle-plus"></i> Add it back</button>
+                                    <button type="submit" class="culina-add-back-button"><i class="icon-circle-plus" aria-hidden="true"></i> Add it back</button>
                                 </form>
                             {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
-                <p class="culina-insights-note">What's missing is found by code. Each reason is checked against your settings and the calculated nutrition before it is shown.</p>
             </div>
         {% endif %}
 
         {% if insights.three_ways %}
-            <div class="culina-insights-card culina-three-ways">
+            <div class="ri-block culina-three-ways">
                 <h4>One dish, three ways</h4>
-
-                <div class="culina-your-recipe" role="note">
-                    <p>
-                        <i class="icon-info" aria-hidden="true"></i>
-                        {% if insights.basis.version %}
-                            <strong>The recipe above is the {{ insights.basis.version|lower }} version</strong>{% if insights.basis.based_on %} of {{ insights.basis.based_on }}{% endif %}, cooked with the swaps you chose.
-                        {% else %}
-                            <strong>The recipe above is your recipe</strong>, made from your ingredients{% if insights.basis.settings %} and settings ({{ insights.basis.settings|join:", " }}){% endif %}.
-                        {% endif %}
-                        The three cards below are not more recipes: each one is this same dish with up to three ingredients swapped. Your recipe stays as it is unless you choose one.
-                    </p>
-                    {% if insights.basis.version and insights.basis.expected.kcal %}
-                        <p class="culina-your-recipe-expected">The card estimated {% if insights.basis.expected.cost is not None %}£{{ insights.basis.expected.cost|floatformat:2 }}, {% endif %}{% if insights.basis.expected.carbon is not None %}{{ insights.basis.expected.carbon|floatformat:2 }} kg CO₂e, {% endif %}{{ insights.basis.expected.kcal }} kcal{% for nutrient, level in insights.basis.expected.levels.items %}, {{ nutrient }} {{ level }}{% endfor %} per serving. The figures below are for the recipe as written, so they can differ a little.</p>
+                <p class="ri-ways-lead">
+                    {% if insights.basis.version %}
+                        <strong>The recipe above is the {{ insights.basis.version|lower }} version</strong>{% if insights.basis.based_on %} of {{ insights.basis.based_on }}{% endif %}, cooked with the swaps you chose.
+                    {% else %}
+                        <strong>The recipe above is your recipe.</strong>
                     {% endif %}
-                    {% for problem in insights.basis.problems %}
-                        <p class="culina-way-warning"><i class="icon-triangle-alert" aria-hidden="true"></i> {{ problem }}</p>
-                    {% endfor %}
-                    <dl class="culina-way-stats culina-your-recipe-stats">
-                        <div><dt>Cost</dt><dd>{% if insights.cost.per_serving is not None %}£{{ insights.cost.per_serving|floatformat:2 }}{% else %}No figure{% endif %}</dd></div>
-                        <div><dt>Carbon</dt><dd>{% if insights.carbon.per_serving is not None %}{{ insights.carbon.per_serving|floatformat:2 }} kg CO₂e{% else %}No figure{% endif %}</dd></div>
-                        <div><dt>Energy</dt><dd>{{ insights.nutrition_rows.0.amount|floatformat:0 }} kcal</dd></div>
-                    </dl>
-                </div>
+                    Each card is the same dish with up to three ingredients swapped. Nothing changes unless you pick one.
+                </p>
+                {% if insights.basis.version and insights.basis.expected.kcal %}
+                    <p class="ri-small">The card estimated {% if insights.basis.expected.cost is not None %}£{{ insights.basis.expected.cost|floatformat:2 }}, {% endif %}{% if insights.basis.expected.carbon is not None %}{{ insights.basis.expected.carbon|floatformat:2 }} kg CO₂e, {% endif %}{{ insights.basis.expected.kcal }} kcal{% for nutrient, level in insights.basis.expected.levels.items %}, {{ nutrient }} {{ level }}{% endfor %} per serving. The figures here are for the recipe as written, so they can differ a little.</p>
+                {% endif %}
+                {% for problem in insights.basis.problems %}
+                    <p class="culina-way-warning"><i class="icon-triangle-alert" aria-hidden="true"></i> {{ problem }}</p>
+                {% endfor %}
 
-                <p class="culina-insights-muted">Swaps come from a hand-checked list, or are ideas from the AI for this dish that passed the code's checks (in the food data, safe for your allergies and diet). Every number is worked out by code. Changes are against your recipe, per serving.</p>
-                <div class="culina-three-ways-grid">
+                <div class="ri-ways">
                     {% for version in insights.three_ways %}
-                        <div class="culina-way culina-way-{{ version.goal }}">
-                            <span class="culina-way-title"><i class="{{ version.icon }}" aria-hidden="true"></i> {{ version.title }}</span>
+                        <div class="ri-way culina-way-{{ version.goal }}">
+                            <span class="ri-way-title"><i class="{{ version.icon }}" aria-hidden="true"></i> {{ version.title }}</span>
                             {% if version.swaps %}
-                                <ol class="culina-swap-list">
+                                <ul class="ri-swaps">
                                     {% for swap in version.swaps %}
                                         <li>
                                             <strong>{{ swap.text }}</strong>
-                                            {% if swap.source == "ai" %}<span class="culina-swap-source">AI idea, checked by code</span>{% endif %}
-                                            <span class="culina-swap-impact">{{ swap.impact }}</span>
+                                            <span class="ri-swap-impact">{{ swap.impact }}</span>
                                             {% for tradeoff in swap.tradeoffs %}
                                                 <span class="culina-swap-tradeoff"><i class="icon-triangle-alert" aria-hidden="true"></i> {{ tradeoff }}</span>
                                             {% endfor %}
                                             {% if swap.note %}<small>{{ swap.note }}</small>{% endif %}
+                                            {% if swap.source == "ai" %}<small class="ri-swap-source">AI idea, checked by code</small>{% endif %}
                                         </li>
                                     {% endfor %}
-                                </ol>
-                                <dl class="culina-way-stats">
+                                </ul>
+                                <dl class="ri-way-stats">
                                     {% for stat in version.stats %}
                                         <div>
                                             <dt>{{ stat.label }}</dt>
@@ -255,37 +206,87 @@ Context:
                                 {% if version.still_high %}
                                     <p class="culina-way-warning"><i class="icon-triangle-alert" aria-hidden="true"></i> Still high in {{ version.still_high|join:" and " }} after these swaps.</p>
                                 {% endif %}
-                                {% if version.tag == "everyday" %}
-                                    <span class="culina-insights-tag culina-insights-tag-everyday culina-way-tag"><i class="icon-circle-check"></i> Everyday healthy</span>
-                                {% elif version.tag == "treat" %}
-                                    <span class="culina-insights-tag culina-insights-tag-treat culina-way-tag"><i class="icon-cake"></i> Treat</span>
-                                {% endif %}
-                                {% if add_back_recipe %}
-                                    <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form culina-way-form">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="modification_type" value="custom">
-                                        <input type="hidden" name="custom_instruction" value="{{ version.instruction }}">
-                                        <button type="submit" class="culina-add-back-button"><i class="icon-refresh-cw"></i> Cook this version</button>
-                                    </form>
-                                {% elif cook_versions %}
-                                    <form method="post" action="{% url 'generate_recipe_version' %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form>
-                                        {% csrf_token %}
-                                        <input type="hidden" name="goal" value="{{ version.goal }}">
-                                        <button type="submit" class="culina-add-back-button"><i class="icon-refresh-cw"></i> Cook this version</button>
-                                    </form>
-                                {% endif %}
+                                <div class="ri-way-foot">
+                                    {% if version.tag == "everyday" %}
+                                        <span class="ri-tag ri-tag-everyday"><i class="icon-circle-check" aria-hidden="true"></i> Everyday healthy</span>
+                                    {% elif version.tag == "treat" %}
+                                        <span class="ri-tag ri-tag-treat"><i class="icon-cake" aria-hidden="true"></i> Treat</span>
+                                    {% endif %}
+                                    {% if add_back_recipe %}
+                                        <form method="post" action="{% url 'modify_saved_recipe' add_back_recipe.id %}" class="culina-add-back-form culina-way-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="modification_type" value="custom">
+                                            <input type="hidden" name="custom_instruction" value="{{ version.instruction }}">
+                                            <button type="submit" class="culina-add-back-button">Cook this version</button>
+                                        </form>
+                                    {% elif cook_versions %}
+                                        <form method="post" action="{% url 'generate_recipe_version' %}" class="culina-add-back-form culina-way-form" data-recipe-loading-form>
+                                            {% csrf_token %}
+                                            <input type="hidden" name="goal" value="{{ version.goal }}">
+                                            <button type="submit" class="culina-add-back-button">Cook this version</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
                             {% else %}
-                                <p class="culina-insights-muted">{{ version.message }}</p>
+                                <p class="ri-small">{{ version.message }}</p>
                             {% endif %}
                         </div>
                     {% endfor %}
                 </div>
-                <p class="culina-insights-note">Per serving. Cheapest and greenest never turn fat, saturates, sugars or salt to a worse traffic light. Healthiest uses the UK traffic lights and fibre, never lowers protein, and may cost more. A swap that lowers the protein or fibre level says so in red; if your goal is High Protein, no card lowers protein. Where no change is shown, a swapped ingredient has no price or carbon figure, so the change can't be worked out. Swaps skip anything that clashes with your allergies or diet.</p>
             </div>
         {% endif %}
 
-        <details class="culina-how-calculated">
-            <summary>How this was calculated</summary>
+        <details class="culina-how-calculated ri-details">
+            <summary>Full nutrition and sources</summary>
+
+            <h5>Per serving <small>({{ insights.nutrition.servings }} serving{{ insights.nutrition.servings|pluralize }})</small></h5>
+            <div class="culina-table-scroll"><table class="culina-nutrition-table">
+                <thead>
+                    <tr><th scope="col">Nutrient</th><th scope="col">Amount</th><th scope="col">Level</th><th scope="col">% RI</th></tr>
+                </thead>
+                <tbody>
+                    {% for row in insights.nutrition_rows %}
+                        <tr>
+                            <th scope="row">{{ row.label }}</th>
+                            <td>{% if forloop.first %}{{ row.amount|floatformat:0 }} {{ row.unit }} ({{ insights.energy_kj_per_serving }} kJ){% else %}{{ row.amount|floatformat:1 }} {{ row.unit }}{% endif %}</td>
+                            <td>{% if row.light %}<span class="culina-light culina-light-{{ row.light }}">{% if row.light_label == "Source" %}Good{% else %}{{ row.light_label }}{% endif %}</span>{% endif %}</td>
+                            <td>{% if row.ri_pct is not None %}{{ row.ri_pct }}%{{ row.ri_mark }}{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table></div>
+            <p>Low, medium and high are the UK front-of-pack levels per 100 g for fat, saturates, sugars and salt. For protein and fibre, higher is better: High and Good follow the UK nutrition claim rules. % RI is the share of an adult's daily reference intake on UK food labels. *Fibre is compared with the UK advice of 30 g a day (SACN).</p>
+
+            {% if insights.benefits %}
+                <h5>Why it's good for you</h5>
+                <ul class="ri-plain-list">
+                    {% for benefit in insights.benefits %}
+                        <li><strong>{% if benefit.name %}{{ benefit.name }}{% elif benefit.claim == "Source of protein" %}Good source of protein{% elif benefit.claim == "Source of fibre" %}Good source of fibre{% else %}{{ benefit.claim }}{% endif %}.</strong> {{ benefit.text }}</li>
+                    {% endfor %}
+                </ul>
+                <p>Only claims the numbers qualify for, using the UK nutrition claim conditions.</p>
+            {% endif %}
+
+            <h5>Cost and carbon</h5>
+            <p>{{ insights.cost.note }} {{ insights.carbon.note }}</p>
+            {% if insights.cost.unmatched %}<p>No price yet for: {{ insights.cost.unmatched|join:", " }}.</p>{% endif %}
+            {% if insights.carbon.unmatched %}<p>No carbon figure for: {{ insights.carbon.unmatched|join:", " }}.</p>{% endif %}
+
+            {% if insights.cuisine.available %}
+                <h5>Cuisine check</h5>
+                <p>Looks at typical ingredients only, not taste or technique. Compared with {{ insights.cuisine.recipes|floatformat:"0g" }} real {{ insights.cuisine.region_name }} recipes in Ahn et al. (2011), <em>Scientific Reports</em>; the study groups cuisines by region.</p>
+            {% endif %}
+
+            {% if insights.three_ways %}
+                <h5>The three versions</h5>
+                <p>Swaps come from a hand-checked list, or are ideas from the AI for this dish that passed the code's checks (in the food data, safe for your allergies and diet). Cheapest and greenest never turn fat, saturates, sugars or salt to a worse level. Healthiest uses the UK levels and fibre, never lowers protein, and may cost more. Where no change is shown, a swapped ingredient has no price or carbon figure.</p>
+            {% endif %}
+
+            {% if insights.classic.is_classic and insights.classic.items %}
+                <p>What's missing from the classic is found by code, and each reason is checked against your settings and the nutrition before it's shown.</p>
+            {% endif %}
+
+            <h5>Ingredients matched</h5>
             <p>Each ingredient was matched to a food in the UK's CoFID 2021 data (a few USDA foods fill gaps), using the raw weights below.</p>
             <div class="culina-table-scroll"><table class="culina-nutrition-table">
                 <thead><tr><th scope="col">Ingredient</th><th scope="col">Weight</th><th scope="col">Matched to</th></tr></thead>
@@ -298,10 +299,11 @@ Context:
                     {% endfor %}
                 </tbody>
             </table></div>
-            <p class="culina-insights-note">Found {{ insights.nutrition.coverage_pct|floatformat:0 }}% of the recipe's weight. Cooking changes weight (water lost, oil absorbed), so these are estimates.</p>
-            {% for warning in insights.weight_warnings %}<p class="culina-insights-muted">{{ warning }}</p>{% endfor %}
+            <p>Found {{ insights.nutrition.coverage_pct|floatformat:0 }}% of the recipe's weight. Cooking changes weight (water lost, oil absorbed), so these are estimates.</p>
+            {% for warning in insights.weight_warnings %}<p>{{ warning }}</p>{% endfor %}
+            <p>All of these figures are worked out by code from food data and shop prices, not guessed by the AI.</p>
         </details>
     {% endif %}
 
-    <p class="culina-insights-disclaimer"><i class="icon-shield-alert" aria-hidden="true"></i> {{ insights.disclaimer|default:"Nutrition values are estimates. They are not medical or dietary advice. Always check the labels on the products you buy, especially for allergens." }}</p>
+    <p class="culina-insights-disclaimer ri-disclaimer">{{ insights.disclaimer|default:"Nutrition values are estimates. They are not medical or dietary advice. Always check the labels on the products you buy, especially for allergens." }}</p>
 </section>

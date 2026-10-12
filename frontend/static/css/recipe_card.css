@@ -1,0 +1,738 @@
+/* =========================================================
+   A recipe, laid out like a cookbook page (built by js/recipe_output.js),
+   and the nutrition, cost and carbon panel under it
+   (templates/recipes/partials/recipe_insights.html).
+   Loaded on every page after recipe_insights.css. Uses the colour tokens
+   in site.css, so dark mode needs no generated rules.
+   ========================================================= */
+
+/* ---------- The recipe ---------- */
+
+.rc-ready {
+    color: var(--site-ink);
+}
+
+.rc {
+    display: grid;
+    gap: 28px;
+    color: var(--site-ink);
+    font-family: var(--site-font);
+}
+
+.rc-head {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+}
+
+.rc-head-with-image {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+
+.rc .rc-image {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--site-radius-lg);
+    background: var(--site-subtle);
+    box-shadow: none;
+    aspect-ratio: 4 / 3;
+}
+
+.rc .rc-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.rc .rc-image > :not(img) {
+    display: none; /* old "AI Food Image" badges */
+}
+
+.rc-title {
+    margin: 0 0 10px;
+    color: var(--site-ink);
+    font-family: var(--site-font);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+.rc-desc {
+    max-width: 62ch;
+    margin: 0 0 14px;
+    color: var(--site-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+}
+
+.rc-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--site-ink);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.rc-facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rc-facts i {
+    color: var(--site-muted);
+}
+
+.rc-changed {
+    margin: 16px 0 0;
+    padding: 10px 14px;
+    border-radius: var(--site-radius);
+    background: var(--site-accent-soft);
+    color: var(--site-ink);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.rc-body {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+    gap: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--site-line);
+}
+
+.rc h3 {
+    margin: 0 0 12px;
+    color: var(--site-ink);
+    font-family: var(--site-font);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.rc-ingredient-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rc-ingredient-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--site-line);
+    font-size: 0.97rem;
+    line-height: 1.45;
+}
+
+.rc-ingredient-list li:last-child {
+    border-bottom: 0;
+}
+
+.rc-ingredient-list li.rc-sub {
+    padding-top: 14px;
+    border-bottom: 0;
+    color: var(--site-muted);
+    font-weight: 600;
+}
+
+.rc-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: rc-step;
+}
+
+.rc-steps li {
+    position: relative;
+    margin: 0 0 16px;
+    padding-left: 40px;
+    font-size: 1rem;
+    line-height: 1.6;
+    counter-increment: rc-step;
+}
+
+.rc-steps li::before {
+    content: counter(rc-step);
+    position: absolute;
+    top: 1px;
+    left: 0;
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--site-accent-soft);
+    color: var(--site-accent-ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.rc-method p {
+    margin: 0 0 10px;
+    line-height: 1.6;
+}
+
+.rc-notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--site-line);
+}
+
+.rc-note h3 {
+    margin-bottom: 6px;
+    font-size: 1rem;
+}
+
+.rc-note p,
+.rc-note li {
+    margin: 0;
+    color: var(--site-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.rc-note ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.rc-note li + li {
+    margin-top: 4px;
+}
+
+.rc p,
+.rc li {
+    font-weight: 400;
+}
+
+@media (max-width: 860px) {
+    .rc-head-with-image,
+    .rc-body {
+        grid-template-columns: 1fr;
+    }
+
+    .rc-body {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .rc-notes {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ---------- Nutrition, cost and carbon ---------- */
+
+.culina-insights.ri {
+    margin: 32px 0 0;
+    padding: 24px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+    box-shadow: none;
+    color: var(--site-ink);
+}
+
+.ri-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-bottom: 16px;
+}
+
+.ri-head h3 {
+    margin: 0;
+    color: var(--site-ink);
+    font-family: var(--site-font);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.ri-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.ri-tag-everyday {
+    background: var(--site-accent-soft);
+    color: var(--site-accent-ink);
+}
+
+.ri-tag-treat {
+    background: var(--site-caution-soft);
+    color: var(--site-caution);
+}
+
+.ri .ri-warnings {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--site-danger);
+    border-left-width: 4px;
+    border-radius: var(--site-radius);
+    background: var(--site-danger-soft);
+}
+
+.ri .culina-warning-line {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 6px;
+    color: var(--site-danger);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.ri .culina-warning-line:last-child {
+    margin-bottom: 0;
+}
+
+.ri .culina-warning-line i {
+    margin: 3px 0 0;
+    color: var(--site-danger);
+}
+
+.ri-lines {
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+}
+
+.ri-lines li,
+.ri .ri-lines .culina-meal-style-note,
+.ri .ri-lines .culina-cuisine-note,
+.ri .ri-lines .culina-personal-note {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin: 0 0 6px;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--site-ink);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.ri-lines i,
+.ri .ri-lines .culina-meal-style-note i,
+.ri .ri-lines .culina-cuisine-note i,
+.ri .ri-lines .culina-personal-note i {
+    flex: none;
+    margin-top: 3px;
+    color: var(--site-accent-ink);
+}
+
+.ri .ri-lines .culina-cuisine-unchecked,
+.ri .ri-lines .culina-cuisine-unchecked i {
+    color: var(--site-muted);
+}
+
+.ri .ri-lines a {
+    margin-left: 4px;
+    color: var(--site-accent-ink);
+    font-weight: 600;
+}
+
+.ri-empty {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    color: var(--site-muted);
+}
+
+/* Like the front of a food pack: energy, then fat, saturates, sugars, salt */
+.ri-label {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 0 16px;
+}
+
+.ri-label-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 10px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+    text-align: center;
+}
+
+.ri-label-cell span {
+    color: var(--site-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.ri-label-cell strong {
+    color: var(--site-ink);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.ri-label-cell small {
+    color: var(--site-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+/* UK traffic light colours, kept soft so the page stays calm */
+.ri-light-green {
+    border-color: #9fd3aa;
+    background: #ecf7ee;
+}
+
+.ri-light-green small {
+    color: #1f6b33;
+}
+
+.ri-light-amber {
+    border-color: #f2c27c;
+    background: #fdf3e3;
+}
+
+.ri-light-amber small {
+    color: #8a4b06;
+}
+
+.ri-light-red {
+    border-color: #f1a39b;
+    background: #fdeceb;
+}
+
+.ri-light-red small {
+    color: #a3241a;
+}
+
+html[data-theme="dark"] .ri-light-green {
+    border-color: #2f6b3d;
+    background: #17291c;
+}
+
+html[data-theme="dark"] .ri-light-green small {
+    color: #8fd19e;
+}
+
+html[data-theme="dark"] .ri-light-amber {
+    border-color: #7a5320;
+    background: #2e2416;
+}
+
+html[data-theme="dark"] .ri-light-amber small {
+    color: #f3bd6f;
+}
+
+html[data-theme="dark"] .ri-light-red {
+    border-color: #7e2e28;
+    background: #2f1917;
+}
+
+html[data-theme="dark"] .ri-light-red small {
+    color: #f5a097;
+}
+
+.ri-figures {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin: 0;
+    padding: 14px 0 0;
+    border-top: 1px solid var(--site-line);
+}
+
+.ri-figures dt {
+    margin: 0 0 2px;
+    color: var(--site-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.ri-figures dd {
+    margin: 0;
+    color: var(--site-ink);
+    font-size: 0.97rem;
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.ri-block {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--site-line);
+}
+
+.ri .ri-block,
+.ri .culina-classic,
+.ri .culina-three-ways {
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.ri-block h4 {
+    margin: 0 0 6px;
+    color: var(--site-ink);
+    font-family: var(--site-font);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.ri-ways-lead,
+.ri-small {
+    margin: 0 0 12px;
+    color: var(--site-muted);
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+
+.ri-ways-lead strong {
+    color: var(--site-ink);
+}
+
+.ri-ways {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ri-way {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+}
+
+.ri-way-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--site-ink);
+    font-weight: 700;
+}
+
+.ri-way-title i {
+    color: var(--site-accent-ink);
+}
+
+.ri-swaps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ri-swaps li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 8px;
+    font-size: 0.93rem;
+    line-height: 1.45;
+}
+
+.ri-swaps strong {
+    color: var(--site-ink);
+    font-weight: 600;
+}
+
+.ri-swap-impact {
+    color: var(--site-accent-ink);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.ri-swaps small {
+    color: var(--site-muted);
+    font-size: 0.83rem;
+}
+
+.ri .culina-swap-tradeoff {
+    color: var(--site-danger);
+    font-size: 0.85rem;
+}
+
+.ri-way-stats {
+    display: grid;
+    gap: 2px;
+    margin: auto 0 0;
+    padding-top: 8px;
+    border-top: 1px solid var(--site-line);
+}
+
+.ri-way-stats div {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.88rem;
+}
+
+.ri-way-stats dt {
+    color: var(--site-muted);
+    font-weight: 500;
+}
+
+.ri-way-stats dd {
+    margin: 0;
+    color: var(--site-ink);
+    font-weight: 600;
+    text-align: right;
+}
+
+.ri-way-stats dd small {
+    color: var(--site-muted);
+    font-weight: 400;
+}
+
+.ri .culina-way-warning {
+    margin: 0;
+    color: var(--site-danger);
+    font-size: 0.88rem;
+}
+
+.ri-way-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.ri .culina-add-back-button {
+    padding: 5px 12px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+    color: var(--site-ink);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.ri .culina-add-back-button:hover,
+.ri .culina-add-back-button:focus-visible {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #ffffff;
+}
+
+.ri .culina-classic-list li {
+    border-color: var(--site-line);
+}
+
+.ri-details {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--site-line);
+    color: var(--site-ink);
+}
+
+.ri .ri-details summary {
+    color: var(--site-accent-ink);
+    font-weight: 600;
+}
+
+.ri-details h5 {
+    margin: 18px 0 6px;
+    color: var(--site-ink);
+    font-family: var(--site-font);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.ri-details p,
+.ri-plain-list li {
+    color: var(--site-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.ri-plain-list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.ri .culina-nutrition-table {
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.ri .culina-nutrition-table th,
+.ri .culina-nutrition-table td {
+    padding: 6px 8px;
+    border-color: var(--site-line);
+    color: var(--site-ink);
+}
+
+.ri .culina-nutrition-table thead th {
+    color: var(--site-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.ri .ri-disclaimer {
+    margin: 16px 0 0;
+    padding: 0;
+    background: none;
+    color: var(--site-muted);
+    font-size: 0.83rem;
+}
+
+@media (max-width: 860px) {
+    .ri-ways {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .culina-insights.ri {
+        padding: 16px;
+    }
+
+    .ri-label {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ri-label-energy {
+        grid-column: 1 / -1;
+    }
+
+    .ri-figures {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    .culina-insights.ri {
+        border-color: #c8d0c8;
+    }
+
+    .ri-label-cell {
+        break-inside: avoid;
+    }
+}

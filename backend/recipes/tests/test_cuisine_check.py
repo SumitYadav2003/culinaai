@@ -175,7 +175,7 @@ class CuisineFlowTests(TestCase):
         self.assertEqual(cuisine["level"], "very")
         self.assertIn("Cuisine check:", html)
         self.assertIn("Very typical of Thai cooking", html)
-        self.assertIn("457 real\n                        Southeast Asian recipes", html)
+        self.assertIn("457 real Southeast Asian recipes", html)
 
     @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
     @patch("recipes.views.extract_recipe_structure", return_value=structure(THAI))

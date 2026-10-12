@@ -1508,7 +1508,7 @@ body:has(.culina-command-center) .command-hero {
 
 /* Warnings are red everywhere on CulinaAI */
 .user-search-item.culina-nudge-warning {
-    background: var(--culina-warning-red-soft, #f7f9f7);
+    background: var(--culina-warning-red-soft, #fef2f2);
     border-color: var(--culina-warning-red, #dc2626);
 }
 

@@ -1,337 +1,108 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | Saved Recipes{% endblock %}
+{% block title %}Saved recipes | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=saved-recipe-images-1-g1">
+<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-1">
 {% endblock %}
 
 {% block content %}
 
-<section class="saved-recipes-section">
-    <div class="container">
+<section class="rl-page">
+    <div class="container rl-container">
 
-        <div class="saved-recipes-hero">
+        <header class="rl-head">
             <div>
-                <span class="section-label">
-                    <i class="icon-bookmark"></i>
-                    Saved Recipe Library
-                </span>
-
-                <h1>Your saved AI recipes.</h1>
-
+                <h1>Saved recipes</h1>
                 <p>
-                    Browse the personalised recipes you have generated and saved with CulinaAI.
-                    You can also share selected recipes with the community for other users to view,
-                    rate and review.
+                    {% if recipes %}{{ recipes|length }} recipe{{ recipes|length|pluralize }}{% if search_query or selected_cuisine or selected_meal_type or selected_difficulty %} match your filters{% endif %}.{% endif %}
+                    Open one to cook it, change it or share it.
                 </p>
             </div>
-
-            <a href="{% url 'generate_recipe' %}" class="btn saved-recipes-action-btn">
-                <i class="icon-chef-hat"></i>
-                Generate New Recipe
+            <a href="{% url 'generate_recipe' %}" class="site-btn site-btn-primary">
+                <i class="icon-plus" aria-hidden="true"></i> New recipe
             </a>
-        </div>
+        </header>
 
-        <div class="saved-recipes-filter-card">
-            <form method="get" action="{% url 'saved_recipes' %}" class="saved-recipes-filter-form">
-                <div class="filter-field filter-search-field">
-                    <label for="recipe-search">
-                        <i class="icon-search"></i>
-                        Search recipe
-                    </label>
+        <form method="get" action="{% url 'saved_recipes' %}" class="rl-filters" role="search">
+            <label class="visually-hidden" for="recipe-search">Search your recipes</label>
+            <div class="rl-search">
+                <i class="icon-search" aria-hidden="true"></i>
+                <input type="search" id="recipe-search" name="q" value="{{ search_query }}" placeholder="Search your recipes">
+            </div>
 
-                    <input
-                        type="text"
-                        id="recipe-search"
-                        name="q"
-                        value="{{ search_query }}"
-                        placeholder="Search by recipe title..."
-                    >
-                </div>
+            <label class="visually-hidden" for="recipe-cuisine">Cuisine</label>
+            <select id="recipe-cuisine" name="cuisine">
+                <option value="">Any cuisine</option>
+                {% for cuisine in cuisines %}
+                    <option value="{{ cuisine.id }}" {% if selected_cuisine == cuisine.id|stringformat:"s" %}selected{% endif %}>{{ cuisine.name }}</option>
+                {% endfor %}
+            </select>
 
-                <div class="filter-field">
-                    <label for="recipe-cuisine">
-                        <i class="icon-globe"></i>
-                        Cuisine
-                    </label>
+            <label class="visually-hidden" for="recipe-meal-type">Meal</label>
+            <select id="recipe-meal-type" name="meal_type">
+                <option value="">Any meal</option>
+                {% for meal_type in meal_types %}
+                    <option value="{{ meal_type.id }}" {% if selected_meal_type == meal_type.id|stringformat:"s" %}selected{% endif %}>{{ meal_type.name }}</option>
+                {% endfor %}
+            </select>
 
-                    <select id="recipe-cuisine" name="cuisine">
-                        <option value="">All cuisines</option>
+            <label class="visually-hidden" for="recipe-difficulty">Difficulty</label>
+            <select id="recipe-difficulty" name="difficulty">
+                <option value="">Any difficulty</option>
+                {% for value, label in difficulty_choices %}
+                    <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
 
-                        {% for cuisine in cuisines %}
-                            <option value="{{ cuisine.id }}" {% if selected_cuisine == cuisine.id|stringformat:"s" %}selected{% endif %}>
-                                {{ cuisine.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="filter-field">
-                    <label for="recipe-meal-type">
-                        <i class="icon-egg-fried"></i>
-                        Meal type
-                    </label>
-
-                    <select id="recipe-meal-type" name="meal_type">
-                        <option value="">All meal types</option>
-
-                        {% for meal_type in meal_types %}
-                            <option value="{{ meal_type.id }}" {% if selected_meal_type == meal_type.id|stringformat:"s" %}selected{% endif %}>
-                                {{ meal_type.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="filter-field">
-                    <label for="recipe-difficulty">
-                        <i class="icon-chart-column"></i>
-                        Difficulty
-                    </label>
-
-                    <select id="recipe-difficulty" name="difficulty">
-                        <option value="">All difficulties</option>
-
-                        {% for value, label in difficulty_choices %}
-                            <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="filter-actions">
-                    <button type="submit" class="btn saved-filter-btn">
-                        <i class="icon-funnel"></i>
-                        Apply Filters
-                    </button>
-
-                    <a href="{% url 'saved_recipes' %}" class="btn saved-reset-btn">
-                        <i class="icon-rotate-ccw"></i>
-                        Reset
-                    </a>
-                </div>
-            </form>
-        </div>
+            <button type="submit" class="site-btn site-btn-secondary">Search</button>
+            {% if search_query or selected_cuisine or selected_meal_type or selected_difficulty %}
+                <a href="{% url 'saved_recipes' %}" class="rl-clear">Clear</a>
+            {% endif %}
+        </form>
 
         {% if recipes %}
-            <div class="row g-4 saved-recipes-grid">
+            <ul class="rl-grid">
                 {% for recipe in recipes %}
-                    <div class="col-md-6 col-xl-4">
-                        <div class="saved-recipe-card {% if recipe.is_public %}saved-recipe-card-public{% endif %}">
-                            <div class="saved-recipe-top">
-                                {% if recipe.is_public %}
-                                    <span class="saved-recipe-badge saved-recipe-community-badge">
-                                        <i class="icon-users"></i>
-                                        Community Recipe
-                                    </span>
+                    <li>
+                        <a class="rl-card" href="{% url 'saved_recipe_detail' recipe.id %}">
+                            <span class="rl-image">
+                                {% if recipe.generated_image %}
+                                    <img src="{{ recipe.generated_image.url }}" alt="" loading="lazy">
                                 {% else %}
-                                    <span class="saved-recipe-badge">
-                                        <i class="icon-utensils"></i>
-                                        AI Recipe
-                                    </span>
+                                    <i class="icon-cooking-pot" aria-hidden="true"></i>
                                 {% endif %}
-
-                                <span class="saved-recipe-date">
-                                    {{ recipe.created_at|date:"d M Y" }}
+                            </span>
+                            <span class="rl-body">
+                                <span class="rl-title">{{ recipe.title }}</span>
+                                <span class="rl-meta">
+                                    <span><i class="icon-clock" aria-hidden="true"></i> {{ recipe.cooking_time_minutes }} min</span>
+                                    <span>{{ recipe.difficulty|title }}</span>
+                                    {% if recipe.cuisine %}<span>{{ recipe.cuisine.name }}</span>{% endif %}
                                 </span>
-                            </div>
-
-                            {% if recipe.generated_image %}
-                                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="saved-recipe-image-link">
-                                    <div class="saved-recipe-image-frame">
-                                        <img
-                                            src="{{ recipe.generated_image.url }}"
-                                            alt="AI-generated image for {{ recipe.title }}"
-                                        >
-
-                                        <span class="saved-recipe-image-badge">
-                                            <i class="icon-image"></i>
-                                            AI Visual
-                                        </span>
-                                    </div>
-                                </a>
-                            {% else %}
-                                <div class="saved-recipe-image-placeholder">
-                                    <div>
-                                        <i class="icon-image"></i>
-                                        <span>No image saved</span>
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            <h3>{{ recipe.title }}</h3>
-
-                            <p>
-                                {{ recipe.description|default:"Personalised recipe generated by CulinaAI."|truncatechars:120 }}
-                            </p>
-
-                            <div class="saved-recipe-meta">
-                                <span>
-                                    <i class="icon-clock"></i>
-                                    {{ recipe.cooking_time_minutes }} min
+                                <span class="rl-tags">
+                                    {% if recipe.original_recipe_id %}<span class="rl-tag">Changed version</span>{% endif %}
+                                    {% if recipe.is_public %}<span class="rl-tag rl-tag-shared"><i class="icon-users" aria-hidden="true"></i> Shared</span>{% endif %}
+                                    <span class="rl-date">Saved {{ recipe.created_at|date:"j M Y" }}</span>
                                 </span>
-
-                                <span>
-                                    <i class="icon-chart-column"></i>
-                                    {{ recipe.difficulty|title }}
-                                </span>
-
-                                {% if recipe.cuisine %}
-                                    <span>
-                                        <i class="icon-globe"></i>
-                                        {{ recipe.cuisine.name }}
-                                    </span>
-                                {% endif %}
-                            </div>
-
-                            {% if recipe.is_public %}
-                                <div class="saved-community-status-strip">
-                                    <div>
-                                        <i class="icon-radio"></i>
-                                    </div>
-
-                                    <div>
-                                        <span>Shared with Community</span>
-
-                                        <p>
-                                            This recipe is visible to other users.
-                                            Views: {{ recipe.community_views }} |
-                                            Rating: {{ recipe.average_rating }}/5 |
-                                            Feedback: {{ recipe.feedback_count }}
-                                        </p>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="saved-community-status-strip saved-community-private-strip">
-                                    <div>
-                                        <i class="icon-lock"></i>
-                                    </div>
-
-                                    <div>
-                                        <span>Private Recipe</span>
-
-                                        <p>
-                                            Only you can see this recipe. Share it with the community
-                                            when you want other users to rate and review it.
-                                        </p>
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            {% if recipe.validation_status %}
-                                <div class="saved-recipe-validation-strip">
-                                    <div class="saved-validation-main">
-                                        <div class="saved-validation-icon">
-                                            <i class="icon-shield-check"></i>
-                                        </div>
-
-                                        <div>
-                                            <span>CulinaAI Verified</span>
-
-                                            <h4>
-                                                {% if recipe.quality_score %}
-                                                    {{ recipe.quality_score }}/100
-                                                {% else %}
-                                                    Verified
-                                                {% endif %}
-                                            </h4>
-                                        </div>
-                                    </div>
-
-                                    <div class="saved-validation-tags">
-                                        <span>
-                                            <i class="icon-circle-check"></i>
-                                            {{ recipe.validation_badge|default:recipe.validation_status }}
-                                        </span>
-
-                                        {% if recipe.validation_risk_level %}
-                                            <span>
-                                                <i class="icon-activity"></i>
-                                                Risk: {{ recipe.validation_risk_level }}
-                                            </span>
-                                        {% endif %}
-
-                                        {% if recipe.validation_attempts %}
-                                            <span>
-                                                <i class="icon-refresh-cw"></i>
-                                                Attempts: {{ recipe.validation_attempts }}
-                                            </span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="saved-recipe-validation-strip saved-recipe-validation-missing">
-                                    <div class="saved-validation-main">
-                                        <div class="saved-validation-icon">
-                                            <i class="icon-info"></i>
-                                        </div>
-
-                                        <div>
-                                            <span>Validation not stored</span>
-                                            <h4>Older Recipe</h4>
-                                        </div>
-                                    </div>
-
-                                    <p>
-                                        Generate and save a new recipe to store CulinaAI verification evidence.
-                                    </p>
-                                </div>
-                            {% endif %}
-
-                            <div class="saved-recipe-footer saved-recipe-community-footer">
-                                <a href="{% url 'saved_recipe_detail' recipe.id %}" class="btn saved-recipe-view-btn">
-                                    <i class="icon-eye"></i>
-                                    View Recipe
-                                </a>
-
-                                <form method="post" action="{% url 'toggle_community_recipe' recipe.id %}" class="saved-community-toggle-form">
-                                    {% csrf_token %}
-
-                                    {% if recipe.is_public %}
-                                        <button type="submit" class="btn saved-community-remove-btn">
-                                            <i class="icon-eye-off"></i>
-                                            Remove from Community
-                                        </button>
-                                    {% else %}
-                                        <button type="submit" class="btn saved-community-add-btn">
-                                            <i class="icon-users"></i>
-                                            Add to Community
-                                        </button>
-                                    {% endif %}
-                                </form>
-
-                                <form method="post" action="{% url 'unsave_recipe' recipe.id %}" class="saved-recipe-unsave-form">
-                                    {% csrf_token %}
-
-                                    <button type="submit" class="btn saved-recipe-unsave-btn">
-                                        <i class="icon-bookmark-minus"></i>
-                                        Unsave
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                            </span>
+                        </a>
+                    </li>
                 {% endfor %}
+            </ul>
+        {% elif search_query or selected_cuisine or selected_meal_type or selected_difficulty %}
+            <div class="rl-empty">
+                <h2>No recipes match</h2>
+                <p>Try a different word, or clear the filters.</p>
+                <a href="{% url 'saved_recipes' %}" class="site-btn site-btn-secondary">Clear filters</a>
             </div>
         {% else %}
-            <div class="saved-empty-state">
-                <div class="empty-state-icon">
-                    <i class="icon-book-open-text"></i>
-                </div>
-
-                <h3>No saved recipes yet</h3>
-
-                <p>
-                    Generate a personalised AI recipe and save it to build your recipe library.
-                </p>
-
-                <a href="{% url 'generate_recipe' %}" class="btn btn-showcase">
-                    <i class="icon-chef-hat"></i>
-                    Generate First Recipe
-                </a>
+            <div class="rl-empty">
+                <i class="icon-bookmark" aria-hidden="true"></i>
+                <h2>No saved recipes yet</h2>
+                <p>Make a recipe, then press Save to keep it here.</p>
+                <a href="{% url 'generate_recipe' %}" class="site-btn site-btn-primary">Make a recipe</a>
             </div>
         {% endif %}
 

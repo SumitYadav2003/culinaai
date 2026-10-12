@@ -37,7 +37,7 @@ from .models import (
 QUICK_PROMPTS = [
     {
         "key": "substitute_ingredient",
-        "label": "Suggest ingredient substitute",
+        "label": "I'm missing an ingredient",
         "icon": "icon-arrow-left-right",
         "prompt": (
             "I do not have one of the ingredients in this recipe. "
@@ -46,7 +46,7 @@ QUICK_PROMPTS = [
     },
     {
         "key": "use_pantry",
-        "label": "Use my pantry items",
+        "label": "Use what's in my pantry",
         "icon": "icon-shopping-basket",
         "prompt": (
             "Check my available pantry items and suggest how I can adapt this recipe using what I already have."
@@ -54,7 +54,7 @@ QUICK_PROMPTS = [
     },
     {
         "key": "explain_step",
-        "label": "Explain a step simply",
+        "label": "Explain the steps simply",
         "icon": "icon-list-checks",
         "prompt": (
             "Explain the cooking steps in a simpler beginner-friendly way and highlight any steps where I should be careful."
@@ -62,7 +62,7 @@ QUICK_PROMPTS = [
     },
     {
         "key": "fix_mistake",
-        "label": "Fix cooking mistake",
+        "label": "Something went wrong",
         "icon": "icon-wrench",
         "prompt": (
             "Help me fix a cooking problem while making this recipe. "
@@ -95,7 +95,7 @@ QUICK_PROMPTS = [
     },
     {
         "key": "more_protein",
-        "label": "Increase protein",
+        "label": "Add more protein",
         "icon": "icon-zap",
         "prompt": (
             "Suggest how to increase the protein in this recipe using practical ingredients."

@@ -438,7 +438,7 @@
     background:
         linear-gradient(
             135deg,
-            rgba(247, 249, 247, 0.94),
+            rgba(254, 242, 242, 0.94),
             rgba(255, 255, 255, 0.88)
         ),
         url("../images/card_bg.avif") !important;

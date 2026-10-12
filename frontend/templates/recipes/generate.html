@@ -1,770 +1,264 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CulinaAI | Generate Recipe{% endblock %}
+{% block title %}New recipe | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipes.css' %}?v=form-labels-1-g1">
-<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g1">
-<link rel="stylesheet" href="{% static 'css/recipe_output.css' %}?v=recipe-output-1-g1">
-<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-1">
+<link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g2">
+<link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-2">
+<link rel="stylesheet" href="{% static 'css/generate_page.css' %}?v=generate-page-1">
 {% endblock %}
 
 {% block content %}
 
-<section class="recipe-generate-section">
-    <div class="recipe-generate-overlay"></div>
-
-    <div class="container recipe-generate-container">
-        <div class="row align-items-start g-4">
-
-            <!-- Left Intro Panel -->
-            <div class="col-lg-4">
-                <div class="generate-intro-card generate-intro-card-horizontal">
-                    <span class="hero-badge">
-                        <i class="icon-chef-hat"></i>
-                        AI Recipe Generator
-                    </span>
-
-                    <h1>
-                        Turn your ingredients into a personalised recipe.
-                    </h1>
-
-                    <p>
-                        Enter your ingredients, choose food preferences and let CulinaAI prepare
-                        a structured recipe idea based on your cooking needs.
-                    </p>
-
-                    <div class="generate-benefits">
-                        <div>
-                            <i class="icon-shopping-basket"></i>
-                            Use ingredients you already have
-                        </div>
-                        <div>
-                            <i class="icon-shield-check"></i>
-                            Include allergies and dietary restrictions
-                        </div>
-                        <div>
-                            <i class="icon-history"></i>
-                            Control cooking time and difficulty
-                        </div>
-                        <div>
-                            <i class="icon-bookmark"></i>
-                            Save generated recipes later
-                        </div>
-                    </div>
-
-                    <!-- AI Flow Animation Card -->
-                    <div class="generate-ai-flow-card">
-                        <div class="ai-flow-header">
-                            <div class="ai-flow-icon">
-                                <i class="icon-settings"></i>
-                            </div>
-
-                            <div>
-                                <span>Live AI Flow</span>
-                                <h3>How CulinaAI thinks</h3>
-                            </div>
-                        </div>
-
-                        <div class="ai-flow-steps">
-                            <div class="ai-flow-step">
-                                <span>01</span>
-                                Reads your ingredients
-                            </div>
-
-                            <div class="ai-flow-step">
-                                <span>02</span>
-                                Checks diet and allergies
-                            </div>
-
-                            <div class="ai-flow-step">
-                                <span>03</span>
-                                Builds a recipe idea
-                            </div>
-                        </div>
-
-                        <div class="ai-flow-loading">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <p>Preparing personalised suggestions...</p>
-                        </div>
-                    </div>
-
-                    <!-- AI Cooking Assistant Image Card -->
-                    <div class="generate-ai-image-card">
-                        <div class="ai-image-card-header">
-                            <div>
-                                <span>AI Kitchen Assistant</span>
-                                <h3>Robot-assisted cooking experience</h3>
-                            </div>
-
-                            <div class="ai-image-badge">
-                                <i class="icon-utensils"></i>
-                                CulinaAI
-                            </div>
-                        </div>
-
-                        <div class="ai-image-frame">
-                            <img src="{% static 'images/ai-cooking-assistants.png' %}" alt="Robot helping a woman cook with CulinaAI">
-                            <div class="ai-image-glow"></div>
-                        </div>
-
-                        <p>
-                            CulinaAI supports users by turning ingredients, preferences and cooking goals
-                            into personalised recipe ideas.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Form Panel -->
-            <div class="col-lg-8">
-                <div class="recipe-form-card recipe-form-card-horizontal">
-                    <div class="recipe-form-header recipe-form-header-horizontal">
-                        <div class="generate-page-icon-wrap">
-                            <img src="{% static 'images/generate-recipe-icon.png' %}" alt="Generate Recipe Icon" class="generate-page-icon">
-                        </div>
-
-                        <div>
-                            <span class="panel-label">Personalise Your Meal</span>
-                            <h2>Generate Recipe</h2>
-                            <p>
-                                Fill in your food preferences below and preview your recipe request before AI generation.
-                            </p>
-                        </div>
-                    </div>
-
-                                        <!-- Fridge Scanner Shortcut Card -->
-                    <div class="fridge-scanner-generator-link-card">
-                        <div class="fridge-scanner-generator-icon">
-                            <i class="icon-camera"></i>
-                        </div>
-
-                        <div class="fridge-scanner-generator-content">
-                            <span>New AI Refrigerator Scanner</span>
-
-                            <h3>
-                                Scan your fridge instead of typing ingredients
-                            </h3>
-
-                            <p>
-                                Upload a refrigerator photo, confirm the detected ingredients,
-                                and use them directly for AI recipe generation.
-                            </p>
-                        </div>
-
-                        <a href="{% url 'fridge_scan_upload' %}" class="fridge-scanner-generator-btn">
-                            <i class="icon-utensils"></i>
-                            Use Fridge Scanner
-                        </a>
-                    </div>
-
-                    <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" class="culina-horizontal-generate-form" data-recipe-loading-form novalidate>
-                        {% csrf_token %}
-
-                        <!-- Row 1 -->
-                        <div class="horizontal-form-section">
-                            <div class="horizontal-section-heading">
-                                <i class="icon-shopping-basket"></i>
-                                Main Recipe Details
-                            </div>
-
-                            <div class="row g-3">
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="voice-field-heading">
-                                        <label class="recipe-label">{{ form.ingredients.label }} <span class="recipe-label-required">(required)</span></label>
-
-                                        <button
-                                            type="button"
-                                            class="culina-voice-btn culina-premium-voice-btn"
-                                            data-voice-target="id_ingredients"
-                                            data-voice-mode="replace"
-                                            title="Speak ingredients"
-                                        >
-                                            <i class="icon-mic"></i>
-                                            Speak
-                                        </button>
-                                    </div>
-
-                                    {{ form.ingredients }}
-
-                                    <small class="voice-helper-text">
-                                        Click Speak and say ingredients like: paneer, rice, onion, tomato.
-                                    </small>
-
-                                    {% for error in form.ingredients.errors %}
-                                        <div class="auth-error">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-4 col-md-6">
-                                    <label class="recipe-label">Cuisine <span>(optional)</span></label>
-                                    {{ form.cuisine }}
-                                </div>
-
-                                <div class="col-lg-4 col-md-6">
-                                    <label class="recipe-label">Meal Type <span>(optional)</span></label>
-                                    {{ form.meal_type }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 2 -->
-                        <div class="horizontal-form-section">
-                            <div class="horizontal-section-heading">
-                                <i class="icon-history"></i>
-                                Cooking Setup
-                            </div>
-
-                            <div class="row g-3">
-                                <div class="col-lg-4 col-md-6">
-                                    <label class="recipe-label">{{ form.cooking_time_minutes.label }} <span>(minutes, optional)</span></label>
-                                    {{ form.cooking_time_minutes }}
-                                </div>
-
-                                <div class="col-lg-4 col-md-6">
-                                    <label class="recipe-label">{{ form.servings.label }} <span>(optional)</span></label>
-                                    {{ form.servings }}
-                                </div>
-
-                                <div class="col-lg-4 col-md-6">
-                                    <label class="recipe-label">Difficulty <span>(optional)</span></label>
-                                    {{ form.difficulty }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 3 -->
-                        <div class="horizontal-form-section">
-                            <div class="horizontal-section-heading">
-                                <i class="icon-sliders-horizontal"></i>
-                                Taste and Goal
-                            </div>
-
-                            <!-- Four boxes: one row on very wide screens (col-xxl-3), two rows of two below that, so no label is cut off -->
-                            <div class="row g-3">
-                                <div class="col-xxl-3 col-md-6">
-                                    <label class="recipe-label">{{ form.spice_level.label }} <span>(optional)</span></label>
-                                    {{ form.spice_level }}
-                                </div>
-
-                                <div class="col-xxl-3 col-md-6">
-                                    <label class="recipe-label">{{ form.budget_level.label }} <span>(optional)</span></label>
-                                    {{ form.budget_level }}
-                                </div>
-
-                                <div class="col-xxl-3 col-md-6">
-                                    <label class="recipe-label">{{ form.nutrition_goal.label }} <span>(optional)</span></label>
-                                    {{ form.nutrition_goal }}
-                                </div>
-
-                                <div class="col-xxl-3 col-md-6">
-                                    <label class="recipe-label" for="{{ form.meal_style.id_for_label }}">{{ form.meal_style.label }} <span class="recipe-label-required">(required)</span></label>
-                                    {{ form.meal_style }}
-                                    {% for error in form.meal_style.errors %}
-                                        <div class="auth-error">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 4 -->
-                        <div class="horizontal-form-section">
-                            <div class="horizontal-section-heading">
-                                <i class="icon-shield-check"></i>
-                                Diet and Safety Preferences
-                            </div>
-
-                            <div class="row g-3">
-                                <div class="col-lg-6">
-                                    <label class="recipe-label">Diet Preferences <span>(optional)</span></label>
-                                    <div class="recipe-checkbox-grid horizontal-checkbox-grid">
-                                        {{ form.diet_preferences }}
-                                    </div>
-
-                                    <div class="custom-other-field">
-                                        <div class="voice-field-heading">
-                                            <label class="recipe-label" for="other_diet_preference">
-                                                Other Diet Preference
-                                                <span>(optional)</span>
-                                            </label>
-
-                                            <button
-                                                type="button"
-                                                class="culina-voice-btn"
-                                                data-voice-target="other_diet_preference"
-                                                data-voice-mode="append"
-                                                title="Speak diet preference"
-                                            >
-                                                <i class="icon-mic"></i>
-                                                Speak
-                                            </button>
-                                        </div>
-
-                                        <input
-                                            type="text"
-                                            id="other_diet_preference"
-                                            name="other_diet_preference"
-                                            class="recipe-input custom-other-input"
-                                            placeholder="Example: Jain food, no onion no garlic, diabetic-friendly, high-fiber"
-                                        >
-
-                                        <small>
-                                            Add any diet preference that is not listed above.
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="voice-field-heading">
-                                        <label class="recipe-label">{{ form.allergies.label }} <span>(optional)</span></label>
-
-                                        <button
-                                            type="button"
-                                            class="culina-voice-btn"
-                                            data-voice-target="id_allergies"
-                                            data-voice-mode="replace"
-                                            title="Speak allergies or restricted ingredients"
-                                        >
-                                            <i class="icon-mic"></i>
-                                            Speak
-                                        </button>
-                                    </div>
-
-                                    {{ form.allergies }}
-
-                                    <small class="voice-helper-text">
-                                        Click Speak and say restrictions like: nuts, eggs, shellfish.
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 5 -->
-                        <div class="horizontal-form-section">
-                            <div class="horizontal-section-heading">
-                                <i class="icon-wrench"></i>
-                                Equipment and Utensils
-                            </div>
-
-                            <div class="row g-3 equipment-utensils-row">
-                                <div class="col-lg-6">
-                                    <div class="generate-subsection-label">
-                                        <i class="icon-zap"></i>
-                                        Kitchen Equipment <span class="generate-subsection-hint">(optional)</span>
-                                    </div>
-
-                                    <p class="custom-choice-helper">
-                                        Select cooking machines or appliances available to the user.
-                                    </p>
-
-                                    <div class="recipe-checkbox-grid horizontal-checkbox-grid horizontal-equipment-grid">
-                                        {{ form.cooking_equipment }}
-                                    </div>
-
-                                    <div class="custom-other-field">
-                                        <div class="voice-field-heading">
-                                            <label class="recipe-label" for="other_kitchen_equipment">
-                                                Other Kitchen Equipment
-                                                <span>(optional)</span>
-                                            </label>
-
-                                            <button
-                                                type="button"
-                                                class="culina-voice-btn"
-                                                data-voice-target="other_kitchen_equipment"
-                                                data-voice-mode="append"
-                                                title="Speak kitchen equipment"
-                                            >
-                                                <i class="icon-mic"></i>
-                                                Speak
-                                            </button>
-                                        </div>
-
-                                        <input
-                                            type="text"
-                                            id="other_kitchen_equipment"
-                                            name="other_kitchen_equipment"
-                                            class="recipe-input custom-other-input"
-                                            placeholder="Example: rice cooker, sandwich maker, slow cooker"
-                                        >
-
-                                        <small>
-                                            Add extra machines or cooking appliances not listed above.
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="generate-subsection-label">
-                                        <i class="icon-coffee"></i>
-                                        Utensils <span class="generate-subsection-hint">(optional)</span>
-                                    </div>
-
-                                    <p class="custom-choice-helper">
-                                        Select cooking tools available for preparing the recipe.
-                                    </p>
-
-                                    <div class="recipe-checkbox-grid horizontal-checkbox-grid horizontal-utensils-grid">
-                                        <ul>
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Frying Pan">
-                                                    Frying Pan
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Saucepan">
-                                                    Saucepan
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Deep Pot">
-                                                    Deep Pot
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Tawa / Griddle">
-                                                    Tawa / Griddle
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Wok / Kadhai">
-                                                    Wok / Kadhai
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Mixing Bowl">
-                                                    Mixing Bowl
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Knife">
-                                                    Knife
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Chopping Board">
-                                                    Chopping Board
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Spatula">
-                                                    Spatula
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" name="utensils" value="Measuring Cups">
-                                                    Measuring Cups
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="custom-other-field">
-                                        <div class="voice-field-heading">
-                                            <label class="recipe-label" for="other_utensils">
-                                                Other Utensils
-                                                <span>(optional)</span>
-                                            </label>
-
-                                            <button
-                                                type="button"
-                                                class="culina-voice-btn"
-                                                data-voice-target="other_utensils"
-                                                data-voice-mode="append"
-                                                title="Speak utensils"
-                                            >
-                                                <i class="icon-mic"></i>
-                                                Speak
-                                            </button>
-                                        </div>
-
-                                        <input
-                                            type="text"
-                                            id="other_utensils"
-                                            name="other_utensils"
-                                            class="recipe-input custom-other-input"
-                                            placeholder="Example: rolling pin, steamer basket, mortar and pestle"
-                                        >
-
-                                        <small>
-                                            Add any cooking tools that are not listed above.
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 6 -->
-                        <div class="horizontal-form-section">
-                            <div class="horizontal-section-heading">
-                                <i class="icon-pencil"></i>
-                                Additional Instructions
-                            </div>
-
-                            <div class="voice-field-heading">
-                                <label class="recipe-label">{{ form.additional_notes.label }} <span>(optional)</span></label>
-
-                                <button
-                                    type="button"
-                                    class="culina-voice-btn"
-                                    data-voice-target="id_additional_notes"
-                                    data-voice-mode="replace"
-                                    title="Speak additional instructions"
-                                >
-                                    <i class="icon-mic"></i>
-                                    Speak
-                                </button>
-                            </div>
-
-                            {{ form.additional_notes }}
-
-                            <small class="voice-helper-text">
-                                Example: make it spicy, use less oil, keep it high protein.
-                            </small>
-                        </div>
-
-                        <div class="voice-status-message" data-voice-status hidden></div>
-
-                        <button type="submit" class="btn recipe-generate-btn">
-                            <i class="icon-chef-hat"></i>
-                            Preview Recipe Request
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+<section class="gp-page">
+    <div class="container gp-container">
 
         {% if generation_preview %}
-            <div id="recipe-preview" class="generation-preview-card">
-                <span class="section-label">
-                    <i class="icon-eye"></i>
-                    Request Preview
-                </span>
-
-                <h3>Your recipe request is ready for AI generation.</h3>
-
-                <div class="ai-summary-card">
-                    <div class="ai-summary-icon">
-                        <i class="icon-settings"></i>
-                    </div>
-
-                    <div>
-                        <h5>AI Personalisation Summary</h5>
-                        <p>
-                            CulinaAI will analyse your ingredients, cuisine, meal type, diet preferences,
-                            allergies, cooking time, servings, spice level, budget, nutrition goal, meal style,
-                            available equipment, utensils and any custom user preferences to create
-                            a personalised recipe recommendation.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="preview-grid">
-                    <div>
-                        <strong>Ingredients</strong>
-                        <span>{{ preview_data.ingredients }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Cuisine</strong>
-                        <span>{{ preview_data.cuisine|default:"Any cuisine" }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Meal Type</strong>
-                        <span>{{ preview_data.meal_type|default:"Any meal type" }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Diet Preferences</strong>
-                        <span>
-                            {% for diet in preview_data.diet_preferences %}
-                                {{ diet }}{% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                                No specific diet preference
-                            {% endfor %}
-                        </span>
-                    </div>
-
-                    <div>
-                        <strong>Allergies</strong>
-                        <span>{{ preview_data.allergies|default:"None provided" }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Cooking Time</strong>
-                        <span>{{ preview_data.cooking_time_minutes }} minutes</span>
-                    </div>
-
-                    <div>
-                        <strong>Servings</strong>
-                        <span>{{ preview_data.servings }} servings</span>
-                    </div>
-
-                    <div>
-                        <strong>Difficulty</strong>
-                        <span>{{ preview_data.difficulty|title }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Spice Level</strong>
-                        <span>{{ preview_data.spice_level }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Budget Level</strong>
-                        <span>{{ preview_data.budget_level }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Nutrition Goal</strong>
-                        <span>{{ preview_data.nutrition_goal }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Meal Style</strong>
-                        <span>{{ preview_data.meal_style|default:"No preference" }}</span>
-                    </div>
-
-                    <div>
-                        <strong>Cooking Equipment</strong>
-                        <span>
-                            {% for equipment in preview_data.cooking_equipment %}
-                                {{ equipment }}{% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                                No equipment selected
-                            {% endfor %}
-                        </span>
-                    </div>
-
-                    <div>
-                        <strong>Utensils</strong>
-                        <span>
-                            {% for utensil in preview_data.utensils %}
-                                {{ utensil }}{% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                                No utensils selected
-                            {% endfor %}
-                        </span>
-                    </div>
-
-                    <div>
-                        <strong>Additional Notes</strong>
-                        <span>{{ preview_data.additional_notes }}</span>
-                    </div>
-                </div>
-
+            <!-- The recipe that was just made -->
+            <div id="recipe-preview" class="gp-result">
                 {% if ai_recipe_result %}
-                    <div class="ai-recipe-result-card">
-                        <div class="ai-result-header">
-                            <div>
-                                <h3>Your recipe is ready</h3>
-                            </div>
-
-                            <form method="post" action="{% url 'save_generated_recipe' %}" class="save-recipe-form">
+                    <div class="gp-result-head">
+                        <div>
+                            <p class="gp-kicker">Your recipe is ready</p>
+                            <p class="gp-asked">
+                                You asked for: {{ preview_data.ingredients|truncatechars:90 }}
+                                · {{ preview_data.servings }} serving{{ preview_data.servings|pluralize }}
+                                · {{ preview_data.cooking_time_minutes }} min
+                                {% if preview_data.meal_style and preview_data.meal_style != "No preference" %}· {{ preview_data.meal_style }}{% endif %}
+                            </p>
+                        </div>
+                        <div class="gp-result-actions">
+                            <form method="post" action="{% url 'save_generated_recipe' %}" class="rp-inline-form" data-busy-form>
                                 {% csrf_token %}
-                                <button type="submit" class="btn save-recipe-btn">
-                                    <i class="icon-bookmark"></i>
-                                    Save Recipe
+                                <button type="submit" class="site-btn site-btn-primary" data-busy-text="Saving…">
+                                    <i class="icon-bookmark" aria-hidden="true"></i> Save recipe
                                 </button>
                             </form>
+                            <a href="#rp-generate-tools" class="site-btn site-btn-secondary">Change it</a>
                         </div>
+                    </div>
 
-                        {% include "recipes/partials/check_summary.html" with report=ai_recipe_result.validation_report %}
+                    {% include "recipes/partials/check_summary.html" with report=ai_recipe_result.validation_report %}
 
-                        <p class="rp-jump"><a href="#rp-generate-tools">Not quite right? Change it</a></p>
-
-                        <div class="final-recipe-with-image-layout">
-
-                            {% if ai_recipe_result.generated_image_url %}
-                                <div class="final-recipe-image-card">
-                                    <img
-                                        src="{{ ai_recipe_result.generated_image_url }}"
-                                        alt="AI-generated food image for this recipe"
-                                    >
-
-                                    <div class="final-recipe-image-badge">
-                                        <i class="icon-utensils"></i>
-                                        AI Food Image
-                                    </div>
-                                </div>
-                            {% elif generated_image_url %}
-                                <div class="final-recipe-image-card">
-                                    <img
-                                        src="{{ generated_image_url }}"
-                                        alt="AI-generated food image for this recipe"
-                                    >
-
-                                    <div class="final-recipe-image-badge">
-                                        <i class="icon-utensils"></i>
-                                        AI Food Image
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            <div
-                                class="ai-recipe-text final-recipe-text-with-image culina-readable-recipe"
-                                data-culina-recipe-output
-                            >
-                                {{ ai_recipe_result.recipe_text|linebreaks }}
+                    <div class="gp-recipe">
+                        {% if ai_recipe_result.generated_image_url or generated_image_url %}
+                            <div data-culina-recipe-image>
+                                <img
+                                    src="{% if ai_recipe_result.generated_image_url %}{{ ai_recipe_result.generated_image_url }}{% else %}{{ generated_image_url }}{% endif %}"
+                                    alt="Picture of the finished dish (made by AI, so the real thing may look different)"
+                                >
                             </div>
+                        {% endif %}
 
+                        <div class="ai-recipe-text" data-culina-recipe-output>
+                            {{ ai_recipe_result.recipe_text|linebreaks }}
                         </div>
 
                         {% include "recipes/partials/recipe_insights.html" with insights=ai_recipe_result.insights cook_versions=True %}
+                    </div>
 
-                        <div class="rp-tools rp-tools-two" id="rp-generate-tools">
-                            <section class="rp-tool" aria-labelledby="rp-gen-change-title">
-                                <h2 id="rp-gen-change-title">Change this recipe</h2>
-                                <p class="rp-muted">Pick a change and CulinaAI makes a new version straight away, with the same checks.</p>
-                                {% url 'change_generated_recipe' as change_action %}
-                                {% include "recipes/partials/change_recipe_form.html" with action=change_action field_id="rp-gen-change-text" loading_form=True %}
-                            </section>
+                    <div class="rp-tools rp-tools-two" id="rp-generate-tools">
+                        <section class="rp-tool" aria-labelledby="rp-gen-change-title">
+                            <h2 id="rp-gen-change-title">Change this recipe</h2>
+                            <p class="rp-muted">Pick a change and you'll get a new version straight away, with the same checks.</p>
+                            {% url 'change_generated_recipe' as change_action %}
+                            {% include "recipes/partials/change_recipe_form.html" with action=change_action field_id="rp-gen-change-text" loading_form=True %}
+                        </section>
 
-                            <section class="rp-tool" aria-labelledby="rp-gen-email-title">
-                                <h2 id="rp-gen-email-title">Email this recipe</h2>
-                                <p class="rp-muted">Send it to yourself or someone else, even before you save it.</p>
-                                {% url 'email_generated_recipe' as email_action %}
-                                {% include "recipes/partials/email_recipe_form.html" with action=email_action field_id="rp-gen-email" %}
-                            </section>
-                        </div>
+                        <section class="rp-tool" aria-labelledby="rp-gen-email-title">
+                            <h2 id="rp-gen-email-title">Email this recipe</h2>
+                            <p class="rp-muted">Send it to yourself or someone else, even before you save it.</p>
+                            {% url 'email_generated_recipe' as email_action %}
+                            {% include "recipes/partials/email_recipe_form.html" with action=email_action field_id="rp-gen-email" %}
+                        </section>
                     </div>
                 {% endif %}
+
+                <details class="gp-request">
+                    <summary>Everything you asked for</summary>
+                    <dl>
+                        <div><dt>Ingredients</dt><dd>{{ preview_data.ingredients }}</dd></div>
+                        <div><dt>Meal style</dt><dd>{{ preview_data.meal_style|default:"No preference" }}</dd></div>
+                        <div><dt>Diet</dt><dd>{% for diet in preview_data.diet_preferences %}{{ diet }}{% if not forloop.last %}, {% endif %}{% empty %}No preference{% endfor %}</dd></div>
+                        <div><dt>Allergies or foods to avoid</dt><dd>{{ preview_data.allergies|default:"None" }}</dd></div>
+                        <div><dt>Servings</dt><dd>{{ preview_data.servings }}</dd></div>
+                        <div><dt>Time</dt><dd>{{ preview_data.cooking_time_minutes }} minutes</dd></div>
+                        <div><dt>Difficulty</dt><dd>{{ preview_data.difficulty|title }}</dd></div>
+                        <div><dt>Cuisine</dt><dd>{{ preview_data.cuisine|default:"Any cuisine" }}</dd></div>
+                        <div><dt>Meal</dt><dd>{{ preview_data.meal_type|default:"Any meal type" }}</dd></div>
+                        <div><dt>Spice</dt><dd>{{ preview_data.spice_level }}</dd></div>
+                        <div><dt>Budget</dt><dd>{{ preview_data.budget_level }}</dd></div>
+                        <div><dt>Nutrition goal</dt><dd>{{ preview_data.nutrition_goal }}</dd></div>
+                        <div><dt>Kitchen equipment</dt><dd>{% for equipment in preview_data.cooking_equipment %}{{ equipment }}{% if not forloop.last %}, {% endif %}{% empty %}None chosen{% endfor %}</dd></div>
+                        <div><dt>Utensils</dt><dd>{% for utensil in preview_data.utensils %}{{ utensil }}{% if not forloop.last %}, {% endif %}{% empty %}None chosen{% endfor %}</dd></div>
+                        <div class="gp-request-wide"><dt>Notes</dt><dd>{{ preview_data.additional_notes }}</dd></div>
+                    </dl>
+                </details>
             </div>
         {% endif %}
+
+        <!-- The form -->
+        <div class="gp-form-wrap{% if generation_preview %} gp-form-again{% endif %}" id="new-recipe-form">
+            <header class="gp-head">
+                {% if generation_preview %}
+                    <h2>Make a different recipe</h2>
+                {% else %}
+                    <h1>New recipe</h1>
+                    <p>Tell us what you have and what you need. Only the first two questions are required.</p>
+                {% endif %}
+                <p class="gp-shortcuts">
+                    Short of time?
+                    <a href="{% url 'generate_recipe' %}?from_pantry=1"><i class="icon-refrigerator" aria-hidden="true"></i> Use my pantry</a>
+                    <a href="{% url 'fridge_scan_upload' %}"><i class="icon-camera" aria-hidden="true"></i> Scan my fridge</a>
+                </p>
+            </header>
+
+            <form method="post" action="{% url 'generate_recipe' %}#recipe-preview" class="gp-form" data-recipe-loading-form novalidate>
+                {% csrf_token %}
+
+                <!-- 1. Ingredients -->
+                <fieldset class="gp-section">
+                    <legend><span class="gp-num">1</span> What do you have?</legend>
+                    <div class="gp-label-row">
+                        <label for="{{ form.ingredients.id_for_label }}">Ingredients</label>
+                        <button type="button" class="gp-voice" data-voice-target="id_ingredients" data-voice-mode="replace" title="Say your ingredients">
+                            <i class="icon-mic"></i> Speak
+                        </button>
+                    </div>
+                    {{ form.ingredients }}
+                    <p class="gp-hint">Separate them with commas. You don't need to list salt, pepper or oil.</p>
+                    {% for error in form.ingredients.errors %}<p class="gp-error">{{ error }}</p>{% endfor %}
+                </fieldset>
+
+                <!-- 2. Meal style -->
+                <fieldset class="gp-section">
+                    <legend><span class="gp-num">2</span> What kind of meal?</legend>
+                    <div class="gp-choices" role="radiogroup" aria-label="Meal style">
+                        {% for value, label in form.meal_style.field.choices %}
+                            {% if value %}
+                                <label class="gp-choice">
+                                    <input type="radio" name="{{ form.meal_style.html_name }}" value="{{ value }}" {% if form.meal_style.value == value %}checked{% endif %}>
+                                    <span>
+                                        <strong>{{ label }}</strong>
+                                        <small>
+                                            {% if value == "everyday" %}No high fat, saturates, sugars or salt
+                                            {% elif value == "treat" %}Something richer, for now and then
+                                            {% else %}Whatever suits the ingredients{% endif %}
+                                        </small>
+                                    </span>
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% for error in form.meal_style.errors %}<p class="gp-error">{{ error }}</p>{% endfor %}
+
+                    <div class="gp-row gp-row-3">
+                        <div>
+                            <label for="{{ form.servings.id_for_label }}">Servings</label>
+                            {{ form.servings }}
+                        </div>
+                        <div>
+                            <label for="{{ form.cooking_time_minutes.id_for_label }}">Time (minutes)</label>
+                            {{ form.cooking_time_minutes }}
+                        </div>
+                        <div>
+                            <label for="{{ form.difficulty.id_for_label }}">Difficulty</label>
+                            {{ form.difficulty }}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- 3. Diet and allergies -->
+                <fieldset class="gp-section">
+                    <legend><span class="gp-num">3</span> Diet and allergies <span class="gp-optional">optional</span></legend>
+                    <p class="gp-sublabel">Diet</p>
+                    <div class="gp-chips">
+                        {% for choice in form.diet_preferences %}
+                            <label class="gp-chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>
+                        {% endfor %}
+                    </div>
+                    <label for="other_diet_preference" class="visually-hidden">Another diet</label>
+                    <input type="text" id="other_diet_preference" name="other_diet_preference" class="gp-input gp-input-small" placeholder="Another diet, e.g. Jain, no onion or garlic">
+
+                    <div class="gp-label-row gp-gap-top">
+                        <label for="{{ form.allergies.id_for_label }}">Allergies or foods to avoid</label>
+                        <button type="button" class="gp-voice" data-voice-target="id_allergies" data-voice-mode="replace" title="Say what to avoid">
+                            <i class="icon-mic"></i> Speak
+                        </button>
+                    </div>
+                    {{ form.allergies }}
+                    <p class="gp-hint">Every recipe is checked against this list before you see it.</p>
+                </fieldset>
+
+                <!-- 4. Everything else, folded away -->
+                <details class="gp-section gp-more">
+                    <summary><span class="gp-num">4</span> More options <span class="gp-optional">cuisine, spice, budget, kitchen</span></summary>
+
+                    <div class="gp-row gp-row-3">
+                        <div>
+                            <label for="{{ form.cuisine.id_for_label }}">Cuisine</label>
+                            {{ form.cuisine }}
+                        </div>
+                        <div>
+                            <label for="{{ form.meal_type.id_for_label }}">Meal</label>
+                            {{ form.meal_type }}
+                        </div>
+                        <div>
+                            <label for="{{ form.spice_level.id_for_label }}">Spice</label>
+                            {{ form.spice_level }}
+                        </div>
+                        <div>
+                            <label for="{{ form.budget_level.id_for_label }}">Budget</label>
+                            {{ form.budget_level }}
+                        </div>
+                        <div>
+                            <label for="{{ form.nutrition_goal.id_for_label }}">Nutrition goal</label>
+                            {{ form.nutrition_goal }}
+                        </div>
+                    </div>
+
+                    <p class="gp-sublabel gp-gap-top">Kitchen equipment you have</p>
+                    <div class="gp-chips">
+                        {% for choice in form.cooking_equipment %}
+                            <label class="gp-chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>
+                        {% endfor %}
+                    </div>
+                    <label for="other_kitchen_equipment" class="visually-hidden">Other equipment</label>
+                    <input type="text" id="other_kitchen_equipment" name="other_kitchen_equipment" class="gp-input gp-input-small" placeholder="Anything else, e.g. slow cooker, rice cooker">
+
+                    <p class="gp-sublabel gp-gap-top">Utensils</p>
+                    <div class="gp-chips">
+                        {% for utensil in utensil_choices %}
+                            <label class="gp-chip"><input type="checkbox" name="utensils" value="{{ utensil }}"><span>{{ utensil }}</span></label>
+                        {% endfor %}
+                    </div>
+                    <label for="other_utensils" class="visually-hidden">Other utensils</label>
+                    <input type="text" id="other_utensils" name="other_utensils" class="gp-input gp-input-small" placeholder="Anything else, e.g. steamer basket, rolling pin">
+
+                    <div class="gp-label-row gp-gap-top">
+                        <label for="{{ form.additional_notes.id_for_label }}">Anything else?</label>
+                        <button type="button" class="gp-voice" data-voice-target="id_additional_notes" data-voice-mode="replace" title="Say your notes">
+                            <i class="icon-mic"></i> Speak
+                        </button>
+                    </div>
+                    {{ form.additional_notes }}
+                </details>
+
+                <div class="voice-status-message" data-voice-status hidden></div>
+
+                <div class="gp-submit">
+                    <button type="submit" class="site-btn site-btn-primary site-btn-lg">Make my recipe</button>
+                    <p>Takes about a minute. The recipe is checked against your diet and allergies before you see it.</p>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Recipe Generation Loading Overlay -->
     <div class="culina-loading-overlay" data-culina-loading-overlay>
         <div class="culina-loading-card">
             <div class="culina-loading-content">
-                <div class="culina-loading-badge">
-                    <i class="icon-utensils"></i>
-                    CulinaAI is cooking
-                </div>
-
                 <div class="culina-chef-loader" aria-hidden="true">
                     <span class="culina-steam culina-steam-one"></span>
                     <span class="culina-steam culina-steam-two"></span>
@@ -779,11 +273,11 @@
                     <div class="culina-loader-plate"></div>
                 </div>
 
-                <h2 class="culina-loading-title">Generating your personalised recipe...</h2>
+                <h2 class="culina-loading-title">Making your recipe</h2>
 
                 <p class="culina-loading-subtitle">
-                    CulinaAI is checking your ingredients, preferences, allergies and cooking constraints
-                    before preparing the final recipe.
+                    It's written, then checked against your diet and allergies, and the
+                    nutrition and cost are worked out. This usually takes under a minute.
                 </p>
 
                 <div class="culina-loading-progress-wrap">
@@ -797,7 +291,7 @@
                 </div>
 
                 <div class="culina-loading-mini">
-                    Please wait. Do not refresh the page while the recipe is being generated.
+                    Please keep this page open.
                 </div>
             </div>
         </div>
@@ -808,8 +302,8 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-1-g1"></script>
-<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-1-g1"></script>
+<script src="{% static 'js/recipe_loading.js' %}?v=recipe-loading-2"></script>
+<script src="{% static 'js/recipe_output.js' %}?v=recipe-output-2"></script>
 <script src="{% static 'js/voice_input.js' %}?v=voice-input-1-g1"></script>
-<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-1"></script>
+<script src="{% static 'js/recipe_page.js' %}?v=recipe-page-2"></script>
 {% endblock %}

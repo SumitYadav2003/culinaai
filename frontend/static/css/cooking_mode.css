@@ -731,7 +731,7 @@
     padding: 0.65rem 0.9rem;
     border-radius: 10px;
     color: var(--culina-warning-red-text, #991b1b);
-    background: var(--culina-warning-red-soft, #f7f9f7);
+    background: var(--culina-warning-red-soft, #fef2f2);
     border: 1px solid var(--culina-warning-red, #dc2626);
     font-weight: 700;
 }
