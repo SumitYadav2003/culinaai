@@ -26,7 +26,11 @@ load_dotenv(PROJECT_ROOT / ".env")
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-development-key")
 
-DEBUG = os.getenv("DEBUG", "True") == "True"
+# Off unless DEBUG=True is set. Locally, put DEBUG=True in .env; on Render, leave it out.
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+# Render sets RENDER=true on its servers.
+ON_RENDER = os.getenv("RENDER", "").lower() == "true"
 
 
 # OpenAI configuration
@@ -81,6 +85,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "accounts.context_processors.account_status",
             ],
         },
     },
@@ -166,8 +171,8 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-import os
-if os.environ.get("GITHUB_ACTIONS") == "true":DATABASES["default"] = { "ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "ci_test_db.sqlite3", }
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    DATABASES["default"] = {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "ci_test_db.sqlite3"}
 
 
 
@@ -202,3 +207,57 @@ if os.getenv("AWS_STORAGE_BUCKET_NAME"):
     AWS_DEFAULT_ACL = None
     AWS_S3_FILE_OVERWRITE = True
     AWS_QUERYSTRING_AUTH = False
+
+
+# Daily AI limits per user, so nobody can run up the OpenAI bill.
+# "recipe" covers new recipes, changes, versions and fridge scans (each one can
+# make several AI calls and an image); "question" covers the cooking assistant.
+# Staff accounts have no limit.
+AI_DAILY_RECIPE_LIMIT = int(os.getenv("AI_DAILY_RECIPE_LIMIT", "20"))
+AI_DAILY_QUESTION_LIMIT = int(os.getenv("AI_DAILY_QUESTION_LIMIT", "50"))
+
+# People who sign up must confirm their email before using the AI features.
+EMAIL_CONFIRMATION_REQUIRED = os.getenv("EMAIL_CONFIRMATION_REQUIRED", "True") == "True"
+
+
+# Production security (only on Render, so local runs and tests are unchanged).
+if ON_RENDER:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_REFERRER_POLICY = "same-origin"
+    if os.getenv("RENDER_EXTERNAL_URL"):
+        CSRF_TRUSTED_ORIGINS = [os.getenv("RENDER_EXTERNAL_URL")]
+
+
+# Logging: errors and warnings go to the console, which is what Render's Logs tab shows.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "plain": {"format": "{levelname} {asctime} {name}: {message}", "style": "{"},
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "plain"},
+    },
+    "root": {"handlers": ["console"], "level": "WARNING"},
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+        "accounts": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "recipes": {"handlers": ["console"], "level": "INFO", "propagate": False},
+    },
+}
+
+
+# Error tracking with Sentry. Only turned on when SENTRY_DSN is set (on Render).
+SENTRY_DSN = os.getenv("SENTRY_DSN", "")
+if SENTRY_DSN:
+    import sentry_sdk
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        environment="production" if ON_RENDER else "development",
+        send_default_pii=False,  # no emails, IPs or cookies are sent to Sentry
+        traces_sample_rate=0.0,  # errors only, which keeps it on the free plan
+    )

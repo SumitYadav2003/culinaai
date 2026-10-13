@@ -5,7 +5,9 @@ from django.views.decorators.http import require_POST
 
 from .forms import FridgeScanConfirmForm, FridgeScanUploadForm
 from .fridge_scanner_service import scan_fridge_image
-from .models import FridgeScan, PantryItem
+from .ai_limits import use_ai
+from .pagination import paginate
+from .models import AIUsage, FridgeScan, PantryItem
 
 
 def normalise_ingredient_list_for_comparison(items):
@@ -85,6 +87,11 @@ def fridge_scan_upload_view(request):
 
     if request.method == "POST":
         form = FridgeScanUploadForm(request.POST, request.FILES)
+
+        blocked = use_ai(request.user, AIUsage.KIND_RECIPE, "fridge_scan") if form.is_valid() else None
+        if blocked:
+            messages.error(request, blocked)
+            return redirect("fridge_scan_upload")
 
         if form.is_valid():
             fridge_scan = form.save(commit=False)
@@ -298,8 +305,12 @@ def fridge_scan_history_view(request):
         user=request.user,
     )
 
+    page_obj, page_query = paginate(request, fridge_scans, 12)
+
     context = {
-        "fridge_scans": fridge_scans,
+        "fridge_scans": page_obj,
+        "page_obj": page_obj,
+        "page_query": page_query,
     }
 
     return render(request, "recipes/fridge_scan_history.html", context)

@@ -16,7 +16,7 @@
             <div>
                 <h1>Favourites</h1>
                 <p>
-                    {% if favourite_recipes %}{{ favourite_recipes|length }} recipe{{ favourite_recipes|length|pluralize }}{% if has_active_filters %} match your filters{% endif %}.{% endif %}
+                    {% if total_count %}{{ total_count }} recipe{{ total_count|pluralize }}{% if has_active_filters %} match your filters{% endif %}.{% endif %}
                     Tap the heart on any saved recipe to add it here, and tap it again to take it off.
                 </p>
             </div>
@@ -94,6 +94,7 @@
                         </li>
                     {% endfor %}
                 </ul>
+                {% include "partials/pagination.html" %}
             {% elif has_active_filters %}
                 <div class="rl-empty">
                     <h2>No favourites match</h2>

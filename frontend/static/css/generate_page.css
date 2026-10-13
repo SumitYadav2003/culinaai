@@ -371,6 +371,17 @@
     font-size: 0.9rem;
 }
 
+/* The "AI recipes left today" line sits on its own row under the button. */
+.gp-submit p.site-ai-note {
+    flex: 1 1 100%;
+    margin: 0;
+    font-size: 0.88rem;
+}
+
+.gp-submit p.site-ai-note.is-blocked {
+    color: var(--site-danger);
+}
+
 .gp-form .voice-status-message {
     padding: 10px 14px;
     border-radius: var(--site-radius);

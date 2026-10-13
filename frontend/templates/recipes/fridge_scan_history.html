@@ -4,7 +4,7 @@
 {% block title %}Past scans | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-2">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-4">
 {% endblock %}
 
 {% block content %}
@@ -58,6 +58,7 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% include "partials/pagination.html" %}
 
             {% for scan in fridge_scans %}
                 <div class="modal fade" id="deleteFridgeScanModal{{ scan.id }}" tabindex="-1" aria-labelledby="deleteFridgeScanModalLabel{{ scan.id }}" aria-hidden="true">

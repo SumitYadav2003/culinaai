@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Delete your account | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-4">
+{% endblock %}
+
+{% block content %}
+
+<section class="ap-page">
+    <div class="container ap-narrow">
+        <a href="{% url 'profile_summary' %}" class="ap-back"><i class="icon-arrow-left" aria-hidden="true"></i> Your profile</a>
+
+        <div class="ap-card ap-confirm">
+            <h1>Delete your account?</h1>
+            <p>This deletes your account and everything in it:</p>
+            <ul class="da-list">
+                <li>{{ counts.recipes }} saved recipe{{ counts.recipes|pluralize }}{% if counts.shared %}, including {{ counts.shared }} you shared with other cooks (they'll disappear for them too){% endif %}</li>
+                <li>{{ counts.history }} recipe{{ counts.history|pluralize }} in your history</li>
+                <li>{{ counts.pantry }} pantry item{{ counts.pantry|pluralize }}</li>
+                <li>your favourites, ratings, fridge scans, cooking sessions and photos</li>
+            </ul>
+
+            <p class="da-warning"><i class="icon-triangle-alert" aria-hidden="true"></i> <span>This can't be undone. If you might want your recipes later, <a href="{% url 'download_my_data' %}">download your data</a> first.</span></p>
+
+            <form method="post" class="ap-form ap-form-stack" novalidate>
+                {% csrf_token %}
+                <div>
+                    <label for="delete-password">Type your password to confirm</label>
+                    <input type="password" id="delete-password" name="password" autocomplete="current-password" required {% if error %}aria-invalid="true" aria-describedby="delete-password-error"{% endif %}>
+                    {% if error %}<p class="ap-error" id="delete-password-error">{{ error }}</p>{% endif %}
+                </div>
+                <div class="ap-actions">
+                    <button type="submit" class="site-btn site-btn-danger">Delete my account</button>
+                    <a href="{% url 'profile_summary' %}" class="site-btn site-btn-quiet">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

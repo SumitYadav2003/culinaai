@@ -16,7 +16,7 @@
             <div>
                 <h1>Saved recipes</h1>
                 <p>
-                    {% if recipes %}{{ recipes|length }} recipe{{ recipes|length|pluralize }}{% if search_query or selected_cuisine or selected_meal_type or selected_difficulty %} match your filters{% endif %}.{% endif %}
+                    {% if total_count %}{{ total_count }} recipe{{ total_count|pluralize }}{% if search_query or selected_cuisine or selected_meal_type or selected_difficulty %} match your filters{% endif %}.{% endif %}
                     Open one to cook it, change it or share it.
                 </p>
             </div>
@@ -97,6 +97,7 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% include "partials/pagination.html" %}
         {% elif search_query or selected_cuisine or selected_meal_type or selected_difficulty %}
             <div class="rl-empty">
                 <h2>No recipes match</h2>

@@ -1,0 +1,10 @@
+{# How many AI recipes and changes are left today, or why none can be made. Shown under AI buttons. #}
+{% if email_unconfirmed %}
+    <p class="site-ai-note is-blocked"><i class="icon-mail" aria-hidden="true"></i> Confirm your email first. We sent a link to {{ user.email }}.</p>
+{% elif ai_allowance and not ai_allowance.unlimited %}
+    {% if ai_allowance.left == 0 %}
+        <p class="site-ai-note is-blocked"><i class="icon-circle-alert" aria-hidden="true"></i> You've used all {{ ai_allowance.limit }} of today's AI recipes and changes. You can make more after midnight (UK time).</p>
+    {% else %}
+        <p class="site-ai-note"><i class="icon-sparkles" aria-hidden="true"></i> {{ ai_allowance.left }} of {{ ai_allowance.limit }} AI recipes and changes left today.</p>
+    {% endif %}
+{% endif %}

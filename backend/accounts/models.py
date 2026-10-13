@@ -30,6 +30,10 @@ class UserProfile(models.Model):
         help_text="Optional short user bio for future profile improvements.",
     )
 
+    # True for everyone except people who signed up and haven't opened the link
+    # in their confirmation email yet (the signup form sets it to False).
+    email_confirmed = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

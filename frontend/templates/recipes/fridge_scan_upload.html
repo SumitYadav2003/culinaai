@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/fridge_scanner.css' %}?v=fridge-video-loader-final-2-g2">
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-2">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-4">
 {% endblock %}
 
 {% block content %}
@@ -44,6 +44,7 @@
                     <button type="submit" class="site-btn site-btn-primary" data-fridge-scanner-submit>Scan photo</button>
                     <a href="{% url 'pantry_list' %}" class="site-btn site-btn-quiet">Back to pantry</a>
                 </div>
+                {% include "partials/ai_allowance.html" %}
             </form>
         </section>
 
