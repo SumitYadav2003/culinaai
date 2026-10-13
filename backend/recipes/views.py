@@ -41,7 +41,10 @@ from .forms import (
     SavedRecipeEditForm,
     PantryItemForm,
 )
+from .ai_limits import use_ai
+from .pagination import paginate
 from .models import (
+    AIUsage,
     Cuisine,
     DietPreference,
     FavouriteRecipe,
@@ -971,14 +974,18 @@ def generate_recipe_view(request):
                 "additional_notes": combined_additional_notes,
             }
 
-            run_recipe_generation(request, preview_data)
+            blocked = use_ai(request.user, AIUsage.KIND_RECIPE, "generate")
+            if not blocked:
+                run_recipe_generation(request, preview_data)
+                return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
-            return redirect(f"{reverse('generate_recipe')}#recipe-preview")
-
-        messages.error(
-            request,
-            "Something's missing. Check the questions marked in red.",
-        )
+            # Can't use the AI right now: show the form again with what they typed.
+            messages.error(request, blocked)
+        else:
+            messages.error(
+                request,
+                "Something's missing. Check the questions marked in red.",
+            )
 
     else:
         pantry_mode = request.GET.get("from_pantry") == "1"
@@ -1195,6 +1202,11 @@ def generate_recipe_version_view(request):
         )
         return redirect("generate_recipe")
 
+    blocked = use_ai(request.user, AIUsage.KIND_RECIPE, "version")
+    if blocked:
+        messages.error(request, blocked)
+        return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
     recipe_title = extract_recipe_title(request.session.get("latest_ai_recipe_text", ""))
     version_preferences = build_version_preferences(preferences, version, insights, recipe_title)
     run_recipe_generation(request, version_preferences)
@@ -1289,6 +1301,11 @@ def change_generated_recipe_view(request):
         return redirect("generate_recipe")
     if change not in RECIPE_CHANGES or (change == "custom" and not instruction):
         messages.error(request, "Choose a change, or describe the change you want.")
+        return redirect(f"{reverse('generate_recipe')}#recipe-preview")
+
+    blocked = use_ai(request.user, AIUsage.KIND_RECIPE, "change")
+    if blocked:
+        messages.error(request, blocked)
         return redirect(f"{reverse('generate_recipe')}#recipe-preview")
 
     recipe_title = extract_recipe_title(recipe_text)
@@ -1403,8 +1420,12 @@ def recipe_history_view(request):
         .order_by("cuisine_name")
     )
 
+    page_obj, page_query = paginate(request, history_items, 20)
+
     context = {
-        "history_items": history_items,
+        "history_items": page_obj,
+        "page_obj": page_obj,
+        "page_query": page_query,
         "search_query": search_query,
         "cuisine_filter": cuisine_filter,
         "difficulty_filter": difficulty_filter,
@@ -1744,8 +1765,13 @@ def saved_recipes_view(request):
         FavouriteRecipe.objects.filter(user=request.user).values_list("recipe_id", flat=True)
     )
 
+    page_obj, page_query = paginate(request, recipes, 12)
+
     context = {
-        "recipes": recipes,
+        "recipes": page_obj,
+        "page_obj": page_obj,
+        "page_query": page_query,
+        "total_count": page_obj.paginator.count,
         "favourite_ids": favourite_ids,
         "favourite_count": len(favourite_ids),
         "cuisines": Cuisine.objects.all().order_by("name"),
@@ -1793,6 +1819,12 @@ def ask_cooking_assistant_view(request, recipe_id):
 
     question = data.get("question", "").strip()
     quick_prompt_key = data.get("quick_prompt_key", "").strip()
+
+    if question or quick_prompt_key:
+        blocked = use_ai(request.user, AIUsage.KIND_QUESTION, "question")
+        if blocked:
+            # 200 with success false: the chat shows the error text under the box.
+            return JsonResponse({"success": False, "reply": "", "error": blocked})
 
     # Important: cooking assistant service handles AI chat logic.
     result = ask_cooking_assistant(
@@ -2106,6 +2138,7 @@ def favourite_recipes_view(request):
         )
 
     favourite_recipes = favourite_recipes.distinct()
+    page_obj, page_query = paginate(request, favourite_recipes, 12)
 
     cuisines = Cuisine.objects.all().order_by("name")
     meal_types = MealType.objects.all().order_by("name")
@@ -2129,7 +2162,10 @@ def favourite_recipes_view(request):
         request,
         "recipes/favourite_recipes.html",
         {
-            "favourite_recipes": favourite_recipes,
+            "favourite_recipes": page_obj,
+            "page_obj": page_obj,
+            "page_query": page_query,
+            "total_count": page_obj.paginator.count,
             "cuisines": cuisines,
             "meal_types": meal_types,
             "difficulties": difficulties,
@@ -2314,6 +2350,11 @@ def modify_saved_recipe_view(request, recipe_id):
     if form.is_valid():
         modification_type = form.cleaned_data["modification_type"]
         custom_instruction = form.cleaned_data.get("custom_instruction", "").strip()
+
+        blocked = use_ai(request.user, AIUsage.KIND_RECIPE, "modify")
+        if blocked:
+            messages.error(request, blocked)
+            return redirect(f"{reverse('saved_recipe_detail', args=[recipe.id])}#culina-modify-recipe")
 
         try:
             # Important: AI service creates the modified recipe text

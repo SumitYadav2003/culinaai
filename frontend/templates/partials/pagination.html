@@ -1,0 +1,24 @@
+{# Page links under a long list. Needs page_obj and page_query (the search and filters to keep). #}
+{% if page_obj.has_other_pages %}
+    <nav class="site-pages" aria-label="Pages">
+        {% if page_obj.has_previous %}
+            <a href="?{% if page_query %}{{ page_query }}&amp;{% endif %}page={{ page_obj.previous_page_number }}" rel="prev"><i class="icon-chevron-left" aria-hidden="true"></i> Previous</a>
+        {% endif %}
+
+        {% for number in page_obj.paginator.get_elided_page_range %}
+            {% if number == page_obj.number %}
+                <span class="is-current" aria-current="page">{{ number }}</span>
+            {% elif number == page_obj.paginator.ELLIPSIS %}
+                <span class="is-gap">…</span>
+            {% else %}
+                <a href="?{% if page_query %}{{ page_query }}&amp;{% endif %}page={{ number }}" aria-label="Page {{ number }}">{{ number }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?{% if page_query %}{{ page_query }}&amp;{% endif %}page={{ page_obj.next_page_number }}" rel="next">Next <i class="icon-chevron-right" aria-hidden="true"></i></a>
+        {% endif %}
+
+        <p class="site-pages-count">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</p>
+    </nav>
+{% endif %}

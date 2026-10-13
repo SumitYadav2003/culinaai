@@ -1136,6 +1136,96 @@ html body .culina-cooking-mode .cooking-navbar-spacer {
     margin-top: 8px;
 }
 
+.pf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 4px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--site-accent-soft);
+    color: var(--site-accent-ink);
+    font-size: 0.8rem;
+    font-weight: 600;
+    vertical-align: 1px;
+}
+
+.pf-badge-warn {
+    background: var(--site-caution-soft);
+    color: var(--site-ink);
+}
+
+.pf-usage {
+    margin: 0 0 8px;
+    color: var(--site-muted);
+}
+
+.pf-data-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid var(--site-line);
+}
+
+.pf-data-row:last-child {
+    padding-bottom: 0;
+}
+
+.pf-data-row h3 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+}
+
+.pf-data-row .ap-small {
+    margin: 0;
+}
+
+.pf-data-row .site-btn {
+    flex: none;
+}
+
+@media (max-width: 575.98px) {
+    .pf-data-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ---------- Delete account ---------- */
+
+.da-list {
+    margin: 0 0 20px;
+    padding-left: 20px;
+}
+
+.da-list li {
+    margin-bottom: 6px;
+}
+
+.da-warning {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    border: 1px solid var(--site-danger);
+    border-left-width: 4px;
+    border-radius: var(--site-radius);
+    background: var(--site-danger-soft);
+    color: var(--site-ink);
+}
+
+.da-warning a {
+    color: var(--site-accent-ink);
+    font-weight: 600;
+}
+
+.da-warning i {
+    color: var(--site-danger);
+    font-size: 1.1rem;
+}
+
 /* ---------- About and "Food, health and the planet" ---------- */
 
 .pg-container {

@@ -300,6 +300,13 @@ html[data-theme="dark"] .alert-info {
     border-color: rgba(252, 165, 165, 0.35) !important;
 }
 
+/* Plain notices at the top right use the neutral surface, not the red above. */
+html[data-theme="dark"] .global-message.alert-info {
+    background: var(--site-surface) !important;
+    color: var(--site-ink) !important;
+    border-color: var(--site-line) !important;
+}
+
 html[data-theme="dark"] .text-danger {
     color: var(--culina-warning-red) !important;
 }

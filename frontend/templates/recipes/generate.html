@@ -6,7 +6,7 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g2">
 <link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-3">
-<link rel="stylesheet" href="{% static 'css/generate_page.css' %}?v=generate-page-1">
+<link rel="stylesheet" href="{% static 'css/generate_page.css' %}?v=generate-page-2">
 {% endblock %}
 
 {% block content %}
@@ -250,6 +250,7 @@
                 <div class="gp-submit">
                     <button type="submit" class="site-btn site-btn-primary site-btn-lg" data-busy-text="Making your recipe…">Make my recipe</button>
                     <p>Takes about a minute. The recipe is checked against your diet and allergies before you see it.</p>
+                    {% include "partials/ai_allowance.html" %}
                 </div>
             </form>
         </div>

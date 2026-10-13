@@ -880,3 +880,35 @@ class CookingStepRecord(models.Model):
 
     def __str__(self):
         return f"Step {self.number} of session {self.session_id}"
+
+
+class AIUsage(models.Model):
+    """
+    One row each time a user starts something that calls the AI. Used to enforce
+    the daily limits in ai_limits.py, and kept so you can see in the admin how
+    much the AI features are used.
+    """
+
+    KIND_RECIPE = "recipe"
+    KIND_QUESTION = "question"
+    KIND_CHOICES = [
+        (KIND_RECIPE, "Recipe, change, version or fridge scan"),
+        (KIND_QUESTION, "Cooking assistant question"),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="ai_usage",
+    )
+    kind = models.CharField(max_length=20, choices=KIND_CHOICES)
+    # What was done: "generate", "change", "version", "modify", "fridge_scan" or "question".
+    action = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [models.Index(fields=["user", "kind", "created_at"], name="ai_usage_user_kind_time")]
+
+    def __str__(self):
+        return f"{self.user} {self.action} at {self.created_at:%Y-%m-%d %H:%M}"

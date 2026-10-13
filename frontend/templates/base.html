@@ -46,7 +46,7 @@
     {% block extra_css %}{% endblock %}
 
     <!-- Site-wide look: colours, type, buttons, header and footer -->
-    <link rel="stylesheet" href="{% static 'css/site.css' %}?v=site-1-g2" />
+    <link rel="stylesheet" href="{% static 'css/site.css' %}?v=site-4" />
     <link rel="stylesheet" href="{% static 'css/recipe_card.css' %}?v=recipe-card-1" />
 
     <!-- Contrast fixes for buttons and labels (loads after page styles) -->
@@ -54,7 +54,7 @@
 
     <!-- Dark mode loads last so it can override page styles -->
     <link rel="stylesheet" href="{% static 'css/dark_theme_generated.css' %}?v=theme-14-g2" />
-    <link rel="stylesheet" href="{% static 'css/dark_mode.css' %}?v=theme-6-g2" />
+    <link rel="stylesheet" href="{% static 'css/dark_mode.css' %}?v=theme-7" />
 
   </head>
 
@@ -136,13 +136,29 @@
       </div>
     </nav>
 
+    {% if email_unconfirmed %}
+      <!-- Shown until the email address is confirmed -->
+      <div class="site-confirm-bar" role="region" aria-label="Confirm your email">
+        <div class="container site-confirm-inner">
+          <i class="icon-mail" aria-hidden="true"></i>
+          <p><strong>Confirm your email to start making recipes.</strong> We sent a link to {{ user.email }}.</p>
+          <form method="post" action="{% url 'resend_confirmation' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type="submit" class="site-btn site-btn-secondary">Send the link again</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+
     <!-- Global Messages -->
     {% if messages %}
-      <div class="global-message-wrapper">
+      <div class="global-message-wrapper" role="status" aria-live="polite">
         {% for message in messages %}
           <div class="alert alert-{{ message.tags }} global-message">
-            <i class="icon-info"></i>
-            {{ message }}
+            <i class="{% if message.level_tag == 'success' %}icon-circle-check{% elif message.level_tag == 'error' or message.level_tag == 'warning' %}icon-circle-alert{% else %}icon-info{% endif %}" aria-hidden="true"></i>
+            <span class="global-message-text">{{ message }}</span>
+            <button type="button" class="global-message-close" aria-label="Close" data-message-close><i class="icon-x" aria-hidden="true"></i></button>
           </div>
         {% endfor %}
       </div>
@@ -208,7 +224,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom JS -->
-    <script src="{% static 'js/main.js' %}?v=favourite-refresh-clear-final-1-g1"></script>
+    <script src="{% static 'js/main.js' %}?v=main-2"></script>
     <script src="{% static 'js/theme_toggle.js' %}?v=theme-1-g1"></script>
 
     {% block extra_js %}{% endblock %}

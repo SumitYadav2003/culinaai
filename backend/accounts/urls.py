@@ -1,7 +1,16 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
-from .views import login_view, logout_view, profile_summary_view, signup_view
+from .views import (
+    confirm_email_view,
+    delete_account_view,
+    download_my_data_view,
+    login_view,
+    logout_view,
+    profile_summary_view,
+    resend_confirmation_view,
+    signup_view,
+)
 
 
 urlpatterns = [
@@ -12,6 +21,12 @@ urlpatterns = [
     # Profile Summary
     # Professional account summary page for authenticated users.
     path("profile/", profile_summary_view, name="profile_summary"),
+    path("profile/download/", download_my_data_view, name="download_my_data"),
+    path("profile/delete/", delete_account_view, name="delete_account"),
+
+    # Confirming the email address after signing up (or changing it).
+    path("confirm-email/send/", resend_confirmation_view, name="resend_confirmation"),
+    path("confirm-email/<uidb64>/<token>/", confirm_email_view, name="confirm_email"),
 
     # Password Reset - Step 1
     # User enters their email address.

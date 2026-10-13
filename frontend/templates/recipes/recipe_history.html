@@ -82,6 +82,7 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% include "partials/pagination.html" %}
         {% elif search_query or cuisine_filter or difficulty_filter %}
             <div class="rl-empty">
                 <h2>Nothing matches</h2>

@@ -12,16 +12,41 @@
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Messages stay long enough to read: longer ones and problems stay longer,
+    // a message stays while the pointer is over it, and each one can be closed.
     const messages = document.querySelectorAll(".global-message");
 
     messages.forEach(function (message) {
-        setTimeout(function () {
-            message.classList.add("message-hide");
+        const text = (message.textContent || "").trim();
+        const isProblem = message.matches(".alert-error, .alert-danger, .alert-warning");
+        const readingTime = Math.min(12000, Math.max(isProblem ? 7000 : 4000, text.length * 60));
+        let timer = null;
 
+        function hide() {
+            message.classList.add("message-hide");
             setTimeout(function () {
                 message.remove();
             }, 350);
-        }, 2200);
+        }
+
+        function start() {
+            timer = setTimeout(hide, readingTime);
+        }
+
+        message.addEventListener("mouseenter", function () {
+            clearTimeout(timer);
+        });
+        message.addEventListener("mouseleave", start);
+
+        const close = message.querySelector("[data-message-close]");
+        if (close) {
+            close.addEventListener("click", function () {
+                clearTimeout(timer);
+                hide();
+            });
+        }
+
+        start();
     });
 });
 

@@ -21,11 +21,15 @@ class SignInPagesTests(TestCase):
             "password1": "Tomato-soup-42", "password2": "Tomato-soup-42",
         }, follow=True)
         html = response.content.decode()
-        self.assertIn("Your account is ready.", html)
-        self.assertIn("Log in to start cooking.", html)
+        # Signing up logs you in and asks you to confirm your email.
+        self.assertEqual(response.redirect_chain[-1][0], reverse("dashboard"))
+        self.assertIn("Welcome to CulinaAI.", html)
+        self.assertIn("Confirm your email to start making recipes.", html)
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("Welcome, Alex Morgan", mail.outbox[0].alternatives[0][0])
+        self.assertIn("Confirm my email", mail.outbox[0].alternatives[0][0])
 
+        self.client.logout()
         response = self.client.post(reverse("login"), {"username": "alex@example.com", "password": "wrong-one"})
         self.assertContains(response, "That email and password don&#x27;t match.")
         response = self.client.post(reverse("login"), {"username": "alex@example.com", "password": "Tomato-soup-42"})

@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import (
+    AIUsage,
     Cuisine,
     DietPreference,
     FavouriteRecipe,
@@ -433,3 +434,11 @@ class CookingSessionAdmin(admin.ModelAdmin):
 @admin.register(CookingSettings)
 class CookingSettingsAdmin(admin.ModelAdmin):
     list_display = ("user", "learn_from_cooking", "english", "updated_at")
+
+
+@admin.register(AIUsage)
+class AIUsageAdmin(admin.ModelAdmin):
+    list_display = ("user", "kind", "action", "created_at")
+    list_filter = ("kind", "action", "created_at")
+    search_fields = ("user__username", "user__email")
+    date_hierarchy = "created_at"

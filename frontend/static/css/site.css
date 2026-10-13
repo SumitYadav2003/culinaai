@@ -408,6 +408,184 @@ body .global-message.alert-warning i {
     color: var(--site-danger);
 }
 
+body .global-message {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+body .global-message.message-hide {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+/* Plain notices ("Removed from favourites") in the site's neutral colours, not Bootstrap blue. */
+body .global-message.alert-info {
+    background: var(--site-surface);
+    color: var(--site-ink);
+}
+
+body .global-message.alert-info i {
+    color: var(--site-accent);
+}
+
+body .global-message.alert-success i {
+    color: var(--site-accent);
+}
+
+body .global-message .global-message-text {
+    flex: 1;
+}
+
+body .global-message-close {
+    flex: none;
+    margin: -4px -6px -4px 4px;
+    padding: 4px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--site-muted);
+    line-height: 1;
+    cursor: pointer;
+}
+
+body .global-message-close:hover,
+body .global-message-close:focus-visible {
+    background: var(--site-subtle);
+    color: var(--site-ink);
+}
+
+@media (max-width: 575.98px) {
+    body .global-message-wrapper {
+        left: 16px;
+        right: 16px;
+        max-width: none;
+    }
+}
+
+/* ---------- Confirm your email bar ---------- */
+
+/* The nav is fixed, so the bar starts below it and the page under the bar
+   doesn't need its own space for the nav. */
+.site-confirm-bar {
+    margin-top: var(--site-nav-height);
+    background: var(--site-caution-soft);
+    border-bottom: 1px solid var(--site-line);
+    color: var(--site-ink);
+}
+
+.site-confirm-bar ~ main > :first-child {
+    padding-top: 28px !important;
+}
+
+.site-confirm-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.site-confirm-inner > i {
+    flex: none;
+    color: var(--site-caution);
+    font-size: 1.15rem;
+}
+
+.site-confirm-inner p {
+    flex: 1;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.site-confirm-inner form {
+    flex: none;
+    margin: 0;
+}
+
+@media (max-width: 575.98px) {
+    .site-confirm-inner {
+        flex-wrap: wrap;
+    }
+
+    .site-confirm-inner p {
+        flex-basis: calc(100% - 32px);
+    }
+
+    .site-confirm-inner form {
+        margin-left: 30px;
+    }
+}
+
+/* ---------- AI allowance note ---------- */
+
+.site-ai-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0 0;
+    color: var(--site-muted);
+    font-size: 0.88rem;
+}
+
+.site-ai-note.is-blocked {
+    color: var(--site-danger);
+    font-weight: 600;
+}
+
+/* ---------- Page numbers ---------- */
+
+.site-pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 32px 0 8px;
+}
+
+.site-pages a,
+.site-pages span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+    color: var(--site-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.site-pages a:hover {
+    border-color: var(--site-line-strong);
+    background: var(--site-subtle);
+}
+
+.site-pages .is-current {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #fff;
+}
+
+.site-pages .is-gap {
+    border: 0;
+    background: transparent;
+    min-width: 20px;
+    padding: 0;
+    color: var(--site-muted);
+}
+
+.site-pages-count {
+    width: 100%;
+    margin: 4px 0 0;
+    text-align: center;
+    color: var(--site-muted);
+    font-size: 0.88rem;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {

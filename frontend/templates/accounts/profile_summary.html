@@ -4,7 +4,7 @@
 {% block title %}Your profile | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-2">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-4">
 {% endblock %}
 
 {% block content %}
@@ -23,7 +23,11 @@
                 </span>
                 <div>
                     <h1>{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}</h1>
-                    <p>{{ user.email }} · joined {{ user.date_joined|date:"F Y" }}</p>
+                    <p>
+                        {{ user.email }}
+                        {% if email_unconfirmed %}<span class="pf-badge pf-badge-warn">Not confirmed yet</span>{% else %}<span class="pf-badge"><i class="icon-circle-check" aria-hidden="true"></i> Confirmed</span>{% endif %}
+                        · joined {{ user.date_joined|date:"F Y" }}
+                    </p>
                 </div>
             </div>
         </header>
@@ -134,6 +138,34 @@
                     <a href="{% url 'password_reset' %}" class="site-btn site-btn-quiet">Forgot your current password?</a>
                 </div>
             </form>
+        </section>
+
+        <!-- Your data -->
+        <section class="ap-card pf-section" aria-labelledby="pf-data-title">
+            <h2 id="pf-data-title">Your data</h2>
+
+            {% if ai_allowance and not ai_allowance.unlimited %}
+                <p class="pf-usage">
+                    AI recipes and changes today: <strong>{{ ai_allowance.used }} of {{ ai_allowance.limit }}</strong>.
+                    The count goes back to zero at midnight (UK time).
+                </p>
+            {% endif %}
+
+            <div class="pf-data-row">
+                <div>
+                    <h3>Download your data</h3>
+                    <p class="ap-small">A file with your account details, recipes, favourites, ratings, history, pantry, fridge scans and cooking sessions.</p>
+                </div>
+                <a href="{% url 'download_my_data' %}" class="site-btn site-btn-secondary"><i class="icon-download" aria-hidden="true"></i> Download (.json)</a>
+            </div>
+
+            <div class="pf-data-row">
+                <div>
+                    <h3>Delete your account</h3>
+                    <p class="ap-small">Deletes your account and everything in it. This can't be undone.</p>
+                </div>
+                <a href="{% url 'delete_account' %}" class="site-btn site-btn-danger"><i class="icon-trash-2" aria-hidden="true"></i> Delete account</a>
+            </div>
         </section>
 
         <section class="pf-logout">
