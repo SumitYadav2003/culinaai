@@ -6,7 +6,7 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recipe_loading.css' %}?v=recipe-loading-1-g2">
 <link rel="stylesheet" href="{% static 'css/recipe_page.css' %}?v=recipe-page-3">
-<link rel="stylesheet" href="{% static 'css/generate_page.css' %}?v=generate-page-2">
+<link rel="stylesheet" href="{% static 'css/generate_page.css' %}?v=generate-page-3">
 {% endblock %}
 
 {% block content %}
@@ -172,6 +172,11 @@
                 <!-- 3. Diet and allergies -->
                 <fieldset class="gp-section">
                     <legend><span class="gp-num">3</span> Diet and allergies <span class="gp-optional">optional</span></legend>
+                    {% if diet_from_profile %}
+                        <p class="gp-from-profile"><i class="icon-user-check" aria-hidden="true"></i> <span>Filled in from <a href="{% url 'profile_summary' %}#pf-diet-title">your profile</a>. Changes here are for this recipe only.</span></p>
+                    {% elif not form.is_bound and not is_demo_account %}
+                        <p class="gp-from-profile"><i class="icon-info" aria-hidden="true"></i> <span><a href="{% url 'profile_summary' %}#pf-diet-title">Save your diet and allergies on your profile</a> and they'll be filled in here every time.</span></p>
+                    {% endif %}
                     <p class="gp-sublabel">Diet</p>
                     <div class="gp-chips">
                         {% for choice in form.diet_preferences %}
@@ -179,7 +184,7 @@
                         {% endfor %}
                     </div>
                     <label for="other_diet_preference" class="visually-hidden">Another diet</label>
-                    <input type="text" id="other_diet_preference" name="other_diet_preference" class="gp-input gp-input-small" placeholder="Another diet, e.g. Jain, no onion or garlic">
+                    <input type="text" id="other_diet_preference" name="other_diet_preference" class="gp-input gp-input-small" value="{{ other_diet_value }}" placeholder="Another diet, e.g. Jain, no onion or garlic">
 
                     <div class="gp-label-row gp-gap-top">
                         <label for="{{ form.allergies.id_for_label }}">Allergies or foods to avoid</label>

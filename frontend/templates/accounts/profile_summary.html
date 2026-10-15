@@ -4,7 +4,7 @@
 {% block title %}Your profile | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-8">
 {% endblock %}
 
 {% block content %}
@@ -100,6 +100,42 @@
 
                 <div class="ap-actions">
                     <button type="submit" class="site-btn site-btn-primary">Save details</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Diet and allergies: filled in on every New recipe form -->
+        <section class="ap-card pf-section" aria-labelledby="pf-diet-title">
+            <h2 id="pf-diet-title">Diet and allergies</h2>
+            <p class="ap-small pf-lead">Saved here once, then filled in on every new recipe. You can still change them for a single recipe. Every recipe is checked against them before you see it.</p>
+
+            <form method="post" class="ap-form ap-form-stack">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="diet">
+
+                <fieldset class="pf-fieldset">
+                    <legend>Diet</legend>
+                    <div class="pf-chips">
+                        {% for choice in diet_form.diet_preferences %}
+                            <label class="pf-chip">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+
+                <div>
+                    <label for="{{ diet_form.other_diet.id_for_label }}">Another diet <span class="pf-optional">optional</span></label>
+                    {{ diet_form.other_diet }}
+                </div>
+
+                <div>
+                    <label for="{{ diet_form.allergies.id_for_label }}">Allergies or foods to avoid</label>
+                    {{ diet_form.allergies }}
+                    <p class="ap-small">Separate them with commas.</p>
+                    {% for error in diet_form.allergies.errors %}<p class="ap-error">{{ error }}</p>{% endfor %}
+                </div>
+
+                <div class="ap-actions">
+                    <button type="submit" class="site-btn site-btn-primary">Save diet and allergies</button>
                 </div>
             </form>
         </section>

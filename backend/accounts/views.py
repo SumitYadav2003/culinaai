@@ -15,6 +15,7 @@ from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 
 from .forms import (
     CulinaPasswordChangeForm,
+    DietSettingsForm,
     LoginForm,
     SignUpForm,
     UserAccountUpdateForm,
@@ -254,6 +255,8 @@ def profile_summary_view(request):
 
     password_form = CulinaPasswordChangeForm(request.user)
 
+    diet_form = DietSettingsForm(instance=profile)
+
     if request.method == "POST" and is_demo_user(request.user):
         messages.info(request, "Demo accounts can't change their details. Create a free account to make your own.")
         return redirect("profile_summary")
@@ -261,7 +264,15 @@ def profile_summary_view(request):
     if request.method == "POST":
         form_type = request.POST.get("form_type")
 
-        if form_type == "password_change":
+        if form_type == "diet":
+            diet_form = DietSettingsForm(request.POST, instance=profile)
+            if diet_form.is_valid():
+                diet_form.save()
+                messages.success(request, "Saved. Your diet and allergies will be filled in on every new recipe.")
+                return redirect(reverse("profile_summary") + "#pf-diet-title")
+            messages.error(request, "Your diet and allergies weren't saved. Check the form below.")
+
+        elif form_type == "password_change":
             password_form = CulinaPasswordChangeForm(
                 request.user,
                 request.POST,
@@ -388,6 +399,7 @@ def profile_summary_view(request):
         "profile_completion": profile_completion,
         "email_unconfirmed": needs_email_confirmation(request.user),
         "weekly_email_on": profile.weekly_email,
+        "diet_form": diet_form,
     }
 
     return render(request, "accounts/profile_summary.html", context)

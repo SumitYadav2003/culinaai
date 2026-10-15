@@ -7,6 +7,8 @@ from recipes.cooking_learning_service import build_cooking_profile
 from recipes.impact_service import build_impact_context
 from recipes.meal_plan_service import upcoming_entries
 from recipes.use_soon_service import use_soon_context
+from recipes.diet_profile import saved_diet
+from recipes.demo_service import is_demo_user
 from accounts.models import UserProfile
 from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 
@@ -144,6 +146,8 @@ def dashboard_view(request):
         "plan_upcoming": upcoming_entries(request.user),
         # Pantry items going off soon, and recipes that would use them (use_soon_service.py).
         "use_soon": use_soon_context(request.user),
+        # Nudge to save allergies once, until they have (never for demo accounts).
+        "needs_diet_setup": not saved_diet(request.user)["has_any"] and not is_demo_user(request.user),
         "weekly_email_on": UserProfile.objects.filter(user=request.user, weekly_email=True).exists(),
         "saved_recipes_count": saved_count,
         "favourite_recipes_count": favourite_count,

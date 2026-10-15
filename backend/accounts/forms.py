@@ -255,3 +255,51 @@ class CulinaPasswordChangeForm(PasswordChangeForm):
             "placeholder": "",
         }),
     )
+
+class DietSettingsForm(forms.ModelForm):
+    """
+    The diet and allergies saved on the profile. They fill in the New recipe form
+    every time, and can still be changed there for one recipe.
+    """
+
+    diet_preferences = forms.ModelMultipleChoiceField(
+        queryset=None,
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        label="Diet",
+    )
+    other_diet = forms.CharField(
+        required=False,
+        max_length=200,
+        label="Another diet",
+        widget=forms.TextInput(attrs={"placeholder": "e.g. Jain, no onion or garlic"}),
+    )
+    allergies = forms.CharField(
+        required=False,
+        max_length=1000,
+        label="Allergies or foods to avoid",
+        widget=forms.Textarea(attrs={"rows": 3, "placeholder": "e.g. peanuts, shellfish, milk"}),
+    )
+
+    class Meta:
+        model = UserProfile
+        fields = ["diet_preferences", "other_diet", "allergies"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from recipes.models import DietPreference
+
+        self.fields["diet_preferences"].queryset = DietPreference.objects.order_by("name")
+
+    def clean_allergies(self):
+        # One tidy, comma-separated list: "peanuts, shellfish, milk".
+        raw = self.cleaned_data.get("allergies", "")
+        parts = [" ".join(part.split()) for part in raw.replace("\n", ",").replace(";", ",").split(",")]
+        seen = []
+        for part in parts:
+            if part and part.lower() not in [s.lower() for s in seen]:
+                seen.append(part)
+        return ", ".join(seen)
+
+    def clean_other_diet(self):
+        return " ".join(self.cleaned_data.get("other_diet", "").split())

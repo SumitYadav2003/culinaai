@@ -246,18 +246,23 @@ def wants_json(request):
 @login_required
 @require_POST
 def shopping_toggle_view(request):
-    """Tick or untick an item. Works with JavaScript (returns JSON) and without (redirects back)."""
+    """
+    Tick or untick an item. Works with JavaScript (returns JSON) and without (redirects back).
+    With done=1 or done=0 it sets the item to that, so ticks sent late from a phone
+    that was offline land the same however many times they're sent.
+    """
 
     week_start = parse_week(request.POST.get("week"))
     key = (request.POST.get("key") or "").strip()[:200]
     done = False
     if key:
         check = ShoppingListCheck.objects.filter(user=request.user, week_start=week_start, item_key=key)
-        if check.exists():
-            check.delete()
+        wanted = request.POST.get("done")
+        done = (wanted == "1") if wanted in ("0", "1") else not check.exists()
+        if done:
+            ShoppingListCheck.objects.get_or_create(user=request.user, week_start=week_start, item_key=key)
         else:
-            ShoppingListCheck.objects.create(user=request.user, week_start=week_start, item_key=key)
-            done = True
+            check.delete()
     if wants_json(request):
         return JsonResponse({"ok": bool(key), "done": done})
     return redirect(shopping_url(week_start))
@@ -279,7 +284,8 @@ def shopping_extra_add_view(request):
 @require_POST
 def shopping_extra_toggle_view(request, extra_id):
     extra = get_object_or_404(ShoppingListExtra, id=extra_id, user=request.user)
-    extra.done = not extra.done
+    wanted = request.POST.get("done")
+    extra.done = (wanted == "1") if wanted in ("0", "1") else not extra.done
     extra.save(update_fields=["done"])
     if wants_json(request):
         return JsonResponse({"ok": True, "done": extra.done})

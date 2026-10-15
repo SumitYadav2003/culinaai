@@ -523,6 +523,54 @@ body .global-message-close:focus-visible {
     }
 }
 
+/* ---------- Offline bar (pwa.js) ---------- */
+
+/* In the page flow under the fixed nav, like the confirm bar, so it never covers the heading. */
+.site-offline-bar {
+    margin-top: var(--site-nav-height);
+    background: var(--site-ink);
+    color: var(--site-page);
+}
+
+.site-confirm-bar ~ .site-offline-bar {
+    margin-top: 0;
+}
+
+.site-offline-bar:not([hidden]) ~ main > :first-child {
+    padding-top: 28px !important;
+}
+
+.site-offline-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 0.92rem;
+}
+
+.site-offline-inner p {
+    margin: 0;
+}
+
+.site-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 12px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--site-accent-ink);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.site-install:hover {
+    text-decoration: underline;
+}
+
 /* ---------- AI allowance note ---------- */
 
 .site-ai-note {

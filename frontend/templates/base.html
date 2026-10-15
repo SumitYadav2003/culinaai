@@ -40,13 +40,19 @@
     <meta name="description" content="{% block meta_description %}Make a recipe from the ingredients you have, matched to your diet and allergies, with nutrition, cost and step-by-step cooking.{% endblock %}" />
     <meta name="theme-color" content="#2d6a3e" />
 
+    <!-- Install as an app, and work offline (config/pwa.py, static/js/pwa.js) -->
+    <link rel="manifest" href="{% url 'web_manifest' %}" />
+    <link rel="apple-touch-icon" href="{% static 'images/icons/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="CulinaAI" />
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=sdg-3-g2" />
     <link rel="stylesheet" href="{% static 'css/recipe_insights.css' %}?v=insights-9-g2" />
     {% block extra_css %}{% endblock %}
 
     <!-- Site-wide look: colours, type, buttons, header and footer -->
-    <link rel="stylesheet" href="{% static 'css/site.css' %}?v=site-5" />
+    <link rel="stylesheet" href="{% static 'css/site.css' %}?v=site-7" />
     <link rel="stylesheet" href="{% static 'css/recipe_card.css' %}?v=recipe-card-1" />
 
     <!-- Contrast fixes for buttons and labels (loads after page styles) -->
@@ -58,7 +64,7 @@
 
   </head>
 
-  <body>
+  <body data-rendered-at="{% now 'c' %}"{% if user.is_authenticated %} data-user-id="{{ user.pk }}"{% endif %}>
     {% with current_url=request.resolver_match.url_name %}
 
     <a class="site-skip-link" href="#main">Skip to content</a>
@@ -164,6 +170,14 @@
       </div>
     {% endif %}
 
+    <!-- Shown by pwa.js when there's no signal -->
+    <div class="site-offline-bar" role="status" data-offline-bar hidden>
+      <div class="container site-offline-inner">
+        <i class="icon-wifi-off" aria-hidden="true"></i>
+        <p data-offline-text>You're offline.</p>
+      </div>
+    </div>
+
     <!-- Global Messages -->
     {% if messages %}
       <div class="global-message-wrapper" role="status" aria-live="polite">
@@ -223,7 +237,10 @@
         </div>
 
         <div class="site-footer-bottom">
-          <p>&copy; 2026 CulinaAI</p>
+          <p>
+            &copy; 2026 CulinaAI
+            <button type="button" class="site-install" data-install-app hidden><i class="icon-download" aria-hidden="true"></i> Install the app</button>
+          </p>
           <p>
             Nutrition, cost and allergy information is a guide. Always check food labels,
             and ask a health professional if you have a medical condition.
@@ -239,6 +256,7 @@
 
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}?v=main-2"></script>
+    <script src="{% static 'js/pwa.js' %}?v=pwa-2"></script>
     <script src="{% static 'js/theme_toggle.js' %}?v=theme-1-g1"></script>
 
     {% block extra_js %}{% endblock %}

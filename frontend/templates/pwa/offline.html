@@ -1,0 +1,38 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>You're offline | CulinaAI</title>
+    <meta name="theme-color" content="#2d6a3e">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}">
+    {# Kept on the device by the service worker, so it can't rely on any other file. #}
+    <style>
+        :root { color-scheme: light dark; --page: #f5f7f5; --card: #ffffff; --ink: #1e221e; --muted: #576557; --line: #dfe3df; --accent: #1f4d2b; }
+        @media (prefers-color-scheme: dark) { :root { --page: #121613; --card: #1b201c; --ink: #e8ece8; --muted: #a6b0a6; --line: #2c342d; --accent: #3f8a55; } }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px;
+               background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+        main { width: 100%; max-width: 460px; padding: 28px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); text-align: center; }
+        img { width: 48px; height: 48px; }
+        h1 { margin: 14px 0 8px; font-size: 1.5rem; }
+        p { margin: 0 0 14px; color: var(--muted); }
+        .links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 18px; }
+        a, button { display: inline-block; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line);
+                    background: var(--card); color: var(--ink); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+        button { background: var(--accent); border-color: var(--accent); color: #fff; }
+    </style>
+</head>
+<body>
+    <main>
+        <img src="{% static 'images/logo.svg' %}" alt="">
+        <h1>You're offline</h1>
+        <p>This page isn't saved on this device. Pages you opened recently still work without signal: your shopping list, meal plan, recipes and cooking mode.</p>
+        <div class="links">
+            <a href="{% url 'shopping_list' %}">Shopping list</a>
+            <a href="{% url 'meal_plan' %}">Meal plan</a>
+            <button type="button" onclick="location.reload()">Try again</button>
+        </div>
+    </main>
+</body>
+</html>
