@@ -89,6 +89,7 @@
               <li><a class="site-nav-link {% if current_url == 'generate_recipe' %}is-active{% endif %}" href="{% url 'generate_recipe' %}">New recipe</a></li>
               <li><a class="site-nav-link {% if current_url == 'saved_recipes' or current_url == 'saved_recipe_detail' %}is-active{% endif %}" href="{% url 'saved_recipes' %}">Saved</a></li>
               <li><a class="site-nav-link {% if current_url == 'favourite_recipes' %}is-active{% endif %}" href="{% url 'favourite_recipes' %}">Favourites</a></li>
+              <li><a class="site-nav-link {% if current_url == 'meal_plan' or current_url == 'meal_plan_add' or current_url == 'shopping_list' %}is-active{% endif %}" href="{% url 'meal_plan' %}">Plan</a></li>
               <li><a class="site-nav-link {% if current_url == 'pantry_list' %}is-active{% endif %}" href="{% url 'pantry_list' %}">Pantry</a></li>
               <li><a class="site-nav-link {% if current_url == 'recipe_history' or current_url == 'recipe_history_detail' %}is-active{% endif %}" href="{% url 'recipe_history' %}">History</a></li>
             </ul>
@@ -188,6 +189,7 @@
             {% if user.is_authenticated %}
               <a href="{% url 'generate_recipe' %}">New recipe</a>
               <a href="{% url 'saved_recipes' %}">Saved recipes</a>
+              <a href="{% url 'meal_plan' %}">Meal plan</a>
               <a href="{% url 'pantry_list' %}">Pantry</a>
               <a href="{% url 'fridge_scan_upload' %}">Scan your fridge</a>
             {% else %}

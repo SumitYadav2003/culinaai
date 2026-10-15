@@ -4,7 +4,7 @@
 {% block title %}Saved recipes | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-2">
+<link rel="stylesheet" href="{% static 'css/recipe_list.css' %}?v=recipe-list-3">
 {% endblock %}
 
 {% block content %}
@@ -93,6 +93,7 @@
                                 </span>
                             </span>
                         </a>
+                        <a class="rl-plan" href="{% url 'meal_plan_add' %}?recipe={{ recipe.id }}&amp;next={{ request.get_full_path|urlencode }}" title="Add to plan"><i class="icon-calendar-plus" aria-hidden="true"></i><span class="visually-hidden">Add {{ recipe.title }} to your plan</span></a>
                         {% include "recipes/partials/favourite_button.html" %}
                     </li>
                 {% endfor %}

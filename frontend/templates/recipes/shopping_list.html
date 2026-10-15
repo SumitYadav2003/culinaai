@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Shopping list | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
+<link rel="stylesheet" href="{% static 'css/meal_plan.css' %}?v=meal-plan-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="ap-page mp-page">
+    <div class="container ap-narrow">
+        <a href="{% url 'meal_plan' %}?week={{ week_start|date:'Y-m-d' }}" class="ap-back mp-no-print"><i class="icon-arrow-left" aria-hidden="true"></i> Meal plan</a>
+
+        <header class="ap-head">
+            <div>
+                <h1>Shopping list</h1>
+                <p>For the {{ shopping.recipe_count }} meal{{ shopping.recipe_count|pluralize }} planned for {{ week_label }}.</p>
+            </div>
+        </header>
+
+        <nav class="mp-weeknav mp-no-print" aria-label="Weeks">
+            <a href="?week={{ previous_week|date:'Y-m-d' }}" class="site-btn site-btn-secondary" rel="prev"><i class="icon-chevron-left" aria-hidden="true"></i><span class="mp-weeknav-text"> Previous</span></a>
+            <div class="mp-weeknav-label">
+                <strong>{{ week_label }}</strong>
+                {% if is_this_week %}<span>This week</span>{% else %}<a href="?">Back to this week</a>{% endif %}
+            </div>
+            <a href="?week={{ next_week|date:'Y-m-d' }}" class="site-btn site-btn-secondary" rel="next"><span class="mp-weeknav-text">Next </span><i class="icon-chevron-right" aria-hidden="true"></i></a>
+        </nav>
+
+        {% if not shopping.recipe_count and not shopping.extras %}
+            <div class="ap-card mp-empty">
+                <i class="icon-shopping-basket" aria-hidden="true"></i>
+                <h2>Nothing planned this week</h2>
+                <p>Add meals to your plan and their ingredients appear here, added up across recipes.</p>
+                <a href="{% url 'meal_plan' %}?week={{ week_start|date:'Y-m-d' }}" class="site-btn site-btn-primary">Plan this week</a>
+            </div>
+        {% else %}
+            <div class="mp-list-tools mp-no-print">
+                <p class="mp-progress" data-progress>
+                    <strong data-done-count>{{ shopping.done_count }}</strong> of <span data-total-count>{{ shopping.to_buy_count }}</span> ticked
+                </p>
+                <div class="mp-list-buttons">
+                    <button type="button" class="site-btn site-btn-secondary" onclick="window.print()"><i class="icon-printer" aria-hidden="true"></i> Print</button>
+                    <button type="button" class="site-btn site-btn-secondary" data-copy-list><i class="icon-clipboard-copy" aria-hidden="true"></i> <span>Copy</span></button>
+                    <form method="post" action="{% url 'shopping_email' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="week" value="{{ week_start|date:'Y-m-d' }}">
+                        <button type="submit" class="site-btn site-btn-secondary"><i class="icon-mail" aria-hidden="true"></i> Email it to me</button>
+                    </form>
+                </div>
+            </div>
+            <textarea class="visually-hidden" data-list-text aria-hidden="true" tabindex="-1" readonly>{{ list_text }}</textarea>
+
+            {% for group in shopping.groups %}
+                <section class="ap-card mp-group" aria-labelledby="group-{{ group.key }}">
+                    <h2 id="group-{{ group.key }}">{{ group.title }}</h2>
+                    <ul class="mp-items">
+                        {% for item in group.items %}
+                            <li class="mp-item{% if item.done %} is-done{% endif %}">
+                                <form method="post" action="{% url 'shopping_toggle' %}" class="mp-tick" data-tick-form>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="week" value="{{ week_start|date:'Y-m-d' }}">
+                                    <input type="hidden" name="key" value="{{ item.key }}">
+                                    <button type="submit" class="mp-box" role="checkbox" aria-checked="{% if item.done %}true{% else %}false{% endif %}" aria-label="{{ item.name }}">
+                                        <i class="icon-check" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                                <div class="mp-item-text">
+                                    <span class="mp-item-name">{{ item.name }}{% if item.amount %} <span class="mp-amount">{{ item.amount }}</span>{% endif %}</span>
+                                    {% for line in item.lines %}<span class="mp-line">{{ line }}</span>{% endfor %}
+                                    <span class="mp-uses">For {{ item.uses|join:", " }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endfor %}
+
+            <section class="ap-card mp-group" id="extras" aria-labelledby="extras-title">
+                <h2 id="extras-title">Anything else</h2>
+                {% if shopping.extras %}
+                    <ul class="mp-items">
+                        {% for extra in shopping.extras %}
+                            <li class="mp-item{% if extra.done %} is-done{% endif %}">
+                                <form method="post" action="{% url 'shopping_extra_toggle' extra.id %}" class="mp-tick" data-tick-form>
+                                    {% csrf_token %}
+                                    <button type="submit" class="mp-box" role="checkbox" aria-checked="{% if extra.done %}true{% else %}false{% endif %}" aria-label="{{ extra.name }}">
+                                        <i class="icon-check" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                                <div class="mp-item-text"><span class="mp-item-name">{{ extra.name }}</span></div>
+                                <form method="post" action="{% url 'shopping_extra_remove' extra.id %}" class="mp-no-print">
+                                    {% csrf_token %}
+                                    <button type="submit" class="mp-x" aria-label="Remove {{ extra.name }}"><i class="icon-x" aria-hidden="true"></i></button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <form method="post" action="{% url 'shopping_extra_add' %}" class="ap-form mp-extra-form mp-no-print">
+                    {% csrf_token %}
+                    <input type="hidden" name="week" value="{{ week_start|date:'Y-m-d' }}">
+                    <label for="extra-name" class="visually-hidden">Add something else</label>
+                    <input type="text" id="extra-name" name="name" maxlength="120" placeholder="Add something else, e.g. washing-up liquid">
+                    <button type="submit" class="site-btn site-btn-secondary"><i class="icon-plus" aria-hidden="true"></i> Add</button>
+                </form>
+            </section>
+
+            {% if shopping.have %}
+                <details class="ap-card mp-group mp-have" open>
+                    <summary><h2>You may already have</h2> <span>{{ shopping.have|length }} in your pantry</span></summary>
+                    <p class="ap-small">These matched something in your pantry, so they're not on the list above. Check you have enough.</p>
+                    <ul class="mp-have-list">
+                        {% for item in shopping.have %}
+                            <li>
+                                <span class="mp-item-name">{{ item.name }}{% if item.amount %} <span class="mp-amount">{{ item.amount }}</span>{% endif %}</span>
+                                <span class="mp-uses">In your pantry: {{ item.pantry_name }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </details>
+            {% endif %}
+
+            <p class="mp-footnote">
+                Amounts are estimates for the servings you planned, rounded the way you'd shop.
+                {% if shopping.has_unscaled %}Some older recipes don't have their amounts worked out, so their lines are shown as written.{% endif %}
+                Always check labels for allergens.
+            </p>
+
+            {% if shopping.done_count %}
+                <form method="post" action="{% url 'shopping_clear_ticks' %}" class="mp-no-print">
+                    {% csrf_token %}
+                    <input type="hidden" name="week" value="{{ week_start|date:'Y-m-d' }}">
+                    <button type="submit" class="site-btn site-btn-quiet">Clear all ticks</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>
+
+<script src="{% static 'js/shopping_list.js' %}?v=shopping-list-1"></script>
+
+{% endblock %}

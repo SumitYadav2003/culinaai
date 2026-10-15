@@ -1,5 +1,6 @@
 from django.urls import path
 
+from . import meal_plan_views as plan
 from .cooking_learning_views import cooking_forget_view, cooking_record_view, cooking_settings_view
 from .views import (
     community_recipe_detail_view,
@@ -214,4 +215,18 @@ urlpatterns = [
         delete_saved_recipe_view,
         name="delete_saved_recipe",
     ),
+
+    # Weekly meal plan and its shopping list (meal_plan_views.py).
+    path("plan/", plan.meal_plan_view, name="meal_plan"),
+    path("plan/add/", plan.meal_plan_add_view, name="meal_plan_add"),
+    path("plan/copy/", plan.meal_plan_copy_view, name="meal_plan_copy"),
+    path("plan/<int:entry_id>/update/", plan.meal_plan_update_view, name="meal_plan_update"),
+    path("plan/<int:entry_id>/remove/", plan.meal_plan_remove_view, name="meal_plan_remove"),
+    path("shopping/", plan.shopping_list_view, name="shopping_list"),
+    path("shopping/tick/", plan.shopping_toggle_view, name="shopping_toggle"),
+    path("shopping/clear/", plan.shopping_clear_ticks_view, name="shopping_clear_ticks"),
+    path("shopping/email/", plan.shopping_email_view, name="shopping_email"),
+    path("shopping/extra/add/", plan.shopping_extra_add_view, name="shopping_extra_add"),
+    path("shopping/extra/<int:extra_id>/tick/", plan.shopping_extra_toggle_view, name="shopping_extra_toggle"),
+    path("shopping/extra/<int:extra_id>/remove/", plan.shopping_extra_remove_view, name="shopping_extra_remove"),
 ]

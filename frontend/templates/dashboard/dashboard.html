@@ -4,7 +4,7 @@
 {% block title %}Dashboard | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-4">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
 {% endblock %}
 
 {% block content %}
@@ -74,6 +74,28 @@
             </section>
 
             <div class="ap-stack">
+                <!-- Today and tomorrow from the meal plan -->
+                <section class="ap-card" aria-labelledby="ap-plan-title">
+                    <div class="ap-card-head">
+                        <h2 id="ap-plan-title">Coming up</h2>
+                        <a href="{% url 'meal_plan' %}">Meal plan</a>
+                    </div>
+                    {% for day in plan_upcoming %}
+                        <div class="mp-dash-day">
+                            <h3>{{ day.label }}</h3>
+                            {% if day.entries %}
+                                <ul>
+                                    {% for entry in day.entries %}
+                                        <li><span>{{ entry.get_meal_display }}</span> <a href="{% url 'saved_recipe_detail' entry.recipe.id %}">{{ entry.recipe.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="ap-muted">Nothing planned. <a href="{% url 'meal_plan_add' %}?date={{ day.date|date:'Y-m-d' }}&amp;next={{ request.get_full_path|urlencode }}">Add a meal</a></p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </section>
+
                 <!-- One suggestion -->
                 <section class="ap-card ap-tip" aria-labelledby="ap-tip-title">
                     <i class="{{ smart_tip_icon }}" aria-hidden="true"></i>

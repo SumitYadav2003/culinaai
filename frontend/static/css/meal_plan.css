@@ -1,0 +1,683 @@
+/* =========================================================
+   Meal plan, "Add to plan" and the shopping list.
+   Uses the colour tokens in site.css, so dark mode needs no
+   generated rules.
+   ========================================================= */
+
+.mp-container {
+    max-width: 960px;
+}
+
+/* ---------- Week navigation ---------- */
+
+.mp-weeknav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+}
+
+.mp-weeknav-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.mp-weeknav-label strong {
+    font-size: 1.05rem;
+}
+
+.mp-weeknav-label span,
+.mp-weeknav-label a {
+    color: var(--site-muted);
+    font-size: 0.88rem;
+}
+
+.mp-weeknav-label a {
+    color: var(--site-accent-ink);
+    font-weight: 600;
+}
+
+/* ---------- Hints and empty states ---------- */
+
+.mp-hint {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-accent-soft);
+    color: var(--site-ink);
+}
+
+.mp-hint > i {
+    color: var(--site-accent);
+}
+
+.mp-hint p {
+    flex: 1 1 280px;
+    margin: 0;
+}
+
+.mp-hint form {
+    margin: 0;
+}
+
+.mp-empty {
+    padding: 36px 24px;
+    text-align: center;
+}
+
+.mp-empty > i {
+    color: var(--site-accent);
+    font-size: 2rem;
+}
+
+.mp-empty h2 {
+    margin: 10px 0 6px;
+    font-size: 1.25rem;
+}
+
+.mp-empty p {
+    max-width: 46ch;
+    margin: 0 auto 16px;
+    color: var(--site-muted);
+}
+
+/* ---------- The week ---------- */
+
+.mp-days {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-day {
+    padding: 14px 16px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+}
+
+.mp-day.is-today {
+    border-color: var(--site-accent);
+    box-shadow: inset 4px 0 0 var(--site-accent);
+}
+
+.mp-day.is-past {
+    opacity: 0.72;
+}
+
+.mp-day-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mp-day-head h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.mp-day-head h2 span {
+    margin-left: 6px;
+    color: var(--site-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.mp-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--site-accent-ink);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.mp-add:hover {
+    text-decoration: underline;
+}
+
+.mp-nothing {
+    margin: 6px 0 0;
+    color: var(--site-muted);
+    font-size: 0.92rem;
+}
+
+.mp-meals {
+    display: grid;
+    gap: 8px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-meal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 8px 10px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-subtle);
+}
+
+.mp-meal-type {
+    flex: none;
+    min-width: 76px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--site-surface);
+    color: var(--site-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.mp-meal-title {
+    flex: 1 1 200px;
+    min-width: 0;
+    color: var(--site-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.mp-meal-title:hover {
+    color: var(--site-accent-ink);
+    text-decoration: underline;
+}
+
+.mp-meal-tools {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.mp-servings {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
+    border: 1px solid var(--site-line);
+    border-radius: 999px;
+    background: var(--site-surface);
+}
+
+.mp-servings button {
+    display: inline-grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--site-ink);
+    cursor: pointer;
+}
+
+.mp-servings button:hover:not(:disabled) {
+    background: var(--site-subtle);
+}
+
+.mp-servings button:disabled {
+    color: var(--site-line-strong);
+    cursor: not-allowed;
+}
+
+.mp-servings span {
+    min-width: 74px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.mp-servings small {
+    color: var(--site-muted);
+    font-size: 0.82rem;
+}
+
+/* The "..." menu: move to another day, or take off the plan. */
+.mp-more {
+    position: relative;
+}
+
+.mp-more summary {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid var(--site-line);
+    border-radius: 50%;
+    background: var(--site-surface);
+    color: var(--site-ink);
+    cursor: pointer;
+    list-style: none;
+}
+
+.mp-more summary::-webkit-details-marker {
+    display: none;
+}
+
+.mp-more[open] summary {
+    border-color: var(--site-line-strong);
+}
+
+.mp-more-panel {
+    position: absolute;
+    right: 0;
+    z-index: 20;
+    display: grid;
+    gap: 10px;
+    width: 260px;
+    margin-top: 6px;
+    padding: 14px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius-lg);
+    background: var(--site-surface);
+    box-shadow: 0 12px 30px rgba(20, 24, 20, 0.16);
+}
+
+.mp-more-panel form {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+}
+
+.mp-more-panel label {
+    margin: 0;
+    font-weight: 600;
+}
+
+.mp-remove {
+    justify-content: flex-start;
+    color: var(--site-danger);
+}
+
+/* ---------- Add to plan ---------- */
+
+.mp-add-card h1 {
+    margin: 0 0 18px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.mp-add-recipe {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    border: 1px solid var(--site-line);
+    border-radius: var(--site-radius);
+    background: var(--site-subtle);
+}
+
+.mp-add-recipe strong {
+    display: block;
+}
+
+.mp-add-recipe span:not(.mp-add-thumb) {
+    color: var(--site-muted);
+    font-size: 0.9rem;
+}
+
+.mp-add-thumb {
+    display: grid;
+    flex: none;
+    width: 64px;
+    height: 64px;
+    place-items: center;
+    overflow: hidden;
+    border-radius: var(--site-radius);
+    background: var(--site-surface);
+    color: var(--site-muted);
+    font-size: 1.4rem;
+}
+
+.mp-add-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mp-meal-choice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.mp-meal-choice legend {
+    width: 100%;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.mp-chip {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+}
+
+.mp-chip input {
+    position: absolute;
+    opacity: 0;
+}
+
+.mp-chip span {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: 999px;
+    background: var(--site-surface);
+    color: var(--site-ink);
+    font-weight: 500;
+}
+
+.mp-chip input:checked + span {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #fff;
+}
+
+.mp-chip input:focus-visible + span {
+    outline: 2px solid var(--site-accent);
+    outline-offset: 2px;
+}
+
+.mp-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 220px;
+}
+
+.mp-stepper .site-btn {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+}
+
+.ap-form .mp-stepper input[type="number"] {
+    width: 80px;
+    text-align: center;
+}
+
+/* ---------- Shopping list ---------- */
+
+.mp-list-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin-bottom: 16px;
+}
+
+.mp-progress {
+    margin: 0;
+    color: var(--site-muted);
+}
+
+.mp-progress strong {
+    color: var(--site-ink);
+}
+
+.mp-list-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mp-list-buttons form {
+    margin: 0;
+}
+
+.mp-group {
+    margin-bottom: 12px;
+}
+
+.mp-group h2 {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+}
+
+.mp-items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--site-line);
+}
+
+.mp-items .mp-item:first-child {
+    border-top: 0;
+}
+
+.mp-tick {
+    margin: 0;
+}
+
+.mp-box {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    margin-top: 1px;
+    padding: 0;
+    border: 2px solid var(--site-line-strong);
+    border-radius: 7px;
+    background: var(--site-surface);
+    color: transparent;
+    cursor: pointer;
+}
+
+.mp-box:hover {
+    border-color: var(--site-accent);
+}
+
+.mp-item.is-done .mp-box {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #fff;
+}
+
+.mp-item-text {
+    display: grid;
+    flex: 1;
+    gap: 2px;
+    min-width: 0;
+}
+
+.mp-item-name {
+    font-weight: 600;
+}
+
+.mp-amount {
+    margin-left: 4px;
+    color: var(--site-muted);
+    font-weight: 500;
+}
+
+.mp-line {
+    color: var(--site-ink);
+    font-size: 0.9rem;
+}
+
+.mp-uses {
+    color: var(--site-muted);
+    font-size: 0.85rem;
+}
+
+.mp-item.is-done .mp-item-name,
+.mp-item.is-done .mp-line {
+    color: var(--site-muted);
+    text-decoration: line-through;
+}
+
+.mp-x {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--site-muted);
+    cursor: pointer;
+}
+
+.mp-x:hover {
+    background: var(--site-subtle);
+    color: var(--site-danger);
+}
+
+.mp-item form:last-child {
+    margin: 0;
+}
+
+.mp-extra-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.ap-form.mp-extra-form input[type="text"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.mp-have summary {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.mp-have summary h2 {
+    display: inline;
+    margin: 0;
+}
+
+.mp-have summary span {
+    color: var(--site-muted);
+    font-size: 0.9rem;
+}
+
+.mp-have .ap-small {
+    margin: 8px 0;
+}
+
+.mp-have-list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-have-list li {
+    display: grid;
+    gap: 2px;
+}
+
+.mp-footnote {
+    margin: 16px 0 10px;
+    color: var(--site-muted);
+    font-size: 0.88rem;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 575.98px) {
+    .mp-weeknav-text {
+        display: none;
+    }
+
+    .mp-meal-tools {
+        width: 100%;
+        justify-content: space-between;
+        margin-left: 0;
+    }
+
+    .mp-more-panel {
+        width: min(280px, calc(100vw - 48px));
+    }
+
+    .mp-list-buttons {
+        width: 100%;
+    }
+
+    .mp-list-buttons .site-btn,
+    .mp-list-buttons form {
+        flex: 1;
+    }
+
+    .mp-list-buttons form .site-btn {
+        width: 100%;
+    }
+}
+
+/* ---------- Printing the shopping list ---------- */
+
+@media print {
+    .site-nav,
+    .site-footer,
+    .site-skip-link,
+    .site-confirm-bar,
+    .global-message-wrapper,
+    .mp-no-print {
+        display: none !important;
+    }
+
+    .ap-page.mp-page {
+        padding: 0;
+        background: #fff;
+        color: #000;
+    }
+
+    .mp-group {
+        break-inside: avoid;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .mp-box {
+        border-color: #000;
+    }
+
+    .mp-have[open] summary {
+        list-style: none;
+    }
+}

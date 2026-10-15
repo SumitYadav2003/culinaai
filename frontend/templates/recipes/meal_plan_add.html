@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add to your plan | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
+<link rel="stylesheet" href="{% static 'css/meal_plan.css' %}?v=meal-plan-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="ap-page mp-page">
+    <div class="container ap-narrow">
+        <a href="{{ back_url }}" class="ap-back"><i class="icon-arrow-left" aria-hidden="true"></i> Back</a>
+
+        <div class="ap-card mp-add-card">
+            <h1>Add to your plan</h1>
+
+            {% if not has_saved_recipes %}
+                <p>The plan uses your saved recipes, and you don't have any yet.</p>
+                <a href="{% url 'generate_recipe' %}" class="site-btn site-btn-primary">Make a recipe</a>
+            {% else %}
+                <form method="post" class="ap-form ap-form-stack" novalidate>
+                    {% csrf_token %}
+                    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+                    {% if recipe %}
+                        <input type="hidden" name="recipe" value="{{ recipe.id }}">
+                        <div class="mp-add-recipe">
+                            <span class="mp-add-thumb">
+                                {% if recipe.generated_image %}<img src="{{ recipe.generated_image.url }}" alt="">{% else %}<i class="icon-cooking-pot" aria-hidden="true"></i>{% endif %}
+                            </span>
+                            <div>
+                                <strong>{{ recipe.title }}</strong>
+                                <span>{{ recipe.cooking_time_minutes }} min · {{ recipe.difficulty|title }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div>
+                            <label for="plan-recipe">Which recipe?</label>
+                            <select id="plan-recipe" name="recipe" required {% if errors.recipe %}aria-invalid="true"{% endif %}>
+                                <option value="">Choose a saved recipe</option>
+                                {% if favourites %}
+                                    <optgroup label="Favourites">
+                                        {% for item in favourites %}<option value="{{ item.id }}">{{ item.title }}</option>{% endfor %}
+                                    </optgroup>
+                                {% endif %}
+                                <optgroup label="{% if favourites %}Other saved recipes{% else %}Saved recipes{% endif %}">
+                                    {% for item in others %}<option value="{{ item.id }}">{{ item.title }}</option>{% endfor %}
+                                </optgroup>
+                            </select>
+                            {% if errors.recipe %}<p class="ap-error">{{ errors.recipe }}</p>{% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <label for="plan-date">Which day?</label>
+                        <select id="plan-date" name="date" {% if errors.date %}aria-invalid="true"{% endif %}>
+                            {% for option in day_options %}
+                                <option value="{{ option.value }}" {% if option.value == chosen_date %}selected{% endif %}>{{ option.label }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if errors.date %}<p class="ap-error">{{ errors.date }}</p>{% endif %}
+                    </div>
+
+                    <fieldset class="mp-meal-choice">
+                        <legend>Which meal?</legend>
+                        {% for value, label in meal_choices %}
+                            <label class="mp-chip">
+                                <input type="radio" name="meal" value="{{ value }}" {% if value == chosen_meal %}checked{% endif %}>
+                                <span>{{ label }}</span>
+                            </label>
+                        {% endfor %}
+                    </fieldset>
+
+                    <div>
+                        <label for="plan-servings">How many people?</label>
+                        <div class="mp-stepper" data-stepper>
+                            <button type="button" class="site-btn site-btn-secondary" data-step="-1" aria-label="One fewer"><i class="icon-minus" aria-hidden="true"></i></button>
+                            <input type="number" id="plan-servings" name="servings" value="{{ servings }}" min="1" max="{{ max_servings }}" inputmode="numeric">
+                            <button type="button" class="site-btn site-btn-secondary" data-step="1" aria-label="One more"><i class="icon-plus" aria-hidden="true"></i></button>
+                        </div>
+                        <p class="ap-small">The shopping list scales the amounts to this.{% if recipe %} The recipe is written for {{ base_servings }}.{% endif %}</p>
+                    </div>
+
+                    <div class="ap-actions">
+                        <button type="submit" class="site-btn site-btn-primary"><i class="icon-calendar-plus" aria-hidden="true"></i> Add to plan</button>
+                        <a href="{{ back_url }}" class="site-btn site-btn-quiet">Cancel</a>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+    // The - and + buttons next to the servings box.
+    document.querySelectorAll("[data-stepper]").forEach(function (stepper) {
+        const input = stepper.querySelector("input");
+        stepper.querySelectorAll("[data-step]").forEach(function (button) {
+            button.addEventListener("click", function () {
+                const min = Number(input.min) || 1;
+                const max = Number(input.max) || 20;
+                const value = (Number(input.value) || min) + Number(button.dataset.step);
+                input.value = Math.min(max, Math.max(min, value));
+            });
+        });
+    });
+</script>
+
+{% endblock %}

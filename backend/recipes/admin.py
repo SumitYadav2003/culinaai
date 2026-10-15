@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import (
     AIUsage,
+    MealPlanEntry,
     Cuisine,
     DietPreference,
     FavouriteRecipe,
@@ -442,3 +443,10 @@ class AIUsageAdmin(admin.ModelAdmin):
     list_filter = ("kind", "action", "created_at")
     search_fields = ("user__username", "user__email")
     date_hierarchy = "created_at"
+
+
+@admin.register(MealPlanEntry)
+class MealPlanEntryAdmin(admin.ModelAdmin):
+    list_display = ("user", "recipe", "date", "meal", "servings")
+    list_filter = ("meal", "date")
+    search_fields = ("user__username", "recipe__title")
