@@ -252,7 +252,7 @@ class DemoAccountTests(TestCase):
         other.post(reverse("start_demo"))
         self.assertEqual(UserProfile.objects.filter(is_demo=True).count(), 2)
 
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_no_ai_in_the_demo(self, run):
         self.start()
         response = self.client.post(reverse("generate_recipe"), FORM)
@@ -262,7 +262,7 @@ class DemoAccountTests(TestCase):
         self.assertIn("The demo doesn't make new AI recipes.", self.client.get(reverse("generate_recipe")).content.decode())
 
     @override_settings(DEMO_DAILY_RECIPE_LIMIT=1)
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_ai_can_be_allowed_a_little(self, run):
         self.start()
         self.client.post(reverse("generate_recipe"), FORM)

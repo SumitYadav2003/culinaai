@@ -47,9 +47,9 @@ class GenerationFlowTests(TestCase):
         self.ask_ai_for_swaps = ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=structure_result)
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=structure_result)
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_generate_check_save_and_show(self, generate, extract, image):
         generate.side_effect = [
             {"prompt": "p1", "recipe_text": RECIPE_TEXT + "\nCHEF TIPS:\nGarlic boosts immunity."},
@@ -84,9 +84,9 @@ class GenerationFlowTests(TestCase):
         self.assertIn("Compared with the classic", detail)
         self.assertIn("Add lettuce back into the recipe", detail)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", return_value=None)
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", return_value=None)
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_a_failed_extraction_never_blocks_the_recipe(self, generate, extract, image):
         response = self.client.post(reverse("generate_recipe"), FORM, follow=True)
         history = RecipeHistory.objects.get(user=self.user)

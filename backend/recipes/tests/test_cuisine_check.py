@@ -155,10 +155,10 @@ class CuisineFlowTests(TestCase):
         ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure",
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure",
            side_effect=[structure(["chicken breast", "burger bun", "tomato"]), structure(THAI)])
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_a_loosely_thai_recipe_is_retried_once(self, generate, extract, image):
         generate.side_effect = [
             {"prompt": "p1", "recipe_text": RECIPE_TEXT},
@@ -177,9 +177,9 @@ class CuisineFlowTests(TestCase):
         self.assertIn("Very typical of Thai cooking", html)
         self.assertIn("457 real Southeast Asian recipes", html)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", return_value=structure(THAI))
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", return_value=structure(THAI))
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_a_typical_recipe_is_not_retried(self, generate, extract, image):
         self.client.post(reverse("generate_recipe"), dict(FORM, cuisine=self.thai.id), follow=True)
         self.assertEqual(generate.call_count, 1)

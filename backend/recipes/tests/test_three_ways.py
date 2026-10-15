@@ -215,9 +215,9 @@ class MealStyleFlowTests(TestCase):
         self.ask_ai_for_swaps = ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=[structure(15), structure(2)])
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=[structure(15), structure(2)])
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_everyday_healthy_retries_when_the_dish_is_high_in_salt(self, generate, extract, image):
         generate.side_effect = [
             {"prompt": "p1", "recipe_text": RECIPE_TEXT},
@@ -245,9 +245,9 @@ class MealStyleFlowTests(TestCase):
         self.assertIn("Cook this version", detail)
         self.assertIn("Make the healthiest version of this recipe with these swaps:", detail)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=[structure(15), structure(2)])
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=[structure(15), structure(2)])
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_a_validated_recipe_is_never_swapped_for_one_that_failed(self, generate, extract, image):
         # The first try passes validation but is high in salt. The second and third meet the
         # meal style but make a health claim (gate 9, a hard fail), so the first is kept.
@@ -264,9 +264,9 @@ class MealStyleFlowTests(TestCase):
         self.assertFalse(history.insights["meal_style"]["met"])
         self.assertIn("Not everyday healthy:", response.content.decode())
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=[structure(15)])
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=[structure(15)])
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_no_preference_never_retries(self, generate, extract, image):
         # FORM picks "No preference" explicitly; the field is required.
         self.client.post(reverse("generate_recipe"), FORM, follow=True)
@@ -290,7 +290,7 @@ class FormRulesTests(TestCase):
         self.ask_ai_for_swaps = ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_meal_style_is_required(self, generate):
         form = {key: value for key, value in FORM.items() if key != "meal_style"}
         response = self.client.post(reverse("generate_recipe"), form)
@@ -310,9 +310,9 @@ class FormRulesTests(TestCase):
         # The other sections are marked optional.
         self.assertEqual(html.count('class="gp-optional"'), 2)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", return_value=structure(2))
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", return_value=structure(2))
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_blank_cooking_time_and_servings_use_the_defaults(self, generate, extract, image):
         self.client.post(reverse("generate_recipe"), dict(FORM, cooking_time_minutes="", servings=""))
         preferences = generate.call_args.args[0]
@@ -350,9 +350,9 @@ class CookThisVersionTests(TestCase):
         self.ask_ai_for_swaps = ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=paneer_structure)
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=paneer_structure)
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_cook_the_greenest_version(self, generate, extract, image):
         form = dict(FORM, ingredients="paneer, tortilla, red onion")
         self.client.post(reverse("generate_recipe"), form, follow=True)
@@ -374,9 +374,9 @@ class CookThisVersionTests(TestCase):
         self.assertEqual(latest.insights["basis"]["version"], "Greenest")
         self.assertIn("The recipe above is the greenest version", response.content.decode())
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=paneer_structure)
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=paneer_structure)
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_ai_swap_ideas_reach_the_page_once_per_recipe(self, generate, extract, image):
         # Chickpeas for paneer (£1.65/kg drained vs £9.00/kg) beats tofu on cost.
         self.ask_ai_for_swaps.return_value = ai_says(("paneer", "chickpeas", "all", 100, "Rinse the chickpeas."))
@@ -397,7 +397,7 @@ class CookThisVersionTests(TestCase):
         self.assertEqual(self.client.get(reverse("generate_recipe_version")).status_code, 405)
 
     def test_half_swaps_and_use_less_keep_the_original(self):
-        from recipes.views import build_version_preferences
+        from recipes.generate_views import build_version_preferences
 
         version_data = {"title": "Cheapest", "swaps": [
             {"from_name": "beef mince", "to_name": "red lentils", "to_code": "13-657", "share": 0.5,
@@ -576,7 +576,7 @@ class ProteinTradeoffTests(TestCase):
             self.assertTrue(all(not s["tradeoffs"] or not s["tradeoffs"][0].startswith("Protein") for s in v["swaps"]))
 
     def test_cooked_version_is_told_exact_amounts_and_checked(self):
-        from recipes.views import build_version_preferences
+        from recipes.generate_views import build_version_preferences
 
         insights = chicken_rice_insights()
         cheapest = version(insights["three_ways"], "cheapest")

@@ -28,7 +28,7 @@ from django.test import RequestFactory, override_settings
 from django.utils import timezone
 
 from recipes.models import RecipeHistory
-from recipes.views import run_recipe_generation
+from recipes.generate_views import run_recipe_generation
 
 PROJECT_ROOT = Path(settings.BASE_DIR).parent
 CASES_FILE = PROJECT_ROOT / "docs" / "evaluation" / "benchmark_cases.json"

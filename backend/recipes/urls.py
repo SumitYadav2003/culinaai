@@ -2,40 +2,50 @@ from django.urls import path
 
 from . import meal_plan_views as plan
 from .cooking_learning_views import cooking_forget_view, cooking_record_view, cooking_settings_view
-from .views import (
+from .community_views import (
     community_recipe_detail_view,
     community_recipes_view,
+    submit_community_recipe_feedback_view,
+    toggle_community_recipe_view,
+)
+from .generate_views import (
+    change_generated_recipe_view,
+    email_generated_recipe_view,
+    generate_recipe_version_view,
+    generate_recipe_view,
+    save_generated_recipe_view,
+)
+from .history_views import (
     delete_recipe_history_view,
+    recipe_history_detail_view,
+    recipe_history_view,
+    save_history_recipe_view,
+)
+from .pantry_views import (
+    pantry_item_delete_view,
+    pantry_item_update_view,
+    pantry_list_view,
+)
+from .quality_views import (
+    quality_dashboard_view,
+    quality_recipe_evidence_view,
+)
+from .saved_views import (
+    ask_cooking_assistant_view,
+    cooking_mode_view,
     delete_saved_recipe_confirm_view,
     delete_saved_recipe_view,
     edit_saved_recipe_view,
     favourite_recipes_view,
-    generate_recipe_view,
-    generate_recipe_version_view,
-    change_generated_recipe_view,
-    email_generated_recipe_view,
     modify_saved_recipe_view,
     print_saved_recipe_view,
-    quality_dashboard_view,
-    quality_recipe_evidence_view,
-    recipe_history_detail_view,
-    recipe_history_view,
-    save_generated_recipe_view,
-    save_history_recipe_view,
     save_modified_recipe_view,
     saved_recipe_detail_view,
     saved_recipes_view,
     send_recipe_email_view,
-    submit_community_recipe_feedback_view,
     submit_recipe_feedback_view,
-    toggle_community_recipe_view,
     toggle_favourite_recipe_view,
     unsave_recipe_view,
-    pantry_list_view,
-    pantry_item_delete_view,
-    pantry_item_update_view,
-    cooking_mode_view,
-    ask_cooking_assistant_view,
 )
 
 from .fridge_scanner_views import (
