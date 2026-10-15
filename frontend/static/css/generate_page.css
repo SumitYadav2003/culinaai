@@ -356,6 +356,25 @@
     outline-offset: 2px;
 }
 
+.gp-from-profile {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin: -4px 0 12px;
+    color: var(--site-muted);
+    font-size: 0.9rem;
+}
+
+.gp-from-profile i {
+    margin-top: 3px;
+    color: var(--site-accent);
+}
+
+.gp-from-profile a {
+    color: var(--site-accent-ink);
+    font-weight: 600;
+}
+
 .gp-submit {
     display: flex;
     flex-wrap: wrap;

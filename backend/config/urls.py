@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.db.models import Avg, Count
 from django.shortcuts import render
 from django.urls import include, path, re_path
+
+from . import pwa
 from django.views.static import serve
 
 from recipes.models import Recipe
@@ -73,6 +75,10 @@ def sdg_impact_view(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # Install as an app, and work offline (pwa.py).
+    path("sw.js", pwa.service_worker_view, name="service_worker"),
+    path("manifest.webmanifest", pwa.manifest_view, name="web_manifest"),
+    path("offline/", pwa.offline_view, name="offline_page"),
     path("", home_view, name="home"),
     path("about/", about_culinaai_view, name="about_culinaai"),
     path("impact/", sdg_impact_view, name="sdg_impact"),

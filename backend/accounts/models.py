@@ -34,6 +34,12 @@ class UserProfile(models.Model):
     # in their confirmation email yet (the signup form sets it to False).
     email_confirmed = models.BooleanField(default=True)
 
+    # Saved once on the profile and filled in on every New recipe form, so people
+    # don't have to type their allergies each time. They can still change them for one recipe.
+    diet_preferences = models.ManyToManyField("recipes.DietPreference", blank=True, related_name="profiles")
+    other_diet = models.CharField(max_length=200, blank=True)
+    allergies = models.TextField(blank=True)
+
     # A temporary account made by "Try the demo". Deleted after a day, or on logging out.
     is_demo = models.BooleanField(default=False)
 
@@ -50,6 +56,10 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+    @property
+    def has_diet_settings(self):
+        return bool(self.allergies.strip() or self.other_diet.strip() or self.diet_preferences.exists())
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

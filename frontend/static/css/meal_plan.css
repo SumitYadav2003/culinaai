@@ -456,6 +456,15 @@
     margin: 0;
 }
 
+.mp-queue-note {
+    margin: -6px 0 14px;
+    padding: 8px 12px;
+    border-radius: var(--site-radius);
+    background: var(--site-caution-soft);
+    color: var(--site-ink);
+    font-size: 0.9rem;
+}
+
 .mp-group {
     margin-bottom: 12px;
 }

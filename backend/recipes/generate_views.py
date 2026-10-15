@@ -53,6 +53,7 @@ from .insight_service import add_ai_swaps, meal_style_correction
 
 
 
+from .diet_profile import missing_saved_allergies, saved_diet
 from .recipe_helpers import (
     build_recipe_insights,
     create_recipe_history_entry,
@@ -626,6 +627,14 @@ def generate_recipe_view(request):
             }
 
             blocked = use_ai(request.user, AIUsage.KIND_RECIPE, "generate")
+            missing = missing_saved_allergies(request.user, cleaned_data.get("allergies"))
+            if not blocked and missing:
+                # They took a saved allergy out for this recipe (cooking for someone else, say). Allowed, but said.
+                messages.warning(
+                    request,
+                    f"This recipe wasn't checked for {', '.join(missing)}, which your profile says to avoid, "
+                    "because it wasn't in this recipe's list.",
+                )
             if not blocked:
                 run_recipe_generation(request, preview_data)
                 return redirect(f"{reverse('generate_recipe')}#recipe-preview")
@@ -744,6 +753,15 @@ def generate_recipe_view(request):
         else:
             form = RecipeGenerationForm()
 
+    # Fill in the diet and allergies saved on the profile (a form sent back with mistakes keeps what was typed).
+    diet = saved_diet(request.user)
+    if not form.is_bound:
+        form.initial.setdefault("diet_preferences", diet["diet_ids"])
+        form.initial.setdefault("allergies", diet["allergies"])
+        other_diet_value = diet["other_diet"]
+    else:
+        other_diet_value = request.POST.get("other_diet_preference", "")
+
     preview_data = request.session.pop("recipe_preview_data", None)
     ai_recipe_result = request.session.pop("ai_recipe_result", None)
 
@@ -757,6 +775,8 @@ def generate_recipe_view(request):
             "generation_preview": preview_data is not None,
             "change_choices": CHANGE_CHOICES,
             "utensil_choices": UTENSIL_CHOICES,
+            "other_diet_value": other_diet_value,
+            "diet_from_profile": diet["has_any"] and not form.is_bound,
         },
     )
 

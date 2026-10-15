@@ -276,6 +276,14 @@
     font-size: 0.95rem;
 }
 
+.ap-tip-setup .site-btn {
+    margin-top: 10px;
+}
+
+.ap-tip-setup {
+    border: 1px solid var(--site-accent);
+}
+
 .ap-ranked {
     margin: 0;
     padding-left: 20px;
@@ -1710,5 +1718,72 @@ html body .culina-cooking-mode .cooking-navbar-spacer {
     font-weight: 600;
     text-decoration: underline;
     cursor: pointer;
+}
+
+/* ---------- Profile: diet and allergies ---------- */
+
+.ap-form textarea {
+    font-family: inherit;
+}
+
+.pf-lead {
+    margin: -8px 0 14px;
+}
+
+.pf-fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.pf-fieldset legend {
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.pf-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pf-chips ul,
+.pf-chips li {
+    display: contents;
+}
+
+.ap-form .pf-chip {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.pf-chip input {
+    position: absolute;
+    opacity: 0;
+}
+
+.pf-chip span {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--site-line-strong);
+    border-radius: 999px;
+    background: var(--site-surface);
+    color: var(--site-ink);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.pf-chip input:checked + span {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #ffffff;
+}
+
+.pf-chip input:focus-visible + span {
+    outline: 2px solid var(--site-accent);
+    outline-offset: 2px;
 }
 

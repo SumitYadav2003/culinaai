@@ -4,8 +4,8 @@
 {% block title %}Shopping list | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
-<link rel="stylesheet" href="{% static 'css/meal_plan.css' %}?v=meal-plan-1">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-8">
+<link rel="stylesheet" href="{% static 'css/meal_plan.css' %}?v=meal-plan-2">
 {% endblock %}
 
 {% block content %}
@@ -52,6 +52,7 @@
                     </form>
                 </div>
             </div>
+            <p class="mp-queue-note" data-queue-note role="status" hidden></p>
             <textarea class="visually-hidden" data-list-text aria-hidden="true" tabindex="-1" readonly>{{ list_text }}</textarea>
 
             {% for group in shopping.groups %}
@@ -141,6 +142,6 @@
     </div>
 </section>
 
-<script src="{% static 'js/shopping_list.js' %}?v=shopping-list-1"></script>
+<script src="{% static 'js/shopping_list.js' %}?v=shopping-list-2"></script>
 
 {% endblock %}

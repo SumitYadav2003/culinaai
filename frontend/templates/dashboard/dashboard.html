@@ -4,7 +4,7 @@
 {% block title %}Dashboard | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-8">
 {% endblock %}
 
 {% block content %}
@@ -74,6 +74,18 @@
             </section>
 
             <div class="ap-stack">
+                {% if needs_diet_setup %}
+                    <!-- Until diet and allergies are saved on the profile -->
+                    <section class="ap-card ap-tip ap-tip-setup" aria-labelledby="ap-diet-title">
+                        <i class="icon-shield-check" aria-hidden="true"></i>
+                        <div>
+                            <h2 id="ap-diet-title">Tell us your allergies once</h2>
+                            <p>Save your diet and the foods you avoid, and every new recipe starts with them and is checked against them.</p>
+                            <a href="{% url 'profile_summary' %}#pf-diet-title" class="site-btn site-btn-secondary">Add them</a>
+                        </div>
+                    </section>
+                {% endif %}
+
                 <!-- Today and tomorrow from the meal plan -->
                 <section class="ap-card" aria-labelledby="ap-plan-title">
                     <div class="ap-card-head">
