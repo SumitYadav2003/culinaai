@@ -188,9 +188,9 @@ class FailedDetailsTests(TestCase):
         ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=structure_result)
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=structure_result)
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_the_words_a_failed_check_found_are_saved(self, generate, extract, image):
         generate.side_effect = [
             {"prompt": "p1", "recipe_text": RECIPE_TEXT + "\nCHEF TIPS:\nGarnish with toasted almonds."},

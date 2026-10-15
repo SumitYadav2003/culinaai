@@ -17,7 +17,7 @@ from recipes.check_summary import summarise_checks
 from recipes.models import Recipe
 from recipes.tests.test_generation_flow import FORM, structure_result
 from recipes.tests.test_insights_and_gates import RECIPE_TEXT
-from recipes.views import build_change_preferences
+from recipes.generate_views import build_change_preferences
 
 COMPARISON = [
     {"area": "Ingredients", "original": "Chicken breast", "modified": "Grilled tofu", "change": "No meat"},
@@ -164,9 +164,9 @@ class RecipePageTests(TestCase):
         self.assertIn("Change this recipe", html)
         self.assertIn('placeholder="Send this recipe to an email address"', html)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=structure_result)
-    @patch("recipes.views.modify_ai_recipe")
+    @patch("recipes.saved_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=structure_result)
+    @patch("recipes.saved_views.modify_ai_recipe")
     def test_change_preview_save_and_link_back(self, modify, extract, image):
         modify.return_value = {
             "modified_recipe_text": RECIPE_TEXT.replace("Grilled Chicken Burger", "Lighter Chicken Burger"),
@@ -205,7 +205,7 @@ class RecipePageTests(TestCase):
         self.assertIn("Grilled Chicken Burger", mail.outbox[0].body)
         self.assertIn("Recipe sent to friend@example.com.", response.content.decode())
 
-    @patch("recipes.views.send_mail", side_effect=OSError("smtp down"))
+    @patch("recipes.recipe_helpers.send_mail", side_effect=OSError("smtp down"))
     def test_email_failure_is_explained_not_a_crash(self, send):
         response = self.client.post(
             reverse("send_recipe_email", args=[self.recipe.id]), {"recipient_email": "friend@example.com"}, follow=True,
@@ -227,9 +227,9 @@ class GeneratePageTests(TestCase):
         patcher.start()
         self.addCleanup(patcher.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=structure_result)
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=structure_result)
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_generate_then_change_then_email(self, generate, extract, image):
         html = self.client.post(reverse("generate_recipe"), FORM, follow=True).content.decode()
         self.assertIn("Your recipe is ready", html)

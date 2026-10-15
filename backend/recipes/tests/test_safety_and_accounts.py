@@ -55,7 +55,7 @@ class DailyLimitTests(TestCase):
     def setUp(self):
         self.client.force_login(self.user)
 
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_each_new_recipe_is_counted_until_the_limit(self, run):
         for _ in range(3):
             self.client.post(reverse("generate_recipe"), FORM)
@@ -69,7 +69,7 @@ class DailyLimitTests(TestCase):
         # The form comes back with what they typed.
         self.assertIn("chicken breast, burger bun", html)
 
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_a_form_with_mistakes_is_not_counted(self, run):
         self.client.post(reverse("generate_recipe"), {"ingredients": ""})
         self.assertFalse(AIUsage.objects.exists())
@@ -89,7 +89,7 @@ class DailyLimitTests(TestCase):
         html = self.client.get(reverse("saved_recipe_detail", args=[self.recipe.id])).content.decode()
         self.assertIn("You've used all 3 of today's AI recipes and changes.", html)
 
-    @patch("recipes.views.modify_ai_recipe")
+    @patch("recipes.saved_views.modify_ai_recipe")
     def test_changing_a_saved_recipe_is_limited(self, modify):
         use_up(self.user)
         response = self.client.post(
@@ -98,7 +98,7 @@ class DailyLimitTests(TestCase):
         modify.assert_not_called()
         self.assertIn("You&#x27;ve used all 3", response.content.decode())
 
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_change_and_version_on_the_generate_page_are_limited(self, run):
         session = self.client.session
         session["latest_recipe_preferences"] = {"ingredients": "rice"}
@@ -125,7 +125,7 @@ class DailyLimitTests(TestCase):
         scan.assert_not_called()
         self.assertIn("You&#x27;ve used all 3", response.content.decode())
 
-    @patch("recipes.views.ask_cooking_assistant")
+    @patch("recipes.saved_views.ask_cooking_assistant")
     def test_cooking_questions_have_their_own_limit(self, ask):
         use_up(self.user)  # recipe allowance used up; questions still work
         url = reverse("ask_cooking_assistant", args=[self.recipe.id])
@@ -147,7 +147,7 @@ class DailyLimitTests(TestCase):
         self.assertFalse(data["success"])
         self.assertIn("questions today, which is the daily limit", data["error"])
 
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_staff_have_no_limit(self, run):
         staff = User.objects.create_user("owner", "owner@example.com", "pass-12345", is_staff=True)
         self.client.force_login(staff)
@@ -167,7 +167,7 @@ class EmailConfirmationTests(TestCase):
     def link_from(self, message):
         return re.search(r"https?://testserver(/confirm-email/[^\s\"<]+)", message.body).group(1)
 
-    @patch("recipes.views.run_recipe_generation")
+    @patch("recipes.generate_views.run_recipe_generation")
     def test_new_account_must_confirm_before_using_the_ai(self, run):
         self.sign_up()
         user = User.objects.get(email="alex@example.com")

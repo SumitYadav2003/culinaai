@@ -192,9 +192,9 @@ class BenchmarkAndReportTests(TestCase):
         with self.assertRaisesMessage(CommandError, "OPENAI_API_KEY is not set"):
             call_command("run_benchmark", "--yes", stdout=StringIO())
 
-    @patch("recipes.views.generate_recipe_image_base64")
-    @patch("recipes.views.extract_recipe_structure")
-    @patch("recipes.views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
+    @patch("recipes.generate_views.generate_recipe_image_base64")
+    @patch("recipes.recipe_helpers.extract_recipe_structure")
+    @patch("recipes.generate_views.generate_ai_recipe", return_value={"prompt": "p", "recipe_text": RECIPE_TEXT})
     def test_run_then_report(self, generate, extract, image):
         # The first recipe is only loosely Thai, so the cuisine check asks for one more try.
         loose = structure(["chicken breast", "burger bun", "tomato"])

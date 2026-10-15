@@ -177,9 +177,9 @@ class GenerationUsesTipsTests(TestCase):
         ai_swaps.start()
         self.addCleanup(ai_swaps.stop)
 
-    @patch("recipes.views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
-    @patch("recipes.views.extract_recipe_structure", side_effect=structure_result)
-    @patch("recipes.views.generate_ai_recipe")
+    @patch("recipes.generate_views.generate_recipe_image_base64", side_effect=RuntimeError("images off in tests"))
+    @patch("recipes.recipe_helpers.extract_recipe_structure", side_effect=structure_result)
+    @patch("recipes.generate_views.generate_ai_recipe")
     def test_new_recipe_is_adjusted_and_says_so(self, generate, extract, image):
         with_tip = RECIPE_TEXT.replace("2. Mix the yogurt with a little garlic.",
                                        "2. Mix the yogurt with a little garlic. Tip: grate the garlic so it doesn't stick.")
