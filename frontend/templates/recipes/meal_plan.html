@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Meal plan | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
+<link rel="stylesheet" href="{% static 'css/meal_plan.css' %}?v=meal-plan-1">
+{% endblock %}
+
+{% block content %}
+
+<section class="ap-page mp-page">
+    <div class="container mp-container">
+
+        <header class="ap-head">
+            <div>
+                <h1>Meal plan</h1>
+                <p>Plan your week from your saved recipes, then shop once with one list.</p>
+            </div>
+            <div class="ap-head-actions">
+                <a href="{% url 'shopping_list' %}?week={{ week_start|date:'Y-m-d' }}" class="site-btn site-btn-primary">
+                    <i class="icon-shopping-basket" aria-hidden="true"></i> Shopping list{% if planned_count %} ({{ planned_count }} meal{{ planned_count|pluralize }}){% endif %}
+                </a>
+            </div>
+        </header>
+
+        <nav class="mp-weeknav" aria-label="Weeks">
+            <a href="?week={{ previous_week|date:'Y-m-d' }}" class="site-btn site-btn-secondary" rel="prev">
+                <i class="icon-chevron-left" aria-hidden="true"></i><span class="mp-weeknav-text"> Previous</span>
+            </a>
+            <div class="mp-weeknav-label">
+                <strong>{{ week_label }}</strong>
+                {% if is_this_week %}<span>This week</span>{% else %}<a href="?week={{ this_week|date:'Y-m-d' }}">Back to this week</a>{% endif %}
+            </div>
+            <a href="?week={{ next_week|date:'Y-m-d' }}" class="site-btn site-btn-secondary" rel="next">
+                <span class="mp-weeknav-text">Next </span><i class="icon-chevron-right" aria-hidden="true"></i>
+            </a>
+        </nav>
+
+        {% if not has_saved_recipes %}
+            <div class="ap-card mp-empty">
+                <i class="icon-calendar-days" aria-hidden="true"></i>
+                <h2>Save a recipe to start planning</h2>
+                <p>The plan uses your saved recipes. Make one and press Save, then come back here.</p>
+                <a href="{% url 'generate_recipe' %}" class="site-btn site-btn-primary">Make a recipe</a>
+            </div>
+        {% else %}
+            {% if not planned_count %}
+                <div class="mp-hint">
+                    <i class="icon-info" aria-hidden="true"></i>
+                    <p>Nothing planned for this week yet. Press <strong>Add a meal</strong> on a day, or use <strong>Add to plan</strong> on any saved recipe.</p>
+                    {% if last_week_has_plan %}
+                        <form method="post" action="{% url 'meal_plan_copy' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="week" value="{{ week_start|date:'Y-m-d' }}">
+                            <button type="submit" class="site-btn site-btn-secondary"><i class="icon-copy" aria-hidden="true"></i> Copy last week</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <ol class="mp-days">
+                {% for day in days %}
+                    <li class="mp-day{% if day.is_today %} is-today{% endif %}{% if day.is_past %} is-past{% endif %}">
+                        <div class="mp-day-head">
+                            <h2>
+                                {{ day.label }}
+                                <span>{{ day.date|date:"j M" }}</span>
+                            </h2>
+                            <a href="{% url 'meal_plan_add' %}?date={{ day.date|date:'Y-m-d' }}&amp;next={{ request.get_full_path|urlencode }}" class="mp-add">
+                                <i class="icon-plus" aria-hidden="true"></i> Add a meal<span class="visually-hidden"> on {{ day.date|date:"l j F" }}</span>
+                            </a>
+                        </div>
+
+                        {% if day.entries %}
+                            <ul class="mp-meals">
+                                {% for entry in day.entries %}
+                                    <li class="mp-meal">
+                                        <span class="mp-meal-type mp-{{ entry.meal }}">{{ entry.get_meal_display }}</span>
+                                        <a class="mp-meal-title" href="{% url 'saved_recipe_detail' entry.recipe.id %}">{{ entry.recipe.title }}</a>
+
+                                        <div class="mp-meal-tools">
+                                            <form method="post" action="{% url 'meal_plan_update' entry.id %}" class="mp-servings" aria-label="Servings for {{ entry.recipe.title }}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                                <button type="submit" name="servings" value="{{ entry.servings|add:'-1' }}" {% if entry.servings <= 1 %}disabled{% endif %} aria-label="One fewer serving"><i class="icon-minus" aria-hidden="true"></i></button>
+                                                <span><strong>{{ entry.servings }}</strong> <small>serving{{ entry.servings|pluralize }}</small></span>
+                                                <button type="submit" name="servings" value="{{ entry.servings|add:'1' }}" {% if entry.servings >= max_servings %}disabled{% endif %} aria-label="One more serving"><i class="icon-plus" aria-hidden="true"></i></button>
+                                            </form>
+
+                                            <details class="mp-more">
+                                                <summary aria-label="Move or remove {{ entry.recipe.title }}"><i class="icon-ellipsis" aria-hidden="true"></i></summary>
+                                                <div class="mp-more-panel">
+                                                    <form method="post" action="{% url 'meal_plan_update' entry.id %}" class="ap-form">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                                        <input type="hidden" name="servings" value="{{ entry.servings }}">
+                                                        <label for="move-date-{{ entry.id }}">Move to</label>
+                                                        <input type="date" id="move-date-{{ entry.id }}" name="date" value="{{ entry.date|date:'Y-m-d' }}" required>
+                                                        <label for="move-meal-{{ entry.id }}" class="visually-hidden">Meal</label>
+                                                        <select id="move-meal-{{ entry.id }}" name="meal">
+                                                            {% for value, label in meal_choices %}
+                                                                <option value="{{ value }}" {% if value == entry.meal %}selected{% endif %}>{{ label }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <button type="submit" class="site-btn site-btn-secondary">Move</button>
+                                                    </form>
+                                                    <form method="post" action="{% url 'meal_plan_remove' entry.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                                        <button type="submit" class="site-btn site-btn-quiet mp-remove"><i class="icon-trash-2" aria-hidden="true"></i> Take off the plan</button>
+                                                    </form>
+                                                </div>
+                                            </details>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="mp-nothing">Nothing planned</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

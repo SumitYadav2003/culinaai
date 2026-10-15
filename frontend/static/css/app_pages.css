@@ -1532,3 +1532,47 @@ html body .culina-cooking-mode .cooking-navbar-spacer {
 .er-actions {
     justify-content: center;
 }
+
+/* ---------- Dashboard: this week's plan (meal_plan_service.upcoming_entries) ---------- */
+
+.mp-dash-day + .mp-dash-day {
+    margin-top: 10px;
+}
+
+.mp-dash-day h3 {
+    margin: 0 0 4px;
+    color: var(--site-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.mp-dash-day ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-dash-day li {
+    display: flex;
+    gap: 8px;
+    padding: 3px 0;
+}
+
+.mp-dash-day li span {
+    flex: none;
+    min-width: 72px;
+    color: var(--site-muted);
+    font-size: 0.9rem;
+}
+
+.mp-dash-day li a {
+    color: var(--site-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.mp-dash-day li a:hover {
+    text-decoration: underline;
+}

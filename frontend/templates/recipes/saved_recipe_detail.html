@@ -71,6 +71,10 @@
                     </button>
                 </form>
 
+                <a href="{% url 'meal_plan_add' %}?recipe={{ recipe.id }}&amp;next={{ request.get_full_path|urlencode }}" class="site-btn site-btn-secondary">
+                    <i class="icon-calendar-plus" aria-hidden="true"></i> Add to plan
+                </a>
+
                 <div class="dropdown">
                     <button type="button" class="site-btn site-btn-secondary rp-icon-btn" data-bs-toggle="dropdown" aria-expanded="false" title="More">
                         <i class="icon-ellipsis" aria-hidden="true"></i>

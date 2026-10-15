@@ -5,6 +5,7 @@ from django.shortcuts import render
 from recipes.analytics_service import build_user_analytics_context
 from recipes.cooking_learning_service import build_cooking_profile
 from recipes.impact_service import build_impact_context
+from recipes.meal_plan_service import upcoming_entries
 from recipes.models import FavouriteRecipe, Recipe, RecipeFeedback, RecipeRating
 
 
@@ -137,6 +138,8 @@ def dashboard_view(request):
         smart_tip_icon = "icon-compass"
 
     context = {
+        # Today and tomorrow from the meal plan.
+        "plan_upcoming": upcoming_entries(request.user),
         "saved_recipes_count": saved_count,
         "favourite_recipes_count": favourite_count,
         "ai_generations_count": ai_generation_count,

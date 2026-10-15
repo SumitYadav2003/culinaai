@@ -20,11 +20,14 @@ from recipes.models import (
     CookingSettings,
     FavouriteRecipe,
     FridgeScan,
+    MealPlanEntry,
     PantryItem,
     Recipe,
     RecipeFeedback,
     RecipeHistory,
     RecipeRating,
+    ShoppingListCheck,
+    ShoppingListExtra,
 )
 
 from .models import UserProfile
@@ -111,6 +114,9 @@ def export_user_data(user):
         "cooking_assistant_chats": chats,
         "cooking_settings": rows(CookingSettings),
         "cooking_sessions": cooking_sessions,
+        "meal_plan": rows(MealPlanEntry),
+        "shopping_list_ticks": rows(ShoppingListCheck),
+        "shopping_list_extras": rows(ShoppingListExtra),
         "ai_use": rows(AIUsage),
     }
 

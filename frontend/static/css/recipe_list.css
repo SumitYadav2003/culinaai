@@ -283,6 +283,28 @@
     color: #ffffff;
 }
 
+/* "Add to plan", next to the heart */
+.rl-plan {
+    position: absolute;
+    top: 10px;
+    right: 56px;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid var(--site-line);
+    border-radius: 50%;
+    background: var(--site-surface);
+    color: var(--site-muted);
+    box-shadow: 0 1px 3px rgba(28, 36, 30, 0.12);
+    text-decoration: none;
+}
+
+.rl-plan:hover,
+.rl-plan:focus-visible {
+    color: var(--site-accent);
+}
+
 .rl-fav.is-on:hover {
     background: var(--site-surface);
     color: var(--site-danger);

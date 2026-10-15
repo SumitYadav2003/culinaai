@@ -912,3 +912,84 @@ class AIUsage(models.Model):
 
     def __str__(self):
         return f"{self.user} {self.action} at {self.created_at:%Y-%m-%d %H:%M}"
+
+
+class MealPlanEntry(models.Model):
+    """One saved recipe planned for one meal on one day."""
+
+    MEAL_BREAKFAST = "breakfast"
+    MEAL_LUNCH = "lunch"
+    MEAL_DINNER = "dinner"
+    MEAL_SNACK = "snack"
+    MEAL_CHOICES = [
+        (MEAL_BREAKFAST, "Breakfast"),
+        (MEAL_LUNCH, "Lunch"),
+        (MEAL_DINNER, "Dinner"),
+        (MEAL_SNACK, "Snack"),
+    ]
+    MEAL_ORDER = {MEAL_BREAKFAST: 0, MEAL_LUNCH: 1, MEAL_DINNER: 2, MEAL_SNACK: 3}
+    MAX_SERVINGS = 20
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="meal_plan_entries",
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name="meal_plan_entries",
+    )
+    date = models.DateField()
+    meal = models.CharField(max_length=20, choices=MEAL_CHOICES, default=MEAL_DINNER)
+    servings = models.PositiveSmallIntegerField(default=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["date", "created_at"]
+        indexes = [models.Index(fields=["user", "date"], name="meal_plan_user_date")]
+
+    def __str__(self):
+        return f"{self.recipe.title} for {self.get_meal_display().lower()} on {self.date:%a %d %b %Y}"
+
+
+class ShoppingListCheck(models.Model):
+    """An item ticked off on the shopping list for one week."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="shopping_list_checks",
+    )
+    week_start = models.DateField()
+    # The ingredient's matching key, e.g. "red onion".
+    item_key = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "week_start", "item_key"], name="unique_shopping_check"),
+        ]
+
+    def __str__(self):
+        return f"{self.item_key} (week of {self.week_start})"
+
+
+class ShoppingListExtra(models.Model):
+    """Something the user added to a week's shopping list by hand, like washing-up liquid."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="shopping_list_extras",
+    )
+    week_start = models.DateField()
+    name = models.CharField(max_length=120)
+    done = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return f"{self.name} (week of {self.week_start})"
