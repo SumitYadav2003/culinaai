@@ -34,6 +34,13 @@ class UserProfile(models.Model):
     # in their confirmation email yet (the signup form sets it to False).
     email_confirmed = models.BooleanField(default=True)
 
+    # A temporary account made by "Try the demo". Deleted after a day, or on logging out.
+    is_demo = models.BooleanField(default=False)
+
+    # The Sunday email: what in the pantry goes off soon and what's planned next week.
+    weekly_email = models.BooleanField(default=False)
+    weekly_email_sent_on = models.DateField(null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

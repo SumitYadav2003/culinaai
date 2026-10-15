@@ -29,6 +29,7 @@ from .meal_plan_service import (
     week_label,
     week_start_for,
 )
+from .demo_service import not_in_demo
 from .models import FavouriteRecipe, MealPlanEntry, Recipe, ShoppingListCheck, ShoppingListExtra
 
 logger = logging.getLogger(__name__)
@@ -306,6 +307,7 @@ def shopping_clear_ticks_view(request):
 
 @login_required
 @require_POST
+@not_in_demo()
 def shopping_email_view(request):
     """Emails the list to the user's own address. Once a minute at most."""
 

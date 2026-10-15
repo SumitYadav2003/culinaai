@@ -220,6 +220,21 @@ AI_DAILY_QUESTION_LIMIT = int(os.getenv("AI_DAILY_QUESTION_LIMIT", "50"))
 EMAIL_CONFIRMATION_REQUIRED = os.getenv("EMAIL_CONFIRMATION_REQUIRED", "True") == "True"
 
 
+# "Try the demo": temporary accounts that are deleted after DEMO_HOURS (or on logging out).
+# By default they can't use the AI, so visitors can't run up the OpenAI bill.
+DEMO_HOURS = int(os.getenv("DEMO_HOURS", "24"))
+DEMO_DAILY_RECIPE_LIMIT = int(os.getenv("DEMO_DAILY_RECIPE_LIMIT", "0"))
+DEMO_DAILY_QUESTION_LIMIT = int(os.getenv("DEMO_DAILY_QUESTION_LIMIT", "0"))
+DEMO_MAX_ACCOUNTS = int(os.getenv("DEMO_MAX_ACCOUNTS", "200"))
+DEMO_STARTS_PER_HOUR = int(os.getenv("DEMO_STARTS_PER_HOUR", "5"))
+
+# Scheduled jobs (the Sunday email and clearing old demo accounts) are started by
+# GitHub Actions calling /tasks/weekly/ with this secret. Unset means the URL is off.
+CRON_SECRET = os.getenv("CRON_SECRET", "")
+# The site's address, for links in emails sent by "python manage.py send_weekly_emails".
+SITE_URL = os.getenv("SITE_URL", os.getenv("RENDER_EXTERNAL_URL", "http://127.0.0.1:8000")).rstrip("/")
+
+
 # Production security (only on Render, so local runs and tests are unchanged).
 if ON_RENDER:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

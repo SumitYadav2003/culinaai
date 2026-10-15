@@ -6,7 +6,7 @@ Pages fill in auth_title, auth_lead and auth_body, and optionally auth_foot.
 {% endcomment %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,7 @@ Pages fill in auth_title, auth_lead and auth_body, and optionally auth_foot.
             <p class="au-lead">{% block auth_lead %}{% endblock %}</p>
             {% block auth_body %}{% endblock %}
         </div>
-        <p class="au-foot">{% block auth_foot %}{% endblock %}</p>
+        <div class="au-foot">{% block auth_foot %}{% endblock %}</div>
     </div>
 </section>
 {% endblock %}

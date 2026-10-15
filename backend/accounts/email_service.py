@@ -21,14 +21,27 @@ def confirm_email_url(request, user):
     return request.build_absolute_uri(reverse("confirm_email", args=[uidb64, token]))
 
 
-def build_branded_html(heading, paragraphs, button_text, button_url):
-    """The HTML layout shared by CulinaAI emails. Everything passed in is escaped here."""
+def build_branded_html(heading, paragraphs, button_text, button_url, small_print="", small_link=None):
+    """
+    The HTML layout shared by CulinaAI emails. Everything passed in is escaped here.
+    small_print and small_link (link text, url) go under the button, e.g. "Turn this email off".
+    """
 
     body = "".join(
         f'<p style="margin:0 0 16px; font-size:16px; line-height:1.6; color:#3d453d;">{escape(text)}</p>'
         for text in paragraphs
     )
     url = escape(button_url)
+    extra = ""
+    if small_print or small_link:
+        link = (
+            f' <a href="{escape(small_link[1])}" style="color:#1f4d2b;">{escape(small_link[0])}</a>'
+            if small_link else ""
+        )
+        extra = (
+            f'<p style="margin:20px 0 0; font-size:13px; line-height:1.6; color:#576557;">'
+            f"{escape(small_print)}{link}</p>"
+        )
 
     return f"""
 <!doctype html>
@@ -53,6 +66,7 @@ def build_branded_html(heading, paragraphs, button_text, button_url):
                                 If the button doesn't work, copy this link into your browser:<br>
                                 <span style="word-break:break-all;">{url}</span>
                             </p>
+                            {extra}
                         </td>
                     </tr>
                 </table>
@@ -64,7 +78,7 @@ def build_branded_html(heading, paragraphs, button_text, button_url):
 """.strip()
 
 
-def send_email(to, subject, plain_message, html_message, kind):
+def send_email(to, subject, plain_message, html_message, kind, headers=None):
     """Sends one email. Returns False instead of raising, so a mail problem never breaks a page."""
 
     try:
@@ -73,6 +87,7 @@ def send_email(to, subject, plain_message, html_message, kind):
             body=plain_message,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=[to],
+            headers=headers or {},
         )
         email.attach_alternative(html_message, "text/html")
         email.send(fail_silently=False)

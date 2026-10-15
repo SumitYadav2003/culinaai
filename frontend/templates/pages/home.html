@@ -23,12 +23,15 @@
                         <a href="{% url 'saved_recipes' %}" class="site-btn site-btn-secondary site-btn-lg">Your saved recipes</a>
                     {% else %}
                         <a href="{% url 'signup' %}" class="site-btn site-btn-primary site-btn-lg">Create an account</a>
-                        <a href="#how-it-works" class="site-btn site-btn-secondary site-btn-lg">See how it works</a>
+                        <form method="post" action="{% url 'start_demo' %}" class="home-demo-form">
+                            {% csrf_token %}
+                            <button type="submit" class="site-btn site-btn-secondary site-btn-lg">Try the demo</button>
+                        </form>
                     {% endif %}
                 </div>
 
                 {% if not user.is_authenticated %}
-                    <p class="home-signin">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+                    <p class="home-signin">The demo needs no sign-up and has recipes ready to look at. Already have an account? <a href="{% url 'login' %}">Log in</a></p>
                 {% endif %}
             </div>
 

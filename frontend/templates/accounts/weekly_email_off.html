@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sunday email | CulinaAI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
+{% endblock %}
+
+{% block content %}
+
+<section class="ap-page">
+    <div class="container ap-narrow">
+        <div class="ap-card ap-confirm">
+            {% if invalid %}
+                <h1>This link doesn't work</h1>
+                <p>It may have been copied only partly. You can turn the Sunday email off on your profile page instead.</p>
+                <a href="{% url 'profile_summary' %}" class="site-btn site-btn-primary">Go to your profile</a>
+            {% elif done %}
+                <h1>The Sunday email is off</h1>
+                <p>We won't send it to {{ email }} any more. You can turn it back on from your dashboard or profile.</p>
+                <a href="{% url 'home' %}" class="site-btn site-btn-secondary">Go to CulinaAI</a>
+            {% else %}
+                <h1>Turn off the Sunday email?</h1>
+                <p>We'll stop sending it to {{ email }}. Nothing else changes.</p>
+                <form method="post" class="ap-actions">
+                    {% csrf_token %}
+                    <button type="submit" class="site-btn site-btn-primary">Turn it off</button>
+                    <a href="{% url 'home' %}" class="site-btn site-btn-quiet">Keep it</a>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
