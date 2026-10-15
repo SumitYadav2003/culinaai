@@ -31,7 +31,15 @@ from .models import AIUsage
 UK = ZoneInfo("Europe/London")
 
 
-def daily_limit(kind):
+def is_demo(user):
+    from accounts.models import UserProfile
+
+    return UserProfile.objects.filter(user=user, is_demo=True).exists()
+
+
+def daily_limit(kind, demo=False):
+    if demo:
+        return settings.DEMO_DAILY_QUESTION_LIMIT if kind == AIUsage.KIND_QUESTION else settings.DEMO_DAILY_RECIPE_LIMIT
     if kind == AIUsage.KIND_QUESTION:
         return settings.AI_DAILY_QUESTION_LIMIT
     return settings.AI_DAILY_RECIPE_LIMIT
@@ -55,11 +63,12 @@ def used_today(user, kind):
 def allowance(user, kind):
     """What the page shows: the limit, how many are used and left today, and whether the user has no limit."""
 
-    limit = daily_limit(kind)
+    demo = is_demo(user)
+    limit = daily_limit(kind, demo)
     if is_unlimited(user):
-        return {"unlimited": True, "limit": limit, "used": 0, "left": limit}
+        return {"unlimited": True, "limit": limit, "used": 0, "left": limit, "demo": False}
     used = used_today(user, kind)
-    return {"unlimited": False, "limit": limit, "used": used, "left": max(limit - used, 0)}
+    return {"unlimited": False, "limit": limit, "used": used, "left": max(limit - used, 0), "demo": demo}
 
 
 def blocked_reason(user, kind):
@@ -73,7 +82,13 @@ def blocked_reason(user, kind):
     if is_unlimited(user):
         return None
 
-    limit = daily_limit(kind)
+    demo = is_demo(user)
+    limit = daily_limit(kind, demo)
+    if demo and used_today(user, kind) >= limit:
+        return (
+            "The demo shows recipes that are already made, so it doesn't use the AI. "
+            "Create a free account to make your own recipes."
+        )
     if used_today(user, kind) >= limit:
         if kind == AIUsage.KIND_QUESTION:
             return (

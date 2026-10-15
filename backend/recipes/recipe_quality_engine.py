@@ -857,6 +857,24 @@ def get_restricted_diet_terms(diet_preferences: List[str]) -> List[str]:
     return sorted(restricted_terms)
 
 
+# Plant-based foods whose names contain a restricted word ("coconut milk" contains
+# "milk", "butter beans" contains "butter"). They are taken out of the text before
+# the diet check, so a vegan curry with coconut milk isn't failed for "milk".
+PLANT_BASED_NAMES = [
+    "coconut milk", "coconut cream", "coconut yoghurt", "coconut yogurt",
+    "oat milk", "soya milk", "soy milk", "almond milk", "rice milk", "cashew milk",
+    "plant milk", "plant-based milk", "dairy-free milk", "non-dairy milk",
+    "soya yoghurt", "soy yoghurt", "soya yogurt", "soy yogurt", "plant yoghurt", "plant yogurt",
+    "plant-based yoghurt", "plant-based yogurt", "dairy-free yoghurt", "dairy-free yogurt",
+    "vegan butter", "plant butter", "plant-based butter", "dairy-free butter",
+    "peanut butter", "almond butter", "cashew butter", "nut butter", "cocoa butter", "butter beans",
+    "vegan cheese", "dairy-free cheese", "vegan mayonnaise", "vegan mayo",
+]
+PLANT_BASED_PATTERN = re.compile(
+    r"(?<![a-z0-9])(?:" + "|".join(re.escape(name) for name in PLANT_BASED_NAMES) + r")(?![a-z0-9])"
+)
+
+
 def find_unsafe_diet_terms(recipe_text: str, restricted_terms: List[str]) -> List[str]:
     """
     Finds diet-restricted terms only when they appear in an unsafe context.
@@ -865,8 +883,12 @@ def find_unsafe_diet_terms(recipe_text: str, restricted_terms: List[str]) -> Lis
     'This recipe does not include fish'
     or
     'No chicken is used'.
+
+    Plant-based foods such as coconut milk and peanut butter are not counted
+    (PLANT_BASED_NAMES).
     """
 
+    recipe_text = PLANT_BASED_PATTERN.sub(" ", normalize_text(recipe_text))
     unsafe_terms = []
 
     for term in restricted_terms:

@@ -101,6 +101,7 @@ def export_user_data(user):
             "date_joined": user.date_joined,
             "last_login": user.last_login,
             "email_confirmed": profile.email_confirmed if profile else None,
+            "sunday_email": profile.weekly_email if profile else False,
             "bio": profile.bio if profile else "",
             "profile_image": file_url(profile.profile_image) if profile else "",
         },

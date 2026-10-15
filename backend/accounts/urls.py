@@ -1,6 +1,8 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
+from .demo_views import end_demo_view, start_demo_view, weekly_email_off_view, weekly_email_toggle_view
+from .task_views import weekly_tasks_view
 from .views import (
     confirm_email_view,
     delete_account_view,
@@ -23,6 +25,17 @@ urlpatterns = [
     path("profile/", profile_summary_view, name="profile_summary"),
     path("profile/download/", download_my_data_view, name="download_my_data"),
     path("profile/delete/", delete_account_view, name="delete_account"),
+
+    # "Try the demo" (demo_views.py)
+    path("demo/start/", start_demo_view, name="start_demo"),
+    path("demo/end/", end_demo_view, name="end_demo"),
+
+    # The Sunday email: on/off from the site, and the "Turn it off" link in the email.
+    path("profile/weekly-email/", weekly_email_toggle_view, name="weekly_email_toggle"),
+    path("weekly-email/off/<str:token>/", weekly_email_off_view, name="weekly_email_off"),
+
+    # The weekly job, called by GitHub Actions (task_views.py).
+    path("tasks/weekly/", weekly_tasks_view, name="weekly_tasks"),
 
     # Confirming the email address after signing up (or changing it).
     path("confirm-email/send/", resend_confirmation_view, name="resend_confirmation"),

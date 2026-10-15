@@ -4,7 +4,7 @@
 {% block title %}Dashboard | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
 {% endblock %}
 
 {% block content %}
@@ -123,6 +123,73 @@
                 </section>
             </div>
         </div>
+
+        <!-- Use it before it goes off (recipes/use_soon_service.py) -->
+        {% if use_soon.has_pantry %}
+            <section class="ap-card us-card" id="use-soon" aria-labelledby="us-title">
+                <div class="ap-card-head">
+                    <h2 id="us-title">Use it before it goes off</h2>
+                    <a href="{% url 'pantry_list' %}">Pantry</a>
+                </div>
+
+                {% if use_soon.soon %}
+                    <ul class="us-items">
+                        {% for entry in use_soon.soon %}
+                            <li class="{% if entry.days_left <= 1 %}is-urgent{% endif %}">
+                                <strong>{{ entry.name }}</strong>
+                                <span>{{ entry.when }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="us-ideas">
+                        {% if use_soon.suggestions %}
+                            <p class="us-ideas-title">Recipes you've saved that use them:</p>
+                            <ul class="us-recipes">
+                                {% for idea in use_soon.suggestions %}
+                                    <li>
+                                        <a href="{% url 'saved_recipe_detail' idea.recipe.id %}">{{ idea.recipe.title }}</a>
+                                        <span>uses {{ idea.uses|join:", "|lower }}</span>
+                                        <a class="us-plan" href="{% url 'meal_plan_add' %}?recipe={{ idea.recipe.id }}&amp;next={{ request.get_full_path|urlencode }}"><i class="icon-calendar-plus" aria-hidden="true"></i> Plan it</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <a href="{{ use_soon.new_recipe_url }}" class="site-btn site-btn-secondary">
+                            <i class="icon-sparkles" aria-hidden="true"></i> Make a new recipe with {% if use_soon.soon|length == 1 %}it{% else %}these{% endif %}
+                        </a>
+                    </div>
+                {% elif use_soon.has_dates %}
+                    <p class="ap-muted">Nothing in your pantry goes off in the next 3 days.</p>
+                {% else %}
+                    <p class="ap-muted">Add use-by dates to your pantry items and they'll show up here before they go off.</p>
+                {% endif %}
+
+                {% if use_soon.out_of_date %}
+                    <p class="us-old">
+                        <i class="icon-triangle-alert" aria-hidden="true"></i>
+                        <span>Past its date: {% for item in use_soon.out_of_date|slice:":5" %}{{ item.ingredient_name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if use_soon.out_of_date|length > 5 %} and {{ use_soon.out_of_date|length|add:"-5" }} more{% endif %}. Check {% if use_soon.out_of_date|length == 1 %}it{% else %}them{% endif %}, or <a href="{% url 'pantry_list' %}">update your pantry</a>.</span>
+                    </p>
+                {% endif %}
+
+                {% if not is_demo_account %}
+                    <form method="post" action="{% url 'weekly_email_toggle' %}" class="us-email">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}#use-soon">
+                        <i class="icon-mail" aria-hidden="true"></i>
+                        {% if weekly_email_on %}
+                            <span>The Sunday email is on: what goes off that week, and next week's plan.</span>
+                            <input type="hidden" name="on" value="0">
+                            <button type="submit" class="site-btn site-btn-quiet">Turn off</button>
+                        {% else %}
+                            <span>Get a Sunday email with what goes off that week and next week's plan.</span>
+                            <input type="hidden" name="on" value="1">
+                            <button type="submit" class="site-btn site-btn-secondary">Turn on</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+            </section>
+        {% endif %}
 
         <!-- Health, cost and carbon (recipes/impact_service.py) -->
         <section class="ap-section" id="impact" aria-labelledby="ap-impact-title">

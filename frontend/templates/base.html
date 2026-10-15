@@ -46,7 +46,7 @@
     {% block extra_css %}{% endblock %}
 
     <!-- Site-wide look: colours, type, buttons, header and footer -->
-    <link rel="stylesheet" href="{% static 'css/site.css' %}?v=site-4" />
+    <link rel="stylesheet" href="{% static 'css/site.css' %}?v=site-5" />
     <link rel="stylesheet" href="{% static 'css/recipe_card.css' %}?v=recipe-card-1" />
 
     <!-- Contrast fixes for buttons and labels (loads after page styles) -->
@@ -137,7 +137,19 @@
       </div>
     </nav>
 
-    {% if email_unconfirmed %}
+    {% if is_demo_account %}
+      <!-- A "Try the demo" account -->
+      <div class="site-confirm-bar is-demo" role="region" aria-label="Demo account">
+        <div class="container site-confirm-inner">
+          <i class="icon-sparkles" aria-hidden="true"></i>
+          <p><strong>You're trying the demo.</strong> Everything here is deleted when you log out, or after a day.</p>
+          <form method="post" action="{% url 'end_demo' %}">
+            {% csrf_token %}
+            <button type="submit" class="site-btn site-btn-primary">Create a free account</button>
+          </form>
+        </div>
+      </div>
+    {% elif email_unconfirmed %}
       <!-- Shown until the email address is confirmed -->
       <div class="site-confirm-bar" role="region" aria-label="Confirm your email">
         <div class="container site-confirm-inner">

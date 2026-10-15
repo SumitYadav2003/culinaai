@@ -472,6 +472,14 @@ body .global-message-close:focus-visible {
     color: var(--site-ink);
 }
 
+.site-confirm-bar.is-demo {
+    background: var(--site-accent-soft);
+}
+
+.site-confirm-bar.is-demo .site-confirm-inner > i {
+    color: var(--site-accent);
+}
+
 .site-confirm-bar ~ main > :first-child {
     padding-top: 28px !important;
 }
@@ -705,6 +713,10 @@ body .global-message-close:focus-visible {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+}
+
+.home-demo-form {
+    margin: 0;
 }
 
 .home-signin {

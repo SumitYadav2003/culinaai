@@ -1576,3 +1576,139 @@ html body .culina-cooking-mode .cooking-navbar-spacer {
 .mp-dash-day li a:hover {
     text-decoration: underline;
 }
+
+/* ---------- Dashboard: use it before it goes off (use_soon_service.py) ---------- */
+
+.us-card {
+    margin-top: 16px;
+}
+
+.us-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+}
+
+.us-items li {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border: 1px solid var(--site-line);
+    border-left: 4px solid var(--site-caution);
+    border-radius: var(--site-radius);
+    background: var(--site-caution-soft);
+}
+
+.us-items li.is-urgent {
+    border-left-color: var(--site-danger);
+}
+
+.us-items strong {
+    font-size: 0.95rem;
+}
+
+.us-items span {
+    color: var(--site-muted);
+    font-size: 0.85rem;
+}
+
+.us-ideas {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+}
+
+.us-ideas-title {
+    margin: 0;
+    font-weight: 600;
+}
+
+.us-recipes {
+    display: grid;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.us-recipes li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+}
+
+.us-recipes li > a:first-child {
+    color: var(--site-ink);
+    font-weight: 600;
+}
+
+.us-recipes span {
+    color: var(--site-muted);
+    font-size: 0.88rem;
+}
+
+.us-plan {
+    margin-left: auto;
+    color: var(--site-accent-ink);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.us-old {
+    display: flex;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 10px 12px;
+    border-radius: var(--site-radius);
+    background: var(--site-danger-soft);
+    color: var(--site-ink);
+    font-size: 0.92rem;
+}
+
+.us-old i {
+    color: var(--site-danger);
+}
+
+.us-email {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    margin: 16px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--site-line);
+    color: var(--site-muted);
+    font-size: 0.92rem;
+}
+
+.us-email span {
+    flex: 1 1 240px;
+}
+
+.us-email i {
+    color: var(--site-accent);
+}
+
+/* "Try the demo" under the login form */
+.au-demo {
+    margin: 8px 0 0;
+}
+
+.au-link-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--site-accent-ink);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+

@@ -4,7 +4,7 @@
 {% block title %}Your profile | CulinaAI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-5">
+<link rel="stylesheet" href="{% static 'css/app_pages.css' %}?v=app-pages-6">
 {% endblock %}
 
 {% block content %}
@@ -149,6 +149,26 @@
                     AI recipes and changes today: <strong>{{ ai_allowance.used }} of {{ ai_allowance.limit }}</strong>.
                     The count goes back to zero at midnight (UK time).
                 </p>
+            {% endif %}
+
+            {% if not is_demo_account %}
+                <div class="pf-data-row">
+                    <div>
+                        <h3>Sunday email</h3>
+                        <p class="ap-small">What in your pantry goes off that week, and next week's meal plan with its shopping list. Only sent when there's something to tell you.</p>
+                    </div>
+                    <form method="post" action="{% url 'weekly_email_toggle' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{% url 'profile_summary' %}">
+                        {% if weekly_email_on %}
+                            <input type="hidden" name="on" value="0">
+                            <button type="submit" class="site-btn site-btn-secondary"><i class="icon-bell-off" aria-hidden="true"></i> Turn off</button>
+                        {% else %}
+                            <input type="hidden" name="on" value="1">
+                            <button type="submit" class="site-btn site-btn-secondary"><i class="icon-bell" aria-hidden="true"></i> Turn on</button>
+                        {% endif %}
+                    </form>
+                </div>
             {% endif %}
 
             <div class="pf-data-row">

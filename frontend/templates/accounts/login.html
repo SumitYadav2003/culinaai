@@ -40,4 +40,10 @@
     </form>
 {% endblock %}
 
-{% block auth_foot %}New to CulinaAI? <a href="{% url 'signup' %}">Create an account</a>{% endblock %}
+{% block auth_foot %}
+    New to CulinaAI? <a href="{% url 'signup' %}">Create an account</a>
+    <form method="post" action="{% url 'start_demo' %}" class="au-demo">
+        {% csrf_token %}
+        Just looking? <button type="submit" class="au-link-button">Try the demo</button>, no sign-up needed.
+    </form>
+{% endblock %}

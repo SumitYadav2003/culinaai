@@ -42,6 +42,7 @@ from .forms import (
     PantryItemForm,
 )
 from .ai_limits import use_ai
+from .demo_service import not_in_demo
 from .pagination import paginate
 from .models import (
     AIUsage,
@@ -990,12 +991,18 @@ def generate_recipe_view(request):
     else:
         pantry_mode = request.GET.get("from_pantry") == "1"
         recommendation_query = request.GET.get("recommendation", "").strip()
+        use_up_query = request.GET.get("use_up", "").strip()[:500]
         fridge_scanned_ingredients = request.session.get(
             "fridge_scanned_ingredients",
             None,
         )
 
-        if recommendation_query:
+        if use_up_query:
+            # From "Use it before it goes off" on the dashboard.
+            form = RecipeGenerationForm(initial={"ingredients": use_up_query})
+            messages.info(request, "Added what needs using up from your pantry. Add anything else you have.")
+
+        elif recommendation_query:
             form = RecipeGenerationForm(
                 initial={
                     "ingredients": recommendation_query,
@@ -1354,6 +1361,7 @@ def send_recipe_email_safely(request, recipient, title, body):
 # View: emails the recipe just generated (before it is saved).
 @login_required
 @require_POST
+@not_in_demo()
 def email_generated_recipe_view(request):
     recipe_text = request.session.get("latest_ai_recipe_text", "")
     form = RecipeEmailForm(request.POST)
@@ -2232,6 +2240,7 @@ def submit_recipe_feedback_view(request, recipe_id):
 
 # View: sends a saved recipe to an email address provided by the user.
 @login_required
+@not_in_demo()
 def send_recipe_email_view(request, recipe_id):
     """
     Sends a saved recipe to a user-provided email address.
@@ -2820,6 +2829,7 @@ def print_saved_recipe_view(request, recipe_id):
 
 # View: lets a recipe owner share or remove a recipe from the community page.
 @login_required
+@not_in_demo()
 def toggle_community_recipe_view(request, recipe_id):
     """
     Allows a recipe owner to add or remove a saved recipe from the community.
@@ -3124,6 +3134,7 @@ def community_recipe_detail_view(request, recipe_id):
 
 # View: saves rating and feedback for a public community recipe.
 @login_required
+@not_in_demo()
 def submit_community_recipe_feedback_view(request, recipe_id):
     """
     Saves or updates rating and feedback for a public community recipe.

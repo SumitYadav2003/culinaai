@@ -8,6 +8,7 @@ def account_status(request):
 
     email_unconfirmed: show the "confirm your email" bar at the top.
     ai_allowance: how many AI recipe actions are left today.
+    is_demo_account: show the "This is a demo" bar and hide things demos can't do.
     """
 
     user = getattr(request, "user", None)
@@ -16,8 +17,10 @@ def account_status(request):
 
     from accounts.confirmation import needs_email_confirmation
     from recipes.ai_limits import allowance
+    from recipes.demo_service import is_demo_user
 
     return {
         "email_unconfirmed": SimpleLazyObject(lambda: needs_email_confirmation(user)),
         "ai_allowance": SimpleLazyObject(lambda: allowance(user, "recipe")),
+        "is_demo_account": SimpleLazyObject(lambda: is_demo_user(user)),
     }

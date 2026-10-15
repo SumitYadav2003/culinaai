@@ -20,7 +20,10 @@ from .forms import (
     UserAccountUpdateForm,
     UserProfileUpdateForm,
 )
+from recipes.demo_service import is_demo_user
+
 from .confirmation import mark_unconfirmed, needs_email_confirmation
+from .demo_views import end_demo
 from .data_service import delete_account, export_user_data_json
 from .email_service import send_confirmation_email, send_welcome_email
 from .models import UserProfile
@@ -217,6 +220,11 @@ def login_view(request):
 
 
 def logout_view(request):
+    if is_demo_user(request.user):
+        # Demo accounts are thrown away when you leave them.
+        end_demo(request)
+        messages.success(request, "You've left the demo and its data has been deleted.")
+        return redirect("home")
     logout(request)
     messages.success(request, "You're logged out. See you next time.")
     return redirect("home")
@@ -245,6 +253,10 @@ def profile_summary_view(request):
     profile_form = UserProfileUpdateForm(instance=profile)
 
     password_form = CulinaPasswordChangeForm(request.user)
+
+    if request.method == "POST" and is_demo_user(request.user):
+        messages.info(request, "Demo accounts can't change their details. Create a free account to make your own.")
+        return redirect("profile_summary")
 
     if request.method == "POST":
         form_type = request.POST.get("form_type")
@@ -375,6 +387,7 @@ def profile_summary_view(request):
         "recent_recipes": recent_recipes,
         "profile_completion": profile_completion,
         "email_unconfirmed": needs_email_confirmation(request.user),
+        "weekly_email_on": profile.weekly_email,
     }
 
     return render(request, "accounts/profile_summary.html", context)
